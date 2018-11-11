@@ -16,6 +16,9 @@
     <Filter Include="Source Files\ApplicationManager">
       <UniqueIdentifier>{3d8a75c6-a95c-45ef-8492-d258cf294a93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Rendering">
+      <UniqueIdentifier>{8c748766-26a6-4d77-8545-0e6099d2455e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -28,6 +31,12 @@
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
       <Filter>Source Files\ApplicationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Source Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>Source Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
