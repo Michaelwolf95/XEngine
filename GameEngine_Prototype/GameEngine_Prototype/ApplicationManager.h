@@ -10,7 +10,7 @@
 
 */
 
-static GLFWwindow* APP_WINDOW;
+//static GLFWwindow* APP_WINDOW;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -28,6 +28,7 @@ class ApplicationManager
 public:
 	static ApplicationManager* instance;
 	static AppConfig* config;
+	static GLFWwindow* APP_WINDOW;
 	bool isInitialized = false;
 
 	ApplicationManager();

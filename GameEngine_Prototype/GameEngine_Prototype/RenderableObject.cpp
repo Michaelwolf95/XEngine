@@ -7,10 +7,11 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	indices = ind;
 	numVerts = numV;
 	numIndices = numInd;
+	enabled = true;
 	//shaderProgram = &(RenderManager::defaultShader);
 	if (_shader == nullptr)
 	{
-		shader = (RenderManager::defaultShader);
+		shader = RenderManager::defaultShader;
 	}
 	else
 	{
@@ -63,10 +64,13 @@ void RenderableObject::Setup()
 
 void RenderableObject::Draw()
 {
-	shader->use();
+	if (enabled)
+	{
+		//shader->use();
 
-	glBindVertexArray(VAO);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	//glBindVertexArray(0); 
+		glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glBindVertexArray(0); 
+	}
 }

@@ -15,6 +15,7 @@ public:
 	unsigned int VAO;
 	unsigned int EBO;
 	Shader* shader;
+	bool enabled = false;
 	RenderableObject(float* verts, unsigned int numV, unsigned int* ind, unsigned int numInd, Shader* _shader = nullptr);
 	~RenderableObject();
 	virtual void Setup();

@@ -4,11 +4,11 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "SimpleSprite.h"
-//#include "RenderableObject.h"
+
 using namespace std;
 
-//Shader* spriteShader;
-//SimpleSprite* sprite;
+
+SimpleSprite* sprite;
 
 // Not a "scene" per-say.
 void CreateTestScene();
@@ -24,6 +24,11 @@ int main()
 	// Test
 	CreateTestScene();
 
+	if (ApplicationManager::APP_WINDOW == NULL)
+	{
+		std::cout << "App Window is Null! (2)" << std::endl;
+	}
+
 	// RENDER LOOP
 	// -----------
 	while (!ApplicationManager::instance->CheckIfAppShouldClose())
@@ -31,6 +36,12 @@ int main()
 		ApplicationManager::instance->ApplicationStartUpdate();
 
 		// Do Game Logic here
+
+		if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
+		{
+			//glfwSetWindowShouldClose(window, true);
+			sprite->enabled = !sprite->enabled;
+		}
 
 
 		RenderManager::instance->Render();
@@ -68,7 +79,7 @@ void CreateTestScene()
 		1, 2, 3   // second Triangle
 	};
 	Shader* spriteShader = new Shader("default.vs", "default.fs");
-	SimpleSprite* sprite = new SimpleSprite(v2, 12, i2, 6, spriteShader);
+	sprite = new SimpleSprite(v2, 12, i2, 6, spriteShader);
 
 	sprite->Color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 }

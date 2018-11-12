@@ -11,10 +11,8 @@
 
 ApplicationManager* ApplicationManager::instance = nullptr;
 AppConfig* ApplicationManager::config = nullptr;
+GLFWwindow* ApplicationManager::APP_WINDOW;
 
-//class ApplicationManager
-//{
-//public:
 ApplicationManager::ApplicationManager()
 {
 	// Constructor
@@ -38,6 +36,12 @@ ApplicationManager* ApplicationManager::CreateManager()
 	config = new AppConfig();
 
 	instance->Init();
+
+	if (APP_WINDOW == NULL)
+	{
+		std::cout << "App Window is Null! (1)" << std::endl;
+	}
+
 	return instance;
 }
 
@@ -55,10 +59,11 @@ int ApplicationManager::Init()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
 #endif
 
-															// glfw window creation
-	APP_WINDOW = ApplicationManager::instance->CreateAppWindow();
+	// glfw window creation
+	ApplicationManager::instance->CreateAppWindow();
 	if (APP_WINDOW == NULL)
 	{
+		std::cout << "App Window is Null!" << std::endl;
 		return -1;
 	}
 
@@ -68,8 +73,12 @@ int ApplicationManager::Init()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
-	isInitialized = true;
 
+	// Set input mode
+	//glfwSetInputMode(APP_WINDOW, GLFW_STICKY_KEYS, 2);
+
+
+	isInitialized = true;
 	return 0;
 }
 
@@ -105,20 +114,20 @@ GLFWwindow* ApplicationManager::CreateAppWindow()
 {
 	// glfw window creation
 	// --------------------
-	GLFWwindow* window = glfwCreateWindow(
+	APP_WINDOW = glfwCreateWindow(
 		ApplicationManager::config->screenWidth,
 		ApplicationManager::config->screenHeight,
 		ApplicationManager::config->appTitle,
 		NULL, NULL);
-	if (window == NULL)
+	if (APP_WINDOW == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return NULL;
 	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	return window;
+	glfwMakeContextCurrent(APP_WINDOW);
+	glfwSetFramebufferSizeCallback(APP_WINDOW, framebuffer_size_callback);
+	return APP_WINDOW;
 }
 
 
