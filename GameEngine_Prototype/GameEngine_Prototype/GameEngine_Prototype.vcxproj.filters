@@ -13,11 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\ApplicationManager">
+    <Filter Include="Header Files\Rendering">
+      <UniqueIdentifier>{8c748766-26a6-4d77-8545-0e6099d2455e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application">
       <UniqueIdentifier>{3d8a75c6-a95c-45ef-8492-d258cf294a93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{31563b66-9041-4438-8af3-fc130e6692c7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Rendering">
-      <UniqueIdentifier>{8c748766-26a6-4d77-8545-0e6099d2455e}</UniqueIdentifier>
+      <UniqueIdentifier>{e6431b8e-f6d0-4d7c-9600-d701a01a1e0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,16 +33,25 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManager.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
-      <Filter>Source Files\ApplicationManager</Filter>
+      <Filter>Header Files\Application</Filter>
     </ClInclude>
     <ClInclude Include="RenderManager.h">
-      <Filter>Source Files\Rendering</Filter>
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="RenderableObject.h">
-      <Filter>Source Files\Rendering</Filter>
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
