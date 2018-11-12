@@ -1,14 +1,15 @@
 #include "RenderableObject.h"
 #include "RenderManager.h"
 
-RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int* ind, unsigned int numInd, Shader* _shader)
+RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize, 
+	unsigned int* ind, unsigned int numInd, Shader* _shader)
 {
 	vertices = verts;
-	indices = ind;
 	numVerts = numV;
+	vertexDataSize = vertDataSize;
+	indices = ind;
 	numIndices = numInd;
 	enabled = true;
-	//shaderProgram = &(RenderManager::defaultShader);
 	if (_shader == nullptr)
 	{
 		shader = RenderManager::defaultShader;
@@ -17,7 +18,8 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	{
 		shader = _shader;
 	}
-	Setup();
+
+	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
 	std::cout << "Created Object with shader ID: " << shader->ID << std::endl;
 
 	RenderManager::instance->AddRenderable((RenderableObject*)this);
@@ -33,6 +35,7 @@ RenderableObject::~RenderableObject()
 
 void RenderableObject::Setup()
 {
+	std::cout << "Renderable Setup." << std::endl;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -40,7 +43,7 @@ void RenderableObject::Setup()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, numVerts*sizeof(float), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexDataSize*numVerts*sizeof(float), vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices*sizeof(unsigned int), indices, GL_STATIC_DRAW);
@@ -64,6 +67,7 @@ void RenderableObject::Setup()
 
 void RenderableObject::Draw()
 {
+	//std::cout << "RenderableObject.Draw()" << std::endl;
 	if (enabled)
 	{
 		//shader->use();

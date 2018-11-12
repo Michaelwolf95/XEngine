@@ -6,9 +6,10 @@
 #include "RenderableObject.h"
 #include "Shader.h"
 /* The RenderManager is responsible for:
-- 
+- Tracking all renderable objects
+- Handling switching between shaders
+- Drawing all rendered objects optimally
 */
-
 
 class RenderManager
 {

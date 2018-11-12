@@ -28,6 +28,12 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\AssetManagement">
+      <UniqueIdentifier>{925979a1-1c1d-492b-9201-faa9df5673ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AssetManagement">
+      <UniqueIdentifier>{6fe90d8f-65ea-48b3-9817-32ff19ab318f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -51,6 +57,12 @@
     <ClCompile Include="SimpleSprite.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -68,6 +80,12 @@
     <ClInclude Include="SimpleSprite.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\3.3.shader.vs">
@@ -80,6 +98,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\default.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\sprite.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\sprite.fs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

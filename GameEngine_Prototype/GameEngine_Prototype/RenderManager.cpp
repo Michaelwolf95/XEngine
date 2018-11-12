@@ -33,7 +33,7 @@ void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("default.vs", "default.fs");
 	defaultShader->use();
-	defaultShader->setColor("MainColor", 0.5f, 0.2f, 0.2f, 1.0f);
+	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
 	
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 
