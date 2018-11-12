@@ -2,22 +2,10 @@
 #include <algorithm>
 #include "RenderManager.h"
 
-const char* DEFAULT_VertexShaderSource = "#version 330 core\n"
-	"layout (location = 0) in vec3 aPos;\n"
-	"void main()\n"
-	"{\n"
-	"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-	"}\0";
-
-const char* DEFAULT_FragmentShaderSource = "#version 330 core\n"
-	"out vec4 FragColor;\n"
-	"void main()\n"
-	"{\n"
-	"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-	"}\n\0";
-
 RenderManager* RenderManager::instance = nullptr;
-int RenderManager::defaultShaderProgram = 0;
+Shader* RenderManager::defaultShader = nullptr;
+
+float clearColor[4] = { 0.2f, 0.3f, 0.3f, 1.0f };
 
 // Create static instance
 // ToDo: Setup the singleton manager pattern as a base class.
@@ -36,64 +24,25 @@ RenderManager* RenderManager::CreateManager()
 // Init instance
 int RenderManager::Init()
 {
-	defaultShaderProgram = CompileShaders(DEFAULT_VertexShaderSource, DEFAULT_FragmentShaderSource);
-
-	//currentRenderables = new std::vector<RenderableObject*>()
+	CompileShaders();
 
 	isInitialized = true;
 	return 0;
 }
-
-int RenderManager::CompileShaders(const char *vertexShaderSource, const char *fragmentShaderSource)
+void RenderManager::CompileShaders()
 {
-	std::cout << "COMPILING SHADERS" << std::endl;
-	// build and compile our shader program
-	// ------------------------------------
-	// vertex shader
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	// check for shader compile errors
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// fragment shader
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	// check for shader compile errors
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// link shaders
-	int shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	// check for linking errors
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	defaultShader = new Shader("default.vs", "default.fs");
+	defaultShader->use();
+	defaultShader->setColor("MainColor", 0.5f, 0.2f, 0.2f, 1.0f);
+	
+	//ToDo: Pre-compile all shaders that might be used in the scene?
 
-	return shaderProgram;
 }
 
 void RenderManager::Render()
 {
 	// Render back drop
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	//  Loop through and render all renderables
@@ -104,14 +53,16 @@ void RenderManager::Render()
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
-	// draw our first triangle
-	//glUseProgram(*(renderable->shaderProgram));
-	//std::cout << RenderManager::instance->defaultShaderProgram << std::endl;
-	glUseProgram(RenderManager::instance->defaultShaderProgram);
-	glBindVertexArray(renderable->VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-										//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	// glBindVertexArray(0); // no need to unbind it every time
+	// ToDo: Optimize draw calls by rendering all objects that use the same shader at once.
+
+	// Start the shader
+	if (currentShaderID != renderable->shader->ID)
+	{
+		renderable->shader->use();
+		currentShaderID = renderable->shader->ID;
+	}
+	// Draw the object
+	renderable->Draw();
 }
 
 
@@ -152,8 +103,3 @@ void RenderManager::RemoveRenderable(RenderableObject* renderable)
 		currentRenderables.pop_back();
 	}
 }
-
-//std::vector<RenderableObject*> RenderManager::GetCurrentRenderables()
-//{
-//	return currentRenderables
-//}

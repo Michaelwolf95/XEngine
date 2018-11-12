@@ -151,11 +151,21 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SimpleSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="SimpleSprite.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Shaders\3.3.shader.fs" />
+    <None Include="..\Shaders\3.3.shader.vs" />
+    <None Include="..\Shaders\default.fs" />
+    <None Include="..\Shaders\default.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,17 +1,35 @@
 #include "RenderableObject.h"
 #include "RenderManager.h"
 
-RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int* ind, unsigned int numInd)
+RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int* ind, unsigned int numInd, Shader* _shader)
 {
 	vertices = verts;
 	indices = ind;
 	numVerts = numV;
 	numIndices = numInd;
-	shaderProgram = &(RenderManager::defaultShaderProgram);
+	//shaderProgram = &(RenderManager::defaultShader);
+	if (_shader == nullptr)
+	{
+		shader = (RenderManager::defaultShader);
+	}
+	else
+	{
+		shader = _shader;
+	}
 	Setup();
+	std::cout << "Created Object with shader ID: " << shader->ID << std::endl;
 
-	RenderManager::instance->AddRenderable(this);
+	RenderManager::instance->AddRenderable((RenderableObject*)this);
 }
+RenderableObject::~RenderableObject()
+{
+	// optional: de-allocate all resources once they've outlived their purpose:
+	// ------------------------------------------------------------------------
+	glDeleteVertexArrays(1, &(VAO));
+	glDeleteBuffers(1, &(VBO));
+	glDeleteBuffers(1, &(EBO));
+}
+
 void RenderableObject::Setup()
 {
 	glGenVertexArrays(1, &VAO);
@@ -39,7 +57,16 @@ void RenderableObject::Setup()
 	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
 	glBindVertexArray(0);
 
-
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+}
+
+void RenderableObject::Draw()
+{
+	shader->use();
+
+	glBindVertexArray(VAO);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	//glBindVertexArray(0); 
 }

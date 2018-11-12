@@ -1,7 +1,13 @@
 #include "Shader.h"
 
+// Wrap this at compile time for releases.
+// Maybe store path in app config file?
+static const char* SHADER_FILE_PATH = "../Shaders/";
+
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
+	std::string vShaderPath = SHADER_FILE_PATH + std::string(vertexPath);
+	std::string fShaderPath = SHADER_FILE_PATH + std::string(fragmentPath);
 	// 1. retrieve the vertex/fragment source code from filePath
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -13,8 +19,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	try
 	{
 		// open files
-		vShaderFile.open(vertexPath);
-		fShaderFile.open(fragmentPath);
+		vShaderFile.open(vShaderPath);
+		fShaderFile.open(fShaderPath);
 		std::stringstream vShaderStream, fShaderStream;
 		// read file's buffer contents into streams
 		vShaderStream << vShaderFile.rdbuf();
@@ -76,6 +82,12 @@ void Shader::setInt(const std::string &name, int value) const
 void Shader::setFloat(const std::string &name, float value) const
 {
 	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+}
+
+void Shader::setColor(const std::string & name, float r, float g, float b, float a) const
+{
+	int vertexColorLocation = glGetUniformLocation(ID, name.c_str());
+	glUniform4f(vertexColorLocation, r, g, b, a);
 }
 
 // utility function for checking shader compilation/linking errors.

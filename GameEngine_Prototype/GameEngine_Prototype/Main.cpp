@@ -3,8 +3,12 @@
 #include <iostream>
 #include "ApplicationManager.h"
 #include "RenderManager.h"
+#include "SimpleSprite.h"
 //#include "RenderableObject.h"
 using namespace std;
+
+//Shader* spriteShader;
+//SimpleSprite* sprite;
 
 // Not a "scene" per-say.
 void CreateTestScene();
@@ -25,6 +29,8 @@ int main()
 	while (!ApplicationManager::instance->CheckIfAppShouldClose())
 	{
 		ApplicationManager::instance->ApplicationStartUpdate();
+
+		// Do Game Logic here
 
 
 		RenderManager::instance->Render();
@@ -61,5 +67,8 @@ void CreateTestScene()
 		0, 1, 3,  // first Triangle
 		1, 2, 3   // second Triangle
 	};
-	RenderableObject* shape2 = new RenderableObject(v2, 12, i2, 6);
+	Shader* spriteShader = new Shader("default.vs", "default.fs");
+	SimpleSprite* sprite = new SimpleSprite(v2, 12, i2, 6, spriteShader);
+
+	sprite->Color = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 }

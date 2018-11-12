@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "RenderableObject.h"
-
+#include "Shader.h"
 /* The RenderManager is responsible for:
 - 
 */
@@ -14,10 +14,12 @@ class RenderManager
 {
 public:
 	static RenderManager* instance;
-	static int defaultShaderProgram;
+	static Shader* defaultShader;
 
+	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
 	std::vector<RenderableObject*> currentRenderables;
+	//std::vector<Shader*> shaders;
 
 	// Create static instance
 	// ToDo: Setup the singleton manager pattern as a base class.
@@ -25,8 +27,6 @@ public:
 
 	// Init instance
 	int Init();
-
-	int CompileShaders(const char *vertexShaderSource, const char *fragmentShaderSource);
 
 	void Render();
 	void RenderObject(RenderableObject* renderable);
@@ -38,6 +38,9 @@ public:
 	void AddRenderable(RenderableObject * renderable);
 
 	void RemoveRenderable(RenderableObject * renderable);
+
+private:
+	void CompileShaders();
 	
 	//std::vector<RenderableObject*> GetCurrentRenderables();
 };

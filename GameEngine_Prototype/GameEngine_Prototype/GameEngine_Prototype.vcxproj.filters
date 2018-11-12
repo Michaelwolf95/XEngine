@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{e6431b8e-f6d0-4d7c-9600-d701a01a1e0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -42,6 +45,12 @@
     <ClCompile Include="RenderManager.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleSprite.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -53,5 +62,25 @@
     <ClInclude Include="RenderableObject.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleSprite.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Shaders\3.3.shader.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\3.3.shader.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\default.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\default.fs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

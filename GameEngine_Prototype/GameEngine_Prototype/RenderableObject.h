@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "Shader.h"
 
 class RenderableObject
 {
@@ -13,7 +14,9 @@ public:
 	unsigned int VBO;
 	unsigned int VAO;
 	unsigned int EBO;
-	int* shaderProgram;
-	RenderableObject(float* verts, unsigned int numV, unsigned int* ind, unsigned int numInd);
-	void Setup();
+	Shader* shader;
+	RenderableObject(float* verts, unsigned int numV, unsigned int* ind, unsigned int numInd, Shader* _shader = nullptr);
+	~RenderableObject();
+	virtual void Setup();
+	virtual void Draw();
 };
