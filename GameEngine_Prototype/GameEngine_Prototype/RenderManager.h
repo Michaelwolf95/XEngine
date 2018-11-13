@@ -31,7 +31,6 @@ public:
 	std::vector<RenderableObject*> currentRenderables;
 
 	// Create static instance
-	// ToDo: Setup the singleton manager pattern as a base class.
 	static RenderManager* CreateManager();
 
 	// Init instance
@@ -56,6 +55,4 @@ public:
 private:
 	Camera * currentCamera;
 	void CompileShaders();
-	
-	//std::vector<RenderableObject*> GetCurrentRenderables();
 };
