@@ -26,18 +26,18 @@ int main()
 	RunTestScene();
 
 	// FRAME LOOP
-	while (!ApplicationManager::instance->CheckIfAppShouldClose())
+	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 	{
-		ApplicationManager::instance->ApplicationStartUpdate();
+		ApplicationManager::getInstance().ApplicationStartUpdate();
 		Time::instance->UpdateTime();
 
 		// Do Game Logic here
 		SceneManager::instance->UpdateActiveScene();
 
 		RenderManager::instance->Render();
-		ApplicationManager::instance->ApplicationEndUpdate();
+		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 
-	ApplicationManager::instance->CloseApplication();
+	ApplicationManager::getInstance().CloseApplication();
 	return 0;
 }

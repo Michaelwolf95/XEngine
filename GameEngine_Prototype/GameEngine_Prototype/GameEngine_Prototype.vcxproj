@@ -162,6 +162,7 @@
     <ClCompile Include="SimpleModel.cpp" />
     <ClCompile Include="SimpleModelComponent.cpp" />
     <ClCompile Include="SimpleSprite.cpp" />
+    <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="TestMoverComponent.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="SimpleModel.h" />
     <ClInclude Include="SimpleModelComponent.h" />
     <ClInclude Include="SimpleSprite.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="TestMoverComponent.h" />
     <ClInclude Include="TestScenes.h" />
     <ClInclude Include="Time.h" />

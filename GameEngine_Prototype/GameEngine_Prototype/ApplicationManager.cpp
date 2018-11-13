@@ -2,35 +2,23 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "ApplicationManager.h"
+
 /* The ApplicationManager is responsible for:
-- Managing system events
-- Managing GLFW and Glad systems
-- Saving/Loading App Config files.
+   - Managing system events
+   - Managing GLFW and Glad systems
+   - Saving/Loading App Config files.
 
 */
 
-ApplicationManager* ApplicationManager::instance = nullptr;
 AppConfig* ApplicationManager::config = nullptr;
 GLFWwindow* ApplicationManager::APP_WINDOW;
 
-ApplicationManager::ApplicationManager()
-{
-	// Constructor
-}
-ApplicationManager::~ApplicationManager()
-{
-	// Deconstructor
-}
-// Create static instance
-// ToDo: Setup the singleton manager pattern as a base class.
+ApplicationManager::ApplicationManager() {}
+
+// Create static instance & configure manager
 ApplicationManager* ApplicationManager::CreateManager()
 {
-	if (instance != nullptr)
-	{
-		printf("DUPLICATE SINGLETON DETECTED");
-		return NULL;
-	}
-	instance = new ApplicationManager();
+	ApplicationManager* instance = &ApplicationManager::getInstance();
 
 	//ToDo: Load config from file (Window size, etc)
 	config = new AppConfig();
@@ -60,7 +48,7 @@ int ApplicationManager::Init()
 #endif
 
 	// glfw window creation
-	ApplicationManager::instance->CreateAppWindow();
+	ApplicationManager::getInstance().CreateAppWindow();
 	if (APP_WINDOW == NULL)
 	{
 		std::cout << "App Window is Null!" << std::endl;
@@ -74,7 +62,7 @@ int ApplicationManager::Init()
 		return -1;
 	}
 
-	// Set input mode
+	// Set input mode (This should go into the Input manager class)
 	//glfwSetInputMode(APP_WINDOW, GLFW_STICKY_KEYS, 2);
 
 
@@ -90,7 +78,7 @@ bool ApplicationManager::CheckIfAppShouldClose()
 
 void ApplicationManager::ApplicationStartUpdate()
 {
-	// input
+	// input - Close app when escape is hit.
 	// -----
 	processInput(APP_WINDOW);
 }

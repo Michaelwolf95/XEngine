@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "Singleton.h"
 
 /* The ApplicationManager is responsible for:
 - Managing system events
@@ -10,12 +11,10 @@
 
 */
 
-//static GLFWwindow* APP_WINDOW;
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
-// settings
+// Application Settings - window title, screen dimensions, etc.
 struct AppConfig
 {
 	char* appTitle = "CECS 491 Game Engine";
@@ -23,18 +22,16 @@ struct AppConfig
 	unsigned int screenHeight = 600;
 };
 
-class ApplicationManager
+class ApplicationManager : public Singleton<ApplicationManager>
 {
+	friend class Singleton<ApplicationManager>;
 public:
-	static ApplicationManager* instance;
 	static AppConfig* config;
 	static GLFWwindow* APP_WINDOW;
+
 	bool isInitialized = false;
 
-	ApplicationManager();
-	~ApplicationManager();
-
-	// Create static instance
+	// Create static instance and configure manager
 	static ApplicationManager* CreateManager();
 
 	// Init instance and setup GLFW, etc.
@@ -48,6 +45,8 @@ public:
 
 	void CloseApplication();
 
+protected:
+	ApplicationManager();
 private:
 	GLFWwindow* CreateAppWindow();
 };
