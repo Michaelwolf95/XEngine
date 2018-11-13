@@ -11,25 +11,21 @@
 #include "Time.h"
 
 #include "TestScenes.h"
-using namespace std;
-
 
 // ENTRY POINT
 int main()
 {
-	cout << "===== LAUNCHING CECS_491 GAME ENGINE =====" << endl;
-
+	std::cout << "===== LAUNCHING CECS_491 GAME ENGINE =====" << std::endl;
 	// Init Managers
 	ApplicationManager::CreateManager();
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
 	Time::CreateManager();
 
-	// Test
+	// Create & Load Scene
 	RunTestScene();
 
 	// RENDER LOOP
-	// -----------
 	while (!ApplicationManager::instance->CheckIfAppShouldClose())
 	{
 		ApplicationManager::instance->ApplicationStartUpdate();
@@ -39,7 +35,6 @@ int main()
 		SceneManager::instance->UpdateActiveScene();
 
 		RenderManager::instance->Render();
-
 		ApplicationManager::instance->ApplicationEndUpdate();
 	}
 

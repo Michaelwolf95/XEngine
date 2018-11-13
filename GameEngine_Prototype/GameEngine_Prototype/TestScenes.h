@@ -8,6 +8,9 @@
 #include "SimpleModel.h"
 #include "SimpleModelComponent.h"
 #include "TestMoverComponent.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_access.hpp>
 using namespace std;
 
 // Not a "scene" per-say - until the scene manager is implemented
@@ -241,7 +244,12 @@ void CreateTestScene4()
 
 void CreateTestScene5()
 {
-	// Cube
+	// Create Box Material
+	Shader* modelShader = new Shader("model.vs", "model.fs");
+	Material* modelMaterial = new Material(modelShader);
+	modelMaterial->LoadTexture("textures/container.jpg");
+
+	// Create Cube Model
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
 		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
@@ -293,20 +301,28 @@ void CreateTestScene5()
 		16, 17, 18, 16, 18, 19,   // right
 		20, 21, 22, 20, 22, 23,   // left
 	};
-	Shader* modelShader = new Shader("model.vs", "model.fs");
-	Material* modelMaterial = new Material(modelShader);
-	SimpleModelComponent* testModel = new SimpleModelComponent(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
+		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
-	modelMaterial->LoadTexture("textures/container.jpg");
-
-
+	
+	// Create Scene
 	Scene* scene = new Scene("Test Scene 5");
+
 	GameObject* go = scene->CreateGameObject("Cube");
 	go->AddComponent(testModel);
 	go->AddComponent(new TestMoverComponent());
 
+	// Create Floor
+	GameObject* go2 = scene->CreateGameObject("Floor");
+	SimpleModelComponent* testModel2 = new SimpleModelComponent(
+		vertices, 36, 5,
+		indices, sizeof(indices) / sizeof(unsigned int),
+		modelMaterial);
+	testModel2->Setup();
+	go2->AddComponent(testModel2);
+	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
+	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+
+	// Activate Scene
 	SceneManager::instance->SetActiveScene(scene);
 }

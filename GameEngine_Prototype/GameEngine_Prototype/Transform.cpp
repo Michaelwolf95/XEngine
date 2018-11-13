@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
+using namespace glm;
 
 Transform::Transform() : Component::Component()
 {
@@ -31,21 +32,21 @@ glm::mat4 Transform::getMatrix4x4()
 	return model;
 }
 
-// NONE OF THESE DO ANYTHING YET!!!! =====
-
 glm::vec3 Transform::getPosition()
 {
-	return glm::vec3(model[4]);
+	return glm::vec3(model[3]);
 }
 
 void Transform::setPosition(glm::vec3 pos)
 {
-
+	//ToDo: Optimize this
+	model = translate(mat4(0.0f), pos);
 }
+// NONE OF THESE DO ANYTHING YET!!!! =====
 
 glm::vec4 Transform::getRotation()
 {
-	return glm::vec4();
+	return glm::vec4(model[4]);
 }
 
 void Transform::setRotation(glm::vec4 rot)
