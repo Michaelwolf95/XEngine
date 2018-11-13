@@ -29,12 +29,12 @@ int main()
 	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 	{
 		ApplicationManager::getInstance().ApplicationStartUpdate();
-		Time::instance->UpdateTime();
+		Time::getInstance().UpdateTime();
 
 		// Do Game Logic here
-		SceneManager::instance->UpdateActiveScene();
+		SceneManager::getInstance().UpdateActiveScene();
 
-		RenderManager::instance->Render();
+		RenderManager::getInstance().Render();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 

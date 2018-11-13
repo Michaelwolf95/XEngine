@@ -3,21 +3,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-Time* Time::instance = nullptr;
 float Time::deltaTime = 0.0f;
 float Time::currentTime = 0.0f;
 
 Time::Time(){}
-Time::~Time() {}
 
 Time * Time::CreateManager()
 {
-	if (instance != nullptr)
-	{
-		printf("DUPLICATE SINGLETON DETECTED");
-		return NULL;
-	}
-	instance = new Time();
+	Time* instance = &Time::getInstance();
 
 	instance->Init();
 

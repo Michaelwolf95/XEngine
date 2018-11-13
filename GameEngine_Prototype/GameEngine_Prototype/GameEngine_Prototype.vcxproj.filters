@@ -46,6 +46,12 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{7330173a-746b-4b50-b35d-1bbaaf5bc42b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{ebafac91-c3be-40cb-9816-d88fd2f52bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{4b7e28f8-ee8d-43f0-8efb-682b83713eb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -106,7 +112,7 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Singleton.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +171,7 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

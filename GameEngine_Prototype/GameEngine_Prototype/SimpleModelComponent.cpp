@@ -42,8 +42,8 @@ void SimpleModelComponent::Draw()
 
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
-	glm::mat4 view = *RenderManager::instance->view;
-	glm::mat4 projection = *RenderManager::instance->projection;
+	glm::mat4 view = *RenderManager::getInstance().view;
+	glm::mat4 projection = *RenderManager::getInstance().projection;
 
 	// Model uses GameObject transform.
 	glm::mat4* model = &(*gameObject->transform).model;

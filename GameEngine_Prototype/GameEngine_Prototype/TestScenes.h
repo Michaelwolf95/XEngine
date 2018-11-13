@@ -321,5 +321,5 @@ void CreateTestScene5()
 	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
 	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
 	// Activate Scene
-	SceneManager::instance->SetActiveScene(scene);
+	SceneManager::getInstance().SetActiveScene(scene);
 }

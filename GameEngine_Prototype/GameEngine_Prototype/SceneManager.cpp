@@ -1,23 +1,16 @@
 #include "SceneManager.h"
 #include <iostream>
 
-SceneManager* SceneManager::instance = nullptr;
+SceneManager::SceneManager() {}
 
 SceneManager* SceneManager::CreateManager()
 {
-	if (instance != nullptr)
-	{
-		printf("DUPLICATE SINGLETON DETECTED");
-		return NULL;
-	}
-	instance = new SceneManager();
+	SceneManager* instance = &SceneManager::getInstance();
 
 	instance->Init();
 
 	return instance;
 }
-SceneManager::SceneManager() {}
-SceneManager::~SceneManager() {}
 
 void SceneManager::Init()
 {

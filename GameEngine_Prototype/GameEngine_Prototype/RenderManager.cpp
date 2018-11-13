@@ -8,22 +8,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-RenderManager* RenderManager::instance = nullptr;
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 
-float clearColor[4] = { 0.2f, 0.3f, 0.3f, 1.0f };
+glm::vec4 clearColor = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f );
 
 // Create static instance
-// ToDo: Setup the singleton manager pattern as a base class.
 RenderManager* RenderManager::CreateManager()
 {
-	if (instance != nullptr)
-	{
-		printf("DUPLICATE SINGLETON DETECTED");
-		return NULL;
-	}
-	instance = new RenderManager();
+	RenderManager* instance = &RenderManager::getInstance();
 	instance->Init();
 	return instance;
 }

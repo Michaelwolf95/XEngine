@@ -1,13 +1,13 @@
 #pragma once
+#include "Singleton.h"
 #include "Scene.h"
 //ToDo: Track scenes and be able to swap between them.
-class SceneManager
+class SceneManager : public Singleton<SceneManager>
 {
+	friend class Singleton<SceneManager>;
 public:
-	static SceneManager* instance;
 	static SceneManager* CreateManager();
 	SceneManager();
-	~SceneManager();
 	void Init();
 	void SetActiveScene(Scene* scene);
 	void StartActiveScene();

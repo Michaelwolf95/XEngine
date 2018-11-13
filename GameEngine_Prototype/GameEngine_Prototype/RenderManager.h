@@ -7,16 +7,17 @@
 #include "RenderableObject.h"
 #include "Shader.h"
 #include "Material.h"
+#include "Singleton.h"
+
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
 - Handling switching between shaders
 - Drawing all rendered objects optimally
 */
-
-class RenderManager
+class RenderManager : public Singleton<RenderManager>
 {
+	friend class Singleton<RenderManager>;
 public:
-	static RenderManager* instance;
 	static Shader* defaultShader;
 	static Material* defaultMaterial;
 

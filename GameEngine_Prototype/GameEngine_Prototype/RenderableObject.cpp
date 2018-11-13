@@ -22,7 +22,7 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
 	std::cout << "Created Object with shader ID: " << material->shader->ID << std::endl;
 
-	RenderManager::instance->AddRenderable((RenderableObject*)this);
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
 }
 RenderableObject::~RenderableObject()
 {

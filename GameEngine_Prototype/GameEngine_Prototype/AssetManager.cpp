@@ -6,14 +6,7 @@
 #include "AssetManager.h"
 
 
-AssetManager::AssetManager()
-{
-}
-
-
-AssetManager::~AssetManager()
-{
-}
+AssetManager::AssetManager() {}
 
 void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textureID)
 {
