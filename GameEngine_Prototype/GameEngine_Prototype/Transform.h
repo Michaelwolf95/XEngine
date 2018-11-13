@@ -21,6 +21,10 @@ public:
 	glm::vec3 getLocalScale();
 	void setLocalScale(glm::vec3 scale);
 
+	glm::vec3 getRightDirection();
+	glm::vec3 getUpDirection();
+	glm::vec3 getForwardDirection();
+
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 //private: 
 	glm::mat4 model = glm::mat4(1.0f);

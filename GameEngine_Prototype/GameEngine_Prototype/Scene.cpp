@@ -46,8 +46,10 @@ void Scene::Start()
 	isStarted = true;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
-		rootGameObjects[i]->StartComponents();
-
+		if (rootGameObjects[i]->isActive)
+		{
+			rootGameObjects[i]->StartComponents();
+		}
 		// ToDo: Recursively go through hierarchy. - CURRENTLY NO CHILDREN SUPPORT
 
 	}

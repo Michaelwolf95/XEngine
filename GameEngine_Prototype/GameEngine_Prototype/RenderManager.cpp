@@ -26,9 +26,11 @@ int RenderManager::Init()
 {
 	CompileShaders();
 
-	view = new glm::mat4(1.0f);
-	projection = new glm::mat4(1.0f);
-	*projection = glm::perspective(glm::radians(45.0f),
+	currentCamera = nullptr;
+
+	defaultView = new glm::mat4(1.0f);
+	defaultProjection = new glm::mat4(1.0f);
+	*defaultProjection = glm::perspective(glm::radians(45.0f),
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
 		0.1f, 100.0f);
 
@@ -50,6 +52,38 @@ void RenderManager::CompileShaders()
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 
+}
+
+glm::mat4 RenderManager::getView()
+{
+	if (currentCamera != nullptr)
+	{
+		return currentCamera->getView();
+	}
+	return *defaultView;
+}
+
+glm::mat4 RenderManager::getProjection()
+{
+	if (currentCamera != nullptr)
+	{
+		return currentCamera->getProjection();
+	}
+	return *defaultProjection;
+}
+
+Camera * RenderManager::getCurrentCamera()
+{
+	return currentCamera;
+}
+
+void RenderManager::setCurrentCamera(Camera * cam)
+{
+	std::cout << "Setting Current Cam: " << cam << std::endl;
+	if (currentCamera != cam)
+	{
+		currentCamera = cam;
+	}
 }
 
 void RenderManager::Render()

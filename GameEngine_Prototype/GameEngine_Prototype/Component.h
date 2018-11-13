@@ -6,6 +6,7 @@ class Component
 {
 public:
 	GameObject* gameObject; // The owner of the component.
+	bool enabled = true;
 	Component();
 	~Component();
 	virtual void Start() = 0;

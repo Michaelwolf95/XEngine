@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
-//#include <function>
+#include <functional>
+#include <typeinfo>
 #include "Component.h"
 #include "Transform.h"
 
@@ -20,5 +21,7 @@ public:
 	void StartComponent(Component* comp);
 	void UpdateComponents();
 	void UpdateComponent(Component* comp);
-};
 
+	Component* FilterComponent(std::function<bool(Component*)> predicate);
+	bool FindComponent(const std::type_info& typeInfo, void** object);
+};

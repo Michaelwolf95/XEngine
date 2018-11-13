@@ -6,6 +6,7 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "GameObject.h"
+#include "CameraComponent.h"
 
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
@@ -38,12 +39,12 @@ void SimpleModelComponent::Setup()
 
 void SimpleModelComponent::Draw()
 {
-	if (enabled == false) return;
+	//if (Component::enabled == false) return;
 
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
-	glm::mat4 view = *RenderManager::getInstance().view;
-	glm::mat4 projection = *RenderManager::getInstance().projection;
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
 
 	// Model uses GameObject transform.
 	glm::mat4* model = &(*gameObject->transform).model;

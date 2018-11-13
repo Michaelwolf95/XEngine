@@ -76,3 +76,28 @@ void GameObject::UpdateComponent(Component * comp)
 	comp->Update();
 }
 
+Component* GameObject::FilterComponent(std::function<bool(Component*)> predicate)
+{
+	for (Component* c : components)
+	{
+		if (predicate(c))
+		{
+			return c;
+		}
+	}
+	return NULL;
+}
+
+// Finds an object matching the typeInfo type definition.
+bool GameObject::FindComponent(const std::type_info& typeInfo, void** object)
+{
+	return (this->FilterComponent([&](Component* c)->bool {
+		if (typeid(*c) == typeInfo)
+		{
+			// Set the value of the pointer-pointer to the value of the pointer that we just found.
+			*object = c; 
+			return true;
+		}
+		return false;
+	}));
+}
