@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
+//#include <glm/gtx/transform.hpp>
 using namespace glm;
 
 Transform::Transform() : Component::Component()
@@ -40,7 +41,11 @@ glm::vec3 Transform::getPosition()
 void Transform::setPosition(glm::vec3 pos)
 {
 	//ToDo: Optimize this
-	model = translate(mat4(0.0f), pos);
+	model[3].x = pos.x;
+	model[3].y = pos.y;
+	model[3].z = pos.z;
+	//model[3].w = pos.w;
+	//model = translate(mat4(1.0f), pos);
 }
 // NONE OF THESE DO ANYTHING YET!!!! =====
 
@@ -51,4 +56,18 @@ glm::vec4 Transform::getRotation()
 
 void Transform::setRotation(glm::vec4 rot)
 {
+	//model = glm::rotate(mat4(1.0f), rot);
+}
+
+glm::vec3 Transform::getLocalScale()
+{
+	return glm::vec3(model[0]);
+}
+
+void Transform::setLocalScale(glm::vec3 scale)
+{
+	/*model[2].x = scale.x;
+	model[2].y = scale.y;
+	model[2].z = scale.z;*/
+	//model = glm::scale(scale);
 }

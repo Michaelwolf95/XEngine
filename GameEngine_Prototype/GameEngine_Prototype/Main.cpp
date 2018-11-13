@@ -25,7 +25,7 @@ int main()
 	// Create & Load Scene
 	RunTestScene();
 
-	// RENDER LOOP
+	// FRAME LOOP
 	while (!ApplicationManager::instance->CheckIfAppShouldClose())
 	{
 		ApplicationManager::instance->ApplicationStartUpdate();

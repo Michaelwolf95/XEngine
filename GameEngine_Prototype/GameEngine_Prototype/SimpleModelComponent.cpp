@@ -39,17 +39,14 @@ void SimpleModelComponent::Setup()
 void SimpleModelComponent::Draw()
 {
 	if (enabled == false) return;
-	// ToDo: Get view & projection from active camera.
-	// ToDo: Set "Model" based on GameObject transform.
 
 	// create transformations
+	// View & projection from RenderManager, which uses active camera.
 	glm::mat4 view = *RenderManager::instance->view;
 	glm::mat4 projection = *RenderManager::instance->projection;
-	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
+	// Model uses GameObject transform.
 	glm::mat4* model = &(*gameObject->transform).model;
-	//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
 	// retrieve the matrix uniform locations
 	unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");

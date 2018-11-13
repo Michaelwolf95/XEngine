@@ -13,13 +13,14 @@
 #include <glm/gtc/matrix_access.hpp>
 using namespace std;
 
-// Not a "scene" per-say - until the scene manager is implemented
+void ChooseTestScene();
+// Not a "scene" per-say. Just tests.
 void CreateTestScene1();
 void CreateTestScene2();
 void CreateTestScene3();
 void CreateTestScene4();
+// Actual Scenes
 void CreateTestScene5();
-void ChooseTestScene();
 
 void RunTestScene()
 {
@@ -51,7 +52,7 @@ void ChooseTestScene()
 		CreateTestScene4();
 		break;
 	case 5:
-		//CreateTestScene5();
+		CreateTestScene5();
 		break;
 	}
 }
@@ -124,8 +125,6 @@ void CreateTestScene1()
 		i4, 6,
 		spriteMaterial);
 	sprite3->Setup();
-	//sprite3->LoadTexture("textures/container.jpg");
-
 }
 
 void CreateTestScene2()
@@ -154,7 +153,6 @@ void CreateTestScene2()
 
 void CreateTestScene3()
 {
-	//GameObject* go = new GameObject("");
 	float vertices[] = {
 		// positions          // texture coords
 		0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // top right
@@ -320,9 +318,8 @@ void CreateTestScene5()
 		modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
+	go2->transform->setPosition->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
 	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
-
 	// Activate Scene
 	SceneManager::instance->SetActiveScene(scene);
 }

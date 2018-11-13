@@ -18,6 +18,8 @@ public:
 	void setPosition(glm::vec3 pos);
 	glm::vec4 getRotation();
 	void setRotation(glm::vec4 rot);
+	glm::vec3 getLocalScale();
+	void setLocalScale(glm::vec3 scale);
 
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 //private: 
