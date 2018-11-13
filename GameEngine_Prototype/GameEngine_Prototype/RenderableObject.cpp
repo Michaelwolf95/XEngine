@@ -2,7 +2,7 @@
 #include "RenderManager.h"
 
 RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize, 
-	unsigned int* ind, unsigned int numInd, Shader* _shader)
+	unsigned int* ind, unsigned int numInd, Material* _material)
 {
 	vertices = verts;
 	numVerts = numV;
@@ -10,17 +10,17 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	indices = ind;
 	numIndices = numInd;
 	enabled = true;
-	if (_shader == nullptr)
+	if (_material == nullptr)
 	{
-		shader = RenderManager::defaultShader;
+		material = RenderManager::defaultMaterial;
 	}
 	else
 	{
-		shader = _shader;
+		material = _material;
 	}
 
 	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
-	std::cout << "Created Object with shader ID: " << shader->ID << std::endl;
+	std::cout << "Created Object with shader ID: " << material->shader->ID << std::endl;
 
 	RenderManager::instance->AddRenderable((RenderableObject*)this);
 }

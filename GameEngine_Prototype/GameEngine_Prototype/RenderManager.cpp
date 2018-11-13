@@ -4,6 +4,7 @@
 
 RenderManager* RenderManager::instance = nullptr;
 Shader* RenderManager::defaultShader = nullptr;
+Material* RenderManager::defaultMaterial = nullptr;
 
 float clearColor[4] = { 0.2f, 0.3f, 0.3f, 1.0f };
 
@@ -35,6 +36,9 @@ void RenderManager::CompileShaders()
 	defaultShader->use();
 	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
 	
+	defaultMaterial = new Material(defaultShader);
+	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 
 }
@@ -44,6 +48,9 @@ void RenderManager::Render()
 	// Render back drop
 	glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	// Get Camera matrix information
+	// Camera has "view" and "projection" information.
 
 	//  Loop through and render all renderables
 	for (size_t i = 0; i < currentRenderables.size(); i++)
@@ -56,11 +63,14 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	// ToDo: Optimize draw calls by rendering all objects that use the same shader at once.
 
 	// Start the shader
-	if (currentShaderID != renderable->shader->ID)
+	if (currentShaderID != renderable->material->shader->ID)
 	{
-		renderable->shader->use();
-		currentShaderID = renderable->shader->ID;
+		renderable->material->shader->use();
+		currentShaderID = renderable->material->shader->ID;
 	}
+	//ToDo: Track current material and draw all objects that use it
+	renderable->material->Load();
+
 	// Draw the object
 	renderable->Draw();
 }

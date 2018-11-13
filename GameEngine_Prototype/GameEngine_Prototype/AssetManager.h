@@ -5,5 +5,8 @@ class AssetManager
 public:
 	AssetManager();
 	~AssetManager();
+
+	static void LoadTexture(const char * textureFilePath, unsigned int * textureID);
+	
 };
 

@@ -5,11 +5,11 @@
 class SimpleSprite : public RenderableObject
 {
 public:
-	unsigned int textureID = 0;
-	glm::vec4 Color;
-	SimpleSprite(float* verts, unsigned int numV, unsigned int vertDataSize, unsigned int* ind, unsigned int numInd, Shader* _shader = nullptr);
+	//unsigned int textureID = 0;
+	//glm::vec4 Color;
+	SimpleSprite(float* verts, unsigned int numV, unsigned int vertDataSize, unsigned int* ind, unsigned int numInd, Material* _shader = nullptr);
 	
-	void LoadTexture(const char* textureFilePath);
+	//void LoadTexture(const char* textureFilePath);
 	void Draw() override;
 
 	void Setup() override;

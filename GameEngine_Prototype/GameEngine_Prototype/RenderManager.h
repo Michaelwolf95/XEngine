@@ -5,6 +5,7 @@
 #include <vector>
 #include "RenderableObject.h"
 #include "Shader.h"
+#include "Material.h"
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
 - Handling switching between shaders
@@ -16,11 +17,11 @@ class RenderManager
 public:
 	static RenderManager* instance;
 	static Shader* defaultShader;
+	static Material* defaultMaterial;
 
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
 	std::vector<RenderableObject*> currentRenderables;
-	//std::vector<Shader*> shaders;
 
 	// Create static instance
 	// ToDo: Setup the singleton manager pattern as a base class.

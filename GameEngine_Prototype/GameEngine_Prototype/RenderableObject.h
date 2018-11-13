@@ -1,8 +1,8 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include "Shader.h"
+#include "Material.h"
 
 class RenderableObject
 {
@@ -15,11 +15,11 @@ public:
 	unsigned int VBO;
 	unsigned int VAO;
 	unsigned int EBO;
-	Shader* shader;
+	Material* material;
 	bool enabled = false;
 	RenderableObject(
 		float* verts, unsigned int numV, unsigned int vertDataSize,
-		unsigned int* ind, unsigned int numInd, Shader* _shader = nullptr);
+		unsigned int* ind, unsigned int numInd, Material* _material = nullptr);
 	~RenderableObject();
 	virtual void Draw();
 	virtual void Setup();

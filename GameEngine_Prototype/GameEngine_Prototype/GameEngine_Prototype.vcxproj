@@ -148,28 +148,40 @@
   <ItemGroup>
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SimpleModel.cpp" />
     <ClCompile Include="SimpleSprite.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SimpleModel.h" />
     <ClInclude Include="SimpleSprite.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\3.3.shader.fs" />
     <None Include="..\Shaders\3.3.shader.vs" />
     <None Include="..\Shaders\default.fs" />
     <None Include="..\Shaders\default.vs" />
+    <None Include="..\Shaders\model.fs" />
+    <None Include="..\Shaders\model.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
   </ItemGroup>
