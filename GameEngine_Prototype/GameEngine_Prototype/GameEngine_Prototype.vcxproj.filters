@@ -40,6 +40,12 @@
     <Filter Include="Header Files\GameObject">
       <UniqueIdentifier>{58145831-a8f7-4e8c-a8aa-ad320d5ea931}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{e3213461-4d1b-4c9b-be67-3d93df5a9fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{7330173a-746b-4b50-b35d-1bbaaf5bc42b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -82,6 +88,21 @@
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleModelComponent.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMoverComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,14 +143,26 @@
     <ClInclude Include="Material.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleModelComponent.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMoverComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\3.3.shader.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\3.3.shader.fs">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Shaders\default.vs">
       <Filter>Shaders</Filter>
     </None>

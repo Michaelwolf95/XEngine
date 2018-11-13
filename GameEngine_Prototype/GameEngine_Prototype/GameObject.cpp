@@ -23,7 +23,7 @@ GameObject::~GameObject()
 void GameObject::AddComponent(Component * comp)
 {
 	components.push_back(comp);
-	comp->owner = this;
+	comp->gameObject = this;
 }
 
 void GameObject::RemoveComponent(Component * comp)
@@ -38,6 +38,41 @@ void GameObject::RemoveComponent(Component * comp)
 		// to prevent moving all items after '5' by one
 		std::swap(*n, components.back());
 		components.pop_back();
-		comp->owner = nullptr;
+		comp->gameObject = nullptr;
 	}
 }
+
+void GameObject::EmitComponentEvent(void(*eventFunction)(Component*))
+{
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		eventFunction(components[i]);
+	}
+}
+
+void GameObject::StartComponents()
+{
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		StartComponent(components[i]);
+	}
+}
+
+void GameObject::StartComponent(Component * comp)
+{
+	comp->Start();
+}
+
+void GameObject::UpdateComponents()
+{
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		UpdateComponent(components[i]);
+	}
+}
+
+void GameObject::UpdateComponent(Component * comp)
+{
+	comp->Update();
+}
+

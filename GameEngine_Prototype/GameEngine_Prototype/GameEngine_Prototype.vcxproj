@@ -156,9 +156,14 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleModel.cpp" />
+    <ClCompile Include="SimpleModelComponent.cpp" />
     <ClCompile Include="SimpleSprite.cpp" />
+    <ClCompile Include="TestMoverComponent.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,14 +175,18 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleModel.h" />
+    <ClInclude Include="SimpleModelComponent.h" />
     <ClInclude Include="SimpleSprite.h" />
+    <ClInclude Include="TestMoverComponent.h" />
+    <ClInclude Include="TestScenes.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\3.3.shader.fs" />
-    <None Include="..\Shaders\3.3.shader.vs" />
     <None Include="..\Shaders\default.fs" />
     <None Include="..\Shaders\default.vs" />
     <None Include="..\Shaders\model.fs" />

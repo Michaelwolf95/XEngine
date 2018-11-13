@@ -1,6 +1,12 @@
+#include "RenderManager.h"
+#include "ApplicationManager.h"
 #include <vector>
 #include <algorithm>
-#include "RenderManager.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_access.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 RenderManager* RenderManager::instance = nullptr;
 Shader* RenderManager::defaultShader = nullptr;
@@ -27,6 +33,16 @@ int RenderManager::Init()
 {
 	CompileShaders();
 
+	view = new glm::mat4(1.0f);
+	projection = new glm::mat4(1.0f);
+	*projection = glm::perspective(glm::radians(45.0f),
+		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
+		0.1f, 100.0f);
+
+	// configure global opengl state
+	// -----------------------------
+	glEnable(GL_DEPTH_TEST);
+
 	isInitialized = true;
 	return 0;
 }
@@ -47,9 +63,9 @@ void RenderManager::Render()
 {
 	// Render back drop
 	glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Get Camera matrix information
+	// Get Camera matrix information for use in next render
 	// Camera has "view" and "projection" information.
 
 	//  Loop through and render all renderables
@@ -60,11 +76,18 @@ void RenderManager::Render()
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
-	// ToDo: Optimize draw calls by rendering all objects that use the same shader at once.
+	if (renderable->enabled == false)
+	{
+		// Don't render anything
+		return;
+	}
 
+	// ToDo: Optimize draw calls by rendering all objects that use the same shader at once.
+	
 	// Start the shader
 	if (currentShaderID != renderable->material->shader->ID)
 	{
+		//std::cout << "Swapping material" << std::endl;
 		renderable->material->shader->use();
 		currentShaderID = renderable->material->shader->ID;
 	}

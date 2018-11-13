@@ -5,11 +5,11 @@ class GameObject; // Use a "forward declaration" instead.
 class Component
 {
 public:
-	GameObject* owner; // Void* to resolve circular dependency issues.
+	GameObject* gameObject; // The owner of the component.
 	Component();
 	~Component();
 	virtual void Start() = 0;
 	virtual void Update() = 0;
-	virtual void OnDestroy() = 0;
+	virtual void OnDestroy() {};
 };
 

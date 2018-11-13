@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderableObject.h"
+#include "Component.h"
 class SimpleModel :
 	public RenderableObject
 {
@@ -10,5 +11,6 @@ public:
 	void Setup() override;
 
 	void Draw() override;
+
 };
 

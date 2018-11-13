@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
+#include <glm/glm.hpp>
 #include "RenderableObject.h"
 #include "Shader.h"
 #include "Material.h"
@@ -21,6 +22,10 @@ public:
 
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
+	// Current view and projection matrices. These can be set by the camera.
+	glm::mat4* view;
+	glm::mat4* projection;
+
 	std::vector<RenderableObject*> currentRenderables;
 
 	// Create static instance

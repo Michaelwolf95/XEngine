@@ -68,10 +68,8 @@ void RenderableObject::Setup()
 void RenderableObject::Draw()
 {
 	//std::cout << "RenderableObject.Draw()" << std::endl;
-	if (enabled)
+	//if (enabled)
 	{
-		//shader->use();
-
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
