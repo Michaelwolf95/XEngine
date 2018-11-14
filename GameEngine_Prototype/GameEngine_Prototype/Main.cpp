@@ -12,6 +12,9 @@
 
 #include "TestScenes.h"
 
+unsigned int __stdcall mythread(void* data);
+long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp, LPARAM lp);
+
 // ENTRY POINT
 int main()
 {
@@ -22,6 +25,7 @@ int main()
 	SceneManager::CreateManager();
 	Time::CreateManager();
 
+	
 	// Create & Load Scene
 	RunTestScene();
 

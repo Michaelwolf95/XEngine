@@ -11,14 +11,12 @@ public:
 	Scene(const char* _name);
 	Scene(std::vector<GameObject*> gameObjects);
 	~Scene();
+	void PrintScene();
 	void Load();
 	void Unload();
 	void Start();
 	void Update();
 	GameObject* CreateGameObject(const char* name, Transform* parent = nullptr);
 
-	// Load 
-
-	// Unload
 };
 

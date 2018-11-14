@@ -21,11 +21,9 @@ Scene::Scene(std::vector<GameObject*> gameObjects)
 	}
 }
 
-Scene::~Scene()
-{
-}
+Scene::~Scene() {}
 
-void Scene::Load()
+void Scene::PrintScene()
 {
 	std::cout << "Loaded Scene '" << name << "'.\nGameObjects:" << std::endl;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
@@ -39,6 +37,11 @@ void Scene::Load()
 			}
 		}
 	}
+}
+
+void Scene::Load()
+{
+	PrintScene();
 	isLoaded = true;
 }
 

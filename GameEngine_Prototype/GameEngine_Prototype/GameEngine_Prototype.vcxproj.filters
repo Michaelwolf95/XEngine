@@ -52,6 +52,9 @@
     <Filter Include="Header Files\Common">
       <UniqueIdentifier>{4b7e28f8-ee8d-43f0-8efb-682b83713eb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Scenes">
+      <UniqueIdentifier>{6a3b8c31-ec1d-4476-a795-6b0a28c7d8e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -164,9 +167,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files\GameObject</Filter>
     </ClInclude>
@@ -190,6 +190,27 @@
     </ClInclude>
     <ClInclude Include="CameraSwapper.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleThread.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Michael.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Tam.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_James.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Donato.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Dennis.h">
+      <Filter>Test Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

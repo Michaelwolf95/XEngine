@@ -177,6 +177,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSwapper.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Material.h" />
@@ -191,6 +192,11 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TestMoverComponent.h" />
     <ClInclude Include="TestScenes.h" />
+    <ClInclude Include="TestScenes_Dennis.h" />
+    <ClInclude Include="TestScenes_Donato.h" />
+    <ClInclude Include="TestScenes_James.h" />
+    <ClInclude Include="TestScenes_Michael.h" />
+    <ClInclude Include="TestScenes_Tam.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
