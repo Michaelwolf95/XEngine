@@ -31,6 +31,13 @@ void Scene::Load()
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
 		std::cout << "   [" << i << "]: " << (rootGameObjects[i]->name) << std::endl;
+		if (rootGameObjects[i]->components.size() > 0)
+		{
+			for (Component* c : rootGameObjects[i]->components)
+			{
+				std::cout << "\t" << ((typeid(*c)).name()) << std::endl;
+			}
+		}
 	}
 	isLoaded = true;
 }
