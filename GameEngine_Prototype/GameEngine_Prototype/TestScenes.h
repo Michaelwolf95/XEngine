@@ -6,7 +6,6 @@ To start testing, change this entry point to route to YOUR entry point.
 e.g: RunTestScene_Michael()
 
 DO NOT COMMIT THE CHANGES TO THIS FILE.
-
 */
 
 #include "TestScenes_Michael.h"
