@@ -1,4 +1,9 @@
 #pragma once
+/* CURRENTLY UNUSED 
+Meant for running the console ins a seperate thread.
+Based on: https://stackoverflow.com/questions/38358035/c-create-new-window-from-console-in-new-thread-win32
+*/
+
 #include <process.h>
 #include <Windows.h>
 #include <thread>

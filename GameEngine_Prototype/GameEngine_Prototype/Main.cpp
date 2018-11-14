@@ -25,7 +25,6 @@ int main()
 	SceneManager::CreateManager();
 	Time::CreateManager();
 
-	
 	// Create & Load Scene
 	RunTestScene();
 
