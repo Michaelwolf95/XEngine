@@ -73,14 +73,16 @@ void SimpleModelComponent::Draw()
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
 
-	//glClear(GL_COLOR_BUFFER_BIT);
-	/*std::cout << "Pos: (" << gameObject->transform->getPosition().x << ", " 
-		<< gameObject->transform->getPosition().y << ", "
-		<< gameObject->transform->getPosition().z << ")" << std::endl;*/
-	RenderManager::DrawScreenPoint(gameObject->transform->getPosition(), vec4(1, 0, 0, 1), 25);
-	//RenderManager::DrawScreenPoint(vec2(1,1), vec4(1, 0, 0, 1), 100);
+	// Draw "Gizmo" indicating point at center of object.
+	RenderManager::DrawWorldSpacePoint(gameObject->transform->getPosition(), vec4(1, 0, 0, 1), 5);
+	RenderManager::DrawWorldSpaceLine(
+		gameObject->transform->getPosition(), 
+		gameObject->transform->getPosition() + vec3(0,1,0), 
+		vec4(0, 0, 1, 1), 5);
+
+	RenderManager::DrawScreenSpaceLine(glm::vec2(0, 0), glm::vec2(400, 300), vec4(0, 1, 0, 1), 25);
 }
 
 void SimpleModelComponent::Start()

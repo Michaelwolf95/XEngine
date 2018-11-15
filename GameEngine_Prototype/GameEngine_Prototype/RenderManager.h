@@ -54,8 +54,10 @@ public:
 	void FreeAllResources();
 	void FreeObjectResources(RenderableObject* renderable);
 
-	static void DrawScreenPoint(glm::vec2 point, glm::vec4 color, int size);
-	static void DrawWorldPoint(glm::vec3 worldPoint, glm::vec4 color, int size);
+	static void DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int size);
+	static void DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size);
+	static void DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size);
+	static void DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size);
 
 private:
 	Camera * currentCamera;

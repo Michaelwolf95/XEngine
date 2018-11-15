@@ -184,48 +184,144 @@ void RenderManager::RemoveLight(Light* light)
 }
 
 
-void RenderManager::DrawScreenPoint(glm::vec2 point, glm::vec4 color, int size)
+void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int size)
 {
-	GLfloat p[]{ point.x, point.y };
-	//GLfloat c[]{ color.r, color.g, color.b, color.a };
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
 
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::mat4 view = RenderManager::getInstance().getView();
-	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	glm::vec3 point3 = vec3(point.x, point.y, 0.2);
 	glm::mat4 model(1.0);
+	model = glm::translate(model, point3);
+	glm::mat4 view(1.0);
+	glm::mat4 projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 	colorDrawShader->setMat4("model", model);
 	colorDrawShader->setMat4("view", view);
 	colorDrawShader->setMat4("projection", projection);
 
+	GLfloat p[]{ 0.0, 0.0 };
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_POINT_SMOOTH); // Remove this wrap for square points.
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_COLOR_ARRAY);
 	glPointSize(size);
-	//glColorPointer(1, GL_FLOAT, 0, c);
-	glVertexPointer(2, GL_FLOAT, 0, new GLfloat[point.x, point.y]);
-
-	//glBindVertexArray(2, GL_FLOAT, 0, new float[point.x, point.y]);
+	glVertexPointer(2, GL_FLOAT, 0, p);
 	glDrawArrays(GL_POINTS, 0, 1);
-
-	//glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	//glDisable(GL_POINT_SMOOTH);
 }
-void RenderManager::DrawWorldPoint(glm::vec3 worldPoint, glm::vec4 color, int size)
+
+void RenderManager::DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size)
 {
-	
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	//glm::vec3 point3 = vec3(point.x, point.y, 0.2);
+	glm::mat4 model(1.0);
+	model = glm::translate(model, worldPoint);
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	GLfloat p[]{ 0.0, 0.0, 0.0 };
+	unsigned int VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glPointSize(size);
+	glVertexPointer(3, GL_FLOAT, 0, p);
+	glDrawArrays(GL_POINTS, 0, 1);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size)
+{
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	glm::vec3 point3 = vec3(point1.x, point1.y, 0.2);
+	glm::mat4 model(1.0);
+	model = glm::translate(model, point3);
+	glm::mat4 view(1.0);
+	glm::mat4 projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	glm::vec2 diff = point2 - point1;
+	GLfloat p[]{ 
+		0.0, 0.0, 0.0,
+		diff.x, diff.y, 0.0 };
+	GLfloat i[]{ 0, 1, 0 };
+	unsigned int VAO, VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(p), p, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glPointSize(size);
+	glLineWidth(size);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glVertexPointer(3, GL_FLOAT, 0, p);
+	//glVertexPointer(6, GL_FLOAT, 3 * sizeof(float), p);
+	glDrawArrays(GL_LINES, 0, 6);
+	glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, 0);
+	//glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size)
+{
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	//glm::vec3 point3 = vec3(point.x, point.y, 0.2);
+	glm::mat4 model(1.0);
+	//model = glm::translate(model, point1);
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	//glm::vec3 diff = point2 - point1;
+	//GLfloat p[]{ 
+	//	0.0, 0.0, 0.0, 
+	//	diff.x, diff.y, diff.z };
+	GLfloat p[]{
+		point1.x, point1.y, point1.z,
+		point2.x, point2.y, point2.z, };
+	GLfloat i[]{ 0, 1, 0 };
+	unsigned int VAO, VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, 2 * 2 * sizeof(float), p, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	//glPointSize(size);
+	glLineWidth(size);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glVertexPointer(3, GL_FLOAT, 0, p);
+	//glVertexPointer(6, GL_FLOAT, 3 * sizeof(float), p);
+	glDrawArrays(GL_LINES, 0, 2);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 
