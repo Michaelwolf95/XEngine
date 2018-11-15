@@ -453,7 +453,7 @@ void CreateTestScene7()
 	// Create Box Material
 	Shader* modelShader = new Shader("diffuse.vs", "diffuse.fs");
 	Material* modelMaterial = new Material(modelShader, true);
-	//modelMaterial->LoadTexture("textures/container.jpg");
+	modelMaterial->LoadTexture("textures/container.jpg");
 
 	Shader* unlitShader = new Shader("model.vs", "model.fs");
 	Material* unlitMaterial = new Material(unlitShader);

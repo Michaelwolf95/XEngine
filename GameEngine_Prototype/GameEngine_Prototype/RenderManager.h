@@ -10,6 +10,7 @@
 #include "Singleton.h"
 #include "Camera.h"
 #include "Light.h"
+#include "LineDrawer.h"
 
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
@@ -32,6 +33,7 @@ public:
 
 	std::vector<RenderableObject*> currentRenderables;
 	std::vector<Light*> lights;
+	std::vector<LineDrawer*> lineDrawers;
 	// Create static instance
 	static RenderManager* CreateManager();
 

@@ -206,21 +206,20 @@ void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int s
 	glBindVertexArray(VAO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glEnableClientState(GL_VERTEX_ARRAY);
+
 	glPointSize(size);
 	glVertexPointer(2, GL_FLOAT, 0, p);
 	glDrawArrays(GL_POINTS, 0, 1);
-	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glDeleteVertexArrays(1, &VAO);
 }
 
 void RenderManager::DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size)
 {
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
-
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	//glm::vec3 point3 = vec3(point.x, point.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, worldPoint);
 	glm::mat4 view = RenderManager::getInstance().getView();
@@ -235,11 +234,14 @@ void RenderManager::DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, i
 	glBindVertexArray(VAO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glEnableClientState(GL_VERTEX_ARRAY);
+
 	glPointSize(size);
-	glVertexPointer(3, GL_FLOAT, 0, p);
 	glDrawArrays(GL_POINTS, 0, 1);
-	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	glDeleteVertexArrays(1, &VAO);
 }
 
 void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size)
@@ -263,7 +265,8 @@ void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm:
 		0.0, 0.0, 0.0,
 		diff.x, diff.y, 0.0 };
 	GLfloat i[]{ 0, 1, 0 };
-	unsigned int VAO, VBO;
+	unsigned int VAO;
+	unsigned int VBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glBindVertexArray(VAO);
@@ -271,27 +274,24 @@ void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm:
 	glBufferData(GL_ARRAY_BUFFER, sizeof(p), p, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	//glEnableClientState(GL_VERTEX_ARRAY);
-	//glPointSize(size);
+
 	glLineWidth(size);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glVertexPointer(3, GL_FLOAT, 0, p);
-	//glVertexPointer(6, GL_FLOAT, 3 * sizeof(float), p);
-	glDrawArrays(GL_LINES, 0, 6);
-	glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, 0);
-	//glDisableClientState(GL_VERTEX_ARRAY);
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_LINES, 0, 2);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
 }
 
 void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size)
 {
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
-
+	
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	//glm::vec3 point3 = vec3(point.x, point.y, 0.2);
 	glm::mat4 model(1.0);
-	//model = glm::translate(model, point1);
+	model = glm::translate(model, point1);
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	colorDrawShader->setMat4("model", model);
@@ -299,98 +299,30 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	colorDrawShader->setMat4("projection", projection);
 
 	//glm::vec3 diff = point2 - point1;
-	//GLfloat p[]{ 
-	//	0.0, 0.0, 0.0, 
-	//	diff.x, diff.y, diff.z };
-	GLfloat p[]{
-		point1.x, point1.y, point1.z,
-		point2.x, point2.y, point2.z, };
-	GLfloat i[]{ 0, 1, 0 };
-	unsigned int VAO, VBO;
+	GLfloat p[]
+	{ 
+		0.0, 0.0, 0.0, 
+		//point1.x, point1.y, point1.z,
+		point2.x, point2.y, point2.z, 
+		//diff.x, diff.y, diff.z
+	};
+	unsigned int VAO;
+	unsigned int VBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, 2 * 2 * sizeof(float), p, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(p), p, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	//glPointSize(size);
+
 	glLineWidth(size);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glVertexPointer(3, GL_FLOAT, 0, p);
-	//glVertexPointer(6, GL_FLOAT, 3 * sizeof(float), p);
+	glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, 2);
-	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
 }
-
-
-/*
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-
-glMatrixMode(GL_PROJECTION); // projection matrix defines the properties of the camera that views the objects in the world coordinate frame. Here you typically set the zoom factor, aspect ratio and the near and far clipping planes
-glLoadIdentity(); // replace the current matrix with the identity matrix and starts us a fresh because matrix transforms such as glOrpho and glRotate cumulate, basically puts us at (0, 0, 0)
-glOrtho(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT, 0, 600); // essentially set coordinate system
-glMatrixMode(GL_MODELVIEW); // (default matrix mode) modelview matrix defines how your objects are transformed (meaning translation, rotation and scaling) in your world
-glLoadIdentity();
-
-
-//glDrawArrays(GL_POINTS, 0, 12);
-//glEnable(GL_PROGRAM_POINT_SIZE);
-//gl_PointSize = 10.0;
-
-//glBegin(GL_LINES);
-//glVertex2f(10, 10);
-//glVertex2f(20, 20);
-//glEnd();
-
-////glBegin(GL_POINTS);
-////glColor3f(0.3, 0.3, 0.3);
-////glPointSize(5.0f);  // wat
-////glVertex2i(x, glutGet(GLUT_WINDOW_HEIGHT) - y);
-////glEnd();
-//glEnable(GL_PROGRAM_POINT_SIZE);
-
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-glMatrixMode(GL_PROJECTION);
-glLoadIdentity();
-//gluPerspective( 65.0, (double)1024/(double)768, 1.0, 60.0 );
-glOrtho(0, ApplicationManager::getInstance().config->screenWidth,
-	ApplicationManager::getInstance().config->screenHeight, 0, -1, 1);// 100, -100);
-//glMatrixMode(GL_MODELVIEW);
-//glLoadIdentity();
-glPointSize(50);
-glBegin(GL_POINTS);
-//vec4 point = view * projection * (*model) * vec4(0.0, 0.0, 0.0, 1.0);
-//glVertex3f(point.x, point.y, point.z);
-//glVertex2d(point.x, point.y);
-//glVertex2f(0.0, 0.0);
-//glVertex3f(0.0, 0.0, 0.0);
-glColor4f(1,1,1,1);
-//glVertex3f(ApplicationManager::getInstance().config->screenWidth/2,
-//	ApplicationManager::getInstance().config->screenHeight / 2,
-//	0.0);
-glVertex2i(100, 100);
-//glDrawArrays(GL_POINTS, 0, 1);
-glClear(GL_COLOR_BUFFER_BIT);
-glMatrixMode(GL_PROJECTION);
-glLoadIdentity();
-glOrtho(0, ApplicationManager::getInstance().config->screenWidth,
-	ApplicationManager::getInstance().config->screenHeight, 0, -1, 1);
-glEnd();
-glBegin(GL_POINTS);
-  glVertex2i(100, 100);
-glEnd();
-//glBegin(GL_LINES);
-//glVertex3f(0.0f, 0.0f, 0.0f);
-//glVertex3f(50.0f, 50.0f, 50.0f);
-//glEnd();
-
-//glLineWidth(2.5);
-//glColor3f(1.0, 0.0, 0.0);
-//glBegin(GL_LINES);
-//glVertex3f(0.0, 0.0, 0.0);
-//glVertex3f(15, 0, 0);
-//glEnd();
-//glPointSize(1.0); // Default
-*/
