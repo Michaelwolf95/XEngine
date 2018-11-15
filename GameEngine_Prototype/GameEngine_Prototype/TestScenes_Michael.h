@@ -632,8 +632,10 @@ void CreateTestScene8()
 	//go->AddComponent(new TestMoverComponent());
 	//go->transform->setPosition()
 	go->transform->model = glm::translate(go->transform->model, glm::vec3(1.0f, 0.0f, 0.0f));
-	go->transform->model = glm::rotate(go->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//go->transform->model = glm::rotate(go->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//go->transform->setLocalRotationEuler(vec3(-15, 0, 0));
 	go->transform->setLocalScale(vec3(2, 1, 2));
+	go->transform->setLocalRotationEuler(vec3(15, 45, -20));
 
 	// CAMERA SETUP
 	GameObject* camGo = scene->CreateGameObject("Cam");

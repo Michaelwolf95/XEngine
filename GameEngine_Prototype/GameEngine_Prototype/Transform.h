@@ -19,6 +19,7 @@ public:
 	void setPosition(glm::vec3 pos);
 	glm::quat getLocalRotation();
 	void setLocalRotation(glm::quat rot);
+	void setLocalRotationEuler(glm::vec3 rot);
 	glm::vec3 getLocalScale();
 	void setLocalScale(glm::vec3 scale);
 
@@ -29,6 +30,8 @@ public:
 	glm::vec3 getRightDirection();
 	glm::vec3 getUpDirection();
 	glm::vec3 getForwardDirection();
+
+	void DrawGizmo();
 
 	void printTransformMatrix();
 

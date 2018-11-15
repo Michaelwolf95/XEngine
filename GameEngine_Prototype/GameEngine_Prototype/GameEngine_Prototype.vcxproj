@@ -153,6 +153,7 @@
     <ClCompile Include="CameraSwapper.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="DebugUtility.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Light.h" />

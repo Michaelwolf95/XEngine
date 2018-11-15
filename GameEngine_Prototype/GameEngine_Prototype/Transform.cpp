@@ -8,6 +8,7 @@
 //#include <glm/gtx/matrix_decompose.hpp>
 //#include <glm/gtx/transform.hpp>
 #include "DebugUtility.h"
+#include "RenderManager.h"
 using namespace glm;
 
 Transform::Transform() : Component::Component()
@@ -45,14 +46,10 @@ glm::vec3 Transform::getPosition()
 
 void Transform::setPosition(glm::vec3 pos)
 {
-	//ToDo: Optimize this
 	model[3].x = pos.x;
 	model[3].y = pos.y;
 	model[3].z = pos.z;
-	//model[3].w = pos.w;
-	//model = translate(mat4(1.0f), pos);
 }
-// NONE OF THESE DO ANYTHING YET!!!! =====
 
 glm::quat Transform::getLocalRotation() // Local
 {
@@ -64,7 +61,20 @@ glm::quat Transform::getLocalRotation() // Local
 
 void Transform::setLocalRotation(glm::quat rot)
 {
-	//model = glm::rotate(mat4(1.0f), rot);
+	// M = T*R*S
+	mat4 newRotMat = glm::mat4_cast(rot);
+	mat4 scaleMat = getScaleMatrix();
+	mat4 transMat = getTranslationMatrix();
+	model = (transMat * newRotMat) * scaleMat;
+}
+
+void Transform::setLocalRotationEuler(glm::vec3 rot)
+{
+	rot[0] = glm::radians(rot[0]);
+	rot[1] = glm::radians(rot[1]);
+	rot[2] = glm::radians(rot[2]);
+	quat qRot(rot);
+	setLocalRotation(qRot);
 }
 
 glm::vec3 Transform::getLocalScale()
@@ -75,25 +85,13 @@ glm::vec3 Transform::getLocalScale()
 void Transform::setLocalScale(glm::vec3 scale)
 {
 	// M = T*R*S
-	//printTransformMatrix();
-
-	mat4 transMat = getTranslationMatrix();
-	//std::cout << "Trans" <<std::endl;
-	EngineDebug::PrintMatrix(transMat);
-	mat4 rotMat = getRotationMatrix();
-	//std::cout << "Rot" << std::endl;
-	//EngineDebug::PrintMatrix(rotMat);
-
 	mat4 scaleMat(1.0);
 	scaleMat[0][0] = scale.x;
 	scaleMat[1][1] = scale.y;
 	scaleMat[2][2] = scale.z;
-	//std::cout << "Scale" << std::endl;
-	//EngineDebug::PrintMatrix(scaleMat);
 
-	model = transMat * rotMat * scaleMat;
-	//std::cout << std::endl;
-	//printTransformMatrix();
+	//model = transMat * rotMat * scaleMat;
+	model = (model * inverse(getScaleMatrix())) * scaleMat;
 }
 
 glm::mat4 Transform::getTranslationMatrix()
@@ -102,23 +100,19 @@ glm::mat4 Transform::getTranslationMatrix()
 	transMat[3][0] = model[3][0];
 	transMat[3][1] = model[3][1];
 	transMat[3][2] = model[3][2];
-	EngineDebug::PrintMatrix(transMat);
+	//::PrintMatrix(transMat);
 	return transMat;
 }
 
 glm::mat4 Transform::getRotationMatrix()
 {
-	glm::mat4 rotMat;
-	vec4 scaleVec = vec4(getLocalScale(), 0.0);
-	for (size_t i = 0; i < 3; i++)
-	{
-		for (size_t j = 0; j < 4; j++)
-		{
-			rotMat[i][j] = scaleVec[i] * model[i][j];
-		}
-	}
-	rotMat[3] = vec4(0.0, 0.0, 0.0, 1.0);
-	return rotMat;
+	// M = T*R*S
+	// R = inv(T)*M*inv(S)
+	glm::mat4 transMat = getTranslationMatrix();
+	glm::mat4 scaleMat = getScaleMatrix();
+	glm::mat4 rotMat = glm::inverse(transMat)*model*glm::inverse(scaleMat);
+
+	return glm::transpose(rotMat);
 }
 
 glm::mat4 Transform::getScaleMatrix()
@@ -164,4 +158,30 @@ void Transform::printTransformMatrix()
 		std::cout << ((i == 3) ? " ]\n" : " |\n");
 	}
 	
+}
+
+void Transform::DrawGizmo()
+{
+	glm::vec3 pos = gameObject->transform->getPosition();
+	glm::mat4 model = gameObject->transform->model;
+	glm::mat4 rotMat = getRotationMatrix();
+	//RenderManager::DrawWorldSpacePoint(pos, vec4(1, 1, 1, 1), 5);
+	vec3 right = vec3(vec4(1, 0, 0, 0)*rotMat);
+	vec3 up = vec3(vec4(0, 1, 0, 0)*rotMat);
+	vec3 forward = vec3(vec4(0, 0, 1, 0)*rotMat);
+	float L = 0.5;
+	float sL = 0.1;
+	RenderManager::DrawWorldSpaceLine(pos, pos + right*L, vec4(1, 0, 0, 1), 3);
+	RenderManager::DrawWorldSpacePoint(pos + right * L, vec4(1, 0, 0, 1), 5); // Head
+
+	RenderManager::DrawWorldSpaceLine(pos, pos + up * L, vec4(0, 1, 0, 1), 3);
+	RenderManager::DrawWorldSpacePoint(pos + up * L, vec4(0, 1, 0, 1), 5);
+
+	RenderManager::DrawWorldSpaceLine(pos, pos + forward * L, vec4(0, 0, 1, 1), 3);
+	RenderManager::DrawWorldSpacePoint(pos + forward * L, vec4(0, 0, 1, 1), 5);
+
+	// Squares
+	RenderManager::DrawWorldSpaceLine(pos + right*sL, pos + vec3(vec4(sL, 0, sL, 0)*rotMat), vec4(0.5, 0.5, 0.5, 1), 3);
+	RenderManager::DrawWorldSpaceLine(pos + forward*sL, pos + vec3(vec4(sL, 0, sL, 0)*rotMat), vec4(0.5, 0.5, 0.5, 1), 3);
+
 }

@@ -186,8 +186,9 @@ void RenderManager::RemoveLight(Light* light)
 
 void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int size)
 {
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
-
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
@@ -216,7 +217,9 @@ void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int s
 
 void RenderManager::DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size)
 {
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
@@ -246,8 +249,9 @@ void RenderManager::DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, i
 
 void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size)
 {
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
-
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
@@ -285,8 +289,10 @@ void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm:
 
 void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size)
 {
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
-	
+
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
@@ -298,13 +304,13 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	colorDrawShader->setMat4("view", view);
 	colorDrawShader->setMat4("projection", projection);
 
-	//glm::vec3 diff = point2 - point1;
+	glm::vec3 diff = point2 - point1;
 	GLfloat p[]
 	{ 
 		0.0, 0.0, 0.0, 
 		//point1.x, point1.y, point1.z,
-		point2.x, point2.y, point2.z, 
-		//diff.x, diff.y, diff.z
+		//point2.x, point2.y, point2.z, 
+		diff.x, diff.y, diff.z
 	};
 	unsigned int VAO;
 	unsigned int VBO;
