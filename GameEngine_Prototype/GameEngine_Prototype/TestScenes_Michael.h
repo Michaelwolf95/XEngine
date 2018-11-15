@@ -10,6 +10,7 @@
 
 #include "GameObject.h"
 #include "Material.h"
+#include "LightComponent.h"
 #include "SimpleSprite.h"
 #include "SimpleModel.h"
 #include "SimpleModelComponent.h"
@@ -27,10 +28,11 @@ void CreateTestScene4();
 // Actual Scenes
 void CreateTestScene5();
 void CreateTestScene6();
+void CreateTestScene7();
 
 void RunTestScene_Michael()
 {
-	CreateTestScene6();
+	CreateTestScene7();
 }
 
 void ChooseTestScene()
@@ -440,6 +442,107 @@ void CreateTestScene6()
 	swapper->cam1 = cam1;
 	swapper->cam2 = cam2;
 	swapper->cam3 = cam3;
+
+
+	// Activate Scene
+	SceneManager::getInstance().SetActiveScene(scene);
+}
+
+void CreateTestScene7()
+{
+	// Create Box Material
+	Shader* modelShader = new Shader("diffuse.vs", "diffuse.fs");
+	Material* modelMaterial = new Material(modelShader, true);
+	//modelMaterial->LoadTexture("textures/container.jpg");
+
+	Shader* unlitShader = new Shader("model.vs", "model.fs");
+	Material* unlitMaterial = new Material(unlitShader);
+	unlitMaterial->Color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+	//unlitMaterial->LoadTexture("textures/container.jpg");
+
+
+	// Create Cube Model
+	float vertices[] = {
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
+		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
+		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
+		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	};
+	unsigned int indices[] = {
+		0, 1, 2,	0, 2, 3,      // front
+		4, 5, 6,	4, 6, 7,      // back
+		8, 9, 10,	8, 10, 11,    // top
+		12, 13, 14, 12, 14, 15,   // bottom
+		16, 17, 18, 16, 18, 19,   // right
+		20, 21, 22, 20, 22, 23,   // left
+	};
+	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
+		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	testModel->Setup();
+
+
+	// Create Scene
+	Scene* scene = new Scene("Test Scene 7: Lighting");
+
+	GameObject* go = scene->CreateGameObject("Cube");
+	go->AddComponent(testModel);
+	//go->AddComponent(new TestMoverComponent());
+
+	GameObject* lightGo = scene->CreateGameObject("Light");
+	lightGo->AddComponent(new LightComponent());
+	lightGo->transform->model = glm::translate(lightGo->transform->model, glm::vec3(0.0f, 1.5f, 0.0f));
+	lightGo->transform->model = glm::scale(lightGo->transform->model, glm::vec3(0.2f));
+	lightGo->AddComponent(new TestMoverComponent());
+	SimpleModelComponent* lamp = new SimpleModelComponent(vertices, 36, 5,
+		indices, sizeof(indices) / sizeof(unsigned int), unlitMaterial);
+	lamp->Setup();
+	lightGo->AddComponent(lamp);
+
+
+	// CAMERA SETUP
+	GameObject* camGo = scene->CreateGameObject("Cam");
+	CameraComponent* cam3 = new CameraComponent();
+	camGo->AddComponent(cam3);
+	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -4.5f));
+	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//camGo->AddComponent(new TestMoverComponent());
 
 
 	// Activate Scene

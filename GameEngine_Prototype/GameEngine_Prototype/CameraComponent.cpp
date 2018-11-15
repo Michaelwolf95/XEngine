@@ -28,10 +28,5 @@ mat4 CameraComponent::getView()
 	return (gameObject->transform->model);
 }
 
-void CameraComponent::Start()
-{
-}
-
-void CameraComponent::Update()
-{
-}
+void CameraComponent::Start() {}
+void CameraComponent::Update() {}

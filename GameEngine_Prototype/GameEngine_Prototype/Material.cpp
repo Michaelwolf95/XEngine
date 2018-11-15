@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "AssetManager.h"
 
-Material::Material(Shader* _shader)
+Material::Material(Shader* _shader, bool _useLight)
 {
 	if (_shader == nullptr)
 	{
@@ -13,6 +13,7 @@ Material::Material(Shader* _shader)
 	{
 		shader = _shader;
 	}
+	useLight = _useLight;
 	Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
@@ -30,6 +31,8 @@ void Material::Load()
 		// bind Texture
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
+	else
+		glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Material::LoadTexture(const char * _textureFilePath)

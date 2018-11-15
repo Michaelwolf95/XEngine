@@ -4,7 +4,7 @@ class TestMoverComponent :
 	public Component
 {
 public:
-	float moveSpeed;
+	float moveSpeed = 2.5;
 	TestMoverComponent();
 	~TestMoverComponent();
 	void Start() override;

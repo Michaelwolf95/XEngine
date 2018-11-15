@@ -126,6 +126,12 @@
     <ClCompile Include="CameraSwapper.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="LightComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -212,6 +218,12 @@
     <ClInclude Include="TestScenes_Dennis.h">
       <Filter>Test Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
@@ -230,6 +242,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\model.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\diffuse.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\diffuse.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\color.fs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

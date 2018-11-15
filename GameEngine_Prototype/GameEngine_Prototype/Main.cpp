@@ -38,6 +38,7 @@ int main()
 		SceneManager::getInstance().UpdateActiveScene();
 
 		RenderManager::getInstance().Render();
+
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 

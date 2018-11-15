@@ -17,8 +17,8 @@ TestMoverComponent::~TestMoverComponent() {}
 
 void TestMoverComponent::Start()
 {
-	moveSpeed = 2.5f;
-	gameObject->transform->model = translate(gameObject->transform->model, vec3(0.0f, 0.0f, -3.0f));
+	//moveSpeed = 2.5f;
+	//gameObject->transform->model = translate(gameObject->transform->model, vec3(0.0f, 0.0f, -3.0f));
 }
 
 void TestMoverComponent::Update()
@@ -37,4 +37,8 @@ void TestMoverComponent::Update()
 		gameObject->transform->model = translate(gameObject->transform->model, -glm::normalize(glm::cross(forward, up)) * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_D) == GLFW_PRESS)
 		gameObject->transform->model = translate(gameObject->transform->model, glm::normalize(glm::cross(forward, up)) * deltaMove);
+	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_Q) == GLFW_PRESS)
+		gameObject->transform->model = translate(gameObject->transform->model, -up * deltaMove);
+	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
+		gameObject->transform->model = translate(gameObject->transform->model, up * deltaMove);
 }

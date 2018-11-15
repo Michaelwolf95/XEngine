@@ -155,6 +155,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
@@ -180,6 +182,8 @@
     <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderableObject.h" />
@@ -201,8 +205,12 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Shaders\color.fs" />
+    <None Include="..\Shaders\color.vs" />
     <None Include="..\Shaders\default.fs" />
     <None Include="..\Shaders\default.vs" />
+    <None Include="..\Shaders\diffuse.fs" />
+    <None Include="..\Shaders\diffuse.vs" />
     <None Include="..\Shaders\model.fs" />
     <None Include="..\Shaders\model.vs" />
     <None Include="..\Shaders\sprite.fs" />

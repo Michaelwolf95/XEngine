@@ -4,6 +4,9 @@
 #include <iostream>
 #include "Singleton.h"
 
+#define SCREEN_WIDTH ApplicationManager::getInstance().config->screenWidth
+#define SCREEN_HEIGHT ApplicationManager::getInstance().config->screenHeight
+
 /* The ApplicationManager is responsible for:
 - Managing system events
 - Managing GLFW and Glad systems

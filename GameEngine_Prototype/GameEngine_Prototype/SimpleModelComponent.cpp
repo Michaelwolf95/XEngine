@@ -40,6 +40,7 @@ void SimpleModelComponent::Setup()
 void SimpleModelComponent::Draw()
 {
 	//if (Component::enabled == false) return;
+	if (gameObject == nullptr) return;
 
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
@@ -58,11 +59,28 @@ void SimpleModelComponent::Draw()
 	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
 	material->shader->setMat4("projection", projection);
 
+	if (material->useLight)
+	{
+		// Get ONE light for now.
+		for (Light* light : RenderManager::getInstance().lights)
+		{
+			material->shader->setVec3("lightColor", light->getLightColor());
+			material->shader->setVec3("lightPos", light->getLightPos());
+		}
+		//material->shader->setMat3
+	}
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	//glBindVertexArray(0); 
+	glBindVertexArray(0);
+
+	//glClear(GL_COLOR_BUFFER_BIT);
+	/*std::cout << "Pos: (" << gameObject->transform->getPosition().x << ", " 
+		<< gameObject->transform->getPosition().y << ", "
+		<< gameObject->transform->getPosition().z << ")" << std::endl;*/
+	RenderManager::DrawScreenPoint(gameObject->transform->getPosition(), vec4(1, 0, 0, 1), 25);
+	//RenderManager::DrawScreenPoint(vec2(1,1), vec4(1, 0, 0, 1), 100);
 }
 
 void SimpleModelComponent::Start()
