@@ -18,6 +18,6 @@ void main()
     {
         texel = vec4(1.0,1.0,1.0,1.0);
     }
-    //FragColor = texture(Texture, TexCoord)* MainColor;
-    FragColor = texel* MainColor;
+    FragColor = texture(Texture, TexCoord)* MainColor;
+    //FragColor = texel* MainColor;
 }

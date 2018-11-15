@@ -14,6 +14,7 @@ GameObject::GameObject(const char* _name)
 		name = _name;
 	}
 	transform = new Transform();
+	transform->gameObject = this;
 }
 
 GameObject::~GameObject()

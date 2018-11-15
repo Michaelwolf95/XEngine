@@ -29,11 +29,64 @@ void CreateTestScene4();
 void CreateTestScene5();
 void CreateTestScene6();
 void CreateTestScene7();
+void CreateTestScene8();
 
 void RunTestScene_Michael()
 {
-	CreateTestScene7();
+	CreateTestScene8();
 }
+
+float CUBE_VERTS[] = {
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
+		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
+		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
+		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
+unsigned int CUBE_INDICES[] = {
+	0, 1, 2,	0, 2, 3,      // front
+	4, 5, 6,	4, 6, 7,      // back
+	8, 9, 10,	8, 10, 11,    // top
+	12, 13, 14, 12, 14, 15,   // bottom
+	16, 17, 18, 16, 18, 19,   // right
+	20, 21, 22, 20, 22, 23,   // left
+};
 
 void ChooseTestScene()
 {
@@ -543,6 +596,52 @@ void CreateTestScene7()
 	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -4.5f));
 	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//camGo->AddComponent(new TestMoverComponent());
+
+
+	// Activate Scene
+	SceneManager::getInstance().SetActiveScene(scene);
+}
+
+void CreateTestScene8()
+{
+	// Create Box Material
+	Shader* modelShader = new Shader("model.vs", "model.fs");
+	Material* modelMaterial = new Material(modelShader);
+	modelMaterial->LoadTexture("textures/container.jpg");
+	modelMaterial->Color = vec4(1, 1, 1, 1);
+
+	// Create Scene
+	Scene* scene = new Scene("Test Scene 8: Transform Tests");
+
+	// Create Floor
+	GameObject* go2 = scene->CreateGameObject("Floor");
+	SimpleModelComponent* floorModel2 = new SimpleModelComponent(
+		CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int),
+		modelMaterial);
+	floorModel2->Setup();
+	go2->AddComponent(floorModel2);
+	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -5.0f, 0.0f));
+	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+
+	GameObject* go = scene->CreateGameObject("Cube");
+	SimpleModelComponent* cubeModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
+	cubeModel->Setup();
+	go->AddComponent(cubeModel);
+	//go->AddComponent(new TestMoverComponent());
+	//go->transform->setPosition()
+	go->transform->model = glm::translate(go->transform->model, glm::vec3(1.0f, 0.0f, 0.0f));
+	go->transform->model = glm::rotate(go->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	go->transform->setLocalScale(vec3(2, 1, 2));
+
+	// CAMERA SETUP
+	GameObject* camGo = scene->CreateGameObject("Cam");
+	CameraComponent* cam3 = new CameraComponent();
+	camGo->AddComponent(cam3);
+	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -8.0f));
+	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo->AddComponent(new TestMoverComponent());
 
 
 	// Activate Scene

@@ -76,9 +76,7 @@ void SimpleModelComponent::Draw()
 	glBindVertexArray(0);
 
 	// Draw "Gizmo" indicating point at center of object.
-	RenderManager::DrawWorldSpacePoint(
-		gameObject->transform->getPosition(), 
-		vec4(1, 0, 0, 1), 5);
+	//RenderManager::DrawWorldSpacePoint(gameObject->transform->getPosition(), vec4(1, 0, 0, 1), 5);
 
 	//RenderManager::DrawWorldSpaceLine(
 	//	gameObject->transform->getPosition(), 
