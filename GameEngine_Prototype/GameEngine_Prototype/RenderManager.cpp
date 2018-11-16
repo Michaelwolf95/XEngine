@@ -308,8 +308,6 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	GLfloat p[]
 	{ 
 		0.0, 0.0, 0.0, 
-		//point1.x, point1.y, point1.z,
-		//point2.x, point2.y, point2.z, 
 		diff.x, diff.y, diff.z
 	};
 	unsigned int VAO;

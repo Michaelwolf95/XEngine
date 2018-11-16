@@ -9,6 +9,7 @@
 #include "RenderManager.h"
 #include "SceneManager.h"
 #include "Time.h"
+#include "Input.h"
 
 #include "TestScenes.h"
 
@@ -24,6 +25,7 @@ int main()
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
 	Time::CreateManager();
+	Input::CreateManager();
 
 	// Create & Load Scene
 	RunTestScene();

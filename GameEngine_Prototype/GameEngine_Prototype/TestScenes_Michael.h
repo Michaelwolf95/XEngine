@@ -17,6 +17,7 @@
 #include "TestMoverComponent.h"
 #include "CameraComponent.h"
 #include "CameraSwapper.h"
+#include "FreeLookCameraController.h"
 using namespace std;
 
 void ChooseTestScene();
@@ -631,9 +632,10 @@ void CreateTestScene8()
 	go->AddComponent(cubeModel);
 	//go->AddComponent(new TestMoverComponent());
 	//go->transform->setPosition()
-	go->transform->model = glm::translate(go->transform->model, glm::vec3(1.0f, 0.0f, 0.0f));
+	//go->transform->model = glm::translate(go->transform->model, glm::vec3(1.0f, 0.0f, 0.0f));
 	//go->transform->model = glm::rotate(go->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//go->transform->setLocalRotationEuler(vec3(-15, 0, 0));
+	go->transform->setPosition(vec3(1, 0, 1));
 	go->transform->setLocalScale(vec3(2, 1, 2));
 	go->transform->setLocalRotationEuler(vec3(15, 45, -20));
 
@@ -643,8 +645,8 @@ void CreateTestScene8()
 	camGo->AddComponent(cam3);
 	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -8.0f));
 	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	camGo->AddComponent(new TestMoverComponent());
-
+	//camGo->AddComponent(new TestMoverComponent());
+	camGo->AddComponent(new FreeLookCameraController());
 
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);
