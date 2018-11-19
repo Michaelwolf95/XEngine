@@ -80,14 +80,22 @@ void Transform::setLocalRotation(glm::quat rot)
 // Set rotation in terms of euler DEGREES.
 void Transform::setLocalRotationEuler(glm::vec3 rot)
 {
-	for (size_t i = 0; i < 3; i++)
-	{
-		if (rot[i] > 360)
-		{
-			int numOver = ((int)rot[i]) / 360;
-			rot[i] = rot[i] - (360 * numOver);
-		}
-	}
+	//for (size_t i = 0; i < 3; i++)
+	//{
+	//	if (rot[i] > 90)
+	//	{
+	//		int numOver = ((int)rot[i]) / 90;
+	//		rot[i] = -(rot[i] - (90 * numOver));
+	//	}
+	//}
+	//for (size_t i = 0; i < 3; i++)
+	//{
+	//	if (rot[i] < -90)
+	//	{
+	//		int numOver = ((int)rot[i]) / -90;
+	//		rot[i] = -(rot[i] + (90 * numOver));
+	//	}
+	//}
 	rot[0] = glm::radians(rot[0]); 
 	rot[1] = glm::radians(rot[1]);
 	rot[2] = glm::radians(rot[2]);

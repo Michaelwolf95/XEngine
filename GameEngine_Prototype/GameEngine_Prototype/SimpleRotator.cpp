@@ -35,7 +35,8 @@ void SimpleRotator::Update()
 	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
 	rot.x += xRotSpeed * Time::deltaTime * vert;
 	rot.y += yRotSpeed * Time::deltaTime * horz;
-	//std::cout << "(" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
 	gameObject->transform->setLocalRotationEuler(rot);
+	//rot = gameObject->transform->getLocalRotationEuler();
+	//std::cout << "Rot:(" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
 
 }
