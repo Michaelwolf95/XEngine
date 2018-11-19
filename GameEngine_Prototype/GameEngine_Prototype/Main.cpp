@@ -4,6 +4,7 @@
 #define STB_DEFINE  
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#include "DebugUtility.h" // Define only once
 #include "AssetManager.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"

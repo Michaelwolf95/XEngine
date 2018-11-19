@@ -20,10 +20,10 @@ class Input : public Singleton<Input>
 public:
 	double xPos;
 	double yPos;
-	double xOffset;
-	double yOffset;
 	double xDeltaPos;
 	double yDeltaPos;
+	double xScrollOffset;
+	double yScrollOffset;
 	bool firstMouse = true;
 	Input();
 	~Input();

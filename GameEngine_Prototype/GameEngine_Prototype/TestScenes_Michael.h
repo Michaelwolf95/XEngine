@@ -18,6 +18,7 @@
 #include "CameraComponent.h"
 #include "CameraSwapper.h"
 #include "FreeLookCameraController.h"
+#include "SimpleRotator.h"
 using namespace std;
 
 void ChooseTestScene();
@@ -630,14 +631,22 @@ void CreateTestScene8()
 		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	cubeModel->Setup();
 	go->AddComponent(cubeModel);
-	//go->AddComponent(new TestMoverComponent());
-	//go->transform->setPosition()
-	//go->transform->model = glm::translate(go->transform->model, glm::vec3(1.0f, 0.0f, 0.0f));
-	//go->transform->model = glm::rotate(go->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//go->transform->setLocalRotationEuler(vec3(-15, 0, 0));
+
 	go->transform->setPosition(vec3(1, 0, 1));
-	go->transform->setLocalScale(vec3(2, 1, 2));
-	go->transform->setLocalRotationEuler(vec3(15, 45, -20));
+	go->transform->setLocalScale(vec3(3, 1, 2));
+	go->transform->setLocalRotationEuler(vec3(35, 0, 0));
+	//go->transform->setLocalRotationEuler(vec3(15, 45, -20));
+
+	glm::vec3 rot = go->transform->getLocalRotationEuler();
+	std::cout << "Rot:  (" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
+	glm::vec3 sc = go->transform->getLocalScale();
+	std::cout << "Scale:(" << sc.x << ", " << sc.y << ", " << sc.z << ")" << std::endl;
+	EngineDebug::PrintMatrix(go->transform->getTranslationMatrix());
+	EngineDebug::PrintMatrix(go->transform->getRotationMatrix());
+	EngineDebug::PrintMatrix(go->transform->getScaleMatrix());
+
+	auto rotator = new SimpleRotator();
+	go->AddComponent(rotator);
 
 	// CAMERA SETUP
 	GameObject* camGo = scene->CreateGameObject("Cam");
@@ -645,8 +654,8 @@ void CreateTestScene8()
 	camGo->AddComponent(cam3);
 	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -8.0f));
 	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//camGo->AddComponent(new TestMoverComponent());
-	camGo->AddComponent(new FreeLookCameraController());
+	camGo->AddComponent(new TestMoverComponent());
+	//camGo->AddComponent(new FreeLookCameraController());
 
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);

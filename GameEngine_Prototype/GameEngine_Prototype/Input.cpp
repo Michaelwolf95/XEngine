@@ -4,9 +4,7 @@
 #include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
 
-
 Input::Input() {}
-
 Input::~Input() {}
 
 Input* Input::CreateManager()
@@ -19,6 +17,7 @@ Input* Input::CreateManager()
 
 void Input::Init()
 {
+	std::cout << "Initializing Input." << std::endl;
 	glfwSetCursorPosCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_CALLBACK);
 	glfwSetScrollCallback(ApplicationManager::APP_WINDOW, INPUT_SCROLL_CALLBACK);
 	isInitialized = true;
@@ -32,15 +31,15 @@ void Input::_mouse_callback(double xpos, double ypos)
 		yPos = ypos;
 		firstMouse = false;
 	}
-	xDeltaPos = xpos - xPos; 
+	xDeltaPos = xpos - xPos;  
 	yDeltaPos = yPos - ypos; // reversed since y-coordinates go from bottom to top
 	xPos = xpos;
 	yPos = ypos;
 }
 void Input::_scroll_callback(double xoffset, double yoffset)
 {
-	xOffset = xoffset;
-	yOffset = yoffset;
+	xScrollOffset = xoffset;
+	yScrollOffset = yoffset;
 }
 
 // glfw: whenever the mouse moves, this callback is called

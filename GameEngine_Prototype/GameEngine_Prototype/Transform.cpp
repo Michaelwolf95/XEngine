@@ -5,12 +5,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/quaternion.hpp>
-//#include <glm/gtx/matrix_decompose.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/matrix_decompose.hpp>
 //#include <glm/gtx/transform.hpp>
-#include "DebugUtility.h"
 #include "RenderManager.h"
+#include "DebugUtility.h"
 using namespace glm;
 
+// TODO: Track the different transformation matrices seperately to save on calculations.
+// That is - don't track the whole model. Translation, scale, and rotation seperately.
 Transform::Transform() : Component::Component()
 {
 	model = glm::mat4(1.0f);
@@ -20,19 +23,13 @@ Transform::~Transform() {}
 
 void Transform::SetParent(Transform * _parent)
 {
-	// ToDo: Make sure the object isn't a child.
+	// TODO: Make sure the object isn't a child.
 	parent = _parent;
 }
 
 
-void Transform::Start()
-{
-
-}
-void Transform::Update()
-{
-
-}
+void Transform::Start() {}
+void Transform::Update() {}
 
 glm::mat4 Transform::getMatrix4x4()
 {
@@ -54,9 +51,20 @@ void Transform::setPosition(glm::vec3 pos)
 glm::quat Transform::getLocalRotation() // Local
 {
 	// This is the rotation matrix. It needs to be converted into a quaternion.
-	mat4 rotMat = getRotationMatrix();
+	//mat4 rotMat = glm::transpose(getRotationMatrix());
+	mat4 rotMat = glm::inverse(getRotationMatrix());
 
 	return quat_cast(rotMat);
+}
+
+// Returns the current local euler rotation in DEGREES.
+glm::vec3 Transform::getLocalRotationEuler()
+{
+	vec3 rot = glm::eulerAngles(getLocalRotation());
+	rot[0] = glm::degrees(rot[0]);
+	rot[1] = glm::degrees(rot[1]);
+	rot[2] = glm::degrees(rot[2]);
+	return rot;
 }
 
 void Transform::setLocalRotation(glm::quat rot)
@@ -65,12 +73,22 @@ void Transform::setLocalRotation(glm::quat rot)
 	mat4 newRotMat = glm::mat4_cast(rot);
 	mat4 scaleMat = getScaleMatrix();
 	mat4 transMat = getTranslationMatrix();
+
 	model = (transMat * newRotMat) * scaleMat;
 }
 
+// Set rotation in terms of euler DEGREES.
 void Transform::setLocalRotationEuler(glm::vec3 rot)
 {
-	rot[0] = glm::radians(rot[0]);
+	for (size_t i = 0; i < 3; i++)
+	{
+		if (rot[i] > 360)
+		{
+			int numOver = ((int)rot[i]) / 360;
+			rot[i] = rot[i] - (360 * numOver);
+		}
+	}
+	rot[0] = glm::radians(rot[0]); 
 	rot[1] = glm::radians(rot[1]);
 	rot[2] = glm::radians(rot[2]);
 	quat qRot(rot);
@@ -79,7 +97,56 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 
 glm::vec3 Transform::getLocalScale()
 {
-	return glm::vec3(model[0][0], model[1][1], model[2][2]);
+	vec3 Scale;
+	vec3 Skew;
+	mat3 Row;
+	vec3 Pdum3;
+
+	// Now get scale and shear.
+	for (length_t i = 0; i < 3; ++i)
+		for (length_t j = 0; j < 3; ++j)
+			Row[i][j] = model[i][j];
+
+	// Compute X scale factor and normalize first row.
+	Scale.x = length(Row[0]);// v3Length(Row[0]);
+
+	Row[0] = detail::scale(Row[0], (float)(1));
+
+	// Compute XY shear factor and make 2nd row orthogonal to 1st.
+	Skew.z = dot(Row[0], Row[1]);
+	Row[1] = detail::combine(Row[1], Row[0], (float)(1), -Skew.z);
+
+	// Now, compute Y scale and normalize 2nd row.
+	Scale.y = length(Row[1]);
+	Row[1] = detail::scale(Row[1], (float)(1));
+	Skew.z /= Scale.y;
+
+	// Compute XZ and YZ shears, orthogonalize 3rd row.
+	Skew.y = glm::dot(Row[0], Row[2]);
+	Row[2] = detail::combine(Row[2], Row[0], (float)(1), -Skew.y);
+	Skew.x = glm::dot(Row[1], Row[2]);
+	Row[2] = detail::combine(Row[2], Row[1], (float)(1), -Skew.x);
+
+	// Next, get Z scale and normalize 3rd row.
+	Scale.z = length(Row[2]);
+	Row[2] = detail::scale(Row[2], (float)(1));
+	Skew.y /= Scale.z;
+	Skew.x /= Scale.z;
+
+	// At this point, the matrix (in rows[]) is orthonormal.
+	// Check for a coordinate system flip.  If the determinant
+	// is -1, then negate the matrix and the scaling factors.
+	Pdum3 = glm::cross(Row[1], Row[2]); // v3Cross(row[1], row[2], Pdum3);
+	if (glm::dot(Row[0], Pdum3) < 0)
+	{
+		for (length_t i = 0; i < 3; i++)
+		{
+			Scale[i] *= (float)(-1);
+			Row[i] *= (float)(-1);
+		}
+	}
+	return Scale;
+	//return glm::vec3(model[0][0], model[1][1], model[2][2]);
 }
 
 void Transform::setLocalScale(glm::vec3 scale)
@@ -110,17 +177,21 @@ glm::mat4 Transform::getRotationMatrix()
 	// R = inv(T)*M*inv(S)
 	glm::mat4 transMat = getTranslationMatrix();
 	glm::mat4 scaleMat = getScaleMatrix();
-	glm::mat4 rotMat = glm::inverse(transMat)*model*glm::inverse(scaleMat);
+	glm::mat4 rotMat = glm::inverse(transMat)*(model*glm::inverse(scaleMat));
 
+	//return rotMat;
 	return glm::transpose(rotMat);
 }
 
 glm::mat4 Transform::getScaleMatrix()
 {
 	mat4 scaleMat(1.0);
-	scaleMat[0][0] = model[0][0];
-	scaleMat[1][1] = model[1][1];
-	scaleMat[2][2] = model[2][2];
+	
+	vec3 Scale = getLocalScale();
+	scaleMat[0][0] = Scale.x;
+	scaleMat[1][1] = Scale.y;
+	scaleMat[2][2] = Scale.z;
+
 	return scaleMat;
 }
 
@@ -142,6 +213,12 @@ glm::vec3 Transform::getUpDirection()
 glm::vec3 Transform::getForwardDirection()
 {
 	return glm::vec3(model[0][2], model[1][2], model[2][2]);
+}
+
+void Transform::lookAt(glm::vec3 lookPos, glm::vec3 up)
+{
+	glm::vec3 pos = getPosition();
+	model = glm::lookAt(pos, lookPos, up);
 }
 
 void Transform::printTransformMatrix()

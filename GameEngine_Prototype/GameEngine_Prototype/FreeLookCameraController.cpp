@@ -13,15 +13,8 @@
 #include "Input.h"
 using namespace glm;
 
-
-FreeLookCameraController::FreeLookCameraController()
-{
-}
-
-
-FreeLookCameraController::~FreeLookCameraController()
-{
-}
+FreeLookCameraController::FreeLookCameraController() {}
+FreeLookCameraController::~FreeLookCameraController() {}
 
 void FreeLookCameraController::Start()
 {
@@ -50,12 +43,15 @@ void FreeLookCameraController::Update()
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
 		gameObject->transform->model = translate(gameObject->transform->model, up * deltaMove);
 
+	// TODO: Set Camera projection matrix using fov.
 	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= Input::getInstance().yOffset;
+		fov -= Input::getInstance().yScrollOffset;
 	if (fov <= 1.0f)
 		fov = 1.0f;
 	if (fov >= 45.0f)
 		fov = 45.0f;
+	//glm::mat4 projection = glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	//RenderManager::getInstance().getCurrentCamera
 
 	//if (firstMouse)
 	//{
@@ -67,12 +63,17 @@ void FreeLookCameraController::Update()
 	float xoffset = Input::getInstance().xDeltaPos;// xpos - lastX;
 	float yoffset = Input::getInstance().yDeltaPos; //lastY - ypos; // reversed since y-coordinates go from bottom to top
 
+	//std::cout << xoffset << ", " << yoffset << std::endl;
+
 	float sensitivity = 0.1f; // change this value to your liking
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 
-	yaw += xoffset;
-	pitch += yoffset;
+	glm::vec3 eulerRot = gameObject->transform->getLocalRotationEuler();
+	pitch = eulerRot.x + yoffset;
+	yaw = eulerRot.y + xoffset;
+	//yaw += xoffset;
+	//pitch += yoffset;
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (pitch > 89.0f)
@@ -80,16 +81,24 @@ void FreeLookCameraController::Update()
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 
+	gameObject->transform->setLocalRotationEuler(
+		glm::vec3(pitch, yaw, eulerRot.z));
+	
 	//glm::vec3 front;
 	//front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	//front.y = sin(glm::radians(pitch));
 	//front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	////cameraFront = glm::normalize(front);
+	//front = glm::normalize(front);
+
+	//cameraFront = glm::normalize(front);
 	//glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
-	// Almost there!
-	
-	gameObject->transform->setLocalRotation(vec3(pitch, yaw, 0.0));
+
+
+	//glm::vec3 lookPos = gameObject->transform->getPosition() - front;
+	//gameObject->transform->lookAt(lookPos);
+
+	//gameObject->transform->setLocalRotation(vec3(pitch, yaw, 0.0));
 }
 
 /*

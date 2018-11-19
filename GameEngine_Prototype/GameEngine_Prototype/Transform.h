@@ -18,6 +18,7 @@ public:
 	glm::vec3 getPosition();
 	void setPosition(glm::vec3 pos);
 	glm::quat getLocalRotation();
+	glm::vec3 getLocalRotationEuler();
 	void setLocalRotation(glm::quat rot);
 	void setLocalRotationEuler(glm::vec3 rot);
 	glm::vec3 getLocalScale();
@@ -30,6 +31,8 @@ public:
 	glm::vec3 getRightDirection();
 	glm::vec3 getUpDirection();
 	glm::vec3 getForwardDirection();
+
+	void lookAt(glm::vec3 lookPos, glm::vec3 up = glm::vec3(0,1,0));
 
 	void DrawGizmo();
 

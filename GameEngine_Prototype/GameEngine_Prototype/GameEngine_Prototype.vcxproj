@@ -152,6 +152,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleModel.cpp" />
     <ClCompile Include="SimpleModelComponent.cpp" />
+    <ClCompile Include="SimpleRotator.cpp" />
     <ClCompile Include="SimpleSprite.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="TestMoverComponent.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleModel.h" />
     <ClInclude Include="SimpleModelComponent.h" />
+    <ClInclude Include="SimpleRotator.h" />
     <ClInclude Include="SimpleSprite.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TestMoverComponent.h" />
