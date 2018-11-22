@@ -41,19 +41,28 @@ glm::vec3 Transform::getPosition()
 	return glm::vec3(model[3]);
 }
 
-void Transform::setPosition(glm::vec3 pos)
+void Transform::setLocalPosition(glm::vec3 pos)
 {
-	model[3].x = pos.x;
-	model[3].y = pos.y;
-	model[3].z = pos.z;
+	//model[3].x = pos.x;
+	//model[3].y = pos.y;
+	//model[3].z = pos.z;
+	translateMatrix[3].x = pos.x;
+	translateMatrix[3].y = pos.y;
+	translateMatrix[3].z = pos.z;
+	UpdateMatrix();
+}
+
+void Transform::setLocalPosition(float x, float y, float z)
+{
+	setLocalPosition(glm::vec3(x, y, z));
 }
 
 glm::quat Transform::getLocalRotation() // Local
 {
 	// This is the rotation matrix. It needs to be converted into a quaternion.
+	mat4 rotMat = getRotationMatrix();
 	//mat4 rotMat = glm::transpose(getRotationMatrix());
-	mat4 rotMat = glm::inverse(getRotationMatrix());
-
+	//mat4 rotMat = glm::inverse(getRotationMatrix());
 	return quat_cast(rotMat);
 }
 
@@ -69,12 +78,19 @@ glm::vec3 Transform::getLocalRotationEuler()
 
 void Transform::setLocalRotation(glm::quat rot)
 {
-	// M = T*R*S
+	//rotateMatrix = glm::inverse(glm::mat4_cast(rot));
+	rotateMatrix = glm::mat4_cast(rot);
+	UpdateMatrix();
+	return;
+	/*
+	// M = T*R*S ... or S*R*T?
 	mat4 newRotMat = glm::mat4_cast(rot);
 	mat4 scaleMat = getScaleMatrix();
 	mat4 transMat = getTranslationMatrix();
 
-	model = (transMat * newRotMat) * scaleMat;
+	//model =  newRotMat * transMat * scaleMat;
+	model = transMat * (newRotMat * scaleMat);
+	*/
 }
 
 // Set rotation in terms of euler DEGREES.
@@ -82,29 +98,58 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 {
 	//for (size_t i = 0; i < 3; i++)
 	//{
-	//	if (rot[i] > 90)
+	//	if (rot[i] > 360)
 	//	{
-	//		int numOver = ((int)rot[i]) / 90;
-	//		rot[i] = -(rot[i] - (90 * numOver));
+	//		int numOver = ((int)rot[i]) / 360;
+	//		rot[i] = -(rot[i] - (360 * numOver));
 	//	}
 	//}
 	//for (size_t i = 0; i < 3; i++)
 	//{
-	//	if (rot[i] < -90)
+	//	if (rot[i] < -360)
 	//	{
-	//		int numOver = ((int)rot[i]) / -90;
-	//		rot[i] = -(rot[i] + (90 * numOver));
+	//		int numOver = ((int)rot[i]) / -360;
+	//		rot[i] = -(rot[i] + (360 * numOver));
 	//	}
 	//}
-	rot[0] = glm::radians(rot[0]); 
-	rot[1] = glm::radians(rot[1]);
-	rot[2] = glm::radians(rot[2]);
-	quat qRot(rot);
-	setLocalRotation(qRot);
+	// Flip XZ to -180 if abs(Y) > 90
+	//if (rot.y >= 90)
+	//{
+	//	rot.x -= 180;
+	//	rot.z -= 180;
+	//	rot.y = 90 - (rot.y - 90); // 180 - rot.y
+	//}
+	//else if (rot.y < 90)
+	//{
+
+	//}
+
+	rot.x = glm::radians(rot.x); 
+	rot.y = glm::radians(rot.y);
+	rot.z = glm::radians(rot.z);
+	
+	glm::quat rotQuat(rot);
+
+	//glm::quat qPitch = glm::angleAxis(rot.x, glm::vec3(1, 0, 0));
+	//glm::quat qYaw = glm::angleAxis(rot.y, glm::vec3(0, 1, 0));
+	//glm::quat qRoll = glm::angleAxis(rot.z, glm::vec3(0, 0, 1));
+	///x,y,z are in radians
+	//glm::quat rotQuat = qYaw * qPitch * qRoll;
+	//glm::quat rotQuat = qPitch * qYaw * qRoll;
+
+	setLocalRotation(rotQuat);
+}
+
+void Transform::setLocalRotationEuler(float x, float y, float z)
+{
+	setLocalRotationEuler(glm::vec3(x, y, z));
 }
 
 glm::vec3 Transform::getLocalScale()
 {
+
+	return glm::vec3(scaleMatrix[0][0], scaleMatrix[1][1], scaleMatrix[2][2]);
+	/*
 	vec3 Scale;
 	vec3 Skew;
 	mat3 Row;
@@ -155,52 +200,87 @@ glm::vec3 Transform::getLocalScale()
 	}
 	return Scale;
 	//return glm::vec3(model[0][0], model[1][1], model[2][2]);
+	*/
 }
 
 void Transform::setLocalScale(glm::vec3 scale)
 {
 	// M = T*R*S
-	mat4 scaleMat(1.0);
-	scaleMat[0][0] = scale.x;
-	scaleMat[1][1] = scale.y;
-	scaleMat[2][2] = scale.z;
+	//mat4 scaleMat(1.0);
 
+	scaleMatrix[0][0] = scale.x;
+	scaleMatrix[1][1] = scale.y;
+	scaleMatrix[2][2] = scale.z;
+
+	UpdateMatrix();
 	//model = transMat * rotMat * scaleMat;
-	model = (model * inverse(getScaleMatrix())) * scaleMat;
+	//model = (model * inverse(getScaleMatrix())) * scaleMat;
+}
+
+void Transform::setLocalScale(float x, float y, float z)
+{
+	setLocalScale(glm::vec3(x, y, z));
 }
 
 void Transform::Translate(glm::vec3 translation)
 {
-	model = glm::translate(model, translation);
+	//model = glm::translate(model, translation);
+	translateMatrix = glm::translate(translateMatrix, translation);
+	UpdateMatrix();
 }
 
 void Transform::Rotate(glm::vec3 rotation)
 {
 	if (rotation.x != 0)
-		model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+	{
+		//model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+	}
 	if (rotation.y != 0)
-		model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+	{
+		//model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+	}
 	if (rotation.z != 0)
-		model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
+	{
+		//model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
+		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+	}
+	UpdateMatrix();
 }
 
 void Transform::Scale(glm::vec3 scale)
 {
-	model = glm::scale(model, scale);
+	//model = glm::scale(model, scale);
+	scaleMatrix = glm::scale(scaleMatrix, scale);
+	UpdateMatrix();
+}
+
+void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
+{
+	glm::vec3 pos = getPosition();
+	//model = glm::lookAt(pos, lookPos, up);
+	rotateMatrix = glm::lookAt(pos, lookPos, up);
+	UpdateMatrix();
 }
 
 glm::mat4 Transform::getTranslationMatrix()
 {
+	return translateMatrix;
+	/*
 	mat4 transMat(1.0);
 	transMat[3][0] = model[3][0];
 	transMat[3][1] = model[3][1];
 	transMat[3][2] = model[3][2];
 	//::PrintMatrix(transMat);
 	return transMat;
+	*/
 }
 
 glm::mat4 Transform::getRotationMatrix()
 {
+	return rotateMatrix;
+	/*
 	// M = T*R*S
 	// R = inv(T)*M*inv(S)
 	glm::mat4 transMat = getTranslationMatrix();
@@ -209,10 +289,13 @@ glm::mat4 Transform::getRotationMatrix()
 
 	//return rotMat;
 	return glm::transpose(rotMat);
+	*/
 }
 
 glm::mat4 Transform::getScaleMatrix()
 {
+	return scaleMatrix;
+	/*
 	mat4 scaleMat(1.0);
 	
 	vec3 Scale = getLocalScale();
@@ -221,6 +304,7 @@ glm::mat4 Transform::getScaleMatrix()
 	scaleMat[2][2] = Scale.z;
 
 	return scaleMat;
+	*/
 }
 
 /* https://stackoverflow.com/questions/50081475/opengl-local-up-and-right-from-matrix-4x4
@@ -243,12 +327,6 @@ glm::vec3 Transform::getForwardDirection()
 	return glm::vec3(model[0][2], model[1][2], model[2][2]);
 }
 
-void Transform::lookAt(glm::vec3 lookPos, glm::vec3 up)
-{
-	glm::vec3 pos = getPosition();
-	model = glm::lookAt(pos, lookPos, up);
-}
-
 void Transform::printTransformMatrix()
 {
 	//mat4 tModel = glm::transpose(model);
@@ -265,10 +343,15 @@ void Transform::printTransformMatrix()
 	
 }
 
+void Transform::UpdateMatrix()
+{
+	model = scaleMatrix * translateMatrix * rotateMatrix;
+}
+
 void Transform::DrawGizmo()
 {
-	glm::vec3 pos = gameObject->transform->getPosition();
-	glm::mat4 model = gameObject->transform->model;
+	glm::vec3 pos = getPosition();
+	//glm::mat4 model = gameObject->transform->model;
 	glm::mat4 rotMat = getRotationMatrix();
 	//RenderManager::DrawWorldSpacePoint(pos, vec4(1, 1, 1, 1), 5);
 	vec3 right = vec3(vec4(1, 0, 0, 0)*rotMat);

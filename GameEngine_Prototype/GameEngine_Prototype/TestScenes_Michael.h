@@ -40,8 +40,8 @@ void CreateTestScene_EXAMPLE();
 
 void RunTestScene_Michael()
 {
-	//CreateTestScene_EXAMPLE();
-	CreateTestScene7();
+	CreateTestScene_EXAMPLE();
+	//CreateTestScene7();
 }
 
 
@@ -112,14 +112,14 @@ void CreateTestScene_EXAMPLE()
 	model->Setup();
 	cube->AddComponent(model);
 	
-	cube->transform->setPosition(glm::vec3(0, 0, 0));
+	cube->transform->setLocalPosition(glm::vec3(0, 0, 0));
 
 	// Create Camera GameObject
 	GameObject* camGo = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
 
-	camGo->transform->setPosition(glm::vec3(0, -1, -5));
+	camGo->transform->setLocalPosition(glm::vec3(0, -1, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
 
 	auto rotator = new ExampleRotator();
@@ -515,7 +515,7 @@ void CreateTestScene8()
 	cubeModel->Setup();
 	go->AddComponent(cubeModel);
 
-	go->transform->setPosition(vec3(1, 0, 1));
+	go->transform->setLocalPosition(vec3(1, 0, 1));
 	go->transform->setLocalScale(vec3(3, 1, 2));
 	go->transform->setLocalRotationEuler(vec3(35, 0, 0));
 	//go->transform->setLocalRotationEuler(vec3(15, 45, -20));

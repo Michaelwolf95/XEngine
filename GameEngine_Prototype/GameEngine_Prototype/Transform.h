@@ -16,17 +16,21 @@ public:
 	void Update() override;
 	glm::mat4 getMatrix4x4();
 	glm::vec3 getPosition();
-	void setPosition(glm::vec3 pos);
+	void setLocalPosition(glm::vec3 pos);
+	void setLocalPosition(float x, float y, float z);
 	glm::quat getLocalRotation();
 	glm::vec3 getLocalRotationEuler();
 	void setLocalRotation(glm::quat rot);
 	void setLocalRotationEuler(glm::vec3 rot);
+	void setLocalRotationEuler(float x, float y, float z);
 	glm::vec3 getLocalScale();
 	void setLocalScale(glm::vec3 scale);
+	void setLocalScale(float x, float y, float z);
 
 	void Translate(glm::vec3 translation);
 	void Rotate(glm::vec3 rotation);
 	void Scale(glm::vec3 scale);
+	void LookAt(glm::vec3 lookPos, glm::vec3 up = glm::vec3(0,1,0));
 
 	glm::mat4 getTranslationMatrix();
 	glm::mat4 getRotationMatrix();
@@ -36,8 +40,6 @@ public:
 	glm::vec3 getUpDirection();
 	glm::vec3 getForwardDirection();
 
-	void lookAt(glm::vec3 lookPos, glm::vec3 up = glm::vec3(0,1,0));
-
 	void DrawGizmo();
 
 	void printTransformMatrix();
@@ -45,5 +47,9 @@ public:
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 private: 
 	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 translateMatrix = glm::mat4(1.0f);
+	glm::mat4 rotateMatrix = glm::mat4(1.0f);
+	glm::mat4 scaleMatrix = glm::mat4(1.0f);
+	void UpdateMatrix();
 };
 
