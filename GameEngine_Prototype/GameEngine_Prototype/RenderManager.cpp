@@ -12,6 +12,7 @@ Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
 
+//TODO: Store this on the Camera.
 glm::vec4 clearColor = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f );
 
 // Create static instance

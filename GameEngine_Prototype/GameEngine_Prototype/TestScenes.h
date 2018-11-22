@@ -9,10 +9,10 @@ DO NOT COMMIT THE CHANGES TO THIS FILE.
 */
 
 #include "TestScenes_Michael.h"
-#include "TestScenes_Tam.h"
-#include "TestScenes_James.h"
-#include "TestScenes_Donato.h"
-#include "TestScenes_Dennis.h"
+//#include "TestScenes_Tam.h"
+//#include "TestScenes_James.h"
+//#include "TestScenes_Donato.h"
+//#include "TestScenes_Dennis.h"
 
 
 void RunTestScene()

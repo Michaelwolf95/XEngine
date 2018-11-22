@@ -19,6 +19,7 @@
 #include "CameraSwapper.h"
 #include "FreeLookCameraController.h"
 #include "SimpleRotator.h"
+#include "ExampleRotator.h"
 using namespace std;
 
 void ChooseTestScene();
@@ -33,10 +34,105 @@ void CreateTestScene6();
 void CreateTestScene7();
 void CreateTestScene8();
 
+
+
+void CreateTestScene_EXAMPLE();
+
 void RunTestScene_Michael()
 {
-	CreateTestScene8();
+	CreateTestScene_EXAMPLE();
 }
+
+
+void CreateTestScene_EXAMPLE()
+{
+	Scene* scene = new Scene("EXAMPLE SCENE");
+
+	GameObject* cube = scene->CreateGameObject("Cube");
+	// Create Cube Model
+	float vertices[] = {
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
+		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
+		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
+		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
+		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
+		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	};
+	unsigned int indices[] = {
+		0, 1, 2,	0, 2, 3,      // front
+		4, 5, 6,	4, 6, 7,      // back
+		8, 9, 10,	8, 10, 11,    // top
+		12, 13, 14, 12, 14, 15,   // bottom
+		16, 17, 18, 16, 18, 19,   // right
+		20, 21, 22, 20, 22, 23,   // left
+	};
+
+	Shader* modelShader = new Shader("model.vs", "model.fs");
+	Material* modelMaterial = new Material(modelShader);
+	modelMaterial->LoadTexture("textures/container.jpg");
+
+	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, 
+		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	model->Setup();
+	cube->AddComponent(model);
+	
+	cube->transform->setPosition(glm::vec3(0, 0, 0));
+
+	// Create Camera GameObject
+	GameObject* camGo = scene->CreateGameObject("Camera");
+	CameraComponent* camera = new CameraComponent();
+	camGo->AddComponent(camera);
+
+	camGo->transform->setPosition(glm::vec3(0, -1, -5));
+	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
+
+	auto rotator = new ExampleRotator();
+	cube->AddComponent(rotator);
+	rotator->rotationSpeed = 10;
+
+
+	SceneManager::getInstance().SetActiveScene(scene);
+}
+
+
+
+
+
 
 float CUBE_VERTS[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
@@ -383,6 +479,7 @@ void CreateTestScene5()
 	go2->AddComponent(testModel2);
 	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
 	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);
 }
