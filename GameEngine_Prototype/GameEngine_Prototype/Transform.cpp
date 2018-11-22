@@ -169,6 +169,26 @@ void Transform::setLocalScale(glm::vec3 scale)
 	model = (model * inverse(getScaleMatrix())) * scaleMat;
 }
 
+void Transform::Translate(glm::vec3 translation)
+{
+	model = glm::translate(model, translation);
+}
+
+void Transform::Rotate(glm::vec3 rotation)
+{
+	if (rotation.x != 0)
+		model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+	if (rotation.y != 0)
+		model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+	if (rotation.z != 0)
+		model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
+}
+
+void Transform::Scale(glm::vec3 scale)
+{
+	model = glm::scale(model, scale);
+}
+
 glm::mat4 Transform::getTranslationMatrix()
 {
 	mat4 transMat(1.0);

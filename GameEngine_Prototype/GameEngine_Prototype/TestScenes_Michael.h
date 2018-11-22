@@ -123,7 +123,7 @@ void CreateTestScene_EXAMPLE()
 
 	auto rotator = new ExampleRotator();
 	cube->AddComponent(rotator);
-	rotator->rotationSpeed = 10;
+	rotator->rotationSpeed = 90;
 
 
 	SceneManager::getInstance().SetActiveScene(scene);
@@ -477,8 +477,8 @@ void CreateTestScene5()
 		modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
-	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+	go2->transform->Translate(glm::vec3(0.0f, -2.5f, -10.0f));
+	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
 
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);
@@ -563,29 +563,29 @@ void CreateTestScene6()
 		modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, 0.0f));
-	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+	go2->transform->Translate(glm::vec3(0.0f, -2.5f, 0.0f));
+	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
 
 	// CAMERA SETUP
 
 	GameObject* camGo1 = scene->CreateGameObject("Cam1");
 	CameraComponent* cam1 = new CameraComponent();
 	camGo1->AddComponent(cam1);
-	camGo1->transform->model = glm::translate(camGo1->transform->model, glm::vec3(1.0f, -1.0f, -7.0f));
-	camGo1->transform->model = glm::rotate(camGo1->transform->model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	camGo1->transform->model = glm::rotate(camGo1->transform->model, glm::radians(10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo1->transform->Translate(glm::vec3(1.0f, -1.0f, -7.0f));
+	camGo1->transform->Rotate(glm::vec3(0.0f, 20.0f, 0.0f));
+	camGo1->transform->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 
 	GameObject* camGo2 = scene->CreateGameObject("Cam2");
 	CameraComponent* cam2 = new CameraComponent();
 	camGo2->AddComponent(cam2);
-	camGo2->transform->model = glm::translate(camGo2->transform->model, glm::vec3(-1.0f, -1.0f, -7.0f));
-	camGo2->transform->model = glm::rotate(camGo2->transform->model, glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	camGo2->transform->model = glm::rotate(camGo2->transform->model, glm::radians(10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo2->transform->Translate(glm::vec3(-1.0f, -1.0f, -7.0f));
+	camGo2->transform->Rotate(glm::vec3(0.0f, -20.0f, 0.0f));
+	camGo2->transform->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 
 	GameObject* camGo3 = scene->CreateGameObject("Cam3 (Moving)");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo3->AddComponent(cam3);
-	camGo3->transform->model = glm::rotate(camGo3->transform->model, glm::radians(10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo3->transform->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 	camGo3->AddComponent(new TestMoverComponent());
 
 	GameObject* swapperGo = scene->CreateGameObject("Swapper");
@@ -679,8 +679,8 @@ void CreateTestScene7()
 
 	GameObject* lightGo = scene->CreateGameObject("Light");
 	lightGo->AddComponent(new LightComponent());
-	lightGo->transform->model = glm::translate(lightGo->transform->model, glm::vec3(0.0f, 1.5f, 0.0f));
-	lightGo->transform->model = glm::scale(lightGo->transform->model, glm::vec3(0.2f));
+	lightGo->transform->Translate(glm::vec3(0.0f, 1.5f, 0.0f));
+	lightGo->transform->Scale(glm::vec3(0.2f));
 	lightGo->AddComponent(new TestMoverComponent());
 	SimpleModelComponent* lamp = new SimpleModelComponent(vertices, 36, 5,
 		indices, sizeof(indices) / sizeof(unsigned int), unlitMaterial);
@@ -692,8 +692,8 @@ void CreateTestScene7()
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo->AddComponent(cam3);
-	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -4.5f));
-	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -4.5f));
+	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 	//camGo->AddComponent(new TestMoverComponent());
 
 
@@ -720,8 +720,8 @@ void CreateTestScene8()
 		modelMaterial);
 	floorModel2->Setup();
 	go2->AddComponent(floorModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -5.0f, 0.0f));
-	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+	go2->transform->Translate(glm::vec3(0.0f, -5.0f, 0.0f));
+	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
 
 	GameObject* go = scene->CreateGameObject("Cube");
 	SimpleModelComponent* cubeModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
@@ -749,8 +749,8 @@ void CreateTestScene8()
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo->AddComponent(cam3);
-	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -8.0f));
-	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -8.0f));
+	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 	camGo->AddComponent(new TestMoverComponent());
 	//camGo->AddComponent(new FreeLookCameraController());
 

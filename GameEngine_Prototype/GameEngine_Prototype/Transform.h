@@ -24,6 +24,10 @@ public:
 	glm::vec3 getLocalScale();
 	void setLocalScale(glm::vec3 scale);
 
+	void Translate(glm::vec3 translation);
+	void Rotate(glm::vec3 rotation);
+	void Scale(glm::vec3 scale);
+
 	glm::mat4 getTranslationMatrix();
 	glm::mat4 getRotationMatrix();
 	glm::mat4 getScaleMatrix();
@@ -39,7 +43,7 @@ public:
 	void printTransformMatrix();
 
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
-//private: 
+private: 
 	glm::mat4 model = glm::mat4(1.0f);
 };
 
