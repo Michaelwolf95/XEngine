@@ -121,18 +121,18 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 	//}
 	//else if (rot.y < 90)
 	//{
-
 	//}
 
 	rot.x = glm::radians(rot.x); 
 	rot.y = glm::radians(rot.y);
 	rot.z = glm::radians(rot.z);
 	
-	glm::quat rotQuat(rot);
+	glm::quat rotQuat = glm::quat(rot);
+	
 
-	//glm::quat qPitch = glm::angleAxis(rot.x, glm::vec3(1, 0, 0));
-	//glm::quat qYaw = glm::angleAxis(rot.y, glm::vec3(0, 1, 0));
-	//glm::quat qRoll = glm::angleAxis(rot.z, glm::vec3(0, 0, 1));
+	glm::quat qPitch = glm::angleAxis(rot.x, glm::vec3(1, 0, 0));
+	glm::quat qYaw = glm::angleAxis(rot.y, glm::vec3(0, 1, 0));
+	glm::quat qRoll = glm::angleAxis(rot.z, glm::vec3(0, 0, 1));
 	///x,y,z are in radians
 	//glm::quat rotQuat = qYaw * qPitch * qRoll;
 	//glm::quat rotQuat = qPitch * qYaw * qRoll;
@@ -315,16 +315,19 @@ forward = glm::vec3(matrix[0][2], matrix[1][2], matrix[2][2]);
 
 glm::vec3 Transform::getRightDirection()
 {
-	return glm::vec3(model[0][0], model[1][0], model[2][0]);
+	glm::mat4 mat = glm::inverse(rotateMatrix);
+	return glm::vec3(mat[0][0], mat[1][0], mat[2][0]);
 }
 glm::vec3 Transform::getUpDirection()
 {
-	return glm::vec3(model[0][1], model[1][1], model[2][1]);
+	glm::mat4 mat = glm::inverse(rotateMatrix);
+	return glm::vec3(mat[0][1], mat[1][1], mat[2][1]);
 
 }
 glm::vec3 Transform::getForwardDirection()
 {
-	return glm::vec3(model[0][2], model[1][2], model[2][2]);
+	glm::mat4 mat = glm::inverse(rotateMatrix);
+	return glm::vec3(mat[0][2], mat[1][2], mat[2][2]);
 }
 
 void Transform::printTransformMatrix()
@@ -345,18 +348,25 @@ void Transform::printTransformMatrix()
 
 void Transform::UpdateMatrix()
 {
+	// M = T*R*S ... or S*R*T? ... or S*T*R??
+	//http://headerphile.com/uncategorized/opengl-matrix-operations/
 	model = scaleMatrix * translateMatrix * rotateMatrix;
+	//model =  translateMatrix * rotateMatrix * scaleMatrix;
 }
 
 void Transform::DrawGizmo()
 {
 	glm::vec3 pos = getPosition();
 	//glm::mat4 model = gameObject->transform->model;
+	//glm::mat4 rotMat = glm::inverse(getRotationMatrix());
 	glm::mat4 rotMat = getRotationMatrix();
 	//RenderManager::DrawWorldSpacePoint(pos, vec4(1, 1, 1, 1), 5);
-	vec3 right = vec3(vec4(1, 0, 0, 0)*rotMat);
-	vec3 up = vec3(vec4(0, 1, 0, 0)*rotMat);
-	vec3 forward = vec3(vec4(0, 0, 1, 0)*rotMat);
+	//vec3 right = vec3(vec4(1, 0, 0, 0)*rotMat);
+	//vec3 up = vec3(vec4(0, 1, 0, 0)*rotMat);
+	//vec3 forward = vec3(vec4(0, 0, 1, 0)*rotMat);
+	vec3 right = glm::normalize(getRightDirection());
+	vec3 up = glm::normalize(getUpDirection());
+	vec3 forward = glm::normalize(getForwardDirection());
 	float L = 0.5;
 	float sL = 0.1;
 	RenderManager::DrawWorldSpaceLine(pos, pos + right*L, vec4(1, 0, 0, 1), 3);
@@ -369,7 +379,7 @@ void Transform::DrawGizmo()
 	RenderManager::DrawWorldSpacePoint(pos + forward * L, vec4(0, 0, 1, 1), 5);
 
 	// Squares
-	RenderManager::DrawWorldSpaceLine(pos + right*sL, pos + vec3(vec4(sL, 0, sL, 0)*rotMat), vec4(0.5, 0.5, 0.5, 1), 3);
-	RenderManager::DrawWorldSpaceLine(pos + forward*sL, pos + vec3(vec4(sL, 0, sL, 0)*rotMat), vec4(0.5, 0.5, 0.5, 1), 3);
+	RenderManager::DrawWorldSpaceLine(pos + right*sL, pos + (right+forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
+	RenderManager::DrawWorldSpaceLine(pos + forward*sL, pos + (right + forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
 
 }

@@ -15,7 +15,7 @@ void ExampleRotator::Start()
 
 void ExampleRotator::Update()
 {
-	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
+	
 	float deltaY = rotationSpeed * Time::deltaTime;
 
 	float horizontal = 0;
@@ -27,12 +27,19 @@ void ExampleRotator::Update()
 
 	deltaY *= horizontal;
 
+	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
+
 	// Currently broken API
 	glm::vec3 newRot = glm::vec3(rot.x, rot.y + deltaY, rot.z);
 	gameObject->transform->setLocalRotationEuler(newRot);
 
 	// Rotate using glm Rotate. This one DOESN'T break.
 	//gameObject->transform->Rotate(glm::vec3(0, deltaY, 0));
+
+	//glm::quat qRot = gameObject->transform->getLocalRotation();
+	//glm::mat4 rotMat = mat4_cast(qRot);
+	//glm::quat qRot2 = quat_cast(rotMat);
+	//gameObject->transform->setLocalRotation(qRot2);
 
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
@@ -41,6 +48,8 @@ void ExampleRotator::Update()
 			gameObject->transform->printTransformMatrix();
 			glm::vec3 rotDeg = gameObject->transform->getLocalRotationEuler();
 			std::cout << "Rot:  (" << rotDeg.x << ", " << rotDeg.y << ", " << rotDeg.z << ")" << std::endl;
+			glm::quat rotQuat = gameObject->transform->getLocalRotation();
+			std::cout << "RotQ: (" << rotQuat.x << ", " << rotQuat.y << ", " << rotQuat.z << ", " << rotQuat.w << ")" << std::endl;
 			glm::vec3 scale = gameObject->transform->getLocalScale();
 			std::cout << "Scale:(" << scale.x << ", " << scale.y << ", " << scale.z << ")" << std::endl;
 			
