@@ -27,7 +27,7 @@ void ExampleRotator::Update()
 	deltaY *= horizontal;
 
 	// Currently broken API
-	glm::vec3 newRot = glm::vec3(rot.x, rot.y + deltaY, rot.z);
+	//glm::vec3 newRot = glm::vec3(rot.x, rot.y + deltaY, rot.z);
 	//gameObject->transform->setLocalRotationEuler(newRot);
 
 	// Rotate using glm Rotate. This one DOESN'T break.

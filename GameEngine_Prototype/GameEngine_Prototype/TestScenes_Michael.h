@@ -40,7 +40,8 @@ void CreateTestScene_EXAMPLE();
 
 void RunTestScene_Michael()
 {
-	CreateTestScene_EXAMPLE();
+	//CreateTestScene_EXAMPLE();
+	CreateTestScene7();
 }
 
 
@@ -336,64 +337,10 @@ void CreateTestScene3()
 
 void CreateTestScene4()
 {
-	// Cube
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
 	Shader* modelShader = new Shader("model.vs", "model.fs");
 	Material* modelMaterial = new Material(modelShader);
-	SimpleModel* testModel = new SimpleModel(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModel* testModel = new SimpleModel(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 	modelMaterial->LoadTexture("textures/container.jpg");
 
@@ -406,60 +353,8 @@ void CreateTestScene5()
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 
-	// Create Cube Model
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
-	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 
 	// Create Scene
@@ -471,10 +366,8 @@ void CreateTestScene5()
 
 	// Create Floor
 	GameObject* go2 = scene->CreateGameObject("Floor");
-	SimpleModelComponent* testModel2 = new SimpleModelComponent(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModelComponent* testModel2 = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
 	go2->transform->Translate(glm::vec3(0.0f, -2.5f, -10.0f));
@@ -491,60 +384,8 @@ void CreateTestScene6()
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 
-	// Create Cube Model
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
-	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 
 
@@ -557,10 +398,8 @@ void CreateTestScene6()
 
 	// Create Floor
 	GameObject* go2 = scene->CreateGameObject("Floor");
-	SimpleModelComponent* testModel2 = new SimpleModelComponent(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModelComponent* testModel2 = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
 	go2->transform->Translate(glm::vec3(0.0f, -2.5f, 0.0f));
@@ -612,61 +451,8 @@ void CreateTestScene7()
 	unlitMaterial->Color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 	//unlitMaterial->LoadTexture("textures/container.jpg");
 
-
-	// Create Cube Model
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
-	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 
 
@@ -682,8 +468,8 @@ void CreateTestScene7()
 	lightGo->transform->Translate(glm::vec3(0.0f, 1.5f, 0.0f));
 	lightGo->transform->Scale(glm::vec3(0.2f));
 	lightGo->AddComponent(new TestMoverComponent());
-	SimpleModelComponent* lamp = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), unlitMaterial);
+	SimpleModelComponent* lamp = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), unlitMaterial);
 	lamp->Setup();
 	lightGo->AddComponent(lamp);
 
