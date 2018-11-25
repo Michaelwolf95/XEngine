@@ -96,12 +96,12 @@ void CreateTestScene_DM1()
 	
 	cube->AddComponent(model);
 	
-	cube->transform->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	cube->transform->setLocalPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	GameObject* cameraObject = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	cameraObject->AddComponent(camera);
-	cameraObject->transform->setPosition(glm::vec3(0.0f, -0.5f, -2.0f));
+	cameraObject->transform->setLocalPosition(glm::vec3(0.0f, -0.5f, -2.0f));
 	cameraObject->transform->setLocalRotationEuler(glm::vec3(20.0f, 0.0f, 0.0f));
 	//cameraObject->AddComponent(new TestMoverComponent());
 

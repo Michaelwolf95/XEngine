@@ -37,5 +37,5 @@ void ExampleRotator::Update()
 	deltaY *= horizontal;
 
 	glm::vec3 newRot = glm::vec3(rot.x, rot.y+deltaY, rot.z);
-	gameObject->transform->model = glm::rotate(gameObject->transform->model, deltaY, glm::vec3(0, 1, 0));
+	gameObject->transform->Rotate(glm::vec3(0, deltaY, 0));
 }
