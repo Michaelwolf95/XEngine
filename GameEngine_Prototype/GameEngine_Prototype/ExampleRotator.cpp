@@ -3,6 +3,7 @@
 #include "Time.h"
 //#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
+#include "Input.h"
 
 
 
@@ -29,6 +30,11 @@ void ExampleRotator::Update()
 
 	float horizontal = 0;
 	//Input::GetButtonHold(KEY_CODE); // returns true or false
+	for (int i = 0; i < sizeof(Input::getInstance().keys) / sizeof(Input::KeyPressed); i++)
+	{
+		std::cout << i << std::endl;
+
+	}
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_LEFT) == GLFW_PRESS)
 		horizontal += -1;
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_RIGHT) == GLFW_PRESS)

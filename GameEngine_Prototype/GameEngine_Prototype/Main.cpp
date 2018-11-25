@@ -43,7 +43,7 @@ int main()
 		SceneManager::getInstance().UpdateActiveScene();
 
 		RenderManager::getInstance().Render();
-		Input::getInstance().passFunction(32, functionInMain);
+		Input::getInstance().setKeyFunction(32, functionInMain);
 		Input::getInstance().checkKeyInputs();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}

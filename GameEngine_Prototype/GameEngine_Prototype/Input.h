@@ -6,10 +6,10 @@
 #include <vector>
 #include <functional>
 
-enum KeyCode
-{
-
-};
+//enum KeyCode
+//{
+//
+//};
 
 void INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos);
 void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
@@ -34,6 +34,7 @@ void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
 
 class Input : public Singleton<Input>
 {
+public:
 	struct KeyPressed
 	{		
 		bool isEnabled = false;
@@ -50,8 +51,8 @@ public:
 	double yPos;
 	double xDeltaPos;
 	double yDeltaPos;
-	double yaw;
-	double pitch;
+	//double yaw;
+	//double pitch;
 	double xScrollOffset;
 	double yScrollOffset;
 	bool firstMouse = true;
@@ -66,10 +67,7 @@ public:
 	double timeKeyUp(int glfw_key);
 	double timeKeyPressReleaseDelta(int glfw_key);
 	void setKeyFunction(int glfw_key, std::function<void()> func);
- 
-
-	static void test();
-
+	// TODO: Input::GetButtonHold(KEY_CODE); // returns true or false
 
 
 	// TODO: Symmetric array can be implemented that hold functions 

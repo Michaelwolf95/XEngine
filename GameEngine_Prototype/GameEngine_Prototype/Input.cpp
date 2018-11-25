@@ -193,7 +193,13 @@ void Input::setKeyFunction(int glfw_key, std::function<void()> func)
 	keys[glfw_key].function = func;
 }
 
-void Input::test()
+void Input::callKeyFunction(int glfw_key)
 {
-	std::cout << "testing!" << std::endl;
+	keys[glfw_key].function();
 }
+
+
+//int main()
+//{
+//
+//}
