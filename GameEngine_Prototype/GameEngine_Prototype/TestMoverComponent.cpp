@@ -30,15 +30,15 @@ void TestMoverComponent::Update()
 
 	float deltaMove = moveSpeed * Time::deltaTime;
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, deltaMove * forward);
+		gameObject->transform->Translate(deltaMove * forward);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_S) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, -deltaMove * forward);
+		gameObject->transform->Translate(-deltaMove * forward);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_A) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, -glm::normalize(glm::cross(forward, up)) * deltaMove);
+		gameObject->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_D) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, glm::normalize(glm::cross(forward, up)) * deltaMove);
+		gameObject->transform->Translate(glm::normalize(glm::cross(forward, up)) * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_Q) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, -up * deltaMove);
+		gameObject->transform->Translate(-up * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, up * deltaMove);
+		gameObject->transform->Translate(up * deltaMove);
 }
