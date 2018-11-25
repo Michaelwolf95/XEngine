@@ -1,3 +1,4 @@
+#define GLM_FORCE_RADIANS
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -14,8 +15,8 @@
 
 #include "TestScenes.h"
 
-unsigned int __stdcall mythread(void* data);
-long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp, LPARAM lp);
+//unsigned int __stdcall mythread(void* data);
+//long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp, LPARAM lp);
 
 void functionInMain();
 
