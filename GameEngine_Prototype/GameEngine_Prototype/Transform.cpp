@@ -14,31 +14,66 @@
 using namespace glm;
 
 //http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+// Order: Yaw, Roll, Pitch
 static void toEulerAngle(const glm::quat& q, float& pitch, float& yaw, float& roll)
 {
-	float test = q.x*q.y + q.z*q.w;
-	std::cout << "Test: " << test << std::endl;
-	if (test > 0.499) { // singularity at north pole
+	double test = ((double)q.x*(double)q.y) + ((double)q.z*(double)q.w);
+	//double test = (double)q.x*(double)q.w + (double)q.y*(double)q.z;
+	if (test > 0.4999) { // singularity at north pole
 		yaw = 2 * atan2(q.x, q.w);
-		roll = glm::pi<double>() / 2;
+		roll = glm::pi<float>() / 2;
 		pitch = 0;
-		std::cout << "Singularity North." << std::endl;
+		std::cout << "Singularity North: " << test << ", " << q.w << std::endl;
+		std::cout << "Rot:  (" << pitch << ", " << yaw << ", " << roll << ")" << std::endl;
 		return;
 	}
-	if (test < -0.499) { // singularity at south pole
+	if (test < -0.4999) { // singularity at south pole
 		yaw = -2 * atan2(q.x, q.w);
-		roll = -glm::pi<double>() / 2;
+		roll = -glm::pi<float>() / 2;
 		pitch = 0;
-		std::cout << "Singularity South." << std::endl;
+		std::cout << "Singularity South: " << test << ", " << q.w << std::endl;
+		std::cout << "Rot:  (" << pitch << ", " << yaw << ", " << roll << ")" << std::endl;
 		return;
 	}
 
-	double sqx = q.x*q.x;
-	double sqy = q.y*q.y;
-	double sqz = q.z*q.z;
+	double sqx = ((double)q.x)*((double)q.x);
+	double sqy = ((double)q.y)*(double)q.y;
+	double sqz = ((double)q.z)*(double)q.z;
 	yaw = atan2(2 * q.y*q.w - 2 * q.x*q.z, 1 - 2 * sqy - 2 * sqz);
-	roll = asin(2 * test);
+	roll = asin(2 * ((double)q.x*(double)q.y + (double)q.z*(double)q.w));
 	pitch = atan2(2 * q.x*q.w - 2 * q.y*q.z, 1 - 2 * sqx - 2 * sqz);
+}
+//https://answers.unity.com/questions/1324251/quaternion-to-euler-conversion-singularities.html
+static glm::vec3 toEulerAngles(glm::quat q1)
+{
+	float sqw = q1.w * q1.w;
+	float sqx = q1.x * q1.x;
+	float sqy = q1.y * q1.y;
+	float sqz = q1.z * q1.z;
+	float unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+	float test = q1.x * q1.w - q1.y * q1.z;
+	glm::vec3 v;
+
+	if (test > 0.4995f * unit)
+	{ // singularity at north pole
+		v.y = 2.0f * atan2(q1.y, q1.x);
+		v.x = glm::pi<float>() / 2.0;
+		v.z = 0;
+		return v;
+	}
+	if (test < -0.4995f * unit)
+	{ // singularity at south pole
+		v.y = -2.0f * atan2(q1.y, q1.x);
+		v.x = -glm::pi<float>() / 2;
+		v.z = 0;
+		return v;
+	}
+
+	glm::quat q(q1.w, q1.z, q1.x, q1.y);
+	v.z = (float)atan2(2.0f * q.x * q.y + 2.0f * q.z * q.w, 1 - 2.0f * (q.y * q.y + q.z * q.z));     // Roll
+	v.y = (float)atan2(2.0f * q.x * q.w + 2.0f * q.y * q.z, 1 - 2.0f * (q.z * q.z + q.w * q.w));     // Yaw
+	v.x = (float)asin(2.0f * (q.x * q.z - q.w * q.y));    // Pitch     
+	return v;
 }
 
 // TODO: Track the different transformation matrices seperately to save on calculations.
@@ -72,9 +107,6 @@ glm::vec3 Transform::getPosition()
 
 void Transform::setLocalPosition(glm::vec3 pos)
 {
-	//model[3].x = pos.x;
-	//model[3].y = pos.y;
-	//model[3].z = pos.z;
 	translateMatrix[3].x = pos.x;
 	translateMatrix[3].y = pos.y;
 	translateMatrix[3].z = pos.z;
@@ -90,8 +122,6 @@ glm::quat Transform::getLocalRotation() // Local
 {
 	// This is the rotation matrix. It needs to be converted into a quaternion.
 	mat4 rotMat = getRotationMatrix();
-	//mat4 rotMat = glm::transpose(getRotationMatrix());
-	//mat4 rotMat = glm::inverse(getRotationMatrix());
 	return quat_cast(rotMat);
 }
 
@@ -99,8 +129,8 @@ glm::quat Transform::getLocalRotation() // Local
 glm::vec3 Transform::getLocalRotationEuler()
 {
 	vec3 rot;// = glm::eulerAngles(getLocalRotation());
-	toEulerAngle(getLocalRotation(), rot.x, rot.y, rot.z);
-	//glm::eulerAngleYXZ
+	toEulerAngle(glm::normalize(getLocalRotation()), rot.x, rot.y, rot.z);
+	//vec3 rot = toEulerAngles(getLocalRotation());
 	rot[0] = glm::degrees(rot[0]);
 	rot[1] = glm::degrees(rot[1]);
 	rot[2] = glm::degrees(rot[2]);
@@ -109,19 +139,9 @@ glm::vec3 Transform::getLocalRotationEuler()
 
 void Transform::setLocalRotation(glm::quat rot)
 {
-	//rotateMatrix = glm::inverse(glm::mat4_cast(rot));
 	rotateMatrix = glm::mat4_cast(rot);
 	UpdateMatrix();
 	return;
-	/*
-	// M = T*R*S ... or S*R*T?
-	mat4 newRotMat = glm::mat4_cast(rot);
-	mat4 scaleMat = getScaleMatrix();
-	mat4 transMat = getTranslationMatrix();
-
-	//model =  newRotMat * transMat * scaleMat;
-	model = transMat * (newRotMat * scaleMat);
-	*/
 }
 
 // Set rotation in terms of euler DEGREES.
@@ -143,52 +163,10 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 	//		rot[i] = -(rot[i] + (360 * numOver));
 	//	}
 	//}
-	// Flip XZ to -180 if abs(Y) > 90
-	//if (rot.y >= 90)
-	//{
-	//	rot.x -= 180;
-	//	rot.z -= 180;
-	//	rot.y = 90 - (rot.y - 90); // 180 - rot.y
-	//}
-	//else if (rot.y < 90)
-	//{
-	//}
-	//std::cout << "setRotDeg: (" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
-
-	/*for (size_t i = 0; i < 3; i++)
-	{
-		if (rot[i] >= 360)
-		{
-			int numOver = ((int)rot[i]) / 360;
-			rot[i] = -(rot[i] - (360 * numOver));
-		}
-	}*/
 	rot.x = glm::radians(rot.x); 
 	rot.y = glm::radians(rot.y);
 	rot.z = glm::radians(rot.z);
 	glm::quat rotQuat = glm::quat(rot);
-	
-	//std::cout << "setRotQuat:(" << rotQuat.x << ", " << rotQuat.y << ", " << rotQuat.z << ", " << rotQuat.w << ")" << std::endl;
-
-	glm::quat qPitch = glm::angleAxis(rot.x, glm::vec3(1, 0, 0));
-	glm::quat qYaw = glm::angleAxis(rot.y, glm::vec3(0, 1, 0));
-	glm::quat qRoll = glm::angleAxis(rot.z, glm::vec3(0, 0, 1));
-	//glm::quat axisRotQuat = qYaw * qPitch * qRoll;
-	//glm::quat rotQuat = qYaw * qPitch * qRoll;
-
-	
-
-	if (rotQuat.w < 0)
-	{
-		//rotQuat = -rotQuat;
-		//rotQuat = -glm::conjugate(rotQuat);
-		//rotQuat = glm::inverse(rotQuat);
-	}
-
-	//std::cout << "axisRotQuat:(" << axisRotQuat.x << ", " << axisRotQuat.y << ", " << axisRotQuat.z << ", " << axisRotQuat.w << ")" << std::endl;
-	///x,y,z are in radians
-	//glm::quat rotQuat = qYaw * qPitch * qRoll;
-	//glm::quat rotQuat = qPitch * qYaw * qRoll;
 
 	setLocalRotation(rotQuat);
 }
@@ -200,74 +178,16 @@ void Transform::setLocalRotationEuler(float x, float y, float z)
 
 glm::vec3 Transform::getLocalScale()
 {
-
 	return glm::vec3(scaleMatrix[0][0], scaleMatrix[1][1], scaleMatrix[2][2]);
-	/*
-	vec3 Scale;
-	vec3 Skew;
-	mat3 Row;
-	vec3 Pdum3;
-
-	// Now get scale and shear.
-	for (length_t i = 0; i < 3; ++i)
-		for (length_t j = 0; j < 3; ++j)
-			Row[i][j] = model[i][j];
-
-	// Compute X scale factor and normalize first row.
-	Scale.x = length(Row[0]);// v3Length(Row[0]);
-
-	Row[0] = detail::scale(Row[0], (float)(1));
-
-	// Compute XY shear factor and make 2nd row orthogonal to 1st.
-	Skew.z = dot(Row[0], Row[1]);
-	Row[1] = detail::combine(Row[1], Row[0], (float)(1), -Skew.z);
-
-	// Now, compute Y scale and normalize 2nd row.
-	Scale.y = length(Row[1]);
-	Row[1] = detail::scale(Row[1], (float)(1));
-	Skew.z /= Scale.y;
-
-	// Compute XZ and YZ shears, orthogonalize 3rd row.
-	Skew.y = glm::dot(Row[0], Row[2]);
-	Row[2] = detail::combine(Row[2], Row[0], (float)(1), -Skew.y);
-	Skew.x = glm::dot(Row[1], Row[2]);
-	Row[2] = detail::combine(Row[2], Row[1], (float)(1), -Skew.x);
-
-	// Next, get Z scale and normalize 3rd row.
-	Scale.z = length(Row[2]);
-	Row[2] = detail::scale(Row[2], (float)(1));
-	Skew.y /= Scale.z;
-	Skew.x /= Scale.z;
-
-	// At this point, the matrix (in rows[]) is orthonormal.
-	// Check for a coordinate system flip.  If the determinant
-	// is -1, then negate the matrix and the scaling factors.
-	Pdum3 = glm::cross(Row[1], Row[2]); // v3Cross(row[1], row[2], Pdum3);
-	if (glm::dot(Row[0], Pdum3) < 0)
-	{
-		for (length_t i = 0; i < 3; i++)
-		{
-			Scale[i] *= (float)(-1);
-			Row[i] *= (float)(-1);
-		}
-	}
-	return Scale;
-	//return glm::vec3(model[0][0], model[1][1], model[2][2]);
-	*/
 }
 
 void Transform::setLocalScale(glm::vec3 scale)
 {
-	// M = T*R*S
-	//mat4 scaleMat(1.0);
-
 	scaleMatrix[0][0] = scale.x;
 	scaleMatrix[1][1] = scale.y;
 	scaleMatrix[2][2] = scale.z;
 
 	UpdateMatrix();
-	//model = transMat * rotMat * scaleMat;
-	//model = (model * inverse(getScaleMatrix())) * scaleMat;
 }
 
 void Transform::setLocalScale(float x, float y, float z)
@@ -277,7 +197,6 @@ void Transform::setLocalScale(float x, float y, float z)
 
 void Transform::Translate(glm::vec3 translation)
 {
-	//model = glm::translate(model, translation);
 	translateMatrix = glm::translate(translateMatrix, translation);
 	UpdateMatrix();
 }
@@ -320,44 +239,16 @@ void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
 glm::mat4 Transform::getTranslationMatrix()
 {
 	return translateMatrix;
-	/*
-	mat4 transMat(1.0);
-	transMat[3][0] = model[3][0];
-	transMat[3][1] = model[3][1];
-	transMat[3][2] = model[3][2];
-	//::PrintMatrix(transMat);
-	return transMat;
-	*/
 }
 
 glm::mat4 Transform::getRotationMatrix()
 {
 	return rotateMatrix;
-	/*
-	// M = T*R*S
-	// R = inv(T)*M*inv(S)
-	glm::mat4 transMat = getTranslationMatrix();
-	glm::mat4 scaleMat = getScaleMatrix();
-	glm::mat4 rotMat = glm::inverse(transMat)*(model*glm::inverse(scaleMat));
-
-	//return rotMat;
-	return glm::transpose(rotMat);
-	*/
 }
 
 glm::mat4 Transform::getScaleMatrix()
 {
 	return scaleMatrix;
-	/*
-	mat4 scaleMat(1.0);
-	
-	vec3 Scale = getLocalScale();
-	scaleMat[0][0] = Scale.x;
-	scaleMat[1][1] = Scale.y;
-	scaleMat[2][2] = Scale.z;
-
-	return scaleMat;
-	*/
 }
 
 /* https://stackoverflow.com/questions/50081475/opengl-local-up-and-right-from-matrix-4x4
@@ -385,7 +276,6 @@ glm::vec3 Transform::getForwardDirection()
 
 void Transform::printTransformMatrix()
 {
-	//mat4 tModel = glm::transpose(model);
 	std::cout << gameObject->name <<" Transform:\n";
 	for (size_t i = 0; i < 4; i++) // Flip i nad j
 	{
@@ -410,13 +300,8 @@ void Transform::UpdateMatrix()
 void Transform::DrawGizmo()
 {
 	glm::vec3 pos = getPosition();
-	//glm::mat4 model = gameObject->transform->model;
-	//glm::mat4 rotMat = glm::inverse(getRotationMatrix());
 	glm::mat4 rotMat = getRotationMatrix();
 	//RenderManager::DrawWorldSpacePoint(pos, vec4(1, 1, 1, 1), 5);
-	//vec3 right = vec3(vec4(1, 0, 0, 0)*rotMat);
-	//vec3 up = vec3(vec4(0, 1, 0, 0)*rotMat);
-	//vec3 forward = vec3(vec4(0, 0, 1, 0)*rotMat);
 	vec3 right = glm::normalize(getRightDirection());
 	vec3 up = glm::normalize(getUpDirection());
 	vec3 forward = glm::normalize(getForwardDirection());
@@ -431,7 +316,7 @@ void Transform::DrawGizmo()
 	RenderManager::DrawWorldSpaceLine(pos, pos + forward * L, vec4(0, 0, 1, 1), 3);
 	RenderManager::DrawWorldSpacePoint(pos + forward * L, vec4(0, 0, 1, 1), 5);
 
-	// Squares
+	// Gray Square
 	RenderManager::DrawWorldSpaceLine(pos + right*sL, pos + (right+forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
 	RenderManager::DrawWorldSpaceLine(pos + forward*sL, pos + (right + forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
 

@@ -112,7 +112,7 @@ void CreateTestScene_EXAMPLE()
 	model->Setup();
 	cube->AddComponent(model);
 	
-	cube->transform->setLocalPosition(glm::vec3(0, 0, 0));
+	cube->transform->setLocalPosition(glm::vec3(0.5, 0.5, 0));
 
 	// Create Camera GameObject
 	GameObject* camGo = scene->CreateGameObject("Camera");
