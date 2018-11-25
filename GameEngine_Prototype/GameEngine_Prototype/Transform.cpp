@@ -7,10 +7,39 @@
 #include <glm/gtc/quaternion.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/euler_angles.hpp>
 //#include <glm/gtx/transform.hpp>
 #include "RenderManager.h"
 #include "DebugUtility.h"
 using namespace glm;
+
+//http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+static void toEulerAngle(const glm::quat& q, float& pitch, float& yaw, float& roll)
+{
+	float test = q.x*q.y + q.z*q.w;
+	std::cout << "Test: " << test << std::endl;
+	if (test > 0.499) { // singularity at north pole
+		yaw = 2 * atan2(q.x, q.w);
+		roll = glm::pi<double>() / 2;
+		pitch = 0;
+		std::cout << "Singularity North." << std::endl;
+		return;
+	}
+	if (test < -0.499) { // singularity at south pole
+		yaw = -2 * atan2(q.x, q.w);
+		roll = -glm::pi<double>() / 2;
+		pitch = 0;
+		std::cout << "Singularity South." << std::endl;
+		return;
+	}
+
+	double sqx = q.x*q.x;
+	double sqy = q.y*q.y;
+	double sqz = q.z*q.z;
+	yaw = atan2(2 * q.y*q.w - 2 * q.x*q.z, 1 - 2 * sqy - 2 * sqz);
+	roll = asin(2 * test);
+	pitch = atan2(2 * q.x*q.w - 2 * q.y*q.z, 1 - 2 * sqx - 2 * sqz);
+}
 
 // TODO: Track the different transformation matrices seperately to save on calculations.
 // That is - don't track the whole model. Translation, scale, and rotation seperately.
@@ -69,7 +98,9 @@ glm::quat Transform::getLocalRotation() // Local
 // Returns the current local euler rotation in DEGREES.
 glm::vec3 Transform::getLocalRotationEuler()
 {
-	vec3 rot = glm::eulerAngles(getLocalRotation());
+	vec3 rot;// = glm::eulerAngles(getLocalRotation());
+	toEulerAngle(getLocalRotation(), rot.x, rot.y, rot.z);
+	//glm::eulerAngleYXZ
 	rot[0] = glm::degrees(rot[0]);
 	rot[1] = glm::degrees(rot[1]);
 	rot[2] = glm::degrees(rot[2]);
@@ -122,17 +153,39 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 	//else if (rot.y < 90)
 	//{
 	//}
+	//std::cout << "setRotDeg: (" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
 
+	/*for (size_t i = 0; i < 3; i++)
+	{
+		if (rot[i] >= 360)
+		{
+			int numOver = ((int)rot[i]) / 360;
+			rot[i] = -(rot[i] - (360 * numOver));
+		}
+	}*/
 	rot.x = glm::radians(rot.x); 
 	rot.y = glm::radians(rot.y);
 	rot.z = glm::radians(rot.z);
-	
 	glm::quat rotQuat = glm::quat(rot);
 	
+	//std::cout << "setRotQuat:(" << rotQuat.x << ", " << rotQuat.y << ", " << rotQuat.z << ", " << rotQuat.w << ")" << std::endl;
 
 	glm::quat qPitch = glm::angleAxis(rot.x, glm::vec3(1, 0, 0));
 	glm::quat qYaw = glm::angleAxis(rot.y, glm::vec3(0, 1, 0));
 	glm::quat qRoll = glm::angleAxis(rot.z, glm::vec3(0, 0, 1));
+	//glm::quat axisRotQuat = qYaw * qPitch * qRoll;
+	//glm::quat rotQuat = qYaw * qPitch * qRoll;
+
+	
+
+	if (rotQuat.w < 0)
+	{
+		//rotQuat = -rotQuat;
+		//rotQuat = -glm::conjugate(rotQuat);
+		//rotQuat = glm::inverse(rotQuat);
+	}
+
+	//std::cout << "axisRotQuat:(" << axisRotQuat.x << ", " << axisRotQuat.y << ", " << axisRotQuat.z << ", " << axisRotQuat.w << ")" << std::endl;
 	///x,y,z are in radians
 	//glm::quat rotQuat = qYaw * qPitch * qRoll;
 	//glm::quat rotQuat = qPitch * qYaw * qRoll;
@@ -383,3 +436,5 @@ void Transform::DrawGizmo()
 	RenderManager::DrawWorldSpaceLine(pos + forward*sL, pos + (right + forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
 
 }
+
+
