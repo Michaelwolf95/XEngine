@@ -67,6 +67,7 @@ public:
 	double timeKeyUp(int glfw_key);
 	double timeKeyPressReleaseDelta(int glfw_key);
 	void setKeyFunction(int glfw_key, std::function<void()> func);
+	void callKeyFunction(int glfw_key);
 	// TODO: Input::GetButtonHold(KEY_CODE); // returns true or false
 
 
