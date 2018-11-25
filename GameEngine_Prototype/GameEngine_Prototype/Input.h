@@ -47,6 +47,7 @@ public:
 	friend class Singleton<Input>;
 	Input();
 public:
+	static int count;
 	double xPos; // TODO: Discuss why we should use 64bit double over 32bit float
 	double yPos;
 	double xDeltaPos;
@@ -68,6 +69,7 @@ public:
 	double timeKeyPressReleaseDelta(int glfw_key);
 	void setKeyFunction(int glfw_key, std::function<void()> func);
 	void callKeyFunction(int glfw_key);
+	static void testFunction();
 	// TODO: Input::GetButtonHold(KEY_CODE); // returns true or false
 
 

@@ -21,6 +21,7 @@ GetMouseDelta: returns a vec2 for the distance the mouse has traveled last frame
 Input::Input() 
 {
 	keys[32].isEnabled = true; // enables spacebar only
+	keys[32].function = testFunction;
 }
 Input::~Input() {}
 
@@ -129,14 +130,14 @@ void Input::checkKeyInputs()
 			keys[i].isKeyPressed = false;
 		}
 	}
-	for (int i = 0; i < 350; i++)
-	{
-		if (keys[i].isKeyPressed == true)
-		{
-			std::cout << "key number " << i << " was marked true" << std::endl;
-			keys[i].function();
-		}
-	}
+	//for (int i = 0; i < 350; i++)
+	//{
+	//	if (keys[i].isKeyPressed == true)
+	//	{
+	//		std::cout << "key number " << i << " was marked true" << std::endl;
+	//		keys[i].function();
+	//	}
+	//}
 }
 
 void Input::keyPressed(int glfw_key)
@@ -203,6 +204,13 @@ void Input::callKeyFunction(int glfw_key)
 	keys[glfw_key].function();
 }
 
+int Input::count = 0;
+void Input::testFunction()
+{
+	std::cout << "testFunction" << std::endl;
+	std::cout << "count == " << count++ << std::endl;
+
+}
 
 //int main()
 //{
