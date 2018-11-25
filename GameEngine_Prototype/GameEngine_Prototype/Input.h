@@ -92,6 +92,9 @@ public:
 	// Init instance and setup GLFW, etc.
 	void Init();
 
+	// Update keys for each frame.
+	void UpdateInput();
+
 	// Returns mouse position as a vec2
 	glm::vec2 GetMousePos();
 	glm::vec2 GetMouseDelta();

@@ -26,9 +26,9 @@ int main()
 	// Init Managers
 	ApplicationManager::CreateManager();
 	RenderManager::CreateManager();
-	//SceneManager::CreateManager();
-	//Time::CreateManager();
-	//Input::CreateManager();
+	SceneManager::CreateManager();
+	Time::CreateManager();
+	Input::CreateManager();
 
 	// Create & Load Scene
 	RunTestScene();
@@ -38,13 +38,14 @@ int main()
 	{
 		ApplicationManager::getInstance().ApplicationStartUpdate();
 		Time::getInstance().UpdateTime();
+		Input::getInstance().UpdateInput();
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
 
 		RenderManager::getInstance().Render();
-		Input::getInstance().passFunction(32, functionInMain);
-		Input::getInstance().checkKeyInputs();
+		//Input::getInstance().passFunction(32, functionInMain);
+		//Input::getInstance().checkKeyInputs();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 

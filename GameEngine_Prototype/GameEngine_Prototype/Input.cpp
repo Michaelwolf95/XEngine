@@ -43,6 +43,11 @@ void Input::Init()
 	isInitialized = true;
 }
 
+void Input::UpdateInput()
+{
+	checkKeyInputs();
+}
+
 void Input::_mouse_callback(double xpos, double ypos)
 {
 	if (firstMouse)
