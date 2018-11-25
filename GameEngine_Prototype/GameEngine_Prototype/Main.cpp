@@ -17,6 +17,8 @@
 unsigned int __stdcall mythread(void* data);
 long __stdcall WindowProcedure(HWND window, unsigned int msg, WPARAM wp, LPARAM lp);
 
+void functionInMain();
+
 // ENTRY POINT
 int main()
 {
@@ -24,9 +26,9 @@ int main()
 	// Init Managers
 	ApplicationManager::CreateManager();
 	RenderManager::CreateManager();
-	SceneManager::CreateManager();
-	Time::CreateManager();
-	Input::CreateManager();
+	//SceneManager::CreateManager();
+	//Time::CreateManager();
+	//Input::CreateManager();
 
 	// Create & Load Scene
 	RunTestScene();
@@ -41,10 +43,16 @@ int main()
 		SceneManager::getInstance().UpdateActiveScene();
 
 		RenderManager::getInstance().Render();
-
+		Input::getInstance().passFunction(32, functionInMain);
+		Input::getInstance().checkKeyInputs();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 
 	ApplicationManager::getInstance().CloseApplication();
 	return 0;
+}
+
+void functionInMain()
+{
+	std::cout << "Printing from a function in main!" << std::endl;
 }

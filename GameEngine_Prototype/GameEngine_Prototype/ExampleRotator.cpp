@@ -1,0 +1,41 @@
+#include "ExampleRotator.h"
+#include "GameObject.h"
+#include "Time.h"
+//#include <GLFW/glfw3.h>
+#include "ApplicationManager.h"
+
+
+
+ExampleRotator::ExampleRotator()
+{
+
+}
+
+
+ExampleRotator::~ExampleRotator()
+{
+
+}
+
+void ExampleRotator::Start()
+{
+
+}
+
+void ExampleRotator::Update()
+{
+	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
+	float deltaY = rotationSpeed * Time::deltaTime;
+
+	float horizontal = 0;
+	//Input::GetButtonHold(KEY_CODE); // returns true or false
+	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_LEFT) == GLFW_PRESS)
+		horizontal += -1;
+	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		horizontal += 1;
+	//TODO Ttestst
+	deltaY *= horizontal;
+
+	glm::vec3 newRot = glm::vec3(rot.x, rot.y+deltaY, rot.z);
+	gameObject->transform->model = glm::rotate(gameObject->transform->model, deltaY, glm::vec3(0, 1, 0));
+}

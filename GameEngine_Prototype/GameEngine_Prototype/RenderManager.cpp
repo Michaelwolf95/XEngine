@@ -1,5 +1,5 @@
 #include "RenderManager.h"
-#include "ApplicationManager.h"
+//#include "ApplicationManager.h"
 #include <vector>
 #include <algorithm>
 #include <glm/glm.hpp>

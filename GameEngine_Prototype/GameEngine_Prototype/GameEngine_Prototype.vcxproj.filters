@@ -145,7 +145,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DebugUtility.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="ExampleRotator.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="SimpleRotator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleRotator.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
