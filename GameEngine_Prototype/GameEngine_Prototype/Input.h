@@ -62,6 +62,7 @@ private:
 	double xScrollOffset;
 	double yScrollOffset;
 	bool firstMouse = true;
+	bool isCursorEnabled = true;
 	MouseButtonPressed mouse[10] = { false };
 	KeyPressed keys[350] = { false }; // tracks which keys are pressed
 	Input();
@@ -80,6 +81,7 @@ private:
 	glm::vec2 getMouseDelta();
 	void clearMouseDelta();
 	void showCursor(bool enable);
+	bool toggleCursor();
 
 protected:
 	// Init instance and setup GLFW, etc.
@@ -107,6 +109,7 @@ public:
 	static double GetDeltaPosY();
 	//double GetMouseButtonTimeDelta(int glfw_mouse_button); 
 	static void ShowCursor(bool enable);
+	static void ToggleCursor();
 
 	/// Keyboard inputs
 	static bool GetKeyDown(int glfw_key); 

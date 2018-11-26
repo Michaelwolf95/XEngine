@@ -46,6 +46,7 @@ int main()
 			if (Input::GetKeyDown(i) == true)
 			{
 				std::cout << "Key number " << i << " was preseed!" << std::endl;
+				if (i == GLFW_KEY_P) Input::ToggleCursor();
 			}
 		}
 

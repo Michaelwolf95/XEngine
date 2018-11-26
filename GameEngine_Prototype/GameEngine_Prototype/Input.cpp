@@ -39,7 +39,7 @@ void Input::Init()
 	glfwSetCursorPosCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_CALLBACK);
 	glfwSetMouseButtonCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_BUTTON_CALLBACK);
 	glfwSetScrollCallback(ApplicationManager::APP_WINDOW, INPUT_SCROLL_CALLBACK);
-	glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	showCursor(isCursorEnabled);
 	isInitialized = true;
 }
 
@@ -176,6 +176,11 @@ double Input::GetDeltaPosY()
 void Input::ShowCursor(bool enable)
 {
 	Input::getInstance().showCursor(enable);
+}
+
+void Input::ToggleCursor()
+{
+	Input::getInstance().toggleCursor();
 }
 
 
@@ -326,4 +331,12 @@ void Input::showCursor(bool enable)
 	if (enable)
 		glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	else glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
+// Toggles cursor off or on, returns new state of toggle.
+bool Input::toggleCursor()
+{
+	isCursorEnabled = !isCursorEnabled;
+	showCursor(isCursorEnabled);
+	return isCursorEnabled;
 }
