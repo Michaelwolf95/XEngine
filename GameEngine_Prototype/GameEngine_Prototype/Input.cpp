@@ -20,8 +20,8 @@ GetMouseDelta: returns a vec2 for the distance the mouse has traveled last frame
 
 Input::Input() 
 {
-	keys[32].isEnabled = true; // enables spacebar only
-	keys[32].function = testFunction;
+	//keys[32].isEnabled = true; // enables spacebar only
+	//keys[32].function = testFunction;
 }
 Input::~Input() {}
 
@@ -30,7 +30,6 @@ Input* Input::CreateManager()
 	std::cout << "Creating Input Manager." << std::endl;
 	Input* instance = &Input::getInstance();
 	instance->Init();
-
 	return instance;
 }
 
@@ -38,9 +37,9 @@ void Input::Init()
 {
 	std::cout << "Initializing Input." << std::endl;
 	glfwSetCursorPosCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_CALLBACK);
+	glfwSetMouseButtonCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_BUTTON_CALLBACK);
 	glfwSetScrollCallback(ApplicationManager::APP_WINDOW, INPUT_SCROLL_CALLBACK);
 	glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	
 	isInitialized = true;
 }
 
@@ -60,28 +59,35 @@ void Input::_mouse_callback(double xpos, double ypos)
 	xDeltaPos = xpos - xPos;  
 	yDeltaPos = yPos - ypos; // reversed since y-coordinates go from bottom to top
 	xPos = xpos;
-	yPos = ypos;
-
-	//xDeltaPos *= sensitivity;
-	//yDeltaPos *= sensitivity;
-	//
-	//yaw += xDeltaPos;
-	//pitch += yDeltaPos;
-
-	//if (pitch > upperPitchMax)
-	//	pitch = upperPitchMax;
-	//if (pitch < lowerPitchMax)
-	//	pitch = lowerPitchMax;
-	//glm::vec3 front;
-	//front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-	//front.y = sin(glm::radians(pitch));
-	//front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-	
+	yPos = ypos;	
 }
 void Input::_scroll_callback(double xoffset, double yoffset)
 {
 	xScrollOffset = xoffset;
 	yScrollOffset = yoffset;
+}
+
+void Input::_mouse_button_callback(int button, int action, int mods)
+{
+	for (int i = 0; i < sizeof(mouse) / sizeof(MouseButtonPressed); i++)
+	{
+		mouse[i].wasPressed = mouse[i].isButtonPressed;
+
+		if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) == GLFW_PRESS 
+			&& mouse[i].isButtonPressed == false)
+		{
+			//mouse[i].timeButtonDown = glfwGetTime();
+			mouse[i].isButtonPressed = true;
+			std::cout << "mouse button number " << i << " was pressed!" << std::endl;
+		}
+		else if (mouse[i].isButtonPressed == true)
+		{
+			//mouse[i].timeButtonUp = glfwGetTime();
+			mouse[i].isButtonPressed = false;
+			std::cout << "mouse button number " << i << " was released!" << std::endl;
+			//std::cout << "mouse button press delta == " << timeMouseButtonReleasedDelta(i);
+		}
+	}
 }
 
 // glfw: whenever the mouse moves, this callback is called
@@ -100,6 +106,12 @@ void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset)
 	instance->_scroll_callback(xoffset, yoffset);
 }
 
+void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow * window, int button, int action, int mods)
+{
+	Input* instance = &Input::getInstance();
+	instance->_mouse_button_callback(button, action, mods);
+}
+
 glm::vec2 Input::GetMousePos()
 {
 	return glm::vec2(xPos, yPos);
@@ -110,109 +122,180 @@ glm::vec2 Input::GetMouseDelta()
 	return glm::vec2(xDeltaPos, yDeltaPos);
 }
 
+//double Input::GetMouseButtonTimeDelta(int glfw_mouse_button)
+//{
+//	return mouse[glfw_mouse_button].timeButtonUp 
+//		- mouse[glfw_mouse_button].timeButtonDown;
+//}
+
+bool Input::GetMouseButtonDown(int glfw_mouse_button)
+{
+	Input::getInstance().getMouseButtonDown(glfw_mouse_button);
+}
+
+bool Input::GetMouseButton(int glfw_mouse_button)
+{
+	Input::getInstance().getMouseButton(glfw_mouse_button);
+}
+
+bool Input::GetMouseButtonUp(int glfw_mouse_button)
+{
+	Input::getInstance().getMouseButtonUp(glfw_mouse_button);
+}
+
+double Input::GetScrollOffsetX()
+{
+	return xScrollOffset;
+}
+
+double Input::GetScrollOffsetY()
+{
+	return yScrollOffset;
+}
+
+double Input::GetMousePosX()
+{
+	Input::getInstance().getMousePosX();
+}
+
+double Input::GetMousePosY()
+{
+	return Input::getInstance().getMousePosY();
+}
+
+double Input::GetDeltaPosX()
+{
+	return Input::getInstance().getDeltaPosX();
+}
+
+double Input::GetDeltaPosY()
+{
+	return Input::getInstance().getDeltaPosY();
+}
+
+
+//void Input::keyPressed(int glfw_key)
+//{
+//	//keys[glfw_key].timeKeyDown = glfwGetTime(); // TODO: Should we used TimeManager?
+//	keys[glfw_key].isPressed = true;
+//}
+//
+//void Input::keyReleased(int glfw_key)
+//{
+//	//keys[glfw_key].timeKeyUp = glfwGetTime();
+//	keys[glfw_key].isPressed = false;
+//}
+
+//void Input::timeKeyDown(int glfw_key, double glfw_get_time)
+//{
+//	//keys[glfw_key].timeKeyDown = glfw_get_time;
+//}
+//
+//void Input::timeKeyUp(int glfw_key, double glfw_get_time)
+//{
+//	//keys[glfw_key].timeKeyUp = glfw_get_time;
+//}
+//
+//double Input::timeKeyDown(int glfw_key)
+//{
+//	//return keys[glfw_key].timeKeyDown;
+//}
+//
+//double Input::timeKeyUp(int glfw_key)
+//{
+//	//return keys[glfw_key].timeKeyUp;
+//}
+
+//double Input::GetKeyTimeDelta(int glfw_key)
+//{
+//	// If negative returned key is still pressed.
+//	// Use to determine how long key has been held.
+//	//return keys[glfw_key].timeKeyUp - keys[glfw_key].timeKeyDown;
+//}
+
+bool Input::GetKeyDown(int glfw_key)
+{
+	return Input::getInstance().getKeyDown(glfw_key);
+}
+
+bool Input::GetKey(int glfw_key)
+{
+	return Input::getInstance().getKey(glfw_key);
+}
+
+bool Input::GetKeyUp(int glfw_key)
+{
+	return Input::getInstance().getKeyUp(glfw_key);
+}
+
 void Input::checkKeyInputs()
 {
-	//glm::vec3 forward = glm::vec3(0.0f, 0.0f, 1.0f);
-	//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	//float deltaMove = moveSpeed * Time::deltaTime;
-
-	for (int i = 0; i < 350; i++)
+	for (int i = 0; i < 350; i++) // Might be inefficient
 	{
-		if (glfwGetKey(ApplicationManager::APP_WINDOW, i) == GLFW_PRESS && keys[i].isEnabled == true)
+		keys[i].wasPressed = keys[i].isPressed;
+
+		if (glfwGetKey(ApplicationManager::APP_WINDOW, i) == GLFW_PRESS)
 		{
-			if (keys[i].isKeyPressed == false) keys[i].timeKeyDown = glfwGetTime();
-			keys[i].isKeyPressed = true;
+			//if (keys[i].isPressed == false) keys[i].timeKeyDown = glfwGetTime();
+			keys[i].isPressed = true;
 		}
-		else if (keys[i].isKeyPressed == true)
+		else if (keys[i].isPressed == true)
 		{
-			keys[i].timeKeyDown = glfwGetTime();
-			keys[i].isKeyPressed = false;
+			//keys[i].timeKeyDown = glfwGetTime();
+			keys[i].isPressed = false;
 		}
 	}
-	//for (int i = 0; i < 350; i++)
-	//{
-	//	if (keys[i].isKeyPressed == true)
-	//	{
-	//		std::cout << "key number " << i << " was marked true" << std::endl;
-	//		keys[i].function();
-	//	}
-	//}
 }
 
-void Input::keyPressed(int glfw_key)
+bool Input::getKeyDown(int glfw_key)
 {
-	keys[glfw_key].timeKeyDown = glfwGetTime(); // TODO: Should we used TimeManager?
-	keys[glfw_key].isKeyPressed = true;
-}
+	return keys[glfw_key].wasPressed == false
+		&& keys[glfw_key].isPressed == true;}
 
-void Input::keyReleased(int glfw_key)
+bool Input::getKey(int glfw_key)
 {
-	keys[glfw_key].timeKeyUp = glfwGetTime();
-	keys[glfw_key].isKeyPressed = false;
+	return keys[glfw_key].isPressed;
 }
 
-bool Input::isKeyPressed(int glfw_key)
+bool Input::getKeyUp(int glfw_key)
 {
-	return keys[glfw_key].isKeyPressed;
+	return keys[glfw_key].wasPressed == true
+		&& keys[glfw_key].isPressed == false;
 }
 
-void Input::keyEnabled(int glfw_key, bool state)
+bool Input::getMouseButtonDown(int glfw_mouse_button)
 {
-	keys[glfw_key].isEnabled = state;
+	return mouse[glfw_mouse_button].wasPressed == false
+		&& mouse[glfw_mouse_button].isButtonPressed == true;
 }
 
-bool Input::isKeyEnabled(int glfw_key)
+bool Input::getMouseButton(int glfw_mouse_button)
 {
-	return keys[glfw_key].isEnabled;
+	return mouse[glfw_mouse_button].isButtonPressed;
 }
 
-void Input::timeKeyDown(int glfw_key, double glfw_get_time)
+bool Input::getMouseButtonUp(int glfw_mouse_button)
 {
-	keys[glfw_key].timeKeyDown = glfw_get_time;
+	return mouse[glfw_mouse_button].wasPressed == true
+		&& mouse[glfw_mouse_button].isButtonPressed == false;
 }
 
-void Input::timeKeyUp(int glfw_key, double glfw_get_time)
+bool Input::getMousePosX()
 {
-	keys[glfw_key].timeKeyUp = glfw_get_time;
+	return xPos;
 }
 
-double Input::timeKeyDown(int glfw_key)
+bool Input::getMousePosY()
 {
-	return keys[glfw_key].timeKeyDown;
+	return yPos;
 }
 
-double Input::timeKeyUp(int glfw_key)
+double Input::getDeltaPosX()
 {
-	return keys[glfw_key].timeKeyUp;
+	return xDeltaPos;
 }
 
-double Input::timeKeyPressReleaseDelta(int glfw_key)
+double Input::getDeltaPosY()
 {
-	// If negative returned key is still pressed.
-	// Use to determine how long key has been held.
-	return keys[glfw_key].timeKeyUp - keys[glfw_key].timeKeyDown;
+	return yDeltaPos;
 }
-
-void Input::setKeyFunction(int glfw_key, std::function<void()> func)
-{
-	keys[glfw_key].function = func;
-}
-
-void Input::callKeyFunction(int glfw_key)
-{
-	keys[glfw_key].function();
-}
-
-int Input::count = 0;
-void Input::testFunction()
-{
-	std::cout << "testFunction" << std::endl;
-	std::cout << "count == " << count++ << std::endl;
-
-}
-
-//int main()
-//{
-//
-//}

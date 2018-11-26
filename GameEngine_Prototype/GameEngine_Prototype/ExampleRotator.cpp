@@ -11,10 +11,10 @@ float ExampleRotator::deltaY = 0.0f;
 ExampleRotator::ExampleRotator()
 {
 	std::cout << "ExampleRotator" << std::endl;
-	Input::getInstance().keyEnabled(GLFW_KEY_LEFT, true);
-	Input::getInstance().setKeyFunction(GLFW_KEY_LEFT, rotateLeft);
-	Input::getInstance().keyEnabled(GLFW_KEY_RIGHT, true);
-	Input::getInstance().setKeyFunction(GLFW_KEY_RIGHT, rotateRight);
+	//Input::getInstance().keyEnabled(GLFW_KEY_LEFT, true);
+	//Input::getInstance().setKeyFunction(GLFW_KEY_LEFT, rotateLeft);
+	//Input::getInstance().keyEnabled(GLFW_KEY_RIGHT, true);
+	//Input::getInstance().setKeyFunction(GLFW_KEY_RIGHT, rotateRight);
 }
 
 
@@ -40,13 +40,15 @@ void ExampleRotator::Update()
 	//float horizontal = 0;
 	//Input::GetButtonHold(KEY_CODE); // returns true or false
 
-	if (Input::getInstance().isKeyPressed(GLFW_KEY_LEFT) == true)
+	if (Input::getInstance().GetKey(GLFW_KEY_LEFT) == true)
 	{
-		Input::getInstance().callKeyFunction(GLFW_KEY_LEFT);
+		//Input::getInstance().callKeyFunction(GLFW_KEY_LEFT);
+		rotateLeft();
 	}
-	if (Input::getInstance().isKeyPressed(GLFW_KEY_RIGHT) == true)
+	if (Input::getInstance().GetKey(GLFW_KEY_RIGHT) == true)
 	{
-		Input::getInstance().callKeyFunction(GLFW_KEY_RIGHT);
+		//Input::getInstance().callKeyFunction(GLFW_KEY_RIGHT);
+		rotateRight();
 	}
 	//if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_LEFT) == GLFW_PRESS)
 	//	horizontal += -1;

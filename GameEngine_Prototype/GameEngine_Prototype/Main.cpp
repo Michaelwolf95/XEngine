@@ -29,7 +29,7 @@ int main()
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
 	Time::CreateManager();
-	Input::CreateManager();
+	Input::getInstance().CreateManager();
 
 	// Create & Load Scene
 	RunTestScene();

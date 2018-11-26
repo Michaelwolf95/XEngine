@@ -13,6 +13,5 @@ public:
 
 	static void rotateLeft();
 	static void rotateRight();
-
 };
 
