@@ -25,7 +25,7 @@ int main()
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
 	Time::CreateManager();
-	Input::getInstance().CreateManager();
+	Input::CreateManager();
 
 	// Create & Load Scene (from SampleScene.h)
 	CreateSampleScene();
@@ -36,18 +36,6 @@ int main()
 		ApplicationManager::getInstance().ApplicationStartUpdate();
 		Time::getInstance().UpdateTime();
 		Input::getInstance().UpdateInput();
-
-		for (int i = 0; i < 350; i++)
-		{
-			if (Input::GetKeyDown(i) == true)
-			{
-				std::cout << "Key number " << i << " was preseed!" << std::endl;
-				if (i == GLFW_KEY_P) Input::ToggleCursor();
-			}
-		}
-
-		std::cout << Input::GetDeltaPosX() << std::endl;
-
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();

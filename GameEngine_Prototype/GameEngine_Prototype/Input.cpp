@@ -78,13 +78,13 @@ void Input::_mouse_button_callback(int button, int action, int mods)
 		{
 			//mouse[i].timeButtonDown = glfwGetTime();
 			mouse[i].isButtonPressed = true;
-			std::cout << "mouse button number " << i << " was pressed!" << std::endl;
+			//std::cout << "mouse button number " << i << " was pressed!" << std::endl;
 		}
 		else if (mouse[i].isButtonPressed == true)
 		{
 			//mouse[i].timeButtonUp = glfwGetTime();
 			mouse[i].isButtonPressed = false;
-			std::cout << "mouse button number " << i << " was released!" << std::endl;
+			//std::cout << "mouse button number " << i << " was released!" << std::endl;
 			//std::cout << "mouse button press delta == " << timeMouseButtonReleasedDelta(i);
 		}
 	}
