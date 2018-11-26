@@ -39,7 +39,7 @@ void Input::Init()
 	glfwSetCursorPosCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_CALLBACK);
 	glfwSetMouseButtonCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_BUTTON_CALLBACK);
 	glfwSetScrollCallback(ApplicationManager::APP_WINDOW, INPUT_SCROLL_CALLBACK);
-	glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	isInitialized = true;
 }
 
@@ -171,6 +171,11 @@ double Input::GetDeltaPosX()
 double Input::GetDeltaPosY()
 {
 	return Input::getInstance().getDeltaPosY();
+}
+
+void Input::ShowCursor(bool enable)
+{
+	Input::getInstance().showCursor(enable);
 }
 
 
@@ -308,4 +313,17 @@ glm::vec2 Input::getMousePos()
 glm::vec2 Input::getMouseDelta()
 {
 	return glm::vec2(xDeltaPos, yDeltaPos);
+}
+
+void Input::clearMouseDelta()
+{
+	xDeltaPos = 0.0f;
+	yDeltaPos = 0.0f;
+}
+
+void Input::showCursor(bool enable)
+{
+	if (enable)
+		glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	else glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }

@@ -41,6 +41,17 @@ int main()
 		Time::getInstance().UpdateTime();
 		Input::getInstance().UpdateInput();
 
+		for (int i = 0; i < 350; i++)
+		{
+			if (Input::GetKeyDown(i) == true)
+			{
+				std::cout << "Key number " << i << " was preseed!" << std::endl;
+			}
+		}
+
+		std::cout << Input::GetDeltaPosX() << std::endl;
+
+
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
 

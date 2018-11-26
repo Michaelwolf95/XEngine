@@ -78,6 +78,8 @@ private:
 	double getDeltaPosY();
 	glm::vec2 getMousePos();
 	glm::vec2 getMouseDelta();
+	void clearMouseDelta();
+	void showCursor(bool enable);
 
 protected:
 	// Init instance and setup GLFW, etc.
@@ -89,32 +91,34 @@ public:
 	// Update keys for each frame.
 	void UpdateInput();
 	~Input();
+
+	/// API calls below
 	/// Mouse inputs
 	static glm::vec2 GetMousePos(); // Returns mouse position as a vec2
 	static glm::vec2 GetMouseDelta();
-	static bool GetMouseButtonDown(int glfw_mouse_button); //API
-	static bool GetMouseButton(int glfw_mouse_button); //API
-	static bool GetMouseButtonUp(int glfw_mouse_button); //API
+	static bool GetMouseButtonDown(int glfw_mouse_button); 
+	static bool GetMouseButton(int glfw_mouse_button); 
+	static bool GetMouseButtonUp(int glfw_mouse_button); 
 	double GetScrollOffsetX();
 	double GetScrollOffsetY();
 	static double GetMousePosX();
 	static double GetMousePosY();
 	static double GetDeltaPosX();
 	static double GetDeltaPosY();
-	//double GetMouseButtonTimeDelta(int glfw_mouse_button); //API
+	//double GetMouseButtonTimeDelta(int glfw_mouse_button); 
+	static void ShowCursor(bool enable);
 
 	/// Keyboard inputs
-
-	static bool GetKeyDown(int glfw_key); //API
-	static bool GetKey(int glfw_key); //API
-	static bool GetKeyUp(int glfw_key); //API	
+	static bool GetKeyDown(int glfw_key); 
+	static bool GetKey(int glfw_key); 
+	static bool GetKeyUp(int glfw_key);
 	//void keyPressed(int glfw_key);
 	//void keyReleased(int glfw_key);
 	//void timeKeyDown(int glfw_key, double glfw_get_time);
 	//void timeKeyUp(int glfw_key, double glfw_get_time);
 	//double timeKeyDown(int glfw_key);
 	//double timeKeyUp(int glfw_key);
-	//double GetKeyTimeDelta(int glfw_key); //API
+	//double GetKeyTimeDelta(int glfw_key); 
 	//void keyEnabled(int glfw_key, bool state);
 	//bool isKeyEnabled(int glfw_key);
 	//// Used to assign function to key
