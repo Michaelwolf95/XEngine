@@ -93,19 +93,19 @@ void CreateTestSceneJames1() {
 	model->Setup();
 
 	cube->AddComponent(model);
-	cube->transform->setPosition(glm::vec3(0, 0, 0));
+	cube->transform->setLocalPosition(glm::vec3(0, 0, 0));
 
 	// Create Camera GameObject
 	GameObject* camGo = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
 
-	camGo->transform->setPosition(glm::vec3(0, -1, -5));
+	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
 
 	auto rotator = new ExampleRotator_James();
 	cube->AddComponent(new ExampleRotator_James());
-	rotator->rotationSpeed = 10;
+	rotator->rotationSpeed = 999;
 
 	SceneManager::getInstance().SetActiveScene(scene);
 }

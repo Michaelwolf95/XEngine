@@ -155,6 +155,7 @@
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ExampleRotator.cpp" />
+    <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
@@ -189,6 +190,7 @@
     <ClInclude Include="DebugUtility.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="ExampleRotator.h" />
+    <ClInclude Include="ExampleRotator_James.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
