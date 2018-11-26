@@ -297,7 +297,7 @@ void Transform::UpdateMatrix()
 	//model =  translateMatrix * rotateMatrix * scaleMatrix;
 }
 
-void Transform::DrawGizmo()
+void Transform::OnDrawGizmo()
 {
 	glm::vec3 pos = getPosition();
 	glm::mat4 rotMat = getRotationMatrix();
