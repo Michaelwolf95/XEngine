@@ -87,7 +87,7 @@ void SimpleModelComponent::Update()
 
 }
 
-void SimpleModelComponent::OnDestroy()
+void SimpleModelComponent::OnDrawGizmos()
 {
-
+	gameObject->transform->DrawGizmo();
 }

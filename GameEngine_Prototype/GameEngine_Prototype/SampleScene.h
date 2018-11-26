@@ -52,7 +52,7 @@ void CreateSampleScene()
 	cameraGameObject->AddComponent(cameraComponent);
 
 	// Move the Camera to a good viewing position.
-	cameraGameObject->transform->setLocalPosition(glm::vec3(0, -1, -5));		// Move back and up.
+	cameraGameObject->transform->setLocalPosition(glm::vec3(0, 1.5, -5));		// Move back and up.
 	cameraGameObject->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));	// Rotate view 20 degrees down.
 
 	cameraGameObject->AddComponent(new TestMoverComponent());
@@ -102,8 +102,8 @@ void CreateSampleScene()
 	floorModel->material = boxMaterial;
 	floor->AddComponent(floorModel);
 
-	// Move the 
-	floor->transform->setLocalPosition(0, -7, 0);
+	// Move the floor down and up when 
+	floor->transform->setLocalPosition(0, -5, 0);
 	floor->transform->setLocalScale(10, 0.5, 10);
 	
 	//================================================================
