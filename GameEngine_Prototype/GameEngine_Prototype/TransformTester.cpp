@@ -19,9 +19,9 @@ void TransformTester::Start()
 	std::cout << asin(0) << std::endl;
 	std::cout << atan2f( 2* cos(glm::radians(50.0f))*sin(glm::radians(50.0f)), 1- (2*sin(glm::radians(50.0f))*sin(glm::radians(50.0f)))) << std::endl;
 	//std::cout << atan2f(0.98480775301f, 0.17364817767f) << std::endl;
-	gameObject->transform->TestEulerRotation(0, 0, -80);
-	gameObject->transform->TestEulerRotation(0, 0, -90);
-	gameObject->transform->TestEulerRotation(0, 0, -100);
+	//gameObject->transform->TestEulerRotation(0, 0, -80);
+	//gameObject->transform->TestEulerRotation(0, 0, -90);
+	//gameObject->transform->TestEulerRotation(0, 0, -100);
 	std::cout << std::endl;
 
 	gameObject->transform->TestEulerRotation(0, 80, 0);
@@ -32,8 +32,9 @@ void TransformTester::Start()
 
 	gameObject->transform->TestEulerRotation(180, 80, 180);
 
-	gameObject->transform->TestEulerRotation(0, 180, 0);
-	gameObject->transform->TestEulerRotation(0, 360, 0);
+	gameObject->transform->TestEulerRotation(100, 100, 0);
+	//gameObject->transform->TestEulerRotation(0, 180, 0);
+	//gameObject->transform->TestEulerRotation(0, 360, 0);
 
 	//gameObject->transform->TestEulerRotation(0, -80, 0);
 	//gameObject->transform->TestEulerRotation(0, -90, 0);
@@ -47,12 +48,13 @@ void TransformTester::Start()
 	//gameObject->transform->TestEulerRotation(-90, 0, 0);
 	//gameObject->transform->TestEulerRotation(-100, 0, 0);
 
+	gameObject->transform->TestEulerRotation(0, 0, 0);
 	std::cout << std::endl;
 }
 
 void TransformTester::Update()
 {
-	return;
+	//return;
 	float deltaY = rotationSpeed * Time::deltaTime;
 	float deltaZ = rotationSpeed * Time::deltaTime;
 

@@ -473,7 +473,9 @@ void Transform::TestEulerRotation(float x, float y, float z)
 	
 	glm::quat newRotQuat = gameObject->transform->getLocalRotation();
 	std::cout << "newRotQuat: (" << newRotQuat.w << ", " << newRotQuat.x << ", " << newRotQuat.y << ", " << newRotQuat.z << ")" << std::endl;
-
+	glm::quat convQuat(newRot);
+	convQuat = glm::normalize(convQuat);
+	std::cout << "convertQuat:(" << convQuat.w << ", " << convQuat.x << ", " << convQuat.y << ", " << convQuat.z << ")" << std::endl;
 	//glm::vec3 newRotEuler;
 	//toEulerAngles(newRotQuat, newRotEuler.x, newRotEuler.y, newRotEuler.z);// = glm::eulerAngles(newRotQuat);
 	//std::cout << "newRotRad: (" << newRotEuler.x << ", " << newRotEuler.y << ", " << newRotEuler.z << ")" << std::endl;
