@@ -260,6 +260,9 @@
     <ClInclude Include="TransformTester.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="PrimitiveModels.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">

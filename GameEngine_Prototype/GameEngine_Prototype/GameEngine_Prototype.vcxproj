@@ -188,6 +188,7 @@
     <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="DebugUtility.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="PrimitiveModels.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
