@@ -76,8 +76,9 @@ private:
 	bool getMousePosY();
 	double getDeltaPosX();
 	double getDeltaPosY();
+	glm::vec2 getMousePos();
+	glm::vec2 getMouseDelta();
 
-	
 protected:
 	// Init instance and setup GLFW, etc.
 	void Init();
@@ -89,8 +90,8 @@ public:
 	void UpdateInput();
 	~Input();
 	/// Mouse inputs
-	glm::vec2 GetMousePos(); // Returns mouse position as a vec2
-	glm::vec2 GetMouseDelta();
+	static glm::vec2 GetMousePos(); // Returns mouse position as a vec2
+	static glm::vec2 GetMouseDelta();
 	static bool GetMouseButtonDown(int glfw_mouse_button); //API
 	static bool GetMouseButton(int glfw_mouse_button); //API
 	static bool GetMouseButtonUp(int glfw_mouse_button); //API

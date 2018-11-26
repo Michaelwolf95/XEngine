@@ -114,12 +114,12 @@ void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow * window, int button, int action, in
 
 glm::vec2 Input::GetMousePos()
 {
-	return glm::vec2(xPos, yPos);
+	return Input::getInstance().getMousePos();
 }
 
 glm::vec2 Input::GetMouseDelta()
 {
-	return glm::vec2(xDeltaPos, yDeltaPos);
+	return Input::getInstance().getMouseDelta();
 }
 
 //double Input::GetMouseButtonTimeDelta(int glfw_mouse_button)
@@ -130,17 +130,17 @@ glm::vec2 Input::GetMouseDelta()
 
 bool Input::GetMouseButtonDown(int glfw_mouse_button)
 {
-	Input::getInstance().getMouseButtonDown(glfw_mouse_button);
+	return Input::getInstance().getMouseButtonDown(glfw_mouse_button);
 }
 
 bool Input::GetMouseButton(int glfw_mouse_button)
 {
-	Input::getInstance().getMouseButton(glfw_mouse_button);
+	return Input::getInstance().getMouseButton(glfw_mouse_button);
 }
 
 bool Input::GetMouseButtonUp(int glfw_mouse_button)
 {
-	Input::getInstance().getMouseButtonUp(glfw_mouse_button);
+	return Input::getInstance().getMouseButtonUp(glfw_mouse_button);
 }
 
 double Input::GetScrollOffsetX()
@@ -155,7 +155,7 @@ double Input::GetScrollOffsetY()
 
 double Input::GetMousePosX()
 {
-	Input::getInstance().getMousePosX();
+	return Input::getInstance().getMousePosX();
 }
 
 double Input::GetMousePosY()
@@ -298,4 +298,14 @@ double Input::getDeltaPosX()
 double Input::getDeltaPosY()
 {
 	return yDeltaPos;
+}
+
+glm::vec2 Input::getMousePos()
+{
+	return glm::vec2(xPos, yPos);
+}
+
+glm::vec2 Input::getMouseDelta()
+{
+	return glm::vec2(xDeltaPos, yDeltaPos);
 }
