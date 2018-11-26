@@ -5,20 +5,12 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <functional>
-
-//enum KeyCode
-//{
-//
-//};
+#define m_arr_sz 10
+#define k_arr_sz 350
 
 void INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos);
 void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
 void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int mods);
-//TODO: Store mouse callback output every frame from 
-/*
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-*/
 
 /* 
 	Implement Input Manager with the following functionality:
@@ -38,18 +30,12 @@ class Input : public Singleton<Input>
 private:
 	struct KeyPressed
 	{		
-		//bool isEnabled = false;
 		bool isPressed = false;
-		//double timeKeyDown = 0.0f; // keyDown
-		//double timeKeyUp = 0.0f; // keyUp
 		bool wasPressed = false;
-		//std::function<void()> function; // keeping for reference
 	};
 	struct MouseButtonPressed
 	{
 		bool isButtonPressed = false;
-		//double timeButtonDown = 0.0f;
-		//double timeButtonUp = 0.0f;
 		bool wasPressed = false;
 	};
 	friend class Singleton<Input>;
@@ -61,10 +47,10 @@ private:
 	double yDeltaPos;
 	double xScrollOffset;
 	double yScrollOffset;
-	bool firstMouse = true;
-	bool isCursorEnabled = true;
-	MouseButtonPressed mouse[10] = { false };
-	KeyPressed keys[350] = { false }; // tracks which keys are pressed
+	bool firstMouse;
+	bool isCursorEnabled;
+	MouseButtonPressed mouse[m_arr_sz];
+	KeyPressed keys[k_arr_sz]; // tracks which keys are pressed
 	Input();
 	void checkKeyInputs();
 	bool getKeyDown(int glfw_key);
@@ -97,7 +83,7 @@ public:
 	/// API calls below
 	/// Mouse inputs
 	static glm::vec2 GetMousePos(); // Returns mouse position as a vec2
-	static glm::vec2 GetMouseDelta();
+	static glm::vec2 GetMouseDelta(); // TODO: Should we remove glm objects and replace with standard library objets (pair)?
 	static bool GetMouseButtonDown(int glfw_mouse_button); 
 	static bool GetMouseButton(int glfw_mouse_button); 
 	static bool GetMouseButtonUp(int glfw_mouse_button); 
@@ -107,7 +93,6 @@ public:
 	static double GetMousePosY();
 	static double GetDeltaPosX();
 	static double GetDeltaPosY();
-	//double GetMouseButtonTimeDelta(int glfw_mouse_button); 
 	static void ShowCursor(bool enable);
 	static void ToggleCursor();
 
@@ -115,25 +100,10 @@ public:
 	static bool GetKeyDown(int glfw_key); 
 	static bool GetKey(int glfw_key); 
 	static bool GetKeyUp(int glfw_key);
-	//void keyPressed(int glfw_key);
-	//void keyReleased(int glfw_key);
-	//void timeKeyDown(int glfw_key, double glfw_get_time);
-	//void timeKeyUp(int glfw_key, double glfw_get_time);
-	//double timeKeyDown(int glfw_key);
-	//double timeKeyUp(int glfw_key);
-	//double GetKeyTimeDelta(int glfw_key); 
-	//void keyEnabled(int glfw_key, bool state);
-	//bool isKeyEnabled(int glfw_key);
-	//// Used to assign function to key
-	//void setKeyFunction(int glfw_key, std::function<void()> func); // left for future reference
-	// Used to call function assigned to key (out of scope)
-	//void callKeyFunction(int glfw_key); // leaving this here for reference
-	//static void testFunction();
-	// TODO: Input::GetButtonHold(KEY_CODE); // returns true or false
+
 	// TODO: Symmetric array can be implemented that hold functions 
 	// specific to each index of this array.
 	// Developers may insert functions with API calls
-	// void InsertKeyFunction(unsigned int GLFW_KEY_VALUE, (void*)functionToCallWhenKeyPressed());
 	
 	/// Callback functions
 	void _mouse_callback(double xpos, double ypos);
@@ -143,33 +113,3 @@ public:
 	// TODO: Maybe return a container with values for each key pressed?
 
 };
-
-
-
-//void Input::setKeyFunction(int glfw_key, std::function<void()> func)
-//{
-//	keys[glfw_key].function = func;
-//}
-
-//void Input::callKeyFunction(int glfw_key)
-//{
-//	keys[glfw_key].function();
-//}
-
-//int Input::count = 0;
-//void Input::testFunction()
-//{
-//	std::cout << "testFunction" << std::endl;
-//	std::cout << "count == " << count++ << std::endl;
-//
-//}
-
-//void Input::keyEnabled(int glfw_key, bool state)
-//{
-//	keys[glfw_key].isEnabled = state;
-//}
-
-//bool Input::isKeyEnabled(int glfw_key)
-//{
-//	return keys[glfw_key].isEnabled;
-//}

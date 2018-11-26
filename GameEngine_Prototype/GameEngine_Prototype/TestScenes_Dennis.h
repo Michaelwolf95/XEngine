@@ -28,7 +28,9 @@ void RunTestScene_Dennis()
 void CreateTestScene_DM1()
 {
 	Scene* scene = new Scene("DM1-test");
-
+	
+	/// Preparing cube model
+	// Creating object called "cube"
 	GameObject* cube = scene->CreateGameObject("Cube");
 
 	// Cube
