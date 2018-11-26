@@ -5,19 +5,13 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <functional>
-
-//enum KeyCode
-//{
-//
-//};
+#define m_arr_sz 10
+#define k_arr_sz 350
+#define k_arr_start 32
 
 void INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos);
 void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
-//TODO: Store mouse callback output every frame from 
-/*
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-*/
+void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int mods);
 
 /* 
 	Implement Input Manager with the following functionality:
@@ -34,72 +28,89 @@ void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
 
 class Input : public Singleton<Input>
 {
-public:
+private:
 	struct KeyPressed
 	{		
-		bool isEnabled = false;
-		bool isKeyPressed = false;
-		double timeKeyDown = 0.0f; // keyDown
-		double timeKeyUp = 0.0f; // keyUp
-		std::function<void()> function;
+		bool isPressed = false;
+		bool wasPressed = false;
 	};
-
+	struct MouseButtonPressed
+	{
+		bool isButtonPressed = false;
+		bool wasPressed = false;
+	};
 	friend class Singleton<Input>;
-	Input();
-public:
-	static int count;
+
+	bool isInitialized = false;
 	double xPos; // TODO: Discuss why we should use 64bit double over 32bit float
 	double yPos;
 	double xDeltaPos;
 	double yDeltaPos;
-	//double yaw;
-	//double pitch;
 	double xScrollOffset;
 	double yScrollOffset;
-	bool firstMouse = true;
-	void keyPressed(int glfw_key);
-	void keyReleased(int glfw_key);
-	bool isKeyPressed(int glfw_key);
-	void keyEnabled(int glfw_key, bool state);
-	bool isKeyEnabled(int glfw_key);
-	void timeKeyDown(int glfw_key, double glfw_get_time);
-	void timeKeyUp(int glfw_key, double glfw_get_time);
-	double timeKeyDown(int glfw_key);
-	double timeKeyUp(int glfw_key);
-	double timeKeyPressReleaseDelta(int glfw_key);
-	void setKeyFunction(int glfw_key, std::function<void()> func);
-	void callKeyFunction(int glfw_key);
-	static void testFunction();
-	// TODO: Input::GetButtonHold(KEY_CODE); // returns true or false
+	bool firstMouse;
+	bool isCursorEnabled;
+	MouseButtonPressed mouse[m_arr_sz];
+	KeyPressed keys[k_arr_sz]; // tracks which keys are pressed
+	Input();
+	void checkKeyInputs();
+	bool getKeyDown(int glfw_key);
+	bool getKey(int glfw_key);
+	bool getKeyUp(int glfw_key);
+	bool getMouseButtonDown(int glfw_mouse_button);
+	bool getMouseButton(int glfw_mouse_button);
+	bool getMouseButtonUp(int glfw_mouse_button);
+	bool getMousePosX();
+	bool getMousePosY();
+	double getDeltaPosX();
+	double getDeltaPosY();
+	glm::vec2 getMousePos();
+	glm::vec2 getMouseDelta();
+	void clearMouseDelta();
+	void showCursor(bool enable);
+	bool toggleCursor();
 
+protected:
+	// Init instance and setup GLFW, etc.
+	void Init();
+
+public:
+	// Create static instance and configure manager
+	static Input* CreateManager();
+	// Update keys for each frame.
+	void UpdateInput();
+	~Input();
+
+	/// API calls below
+	/// Mouse inputs
+	static glm::vec2 GetMousePos(); // Returns mouse position as a vec2
+	static glm::vec2 GetMouseDelta(); // TODO: Should we remove glm objects and replace with standard library objets (pair)?
+	static bool GetMouseButtonDown(int glfw_mouse_button); 
+	static bool GetMouseButton(int glfw_mouse_button); 
+	static bool GetMouseButtonUp(int glfw_mouse_button); 
+	double GetScrollOffsetX();
+	double GetScrollOffsetY();
+	static double GetMousePosX();
+	static double GetMousePosY();
+	static double GetDeltaPosX();
+	static double GetDeltaPosY();
+	static void ShowCursor(bool enable);
+	static void ToggleCursor();
+
+	/// Keyboard inputs
+	static bool GetKeyDown(int glfw_key); 
+	static bool GetKey(int glfw_key); 
+	static bool GetKeyUp(int glfw_key);
 
 	// TODO: Symmetric array can be implemented that hold functions 
 	// specific to each index of this array.
 	// Developers may insert functions with API calls
-	// void InsertKeyFunction(unsigned int GLFW_KEY_VALUE, (void*)functionToCallWhenKeyPressed());
-	KeyPressed keys[350] = { false }; // tracks which keys are pressed
-	//double sensitivity = 0.05f;
-	//double upperPitchMax = 89.0f;
-	//double lowerPitchMax = -89.0f;
-	~Input();
+	
+	/// Callback functions
 	void _mouse_callback(double xpos, double ypos);
 	void _scroll_callback(double xoffset, double yoffset);
+	void _mouse_button_callback(int button, int action, int mods);
 
-	bool isInitialized = false;
-
-	// Create static instance and configure manager
-	static Input* CreateManager();
-
-	// Init instance and setup GLFW, etc.
-	void Init();
-
-	// Update keys for each frame.
-	void UpdateInput();
-
-	// Returns mouse position as a vec2
-	glm::vec2 GetMousePos();
-	glm::vec2 GetMouseDelta();
 	// TODO: Maybe return a container with values for each key pressed?
-	void checkKeyInputs();
-};
 
+};

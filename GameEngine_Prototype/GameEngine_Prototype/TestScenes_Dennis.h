@@ -28,7 +28,9 @@ void RunTestScene_Dennis()
 void CreateTestScene_DM1()
 {
 	Scene* scene = new Scene("DM1-test");
-
+	
+	/// Preparing cube model
+	// Creating object called "cube"
 	GameObject* cube = scene->CreateGameObject("Cube");
 
 	// Cube
@@ -87,8 +89,9 @@ void CreateTestScene_DM1()
 	Shader* modelShader = new Shader("model.vs", "model.fs");
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
+	Input::ShowCursor(false);
 	//Input::CreateManager();
-	//Input::getInstance().Init();
+	//Input::getInstance().Init()l
 	
 	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
 	
