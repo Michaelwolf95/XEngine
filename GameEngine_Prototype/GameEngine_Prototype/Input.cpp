@@ -77,7 +77,7 @@ void Input::_scroll_callback(double xoffset, double yoffset)
 
 void Input::_mouse_button_callback(int button, int action, int mods)
 {
-	for (int i = 0; i < sizeof(mouse) / sizeof(MouseButtonPressed); i++)
+	for (int i = 0; i < m_arr_sz; i++)
 	{
 		mouse[i].wasPressed = mouse[i].isButtonPressed;
 
@@ -199,7 +199,7 @@ bool Input::GetKeyUp(int glfw_key)
 
 void Input::checkKeyInputs()
 {
-	for (int i = 0; i < 350; i++) // Might be inefficient
+	for (int i = k_arr_start; i < k_arr_sz; i++) // Might be inefficient
 	{
 		keys[i].wasPressed = keys[i].isPressed;
 
@@ -211,6 +211,7 @@ void Input::checkKeyInputs()
 		{
 			keys[i].isPressed = false;
 		}
+		if (i == 96) i = 255; // Skips a large set of unused keys. Saves a lot of CPU time.
 	}
 }
 
@@ -285,7 +286,7 @@ void Input::clearMouseDelta()
 
 void Input::showCursor(bool enable)
 {
-	if (enable)	glfwSetInputMode(ApplicationManager::APP_WINDOW, 
+	if (isCursorEnabled = enable) glfwSetInputMode(ApplicationManager::APP_WINDOW,
 		GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	else glfwSetInputMode(ApplicationManager::APP_WINDOW, 
 		GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -294,7 +295,6 @@ void Input::showCursor(bool enable)
 // Toggles cursor off or on, returns new state of toggle.
 bool Input::toggleCursor()
 {
-	isCursorEnabled = !isCursorEnabled;
-	showCursor(isCursorEnabled);
+	showCursor(!isCursorEnabled);
 	return isCursorEnabled;
 }
