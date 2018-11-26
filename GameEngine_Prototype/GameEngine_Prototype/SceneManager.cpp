@@ -19,6 +19,11 @@ void SceneManager::Init()
 {
 }
 
+Scene* SceneManager::GetActiveScene()
+{
+	return activeScene;
+}
+
 void SceneManager::SetActiveScene(Scene* scene)
 {
 	// ToDo: Make sure its not the same scene.

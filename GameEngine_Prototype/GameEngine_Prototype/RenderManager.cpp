@@ -6,12 +6,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include "SceneManager.h"
+#include "GameObject.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
 
+//TODO: Store this on the Camera.
 glm::vec4 clearColor = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f );
 
 // Create static instance
@@ -44,7 +46,7 @@ int RenderManager::Init()
 }
 void RenderManager::CompileShaders()
 {
-	defaultShader = new Shader("default.vs", "default.fs");
+	defaultShader = new Shader("model.vs", "model.fs");
 	defaultShader->use();
 	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
 	
@@ -105,6 +107,17 @@ void RenderManager::Render()
 	{
 		RenderObject(currentRenderables[i]);
 	}
+
+	// TODO: Make it a global option of whether we draw gizmos or not.
+	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
+	// Draw Gizmos
+	for (GameObject* go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
+	{
+		for (Component* c : go->components)
+		{
+			c->OnDrawGizmos();
+		}
+	}
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
@@ -114,7 +127,7 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 		return;
 	}
 
-	// ToDo: Optimize draw calls by rendering all objects that use the same shader at once.
+	// TODO: Optimize draw calls by rendering all objects that use the same shader at once.
 	
 	// Start the shader
 	if (currentShaderID != renderable->material->shader->ID)
@@ -123,9 +136,10 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 		renderable->material->shader->use();
 		currentShaderID = renderable->material->shader->ID;
 	}
-	//ToDo: Track current material and draw all objects that use it
+	//TODO: Track current material and draw all objects that use it
 	renderable->material->Load();
 
+	//std::cout << renderable << std::endl;
 	// Draw the object
 	renderable->Draw();
 }
@@ -236,12 +250,12 @@ void RenderManager::DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, i
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	//glEnableVertexAttribArray(0);
 
 	glPointSize(size);
 	glDrawArrays(GL_POINTS, 0, 1);
 
-	glDisableVertexAttribArray(0);
+	//glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 
 	glDeleteVertexArrays(1, &VAO);
@@ -321,7 +335,7 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	glEnableVertexAttribArray(0);
 
 	glLineWidth(size);
-	glBindVertexArray(VAO);
+	//glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, 2);
 
 	glDisableVertexAttribArray(0);

@@ -11,6 +11,7 @@
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
 {
+	Setup();
 }
 
 SimpleModelComponent::~SimpleModelComponent(){}
@@ -48,7 +49,7 @@ void SimpleModelComponent::Draw()
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 
 	// Model uses GameObject transform.
-	glm::mat4* model = &(*gameObject->transform).model;
+	glm::mat4* model = &(*gameObject->transform).getMatrix4x4();
 
 	// retrieve the matrix uniform locations
 	unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");
@@ -73,7 +74,7 @@ void SimpleModelComponent::Draw()
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 
-	gameObject->transform->DrawGizmo();
+	//gameObject->transform->DrawGizmo();
 }
 
 void SimpleModelComponent::Start()
@@ -86,7 +87,7 @@ void SimpleModelComponent::Update()
 
 }
 
-void SimpleModelComponent::OnDestroy()
+void SimpleModelComponent::OnDrawGizmos()
 {
-
+	gameObject->transform->DrawGizmo();
 }

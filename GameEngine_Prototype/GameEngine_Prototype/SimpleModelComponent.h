@@ -13,6 +13,6 @@ public:
 	void Draw() override;
 	void Start() override;
 	void Update() override;
-	void OnDestroy() override;
+	void OnDrawGizmos() override;
 };
 
