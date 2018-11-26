@@ -25,9 +25,6 @@
     <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{e6431b8e-f6d0-4d7c-9600-d701a01a1e0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\AssetManagement">
       <UniqueIdentifier>{925979a1-1c1d-492b-9201-faa9df5673ea}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Test Scenes">
       <UniqueIdentifier>{6a3b8c31-ec1d-4476-a795-6b0a28c7d8e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="DebugUtility.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExampleRotator_James.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,37 +257,40 @@
     <ClInclude Include="SimpleRotator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExampleRotator_James.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\default.fs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\sprite.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\sprite.fs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\model.fs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\model.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\diffuse.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\diffuse.fs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\color.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Shaders\color.fs">
-      <Filter>Shaders</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
