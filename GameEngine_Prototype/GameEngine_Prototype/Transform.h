@@ -40,7 +40,7 @@ public:
 	glm::vec3 getUpDirection();
 	glm::vec3 getForwardDirection();
 
-	void OnDrawGizmo() override;
+	void DrawGizmo();
 
 	void printTransformMatrix();
 

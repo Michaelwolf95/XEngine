@@ -115,9 +115,8 @@ void RenderManager::Render()
 	{
 		for (Component* c : go->components)
 		{
-			c->OnDrawGizmo();
+			c->OnDrawGizmos();
 		}
-		go->transform->OnDrawGizmo();
 	}
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
