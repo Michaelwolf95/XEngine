@@ -35,7 +35,6 @@ Input::~Input() {}
 
 Input* Input::CreateManager()
 {
-	std::cout << "Creating Input Manager." << std::endl;
 	Input* instance = &Input::getInstance();
 	instance->Init();
 	return instance;
@@ -43,7 +42,6 @@ Input* Input::CreateManager()
 
 void Input::Init()
 {
-	std::cout << "Initializing Input." << std::endl;
 	glfwSetCursorPosCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_CALLBACK);
 	glfwSetMouseButtonCallback(ApplicationManager::APP_WINDOW, INPUT_MOUSE_BUTTON_CALLBACK);
 	glfwSetScrollCallback(ApplicationManager::APP_WINDOW, INPUT_SCROLL_CALLBACK);
@@ -85,12 +83,10 @@ void Input::_mouse_button_callback(int button, int action, int mods)
 			== GLFW_PRESS && mouse[i].isButtonPressed == false)
 		{
 			mouse[i].isButtonPressed = true;
-			std::cout << "mouse button number " << i << " was pressed!" << std::endl;
 		}
 		else if (mouse[i].isButtonPressed == true)
 		{
 			mouse[i].isButtonPressed = false;
-			std::cout << "mouse button number " << i << " was released!" << std::endl;
 		}
 	}
 }
