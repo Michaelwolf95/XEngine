@@ -7,14 +7,13 @@
 #include "RenderManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
-
 #include "GameObject.h"
+
 #include "CameraComponent.h"
 #include "Material.h"
 #include "SimpleModelComponent.h"
 #include "ExampleRotator.h"
 #include "TestMoverComponent.h"
-#include "FreeLookCameraController.h"
 
 #include "PrimitiveModels.h"
 
@@ -26,7 +25,8 @@ void CreateScene()
 	CreateSampleScene();
 }
 
-// This is the 
+// This is a "Hard-Coded" Scene.
+// This process may change in the future to use an editor tool instead.
 void CreateSampleScene()
 {
 	//================================================================
@@ -55,10 +55,9 @@ void CreateSampleScene()
 	cameraGameObject->transform->setLocalPosition(glm::vec3(0, 1.5, -5));		// Move back and up.
 	cameraGameObject->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));	// Rotate view 20 degrees down.
 
-	cameraGameObject->AddComponent(new TestMoverComponent());
 
 	//================================================================
-	// 3. CREATE "CUBE" MODEL 
+	// 3. CREATE THE "CUBE" MODEL 
 	//================================================================
 	
 	// Create an empty GameObject in our scene called "Cube".
@@ -87,10 +86,12 @@ void CreateSampleScene()
 	//================================================================
 
 	// Create and add an "ExampleRotator" component to the Cube.
+	// This lets you "Rotate" the cube using the arrow keys.
 	// You can read more about how it works in by reading "ExampleRotator.cpp"
 	ExampleRotator* rotator = new ExampleRotator();
 	cube->AddComponent(rotator);
 	rotator->rotationSpeed = 90;
+
 
 	//================================================================
 	// 5. CREATE THE FLOOR
@@ -102,15 +103,21 @@ void CreateSampleScene()
 	floorModel->material = boxMaterial;
 	floor->AddComponent(floorModel);
 
-	// Move the floor down and up when 
+	// Move the floor down and stretch it out to look like a floor.
 	floor->transform->setLocalPosition(0, -5, 0);
 	floor->transform->setLocalScale(10, 0.5, 10);
 	
+
 	//================================================================
-	// 6. ACTIVATE SCENE ========================================
+	// 6. ACTIVATE SCENE 
 	//================================================================
 
 	// Tell the SceneManager to load this scene.
 	// This doesn't need to be last, but it's a good practice.
 	SceneManager::getInstance().SetActiveScene(scene);
+
+
+	// Optional: Uncomment this to move your camera around.
+	// This component will let you move the camera around using WASD keys, and up and down using the Q&E keys.
+	//cameraGameObject->AddComponent(new TestMoverComponent());
 }
