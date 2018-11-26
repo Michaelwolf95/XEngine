@@ -11,6 +11,7 @@
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
 {
+	Setup();
 }
 
 SimpleModelComponent::~SimpleModelComponent(){}
@@ -73,7 +74,7 @@ void SimpleModelComponent::Draw()
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 
-	gameObject->transform->DrawGizmo();
+	//gameObject->transform->DrawGizmo();
 }
 
 void SimpleModelComponent::Start()

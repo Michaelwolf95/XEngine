@@ -6,7 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include "SceneManager.h"
+#include "GameObject.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
@@ -45,7 +46,7 @@ int RenderManager::Init()
 }
 void RenderManager::CompileShaders()
 {
-	defaultShader = new Shader("default.vs", "default.fs");
+	defaultShader = new Shader("model.vs", "model.fs");
 	defaultShader->use();
 	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
 	
@@ -105,6 +106,18 @@ void RenderManager::Render()
 	for (size_t i = 0; i < currentRenderables.size(); i++)
 	{
 		RenderObject(currentRenderables[i]);
+	}
+
+	// TODO: Make it a global option of whether we draw gizmos or not.
+	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
+	// Draw Gizmos
+	for (GameObject* go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
+	{
+		for (Component* c : go->components)
+		{
+			c->OnDrawGizmo();
+		}
+		go->transform->OnDrawGizmo();
 	}
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
