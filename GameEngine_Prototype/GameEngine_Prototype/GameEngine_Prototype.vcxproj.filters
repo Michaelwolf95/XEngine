@@ -55,6 +55,9 @@
     <Filter Include="Test Scenes">
       <UniqueIdentifier>{6a3b8c31-ec1d-4476-a795-6b0a28c7d8e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{6d778bfa-765d-4ee8-86a8-4d1f22d2f9ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -259,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="SimpleRotator.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitiveModels.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

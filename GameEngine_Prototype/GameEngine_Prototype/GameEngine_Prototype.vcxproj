@@ -196,8 +196,10 @@
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LineDrawer.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="PrimitiveModels.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="SampleScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />

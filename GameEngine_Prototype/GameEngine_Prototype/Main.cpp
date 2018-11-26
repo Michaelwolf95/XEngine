@@ -13,7 +13,7 @@
 #include "Time.h"
 #include "Input.h"
 
-#include "TestScenes.h"
+#include "SampleScene.h"
 
 
 // ENTRY POINT
@@ -27,8 +27,8 @@ int main()
 	Time::CreateManager();
 	Input::CreateManager();
 
-	// Create & Load Scene
-	RunTestScene();
+	// Create & Load Scene (from SampleScene.h)
+	CreateSampleScene();
 
 	// FRAME LOOP
 	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
