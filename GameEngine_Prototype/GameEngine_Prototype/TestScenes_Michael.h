@@ -19,7 +19,7 @@
 #include "CameraSwapper.h"
 #include "FreeLookCameraController.h"
 #include "SimpleRotator.h"
-#include "ExampleRotator.h"
+#include "TransformTester.h"
 using namespace std;
 
 void ChooseTestScene();
@@ -120,7 +120,7 @@ void CreateTestScene_EXAMPLE()
 	camGo->transform->setLocalPosition(glm::vec3(0, 2, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
 
-	auto rotator = new ExampleRotator();
+	auto rotator = new TransformTester();
 	cube->AddComponent(rotator);
 	rotator->rotationSpeed = 90;
 

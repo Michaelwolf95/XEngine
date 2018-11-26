@@ -1,13 +1,13 @@
 #pragma once
 #include "Component.h"
 
-class ExampleRotator : public Component
+class TransformTester : public Component
 {
 public:
 	float rotationSpeed = 25;
 	bool isPressed = false;
-	ExampleRotator();
-	~ExampleRotator();
+	TransformTester();
+	~TransformTester();
 	void Start() override;
 	void Update() override;
 };

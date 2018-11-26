@@ -105,7 +105,7 @@ void CreateTestScene_DM1()
 	cameraObject->transform->setLocalRotationEuler(glm::vec3(20.0f, 0.0f, 0.0f));
 	//cameraObject->AddComponent(new TestMoverComponent());
 
-	auto rotator = new ExampleRotator();
+	auto rotator = new TransformTester();
 	cube->AddComponent(rotator);
 	rotator->rotationSpeed = 10;
 

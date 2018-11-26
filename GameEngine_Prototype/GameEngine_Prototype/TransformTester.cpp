@@ -1,20 +1,20 @@
-#include "ExampleRotator.h"
+#include "TransformTester.h"
 #include "GameObject.h"
 #include "Time.h"
 //#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
 #include "DebugUtility.h"
 
-ExampleRotator::ExampleRotator() {}
-ExampleRotator::~ExampleRotator() {}
+TransformTester::TransformTester() {}
+TransformTester::~TransformTester() {}
 
-void ExampleRotator::Start()
+void TransformTester::Start()
 {
 	glm::vec3 newRot = glm::vec3(0, 15, 0);
 	//gameObject->transform->setLocalRotationEuler(newRot);
 }
 
-void ExampleRotator::Update()
+void TransformTester::Update()
 {
 
 	float deltaY = rotationSpeed * Time::deltaTime;
