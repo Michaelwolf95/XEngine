@@ -41,38 +41,14 @@ int main()
 		Time::getInstance().UpdateTime();
 		Input::getInstance().UpdateInput();
 
-		for (int i = 0; i < 350; i++)
-		{
-			if (Input::GetKeyDown(i) == true)
-			{
-				std::cout << "Key " << (char)i << " was just preseed! (" << i << ')' << std::endl;
-				if (i == GLFW_KEY_P) Input::ToggleCursor();
-			}
-			if (Input::GetKeyUp(i) == true)
-			{
-				std::cout << "Key " << (char)i << " was just released! (" << i << ')' << std::endl;
-			}
-			if (Input::GetKey(i) == true)
-			{
-				std::cout << "Key " << (char)i << " is being pressed...(" << i << ')' << std::endl;
-			}
-		}
-
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
 
 		RenderManager::getInstance().Render();
-		//Input::getInstance().setKeyFunction(32, functionInMain);
-		//Input::getInstance().checkKeyInputs
 
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 
 	ApplicationManager::getInstance().CloseApplication();
 	return 0;
-}
-
-void functionInMain()
-{
-	std::cout << "Printing from a function in main!" << std::endl;
 }

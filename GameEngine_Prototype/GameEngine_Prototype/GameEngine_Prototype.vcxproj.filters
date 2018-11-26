@@ -150,6 +150,9 @@
     <ClCompile Include="SimpleRotator.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="InputTester.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -258,6 +261,9 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="SimpleRotator.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InputTester.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>

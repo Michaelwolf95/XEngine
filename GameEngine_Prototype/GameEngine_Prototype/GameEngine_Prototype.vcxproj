@@ -159,6 +159,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputTester.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="LineDrawer.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputTester.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LineDrawer.h" />

@@ -7,7 +7,7 @@
 #include <functional>
 #define m_arr_sz 10
 #define k_arr_sz 350
-#define k_arr_start 32
+#define k_arr_start 32 // Skips first 32 integers to save CPU time.
 
 void INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos);
 void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);

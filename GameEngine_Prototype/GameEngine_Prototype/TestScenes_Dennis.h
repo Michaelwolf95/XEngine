@@ -16,7 +16,7 @@
 #include "TestMoverComponent.h"
 #include "CameraComponent.h"
 #include "CameraSwapper.h"
-#include "ExampleRotator.h"
+#include "InputTester.h"
 
 void CreateTestScene_DM1();
 
@@ -108,9 +108,12 @@ void CreateTestScene_DM1()
 	cameraObject->transform->setLocalRotationEuler(glm::vec3(20.0f, 0.0f, 0.0f));
 	//cameraObject->AddComponent(new TestMoverComponent());
 
-	auto rotator = new ExampleRotator();
-	cube->AddComponent(rotator);
-	rotator->rotationSpeed = 10;
+	auto inputTester = new InputTester();
+	cube->AddComponent(inputTester);
+	cube->transform->setLocalPosition(glm::vec3(0.0f, 0.f, -1.5f));
+	inputTester->rotationSpeed = 15.0f;
+	
+
 
 	SceneManager::getInstance().SetActiveScene(scene);
 }
