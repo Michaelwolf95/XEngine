@@ -44,6 +44,8 @@ public:
 
 	void printTransformMatrix();
 
+	void TestEulerRotation(float x, float y, float z);
+
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 private: 
 	glm::mat4 model = glm::mat4(1.0f);

@@ -10,13 +10,49 @@ TransformTester::~TransformTester() {}
 
 void TransformTester::Start()
 {
-	glm::vec3 newRot = glm::vec3(0, 15, 0);
-	//gameObject->transform->setLocalRotationEuler(newRot);
+
+
+	gameObject->transform->TestEulerRotation(0, 0, 80);
+	gameObject->transform->TestEulerRotation(0, 0, 90);
+	gameObject->transform->TestEulerRotation(0, 0, 100);
+	std::cout << atan2(0, 1) << std::endl;
+	std::cout << asin(0) << std::endl;
+	std::cout << atan2f( 2* cos(glm::radians(50.0f))*sin(glm::radians(50.0f)), 1- (2*sin(glm::radians(50.0f))*sin(glm::radians(50.0f)))) << std::endl;
+	//std::cout << atan2f(0.98480775301f, 0.17364817767f) << std::endl;
+	gameObject->transform->TestEulerRotation(0, 0, -80);
+	gameObject->transform->TestEulerRotation(0, 0, -90);
+	gameObject->transform->TestEulerRotation(0, 0, -100);
+	std::cout << std::endl;
+
+	gameObject->transform->TestEulerRotation(0, 80, 0);
+	gameObject->transform->TestEulerRotation(0, 90, 0);
+	gameObject->transform->TestEulerRotation(0, 100, 0);
+	std::cout << atan2f(0, 1 - (2 * sin(glm::radians(50.0f))*sin(glm::radians(50.0f)))) << std::endl;
+	std::cout << asin(2 * sin(glm::radians(50.0f))*cos(glm::radians(50.0f))) << std::endl;
+
+	gameObject->transform->TestEulerRotation(180, 80, 180);
+
+	gameObject->transform->TestEulerRotation(0, 180, 0);
+	gameObject->transform->TestEulerRotation(0, 360, 0);
+
+	//gameObject->transform->TestEulerRotation(0, -80, 0);
+	//gameObject->transform->TestEulerRotation(0, -90, 0);
+	//gameObject->transform->TestEulerRotation(0, -100, 0);
+	//std::cout << std::endl;
+
+	//gameObject->transform->TestEulerRotation(80,  0, 0);
+	//gameObject->transform->TestEulerRotation(90,  0, 0);
+	//gameObject->transform->TestEulerRotation(100, 0, 0);
+	//gameObject->transform->TestEulerRotation(-80, 0, 0);
+	//gameObject->transform->TestEulerRotation(-90, 0, 0);
+	//gameObject->transform->TestEulerRotation(-100, 0, 0);
+
+	std::cout << std::endl;
 }
 
 void TransformTester::Update()
 {
-
+	return;
 	float deltaY = rotationSpeed * Time::deltaTime;
 	float deltaZ = rotationSpeed * Time::deltaTime;
 
