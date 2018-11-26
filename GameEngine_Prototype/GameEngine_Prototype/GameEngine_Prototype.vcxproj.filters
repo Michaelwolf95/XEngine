@@ -144,10 +144,13 @@
     <ClCompile Include="DebugUtility.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="ExampleRotator.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
     <ClCompile Include="SimpleRotator.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="TransformTester.cpp">
+    <ClCompile Include="InputTester.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -254,14 +257,14 @@
     <ClInclude Include="FreeLookCameraController.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ExampleRotator.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
     <ClInclude Include="SimpleRotator.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="TransformTester.h">
+    <ClInclude Include="InputTester.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PrimitiveModels.h">
-      <Filter>Header Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
