@@ -107,9 +107,7 @@ void CreateTestScene_EXAMPLE()
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 
-	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, 
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
-	model->Setup();
+	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, 36, modelMaterial);
 	cube->AddComponent(model);
 	
 	cube->transform->setLocalPosition(glm::vec3(0, 0, 0));
@@ -119,7 +117,7 @@ void CreateTestScene_EXAMPLE()
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
 
-	camGo->transform->setLocalPosition(glm::vec3(0, -1, -5));
+	camGo->transform->setLocalPosition(glm::vec3(0, 2, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
 
 	auto rotator = new ExampleRotator();
