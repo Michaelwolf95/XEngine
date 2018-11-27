@@ -9,6 +9,7 @@ public:
 	static SceneManager* CreateManager();
 	SceneManager();
 	void Init();
+	Scene* GetActiveScene();
 	void SetActiveScene(Scene* scene);
 	void StartActiveScene();
 	void UpdateActiveScene();

@@ -31,21 +31,21 @@ void FreeLookCameraController::Update()
 
 	float deltaMove = moveSpeed * Time::deltaTime;
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, deltaMove * forward);
+		gameObject->transform->Translate(deltaMove * forward);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_S) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, -deltaMove * forward);
+		gameObject->transform->Translate(-deltaMove * forward);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_A) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, -glm::normalize(glm::cross(forward, up)) * deltaMove);
+		gameObject->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_D) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, glm::normalize(glm::cross(forward, up)) * deltaMove);
+		gameObject->transform->Translate(glm::normalize(glm::cross(forward, up)) * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_Q) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, -up * deltaMove);
+		gameObject->transform->Translate(-up * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
-		gameObject->transform->model = translate(gameObject->transform->model, up * deltaMove);
+		gameObject->transform->Translate(up * deltaMove);
 
 	// TODO: Set Camera projection matrix using fov.
 	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= Input::getInstance().yScrollOffset;
+		fov -= Input::getInstance().GetScrollOffsetY();
 	if (fov <= 1.0f)
 		fov = 1.0f;
 	if (fov >= 45.0f)
@@ -60,8 +60,8 @@ void FreeLookCameraController::Update()
 	//	firstMouse = false;
 	//}
 
-	float xoffset = Input::getInstance().xDeltaPos;// xpos - lastX;
-	float yoffset = Input::getInstance().yDeltaPos; //lastY - ypos; // reversed since y-coordinates go from bottom to top
+	float xoffset = Input::getInstance().GetDeltaPosX();// xpos - lastX;
+	float yoffset = Input::getInstance().GetDeltaPosY(); //lastY - ypos; // reversed since y-coordinates go from bottom to top
 
 	//std::cout << xoffset << ", " << yoffset << std::endl;
 

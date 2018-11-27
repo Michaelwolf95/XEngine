@@ -24,8 +24,9 @@ mat4 CameraComponent::getProjection()
 
 mat4 CameraComponent::getView()
 {
-	// Make sure the model is never scaled?
-	return (gameObject->transform->model);
+	glm::vec3 cameraPos = gameObject->transform->getPosition();
+	return glm::lookAt(cameraPos, cameraPos + gameObject->transform->getForwardDirection(), gameObject->transform->getUpDirection());
+	//return (gameObject->transform->getMatrix4x4());
 }
 
 void CameraComponent::Start() {}

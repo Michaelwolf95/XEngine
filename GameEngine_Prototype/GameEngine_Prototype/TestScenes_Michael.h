@@ -19,7 +19,10 @@
 #include "CameraSwapper.h"
 #include "FreeLookCameraController.h"
 #include "SimpleRotator.h"
+#include "TransformTester.h"
 using namespace std;
+
+#include "PrimitiveModels.h"
 
 void ChooseTestScene();
 // Not a "scene" per-say. Just tests.
@@ -33,12 +36,24 @@ void CreateTestScene6();
 void CreateTestScene7();
 void CreateTestScene8();
 
+
+
+void CreateTestScene_EXAMPLE();
+
 void RunTestScene_Michael()
 {
-	CreateTestScene8();
+	CreateTestScene_EXAMPLE();
+	//CreateTestScene7();
 }
 
-float CUBE_VERTS[] = {
+
+void CreateTestScene_EXAMPLE()
+{
+	Scene* scene = new Scene("EXAMPLE SCENE");
+
+	GameObject* cube = scene->CreateGameObject("Cube");
+	// Create Cube Model
+	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
 		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
 		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
@@ -80,15 +95,41 @@ float CUBE_VERTS[] = {
 		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-};
-unsigned int CUBE_INDICES[] = {
-	0, 1, 2,	0, 2, 3,      // front
-	4, 5, 6,	4, 6, 7,      // back
-	8, 9, 10,	8, 10, 11,    // top
-	12, 13, 14, 12, 14, 15,   // bottom
-	16, 17, 18, 16, 18, 19,   // right
-	20, 21, 22, 20, 22, 23,   // left
-};
+	};
+	unsigned int indices[] = {
+		0, 1, 2,	0, 2, 3,      // front
+		4, 5, 6,	4, 6, 7,      // back
+		8, 9, 10,	8, 10, 11,    // top
+		12, 13, 14, 12, 14, 15,   // bottom
+		16, 17, 18, 16, 18, 19,   // right
+		20, 21, 22, 20, 22, 23,   // left
+	};
+
+	Shader* modelShader = new Shader("model.vs", "model.fs");
+	Material* modelMaterial = new Material(modelShader);
+	modelMaterial->LoadTexture("textures/container.jpg");
+
+	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, 36, modelMaterial);
+	cube->AddComponent(model);
+	
+	cube->transform->setLocalPosition(glm::vec3(0, 0, 0));
+
+	// Create Camera GameObject
+	GameObject* camGo = scene->CreateGameObject("Camera");
+	CameraComponent* camera = new CameraComponent();
+	camGo->AddComponent(camera);
+
+	camGo->transform->setLocalPosition(glm::vec3(0, 2, -5));
+	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
+
+	auto rotator = new TransformTester();
+	cube->AddComponent(rotator);
+	rotator->rotationSpeed = 90;
+
+
+	SceneManager::getInstance().SetActiveScene(scene);
+}
+
 
 void ChooseTestScene()
 {
@@ -240,64 +281,10 @@ void CreateTestScene3()
 
 void CreateTestScene4()
 {
-	// Cube
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
 	Shader* modelShader = new Shader("model.vs", "model.fs");
 	Material* modelMaterial = new Material(modelShader);
-	SimpleModel* testModel = new SimpleModel(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModel* testModel = new SimpleModel(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 	modelMaterial->LoadTexture("textures/container.jpg");
 
@@ -310,60 +297,8 @@ void CreateTestScene5()
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 
-	// Create Cube Model
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
-	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 
 	// Create Scene
@@ -375,14 +310,13 @@ void CreateTestScene5()
 
 	// Create Floor
 	GameObject* go2 = scene->CreateGameObject("Floor");
-	SimpleModelComponent* testModel2 = new SimpleModelComponent(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModelComponent* testModel2 = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, -10.0f));
-	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+	go2->transform->Translate(glm::vec3(0.0f, -2.5f, -10.0f));
+	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
+
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);
 }
@@ -394,60 +328,8 @@ void CreateTestScene6()
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 
-	// Create Cube Model
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
-	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 
 
@@ -460,35 +342,33 @@ void CreateTestScene6()
 
 	// Create Floor
 	GameObject* go2 = scene->CreateGameObject("Floor");
-	SimpleModelComponent* testModel2 = new SimpleModelComponent(
-		vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int),
-		modelMaterial);
+	SimpleModelComponent* testModel2 = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel2->Setup();
 	go2->AddComponent(testModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -2.5f, 0.0f));
-	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+	go2->transform->Translate(glm::vec3(0.0f, -2.5f, 0.0f));
+	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
 
 	// CAMERA SETUP
 
 	GameObject* camGo1 = scene->CreateGameObject("Cam1");
 	CameraComponent* cam1 = new CameraComponent();
 	camGo1->AddComponent(cam1);
-	camGo1->transform->model = glm::translate(camGo1->transform->model, glm::vec3(1.0f, -1.0f, -7.0f));
-	camGo1->transform->model = glm::rotate(camGo1->transform->model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	camGo1->transform->model = glm::rotate(camGo1->transform->model, glm::radians(10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo1->transform->Translate(glm::vec3(1.0f, -1.0f, -7.0f));
+	camGo1->transform->Rotate(glm::vec3(0.0f, 20.0f, 0.0f));
+	camGo1->transform->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 
 	GameObject* camGo2 = scene->CreateGameObject("Cam2");
 	CameraComponent* cam2 = new CameraComponent();
 	camGo2->AddComponent(cam2);
-	camGo2->transform->model = glm::translate(camGo2->transform->model, glm::vec3(-1.0f, -1.0f, -7.0f));
-	camGo2->transform->model = glm::rotate(camGo2->transform->model, glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	camGo2->transform->model = glm::rotate(camGo2->transform->model, glm::radians(10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo2->transform->Translate(glm::vec3(-1.0f, -1.0f, -7.0f));
+	camGo2->transform->Rotate(glm::vec3(0.0f, -20.0f, 0.0f));
+	camGo2->transform->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 
 	GameObject* camGo3 = scene->CreateGameObject("Cam3 (Moving)");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo3->AddComponent(cam3);
-	camGo3->transform->model = glm::rotate(camGo3->transform->model, glm::radians(10.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo3->transform->Rotate(glm::vec3(10.0f, 0.0f, 0.0f));
 	camGo3->AddComponent(new TestMoverComponent());
 
 	GameObject* swapperGo = scene->CreateGameObject("Swapper");
@@ -515,61 +395,8 @@ void CreateTestScene7()
 	unlitMaterial->Color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 	//unlitMaterial->LoadTexture("textures/container.jpg");
 
-
-	// Create Cube Model
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 2,	0, 2, 3,      // front
-		4, 5, 6,	4, 6, 7,      // back
-		8, 9, 10,	8, 10, 11,    // top
-		12, 13, 14, 12, 14, 15,   // bottom
-		16, 17, 18, 16, 18, 19,   // right
-		20, 21, 22, 20, 22, 23,   // left
-	};
-	SimpleModelComponent* testModel = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), modelMaterial);
+	SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 	testModel->Setup();
 
 
@@ -582,11 +409,11 @@ void CreateTestScene7()
 
 	GameObject* lightGo = scene->CreateGameObject("Light");
 	lightGo->AddComponent(new LightComponent());
-	lightGo->transform->model = glm::translate(lightGo->transform->model, glm::vec3(0.0f, 1.5f, 0.0f));
-	lightGo->transform->model = glm::scale(lightGo->transform->model, glm::vec3(0.2f));
+	lightGo->transform->Translate(glm::vec3(0.0f, 1.5f, 0.0f));
+	lightGo->transform->Scale(glm::vec3(0.2f));
 	lightGo->AddComponent(new TestMoverComponent());
-	SimpleModelComponent* lamp = new SimpleModelComponent(vertices, 36, 5,
-		indices, sizeof(indices) / sizeof(unsigned int), unlitMaterial);
+	SimpleModelComponent* lamp = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), unlitMaterial);
 	lamp->Setup();
 	lightGo->AddComponent(lamp);
 
@@ -595,8 +422,8 @@ void CreateTestScene7()
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo->AddComponent(cam3);
-	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -4.5f));
-	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -4.5f));
+	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 	//camGo->AddComponent(new TestMoverComponent());
 
 
@@ -623,8 +450,8 @@ void CreateTestScene8()
 		modelMaterial);
 	floorModel2->Setup();
 	go2->AddComponent(floorModel2);
-	go2->transform->model = glm::translate(go2->transform->model, glm::vec3(0.0f, -5.0f, 0.0f));
-	go2->transform->model = glm::scale(go2->transform->model, glm::vec3(10.0f, 0.5f, 10.0f));
+	go2->transform->Translate(glm::vec3(0.0f, -5.0f, 0.0f));
+	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
 
 	GameObject* go = scene->CreateGameObject("Cube");
 	SimpleModelComponent* cubeModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
@@ -632,7 +459,7 @@ void CreateTestScene8()
 	cubeModel->Setup();
 	go->AddComponent(cubeModel);
 
-	go->transform->setPosition(vec3(1, 0, 1));
+	go->transform->setLocalPosition(vec3(1, 0, 1));
 	go->transform->setLocalScale(vec3(3, 1, 2));
 	go->transform->setLocalRotationEuler(vec3(35, 0, 0));
 	//go->transform->setLocalRotationEuler(vec3(15, 45, -20));
@@ -652,8 +479,8 @@ void CreateTestScene8()
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo->AddComponent(cam3);
-	camGo->transform->model = glm::translate(camGo->transform->model, glm::vec3(0.0f, -1.0f, -8.0f));
-	camGo->transform->model = glm::rotate(camGo->transform->model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -8.0f));
+	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 	camGo->AddComponent(new TestMoverComponent());
 	//camGo->AddComponent(new FreeLookCameraController());
 
