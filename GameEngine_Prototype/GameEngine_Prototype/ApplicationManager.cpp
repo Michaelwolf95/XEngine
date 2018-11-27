@@ -135,15 +135,14 @@ void ApplicationManager::LoadAppConfig()
 
 	try
 	{
-		std::ifstream file(appConfigPath);
+		std::ifstream file(appConfigPath); 
 
 		file >> appSettings;
 
 		std::string tempStr = appSettings["Window_Title"];
-		char *tempChar = new char[tempStr.length() + 1];
+		tempChar = new char[tempStr.length() + 1];
 		strcpy_s(tempChar, tempStr.length() + 1, tempStr.c_str());
 		this->config->appTitle = tempChar;
-		//delete[] tempChar; // If left uncommented, window title does not show up
 
 		this->config->screenHeight = appSettings["Screen_Height"];
 		this->config->screenWidth = appSettings["Screen_Width"];
@@ -168,9 +167,11 @@ void ApplicationManager::SaveAppConfig()
 		this->saveSettings["Screen_Height"] = this->config->screenHeight;
 		this->saveSettings["Screen_Width"] = this->config->screenWidth;
 
-		//std::cout << saveSettings.dump(4) << std::endl;
-
 		file << saveSettings.dump(4) << std::endl;
+
+		file.close();
+
+		delete[] tempChar;
 	}
 	catch (const std::exception& e)
 	{

@@ -56,6 +56,7 @@ protected:
 private:
 	JSON appSettings;
 	JSON saveSettings;
+	char *tempChar;
 
 	GLFWwindow* CreateAppWindow();
 
