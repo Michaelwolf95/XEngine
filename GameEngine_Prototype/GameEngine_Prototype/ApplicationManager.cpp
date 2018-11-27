@@ -12,7 +12,7 @@
 
 */
 
-static const char* APP_CONFIG_FILE_PATH = "../Application_Configuration/";
+static const char* APP_CONFIG_FILE_PATH = "../Settings/";
 
 AppConfig* ApplicationManager::config = nullptr;
 GLFWwindow* ApplicationManager::APP_WINDOW;

@@ -61,6 +61,9 @@
     <Filter Include="Source Files\Components\Testers">
       <UniqueIdentifier>{e7d399e7-47b0-4977-a6f3-718a35bf6521}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -306,6 +309,9 @@
     </None>
     <None Include="..\Shaders\color.fs">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Settings\AppConfig.json">
+      <Filter>Settings</Filter>
     </None>
   </ItemGroup>
 </Project>

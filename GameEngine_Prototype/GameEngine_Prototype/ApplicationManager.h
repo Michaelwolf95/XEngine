@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <nlohmann\json.hpp>
+#include <nlohmann/json.hpp>
 #include "Singleton.h"
 
 #define SCREEN_WIDTH ApplicationManager::getInstance().config->screenWidth

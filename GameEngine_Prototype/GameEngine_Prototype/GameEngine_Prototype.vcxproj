@@ -220,6 +220,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Settings\AppConfig.json" />
     <None Include="..\Shaders\color.fs" />
     <None Include="..\Shaders\color.vs" />
     <None Include="..\Shaders\default.fs" />
