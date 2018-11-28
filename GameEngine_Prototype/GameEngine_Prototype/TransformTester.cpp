@@ -26,13 +26,18 @@ void TransformTester::Start()
 
 	gameObject->transform->TestEulerRotation(0, 80, 0);
 	gameObject->transform->TestEulerRotation(0, 90, 0);
+	gameObject->transform->TestEulerRotation(0, -90, 0);
+	gameObject->transform->TestEulerRotation(0, 180, 0);
 	gameObject->transform->TestEulerRotation(0, 100, 0);
 	std::cout << atan2f(0, 1 - (2 * sin(glm::radians(50.0f))*sin(glm::radians(50.0f)))) << std::endl;
 	std::cout << asin(2 * sin(glm::radians(50.0f))*cos(glm::radians(50.0f))) << std::endl;
+	
+	gameObject->transform->TestEulerRotation(0, -100, 0);
+	//gameObject->transform->TestEulerRotation(0, -180, 0);
 
-	gameObject->transform->TestEulerRotation(180, 80, 180);
+	//gameObject->transform->TestEulerRotation(180, 80, 180);
 
-	gameObject->transform->TestEulerRotation(100, 100, 0);
+	//gameObject->transform->TestEulerRotation(100, 100, 0);
 	//gameObject->transform->TestEulerRotation(0, 180, 0);
 	//gameObject->transform->TestEulerRotation(0, 360, 0);
 
@@ -48,13 +53,16 @@ void TransformTester::Start()
 	//gameObject->transform->TestEulerRotation(-90, 0, 0);
 	//gameObject->transform->TestEulerRotation(-100, 0, 0);
 
-	gameObject->transform->TestEulerRotation(0, 0, 0);
+	//gameObject->transform->TestEulerRotation(0, 0, 0);
 	std::cout << std::endl;
+
+	rotationSpeed = 99;
 }
 
 void TransformTester::Update()
 {
 	//return;
+
 	float deltaY = rotationSpeed * Time::deltaTime;
 	float deltaZ = rotationSpeed * Time::deltaTime;
 
@@ -76,7 +84,7 @@ void TransformTester::Update()
 	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
 
 	// Currently broken API
-	glm::vec3 newRot = glm::vec3(rot.x, rot.y + deltaY, rot.z + deltaZ);
+	glm::vec3 newRot = glm::vec3(rot.x + deltaZ, rot.y + deltaY, rot.z );
 	gameObject->transform->setLocalRotationEuler(newRot);
 
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_SPACE) == GLFW_PRESS)

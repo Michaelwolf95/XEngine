@@ -1,5 +1,5 @@
 {
-  "Screen_Height": 1080,
-  "Screen_Width": 1920,
-  "Window_Title": "X-Engine"
+    "Screen_Height": 600,
+    "Screen_Width": 800,
+    "Window_Title": "X-Engine"
 }
