@@ -45,7 +45,7 @@ void FreeLookCameraController::Update()
 
 	// TODO: Set Camera projection matrix using fov.
 	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= Input::getInstance().yScrollOffset;
+		fov -= Input::getInstance().GetScrollOffsetY();
 	if (fov <= 1.0f)
 		fov = 1.0f;
 	if (fov >= 45.0f)
@@ -60,8 +60,8 @@ void FreeLookCameraController::Update()
 	//	firstMouse = false;
 	//}
 
-	float xoffset = Input::getInstance().xDeltaPos;// xpos - lastX;
-	float yoffset = Input::getInstance().yDeltaPos; //lastY - ypos; // reversed since y-coordinates go from bottom to top
+	float xoffset = Input::getInstance().GetDeltaPosX();// xpos - lastX;
+	float yoffset = Input::getInstance().GetDeltaPosY(); //lastY - ypos; // reversed since y-coordinates go from bottom to top
 
 	//std::cout << xoffset << ", " << yoffset << std::endl;
 

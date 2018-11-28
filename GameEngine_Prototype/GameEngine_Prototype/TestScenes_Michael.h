@@ -19,8 +19,10 @@
 #include "CameraSwapper.h"
 #include "FreeLookCameraController.h"
 #include "SimpleRotator.h"
-#include "ExampleRotator.h"
+#include "TransformTester.h"
 using namespace std;
+
+#include "PrimitiveModels.h"
 
 void ChooseTestScene();
 // Not a "scene" per-say. Just tests.
@@ -120,7 +122,7 @@ void CreateTestScene_EXAMPLE()
 	camGo->transform->setLocalPosition(glm::vec3(0, 2, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
 
-	auto rotator = new ExampleRotator();
+	auto rotator = new TransformTester();
 	cube->AddComponent(rotator);
 	rotator->rotationSpeed = 90;
 
@@ -128,62 +130,6 @@ void CreateTestScene_EXAMPLE()
 	SceneManager::getInstance().SetActiveScene(scene);
 }
 
-
-
-
-
-
-float CUBE_VERTS[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-		0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-		0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-		0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-};
-unsigned int CUBE_INDICES[] = {
-	0, 1, 2,	0, 2, 3,      // front
-	4, 5, 6,	4, 6, 7,      // back
-	8, 9, 10,	8, 10, 11,    // top
-	12, 13, 14, 12, 14, 15,   // bottom
-	16, 17, 18, 16, 18, 19,   // right
-	20, 21, 22, 20, 22, 23,   // left
-};
 
 void ChooseTestScene()
 {

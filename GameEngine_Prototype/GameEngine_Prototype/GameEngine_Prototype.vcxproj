@@ -154,12 +154,12 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
-    <ClCompile Include="ExampleRotator.cpp" />
-    <ClCompile Include="ExampleRotator_James.cpp" />
+    <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputTester.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="LineDrawer.cpp" />
@@ -189,11 +189,12 @@
     <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="DebugUtility.h" />
     <ClInclude Include="Drawer.h" />
-    <ClInclude Include="ExampleRotator.h" />
-    <ClInclude Include="ExampleRotator_James.h" />
+    <ClInclude Include="PrimitiveModels.h" />
+    <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputTester.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LineDrawer.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Settings\AppConfig.json" />
     <None Include="..\Shaders\color.fs" />
     <None Include="..\Shaders\color.vs" />
     <None Include="..\Shaders\default.fs" />

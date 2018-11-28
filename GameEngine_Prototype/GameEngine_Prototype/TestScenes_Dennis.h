@@ -16,7 +16,7 @@
 #include "TestMoverComponent.h"
 #include "CameraComponent.h"
 #include "CameraSwapper.h"
-#include "ExampleRotator.h"
+#include "InputTester.h"
 
 void CreateTestScene_DM1();
 
@@ -28,7 +28,9 @@ void RunTestScene_Dennis()
 void CreateTestScene_DM1()
 {
 	Scene* scene = new Scene("DM1-test");
-
+	
+	/// Preparing cube model
+	// Creating object called "cube"
 	GameObject* cube = scene->CreateGameObject("Cube");
 
 	// Cube
@@ -88,7 +90,7 @@ void CreateTestScene_DM1()
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 	//Input::CreateManager();
-	//Input::getInstance().Init();
+	//Input::getInstance().Init()l
 	
 	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
 	
@@ -105,9 +107,12 @@ void CreateTestScene_DM1()
 	cameraObject->transform->setLocalRotationEuler(glm::vec3(20.0f, 0.0f, 0.0f));
 	//cameraObject->AddComponent(new TestMoverComponent());
 
-	auto rotator = new ExampleRotator();
-	cube->AddComponent(rotator);
-	rotator->rotationSpeed = 10;
+	auto inputTester = new InputTester();
+	cube->AddComponent(inputTester);
+	cube->transform->setLocalPosition(glm::vec3(0.0f, -2.f, 3.0f));
+	inputTester->rotationSpeed = 15.0f;
+	
+
 
 	SceneManager::getInstance().SetActiveScene(scene);
 }

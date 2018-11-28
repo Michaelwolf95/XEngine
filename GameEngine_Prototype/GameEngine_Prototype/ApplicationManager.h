@@ -2,10 +2,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include "Singleton.h"
 
 #define SCREEN_WIDTH ApplicationManager::getInstance().config->screenWidth
 #define SCREEN_HEIGHT ApplicationManager::getInstance().config->screenHeight
+
+using JSON = nlohmann::json;
 
 /* The ApplicationManager is responsible for:
 - Managing system events
@@ -51,5 +54,12 @@ public:
 protected:
 	ApplicationManager();
 private:
+	JSON appSettings;
+	JSON saveSettings;
+	char *tempChar;
+
 	GLFWwindow* CreateAppWindow();
+
+	void LoadAppConfig();
+	void SaveAppConfig();
 };

@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{e6431b8e-f6d0-4d7c-9600-d701a01a1e0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\AssetManagement">
       <UniqueIdentifier>{925979a1-1c1d-492b-9201-faa9df5673ea}</UniqueIdentifier>
     </Filter>
@@ -52,8 +55,14 @@
     <Filter Include="Test Scenes">
       <UniqueIdentifier>{6a3b8c31-ec1d-4476-a795-6b0a28c7d8e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Shaders">
-      <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
+    <Filter Include="Header Files\Components\Testers">
+      <UniqueIdentifier>{36ac55bc-4219-4e49-b676-9741b2cd99c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Testers">
+      <UniqueIdentifier>{e7d399e7-47b0-4977-a6f3-718a35bf6521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -144,14 +153,14 @@
     <ClCompile Include="DebugUtility.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="ExampleRotator.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleRotator.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ExampleRotator_James.cpp">
-      <Filter>Source Files\Components</Filter>
+    <ClCompile Include="TransformTester.cpp">
+      <Filter>Source Files\Components\Testers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputTester.cpp">
+      <Filter>Source Files\Components\Testers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,46 +266,52 @@
     <ClInclude Include="FreeLookCameraController.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ExampleRotator.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="SimpleRotator.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ExampleRotator_James.h">
-      <Filter>Header Files\Components</Filter>
+    <ClInclude Include="PrimitiveModels.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="InputTester.h">
+      <Filter>Header Files\Components\Testers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformTester.h">
+      <Filter>Header Files\Components\Testers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\default.fs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\sprite.vs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\sprite.fs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\model.fs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\model.vs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\diffuse.vs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\diffuse.fs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\color.vs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\color.fs">
-      <Filter>Source Files\Shaders</Filter>
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Settings\AppConfig.json">
+      <Filter>Settings</Filter>
     </None>
   </ItemGroup>
 </Project>
