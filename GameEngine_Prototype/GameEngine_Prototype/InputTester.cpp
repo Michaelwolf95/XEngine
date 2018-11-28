@@ -32,8 +32,9 @@ void InputTester::Update()
 	if (Input::getInstance().GetKey(GLFW_KEY_RIGHT)) horizontal = -1;
 	if (Input::GetKey(GLFW_KEY_UP)) vertical = 1;
 	if (Input::GetKey(GLFW_KEY_DOWN)) vertical = -1;
-	if (Input::GetKeyDown(GLFW_KEY_EQUAL)) rotationSpeed += 1.0f;
-	if (Input::GetKeyDown(GLFW_KEY_MINUS)) rotationSpeed -= 1.0f;
+	if (Input::GetKeyDown(GLFW_KEY_EQUAL)) rotationSpeed += 10.0f;
+	if (Input::GetKeyDown(GLFW_KEY_MINUS)) rotationSpeed -= 10.0f;
+	if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor();
 	
 	deltaY *= horizontal;
 	deltaX *= vertical;

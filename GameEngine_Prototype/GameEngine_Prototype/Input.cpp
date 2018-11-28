@@ -213,33 +213,39 @@ void Input::checkKeyInputs()
 
 bool Input::getKeyDown(int glfw_key)
 {
+	validateKeyInputValue(glfw_key);
 	return keys[glfw_key].wasPressed == false
 		&& keys[glfw_key].isPressed == true;}
 
 bool Input::getKey(int glfw_key)
 {
+	validateKeyInputValue(glfw_key);
 	return keys[glfw_key].isPressed;
 }
 
 bool Input::getKeyUp(int glfw_key)
 {
+	validateKeyInputValue(glfw_key);
 	return keys[glfw_key].wasPressed == true
 		&& keys[glfw_key].isPressed == false;
 }
 
 bool Input::getMouseButtonDown(int glfw_mouse_button)
 {
+	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].wasPressed == false
 		&& mouse[glfw_mouse_button].isButtonPressed == true;
 }
 
 bool Input::getMouseButton(int glfw_mouse_button)
 {
+	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].isButtonPressed;
 }
 
 bool Input::getMouseButtonUp(int glfw_mouse_button)
 {
+	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].wasPressed == true
 		&& mouse[glfw_mouse_button].isButtonPressed == false;
 }
@@ -293,4 +299,22 @@ bool Input::toggleCursor()
 {
 	showCursor(!isCursorEnabled);
 	return isCursorEnabled;
+}
+
+void Input::validateMouseInputValue(int glfw_mouse_button)
+{
+	if ((glfw_mouse_button < 0) | (glfw_mouse_button >= m_arr_sz))
+	{
+		printf("Throw mouse input error here!");
+		// TODO: Error handling code. Error handling class?
+	}
+}
+
+void Input::validateKeyInputValue(int glfw_key)
+{
+	if ((glfw_key < 0) | (glfw_key >= k_arr_sz))
+	{
+		printf("Throw key input error here! glfw_key == ", glfw_key);
+		// TODO: Error handling code. Error handling class?
+	}
 }

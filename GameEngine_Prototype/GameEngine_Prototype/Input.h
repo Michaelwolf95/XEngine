@@ -60,6 +60,8 @@ private:
 	bool getMouseButtonDown(int glfw_mouse_button);
 	bool getMouseButton(int glfw_mouse_button);
 	bool getMouseButtonUp(int glfw_mouse_button);
+	void validateMouseInputValue(int glfw_mouse_button);
+	void validateKeyInputValue(int glfw_key);
 	bool getMousePosX();
 	bool getMousePosY();
 	double getDeltaPosX();
