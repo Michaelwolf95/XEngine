@@ -102,10 +102,10 @@ void CreateTestScene_DM1()
 	
 	// CAMERA SETUP
 	GameObject* camGo = scene->CreateGameObject("Cam");
-	CameraComponent* cam3 = new CameraComponent();
-	camGo->AddComponent(cam3);
+	CameraComponent* cam = new CameraComponent();
+	camGo->AddComponent(cam);
 	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -4.5f));
-	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
+	//camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 
 	auto inputTester = new InputTester();
 	cube->AddComponent(inputTester);
