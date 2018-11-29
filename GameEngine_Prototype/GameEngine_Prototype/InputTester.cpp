@@ -4,28 +4,34 @@
 //#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
 #include "Input.h"
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
 
+std::ofstream csv;
 
 InputTester::InputTester()
 {
+	csv.open("fpstest.csv", std::ofstream::app);
 	rotationSpeed = 0.0f;
 }
 
 
 InputTester::~InputTester()
 {
+	std::cout << "~InputTester" << std::endl;
+	csv.close();
 
 }
 void printFPS(float fps)
 {
 	std::cout << fps << std::endl;
-	Time::getInstance().GetFPS(printFPS);
+	csv << fps << std::endl;
+	//Time::getInstance().GetFPS(printFPS);
 }
 
 void InputTester::Start()
 {
-	Time::getInstance().GetFPS(printFPS);
-
 }
 
 void InputTester::Update()
@@ -42,6 +48,14 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_EQUAL)) rotationSpeed += 10.0f;
 	if (Input::GetKeyDown(GLFW_KEY_MINUS)) rotationSpeed -= 10.0f;
 	if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor();
+	//if (Input::GetKeyDown(GLFW_KEY_C)) 
+	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
+	if (Input::GetKeyDown(GLFW_KEY_R))	sampleSize = 10;
+	if (sampleSize)
+	{
+		Time::GetFPS(printFPS);
+		--sampleSize;
+	}
 
 	deltaY *= horizontal;
 	deltaX *= vertical;

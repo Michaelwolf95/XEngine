@@ -8,7 +8,7 @@ float Time::currentTime = 0.0f;
 
 Time::Time(){}
 
-void(*getFPSCallback)(float) = NULL;
+void(*getFPSCallback)(float fps) = NULL;
 
 Time * Time::CreateManager()
 {
@@ -34,27 +34,36 @@ void Time::UpdateTime()
 	if (isCounting)
 	{
 		deltaTimeSumOf60 += Time::getInstance().deltaTime;
-
-		if (++counter % mod == 0)
-		{
-			//std::cout << 1 / (deltaTimeSumOf60 / mod) << " frames/sec" << std::endl;
-			//counter = 0;
-			//iscounting = false;
+		//if (++counter % mod == 0)
+		//{
+			getFPSCallback(1 / (deltaTimeSumOf60 /*/ mod*/)); // crashes here when F is first key
 			isCounting = false;
-			getFPSCallback(1 / (deltaTimeSumOf60 / mod));
-			//getFPSCallback = NULL;
-		}
+			getFPSCallback = NULL;
+		//}
 	}
 }
 
-
-
-void Time::GetFPS(void(*callback)(float))
+void Time::getFPS(void(*callback)(float))
 {
-	isCounting = true;
 	counter = 0;
 	deltaTimeSumOf60 = 0.f;
 	getFPSCallback = callback;
-	//callback(10);
+	// remote function assigned to callback is called
+}
+
+void Time::toggleFPS()
+{
+	isCounting = !isCounting;
+}
+
+void Time::ToggleFPS()
+{
+	Time::getInstance().toggleFPS();
+}
+
+void Time::GetFPS(void(*callback)(float))
+{
+	Time::getInstance().isCounting = true;
+	Time::getInstance().getFPS(callback);
 }
 

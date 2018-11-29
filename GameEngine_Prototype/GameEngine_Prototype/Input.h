@@ -42,18 +42,20 @@ private:
 	friend class Singleton<Input>;
 
 	bool isInitialized = false;
+	bool mouseIdle = true;
+	bool firstMouse = true;
+	bool isCursorEnabled;
+	double xPosLast;
+	double yPosLast;
 	double xPos; // TODO: Discuss why we should use 64bit double over 32bit float
 	double yPos;
-	double xDeltaPos;
-	double yDeltaPos;
 	double xScrollOffset;
 	double yScrollOffset;
-	bool firstMouse;
-	bool isCursorEnabled;
+	//double xDeltaPos;
+	//double yDeltaPos;
 	MouseButtonPressed mouse[m_arr_sz];
 	KeyPressed keys[k_arr_sz]; // tracks which keys are pressed
 	Input();
-	void checkKeyInputs();
 	bool getKeyDown(int glfw_key);
 	bool getKey(int glfw_key);
 	bool getKeyUp(int glfw_key);
@@ -68,9 +70,10 @@ private:
 	double getDeltaPosY();
 	glm::vec2 getMousePos();
 	glm::vec2 getMouseDelta();
-	void clearMouseDelta();
 	void showCursor(bool enable);
+	void checkKeyInputs();
 	bool toggleCursor();
+	//void clearMouseDelta();
 
 protected:
 	// Init instance and setup GLFW, etc.
@@ -112,7 +115,6 @@ public:
 	void _mouse_callback(double xpos, double ypos);
 	void _scroll_callback(double xoffset, double yoffset);
 	void _mouse_button_callback(int button, int action, int mods);
-
+	
 	// TODO: Maybe return a container with values for each key pressed?
-
 };

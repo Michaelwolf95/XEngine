@@ -16,7 +16,10 @@ public:
 	static Time* CreateManager();
 	void Init();
 	void UpdateTime();
-	void GetFPS(void(*callback)(float));
+	void getFPS(void(*callback)(float));
+	static void GetFPS(void(*callback)(float));
+	void toggleFPS();
+	static void ToggleFPS();
 
 };
 
