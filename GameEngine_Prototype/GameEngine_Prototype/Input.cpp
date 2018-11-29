@@ -22,8 +22,8 @@ Input::Input()
 {
 	xPos = 0.0f;
 	yPos = xPos;
-	xDeltaPos = 0.0f;
-	yDeltaPos = xDeltaPos;
+	//xDeltaPos = 0.0f;
+	//yDeltaPos = xDeltaPos;
 	xScrollOffset = 0.0f;
 	yScrollOffset = 0.0f;
 	firstMouse = true;
@@ -51,7 +51,10 @@ void Input::Init()
 
 void Input::UpdateInput()
 {
+	glfwGetCursorPos(ApplicationManager::getInstance().APP_WINDOW, &xPos, &yPos);
 	checkKeyInputs();
+
+	mouseIdle = true;
 }
 
 void Input::_mouse_callback(double xpos, double ypos)
@@ -62,10 +65,12 @@ void Input::_mouse_callback(double xpos, double ypos)
 		yPos = ypos;
 		firstMouse = false;
 	}
-	xDeltaPos = xpos - xPos;  
-	yDeltaPos = yPos - ypos; // reversed since y-coordinates go from bottom to top
+
+	//xDeltaPos = xpos - xPos;  
+	//yDeltaPos = yPos - ypos; // reversed since y-coordinates go from bottom to top
 	xPos = xpos;
 	yPos = ypos;	
+	mouseIdle = false;
 }
 void Input::_scroll_callback(double xoffset, double yoffset)
 {
@@ -208,7 +213,8 @@ void Input::checkKeyInputs()
 			keys[i].isPressed = false;
 		}
 		if (i == 96) i = 255; // Skips a large set of unused keys. Saves a lot of CPU time.
-	}
+	}	
+
 }
 
 bool Input::getKeyDown(int glfw_key)
@@ -262,12 +268,14 @@ bool Input::getMousePosY()
 
 double Input::getDeltaPosX()
 {
-	return xDeltaPos;
+	if (mouseIdle) return 0.0f;
+	return xPos - xPosLast;
 }
 
 double Input::getDeltaPosY()
 {
-	return yDeltaPos;
+	if (mouseIdle) return 0.0f;
+	return yPosLast - yPos;
 }
 
 glm::vec2 Input::getMousePos()
@@ -277,14 +285,14 @@ glm::vec2 Input::getMousePos()
 
 glm::vec2 Input::getMouseDelta()
 {
-	return glm::vec2(xDeltaPos, yDeltaPos);
+	return glm::vec2(getDeltaPosX(), getDeltaPosY());
 }
 
-void Input::clearMouseDelta()
-{
-	xDeltaPos = 0.0f;
-	yDeltaPos = 0.0f;
-}
+//void Input::clearMouseDelta()
+//{
+//	xDeltaPos = 0.0f;
+//	yDeltaPos = 0.0f;
+//}
 
 void Input::showCursor(bool enable)
 {
@@ -314,7 +322,7 @@ void Input::validateKeyInputValue(int glfw_key)
 {
 	if ((glfw_key < 0) | (glfw_key >= k_arr_sz))
 	{
-		printf("Throw key input error here! glfw_key == ", glfw_key);
+		printf("Throw key input error here! glfw_key == %i", glfw_key);
 		// TODO: Error handling code. Error handling class?
 	}
 }

@@ -377,7 +377,7 @@ void Transform::Rotate(glm::vec3 rotation)
 	if (rotation.z != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
-		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.z), glm::vec3(0, 0, 1));
 	}
 	UpdateMatrix();
 }

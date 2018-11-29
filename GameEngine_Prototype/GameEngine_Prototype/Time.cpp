@@ -8,6 +8,8 @@ float Time::currentTime = 0.0f;
 
 Time::Time(){}
 
+void(*getFPSCallback)(float fps) = NULL;
+
 Time * Time::CreateManager()
 {
 	Time* instance = &Time::getInstance();
@@ -29,5 +31,39 @@ void Time::UpdateTime()
 	currentTime = glfwGetTime();
 	deltaTime = currentTime - timeLastFrame;
 	timeLastFrame = currentTime;
+	if (isCounting)
+	{
+		deltaTimeSumOf60 += Time::getInstance().deltaTime;
+		//if (++counter % mod == 0)
+		//{
+			getFPSCallback(1 / (deltaTimeSumOf60 /*/ mod*/)); // crashes here when F is first key
+			isCounting = false;
+			getFPSCallback = NULL;
+		//}
+	}
+}
+
+void Time::getFPS(void(*callback)(float))
+{
+	counter = 0;
+	deltaTimeSumOf60 = 0.f;
+	getFPSCallback = callback;
+	// remote function assigned to callback is called
+}
+
+void Time::toggleFPS()
+{
+	isCounting = !isCounting;
+}
+
+void Time::ToggleFPS()
+{
+	Time::getInstance().toggleFPS();
+}
+
+void Time::GetFPS(void(*callback)(float))
+{
+	Time::getInstance().isCounting = true;
+	Time::getInstance().getFPS(callback);
 }
 
