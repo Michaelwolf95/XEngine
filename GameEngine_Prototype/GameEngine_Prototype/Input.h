@@ -9,11 +9,7 @@
 #define k_arr_sz 350
 #define k_arr_start 32 // Skips first 32 integers to save CPU time.
 
-void INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos);
-void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
-void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int mods);
-
-/* 
+/*	Requirements:
 	Implement Input Manager with the following functionality:
 	- Initializes Input related settings.
 	- Tracks keyboard and mouse Input state changes every frame.
@@ -26,6 +22,11 @@ void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int
 	GetMouseDelta: returns a vec2 for the distance the mouse has traveled last frame.
 */
 
+void INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos);
+void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
+void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int mods);
+
+// TODO: descriptions of class and members
 class Input : public Singleton<Input>
 {
 private:
@@ -51,8 +52,6 @@ private:
 	double yPos;
 	double xScrollOffset;
 	double yScrollOffset;
-	//double xDeltaPos;
-	//double yDeltaPos;
 	MouseButtonPressed mouse[m_arr_sz];
 	KeyPressed keys[k_arr_sz]; // tracks which keys are pressed
 	Input();
@@ -74,7 +73,6 @@ private:
 	void showCursor(bool enable);
 	void checkKeyInputs();
 	bool toggleCursor();
-	//void clearMouseDelta();
 
 protected:
 	// Init instance and setup GLFW, etc.

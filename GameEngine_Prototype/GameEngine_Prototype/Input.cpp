@@ -5,19 +5,6 @@
 #include "ApplicationManager.h"
 #include "Time.h"
 
-/*
-Implement Input Manager with the following functionality:
-- Initializes Input related settings.
-- Tracks keyboard and mouse Input state changes every frame.
-- Input API; public static functions for accessing key & mouse states:
-e.g: Input::GetKeyDown(KeyCode someKey)
-KeyDown: First frame the key is pressed.
-KeyPressed: Key is pressed.
-KeyUp: First frame the key is not pressed, after being pressed
-GetMousePos: returns a vec2 for the position of the mouse on the screen.
-GetMouseDelta: returns a vec2 for the distance the mouse has traveled last frame.
-*/
-
 Input::Input() 
 {
 	xPos = 0.0f;
@@ -32,6 +19,7 @@ Input::Input()
 	mouse[10] = { false };
 	keys[350] = { false };
 }
+
 Input::~Input() {}
 
 Input* Input::CreateManager()
@@ -62,8 +50,8 @@ void Input::_mouse_callback(double xpos, double ypos)
 {
 	if (firstMouse)
 	{
-		xPos = xpos;
-		yPos = ypos;
+		xPos = xpos; // TODO: Why doesn't applying a multiplier affect sensitivity?
+		yPos = ypos; 
 		xPosLast = xPos;
 		yPosLast = yPos;
 		firstMouse = false;
@@ -76,6 +64,7 @@ void Input::_mouse_callback(double xpos, double ypos)
 	yPos = ypos;	
 	mouseIdle = false;
 }
+
 void Input::_scroll_callback(double xoffset, double yoffset)
 {
 	xScrollOffset = xoffset;
@@ -272,20 +261,11 @@ bool Input::getMousePosY()
 
 double Input::getDeltaPosX()
 {
-	//if (mouseIdle) return 0.0f;
-	//double delta = xPos - xPosLast;
-	//mouseIdle = true;
-	//xPosLast = xPos;
-	//return delta;
 	return getDelta(xPos, xPosLast);
 }
 
 double Input::getDeltaPosY()
 {
-	//if (mouseIdle) return 0.0f;
-	//double delta = yPosLast - yPos;
-	//mouseIdle = true;
-	//yPosLast = yPos;
 	return -getDelta(yPos, yPosLast);
 }
 
@@ -306,12 +286,6 @@ glm::vec2 Input::getMouseDelta()
 {
 	return glm::vec2(getDeltaPosX(), getDeltaPosY());
 }
-
-//void Input::clearMouseDelta()
-//{
-//	xDeltaPos = 0.0f;
-//	yDeltaPos = 0.0f;
-//}
 
 void Input::showCursor(bool enable)
 {
