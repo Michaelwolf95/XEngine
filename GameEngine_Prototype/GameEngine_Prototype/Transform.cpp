@@ -271,6 +271,14 @@ glm::vec3 Transform::getLocalRotationEuler()
 {
 	quat qRot = getLocalRotation();
 	vec3 rot = glm::eulerAngles(qRot);
+	//TODO: Rotate using ZXY or YXZ. (Middle axis should be X)
+	//vec3 rot;
+	//toEulerAngles5(getLocalRotation(), rot.x, rot.y, rot.z);
+	rot.x = glm::degrees(rot.x);
+	rot.y = glm::degrees(rot.y);
+	rot.z = glm::degrees(rot.z);
+	return rot;
+	/*
 	//vec3 rot;
 	//toEulerAngles4(getLocalRotation(), rot.x, rot.y, rot.z);
 	
@@ -297,6 +305,7 @@ glm::vec3 Transform::getLocalRotationEuler()
 	rot[1] = glm::degrees(rot[1]);
 	rot[2] = glm::degrees(rot[2]);
 	return rot;
+	*/
 }
 
 void Transform::setLocalRotation(glm::quat rot)
@@ -364,20 +373,23 @@ void Transform::Translate(glm::vec3 translation)
 
 void Transform::Rotate(glm::vec3 rotation)
 {
+	rotation.x = glm::radians(rotation.x);
+	rotation.y = glm::radians(rotation.y);
+	rotation.z = glm::radians(rotation.z);
 	if (rotation.x != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
-		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+		rotateMatrix = glm::rotate(rotateMatrix, rotation.x, glm::vec3(1, 0, 0));
 	}
 	if (rotation.y != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
-		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+		rotateMatrix = glm::rotate(rotateMatrix, rotation.y, glm::vec3(0, 1, 0));
 	}
 	if (rotation.z != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
-		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(rotation.z), glm::vec3(0, 0, 1));
+		rotateMatrix = glm::rotate(rotateMatrix, rotation.z, glm::vec3(0, 0, 1));
 	}
 	UpdateMatrix();
 }
@@ -526,6 +538,21 @@ void Transform::TestEulerRotation(float x, float y, float z)
 	
 	glm::quat newRotQuat = gameObject->transform->getLocalRotation();
 	std::cout << "newRotQuat: (" << newRotQuat.w << ", " << newRotQuat.x << ", " << newRotQuat.y << ", " << newRotQuat.z << ")" << std::endl;
+
+	//// ROTATE VERSION
+	//std::cout << "Testing Using Rotate:" << std::endl;
+	//gameObject->transform->setLocalRotation(glm::quat(1, 0, 0, 0));
+	//gameObject->transform->Rotate(glm::vec3(x, y, z));
+
+	//newRot = gameObject->transform->getLocalRotationEuler();
+	//std::cout << "newRotDeg:  (" << newRot.x << ", " << newRot.y << ", " << newRot.z << ")" << std::endl;
+	//newRot.x = glm::radians(newRot.x);
+	//newRot.y = glm::radians(newRot.y);
+	//newRot.z = glm::radians(newRot.z);
+	//std::cout << "newRotRad:  (" << newRot.x << ", " << newRot.y << ", " << newRot.z << ")" << std::endl;
+	//newRotQuat = gameObject->transform->getLocalRotation();
+	//std::cout << "newRotQuat: (" << newRotQuat.w << ", " << newRotQuat.x << ", " << newRotQuat.y << ", " << newRotQuat.z << ")" << std::endl;
+
 
 	//EngineDebug::PrintMatrix(glm::mat4_cast(newRotQuat));
 

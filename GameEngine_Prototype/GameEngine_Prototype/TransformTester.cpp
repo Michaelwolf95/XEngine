@@ -56,6 +56,8 @@ void TransformTester::Start()
 	//gameObject->transform->TestEulerRotation(0, 0, 0);
 	std::cout << std::endl;
 
+	//gameObject->transform->setLocalScale(2, 0.5, 1);
+
 	rotationSpeed = 99;
 }
 
