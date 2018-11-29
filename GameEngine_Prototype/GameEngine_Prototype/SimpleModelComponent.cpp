@@ -49,7 +49,7 @@ void SimpleModelComponent::Draw()
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 
 	// Model uses GameObject transform.
-	glm::mat4* model = &(*gameObject->transform).getMatrix4x4();
+	glm::mat4* model = &gameObject->transform->getMatrix4x4();
 
 	// retrieve the matrix uniform locations
 	unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");

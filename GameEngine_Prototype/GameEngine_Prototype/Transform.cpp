@@ -5,9 +5,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/quaternion.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/matrix_decompose.hpp>
-#include <glm/gtx/euler_angles.hpp>
+//#define GLM_ENABLE_EXPERIMENTAL
+//#include <glm/gtx/matrix_decompose.hpp>
+//#include <glm/gtx/euler_angles.hpp>
 //#include <glm/gtx/transform.hpp>
 #include "RenderManager.h"
 #include "DebugUtility.h"
@@ -110,16 +110,16 @@ static void toEulerAngles3(const glm::quat& q, float& pitch, float& yaw, float& 
 	if (abs(yaw)  < 0.00001) yaw = 0;
 	if (abs(roll) < 0.00001) roll = 0;
 }
+
+// Derived from math using https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 static void toEulerAngles4(const glm::quat& _q, float& pitch, float& yaw, float& roll)
 {
 	quat q(_q.w, _q.x, _q.y, _q.z);
 
-	if (q.y > sin(glm::radians(45.0f)))
-	{
-		std::cout << "SHOULD FLIP: " << std::endl;
-		//q *= -1;
-		//q.y *= -1;
-	}
+	if (abs(q.w) < 0.0000001) q.w = 0;
+	if (abs(q.x) < 0.0000001) q.x = 0;
+	if (abs(q.y) < 0.0000001) q.y = 0;
+	if (abs(q.z) < 0.0000001) q.z = 0;
 
 	double test = (double)((q.w*q.y) - (q.z*q.x));
 	//double test = (double)q.x*(double)q.w + (double)q.y*(double)q.z;
@@ -127,33 +127,60 @@ static void toEulerAngles4(const glm::quat& _q, float& pitch, float& yaw, float&
 		roll = 2 * atan2f(q.x, q.w);
 		yaw = glm::pi<float>() / 2;
 		pitch = 0;
-		std::cout << "Singularity North: " << test << ", " << q.w << std::endl;
-		std::cout << "\tResolved Rot:  (" << pitch << ", " << yaw << ", " << roll << ")" << std::endl;
-		return;
+		//std::cout << "Singularity North: " << test << ", " << q.w << std::endl;
+		//std::cout << "\tResolved Rot:  (" << pitch << ", " << yaw << ", " << roll << ")" << std::endl;
+		//return;
 	}
-	if (test < -0.4999) { // singularity at south pole
+	else if (test < -0.4999) { // singularity at south pole
 		roll = -2 * atan2f(q.x, q.w);
 		yaw = -glm::pi<float>() / 2;
 		pitch = 0;
-		std::cout << "Singularity South: " << test << ", " << q.w << std::endl;
-		std::cout << "\tResolved Rot:  (" << pitch << ", " << yaw << ", " << roll << ")" << std::endl;
-		return;
+		//std::cout << "Singularity South: " << test << ", " << q.w << std::endl;
+		//std::cout << "\tResolved Rot:  (" << pitch << ", " << yaw << ", " << roll << ")" << std::endl;
+		//return;
+	}
+	else
+	{
+		double sqx = ((double)q.x)*((double)q.x);
+		double sqy = ((double)q.y)*(double)q.y;
+		double sqz = ((double)q.z)*(double)q.z;
+
+		float r_y = (2 * (q.w*q.z + q.y*q.x));
+		float r_x = (1 - (2 * (sqy + sqz)));
+		// ZYX?
+		roll = atan2f( r_y, r_x);
+		yaw = asin(2 * (q.w*q.y - q.z*q.x));
+		pitch = atan2f((2 * (q.w*q.x + q.z*q.y)), (1 - (2 * (sqy + sqx))));
+		
 	}
 
-	double sqx = ((double)q.x)*((double)q.x);
-	double sqy = ((double)q.y)*(double)q.y;
-	double sqz = ((double)q.z)*(double)q.z;
+	float pi = glm::pi<float>();
+	//if (abs(q.y) > abs(q.w))
+	if (abs(q.y) > sin(pi / 4))
+	{
+		std::cout << "SHOULD FLIP: " << std::endl;
+		//q *= -1; //q.y *= -1;
+
+		yaw = (pi / 2) + ((pi / 2) - yaw); // only positive case...
+		roll = roll + pi;
+		pitch = pitch + pi;
+
+	}
+
+	// Prevent 2*pi and -2*pi values.
+	// Doesnt actually solve the issue..
+	float tau = 2 * glm::pi<float>();
+	if (pitch >= tau) pitch -= tau;
+	if (pitch <= -tau) pitch += tau;
+	if (yaw >= tau) yaw -= tau;
+	if (yaw <= -tau) yaw += tau;
+	if (roll >= tau) roll -= tau;
+	if (roll <= -tau) roll += tau;
 
 
-
-	// ZYX?
-	roll = atan2f((2 * (q.w*q.z + q.y*q.x)), (1 - (2 * (sqy + sqz))));
-	yaw = asin(2 * (q.w*q.y - q.z*q.x));
-	pitch = atan2f((2 * (q.w*q.x + q.z*q.y)), (1 - (2 * (sqy + sqx))));
-
-	if (abs(pitch) < 0.00001) pitch = 0;
-	if (abs(yaw) < 0.00001) yaw = 0;
-	if (abs(roll) < 0.00001) roll = 0;
+	if (abs(pitch)< 0.000001) pitch = 0;
+	if (abs(yaw)  < 0.000001) yaw = 0;
+	if (abs(roll) < 0.000001) roll = 0;
 }
 
 //https://gist.github.com/aeroson/043001ca12fe29ee911e
@@ -188,6 +215,7 @@ static void toEulerAngles5(const glm::quat& _q, float& pitch, float& yaw, float&
 }
 
 // TODO: Track the different transformation matrices seperately to save on calculations.
+// TODO: Convert Rotation matrix to just a quaternion?
 // That is - don't track the whole model. Translation, scale, and rotation seperately.
 Transform::Transform() : Component::Component()
 {
@@ -232,16 +260,39 @@ glm::quat Transform::getLocalRotation() // Local
 {
 	// This is the rotation matrix. It needs to be converted into a quaternion.
 	mat4 rotMat = getRotationMatrix();
-	return quat_cast(rotMat);
+	glm::quat rq = quat_cast(rotMat);
+	//std::cout << "_getRotQuat:(" << rq.w << ", " << rq.x << ", " << rq.y << ", " << rq.z << ")" << std::endl;
+	return rq;
+	//return quat_cast(rotMat);
 }
 
 // Returns the current local euler rotation in DEGREES.
 glm::vec3 Transform::getLocalRotationEuler()
 {
-	vec3 rot;// = glm::eulerAngles(getLocalRotation());
-	toEulerAngles4(glm::normalize(getLocalRotation()), rot.x, rot.y, rot.z);
+	quat qRot = getLocalRotation();
+	vec3 rot = glm::eulerAngles(qRot);
+	//vec3 rot;
+	//toEulerAngles4(getLocalRotation(), rot.x, rot.y, rot.z);
+	
+	float pi = glm::pi<float>();
+	//if (abs(q.y) > abs(q.w))
+	if (abs(qRot.y) > sin(pi / 4)) // Not always correct?
+	{
+		//std::cout << "SHOULD FLIP: " << std::endl;
 
-	//vec3 rot = toEulerAngles(getLocalRotation());
+		rot.y = (pi / 2) + ((pi / 2) - rot.y); // only positive case...
+		rot.z = rot.z + pi;
+		rot.x = rot.x + pi;
+
+	}
+	float tau = 2 * glm::pi<float>();
+	if (rot.x >= tau) rot.x -= tau;
+	if (rot.x <= -tau) rot.x += tau;
+	if (rot.y >= tau) rot.y -= tau;
+	if (rot.y <= -tau) rot.y += tau;
+	if (rot.z >= tau) rot.z -= tau;
+	if (rot.z <= -tau) rot.z += tau;
+
 	rot[0] = glm::degrees(rot[0]);
 	rot[1] = glm::degrees(rot[1]);
 	rot[2] = glm::degrees(rot[2]);
@@ -250,6 +301,7 @@ glm::vec3 Transform::getLocalRotationEuler()
 
 void Transform::setLocalRotation(glm::quat rot)
 {
+	//std::cout << "_setQuat:   (" << rot.w << ", " << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
 	rotateMatrix = glm::mat4_cast(rot);
 	UpdateMatrix();
 	return;
@@ -265,9 +317,6 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 	//		int numOver = ((int)rot[i]) / 360;
 	//		rot[i] = -(rot[i] - (360 * numOver));
 	//	}
-	//}
-	//for (size_t i = 0; i < 3; i++)
-	//{
 	//	if (rot[i] < -360)
 	//	{
 	//		int numOver = ((int)rot[i]) / -360;
@@ -389,15 +438,16 @@ glm::vec3 Transform::getForwardDirection()
 void Transform::printTransformMatrix()
 {
 	std::cout << gameObject->name <<" Transform:\n";
-	for (size_t i = 0; i < 4; i++) // Flip i nad j
-	{
-		std::cout << ((i == 0) ? "[ " : "| ");
-		for (size_t j = 0; j < 4; j++)
-		{
-			std::cout << model[j][i] << ((j == 3) ? "" : "\t");
-		}
-		std::cout << ((i == 3) ? " ]\n" : " |\n");
-	}
+	EngineDebug::PrintMatrix(model);
+	//for (size_t i = 0; i < 4; i++) // Flip i nad j
+	//{
+	//	std::cout << ((i == 0) ? "[ " : "| ");
+	//	for (size_t j = 0; j < 4; j++)
+	//	{
+	//		std::cout << model[j][i] << ((j == 3) ? "" : "\t");
+	//	}
+	//	std::cout << ((i == 3) ? " ]\n" : " |\n");
+	//}
 	
 }
 
@@ -454,6 +504,9 @@ void Transform::TestEulerRotation(float x, float y, float z)
 	glm::quat rq = glm::quat(newRot);
 	//rq = glm::normalize(rq);
 	std::cout << "setRotQuat: (" << rq.w << ", " << rq.x << ", " << rq.y << ", " << rq.z  << ")" << std::endl;
+
+	//EngineDebug::PrintMatrix(getRotationMatrix());
+
 	/*toEulerAngle(rq, newRot.x, newRot.y, newRot.z);
 	std::cout << "radConvBack:(" << newRot.x << ", " << newRot.y << ", " << newRot.z << ")" << std::endl;
 	newRot.x = glm::degrees(newRot.x);
@@ -473,9 +526,13 @@ void Transform::TestEulerRotation(float x, float y, float z)
 	
 	glm::quat newRotQuat = gameObject->transform->getLocalRotation();
 	std::cout << "newRotQuat: (" << newRotQuat.w << ", " << newRotQuat.x << ", " << newRotQuat.y << ", " << newRotQuat.z << ")" << std::endl;
-	glm::quat convQuat(newRot);
-	convQuat = glm::normalize(convQuat);
-	std::cout << "convertQuat:(" << convQuat.w << ", " << convQuat.x << ", " << convQuat.y << ", " << convQuat.z << ")" << std::endl;
+
+	//EngineDebug::PrintMatrix(glm::mat4_cast(newRotQuat));
+
+	//glm::quat convQuat(newRot);
+	//convQuat = glm::normalize(convQuat);
+	//std::cout << "convertQuat:(" << convQuat.w << ", " << convQuat.x << ", " << convQuat.y << ", " << convQuat.z << ")" << std::endl;
+
 	//glm::vec3 newRotEuler;
 	//toEulerAngles(newRotQuat, newRotEuler.x, newRotEuler.y, newRotEuler.z);// = glm::eulerAngles(newRotQuat);
 	//std::cout << "newRotRad: (" << newRotEuler.x << ", " << newRotEuler.y << ", " << newRotEuler.z << ")" << std::endl;
