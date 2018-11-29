@@ -60,8 +60,8 @@ void FreeLookCameraController::Update()
 	//	firstMouse = false;
 	//}
 
-	float xoffset = Input::getInstance().GetDeltaPosX();// xpos - lastX;
-	float yoffset = Input::getInstance().GetDeltaPosY(); //lastY - ypos; // reversed since y-coordinates go from bottom to top
+	float xoffset = Input::GetDeltaPosX();// xpos - lastX;
+	float yoffset = Input::GetDeltaPosY(); //lastY - ypos; // reversed since y-coordinates go from bottom to top
 
 	//std::cout << xoffset << ", " << yoffset << std::endl;
 
@@ -70,8 +70,8 @@ void FreeLookCameraController::Update()
 	yoffset *= sensitivity;
 
 	glm::vec3 eulerRot = gameObject->transform->getLocalRotationEuler();
-	pitch = eulerRot.x + yoffset;
-	yaw = eulerRot.y + xoffset;
+	float pitch = eulerRot.x + yoffset;
+	float yaw = eulerRot.y + xoffset;
 	//yaw += xoffset;
 	//pitch += yoffset;
 
