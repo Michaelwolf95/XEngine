@@ -42,8 +42,8 @@ void CreateTestScene_EXAMPLE();
 
 void RunTestScene_Michael()
 {
-	CreateTestScene_EXAMPLE();
-	//CreateTestScene7();
+	//CreateTestScene_EXAMPLE();
+	CreateTestScene8();
 }
 
 
@@ -481,8 +481,8 @@ void CreateTestScene8()
 	camGo->AddComponent(cam3);
 	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -8.0f));
 	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
-	camGo->AddComponent(new TestMoverComponent());
-	//camGo->AddComponent(new FreeLookCameraController());
+	//camGo->AddComponent(new TestMoverComponent());
+	camGo->AddComponent(new FreeLookCameraController());
 
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);
