@@ -162,6 +162,12 @@
     <ClCompile Include="InputTester.cpp">
       <Filter>Source Files\Components\Testers</Filter>
     </ClCompile>
+    <ClCompile Include="ExampleRotator_James.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectAnalytic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -277,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="TransformTester.h">
       <Filter>Header Files\Components\Testers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleRotator_James.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectAnalytic.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
