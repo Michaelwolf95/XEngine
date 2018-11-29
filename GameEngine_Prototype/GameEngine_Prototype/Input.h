@@ -68,6 +68,7 @@ private:
 	bool getMousePosY();
 	double getDeltaPosX();
 	double getDeltaPosY();
+	inline double getDelta(double &pos, double &lastpos);
 	glm::vec2 getMousePos();
 	glm::vec2 getMouseDelta();
 	void showCursor(bool enable);

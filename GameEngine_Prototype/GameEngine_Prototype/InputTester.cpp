@@ -61,5 +61,9 @@ void InputTester::Update()
 	deltaY *= horizontal;
 	deltaX *= vertical;
 	gameObject->transform->Rotate(glm::vec3(deltaX, deltaY, 0.f));
+	//(gameObject + sizeof(GameObject))->transform->LookAt(glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//std::cin.get();
+	gameObject->transform->Translate(glm::vec3(Input::GetDeltaPosX() * Time::deltaTime, 0.0f, Input::GetDeltaPosY() * Time::deltaTime));
+	//std::cout << Input::GetDeltaPosX() << std::endl;
 }
 

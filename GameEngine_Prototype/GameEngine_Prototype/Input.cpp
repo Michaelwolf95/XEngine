@@ -22,11 +22,12 @@ Input::Input()
 {
 	xPos = 0.0f;
 	yPos = xPos;
-	//xDeltaPos = 0.0f;
-	//yDeltaPos = xDeltaPos;
+	xPosLast = 0.0f;
+	yPosLast = xPosLast;
 	xScrollOffset = 0.0f;
 	yScrollOffset = 0.0f;
 	firstMouse = true;
+	mouseIdle = true;
 	isCursorEnabled = true;
 	mouse[10] = { false };
 	keys[350] = { false };
@@ -63,7 +64,10 @@ void Input::_mouse_callback(double xpos, double ypos)
 	{
 		xPos = xpos;
 		yPos = ypos;
+		xPosLast = xPos;
+		yPosLast = yPos;
 		firstMouse = false;
+		mouseIdle = true;
 	}
 
 	//xDeltaPos = xpos - xPos;  
@@ -268,14 +272,29 @@ bool Input::getMousePosY()
 
 double Input::getDeltaPosX()
 {
-	if (mouseIdle) return 0.0f;
-	return xPos - xPosLast;
+	//if (mouseIdle) return 0.0f;
+	//double delta = xPos - xPosLast;
+	//mouseIdle = true;
+	//xPosLast = xPos;
+	//return delta;
+	return getDelta(xPos, xPosLast);
 }
 
 double Input::getDeltaPosY()
 {
-	if (mouseIdle) return 0.0f;
-	return yPosLast - yPos;
+	//if (mouseIdle) return 0.0f;
+	//double delta = yPosLast - yPos;
+	//mouseIdle = true;
+	//yPosLast = yPos;
+	return -getDelta(yPos, yPosLast);
+}
+
+double Input::getDelta(double &pos, double &lastPos)
+{
+	double delta = lastPos - pos;
+	mouseIdle = true;
+	lastPos = pos;
+	return delta;
 }
 
 glm::vec2 Input::getMousePos()

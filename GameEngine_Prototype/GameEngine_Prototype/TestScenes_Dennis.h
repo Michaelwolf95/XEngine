@@ -7,7 +7,7 @@
 #include "RenderManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
-
+#include "FreeLookCameraController.h"
 #include "GameObject.h"
 #include "Material.h"
 #include "SimpleSprite.h"
@@ -103,16 +103,18 @@ void CreateTestScene_DM1()
 	// CAMERA SETUP
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam = new CameraComponent();
+	//FreeLookCameraController* cam = new FreeLookCameraController();
+
 	camGo->AddComponent(cam);
-	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -4.5f));
+	camGo->transform->Translate(glm::vec3(0.0f, -0.0f, -0.5f)); // y: negative goes up, x: neg goes right, z: neg goes to horizon
 	//camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 
 	auto inputTester = new InputTester();
 	cube->AddComponent(inputTester);
-	cube->transform->setLocalPosition(glm::vec3(0.0f, -2.f, 3.0f));
+	cube->transform->setLocalPosition(glm::vec3(5.0f, -0.f, -0.0f));
 	inputTester->rotationSpeed = 15.0f;
 	
 
 
 	SceneManager::getInstance().SetActiveScene(scene);
-}
+} //TODO: delete all these new Objects!!!!
