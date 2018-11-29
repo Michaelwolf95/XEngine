@@ -8,6 +8,8 @@ float Time::currentTime = 0.0f;
 
 Time::Time(){}
 
+void(*getFPSCallback)(float) = NULL;
+
 Time * Time::CreateManager()
 {
 	Time* instance = &Time::getInstance();
@@ -29,5 +31,30 @@ void Time::UpdateTime()
 	currentTime = glfwGetTime();
 	deltaTime = currentTime - timeLastFrame;
 	timeLastFrame = currentTime;
+	if (isCounting)
+	{
+		deltaTimeSumOf60 += Time::getInstance().deltaTime;
+
+		if (++counter % mod == 0)
+		{
+			//std::cout << 1 / (deltaTimeSumOf60 / mod) << " frames/sec" << std::endl;
+			//counter = 0;
+			//iscounting = false;
+			isCounting = false;
+			getFPSCallback(1 / (deltaTimeSumOf60 / mod));
+			//getFPSCallback = NULL;
+		}
+	}
+}
+
+
+
+void Time::GetFPS(void(*callback)(float))
+{
+	isCounting = true;
+	counter = 0;
+	deltaTimeSumOf60 = 0.f;
+	getFPSCallback = callback;
+	//callback(10);
 }
 

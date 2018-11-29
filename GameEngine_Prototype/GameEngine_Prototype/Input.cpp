@@ -208,6 +208,8 @@ void Input::checkKeyInputs()
 			keys[i].isPressed = false;
 		}
 		if (i == 96) i = 255; // Skips a large set of unused keys. Saves a lot of CPU time.
+
+		
 	}
 }
 
