@@ -12,7 +12,7 @@ std::ofstream csv;
 
 InputTester::InputTester()
 {
-	csv.open("fpstest.csv", std::ofstream::app);
+	csv.open("fpstest.csv");
 	rotationSpeed = 0.0f;
 }
 
@@ -32,6 +32,7 @@ void printFPS(float fps)
 
 void InputTester::Start()
 {
+
 }
 
 void InputTester::Update()
