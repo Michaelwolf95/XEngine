@@ -6,7 +6,7 @@ public:
 	int sampleSize = 0; //used for FPS sampling demo
 	int objectNum = 0;
 	
-	GameComponentAnalytic(int num);
+	GameComponentAnalytic();
 	~GameComponentAnalytic();
 	void Start() override;
 	void Update() override;

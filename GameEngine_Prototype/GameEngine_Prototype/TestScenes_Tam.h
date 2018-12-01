@@ -121,8 +121,8 @@ void CreateTestScene_GameComponentTest()
 	//rotator->rotationSpeed = 10;
 
 	//testing by creating more GameObjects------------------------------------------
-	GameComponentAnalytic* testComponent = new GameComponentAnalytic();
-	cube->AddComponent(testComponent);
+	//GameComponentAnalytic* testComponent = new GameComponentAnalytic();
+	//cube->AddComponent(testComponent);
 
 	SceneManager::getInstance().SetActiveScene(scene);
 	 

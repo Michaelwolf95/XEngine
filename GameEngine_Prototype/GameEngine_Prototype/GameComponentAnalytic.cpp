@@ -24,21 +24,21 @@
 #include "Analytics.h"
 #include <string> 
 
-CSVMaker analytic = CSVMaker("componentFPS");
+//CSVMaker analytic = CSVMaker("componentFPS");
 
-GameComponentAnalytic::GameComponentAnalytic(int num)
+GameComponentAnalytic::GameComponentAnalytic()
 {
-	objectNum = num;
+	//objectNum = num;
 }
 
 GameComponentAnalytic::~GameComponentAnalytic()
 {
-	analytic.Close();
+	//analytic.Close();
 }
 
-void logFPSComponent(int num, float fps)
+void logFPSComponent(float fps)
 {
-	analytic.Write(std::to_string(num), fps);
+	//analytic.Write(std::to_string(num), fps);
 	//componentTest << fps << std::endl;
 	//Time::getInstance().GetFPS(printFPS);
 }
