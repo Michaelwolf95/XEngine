@@ -4,9 +4,9 @@ class GameComponentAnalytic: public Component
 {
 public:
 	int sampleSize = 0; //used for FPS sampling demo
-
+	int objectNum = 0;
 	
-	GameComponentAnalytic();
+	GameComponentAnalytic(int num);
 	~GameComponentAnalytic();
 	void Start() override;
 	void Update() override;

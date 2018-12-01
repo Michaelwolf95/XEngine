@@ -21,22 +21,25 @@
 #include "Time.h"
 #include "InputTester.h"
 #include "Input.h"
+#include "Analytics.h"
+#include <string> 
 
-std::ofstream componentTest;
+CSVMaker analytic = CSVMaker("componentFPS");
 
-GameComponentAnalytic::GameComponentAnalytic()
+GameComponentAnalytic::GameComponentAnalytic(int num)
 {
-	componentTest.open("componentTest.csv");
+	objectNum = num;
 }
 
 GameComponentAnalytic::~GameComponentAnalytic()
 {
-	componentTest.close();
+	analytic.Close();
 }
 
-void logFPSComponent(float fps)
+void logFPSComponent(int num, float fps)
 {
-	componentTest << fps << std::endl;
+	analytic.Write(std::to_string(num), fps);
+	//componentTest << fps << std::endl;
 	//Time::getInstance().GetFPS(printFPS);
 }
 
@@ -47,6 +50,7 @@ void printFPSComponent(float fps)
 
 void GameComponentAnalytic::Start()
 {
+	
 	
 	/*
 	srand(time(NULL));
