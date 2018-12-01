@@ -168,6 +168,9 @@
     <ClCompile Include="GameObjectAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameComponentAnalytic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -288,6 +291,9 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectAnalytic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponentAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
