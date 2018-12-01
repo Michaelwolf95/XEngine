@@ -89,32 +89,27 @@ void CreateTestScene_DM1()
 	Shader* modelShader = new Shader("model.vs", "model.fs");
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
-	//Input::CreateManager();
-	//Input::getInstance().Init()l
 	
+
 	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
-	
 	model->Setup();
-	
 	cube->AddComponent(model);
-	
 	cube->transform->setLocalPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-	
+	auto inputTester = new InputTester();
+	cube->AddComponent(inputTester);
+	cube->transform->setLocalPosition(glm::vec3(5.0f, 0.0f, 0.0f));
+	inputTester->rotationSpeed = 15.0f;
+
+
 	// CAMERA SETUP
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam = new CameraComponent();
-	//FreeLookCameraController* cam = new FreeLookCameraController();
-
 	camGo->AddComponent(cam);
 	camGo->transform->Translate(glm::vec3(0.0f, -0.0f, -0.5f)); // y: negative goes up, x: neg goes right, z: neg goes to horizon
 	//camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
-
-	auto inputTester = new InputTester();
-	cube->AddComponent(inputTester);
-	cube->transform->setLocalPosition(glm::vec3(5.0f, -0.f, -0.0f));
-	inputTester->rotationSpeed = 15.0f;
-	
+	//camGo->AddComponent(inputTester);
+	camGo->AddComponent(new FreeLookCameraController());
 
 
 	SceneManager::getInstance().SetActiveScene(scene);
-} //TODO: delete all these new Objects!!!!
+}

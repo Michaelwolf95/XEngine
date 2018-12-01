@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include "FreeLookCameraController.h"
 
 std::ofstream csv;
 
@@ -55,8 +56,9 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor();
 	//if (Input::GetKeyDown(GLFW_KEY_C)) 
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
-	if (Input::GetKeyDown(GLFW_KEY_R))	sampleSize = 25 * Time::getInstance().fps.mod;
+	if (Input::GetKeyDown(GLFW_KEY_R)) sampleSize = 25 * Time::getInstance().fps.mod;
 
+	
 	fpsSample(sampleSize);
 	PrintFPS();
 
@@ -67,6 +69,7 @@ void InputTester::Update()
 	//std::cin.get();
 	gameObject->transform->Translate(glm::vec3(Input::GetDeltaPosX() * Time::deltaTime, 0.0f, Input::GetDeltaPosY() * Time::deltaTime));
 	//std::cout << Input::GetDeltaPosX() << std::endl;
+	//gameObject[1].transform->setLocalRotationEuler(sin(deltaX), cos(deltaY), 0.f);
 }
 
 void InputTester::fpsSample(int &sample_sz)
