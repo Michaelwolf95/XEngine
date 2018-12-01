@@ -52,7 +52,7 @@ void InputTester::Update()
 	if (Input::GetKey(GLFW_KEY_DOWN)) vertical = -1;
 	if (Input::GetKeyDown(GLFW_KEY_EQUAL)) rotationSpeed += 10.0f;
 	if (Input::GetKeyDown(GLFW_KEY_MINUS)) rotationSpeed -= 10.0f;
-	if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor();
+	//if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor(); // Somebody added into another class
 	//if (Input::GetKeyDown(GLFW_KEY_C)) 
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
 	if (Input::GetKeyDown(GLFW_KEY_R)) Time::ModSampleSize(SAMPLE_SIZE = 25);
