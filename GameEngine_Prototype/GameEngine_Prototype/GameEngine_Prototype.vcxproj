@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Analytics.cpp" />
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Analytics.h" />
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Camera.h" />
