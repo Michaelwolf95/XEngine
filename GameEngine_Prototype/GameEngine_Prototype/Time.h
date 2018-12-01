@@ -13,7 +13,6 @@ class Time : public Singleton<Time>
 			if (getFPSCallback != nullptr)
 			{
 				getFPSCallback(mod / deltaTimeSum);
-				//isCounting = false;
 				getFPSCallback = nullptr;
 			}
 		}
@@ -28,6 +27,13 @@ class Time : public Singleton<Time>
 				counter = 0;
 			}
 		};
+
+		// Use this function to modify sample_sz to correct value.
+		// Example: modSampleSize(sample_size)
+		// Adjusts sample size by reference.
+		void modSampleSize(int &sample_sz) {
+			sample_sz *= mod;
+		}
 	};
 	friend class Singleton<Time>;
 public:
@@ -44,5 +50,6 @@ public:
 	static void GetFPS(void(*callback)(float));
 	inline void toggleFPS();
 	static void ToggleFPS();
+	static void ModSampleSize(int &sample_sz);
 };
 

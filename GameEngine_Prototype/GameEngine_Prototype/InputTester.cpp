@@ -27,7 +27,6 @@ InputTester::~InputTester()
 void logFPS(float fps)
 {
 	csv << fps << std::endl;
-	//Time::getInstance().GetFPS(printFPS);
 }
 
 void printFPS(float fps)
@@ -56,10 +55,9 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor();
 	//if (Input::GetKeyDown(GLFW_KEY_C)) 
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
-	if (Input::GetKeyDown(GLFW_KEY_R)) sampleSize = 25 * Time::getInstance().fps.mod;
+	if (Input::GetKeyDown(GLFW_KEY_R)) Time::ModSampleSize(SAMPLE_SIZE = 25);
 
-	
-	fpsSample(sampleSize);
+	fpsSample(SAMPLE_SIZE);
 	PrintFPS();
 
 	deltaY *= horizontal;
@@ -74,8 +72,9 @@ void InputTester::Update()
 
 void InputTester::fpsSample(int &sample_sz)
 {
-	if (sample_sz-- > 0)
+	if (sample_sz > 0)
 	{
+		--sample_sz;
 		Time::GetFPS(logFPS);
 	}
 }

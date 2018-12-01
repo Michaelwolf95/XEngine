@@ -50,10 +50,13 @@ void Time::ToggleFPS()
 	Time::getInstance().toggleFPS();
 }
 
+void Time::ModSampleSize(int &sample_sz)
+{
+	Time::getInstance().fps.modSampleSize(sample_sz);
+}
+
 void Time::GetFPS(void(*callback)(float))
 {
-	//if (!Time::getInstance().fps.isCounting)
-	//	Time::getInstance().fps.isCounting = true;
 	Time::getInstance().getFPS(callback);
 	Time::getInstance().fps.doFPSCallback();
 }
