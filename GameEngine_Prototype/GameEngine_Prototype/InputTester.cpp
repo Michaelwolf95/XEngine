@@ -52,21 +52,24 @@ void InputTester::Update()
 	if (Input::GetKey(GLFW_KEY_DOWN)) vertical = -1;
 	if (Input::GetKeyDown(GLFW_KEY_EQUAL)) rotationSpeed += 10.0f;
 	if (Input::GetKeyDown(GLFW_KEY_MINUS)) rotationSpeed -= 10.0f;
-	//if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor(); // Somebody added into another class
-	//if (Input::GetKeyDown(GLFW_KEY_C)) 
+	///if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor(); // Somebody added into another class
+	///if (Input::GetKeyDown(GLFW_KEY_C)) 
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
-	if (Input::GetKeyDown(GLFW_KEY_R)) Time::ModSampleSize(SAMPLE_SIZE = 25); // **sets sample size to 25. sample size is then modified to size necessary to take averaged samples.
-
+	if (Input::GetKeyDown(GLFW_KEY_R)) {
+		int modSampleSize = 100; // **number of samples per FPS sample
+		Time::SetSampleSetSize(modSampleSize); // **set the number of samples per FPS sample. 
+		Time::ModSampleSize(SAMPLE_SIZE = 25); // **sets sample size to 25. sample size is then modified to size necessary to take averaged samples.
+	}
 	fpsSample(SAMPLE_SIZE); // **modified sample size is passed to custom function -- maybe I should integrate this into FPS struct...
 	PrintFPS(); // **indefinitely prints FPS to console if isPrinting is true. Separate feature from fps sampling. Do not use if you only want to log fps samples to file.
 
 	deltaY *= horizontal;
 	deltaX *= vertical;
 	gameObject->transform->Rotate(glm::vec3(deltaX, deltaY, 0.f));
-	//(gameObject + sizeof(GameObject))->transform->LookAt(glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0.0f, 1.0f, 0.0f));
+	///(gameObject + sizeof(GameObject))->transform->LookAt(glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0.0f, 1.0f, 0.0f));
 	gameObject->transform->Translate(glm::vec3(Input::GetDeltaPosX() * Time::deltaTime, 0.0f, Input::GetDeltaPosY() * Time::deltaTime));
-	//std::cout << Input::GetDeltaPosX() << std::endl;
-	//gameObject[1].transform->setLocalRotationEuler(sin(deltaX), cos(deltaY), 0.f);
+	///std::cout << Input::GetDeltaPosX() << std::endl;
+	///gameObject[1].transform->setLocalRotationEuler(sin(deltaX), cos(deltaY), 0.f);
 }
 
 // **Example of taking limited samples onto a logger file
@@ -82,6 +85,6 @@ void InputTester::fpsSample(int &sample_sz)
 // **Example of printing to console -- ultimately we may use it to send values to renderer for onscreen display.
 void InputTester::PrintFPS()
 {
-	if (Time::getInstance().fps.isCounting)
+	if (Time::getInstance().IsCounting()) // **use IsCounting function to find out if FPS system is running.
 		Time::GetFPS(printFPS); // **passes printFPS function as callback function.
 }

@@ -6,13 +6,13 @@ class Time : public Singleton<Time>
 	struct FPS { //TODO: forward declaration?
 		void(*getFPSCallback)(float fps) = nullptr;
 		int counter = 0;
-		int mod = 60;
+		int sampleSetSize = 60;
 		float deltaTimeSum = 0.0f;
 		bool isCounting = false;
 		inline void doFPSCallback()	{
 			if (getFPSCallback != nullptr)
 			{
-				getFPSCallback(mod / deltaTimeSum);
+				getFPSCallback(sampleSetSize / deltaTimeSum);
 				getFPSCallback = nullptr;
 			}
 		}
@@ -20,7 +20,7 @@ class Time : public Singleton<Time>
 			if (counter == 0)
 				deltaTimeSum = Time::deltaTime;
 			else deltaTimeSum += Time::deltaTime;
-			if (!(++counter < mod))
+			if (!(++counter < sampleSetSize))
 			{
 				if (callback != nullptr)
 					getFPSCallback = callback;
@@ -32,12 +32,12 @@ class Time : public Singleton<Time>
 		// Example: modSampleSize(sample_size)
 		// Adjusts sample size by reference.
 		void modSampleSize(int &sample_sz) {
-			sample_sz *= mod;
+			sample_sz *= sampleSetSize;
 		}
-	};
+	} fps;
 	friend class Singleton<Time>;
 public:
-	FPS fps;
+	//FPS fps;
 	static float deltaTime; // TODO: Create static functions
 	static float currentTime; // TODO: Create static functions
 	float timeLastFrame;
@@ -51,5 +51,7 @@ public:
 	inline void toggleFPS();
 	static void ToggleFPS();
 	static void ModSampleSize(int &sample_sz);
+	static bool IsCounting();
+	static void SetSampleSetSize(int sample_set_sz); 
 };
 

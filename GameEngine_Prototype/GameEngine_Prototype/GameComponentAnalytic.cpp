@@ -149,6 +149,6 @@ void GameComponentAnalytic::fpsSample(int &sample_sz)
 
 void GameComponentAnalytic::PrintFPS()
 {
-	if (Time::getInstance().fps.isCounting)
+	if (Time::getInstance().IsCounting())
 		Time::GetFPS(printFPSComponent);
 }

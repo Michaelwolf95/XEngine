@@ -61,3 +61,13 @@ void Time::GetFPS(void(*callback)(float))
 	Time::getInstance().fps.doFPSCallback();
 }
 
+bool Time::IsCounting()
+{
+	return Time::getInstance().fps.isCounting;
+}
+
+void Time::SetSampleSetSize(int sample_set_sz)
+{
+	Time::getInstance().fps.sampleSetSize = sample_set_sz;
+}
+
