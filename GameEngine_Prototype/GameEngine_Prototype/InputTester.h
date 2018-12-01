@@ -11,5 +11,6 @@ public:
 	void Start() override;
 	void Update() override;
 	inline void fpsSample(int & sample_sz);
+	inline void PrintFPS();
 };
 

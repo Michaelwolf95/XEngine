@@ -25,9 +25,13 @@ InputTester::~InputTester()
 }
 void logFPS(float fps)
 {
-	//std::cout << fps << std::endl;
 	csv << fps << std::endl;
 	//Time::getInstance().GetFPS(printFPS);
+}
+
+void printFPS(float fps)
+{
+	std::cout << fps << std::endl;
 }
 
 void InputTester::Start()
@@ -54,6 +58,7 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_R))	sampleSize = 25 * Time::getInstance().fps.mod;
 
 	fpsSample(sampleSize);
+	PrintFPS();
 
 	deltaY *= horizontal;
 	deltaX *= vertical;
@@ -70,4 +75,10 @@ void InputTester::fpsSample(int &sample_sz)
 	{
 		Time::GetFPS(logFPS);
 	}
+}
+
+void InputTester::PrintFPS()
+{
+	if (Time::getInstance().fps.isCounting)
+		Time::GetFPS(printFPS);
 }

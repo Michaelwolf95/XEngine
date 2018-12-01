@@ -52,8 +52,8 @@ void Time::ToggleFPS()
 
 void Time::GetFPS(void(*callback)(float))
 {
-	if (!Time::getInstance().fps.isCounting)
-		Time::getInstance().fps.isCounting = true;
+	//if (!Time::getInstance().fps.isCounting)
+	//	Time::getInstance().fps.isCounting = true;
 	Time::getInstance().getFPS(callback);
 	Time::getInstance().fps.doFPSCallback();
 }

@@ -10,13 +10,12 @@ class Time : public Singleton<Time>
 		float deltaTimeSum = 0.0f;
 		bool isCounting = false;
 		inline void doFPSCallback()	{
-			if (isCounting) // TODO: Make a function
-				if (getFPSCallback != nullptr)
-				{
-					getFPSCallback(mod / deltaTimeSum); // crashes here when F is first key
-					isCounting = false;
-					getFPSCallback = nullptr;
-				}
+			if (getFPSCallback != nullptr)
+			{
+				getFPSCallback(mod / deltaTimeSum);
+				//isCounting = false;
+				getFPSCallback = nullptr;
+			}
 		}
 		inline void getFPS(void(*callback)(float)) {
 			if (counter == 0)
