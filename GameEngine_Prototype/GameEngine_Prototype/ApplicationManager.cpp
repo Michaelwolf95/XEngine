@@ -13,6 +13,7 @@
 */
 
 static const char* APP_CONFIG_FILE_PATH = "../Settings/";
+static const char* APP_CONFIG_DATA_PATH = "../Data/";
 
 AppConfig* ApplicationManager::config = nullptr;
 GLFWwindow* ApplicationManager::APP_WINDOW;
@@ -159,7 +160,7 @@ void ApplicationManager::SaveAppConfig()
 {
 	try
 	{
-		std::string appConfigPath = std::string(APP_CONFIG_FILE_PATH) + "AppConfig.json";
+		std::string appConfigPath = std::string(APP_CONFIG_DATA_PATH) + "AppConfig.json";
 
 		std::ofstream file(appConfigPath);
 
