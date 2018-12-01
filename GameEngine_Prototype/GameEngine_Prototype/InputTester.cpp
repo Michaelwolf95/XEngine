@@ -23,9 +23,9 @@ InputTester::~InputTester()
 	csv.close();
 
 }
-void printFPS(float fps)
+void logFPS(float fps)
 {
-	std::cout << fps << std::endl;
+	//std::cout << fps << std::endl;
 	csv << fps << std::endl;
 	//Time::getInstance().GetFPS(printFPS);
 }
@@ -51,12 +51,9 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor();
 	//if (Input::GetKeyDown(GLFW_KEY_C)) 
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
-	if (Input::GetKeyDown(GLFW_KEY_R))	sampleSize = 10;
-	if (sampleSize)
-	{
-		Time::GetFPS(printFPS);
-		--sampleSize;
-	}
+	if (Input::GetKeyDown(GLFW_KEY_R))	sampleSize = 25 * Time::getInstance().fps.mod;
+
+	fpsSample(sampleSize);
 
 	deltaY *= horizontal;
 	deltaX *= vertical;
@@ -67,3 +64,10 @@ void InputTester::Update()
 	//std::cout << Input::GetDeltaPosX() << std::endl;
 }
 
+void InputTester::fpsSample(int &sample_sz)
+{
+	if (sample_sz-- > 0)
+	{
+		Time::GetFPS(logFPS);
+	}
+}

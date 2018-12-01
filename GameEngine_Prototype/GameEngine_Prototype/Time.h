@@ -3,23 +3,47 @@
 // TimeManager
 class Time : public Singleton<Time>
 {
+	struct FPS { //TODO: forward declaration?
+		void(*getFPSCallback)(float fps) = nullptr;
+		int counter = 0;
+		int mod = 60;
+		float deltaTimeSum = 0.0f;
+		bool isCounting = false;
+		inline void doFPSCallback()	{
+			if (isCounting) // TODO: Make a function
+				if (getFPSCallback != nullptr)
+				{
+					getFPSCallback(mod / deltaTimeSum); // crashes here when F is first key
+					isCounting = false;
+					getFPSCallback = nullptr;
+				}
+		}
+		inline void getFPS(void(*callback)(float)) {
+			if (counter == 0)
+				deltaTimeSum = Time::deltaTime;
+			else deltaTimeSum += Time::deltaTime;
+			if (!(++counter < mod))
+			{
+				if (callback != nullptr)
+					getFPSCallback = callback;
+				counter = 0;
+			}
+		};
+	};
 	friend class Singleton<Time>;
 public:
-	int counter = 0;
-	int mod = 500;
-	float deltaTimeSumOf60 = 0.0f;
-	bool isCounting = false;
-	static float deltaTime;
-	static float currentTime;
+	FPS fps;
+	static float deltaTime; // TODO: Create static functions
+	static float currentTime; // TODO: Create static functions
 	float timeLastFrame;
 	Time();
 	static Time* CreateManager();
 	void Init();
-	void UpdateTime();
-	void getFPS(void(*callback)(float));
+	inline void updateTime();
+	static void UpdateTime();
+	inline void getFPS(void(*callback)(float));
 	static void GetFPS(void(*callback)(float));
-	void toggleFPS();
+	inline void toggleFPS();
 	static void ToggleFPS();
-
 };
 

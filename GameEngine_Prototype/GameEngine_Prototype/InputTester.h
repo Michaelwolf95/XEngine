@@ -10,5 +10,6 @@ public:
 	~InputTester();
 	void Start() override;
 	void Update() override;
+	inline void fpsSample(int & sample_sz);
 };
 
