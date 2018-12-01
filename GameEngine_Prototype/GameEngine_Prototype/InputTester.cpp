@@ -36,7 +36,7 @@ void printFPS(float fps)
 
 void InputTester::Start()
 {
-
+	// not sure what to do with this function
 }
 
 void InputTester::Update()
@@ -55,32 +55,33 @@ void InputTester::Update()
 	//if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor(); // Somebody added into another class
 	//if (Input::GetKeyDown(GLFW_KEY_C)) 
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
-	if (Input::GetKeyDown(GLFW_KEY_R)) Time::ModSampleSize(SAMPLE_SIZE = 25);
+	if (Input::GetKeyDown(GLFW_KEY_R)) Time::ModSampleSize(SAMPLE_SIZE = 25); // **sets sample size to 25. sample size is then modified to size necessary to take averaged samples.
 
-	fpsSample(SAMPLE_SIZE);
-	PrintFPS();
+	fpsSample(SAMPLE_SIZE); // **modified sample size is passed to custom function -- maybe I should integrate this into FPS struct...
+	PrintFPS(); // **indefinitely prints FPS to console if isPrinting is true. Separate feature from fps sampling. Do not use if you only want to log fps samples to file.
 
 	deltaY *= horizontal;
 	deltaX *= vertical;
 	gameObject->transform->Rotate(glm::vec3(deltaX, deltaY, 0.f));
 	//(gameObject + sizeof(GameObject))->transform->LookAt(glm::vec3(0.5f, 1.f, 0.f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//std::cin.get();
 	gameObject->transform->Translate(glm::vec3(Input::GetDeltaPosX() * Time::deltaTime, 0.0f, Input::GetDeltaPosY() * Time::deltaTime));
 	//std::cout << Input::GetDeltaPosX() << std::endl;
 	//gameObject[1].transform->setLocalRotationEuler(sin(deltaX), cos(deltaY), 0.f);
 }
 
+// **Example of taking limited samples onto a logger file
 void InputTester::fpsSample(int &sample_sz)
 {
 	if (sample_sz > 0)
 	{
 		--sample_sz;
-		Time::GetFPS(logFPS);
+		Time::GetFPS(logFPS); // **passes logFPS function as callback function.
 	}
 }
 
+// **Example of printing to console -- ultimately we may use it to send values to renderer for onscreen display.
 void InputTester::PrintFPS()
 {
 	if (Time::getInstance().fps.isCounting)
-		Time::GetFPS(printFPS);
+		Time::GetFPS(printFPS); // **passes printFPS function as callback function.
 }
