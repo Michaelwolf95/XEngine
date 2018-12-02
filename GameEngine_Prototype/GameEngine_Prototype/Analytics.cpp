@@ -33,14 +33,14 @@ CSVMaker::CSVMaker(std::string filename)
 	}
 }
 
-CSVMaker::CSVMaker(std::string filename, std::string columnOne, std::string columnTwo)
+CSVMaker::CSVMaker(std::string filename, std::string columnOneName, std::string columnTwoName)
 {
 	fullFilePath = CSV_FILE_PATH + filename + ".csv";
 
 	try
 	{
 		csvFile.open(fullFilePath);
-		csvFile << columnOne << ", " << columnTwo << std::endl;
+		csvFile << columnOneName << ", " << columnTwoName << std::endl;
 	}
 	catch (const std::exception& e)
 	{
@@ -48,7 +48,7 @@ CSVMaker::CSVMaker(std::string filename, std::string columnOne, std::string colu
 	}
 }
 
-void CSVMaker::Write(float valueOne, float valueTwo)
+void CSVMaker::Write(int valueOne, float valueTwo)
 {
 	try
 	{
