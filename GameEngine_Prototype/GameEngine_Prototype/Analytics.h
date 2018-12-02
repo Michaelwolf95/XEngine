@@ -14,6 +14,6 @@ public:
 	CSVMaker();
 	CSVMaker(std::string);
 	CSVMaker(std::string, std::string, std::string);
-	void Write(float, float);
+	void Write(int, float);
 	void Close();
 };
