@@ -9,6 +9,7 @@ class Time : public Singleton<Time>
 		int sampleSetSize = 60;
 		float deltaTimeSum = 0.0f;
 		bool isCounting = false;
+
 		inline void doFPSCallback()	{
 			if (getFPSCallback != nullptr)
 			{
@@ -16,6 +17,7 @@ class Time : public Singleton<Time>
 				getFPSCallback = nullptr;
 			}
 		}
+
 		inline void getFPS(void(*callback)(float)) {
 			if (counter == 0)
 				deltaTimeSum = Time::deltaTime;
@@ -26,7 +28,7 @@ class Time : public Singleton<Time>
 					getFPSCallback = callback;
 				counter = 0;
 			}
-		};
+		}
 
 		// Use this function to modify sample_sz to correct value.
 		// Example: modSampleSize(sample_size)

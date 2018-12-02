@@ -17,14 +17,14 @@ Time * Time::CreateManager()
 
 void Time::Init()
 {
-	currentTime = glfwGetTime();
+	currentTime = (float)glfwGetTime();
 	timeLastFrame = 0.0f;
 	deltaTime = 0.0f;
 }
 
 void Time::updateTime()
 {
-	currentTime = glfwGetTime();
+	currentTime = (float)glfwGetTime();
 	deltaTime = currentTime - timeLastFrame;
 	timeLastFrame = currentTime;
 }

@@ -1,35 +1,31 @@
 #include "InputTester.h"
 #include "GameObject.h"
 #include "Time.h"
-//#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
 #include "Input.h"
 #include <iostream>
-#include <fstream>
-#include <stdio.h>
 #include "FreeLookCameraController.h"
 
-std::ofstream csv;
+//std::ofstream csv_test;
+CSVMaker InputTester::csv_test = CSVMaker("fps_sample"); // *** if static must initialize outside of class's body
 
 InputTester::InputTester()
 {
-	csv.open("fpstest.csv");
 	rotationSpeed = 0.0f;
 }
 
-
 InputTester::~InputTester()
 {
-	std::cout << "~InputTester" << std::endl;
-	csv.close();
-
+	csv_test.Close(); // *** close the file when application is closed.
 }
-void logFPS(float fps)
+
+static int log_counter = 1; // *** used for object number in csv file.
+void logFPS(float fps) // *** function for Time class to callback to.
 {
-	csv << fps << std::endl;
+	InputTester::csv_test.Write(log_counter++, fps); // *** notice that I had to make CSVMaker object static (maybe there is a better way?)
 }
 
-void printFPS(float fps)
+void InputTester::printFPS(float fps)
 {
 	std::cout << fps << std::endl;
 }
@@ -58,9 +54,9 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_R)) {
 		int modSampleSize = 100; // **number of samples per FPS sample
 		Time::SetSampleSetSize(modSampleSize); // **set the number of samples per FPS sample. 
-		Time::ModSampleSize(SAMPLE_SIZE = 25); // **sets sample size to 25. sample size is then modified to size necessary to take averaged samples.
+		Time::ModSampleSize(SAMPLE_SIZE_TEST = 25); // **sets sample size to 25. sample size is then modified to size necessary to take averaged samples.
 	}
-	fpsSample(SAMPLE_SIZE); // **modified sample size is passed to custom function -- maybe I should integrate this into FPS struct...
+	fpsSample(SAMPLE_SIZE_TEST); // **modified sample size is passed to custom function -- maybe I should integrate this into FPS struct...
 	PrintFPS(); // **indefinitely prints FPS to console if isPrinting is true. Separate feature from fps sampling. Do not use if you only want to log fps samples to file.
 
 	deltaY *= horizontal;
