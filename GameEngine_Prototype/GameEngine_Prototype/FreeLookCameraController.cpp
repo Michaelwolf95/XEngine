@@ -68,5 +68,7 @@ void FreeLookCameraController::Update()
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 
-	gameObject->transform->setLocalRotationEuler(pitch, yaw, eulerRot.z);
+	gameObject->transform->Rotate(glm::vec3(0, xoffset, 0.0f));
+	gameObject->transform->Rotate(glm::vec3(yoffset, 0, 0.0f));
+	//gameObject->transform->setLocalRotationEuler(pitch, yaw, eulerRot.z);
 }
