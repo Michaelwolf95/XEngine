@@ -83,11 +83,13 @@ void TransformTester::Update()
 	deltaY *= horizontal;
 	deltaZ *= vertical;
 
-	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
 
 	// Currently broken API
-	glm::vec3 newRot = glm::vec3(rot.x + deltaZ, rot.y + deltaY, rot.z );
-	gameObject->transform->setLocalRotationEuler(newRot);
+	//glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
+	//glm::vec3 newRot = glm::vec3(rot.x + deltaZ, rot.y + deltaY, rot.z );
+	//gameObject->transform->setLocalRotationEuler(newRot);
+
+	gameObject->transform->Rotate(glm::vec3(0, deltaY, deltaZ));
 
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{

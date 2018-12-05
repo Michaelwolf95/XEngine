@@ -44,6 +44,7 @@ void RunTestScene_Michael()
 {
 	//CreateTestScene_EXAMPLE();
 	CreateTestScene8();
+	//CreateTestScene7();
 }
 
 
@@ -422,7 +423,7 @@ void CreateTestScene7()
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo->AddComponent(cam3);
-	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -4.5f));
+	camGo->transform->Translate(glm::vec3(0.0f, 1.0f, -4.5f));
 	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 	//camGo->AddComponent(new TestMoverComponent());
 
@@ -448,15 +449,13 @@ void CreateTestScene8()
 		CUBE_VERTS, 36, 5,
 		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int),
 		modelMaterial);
-	floorModel2->Setup();
 	go2->AddComponent(floorModel2);
 	go2->transform->Translate(glm::vec3(0.0f, -5.0f, 0.0f));
 	go2->transform->Scale(glm::vec3(10.0f, 0.5f, 10.0f));
 
 	GameObject* go = scene->CreateGameObject("Cube");
 	SimpleModelComponent* cubeModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
-		CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
-	cubeModel->Setup();
+		CUBE_INDICES, 36, modelMaterial);
 	go->AddComponent(cubeModel);
 
 	go->transform->setLocalPosition(vec3(1, 0, 1));
@@ -479,10 +478,47 @@ void CreateTestScene8()
 	GameObject* camGo = scene->CreateGameObject("Cam");
 	CameraComponent* cam3 = new CameraComponent();
 	camGo->AddComponent(cam3);
-	camGo->transform->Translate(glm::vec3(0.0f, -1.0f, -8.0f));
-	camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
+	camGo->transform->setLocalPosition(glm::vec3(0.0f, 1.0f, -8.0f));
+	//camGo->transform->setLocalRotation(glm::vec3(15.0f, 0.0f, 0.0f));
 	//camGo->AddComponent(new TestMoverComponent());
 	camGo->AddComponent(new FreeLookCameraController());
+
+	/*
+	GameObject* front = scene->CreateGameObject("Front Block");
+	front->AddComponent(new SimpleModelComponent(
+		CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+	front->transform->setLocalPosition(glm::vec3(0.0f, 0.0f, -5.0f));
+	front->transform->setLocalScale(10, 10, 1);
+
+	GameObject* back = scene->CreateGameObject("Back Block");
+	back->AddComponent(new SimpleModelComponent(
+		CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+	back->transform->setLocalPosition(glm::vec3(0.0f, 0.0f, -10.0f));
+	back->transform->setLocalScale(10, 10, 1);
+
+	GameObject* up = scene->CreateGameObject("Up Block");
+	up->AddComponent(new SimpleModelComponent(
+		CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+	up->transform->setLocalPosition(glm::vec3(0.0f, 1.0f, -8.0f));
+	//up->transform->setLocalScale(10, 1, 10);
+
+	GameObject* down = scene->CreateGameObject("Up Block");
+	down->AddComponent(new SimpleModelComponent(
+		CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+	down->transform->setLocalPosition(glm::vec3(0.0f, -3.0f, -8.0f));
+	//down->transform->setLocalScale(10, 1, 10);
+
+	GameObject* bR = scene->CreateGameObject("Right Block");
+	bR->AddComponent(new SimpleModelComponent(
+		CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+	bR->transform->setLocalPosition(glm::vec3(1.0f, 1.0f, -8.0f));
+
+	GameObject* bL = scene->CreateGameObject("Left Block");
+	bL->AddComponent(new SimpleModelComponent(
+		CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+	bL->transform->setLocalPosition(glm::vec3(-1.0f, 1.0f, -8.0f));
+	//b2->transform->setLocalScale(10, 10, 1);
+	*/
 
 	// Activate Scene
 	SceneManager::getInstance().SetActiveScene(scene);

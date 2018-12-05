@@ -59,8 +59,9 @@ void FreeLookCameraController::Update()
 	yoffset *= lookSensitivity;
 
 	glm::vec3 eulerRot = gameObject->transform->getLocalRotationEuler();
-	float pitch = eulerRot.x + yoffset;
-	float yaw = eulerRot.y + xoffset;
+	//std::cout << "lRotERad:(" << glm::degrees(eulerRot.x) << ", " << glm::degrees(eulerRot.y) << ", " << glm::degrees(eulerRot.z) << ")" << std::endl;
+	float pitch = glm::degrees(eulerRot.x) + yoffset;
+	float yaw = glm::degrees(eulerRot.y) + xoffset;
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (pitch > 89.0f)
@@ -68,7 +69,40 @@ void FreeLookCameraController::Update()
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 
-	gameObject->transform->Rotate(glm::vec3(0, xoffset, 0.0f));
-	gameObject->transform->Rotate(glm::vec3(yoffset, 0, 0.0f));
 	//gameObject->transform->setLocalRotationEuler(pitch, yaw, eulerRot.z);
+
+	//gameObject->transform->Rotate(glm::vec3(0, xoffset, 0.0f));
+	//gameObject->transform->Rotate(glm::vec3(yoffset, 0, 0.0f));
+
+	//std::cout << "lRotE:  (" << pitch << ", " << yaw << ", " << glm::degrees(eulerRot.z) << ")" << std::endl;
+
+	//glm::vec3 fwd = gameObject->transform->getForwardDirection();
+	//glm::quat rQ(glm::vec3(yoffset, xoffset, 0.0f));
+	//glm::vec3 newForward = rQ * fwd; // * glm::conjugate(rQ)
+	//glm::vec3 lookPos = gameObject->transform->getPosition() + newForward;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front = glm::normalize(front);
+	glm::vec3 lookPos = gameObject->transform->getPosition() + front;
+
+	
+	//std::cout << "lPos:  (" << lookPos.x << ", " << lookPos.y << ", " << lookPos.z << ")" << std::endl;
+	//gameObject->transform->LookAt(lookPos, glm::vec3(0, 1, 0));
+
+	gameObject->transform->Rotate(glm::vec3(yoffset, xoffset, 0));
+
+	if (Input::GetKeyDown(GLFW_KEY_R))
+	{
+		gameObject->transform->printTransformMatrix();
+		std::cout << "Camera Rot:" << std::endl;
+		glm::vec3 rotDeg = gameObject->transform->getLocalRotationEuler();
+		std::cout << "Rot:  (" << rotDeg.x << ", " << rotDeg.y << ", " << rotDeg.z << ")" << std::endl;
+		glm::quat rotQuat = gameObject->transform->getLocalRotation();
+		std::cout << "RotQ: (" << rotQuat.x << ", " << rotQuat.y << ", " << rotQuat.z << ", " << rotQuat.w << ")" << std::endl;
+		glm::vec3 scale = gameObject->transform->getLocalScale();
+		std::cout << "Scale:  (" << scale.x << ", " << scale.y << ", " << scale.z << ")" << std::endl;
+	}
 }

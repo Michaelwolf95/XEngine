@@ -16,6 +16,7 @@ public:
 	void Update() override;
 	glm::mat4 getMatrix4x4();
 	glm::vec3 getPosition();
+	glm::vec3 getLocalPosition();
 	void setLocalPosition(glm::vec3 pos);
 	void setLocalPosition(float x, float y, float z);
 	glm::quat getLocalRotation();
@@ -46,13 +47,20 @@ public:
 
 	void TestEulerRotation(float x, float y, float z);
 
-// ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 private: 
+	// These get serialized
+	glm::vec3 localPosition = glm::vec3(0, 0, 0);
+	glm::quat localRotation = glm::quat(1, 0, 0, 0);
+	glm::vec3 localScale = glm::vec3(1, 1, 1);
+
+	// Flag for whether the transform has been updated since the model was last updated. 
+	bool isDirty = false; 
+
 	glm::mat4 model = glm::mat4(1.0f);
+	
 	glm::mat4 translateMatrix = glm::mat4(1.0f);
 	glm::mat4 rotateMatrix = glm::mat4(1.0f);
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
-	//glm::quat localRotation = glm::quat();
-	void UpdateMatrix();
+	void UpdateModelMatrix();
 };
 

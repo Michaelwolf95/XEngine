@@ -5,9 +5,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/quaternion.hpp>
-//#define GLM_ENABLE_EXPERIMENTAL
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtx/matrix_decompose.hpp>
-//#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/euler_angles.hpp>
 //#include <glm/gtx/transform.hpp>
 #include "RenderManager.h"
 #include "DebugUtility.h"
@@ -214,6 +215,7 @@ static void toEulerAngles5(const glm::quat& _q, float& pitch, float& yaw, float&
 	roll = (float)atan2(2.0f * q.x * q.y + 2.0f * q.z * q.w, 1 - 2.0f * (q.y * q.y + q.z * q.z));      // Roll
 }
 
+
 // TODO: Track the different transformation matrices seperately to save on calculations.
 // TODO: Convert Rotation matrix to just a quaternion?
 // That is - don't track the whole model. Translation, scale, and rotation seperately.
@@ -235,20 +237,35 @@ void Transform::Update() {}
 
 glm::mat4 Transform::getMatrix4x4()
 {
+	if (isDirty)
+	{
+		UpdateModelMatrix();
+	}
 	return model;
 }
 
 glm::vec3 Transform::getPosition()
 {
-	return glm::vec3(model[3]);
+	//TODO: Convert this to world space. (Once children have been implemented.)
+	return getLocalPosition();
+}
+
+glm::vec3 Transform::getLocalPosition()
+{
+	return localPosition;
+	//return glm::vec3(model[3]);
 }
 
 void Transform::setLocalPosition(glm::vec3 pos)
 {
+	localPosition = pos;
+	isDirty = true;
+
+	// TODO: Reassess this solution - should we REALLY update the translateMatrix here?
 	translateMatrix[3].x = pos.x;
 	translateMatrix[3].y = pos.y;
 	translateMatrix[3].z = pos.z;
-	UpdateMatrix();
+	//UpdateModelMatrix();
 }
 
 void Transform::setLocalPosition(float x, float y, float z)
@@ -258,12 +275,18 @@ void Transform::setLocalPosition(float x, float y, float z)
 
 glm::quat Transform::getLocalRotation() // Local
 {
+	// HUGE POSSIBLE BREAKING POINT? ===============================================
+
+	return localRotation;
+
+	/*
 	// This is the rotation matrix. It needs to be converted into a quaternion.
 	mat4 rotMat = getRotationMatrix();
 	glm::quat rq = quat_cast(rotMat);
 	//std::cout << "_getRotQuat:(" << rq.w << ", " << rq.x << ", " << rq.y << ", " << rq.z << ")" << std::endl;
 	return rq;
 	//return quat_cast(rotMat);
+	*/
 }
 
 // Returns the current local euler rotation in DEGREES.
@@ -271,7 +294,8 @@ glm::vec3 Transform::getLocalRotationEuler()
 {
 	quat qRot = getLocalRotation();
 	vec3 rot = glm::eulerAngles(qRot);
-	//TODO: Rotate using ZXY or YXZ. (Middle axis should be X)
+
+	//TODO: Rotate using Y->X->Z (or ZXY). (Middle axis should be X)
 	//vec3 rot;
 	//toEulerAngles5(getLocalRotation(), rot.x, rot.y, rot.z);
 	rot.x = glm::degrees(rot.x);
@@ -311,8 +335,9 @@ glm::vec3 Transform::getLocalRotationEuler()
 void Transform::setLocalRotation(glm::quat rot)
 {
 	//std::cout << "_setQuat:   (" << rot.w << ", " << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
+	localRotation = rot;
 	rotateMatrix = glm::mat4_cast(rot);
-	UpdateMatrix();
+	UpdateModelMatrix();
 	return;
 }
 
@@ -357,7 +382,7 @@ void Transform::setLocalScale(glm::vec3 scale)
 	scaleMatrix[1][1] = scale.y;
 	scaleMatrix[2][2] = scale.z;
 
-	UpdateMatrix();
+	UpdateModelMatrix();
 }
 
 void Transform::setLocalScale(float x, float y, float z)
@@ -367,8 +392,9 @@ void Transform::setLocalScale(float x, float y, float z)
 
 void Transform::Translate(glm::vec3 translation)
 {
+	localPosition += translation;
 	translateMatrix = glm::translate(translateMatrix, translation);
-	UpdateMatrix();
+	UpdateModelMatrix();
 }
 
 void Transform::Rotate(glm::vec3 rotation)
@@ -379,34 +405,91 @@ void Transform::Rotate(glm::vec3 rotation)
 	if (rotation.x != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
-		rotateMatrix = glm::rotate(rotateMatrix, rotation.x, glm::vec3(1, 0, 0));
+		//rotateMatrix = glm::rotate(rotateMatrix, rotation.x, glm::vec3(1, 0, 0));
+		localRotation = glm::rotate(localRotation, rotation.x, glm::vec3(1, 0, 0));
 	}
 	if (rotation.y != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
-		rotateMatrix = glm::rotate(rotateMatrix, rotation.y, glm::vec3(0, 1, 0));
+		//rotateMatrix = glm::rotate(rotateMatrix, rotation.y, glm::vec3(0, 1, 0));
+		localRotation = glm::rotate(localRotation, rotation.y, glm::vec3(0, 1, 0));
 	}
 	if (rotation.z != 0)
 	{
 		//model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
-		rotateMatrix = glm::rotate(rotateMatrix, rotation.z, glm::vec3(0, 0, 1));
+		//rotateMatrix = glm::rotate(rotateMatrix, rotation.z, glm::vec3(0, 0, 1));
+		localRotation = glm::rotate(localRotation, rotation.z, glm::vec3(0, 0, 1));
 	}
-	UpdateMatrix();
+
+	rotateMatrix = glm::mat4_cast(localRotation);
+	UpdateModelMatrix();
 }
 
 void Transform::Scale(glm::vec3 scale)
 {
 	//model = glm::scale(model, scale);
 	scaleMatrix = glm::scale(scaleMatrix, scale);
-	UpdateMatrix();
+	UpdateModelMatrix();
 }
 
+//https://stackoverflow.com/questions/18172388/glm-quaternion-lookat-function
 void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
 {
 	glm::vec3 pos = getPosition();
+
+	//glm::vec3 lookVector = glm::vec3(x, y, z);
+	//assert(lookVector != position);
+	glm::vec3 direction = lookPos - pos;
+	float      directionLength = glm::length(direction);
+	// Check if the direction is valid; Also deals with NaN
+	if (!(directionLength > 0.0001))
+	{
+		setLocalRotation(glm::quat(1, 0, 0, 0)); // Just return identity
+		return;
+	}
+	// Normalize direction
+	direction /= directionLength;
+
+	//// Is the normal up (nearly) parallel to direction?
+	//if (glm::abs(glm::dot(direction, up)) > .9999f) {
+	//	// Use alternative up
+	//	setLocalRotation(direction, alternativeUp));
+	//}
+	//else {
+	//	setLocalRotation(glm::quatLookAt(direction, up));
+	//	return;
+	//}
+
+
+	localRotation = glm::quatLookAt(direction, up);
+	//std::cout << "lRot: (" << localRotation.w << ", " << localRotation.x << ", " << localRotation.y << ", " << localRotation.z << ")" << std::endl;
+	rotateMatrix = glm::mat4_cast(localRotation);
+	UpdateModelMatrix();
+	return;
+	/*
+	float dot = glm::dot(glm::vec3(0, 0, 1), direction);
+	if (fabs(dot - (-1.0f)) < 0.000001f) {
+		localRotation = glm::angleAxis(glm::degrees(glm::pi<float>()), glm::vec3(0, 1, 0));
+		return;
+	}
+	else if (fabs(dot - (1.0f)) < 0.000001f) {
+		localRotation = glm::quat();
+		return;
+	}
+
+	float angle = -glm::degrees(acosf(dot));
+
+	//glm::vec3 cross = glm::normalize(glm::cross(glm::vec3(0, 0, 1), direction));
+	glm::vec3 cross = glm::normalize(glm::cross(direction, glm::vec3(0, 0, 1)));
+	localRotation = glm::normalize(glm::angleAxis(angle, cross));
+
+
+
 	//model = glm::lookAt(pos, lookPos, up);
-	rotateMatrix = glm::lookAt(pos, lookPos, up);
+	//rotateMatrix = glm::lookAt(pos, lookPos, up);
+	rotateMatrix = glm::mat4_cast(localRotation);
 	UpdateMatrix();
+	*/
 }
 
 glm::mat4 Transform::getTranslationMatrix()
@@ -463,12 +546,15 @@ void Transform::printTransformMatrix()
 	
 }
 
-void Transform::UpdateMatrix()
+void Transform::UpdateModelMatrix()
 {
 	// M = T*R*S ... or S*R*T? ... or S*T*R??
 	//http://headerphile.com/uncategorized/opengl-matrix-operations/
-	model = scaleMatrix * translateMatrix * rotateMatrix;
-	//model =  translateMatrix * rotateMatrix * scaleMatrix;
+	//model = scaleMatrix * translateMatrix * rotateMatrix;
+	model =  translateMatrix * rotateMatrix * scaleMatrix; // Scales object shapes correctly.
+	//model = translateMatrix * scaleMatrix * rotateMatrix;
+
+	isDirty = false;
 }
 
 // Note: this is NOT "OnDrawGizmos".
