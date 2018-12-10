@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 // TimeManager
-class Time : public Singleton<Time>
+class Time : public Singleton<Time> // TODO: Separate FPS into own class. 
 {
 	struct FPS { //TODO: forward declaration?
 		void(*getFPSCallback)(float fps) = nullptr;

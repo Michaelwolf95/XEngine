@@ -92,8 +92,8 @@ public:
 	static bool GetMouseButtonDown(int glfw_mouse_button); 
 	static bool GetMouseButton(int glfw_mouse_button); 
 	static bool GetMouseButtonUp(int glfw_mouse_button); 
-	double GetScrollOffsetX();
-	double GetScrollOffsetY();
+	static double GetScrollOffsetX();
+	static double GetScrollOffsetY();
 	static double GetMousePosX();
 	static double GetMousePosY();
 	static double GetDeltaPosX();

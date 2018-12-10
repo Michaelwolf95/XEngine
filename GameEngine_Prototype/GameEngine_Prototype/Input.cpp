@@ -138,12 +138,12 @@ bool Input::GetMouseButtonUp(int glfw_mouse_button)
 
 double Input::GetScrollOffsetX()
 {
-	return xScrollOffset;
+	return Input::getInstance().xScrollOffset;
 }
 
 double Input::GetScrollOffsetY()
 {
-	return yScrollOffset;
+	return Input::getInstance().yScrollOffset;
 }
 
 double Input::GetMousePosX()
