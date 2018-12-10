@@ -23,132 +23,90 @@
 #include "Input.h"
 #include "Analytics.h"
 #include <string> 
+#include "ApplicationManager.h"
 
-//CSVMaker analytic = CSVMaker("componentFPS");
+CSVMaker GameComponentAnalytic::csv = CSVMaker("component");
+int GameComponentAnalytic::objectNum = 1;
 
+// default constructor
 GameComponentAnalytic::GameComponentAnalytic()
 {
-	//objectNum = num;
+	objectNum = 1;
 }
 
+// constructor with defined number of components and size of fps samples
+GameComponentAnalytic::GameComponentAnalytic(int num)
+{
+	objectNum = num;
+}
+
+// decontructor closes the csv file
 GameComponentAnalytic::~GameComponentAnalytic()
 {
-	//analytic.Close();
+	csv.Close();
 }
 
-void logFPSComponent(float fps)
-{
-	//analytic.Write(std::to_string(num), fps);
-	//componentTest << fps << std::endl;
-	//Time::getInstance().GetFPS(printFPS);
-}
-
+// Print fps (based on InputTester)
 void printFPSComponent(float fps)
 {
 	std::cout << fps << std::endl;
 }
 
+// Writes into the csv files (based on InputTester)
+void logFPSComponent(float fps)
+{
+	GameComponentAnalytic::csv.Write(GameComponentAnalytic::objectNum, fps);
+}
+
 void GameComponentAnalytic::Start()
 {
-	
-	
-	/*
-	srand(time(NULL));
+	// get only gameobject in scene
+	Scene* scene = SceneManager::getInstance().GetActiveScene();
+	GameObject* c = scene->rootGameObjects[0];
 
-	float CUBE_VERTS[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-	0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
-	0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-	0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, // 3 L Top Back
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,   1.0f, 1.0f, //
-	0.5f,  0.5f,  0.5f,   1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, //
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,   0.0f, 1.0f, //
-	0.5f, -0.5f, -0.5f,   0.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,   0.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,   1.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,   1.0f, 0.0f, //
-	0.5f, -0.5f,  0.5f,   1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,   1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,   1.0f, 0.0f, //
-	0.5f,  0.5f,  0.5f,   1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-
-	unsigned int CUBE_INDICES[] = {
-	0, 1, 2,	0, 2, 3,      // front
-	4, 5, 6,	4, 6, 7,      // back
-	8, 9, 10,	8, 10, 11,    // top
-	12, 13, 14, 12, 14, 15,   // bottom
-	16, 17, 18, 16, 18, 19,   // right
-	20, 21, 22, 20, 22, 23,   // left
-	};
-
-	*/
-
-	//Scene* scene = SceneManager::getInstance().GetActiveScene();
 	//Shader* modelShader = new Shader("model.vs", "model.fs");
 	//Material* modelMaterial = new Material(modelShader);
 	//modelMaterial->LoadTexture("textures/container.jpg"); //change model here if needed for different test
 
 	//int range = 10;
 	//loop to create more gameObjects
-	//for (int i = 1; i < 50; i++)
-	//{
-	//	GameObject* c = scene->CreateGameObject("Cube");
-	//	SimpleModelComponent* m = new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial);
-	//	c->AddComponent(m);
-	//	c->transform->setLocalPosition((rand() % range) + 1, (rand() % range) + 1, (rand() % range) + 1);
-		//c->AddComponent(new ExampleRotator()); //rotating all the GameObjects
-	//}
-
-
+	for (int i = 0; i < objectNum; i++)
+	{
+		//c->AddComponent(new LightComponent(glm::vec3(0.2f)));
+		c->AddComponent(new SimpleRotator());
+	}
 }
 
 void GameComponentAnalytic::Update()
 {
-
 	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
-	// Code that happens every frame.
-	fpsSample(sampleSize);
 
-	PrintFPS();
+	// Press R to print into the csv files
+	// Wait a couple of seconds if there are a lot of components
+	if (Input::GetKeyDown(GLFW_KEY_R)) {
+		int framesPerSampleSize = 100; // **number of samples per FPS sample
+		Time::SetSampleSetSize(framesPerSampleSize); // **set the number of samples per FPS sample. 
+		Time::ModSampleSize(SAMPLE_SIZE = 25);	// set to take 25 samples
+												// each sample size is average with the number of frames provided by modSampleSize
+	}
+	fpsSample(SAMPLE_SIZE); // **modified sample size is passed to custom function 
+	//PrintFPS(); // **indefinitely prints FPS to console if isPrinting is true. Separate feature from fps sampling. Do not use if you only want to log fps samples to file.
 }
 
+// calls function to write into csv file for the size amount (based on InputTester)
 void GameComponentAnalytic::fpsSample(int &sample_sz)
 {
-	if (sample_sz-- > 0)
+	if (sample_sz > 0)
 	{
-		Time::GetFPS(logFPSComponent);
+		--sample_sz;
+		Time::GetFPS(logFPSComponent); // **passes logFPS function as callback function.
 	}
 }
 
+// Printe fps (based on InputTester)
 void GameComponentAnalytic::PrintFPS()
 {
-	if (Time::getInstance().IsCounting())
-		Time::GetFPS(printFPSComponent);
+	if (Time::getInstance().IsCounting()) // **use IsCounting function to find out if FPS system is running.
+		Time::GetFPS(printFPSComponent); // **passes printFPS function as callback function.	
 }
+

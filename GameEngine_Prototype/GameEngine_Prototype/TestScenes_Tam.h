@@ -99,11 +99,12 @@ void CreateTestScene_GameComponentTest()
 	GameObject* cube = scene->CreateGameObject("Cube");
 	SimpleModelComponent* model = new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial);
 	cube->AddComponent(model);
-	cube->transform->setLocalPosition(0, 0, 0); 
+	cube->transform->setLocalPosition(0, 0, -5); 
 
 
 
 	// make camera
+	/*
 	GameObject* camGo = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
@@ -112,17 +113,13 @@ void CreateTestScene_GameComponentTest()
 
 	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
+	*/
 
-	// add component
+	// testing by creating more Components for the GameObjects------------------------------------------
 
-	//auto rotator = new ExampleRotator();
-	//cube->AddComponent(new ExampleRotator());
-	//cube->AddComponent(rotator);
-	//rotator->rotationSpeed = 10;
-
-	//testing by creating more GameObjects------------------------------------------
-	//GameComponentAnalytic* testComponent = new GameComponentAnalytic();
-	//cube->AddComponent(testComponent);
+	// input how many components to add to GameObjects
+	GameComponentAnalytic* testComponent = new GameComponentAnalytic(50);
+	cube->AddComponent(testComponent);
 
 	SceneManager::getInstance().SetActiveScene(scene);
 	 
