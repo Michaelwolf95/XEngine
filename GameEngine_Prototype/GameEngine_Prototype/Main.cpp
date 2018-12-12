@@ -1,10 +1,11 @@
 #define GLM_FORCE_RADIANS
-#include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #define STB_DEFINE  
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#include <iostream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "DebugUtility.h" // Define only once
 #include "AssetManager.h"
 #include "ApplicationManager.h"
@@ -15,11 +16,10 @@
 
 #include "SampleScene.h"
 
-
 // ENTRY POINT
 int main()
 {
-	std::cout << "===== LAUNCHING CECS_491 GAME ENGINE =====" << std::endl;
+	std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
 	// Init Managers
 	ApplicationManager::CreateManager();
 	RenderManager::CreateManager();
