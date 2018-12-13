@@ -58,8 +58,6 @@ void Input::_mouse_callback(double xpos, double ypos)
 		mouseIdle = true;
 	}
 
-	//xDeltaPos = xpos - xPos;  
-	//yDeltaPos = yPos - ypos; // reversed since y-coordinates go from bottom to top
 	xPos = xpos;
 	yPos = ypos;	
 	mouseIdle = false;
@@ -75,16 +73,16 @@ void Input::_mouse_button_callback(int button, int action, int mods)
 {
 	for (int i = 0; i < m_arr_sz; i++)
 	{
-		mouse[i].wasPressed = mouse[i].isButtonPressed;
+		mouse[i].wasPressed = mouse[i].isPressed;
 
 		if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) 
-			== GLFW_PRESS && mouse[i].isButtonPressed == false)
+			== GLFW_PRESS && mouse[i].isPressed == false)
 		{
-			mouse[i].isButtonPressed = true;
+			mouse[i].isPressed = true;
 		}
-		else if (mouse[i].isButtonPressed == true)
+		else if (mouse[i].isPressed == true)
 		{
-			mouse[i].isButtonPressed = false;
+			mouse[i].isPressed = false;
 		}
 	}
 }
@@ -205,7 +203,8 @@ void Input::checkKeyInputs()
 		{
 			keys[i].isPressed = false;
 		}
-		if (i == 96) i = 255; // Skips a large set of unused keys. Saves a lot of CPU time.
+		// Skips a large set of unused keys. Saves a lot of CPU time.
+		if (i == 96) i = 255; 
 	}	
 
 }
@@ -233,20 +232,20 @@ bool Input::getMouseButtonDown(int glfw_mouse_button)
 {
 	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].wasPressed == false
-		&& mouse[glfw_mouse_button].isButtonPressed == true;
+		&& mouse[glfw_mouse_button].isPressed == true;
 }
 
 bool Input::getMouseButton(int glfw_mouse_button)
 {
 	validateMouseInputValue(glfw_mouse_button);
-	return mouse[glfw_mouse_button].isButtonPressed;
+	return mouse[glfw_mouse_button].isPressed;
 }
 
 bool Input::getMouseButtonUp(int glfw_mouse_button)
 {
 	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].wasPressed == true
-		&& mouse[glfw_mouse_button].isButtonPressed == false;
+		&& mouse[glfw_mouse_button].isPressed == false;
 }
 
 bool Input::getMousePosX()

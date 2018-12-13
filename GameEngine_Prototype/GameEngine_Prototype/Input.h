@@ -30,16 +30,12 @@ void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int
 class Input : public Singleton<Input>
 {
 private:
-	struct KeyPressed
+	struct InputState
 	{		
 		bool isPressed = false;
 		bool wasPressed = false;
 	};
-	struct MouseButtonPressed
-	{
-		bool isButtonPressed = false;
-		bool wasPressed = false;
-	};
+
 	friend class Singleton<Input>;
 
 	bool isInitialized = false;
@@ -52,8 +48,8 @@ private:
 	double yPos;
 	double xScrollOffset;
 	double yScrollOffset;
-	MouseButtonPressed mouse[m_arr_sz];
-	KeyPressed keys[k_arr_sz]; // tracks which keys are pressed
+	InputState mouse[m_arr_sz];
+	InputState keys[k_arr_sz]; // tracks which keys are pressed
 	Input();
 	bool getKeyDown(int glfw_key);
 	bool getKey(int glfw_key);

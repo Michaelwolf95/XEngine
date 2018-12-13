@@ -55,5 +55,6 @@ public:
 	static void ModSampleSize(int &sample_sz);
 	static bool IsCounting();
 	static void SetSampleSetSize(int sample_set_sz); 
+	//TODO: Move private functions to private
 };
 
