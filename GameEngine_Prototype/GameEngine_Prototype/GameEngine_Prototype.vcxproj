@@ -258,6 +258,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="PrimitiveModels.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="TestScenes.h" />
@@ -307,6 +308,13 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico" />
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
