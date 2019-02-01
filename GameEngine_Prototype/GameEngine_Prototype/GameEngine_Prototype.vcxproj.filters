@@ -269,6 +269,9 @@
     <ClInclude Include="PrimitiveModels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
@@ -301,5 +304,18 @@
     <None Include="..\Shaders\color.fs">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

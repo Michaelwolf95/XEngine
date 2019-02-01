@@ -199,6 +199,7 @@
     <ClInclude Include="PrimitiveModels.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SampleScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -229,6 +230,13 @@
     <None Include="..\Shaders\model.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico" />
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
