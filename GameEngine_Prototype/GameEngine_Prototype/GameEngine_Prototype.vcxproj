@@ -218,8 +218,6 @@
     <ClInclude Include="SimpleSprite.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TestMoverComponent.h" />
-    <ClInclude Include="TestScenes.h" />
-    <ClInclude Include="TestScenes_Dennis.h" />
     <ClInclude Include="TestScenes_Donato.h" />
     <ClInclude Include="TestScenes_James.h" />
     <ClInclude Include="TestScenes_Michael.h" />
