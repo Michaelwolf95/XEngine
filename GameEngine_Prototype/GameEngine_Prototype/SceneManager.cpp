@@ -3,6 +3,7 @@
 #include <typeinfo>
 #include "CameraComponent.h"
 #include "RenderManager.h"
+#include "Serialization.h"
 
 SceneManager::SceneManager() {}
 
@@ -75,5 +76,32 @@ void SceneManager::UpdateActiveScene()
 	}
 }
 
+void SceneManager::SaveSceneToFile(const Scene &s) {
+	std::string filename = "../Scenes/";
+	filename += s.name + ".txt";
+	SaveSceneToFile(s, filename.c_str());
+}
+void SceneManager::SaveSceneToFile(const Scene &s, const char * filename) {
+	// make an archive
+	std::ofstream ofs(filename);
+	boost::archive::text_oarchive oa(ofs);
+	oa << s;
+}
 
+bool SceneManager::LoadSceneFromFile(Scene &s, const char * filename)
+{
+	// ToDo: Return false if file is not found.
+	// open the archive 
+	std::ifstream ifs(filename);
+	if (!ifs.good()) //Doesn't exist 
+	{
+		return false;
+	}
 
+	boost::archive::text_iarchive ia(ifs);
+
+	// restore the schedule from the archive
+	ia >> s;
+
+	return true;
+}

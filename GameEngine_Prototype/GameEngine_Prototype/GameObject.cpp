@@ -21,6 +21,20 @@ GameObject::~GameObject()
 {
 }
 
+
+std::ostream & operator<<(std::ostream &os, const GameObject &go)
+{
+	//std::list<bus_stop *>::const_iterator it;
+	// note: we're displaying the pointer to permit verification
+	// that duplicated pointers are properly restored.
+	std::vector<Component*>::const_iterator it;
+	for (it = go.components.begin(); it != go.components.end(); it++) {
+		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
+	}
+
+	return os;
+}
+
 void GameObject::AddComponent(Component * comp)
 {
 	components.push_back(comp);

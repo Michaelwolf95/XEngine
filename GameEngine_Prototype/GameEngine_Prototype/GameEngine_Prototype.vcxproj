@@ -206,6 +206,7 @@
     <ClInclude Include="GameComponentAnalytic.h" />
     <ClInclude Include="GameObjectAnalytic.h" />
     <ClInclude Include="PrimitiveModels.h" />
+    <ClInclude Include="Serialization.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
@@ -226,11 +227,10 @@
     <ClInclude Include="SimpleSprite.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TestMoverComponent.h" />
-    <ClInclude Include="TestScenes.h" />
     <ClInclude Include="TestScenes_Dennis.h" />
     <ClInclude Include="TestScenes_Donato.h" />
     <ClInclude Include="TestScenes_James.h" />
-    <ClInclude Include="TestScenes_Michael.h" />
+    <ClInclude Include="TestScenes.h" />
     <ClInclude Include="TestScenes_Tam.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />

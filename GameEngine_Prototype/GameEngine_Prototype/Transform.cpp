@@ -224,6 +224,7 @@ Transform::Transform() : Component::Component()
 
 Transform::~Transform() {}
 
+
 void Transform::SetParent(Transform * _parent)
 {
 	// TODO: Make sure the object isn't a child.

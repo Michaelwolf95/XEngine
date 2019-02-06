@@ -18,5 +18,7 @@ public:
 	mat4 getView() override;
 	void Start() override;
 	void Update() override;
+private:
+
 };
 

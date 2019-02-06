@@ -168,7 +168,7 @@
     <ClCompile Include="GameObjectAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="GameComponentAnalytic.cpp">
+    <ClCompile Include="GameComponentAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Analytics.cpp">
@@ -242,12 +242,6 @@
     <ClInclude Include="ConsoleThread.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScenes_Michael.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="TestScenes_Tam.h">
       <Filter>Test Scenes</Filter>
     </ClInclude>
@@ -296,10 +290,16 @@
     <ClInclude Include="GameObjectAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="GameComponentAnalytic.h">
+    <ClInclude Include="GameComponentAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Analytics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

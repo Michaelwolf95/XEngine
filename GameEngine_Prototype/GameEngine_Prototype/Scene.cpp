@@ -13,7 +13,7 @@ Scene::Scene(const char* _name)
 	}
 }
 
-Scene::Scene(std::vector<GameObject*> gameObjects)
+Scene::Scene(std::vector<gameObject_pointer> gameObjects)
 {
 	for (size_t i = 0; i < gameObjects.size(); i++)
 	{
@@ -22,6 +22,21 @@ Scene::Scene(std::vector<GameObject*> gameObjects)
 }
 
 Scene::~Scene() {}
+
+
+
+std::ostream & operator<<(std::ostream &os, const Scene &scene)
+{
+	// note: we're displaying the pointer to permit verification
+	// that duplicated pointers are properly restored.
+	std::vector<GameObject*>::const_iterator it;
+	for (it = scene.rootGameObjects.begin(); it != scene.rootGameObjects.end(); it++) {
+		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
+	}
+
+	return os;
+}
+
 
 void Scene::PrintScene()
 {
