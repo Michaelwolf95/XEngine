@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="17">
+<s class_id="0" tracking_level="0" version="0">
+	<name>Serial_Scene</name>
+	<rootGameObjects class_id="1" tracking_level="0" version="0">
+		<count>2</count>
+		<item_version>0</item_version>
+		<item class_id="2" tracking_level="1" version="0" object_id="_0">
+			<name>Cube</name>
+			<transform class_id="3" tracking_level="1" version="0" object_id="_1">
+				<Component class_id="4" tracking_level="0" version="0">
+					<enabled>1</enabled>
+				</Component>
+			</transform>
+			<components class_id="5" tracking_level="0" version="0">
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id="6" class_name="SimpleModelComponent" tracking_level="1" version="0" object_id="_2">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+				</item>
+				<item class_id="7" class_name="TestMoverComponent" tracking_level="1" version="0" object_id="_3">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_4">
+			<name>Floor</name>
+			<transform class_id_reference="3" object_id="_5">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+			</transform>
+			<components>
+				<count>0</count>
+				<item_version>0</item_version>
+			</components>
+		</item>
+	</rootGameObjects>
+</s>
+</boost_serialization>
+

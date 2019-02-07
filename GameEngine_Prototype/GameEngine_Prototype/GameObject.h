@@ -8,7 +8,7 @@
 
 class GameObject
 {
-	typedef Component * Component_ptr; // Needed because we need an OBJECT.
+	typedef Component * Component_ptr; // Needed because we need an OBJECT. ... right?
 public:
 	Transform* transform;
 	bool isActive = true;
@@ -31,18 +31,12 @@ private:
 	friend std::ostream & operator<<(std::ostream &os, const GameObject &go);
 	friend class boost::serialization::access;
 
-	//typedef Component * component_pointer;
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int) // file_version
 	{
-		//ar.register_type(static_cast<Component**>(NULL));
-		//ar.register_type(static_cast<GameObject**>(NULL));
-		//ar.template register_type<bus_stop_destination>();
-		//ar.register_type(static_cast<bus_stop_destination *>(NULL));
-		// serialization of stl collections is already defined
-		// in the header
-		ar & name;
-		ar & components;
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(transform);
+		ar & BOOST_SERIALIZATION_NVP(components);
 	}
 };
 

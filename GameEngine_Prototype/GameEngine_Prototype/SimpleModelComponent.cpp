@@ -8,6 +8,13 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 
+BOOST_CLASS_EXPORT_GUID(SimpleModelComponent, "SimpleModelComponent")
+
+SimpleModelComponent::SimpleModelComponent()
+{
+
+}
+
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
 {
@@ -36,6 +43,8 @@ void SimpleModelComponent::Setup()
 	// texture coord attribute
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexDataSize * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	isSetup = true;
 }
 
 void SimpleModelComponent::Draw()
@@ -79,7 +88,10 @@ void SimpleModelComponent::Draw()
 
 void SimpleModelComponent::Start()
 {
-
+	if (isSetup == false)
+	{
+		Setup();
+	}
 }
 
 void SimpleModelComponent::Update()

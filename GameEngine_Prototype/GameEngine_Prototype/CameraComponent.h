@@ -18,7 +18,20 @@ public:
 	mat4 getView() override;
 	void Start() override;
 	void Update() override;
-private:
 
+private:
+	friend class boost::serialization::access;
+	template<class Archive>
+	void serialize(Archive &ar, const unsigned int version)
+	{
+		std::cout << "Serializing Derived Component." << std::endl;
+		// save/load base class information
+		//ar & boost::serialization::base_object<Component>(*this);
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		std::cout << "\tType: ." << std::endl;
+	}
 };
+// FIRST CLASS IS DEFINING?
+//BOOST_CLASS_EXPORT_GUID(CameraComponent, "CameraComponent")
+
 

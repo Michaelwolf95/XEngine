@@ -60,9 +60,24 @@ private:
 	template<class Archive>
 	void serialize(Archive &ar, const unsigned int version)
 	{
+		//std::cout << "Serializing Derived Component." << std::endl;
 		// save/load base class information
-		ar & boost::serialization::base_object<Component>(*this);
-		//ar & street1 & street2;
+		//ar & boost::serialization::base_object<Component>(*this);
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		//std::cout << "\tType: Transform." << std::endl;
 	}
+	//template<class Archive>
+	//void serialize(Archive &ar, const unsigned int version)
+	//{
+	//	//std::cout << "Serializing Derived Component." << std::endl;
+	//	// save/load base class information
+	//	//ar & boost::serialization::base_object<Component>(*this);
+	//	ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+	//	//std::cout << "\tType: Transform." << std::endl;
+	//}
+	//BOOST_SERIALIZATION_SPLIT_MEMBER(Transform)
 };
 
+//ToDo: Split save/load using https://www.boost.org/doc/libs/1_38_0/libs/serialization/doc/serialization.html
+
+//BOOST_CLASS_EXPORT_GUID(Transform, "Transform")

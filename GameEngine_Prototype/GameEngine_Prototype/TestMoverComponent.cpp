@@ -12,6 +12,9 @@
 #include "RenderManager.h"
 using namespace glm;
 
+// "'boost::serialization::guid': function must return a value" error if these macros don't have the string value.
+BOOST_CLASS_EXPORT_GUID(TestMoverComponent, "TestMoverComponent")
+
 TestMoverComponent::TestMoverComponent() {}
 TestMoverComponent::~TestMoverComponent() {}
 

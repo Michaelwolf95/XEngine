@@ -1,6 +1,10 @@
 #include "Scene.h"
 #include <iostream>
 
+Scene::Scene()
+{
+	name = "New Scene";
+}
 Scene::Scene(const char* _name)
 {
 	if (_name == nullptr)

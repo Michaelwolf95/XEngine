@@ -13,6 +13,8 @@
 #include "DebugUtility.h"
 using namespace glm;
 
+BOOST_CLASS_EXPORT_GUID(Transform, "Transform")
+
 //http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
 // Order: Yaw, Roll, Pitch
 static void toEulerAngles(const glm::quat& q, float& pitch, float& yaw, float& roll)

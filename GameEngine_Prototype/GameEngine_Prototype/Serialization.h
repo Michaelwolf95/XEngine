@@ -1,4 +1,7 @@
 #pragma once
+// Tutorial: https://www.boost.org/doc/libs/1_69_0/libs/serialization/doc/tutorial.html
+// Demo: https://www.boost.org/doc/libs/1_69_0/libs/serialization/example/demo.cpp
+
 #include <cstddef> // NULL
 #include <iomanip>
 #include <iostream>
@@ -9,16 +12,56 @@
 //#include <boost/>
 //#define _CRT_SECURE_NO_WARNINGS
 
-#include <boost/assert.hpp>
-#include <boost/archive/tmpdir.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/assume_abstract.hpp>
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/string.hpp>
+//#include <boost/assert.hpp>
+//#include <boost/archive/tmpdir.hpp>
+////#include <boost/throw_exception.hpp>
+//#include <boost/serialization/throw_exception.hpp>
+//#include <boost/archive/archive_exception.hpp>
+//
+//#include <boost/archive/text_iarchive.hpp>
+//#include <boost/archive/text_oarchive.hpp>
+//
+//#include <boost/archive/xml_iarchive.hpp>
+//#include <boost/archive/xml_oarchive.hpp>
+//#include <boost/archive/xml_archive_exception.hpp>
+//
+//#include <boost/serialization/nvp.hpp>
+//
+//#include <boost/serialization/base_object.hpp>
+//#include <boost/serialization/utility.hpp>
+//#include <boost/serialization/list.hpp>
+//#include <boost/serialization/assume_abstract.hpp>
+//#include <boost/serialization/vector.hpp>
+//#include <boost/serialization/string.hpp>
+//
+//#include <boost/serialization/export.hpp>
+
+#include <boost_1_68_0/boost/assert.hpp>
+
+//#include <boost/throw_exception.hpp>
+#include <boost_1_68_0/boost/serialization/throw_exception.hpp>
+
+//#include <boost_1_68_0/boost/archive/text_iarchive.hpp>
+//#include <boost_1_68_0/boost/archive/text_oarchive.hpp>
+
+#include <boost_1_68_0/boost/serialization/nvp.hpp>
+#include <boost_1_68_0/boost/serialization/base_object.hpp>
+#include <boost_1_68_0/boost/serialization/utility.hpp>
+#include <boost_1_68_0/boost/serialization/assume_abstract.hpp>
+#include <boost_1_68_0/boost/serialization/export.hpp>
+#include <boost_1_68_0/boost/serialization/version.hpp>
+#include <boost_1_68_0/boost/serialization/split_member.hpp>
+
+#include <boost_1_68_0/boost/serialization/list.hpp>
+#include <boost_1_68_0/boost/serialization/vector.hpp>
+#include <boost_1_68_0/boost/serialization/string.hpp>
+
+#include <boost_1_68_0/boost/archive/tmpdir.hpp>
+#include <boost_1_68_0/boost/archive/xml_iarchive.hpp>
+#include <boost_1_68_0/boost/archive/xml_oarchive.hpp>
+#include <boost_1_68_0/boost/archive/xml_archive_exception.hpp>
+#include <boost_1_68_0/boost/archive/archive_exception.hpp>
+
 
 
 //#include <boost_1_68_0/boost/assert.hpp>

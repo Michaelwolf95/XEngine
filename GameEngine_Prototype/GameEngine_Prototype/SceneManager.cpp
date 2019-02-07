@@ -77,31 +77,52 @@ void SceneManager::UpdateActiveScene()
 }
 
 void SceneManager::SaveSceneToFile(const Scene &s) {
-	std::string filename = "../Scenes/";
-	filename += s.name + ".txt";
+	std::string filename = "../Assets/Scenes/";
+	//filename += s.name + ".txt";
+	filename += s.name + ".scene";
 	SaveSceneToFile(s, filename.c_str());
 }
-void SceneManager::SaveSceneToFile(const Scene &s, const char * filename) {
+void SceneManager::SaveSceneToFile(const Scene &s, const char * fileName) {
+
+	std::cout << "Saving Scene: " << fileName << std::endl;
 	// make an archive
-	std::ofstream ofs(filename);
-	boost::archive::text_oarchive oa(ofs);
-	oa << s;
+	std::ofstream ofs(fileName);
+	if (!ofs)
+	{
+		std::cout << "Cannot open outfile" << std::endl;
+		return;
+	}
+	if (ofs.bad())
+	{
+		std::cout << "Out File Stream BAD" << std::endl;
+		return;
+	}
+	//boost::archive::text_oarchive oa(ofs);
+	boost::archive::xml_oarchive oa(ofs);
+	oa << BOOST_SERIALIZATION_NVP(s);
 }
 
-bool SceneManager::LoadSceneFromFile(Scene &s, const char * filename)
+bool SceneManager::LoadSceneFromFileByName(Scene &s, const char * sceneName)
 {
-	// ToDo: Return false if file is not found.
+	std::string filename("../Assets/Scenes/");
+	filename += std::string(sceneName) + ".scene";
+	return LoadSceneFromFile(s, filename.c_str());
+}
+
+bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
+{
 	// open the archive 
-	std::ifstream ifs(filename);
+	std::ifstream ifs(fileName);
 	if (!ifs.good()) //Doesn't exist 
 	{
 		return false;
 	}
 
-	boost::archive::text_iarchive ia(ifs);
+	//boost::archive::text_iarchive ia(ifs);
+	boost::archive::xml_iarchive ia(ifs);
 
 	// restore the schedule from the archive
-	ia >> s;
+	ia >> BOOST_SERIALIZATION_NVP(s);
 
 	return true;
 }

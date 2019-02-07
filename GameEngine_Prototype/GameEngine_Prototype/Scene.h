@@ -10,6 +10,7 @@ public:
 	std::vector<gameObject_pointer> rootGameObjects;
 	bool isStarted = false;
 	bool isLoaded = false;
+	Scene();
 	Scene(const char* _name);
 	Scene(std::vector<gameObject_pointer> gameObjects);
 	~Scene();
@@ -26,9 +27,12 @@ private:
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int) // file_version
 	{
+		std::cout << "Serializing Scene." << std::endl;
 		// in this program, these classes are never serialized directly but rather
 		// through a pointer to the base class bus_stop. So we need a way to be
 		// sure that the archive contains information about these derived classes.
+
+		//ar.register_type(static_cast<Transform *>(NULL));
 
 		//ar.template register_type<GameObject>();
 		////ar.register_type(static_cast<gameObject_pointer*>(NULL));
@@ -40,12 +44,12 @@ private:
 		//ar.register_type(static_cast<bus_stop_destination *>(NULL));
 		// serialization of stl collections is already defined
 		// in the header
-		ar & name;
-		ar & rootGameObjects;
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(rootGameObjects);
 	}
 };
 
-//std::ostream & operator<<(std::ostream &os, const Scene &scene);
+std::ostream & operator<<(std::ostream &os, const Scene &scene);
 
 //
 //template<class Archive>

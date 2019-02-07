@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+BOOST_CLASS_EXPORT_GUID(CameraComponent, "CameraComponent")
+
 CameraComponent::CameraComponent() 
 {
 	projection = glm::mat4(1.0f);
