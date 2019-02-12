@@ -168,11 +168,20 @@
     <ClCompile Include="GameObjectAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="GameComponentAnalytic.cpp">
+    <ClCompile Include="GameComponentAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Analytics.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,11 +305,20 @@
     <ClInclude Include="GameObjectAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="GameComponentAnalytic.h">
+    <ClInclude Include="GameComponentAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Analytics.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

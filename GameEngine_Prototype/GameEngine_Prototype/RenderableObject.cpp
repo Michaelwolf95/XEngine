@@ -1,7 +1,11 @@
 #include "RenderableObject.h"
 #include "RenderManager.h"
 
-RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize, 
+RenderableObject::RenderableObject()
+{
+}
+
+RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize,
 	unsigned int* ind, unsigned int numInd, Material* _material)
 {
 	vertices = verts;
