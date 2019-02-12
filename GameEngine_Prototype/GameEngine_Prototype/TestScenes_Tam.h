@@ -91,9 +91,11 @@ void CreateTestScene_GameComponentTest()
 	Scene* scene = new Scene("Testing Game Component");
 
 	
-	// make cube
-	Shader* modelShader = new Shader("model.vs", "model.fs");
+	// make 3D model
+	Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
 	Material* modelMaterial = new Material(modelShader);
+
+
 	modelMaterial->LoadTexture("textures/container.jpg");
 
 	GameObject* cube = scene->CreateGameObject("Cube");
