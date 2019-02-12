@@ -356,4 +356,12 @@
       <Filter>Settings</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="3Dmodel.vs">
+      <Filter>Shaders</Filter>
+    </Text>
+    <Text Include="3Dmodel.fs">
+      <Filter>Shaders</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

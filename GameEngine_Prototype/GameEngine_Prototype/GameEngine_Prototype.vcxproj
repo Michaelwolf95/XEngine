@@ -246,6 +246,10 @@
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="3Dmodel.vs" />
+    <Text Include="3Dmodel.fs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
