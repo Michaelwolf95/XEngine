@@ -21,6 +21,7 @@
 #include "ExampleRotator_James.h"
 #include "PrimitiveModels.h"
 #include "GameObjectAnalytic.h"
+#include "FreeLookCameraController.h"
 using namespace std;
 
 void CreateTestSceneJames1();
@@ -46,9 +47,12 @@ void CreateTestSceneJames1() {
 	GameObject* camGo = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
+	//make camera move
+	FreeLookCameraController* moving = new  FreeLookCameraController();
+	camGo->AddComponent(moving);
 
-	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
-	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
+	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5)); //setting position of the camera
+	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0)); //setting position of the camera
 
 	auto rotator = new ExampleRotator_James();
 	cube->AddComponent(new ExampleRotator_James());
