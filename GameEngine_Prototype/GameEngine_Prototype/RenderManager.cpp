@@ -14,7 +14,7 @@ Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
 
 //TODO: Store this on the Camera.
-glm::vec4 clearColor = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f );
+glm::vec4 clearColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f );
 
 // Create static instance
 RenderManager* RenderManager::CreateManager()
@@ -44,6 +44,7 @@ int RenderManager::Init()
 	isInitialized = true;
 	return 0;
 }
+
 void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("model.vs", "model.fs");
@@ -58,7 +59,6 @@ void RenderManager::CompileShaders()
 	colorDrawShader->setColor("MainColor", 1.0f, 1.0f, 1.0f, 1.0f); // White
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
-
 }
 
 glm::mat4 RenderManager::getView()
@@ -204,6 +204,9 @@ void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int s
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
 	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
+	//std::cout << color.r << std::endl;
+	//std::cout << color.g << std::endl;
+	//std::cout << color.b << std::endl;
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
 	glm::vec3 point3 = vec3(point.x, point.y, 0.2);

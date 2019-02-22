@@ -337,5 +337,17 @@
     <None Include="..\Settings\AppConfig.json">
       <Filter>Settings</Filter>
     </None>
+    <None Include="light.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

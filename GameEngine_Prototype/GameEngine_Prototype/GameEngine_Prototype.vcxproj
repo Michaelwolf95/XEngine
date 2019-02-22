@@ -237,8 +237,12 @@
     <None Include="..\Shaders\diffuse.vs" />
     <None Include="..\Shaders\model.fs" />
     <None Include="..\Shaders\model.vs" />
+    <None Include="..\Shaders\multilights.fs" />
+    <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
+    <None Include="light.fs" />
+    <None Include="light.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
