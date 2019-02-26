@@ -7,6 +7,7 @@
 #include "RenderManager.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "Input.h"
 
 BOOST_CLASS_EXPORT_GUID(SimpleModelComponent, "SimpleModelComponent")
 
@@ -25,6 +26,26 @@ SimpleModelComponent::~SimpleModelComponent(){}
 
 void SimpleModelComponent::Setup()
 {
+	if (isSetup)
+	{
+		return;
+	}
+	std::cout << "Setting up SimpleModelComponent." << std::endl;
+	render_enabled = true;
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+
+	if (material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+		std::cout << "Material set to default." << std::endl;
+	}
+	else
+	{
+		std::cout << "Material already set." << std::endl;
+		std::cout << this->material << std::endl;
+		std::cout << this->material->shader->ID << std::endl;
+	}
+
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -96,7 +117,17 @@ void SimpleModelComponent::Start()
 
 void SimpleModelComponent::Update()
 {
-
+	if (Input::GetKeyDown(GLFW_KEY_I) && (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL)))
+	{
+		// Info
+		std::cout << "isSetup=" << isSetup << std::endl;
+		std::cout << "# renderables=" << RenderManager::getInstance().currentRenderables.size() << std::endl;
+		for (RenderableObject* ro : RenderManager::getInstance().currentRenderables)
+		{
+			std::cout << "\t" << ((typeid(*ro)).name()) << std::endl;
+			//std::cout << ro. << std::endl;
+		}
+	}
 }
 
 void SimpleModelComponent::OnDrawGizmos()

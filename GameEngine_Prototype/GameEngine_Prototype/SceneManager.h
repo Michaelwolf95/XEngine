@@ -17,6 +17,7 @@ public:
 	void StartActiveScene();
 	void UpdateActiveScene();
 
+	void SaveActiveScene();
 	void SaveSceneToFile(const Scene &s);
 	void SaveSceneToFile(const Scene &s, const char * fileName);
 	bool LoadSceneFromFileByName(Scene &s, const char * sceneName);

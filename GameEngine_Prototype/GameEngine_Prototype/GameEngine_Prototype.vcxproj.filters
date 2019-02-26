@@ -64,6 +64,15 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Serialization">
+      <UniqueIdentifier>{9d6c3ad4-4126-4a93-ac1d-acfd9c938661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Editor">
+      <UniqueIdentifier>{c08ffcf9-03c1-4886-90a2-16d8829d28c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Editor">
+      <UniqueIdentifier>{f12a5083-df30-4637-b909-5b4b35c8675b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -173,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="Analytics.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor.cpp">
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,7 +312,13 @@
       <Filter>Test Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Serialization.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="GLM_Serialize.h">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor.h">
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

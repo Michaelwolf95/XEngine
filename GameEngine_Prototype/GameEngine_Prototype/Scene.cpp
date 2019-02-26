@@ -44,7 +44,7 @@ std::ostream & operator<<(std::ostream &os, const Scene &scene)
 
 void Scene::PrintScene()
 {
-	std::cout << "Loaded Scene '" << name << "'.\nGameObjects:" << std::endl;
+	std::cout << "Printing Scene '" << name << "':\nGameObjects: " << rootGameObjects.size() << std::endl;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
 		std::cout << "   [" << i << "]: " << (rootGameObjects[i]->name) << std::endl;
@@ -53,6 +53,7 @@ void Scene::PrintScene()
 			for (Component* c : rootGameObjects[i]->components)
 			{
 				std::cout << "\t" << ((typeid(*c)).name()) << std::endl;
+				//std::cout << "\tOwner:" << c->gameObject->name << std::endl;
 			}
 		}
 	}
@@ -72,6 +73,7 @@ void Scene::Unload()
 
 void Scene::Start()
 {
+	std::cout << "Starting Scene..." << std::endl;
 	isStarted = true;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
@@ -86,6 +88,8 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	//PrintScene();
+	//std::cout << "Updating Scene... " << rootGameObjects.size() << std::endl;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
 		rootGameObjects[i]->UpdateComponents();

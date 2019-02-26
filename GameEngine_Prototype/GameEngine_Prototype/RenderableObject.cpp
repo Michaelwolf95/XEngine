@@ -13,7 +13,7 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	vertexDataSize = vertDataSize;
 	indices = ind;
 	numIndices = numInd;
-	enabled = true;
+	render_enabled = true;
 	if (_material == nullptr)
 	{
 		material = RenderManager::defaultMaterial;
@@ -72,7 +72,7 @@ void RenderableObject::Setup()
 void RenderableObject::Draw()
 {
 	//std::cout << "RenderableObject.Draw()" << std::endl;
-	if (enabled)
+	if (render_enabled)
 	{
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);

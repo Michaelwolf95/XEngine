@@ -166,6 +166,7 @@
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
+    <ClCompile Include="SceneEditor.cpp" />
     <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -205,7 +206,9 @@
     <ClInclude Include="ExampleRotator_James.h" />
     <ClInclude Include="GameComponentAnalytic.h" />
     <ClInclude Include="GameObjectAnalytic.h" />
+    <ClInclude Include="GLM_Serialize.h" />
     <ClInclude Include="PrimitiveModels.h" />
+    <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />

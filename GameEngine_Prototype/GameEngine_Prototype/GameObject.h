@@ -30,14 +30,30 @@ public:
 private:
 	friend std::ostream & operator<<(std::ostream &os, const GameObject &go);
 	friend class boost::serialization::access;
-
+	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>
-	void serialize(Archive & ar, const unsigned int) // file_version
+	void save(Archive & ar, const unsigned int version) const
 	{
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(transform);
 		ar & BOOST_SERIALIZATION_NVP(components);
 	}
+	template<class Archive>
+	void load(Archive & ar, const unsigned int version) // file_version
+	{
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(transform);
+
+		// ToDo: Initialize using add component.
+		//std::vector<Component_ptr> comps;
+		ar & BOOST_SERIALIZATION_NVP(components);
+
+		for (Component* c : components)
+		{
+			c->gameObject = this;
+		}
+	}
+
 };
 
 std::ostream & operator<<(std::ostream &os, const GameObject &go);

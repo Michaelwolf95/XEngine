@@ -472,8 +472,15 @@ void Transform::UpdateMatrix()
 	//http://headerphile.com/uncategorized/opengl-matrix-operations/
 	model = scaleMatrix * translateMatrix * rotateMatrix;
 	//model =  translateMatrix * rotateMatrix * scaleMatrix;
+
+	// TEMP
+	localPosition = getPosition();
 }
 
+void Transform::OnDrawGizmos()
+{
+	//gameObject->transform->DrawGizmo();
+}
 // Note: this is NOT "OnDrawGizmos".
 void Transform::DrawGizmo()
 {

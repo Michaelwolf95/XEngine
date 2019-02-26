@@ -76,6 +76,14 @@ void SceneManager::UpdateActiveScene()
 	}
 }
 
+void SceneManager::SaveActiveScene()
+{
+	if (activeScene != NULL)
+	{
+		SaveSceneToFile(*activeScene);
+	}
+}
+
 void SceneManager::SaveSceneToFile(const Scene &s) {
 	std::string filename = "../Assets/Scenes/";
 	//filename += s.name + ".txt";
@@ -121,7 +129,7 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	//boost::archive::text_iarchive ia(ifs);
 	boost::archive::xml_iarchive ia(ifs);
 
-	// restore the schedule from the archive
+	// restore from the archive
 	ia >> BOOST_SERIALIZATION_NVP(s);
 
 	return true;

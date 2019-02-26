@@ -4,6 +4,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include "Component.h"
 #include "Serialization.h"
+#include "GLM_Serialize.h"
 //class Component;
 class Transform : public Component
 {
@@ -15,6 +16,7 @@ public:
 	void SetParent(Transform* _parent);
 	void Start() override;
 	void Update() override;
+	void OnDrawGizmos() override;
 	glm::mat4 getMatrix4x4();
 	glm::vec3 getPosition();
 	void setLocalPosition(glm::vec3 pos);
@@ -49,33 +51,34 @@ public:
 
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 private: 
+	glm::vec3 localPosition = glm::vec3();
+	glm::quat localRotation = glm::quat();
+	glm::vec3 localScale = glm::vec3(1.0);
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 translateMatrix = glm::mat4(1.0f);
 	glm::mat4 rotateMatrix = glm::mat4(1.0f);
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
-	//glm::quat localRotation = glm::quat();
 	void UpdateMatrix();
 
 	friend class boost::serialization::access;
+	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>
-	void serialize(Archive &ar, const unsigned int version)
+	void save(Archive & ar, const unsigned int version) const
 	{
-		//std::cout << "Serializing Derived Component." << std::endl;
-		// save/load base class information
-		//ar & boost::serialization::base_object<Component>(*this);
+		//// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-		//std::cout << "\tType: Transform." << std::endl;
+		ar & BOOST_SERIALIZATION_NVP(localPosition);
+
 	}
-	//template<class Archive>
-	//void serialize(Archive &ar, const unsigned int version)
-	//{
-	//	//std::cout << "Serializing Derived Component." << std::endl;
-	//	// save/load base class information
-	//	//ar & boost::serialization::base_object<Component>(*this);
-	//	ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-	//	//std::cout << "\tType: Transform." << std::endl;
-	//}
-	//BOOST_SERIALIZATION_SPLIT_MEMBER(Transform)
+	template<class Archive>
+	void load(Archive & ar, const unsigned int version)
+	{
+		// invoke serialization of the base class 
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		ar & BOOST_SERIALIZATION_NVP(localPosition);
+
+		setLocalPosition(localPosition);
+	}
 };
 
 //ToDo: Split save/load using https://www.boost.org/doc/libs/1_38_0/libs/serialization/doc/serialization.html

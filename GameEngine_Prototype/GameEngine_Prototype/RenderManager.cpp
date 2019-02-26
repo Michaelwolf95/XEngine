@@ -47,15 +47,11 @@ int RenderManager::Init()
 void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("model.vs", "model.fs");
-	defaultShader->use();
-	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
-	
 	defaultMaterial = new Material(defaultShader);
 	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+	//defaultMaterial->LoadTexture("textures/container.jpg");
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
-	colorDrawShader->use();
-	colorDrawShader->setColor("MainColor", 1.0f, 1.0f, 1.0f, 1.0f); // White
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 
@@ -121,7 +117,7 @@ void RenderManager::Render()
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
-	if (renderable->enabled == false)
+	if (renderable->render_enabled == false)
 	{
 		// Don't render anything
 		return;
@@ -165,7 +161,12 @@ void RenderManager::FreeObjectResources(RenderableObject* renderable)
 
 void RenderManager::AddRenderable(RenderableObject* renderable)
 {
-	currentRenderables.push_back(renderable);
+	// If vector does not contain it, add it.
+	auto n = std::find(currentRenderables.begin(), currentRenderables.end(), renderable);
+	if (n == currentRenderables.end())
+	{
+		currentRenderables.push_back(renderable);
+	}
 }
 void RenderManager::RemoveRenderable(RenderableObject* renderable)
 {
