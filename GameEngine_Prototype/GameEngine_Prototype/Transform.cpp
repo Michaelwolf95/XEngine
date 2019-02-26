@@ -475,6 +475,10 @@ void Transform::UpdateMatrix()
 
 	// TEMP
 	localPosition = getPosition();
+	localRotation = getLocalRotation();
+	localScale = getLocalScale();
+
+	//std::cout << "scale:   (" << localScale.x << ", " << localScale.y << ", " << localScale.z << ")" << std::endl;
 }
 
 void Transform::OnDrawGizmos()

@@ -68,6 +68,8 @@ private:
 		//// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(localPosition);
+		ar & BOOST_SERIALIZATION_NVP(localScale);
+		ar & BOOST_SERIALIZATION_NVP(localRotation);
 
 	}
 	template<class Archive>
@@ -76,8 +78,12 @@ private:
 		// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(localPosition);
-
 		setLocalPosition(localPosition);
+		ar & BOOST_SERIALIZATION_NVP(localScale);
+		setLocalScale(localScale);
+		ar & BOOST_SERIALIZATION_NVP(localRotation);
+		setLocalRotation(localRotation);
+
 	}
 };
 

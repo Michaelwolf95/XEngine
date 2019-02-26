@@ -9,6 +9,7 @@
 //BOOST_CLASS_EXPORT_GUID(glm::vec3, "vec3")
 BOOST_SERIALIZATION_SPLIT_FREE(glm::vec3)
 BOOST_SERIALIZATION_SPLIT_FREE(glm::vec4)
+BOOST_SERIALIZATION_SPLIT_FREE(glm::quat)
 namespace boost
 {
 	namespace serialization
@@ -67,6 +68,21 @@ namespace boost
 			ar & BOOST_SERIALIZATION_NVP(vec.w);
 		}
 
+		template<class Archive> void save(Archive& ar, const glm::quat& q, unsigned int version)
+		{
+			ar & BOOST_SERIALIZATION_NVP(q.x);
+			ar & BOOST_SERIALIZATION_NVP(q.y);
+			ar & BOOST_SERIALIZATION_NVP(q.z);
+			ar & BOOST_SERIALIZATION_NVP(q.w);
+		}
+
+		template<class Archive> void load(Archive& ar, glm::quat& q, unsigned int version)
+		{
+			ar & BOOST_SERIALIZATION_NVP(q.x);
+			ar & BOOST_SERIALIZATION_NVP(q.y);
+			ar & BOOST_SERIALIZATION_NVP(q.z);
+			ar & BOOST_SERIALIZATION_NVP(q.w);
+		}
 
 		//template<class Archive>
 		//void serialize(Archive & ar, glm::vec3& vec, const unsigned int version)

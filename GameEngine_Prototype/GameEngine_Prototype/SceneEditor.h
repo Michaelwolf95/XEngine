@@ -1,14 +1,28 @@
 #pragma once
 #include "Component.h"
-class SceneEditor :
-	public Component
+
+enum ManipToolMode
+{
+	None =	0,
+	Move =	1,
+	Rotate= 2,
+	Scale =	3
+};
+class SceneEditor : public Component
 {
 public:
 	SceneEditor();
 	~SceneEditor();
 	void Start() override;
 	void Update() override;
-
+	void OnDrawGizmos() override;
+	GameObject* selected = nullptr;
+	ManipToolMode manipTool = ManipToolMode::None;
+	void SelectManipTool();
+	void ManipToolUpdate();
+	void MoveTool();
+	void RotateTool();
+	void ScaleTool();
 private:
 	friend class boost::serialization::access;
 	//friend std::ostream & operator<<(std::ostream &os, const Component &comp);

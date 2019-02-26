@@ -20,6 +20,7 @@ public:
 	void Start();
 	void Update();
 	GameObject* CreateGameObject(const char* name, Transform* parent = nullptr);
+	void DeleteGameObject(GameObject* go);
 private:
 	friend std::ostream & operator<<(std::ostream &os, const Scene &scene);
 	friend class boost::serialization::access;
@@ -27,7 +28,7 @@ private:
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int) // file_version
 	{
-		std::cout << "Serializing Scene." << std::endl;
+		//std::cout << "Serializing Scene." << std::endl;
 		// in this program, these classes are never serialized directly but rather
 		// through a pointer to the base class bus_stop. So we need a way to be
 		// sure that the archive contains information about these derived classes.

@@ -73,7 +73,7 @@ void Scene::Unload()
 
 void Scene::Start()
 {
-	std::cout << "Starting Scene..." << std::endl;
+	//std::cout << "Starting Scene..." << std::endl;
 	isStarted = true;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
@@ -106,4 +106,24 @@ GameObject* Scene::CreateGameObject(const char * name, Transform * parent)
 		rootGameObjects.push_back(go);
 	}
 	return go;
+}
+
+void Scene::DeleteGameObject(GameObject * go)
+{
+	// If vector contains it, remove it.
+	auto n = std::find(rootGameObjects.begin(), rootGameObjects.end(), go);
+	if (n != rootGameObjects.end())
+	{
+		// swap the one to be removed with the last element
+		// and remove the item at the end of the container
+		// to prevent moving all items after '5' by one
+		std::swap(*n, rootGameObjects.back());
+		rootGameObjects.pop_back();
+		//	go->gameObject = nullptr;
+
+		// TODO: Delete all children.
+		// TODO: Remove from parents child list.
+	}
+	//delete *go;
+	//rootGameObjects
 }

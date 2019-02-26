@@ -46,10 +46,10 @@ void TestMoverComponent::Update()
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
 		gameObject->transform->Translate(up * deltaMove);
 
-	if (Input::GetKeyDown(GLFW_KEY_P) && (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL)))
-	{
-		// Output current position.
-		glm::vec3 pos = this->gameObject->transform->getPosition();
-		std::cout << "Pos: (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
-	}
+	//if (Input::GetKeyDown(GLFW_KEY_P) && (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL)))
+	//{
+	//	// Output current position.
+	//	glm::vec3 pos = this->gameObject->transform->getPosition();
+	//	std::cout << "Pos: (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
+	//}
 }

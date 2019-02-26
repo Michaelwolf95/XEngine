@@ -1,6 +1,7 @@
 #include <vector>
 #include "GameObject.h"
 //#include "Transform.h"
+#include "ApplicationManager.h"
 
 
 GameObject::GameObject(const char* _name)
@@ -75,7 +76,8 @@ void GameObject::StartComponents()
 
 void GameObject::StartComponent(Component * comp)
 {
-	comp->Start();
+	if((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
+		comp->Start();
 }
 
 void GameObject::UpdateComponents()
@@ -88,7 +90,8 @@ void GameObject::UpdateComponents()
 
 void GameObject::UpdateComponent(Component * comp)
 {
-	comp->Update();
+	if ((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
+		comp->Update();
 }
 
 Component* GameObject::FilterComponent(std::function<bool(Component*)> predicate)

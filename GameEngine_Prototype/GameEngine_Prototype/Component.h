@@ -9,6 +9,7 @@ class Component
 public:
 	GameObject* gameObject; // The owner of the component.
 	bool enabled = true;
+	bool executeInEditMode = false;
 	Component();
 	~Component();
 	virtual void Start() = 0;
