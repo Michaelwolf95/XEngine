@@ -8,6 +8,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "SceneManager.h"
 #include "GameObject.h"
+#include "CameraComponent.h"
+#include "Scene.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
@@ -157,6 +159,22 @@ void RenderManager::FreeObjectResources(RenderableObject* renderable)
 	glDeleteVertexArrays(1, &(renderable->VAO));
 	glDeleteBuffers(1, &(renderable->VBO));
 	glDeleteBuffers(1, &(renderable->EBO));
+}
+
+void RenderManager::FindCameraInScene(Scene* scene)
+{
+	// Init Camera for RenderManager
+	CameraComponent* camera = nullptr;
+	for (GameObject* go : scene->rootGameObjects)
+	{
+		// Finds the first object of the type CameraComponent
+		// Just checks roots for now. - change to search all later.
+		if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
+		{
+			setCurrentCamera(camera);
+			break;
+		}
+	}
 }
 
 void RenderManager::AddRenderable(RenderableObject* renderable)

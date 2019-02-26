@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "LineDrawer.h"
+#include "Scene.h"
 
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
@@ -55,6 +56,8 @@ public:
 
 	void FreeAllResources();
 	void FreeObjectResources(RenderableObject* renderable);
+
+	void FindCameraInScene(Scene* scene);
 
 	static void DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int size);
 	static void DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size);

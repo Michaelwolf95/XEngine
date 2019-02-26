@@ -470,8 +470,8 @@ void Transform::UpdateMatrix()
 {
 	// M = T*R*S ... or S*R*T? ... or S*T*R??
 	//http://headerphile.com/uncategorized/opengl-matrix-operations/
-	model = scaleMatrix * translateMatrix * rotateMatrix;
-	//model =  translateMatrix * rotateMatrix * scaleMatrix;
+	//model = scaleMatrix * translateMatrix * rotateMatrix;
+	model =  translateMatrix * rotateMatrix * scaleMatrix;
 
 	// TEMP
 	localPosition = getPosition();

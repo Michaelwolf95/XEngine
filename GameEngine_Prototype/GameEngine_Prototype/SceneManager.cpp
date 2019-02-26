@@ -37,18 +37,19 @@ void SceneManager::SetActiveScene(Scene* scene)
 	activeScene = scene;
 	scene->Load();
 
-	// Init Camera for RenderManager
-	CameraComponent* camera = nullptr;
-	for (GameObject* go : activeScene->rootGameObjects)
-	{
-		// Finds the first object of the type CameraComponent
-		// Just checks roots for now. - change to search all later.
-		if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
-		{
-			RenderManager::getInstance().setCurrentCamera(camera);
-			break;
-		}
-	}
+	RenderManager::getInstance().FindCameraInScene(activeScene);
+	//// Init Camera for RenderManager
+	//CameraComponent* camera = nullptr;
+	//for (GameObject* go : activeScene->rootGameObjects)
+	//{
+	//	// Finds the first object of the type CameraComponent
+	//	// Just checks roots for now. - change to search all later.
+	//	if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
+	//	{
+	//		RenderManager::getInstance().setCurrentCamera(camera);
+	//		break;
+	//	}
+	//}
 }
 
 void SceneManager::StartActiveScene()

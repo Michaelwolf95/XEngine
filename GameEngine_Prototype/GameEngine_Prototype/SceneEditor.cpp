@@ -45,6 +45,15 @@ void SceneEditor::Update()
 			std::cout << "\tCTRL+P: Print Scene" << std::endl;
 			std::cout << "\tCTRL+I: Inspect Selected Object" << std::endl;
 			std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
+
+			if (selected == nullptr)
+			{
+				if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 2)
+				{
+					selected = SceneManager::getInstance().GetActiveScene()->rootGameObjects[1];
+					std::cout << "Auto-Selected GameObject[1]: " << selected->name << std::endl;
+				}
+			}
 		}
 		return;
 	}
@@ -57,9 +66,9 @@ void SceneEditor::Update()
 				// Might need to add some sort of "wait until it finished saving" functionality.
 				SceneManager::getInstance().SaveActiveScene();
 			}
-			else if (Input::GetKeyDown(GLFW_KEY_G))
+			else if (Input::GetKeyDown(GLFW_KEY_G)) // New GameObject
 			{
-				std::cout << "Creating new Cube" << std::endl;
+				std::cout << "Creating New GameObject" << std::endl;
 
 				Scene* scene =  SceneManager::getInstance().GetActiveScene();
 				GameObject* go = scene->CreateGameObject("New Cube");
@@ -70,9 +79,10 @@ void SceneEditor::Update()
 				SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
 					CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 				testModel->Setup();
-
 				go->AddComponent(testModel);
-				go->AddComponent(new TestMoverComponent());
+
+				selected = go;
+				//go->AddComponent(new TestMoverComponent());
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
 			{
@@ -90,9 +100,9 @@ void SceneEditor::Update()
 					int selectIndex = -1;
 					while (selectIndex < 0 && selectIndex > scene->rootGameObjects.size())
 					{
-						std::cout << "Select GameObject Index:" << std::endl;
+						std::cout << "Select GameObject Index: ";// << std::endl;
 						std::cin >> selectIndex;
-						std::cout << std::endl;
+						//std::cout << std::endl;
 						selected = scene->rootGameObjects[selectIndex];
 					}
 					std::cout << "Selected: " << selected->name << std::endl;
@@ -256,9 +266,9 @@ void SceneEditor::RotateTool()
 	else // Pressing Shift
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->Rotate(glm::vec3(0, 0, deltaRot));
-		if (Input::GetKey(GLFW_KEY_DOWN))
 			selected->transform->Rotate(glm::vec3(0, 0, -deltaRot));
+		if (Input::GetKey(GLFW_KEY_DOWN))
+			selected->transform->Rotate(glm::vec3(0, 0, deltaRot));
 	}
 }
 
@@ -286,8 +296,8 @@ void SceneEditor::ScaleTool()
 	else // Pressing Shift
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->setLocalScale(selected->transform->getLocalScale() + (-up * deltaScale));
-		if (Input::GetKey(GLFW_KEY_DOWN))
 			selected->transform->setLocalScale(selected->transform->getLocalScale() + (up * deltaScale));
+		if (Input::GetKey(GLFW_KEY_DOWN))
+			selected->transform->setLocalScale(selected->transform->getLocalScale() + (-up * deltaScale));
 	}
 }

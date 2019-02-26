@@ -163,6 +163,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="DebugUtility.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="EditorCamera.h" />
     <ClInclude Include="ExampleRotator_James.h" />
     <ClInclude Include="GameComponentAnalytic.h" />
     <ClInclude Include="GameObjectAnalytic.h" />
