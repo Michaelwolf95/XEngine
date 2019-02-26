@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Serial_Scene</name>
 	<rootGameObjects class_id="1" tracking_level="0" version="0">
-		<count>2</count>
+		<count>8</count>
 		<item_version>0</item_version>
 		<item class_id="2" tracking_level="1" version="0" object_id="_0">
 			<name>SceneEditor</name>
@@ -35,9 +35,9 @@
 					<enabled>1</enabled>
 				</Component>
 				<localPosition>
-					<vec.x>1.717984676e-01</vec.x>
-					<vec.y>0.000000000e+00</vec.y>
-					<vec.z>-3.906418085e+00</vec.z>
+					<vec.x>2.377000809e+00</vec.x>
+					<vec.y>1.184940338e-02</vec.y>
+					<vec.z>-1.157222462e+01</vec.z>
 				</localPosition>
 			</transform>
 			<components>
@@ -64,6 +64,264 @@
 					</material>
 				</item>
 				<item class_id="11" class_name="TestMoverComponent" tracking_level="1" version="0" object_id="_7">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_8">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_9">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>2.205201864e+00</vec.x>
+					<vec.y>1.184940338e-02</vec.y>
+					<vec.z>-7.665846825e+00</vec.z>
+				</localPosition>
+			</transform>
+			<components>
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id_reference="8" object_id="_10">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="9" object_id="_11">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+				<item class_id_reference="11" object_id="_12">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_13">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_14">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>6.760573387e-01</vec.x>
+					<vec.y>1.184940338e-02</vec.y>
+					<vec.z>-5.321443558e+00</vec.z>
+				</localPosition>
+			</transform>
+			<components>
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id_reference="8" object_id="_15">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="9" object_id="_16">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+				<item class_id_reference="11" object_id="_17">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_18">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_19">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>1.124751568e-01</vec.x>
+					<vec.y>1.184940338e-02</vec.y>
+					<vec.z>-6.042890549e+00</vec.z>
+				</localPosition>
+			</transform>
+			<components>
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id_reference="8" object_id="_20">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="9" object_id="_21">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+				<item class_id_reference="11" object_id="_22">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_23">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_24">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>3.312826157e-01</vec.x>
+					<vec.y>1.042861938e+00</vec.y>
+					<vec.z>-8.582962036e+00</vec.z>
+				</localPosition>
+			</transform>
+			<components>
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id_reference="8" object_id="_25">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="9" object_id="_26">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+				<item class_id_reference="11" object_id="_27">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_28">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_29">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>3.312826157e-01</vec.x>
+					<vec.y>-2.526211739e+00</vec.y>
+					<vec.z>-8.666143417e+00</vec.z>
+				</localPosition>
+			</transform>
+			<components>
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id_reference="8" object_id="_30">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="9" object_id="_31">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+				<item class_id_reference="11" object_id="_32">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_33">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_34">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>-1.653151512e+00</vec.x>
+					<vec.y>0.000000000e+00</vec.y>
+					<vec.z>-7.762327194e+00</vec.z>
+				</localPosition>
+			</transform>
+			<components>
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id_reference="8" object_id="_35">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="9" object_id="_36">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+				<item class_id_reference="11" object_id="_37">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
