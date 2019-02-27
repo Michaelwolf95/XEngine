@@ -33,12 +33,14 @@ void SceneEditor::Update()
 	{
 		if (ApplicationManager::getInstance().IsEditMode())
 		{
-			ApplicationManager::getInstance().SetEditMode(false);
 			std::cout << "EXITING EDIT MODE =========================" << std::endl;
+			ApplicationManager::getInstance().SetEditMode(false);
+			SceneManager::getInstance().ReloadSceneFromFile();
 		}
 		else
 		{
 			ApplicationManager::getInstance().SetEditMode(true);
+			SceneManager::getInstance().ReloadSceneFromFile();
 			std::cout << "ENTERING EDIT MODE =========================" << std::endl;
 			std::cout << "\tCTRL+E: Select Object to Edit" << std::endl;
 			std::cout << "\tCTRL+S: Save Scene" << std::endl;
@@ -46,12 +48,12 @@ void SceneEditor::Update()
 			std::cout << "\tCTRL+I: Inspect Selected Object" << std::endl;
 			std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
 
-			if (selected == nullptr)
+			if (selectedGameObject == nullptr)
 			{
 				if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 2)
 				{
-					selected = SceneManager::getInstance().GetActiveScene()->rootGameObjects[1];
-					std::cout << "Auto-Selected GameObject[1]: " << selected->name << std::endl;
+					selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[1];
+					std::cout << "Auto-Selected GameObject[1]: " << selectedGameObject->name << std::endl;
 				}
 			}
 		}
@@ -66,27 +68,28 @@ void SceneEditor::Update()
 				// Might need to add some sort of "wait until it finished saving" functionality.
 				SceneManager::getInstance().SaveActiveScene();
 			}
-			else if (Input::GetKeyDown(GLFW_KEY_G)) // New GameObject
+			else if (Input::GetKeyDown(GLFW_KEY_N)) // New GameObject
 			{
 				std::cout << "Creating New GameObject" << std::endl;
 
 				Scene* scene =  SceneManager::getInstance().GetActiveScene();
-				GameObject* go = scene->CreateGameObject("New Cube");
-				// Create Box Material
-				Shader* modelShader = new Shader("model.vs", "model.fs");
-				Material* modelMaterial = new Material(modelShader);
-				modelMaterial->LoadTexture("textures/container.jpg");
-				SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
-					CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
-				testModel->Setup();
-				go->AddComponent(testModel);
+				GameObject* go = scene->CreateGameObject("New GameObject");
 
-				selected = go;
+				//// Create Box Material
+				//Shader* modelShader = new Shader("model.vs", "model.fs");
+				//Material* modelMaterial = new Material(modelShader);
+				//modelMaterial->LoadTexture("textures/container.jpg");
+				//SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
+				//	CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
+				//testModel->Setup();
+				//go->AddComponent(testModel);
+
+				selectedGameObject = go;
 				//go->AddComponent(new TestMoverComponent());
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
 			{
-				if (selected == nullptr)
+				if (selectedGameObject == nullptr)
 				{
 					Scene* scene = SceneManager::getInstance().GetActiveScene();
 					//scene->PrintScene();
@@ -103,16 +106,16 @@ void SceneEditor::Update()
 						std::cout << "Select GameObject Index: ";// << std::endl;
 						std::cin >> selectIndex;
 						//std::cout << std::endl;
-						selected = scene->rootGameObjects[selectIndex];
+						selectedGameObject = scene->rootGameObjects[selectIndex];
 					}
-					std::cout << "Selected: " << selected->name << std::endl;
+					std::cout << "Selected: " << selectedGameObject->name << std::endl;
 
 					// Set focus back to app.
 					glfwFocusWindow(ApplicationManager::APP_WINDOW);
 				}
 				else
 				{
-					selected = nullptr;
+					selectedGameObject = nullptr;
 					std::cout << "No longer selecting." << std::endl;
 				}
 			}
@@ -122,35 +125,59 @@ void SceneEditor::Update()
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_I)) // Inspect selected
 			{
-				if (selected == nullptr)
+				if (selectedGameObject == nullptr)
 				{
 					std::cout << "No Object to Inspect." << std::endl;
 				}
 				else
 				{
 					Scene* scene = SceneManager::getInstance().GetActiveScene();
-					auto index = std::distance(scene->rootGameObjects.begin(), std::find(scene->rootGameObjects.begin(), scene->rootGameObjects.end(), selected));
-					std::cout << "Inspecting Object: [" << index << "]: " << selected->name << std::endl;
+					auto index = std::distance(scene->rootGameObjects.begin(), std::find(scene->rootGameObjects.begin(), scene->rootGameObjects.end(), selectedGameObject));
+					std::cout << "Inspecting Object: [" << index << "]: " << selectedGameObject->name << std::endl;
 					// Output current position.
-					glm::vec3 pos = selected->transform->getPosition();
+					glm::vec3 pos = selectedGameObject->transform->getPosition();
 					std::cout << "Pos:  (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
 					// Output current local scale.
-					glm::vec3 scale = selected->transform->getLocalScale();
+					glm::vec3 scale = selectedGameObject->transform->getLocalScale();
 					std::cout << "Scale:(" << scale.x << ", " << scale.y << ", " << scale.z << ")" << std::endl;
-					glm::quat rot = selected->transform->getLocalRotation();
+					glm::quat rot = selectedGameObject->transform->getLocalRotation();
 					std::cout << "Rot:  (" << rot.x << ", " << rot.y << ", " << rot.z << ", " << rot.w << ")" << std::endl;
 				}
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_D)) // Delete selected
 			{
-				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selected);
-				selected = nullptr;
+				if (selectedGameObject == nullptr)
+				{
+					std::cout << "No Object to Delete." << std::endl;
+					return;
+				}
+				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
+				selectedGameObject = nullptr;
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_A))
 			{
+				if (selectedGameObject == nullptr)
+				{
+					std::cout << "No Object to Add Component." << std::endl;
+					return;
+				}
 				std::cout << "Add Component:" << std::endl;
 				AddComponentMenu();
 			}
+			else if (Input::GetKeyDown(GLFW_KEY_R))
+			{
+				if (selectedGameObject == nullptr)
+				{
+					std::cout << "No Object to Rename" << std::endl;
+					return;
+				}
+				std::cout << "Renaming: " << selectedGameObject->name << std::endl;
+				//std::string newName;
+				std::cout << "Name: ";
+				std::cin >> selectedGameObject->name;
+				std::cout << std::endl;
+			}
+
 
 		}
 		else // Ctrl not pressed.
@@ -159,7 +186,7 @@ void SceneEditor::Update()
 		}
 
 		// Update Manip Tool
-		if (selected != nullptr)
+		if (selectedGameObject != nullptr)
 		{
 			ManipToolUpdate();
 		}
@@ -168,9 +195,9 @@ void SceneEditor::Update()
 
 void SceneEditor::OnDrawGizmos()
 {
-	if (selected != nullptr)
+	if (selectedGameObject != nullptr)
 	{
-		selected->transform->DrawGizmo();
+		selectedGameObject->transform->DrawGizmo();
 	}
 }
 
@@ -228,23 +255,23 @@ void SceneEditor::MoveTool()
 	float deltaMove = moveSpeed * Time::deltaTime;
 
 	if (Input::GetKey(GLFW_KEY_LEFT))
-		selected->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
+		selectedGameObject->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
 	if (Input::GetKey(GLFW_KEY_RIGHT))
-		selected->transform->Translate(glm::normalize(glm::cross(forward, up)) * deltaMove);
+		selectedGameObject->transform->Translate(glm::normalize(glm::cross(forward, up)) * deltaMove);
 
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT)) == false)
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->Translate(deltaMove * forward);
+			selectedGameObject->transform->Translate(deltaMove * forward);
 		if (Input::GetKey(GLFW_KEY_DOWN))
-			selected->transform->Translate(-deltaMove * forward);
+			selectedGameObject->transform->Translate(-deltaMove * forward);
 	}
 	else // Pressing Shift
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->Translate(up * deltaMove);
+			selectedGameObject->transform->Translate(up * deltaMove);
 		if (Input::GetKey(GLFW_KEY_DOWN))
-			selected->transform->Translate(-up * deltaMove);
+			selectedGameObject->transform->Translate(-up * deltaMove);
 	}
 }
 
@@ -257,23 +284,23 @@ void SceneEditor::RotateTool()
 	float deltaRot = rotSpeed * Time::deltaTime;
 
 	if (Input::GetKey(GLFW_KEY_LEFT))
-		selected->transform->Rotate(glm::vec3(0, deltaRot, 0));
+		selectedGameObject->transform->Rotate(glm::vec3(0, deltaRot, 0));
 	if (Input::GetKey(GLFW_KEY_RIGHT))
-		selected->transform->Rotate(glm::vec3(0, -deltaRot, 0));
+		selectedGameObject->transform->Rotate(glm::vec3(0, -deltaRot, 0));
 
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT)) == false)
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->Rotate(glm::vec3(deltaRot, 0, 0));
+			selectedGameObject->transform->Rotate(glm::vec3(deltaRot, 0, 0));
 		if (Input::GetKey(GLFW_KEY_DOWN))
-			selected->transform->Rotate(glm::vec3(-deltaRot, 0, 0));
+			selectedGameObject->transform->Rotate(glm::vec3(-deltaRot, 0, 0));
 	}
 	else // Pressing Shift
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->Rotate(glm::vec3(0, 0, -deltaRot));
+			selectedGameObject->transform->Rotate(glm::vec3(0, 0, -deltaRot));
 		if (Input::GetKey(GLFW_KEY_DOWN))
-			selected->transform->Rotate(glm::vec3(0, 0, deltaRot));
+			selectedGameObject->transform->Rotate(glm::vec3(0, 0, deltaRot));
 	}
 }
 
@@ -286,41 +313,54 @@ void SceneEditor::ScaleTool()
 	float deltaScale = scaleSpeed * Time::deltaTime;
 
 	if (Input::GetKey(GLFW_KEY_LEFT))
-		selected->transform->setLocalScale(selected->transform->getLocalScale() + (-glm::normalize(glm::cross(forward, up))*deltaScale));
+		selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (-glm::normalize(glm::cross(forward, up))*deltaScale));
 		//selected->transform->Scale(-glm::normalize(glm::cross(forward, up)) * deltaScale);
 	if (Input::GetKey(GLFW_KEY_RIGHT))
-		selected->transform->setLocalScale(selected->transform->getLocalScale() + (glm::cross(forward, up)* deltaScale));
+		selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (glm::cross(forward, up)* deltaScale));
 
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT)) == false)
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->setLocalScale(selected->transform->getLocalScale() + (deltaScale * forward));
+			selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (deltaScale * forward));
 		if (Input::GetKey(GLFW_KEY_DOWN))
-			selected->transform->setLocalScale(selected->transform->getLocalScale() + (-deltaScale * forward));
+			selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (-deltaScale * forward));
 	}
 	else // Pressing Shift
 	{
 		if (Input::GetKey(GLFW_KEY_UP))
-			selected->transform->setLocalScale(selected->transform->getLocalScale() + (up * deltaScale));
+			selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (up * deltaScale));
 		if (Input::GetKey(GLFW_KEY_DOWN))
-			selected->transform->setLocalScale(selected->transform->getLocalScale() + (-up * deltaScale));
+			selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (-up * deltaScale));
 	}
 }
 
 void SceneEditor::AddComponentMenu()
 {
-	//TODO: Add ability to add a component of any type to the object. Use boost serialization data?
-
-	//GetclassID
-	//boost::archive::detail::extra_detail::
-	//boost::archive::class_id_type c = boost::archive::
-	std::cout << Component::registry().size() << std::endl;
-	for (std::pair<std::type_index, std::string> element : Component::registry()) 
+	std::vector<ComponentTypeInfo> componentTypes;
+	for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry()) 
 	{
-		std::cout << element.first.name() << ": " << element.second << ": " <<  element.first.hash_code() << std::endl;
+		//std::cout << element.first.name() << ": " << element.second.name << std::endl;
+		componentTypes.push_back(element.second);
 	}
-	/*for (size_t i = 0; i < Component::registry().size(); i++)
+	for (size_t i = 0; i < componentTypes.size(); i++)
 	{
-		std::cout << Component::registry().[i] << std::endl;
-	}*/
+		std::cout << "["<< i << "]: " << componentTypes[i].name << std::endl;
+	}
+
+	// Set focus to console.
+	SetFocus(GetConsoleWindow());
+	BringWindowToTop(GetConsoleWindow());
+
+	// Select GameObject by index.
+	int selectIndex = -1;
+	while (selectIndex < 0 && selectIndex > componentTypes.size())
+	{
+		std::cout << "Select Component Index: ";
+		std::cin >> selectIndex;
+	}
+	selectedGameObject->AddComponent(componentTypes[selectIndex].Constructor());
+	std::cout << "Added new '" << componentTypes[selectIndex].name << "' to " << selectedGameObject->name << std::endl;
+
+	// Set focus back to app.
+	glfwFocusWindow(ApplicationManager::APP_WINDOW);
 }

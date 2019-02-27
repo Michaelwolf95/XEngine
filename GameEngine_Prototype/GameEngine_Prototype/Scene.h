@@ -7,6 +7,7 @@ class Scene
 	typedef GameObject * gameObject_pointer; // Needed because we need an OBJECT.
 public:
 	std::string name;
+	std::string filePath;
 	std::vector<gameObject_pointer> rootGameObjects;
 	bool isStarted = false;
 	bool isLoaded = false;
@@ -16,6 +17,7 @@ public:
 	~Scene();
 	void PrintScene();
 	void Load();
+	void Reset();
 	void Unload();
 	void Start();
 	void Update();

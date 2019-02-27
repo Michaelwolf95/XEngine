@@ -16,7 +16,7 @@ public:
 	void Start() override;
 	void Update() override;
 	void OnDrawGizmos() override;
-	GameObject* selected = nullptr;
+	GameObject* selectedGameObject = nullptr;
 	ManipToolMode manipTool = ManipToolMode::None;
 	void SelectManipTool();
 	void ManipToolUpdate();

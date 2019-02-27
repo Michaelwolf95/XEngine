@@ -65,10 +65,44 @@ void Scene::Load()
 	isLoaded = true;
 }
 
+void Scene::Reset()
+{
+	Unload();
+}
+
 void Scene::Unload()
 {
-
+	for (size_t i = 0; i < rootGameObjects.size(); i++)
+	{
+		std::cout << "Deleting " << rootGameObjects[i]->name << " Components" << std::endl;
+		for (std::vector< Component*>::iterator it_C = rootGameObjects[i]->components.begin(); it_C != rootGameObjects[i]->components.end(); ++it_C)
+		{
+			std::cout << "\tDeleting Component" << std::endl;
+			delete (*it_C);
+		}
+		rootGameObjects[i]->components.clear();
+	}
+	for (std::vector< GameObject* >::iterator it = rootGameObjects.begin(); it != rootGameObjects.end(); ++it)
+	{
+		delete (*it);
+	}
+	rootGameObjects.clear();
+	//while (rootGameObjects.size() > 0)
+	//{
+	//	auto go = rootGameObjects.back();
+	//	/*for (Component* comp : go->components)
+	//	{
+	//		delete comp;
+	//	}*/
+	//	for (size_t i = 0; i < go->components.size(); i++)
+	//	{
+	//		delete go->components[i];
+	//	}
+	//	delete go;
+	//	rootGameObjects.pop_back();
+	//}
 	isLoaded = false;
+	isStarted = false;
 }
 
 void Scene::Start()

@@ -38,18 +38,6 @@ void SceneManager::SetActiveScene(Scene* scene)
 	scene->Load();
 
 	RenderManager::getInstance().FindCameraInScene(activeScene);
-	//// Init Camera for RenderManager
-	//CameraComponent* camera = nullptr;
-	//for (GameObject* go : activeScene->rootGameObjects)
-	//{
-	//	// Finds the first object of the type CameraComponent
-	//	// Just checks roots for now. - change to search all later.
-	//	if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
-	//	{
-	//		RenderManager::getInstance().setCurrentCamera(camera);
-	//		break;
-	//	}
-	//}
 }
 
 void SceneManager::StartActiveScene()
@@ -133,5 +121,17 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	// restore from the archive
 	ia >> BOOST_SERIALIZATION_NVP(s);
 
+	s.filePath = fileName;
 	return true;
+}
+
+void SceneManager::ReloadSceneFromFile()
+{
+	if (activeScene != nullptr && activeScene->isLoaded)
+	{
+		std::cout << "Reloading Scene." << std::endl;
+		activeScene->Reset();
+		//activeScene->PrintScene();
+		LoadSceneFromFile(*activeScene, activeScene->filePath.c_str());
+	}
 }

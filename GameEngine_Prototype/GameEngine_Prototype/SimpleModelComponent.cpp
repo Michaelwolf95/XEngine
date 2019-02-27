@@ -22,7 +22,10 @@ SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, uns
 	Setup();
 }
 
-SimpleModelComponent::~SimpleModelComponent(){}
+SimpleModelComponent::~SimpleModelComponent()
+{
+	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+}
 
 void SimpleModelComponent::Setup()
 {
