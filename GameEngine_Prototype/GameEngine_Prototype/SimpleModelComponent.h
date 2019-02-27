@@ -7,6 +7,7 @@ class SimpleModelComponent :
 	public RenderableObject, public Component
 {
 public:
+	static Registrar<SimpleModelComponent> registrar;
 	SimpleModelComponent();
 	SimpleModelComponent(float* verts, unsigned int numV, unsigned int vertDataSize, unsigned int* ind, unsigned int numInd, Material* _shader = nullptr);
 	~SimpleModelComponent();

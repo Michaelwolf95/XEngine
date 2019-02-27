@@ -9,6 +9,7 @@
 class Transform : public Component
 {
 public:
+	static Registrar<Transform> registrar;
 	Transform* parent;
 	std::vector<Transform*> children;
 	Transform();

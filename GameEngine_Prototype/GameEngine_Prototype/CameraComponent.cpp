@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-BOOST_CLASS_EXPORT_GUID(CameraComponent, "CameraComponent")
+REGISTER_COMPONENT(CameraComponent, "CameraComponent")
 
 CameraComponent::CameraComponent() 
 {

@@ -119,6 +119,13 @@ void Scene::DeleteGameObject(GameObject * go)
 		// to prevent moving all items after '5' by one
 		std::swap(*n, rootGameObjects.back());
 		rootGameObjects.pop_back();
+		for (size_t i = 0; i < go->components.size(); i++)
+		{
+			delete go->components[i];
+			//go->components[i]->gameObject = nullptr;
+			//eventFunction(components[i]);
+		}
+		delete go;
 		//	go->gameObject = nullptr;
 
 		// TODO: Delete all children.

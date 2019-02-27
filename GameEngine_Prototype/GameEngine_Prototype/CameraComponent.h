@@ -11,6 +11,7 @@ using namespace glm;
 class CameraComponent : public Component, public Camera
 {
 public:
+	static Registrar<CameraComponent> registrar;
 	mat4 projection = mat4(1.0f);
 	CameraComponent();
 	~CameraComponent();

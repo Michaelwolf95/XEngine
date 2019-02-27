@@ -23,6 +23,7 @@ public:
 	void MoveTool();
 	void RotateTool();
 	void ScaleTool();
+	void AddComponentMenu();
 private:
 	friend class boost::serialization::access;
 	//friend std::ostream & operator<<(std::ostream &os, const Component &comp);

@@ -13,6 +13,7 @@ BOOST_CLASS_EXPORT_GUID(EditorCamera, "EditorCamera")
 
 EditorCamera::EditorCamera()
 {
+	executeInEditMode = true;
 	projection = glm::mat4(1.0f);
 	projection = glm::perspective(glm::radians(45.0f),
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
@@ -35,7 +36,6 @@ mat4 EditorCamera::getView()
 
 void EditorCamera::Start() 
 {
-	executeInEditMode = true;
 	if (ApplicationManager::getInstance().IsEditMode())
 	{
 		RenderManager::getInstance().setCurrentCamera(this);
@@ -60,5 +60,16 @@ void EditorCamera::Update()
 			RenderManager::getInstance().FindCameraInScene(SceneManager::getInstance().GetActiveScene());
 			isBeingUsed = false;
 		}
+	}
+
+	if (isBeingUsed)
+	{
+		// Editor Camera Control.
+
+		// TODO: Move forward-back with Mouse Wheel.
+
+		// TODO: Pan with CTRL+Left Click (Or middle mouse)
+
+		// TODO: Rotate with Right Click
 	}
 }

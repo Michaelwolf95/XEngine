@@ -146,18 +146,23 @@ void SceneEditor::Update()
 				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selected);
 				selected = nullptr;
 			}
+			else if (Input::GetKeyDown(GLFW_KEY_A))
+			{
+				std::cout << "Add Component:" << std::endl;
+				AddComponentMenu();
+			}
+
 		}
 		else // Ctrl not pressed.
 		{
 			SelectManipTool();
 		}
-	}
 
-
-	// Update Manip Tool
-	if (selected != nullptr)
-	{
-		ManipToolUpdate();
+		// Update Manip Tool
+		if (selected != nullptr)
+		{
+			ManipToolUpdate();
+		}
 	}
 }
 
@@ -300,4 +305,22 @@ void SceneEditor::ScaleTool()
 		if (Input::GetKey(GLFW_KEY_DOWN))
 			selected->transform->setLocalScale(selected->transform->getLocalScale() + (-up * deltaScale));
 	}
+}
+
+void SceneEditor::AddComponentMenu()
+{
+	//TODO: Add ability to add a component of any type to the object. Use boost serialization data?
+
+	//GetclassID
+	//boost::archive::detail::extra_detail::
+	//boost::archive::class_id_type c = boost::archive::
+	std::cout << Component::registry().size() << std::endl;
+	for (std::pair<std::type_index, std::string> element : Component::registry()) 
+	{
+		std::cout << element.first.name() << ": " << element.second << ": " <<  element.first.hash_code() << std::endl;
+	}
+	/*for (size_t i = 0; i < Component::registry().size(); i++)
+	{
+		std::cout << Component::registry().[i] << std::endl;
+	}*/
 }

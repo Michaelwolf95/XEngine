@@ -9,7 +9,7 @@
 #include "CameraComponent.h"
 #include "Input.h"
 
-BOOST_CLASS_EXPORT_GUID(SimpleModelComponent, "SimpleModelComponent")
+REGISTER_COMPONENT(SimpleModelComponent, "SimpleModelComponent")
 
 SimpleModelComponent::SimpleModelComponent()
 {

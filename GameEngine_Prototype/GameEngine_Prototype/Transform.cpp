@@ -14,6 +14,8 @@
 using namespace glm;
 
 BOOST_CLASS_EXPORT_GUID(Transform, "Transform")
+Registrar<Transform> Transform::registrar("Transform"); //ComponentTypeInfo(std::string("Transform"), []() {return (Component*)(new Transform()); }));
+//REGISTER_COMPONENT(Transform, "Transform")
 
 //http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
 // Order: Yaw, Roll, Pitch

@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Serial_Scene</name>
 	<rootGameObjects class_id="1" tracking_level="0" version="0">
-		<count>2</count>
+		<count>5</count>
 		<item_version>0</item_version>
 		<item class_id="2" tracking_level="1" version="0" object_id="_0">
 			<name>SceneEditor</name>
@@ -23,10 +23,10 @@
 					<vec.z>1.000000000e+00</vec.z>
 				</localScale>
 				<localRotation class_id="6" tracking_level="0" version="0">
-					<q.x>-2.011943795e-02</q.x>
-					<q.y>5.788304284e-02</q.y>
-					<q.z>-2.221325412e-03</q.z>
-					<q.w>9.981211424e-01</q.w>
+					<q.x>-2.011949755e-02</q.x>
+					<q.y>5.788319930e-02</q.y>
+					<q.z>-2.221332164e-03</q.z>
+					<q.w>9.981181026e-01</q.w>
 				</localRotation>
 			</transform>
 			<components class_id="7" tracking_level="0" version="0">
@@ -51,20 +51,20 @@
 					<enabled>1</enabled>
 				</Component>
 				<localPosition>
-					<vec.x>0.000000000e+00</vec.x>
-					<vec.y>-5.533933640e-01</vec.y>
-					<vec.z>3.780918121e+00</vec.z>
+					<vec.x>2.534031868e-02</vec.x>
+					<vec.y>-1.463050842e+00</vec.y>
+					<vec.z>9.318723679e+00</vec.z>
 				</localPosition>
 				<localScale>
-					<vec.x>1.000000000e+00</vec.x>
-					<vec.y>1.000000000e+00</vec.y>
-					<vec.z>1.000000000e+00</vec.z>
+					<vec.x>3.576282501e+00</vec.x>
+					<vec.y>2.761402130e-01</vec.y>
+					<vec.z>3.018138885e+00</vec.z>
 				</localScale>
 				<localRotation>
-					<q.x>-7.008418441e-02</q.x>
-					<q.y>0.000000000e+00</q.y>
-					<q.z>0.000000000e+00</q.z>
-					<q.w>9.975418448e-01</q.w>
+					<q.x>-6.314465404e-02</q.x>
+					<q.y>1.913113445e-01</q.y>
+					<q.z>-4.671832081e-03</q.z>
+					<q.w>9.794850349e-01</q.w>
 				</localRotation>
 			</transform>
 			<components>
@@ -95,6 +95,150 @@
 						<enabled>1</enabled>
 					</Component>
 					<moveSpeed>2.500000000e+00</moveSpeed>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_9">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_10">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>-2.781009674e-01</vec.x>
+					<vec.y>9.297943115e-01</vec.y>
+					<vec.z>8.842220306e+00</vec.z>
+				</localPosition>
+				<localScale>
+					<vec.x>1.321640015e+00</vec.x>
+					<vec.y>1.000000000e+00</vec.y>
+					<vec.z>6.026191711e-01</vec.z>
+				</localScale>
+				<localRotation>
+					<q.x>-5.513156950e-02</q.x>
+					<q.y>8.259294927e-02</q.y>
+					<q.z>-2.607839741e-02</q.z>
+					<q.w>9.947154522e-01</q.w>
+				</localRotation>
+			</transform>
+			<components>
+				<count>1</count>
+				<item_version>0</item_version>
+				<item class_id_reference="10" object_id="_11">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="11" object_id="_12">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_13">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_14">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>1.345655918e+00</vec.x>
+					<vec.y>0.000000000e+00</vec.y>
+					<vec.z>6.412246227e+00</vec.z>
+				</localPosition>
+				<localScale>
+					<vec.x>1.000000000e+00</vec.x>
+					<vec.y>1.000000000e+00</vec.y>
+					<vec.z>1.000000000e+00</vec.z>
+				</localScale>
+				<localRotation>
+					<q.x>0.000000000e+00</q.x>
+					<q.y>0.000000000e+00</q.y>
+					<q.z>0.000000000e+00</q.z>
+					<q.w>1.000000000e+00</q.w>
+				</localRotation>
+			</transform>
+			<components>
+				<count>1</count>
+				<item_version>0</item_version>
+				<item class_id_reference="10" object_id="_15">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="11" object_id="_16">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
+				</item>
+			</components>
+		</item>
+		<item class_id_reference="2" object_id="_17">
+			<name>New Cube</name>
+			<transform class_id_reference="3" object_id="_18">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<localPosition>
+					<vec.x>-9.928655624e-01</vec.x>
+					<vec.y>0.000000000e+00</vec.y>
+					<vec.z>8.106007576e+00</vec.z>
+				</localPosition>
+				<localScale>
+					<vec.x>1.000000000e+00</vec.x>
+					<vec.y>1.000000000e+00</vec.y>
+					<vec.z>1.000000000e+00</vec.z>
+				</localScale>
+				<localRotation>
+					<q.x>0.000000000e+00</q.x>
+					<q.y>0.000000000e+00</q.y>
+					<q.z>0.000000000e+00</q.z>
+					<q.w>1.000000000e+00</q.w>
+				</localRotation>
+			</transform>
+			<components>
+				<count>1</count>
+				<item_version>0</item_version>
+				<item class_id_reference="10" object_id="_19">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<numVerts>36</numVerts>
+					<vertexDataSize>5</vertexDataSize>
+					<numIndices>1</numIndices>
+					<material class_id_reference="11" object_id="_20">
+						<textureFilePath>textures/container.jpg</textureFilePath>
+						<useLight>0</useLight>
+						<ambientStrength>1.000000000e+00</ambientStrength>
+						<specularStrength>5.000000000e-01</specularStrength>
+						<Color>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+							<vec.w>1.000000000e+00</vec.w>
+						</Color>
+					</material>
 				</item>
 			</components>
 		</item>
