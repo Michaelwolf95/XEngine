@@ -6,7 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
-class EditorCamera : public Component, public Camera
+//https://embeddedartistry.com/blog/2016/10/18/embedded-c-sharedfromthis
+class EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
 {
 public:
 	glm::mat4 projection = glm::mat4(1.0f);

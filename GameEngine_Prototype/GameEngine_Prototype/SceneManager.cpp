@@ -20,38 +20,36 @@ void SceneManager::Init()
 {
 }
 
-Scene* SceneManager::GetActiveScene()
+Scene_ptr SceneManager::GetActiveScene()
 {
 	return activeScene;
 }
 
-void SceneManager::SetActiveScene(Scene* scene)
+void SceneManager::SetActiveScene(Scene_ptr scene)
 {
 	// ToDo: Make sure its not the same scene.
 	if (activeScene != nullptr)
 	{
-		std::cout << "Unloading Scene: " << activeScene->name << std::endl;
-		activeScene->Unload();
+		UnloadActiveScene();
 	}
 	std::cout << "Loading Scene: " << scene->name << std::endl;
 	activeScene = scene;
 	scene->Load();
 
-	RenderManager::getInstance().FindCameraInScene(activeScene);
+	RenderManager::getInstance().FindCameraInScene(activeScene.get());
 }
 
 void SceneManager::StartActiveScene()
 {
-	if (activeScene != nullptr && !activeScene->isStarted)
+	if (activeScene != nullptr && activeScene->isLoaded && !activeScene->isStarted)
 	{
-		activeScene->isStarted = true;
 		activeScene->Start();
 	}
 }
 
 void SceneManager::UpdateActiveScene()
 {
-	if (activeScene != nullptr)
+	if (activeScene != nullptr && activeScene->isLoaded)
 	{
 		if (activeScene->isStarted)
 		{
@@ -59,8 +57,8 @@ void SceneManager::UpdateActiveScene()
 		}
 		else
 		{
-			//Note: This might change later.
-			activeScene->Start();
+			//Note: This might change later...?
+			StartActiveScene();
 		}
 	}
 }
@@ -117,7 +115,7 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 
 	//boost::archive::text_iarchive ia(ifs);
 	boost::archive::xml_iarchive ia(ifs);
-
+	
 	// restore from the archive
 	ia >> BOOST_SERIALIZATION_NVP(s);
 
@@ -125,13 +123,31 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	return true;
 }
 
+void SceneManager::UnloadActiveScene()
+{
+	if (activeScene != nullptr && activeScene->isLoaded)
+	{
+		std::cout << "Unloading Scene: " << activeScene->name << std::endl;
+		activeScene->Unload();
+		//activeScene = nullptr;
+		//activeScene.reset();
+	}
+}
+
 void SceneManager::ReloadSceneFromFile()
 {
 	if (activeScene != nullptr && activeScene->isLoaded)
 	{
-		std::cout << "Reloading Scene." << std::endl;
-		activeScene->Reset();
+		//std::cout << "Reloading Scene: " << activeScene->name << std::endl;
+		Scene_ptr scene(new Scene(activeScene->name.c_str()));
+		std::string filePath = activeScene->filePath;
+		UnloadActiveScene();
 		//activeScene->PrintScene();
-		LoadSceneFromFile(*activeScene, activeScene->filePath.c_str());
+		//std::cout << "Reloading Scene from file" << std::endl;
+		std::cout << "Reloading From File: " << activeScene->name << std::endl;
+		LoadSceneFromFile(*scene, filePath.c_str());
+		std::cout << "Finished Reloading!" << std::endl;
+		SceneManager::getInstance().SetActiveScene(scene);
+		std::cout << "Set Active!" << std::endl;
 	}
 }

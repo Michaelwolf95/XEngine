@@ -33,9 +33,10 @@ int RenderManager::Init()
 
 	currentCamera = nullptr;
 
-	defaultView = new glm::mat4(1.0f);
-	defaultProjection = new glm::mat4(1.0f);
-	*defaultProjection = glm::perspective(glm::radians(45.0f),
+	defaultView = glm::mat4(1.0f);
+	defaultView = glm::rotate((defaultView), glm::radians(180.0f), glm::vec3(0, 1, 0));
+	defaultProjection = glm::mat4(1.0f);
+	defaultProjection = glm::perspective(glm::radians(45.0f),
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
 		0.1f, 100.0f);
 
@@ -61,11 +62,11 @@ void RenderManager::CompileShaders()
 
 glm::mat4 RenderManager::getView()
 {
-	if (currentCamera != nullptr)
+	if (currentCamera != nullptr && currentCamera != NULL)
 	{
 		return currentCamera->getView();
 	}
-	return *defaultView;
+	return defaultView;
 }
 
 glm::mat4 RenderManager::getProjection()
@@ -74,15 +75,15 @@ glm::mat4 RenderManager::getProjection()
 	{
 		return currentCamera->getProjection();
 	}
-	return *defaultProjection;
+	return defaultProjection;
 }
 
-Camera * RenderManager::getCurrentCamera()
+Camera* RenderManager::getCurrentCamera()
 {
 	return currentCamera;
 }
 
-void RenderManager::setCurrentCamera(Camera * cam)
+void RenderManager::setCurrentCamera(Camera* cam)
 {
 	std::cout << "Setting Current Cam: " << cam << std::endl;
 	if (currentCamera != cam)
@@ -109,9 +110,9 @@ void RenderManager::Render()
 	// TODO: Make it a global option of whether we draw gizmos or not.
 	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
 	// Draw Gizmos
-	for (GameObject* go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
+	for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
 	{
-		for (Component* c : go->components)
+		for (Component_ptr c : go->components)
 		{
 			c->OnDrawGizmos();
 		}
@@ -164,8 +165,8 @@ void RenderManager::FreeObjectResources(RenderableObject* renderable)
 void RenderManager::FindCameraInScene(Scene* scene)
 {
 	// Init Camera for RenderManager
-	CameraComponent* camera = nullptr;
-	for (GameObject* go : scene->rootGameObjects)
+	Camera* camera = nullptr;
+	for (GameObject_ptr go : scene->rootGameObjects)
 	{
 		// Finds the first object of the type CameraComponent
 		// Just checks roots for now. - change to search all later.

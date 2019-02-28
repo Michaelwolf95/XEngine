@@ -12,8 +12,8 @@ public:
 	static SceneManager* CreateManager();
 	SceneManager();
 	void Init();
-	Scene* GetActiveScene();
-	void SetActiveScene(Scene* scene);
+	Scene_ptr GetActiveScene();
+	void SetActiveScene(Scene_ptr scene);
 	void StartActiveScene();
 	void UpdateActiveScene();
 
@@ -23,8 +23,9 @@ public:
 	bool LoadSceneFromFileByName(Scene &s, const char * sceneName);
 	bool LoadSceneFromFile(Scene &s, const char * fileName);
 
+	void UnloadActiveScene();
 	void ReloadSceneFromFile();
 private:
-	Scene* activeScene;
+	Scene_ptr activeScene;
 };
 

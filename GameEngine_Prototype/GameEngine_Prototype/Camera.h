@@ -15,3 +15,4 @@ public:
 	virtual mat4 getView() = 0;
 };
 
+//typedef std::shared_ptr<Camera> Camera_ptr;

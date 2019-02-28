@@ -61,8 +61,8 @@ void logFPSComponent(float fps)
 void GameComponentAnalytic::Start()
 {
 	// get only gameobject in scene
-	Scene* scene = SceneManager::getInstance().GetActiveScene();
-	GameObject* c = scene->rootGameObjects[0];
+	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+	GameObject_ptr c = scene->rootGameObjects[0];
 
 	//Shader* modelShader = new Shader("model.vs", "model.fs");
 	//Material* modelMaterial = new Material(modelShader);
@@ -73,7 +73,9 @@ void GameComponentAnalytic::Start()
 	for (int i = 0; i < objectNum; i++)
 	{
 		//c->AddComponent(new LightComponent(glm::vec3(0.2f)));
-		c->AddComponent(new SimpleRotator());
+		std::shared_ptr<SimpleRotator> sr(new SimpleRotator());
+		c->AddComponent(sr);
+		//c->AddComponent(std::make_shared<SimpleRotator>(new SimpleRotator()));
 	}
 }
 

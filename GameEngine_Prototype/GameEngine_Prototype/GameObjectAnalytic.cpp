@@ -27,7 +27,7 @@ void GameObjectAnalytic::Start()
 	srand(time(NULL));
 
 
-	Scene* scene = SceneManager::getInstance().GetActiveScene();
+	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 	Shader* modelShader = new Shader("model.vs", "model.fs");
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg"); //change model here if needed for different test
@@ -36,11 +36,12 @@ void GameObjectAnalytic::Start()
 	//loop to create more gameObjects
 	for (int i = 1; i < 50; i++)
 	{
-		GameObject* c = scene->CreateGameObject("Cube");
-		SimpleModelComponent* m = new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial);
+		GameObject_ptr c = scene->CreateGameObject("Cube");
+		std::shared_ptr<SimpleModelComponent> m(new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
 		c->AddComponent(m);
 		c->transform->setLocalPosition((rand() % range) + 1, (rand() % range) + 1, (rand() % range) + 1);
-		c->AddComponent(new ExampleRotator_James()); //rotating all the GameObjects
+		std::shared_ptr<ExampleRotator_James> rotator(new ExampleRotator_James());
+		c->AddComponent(rotator); //rotating all the GameObjects
 	}
 }
 

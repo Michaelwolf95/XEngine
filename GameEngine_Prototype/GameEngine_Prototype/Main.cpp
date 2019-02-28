@@ -13,6 +13,7 @@
 #include "SceneManager.h"
 #include "Time.h"
 #include "Input.h"
+#include "SceneEditor.h"
 
 #include "TestScenes.h"
 
@@ -26,6 +27,7 @@ int main()
 	SceneManager::CreateManager();
 	Time::CreateManager();
 	Input::CreateManager();
+	SceneEditor::CreateManager();
 
 	// Create & Load Scene
 	RunTestScene();
@@ -36,6 +38,9 @@ int main()
 		ApplicationManager::getInstance().ApplicationStartUpdate();
 		Time::getInstance().UpdateTime();
 		Input::getInstance().UpdateInput();
+
+		// Editor Update
+		SceneEditor::getInstance().UpdateEditor();
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();

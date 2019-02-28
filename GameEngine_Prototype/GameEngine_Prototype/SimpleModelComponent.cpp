@@ -24,6 +24,7 @@ SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, uns
 
 SimpleModelComponent::~SimpleModelComponent()
 {
+	std::cout << "Deleting SimpleModelComponent" << std::endl;
 	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 }
 

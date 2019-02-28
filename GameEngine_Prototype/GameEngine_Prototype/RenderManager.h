@@ -29,8 +29,8 @@ public:
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
 	// Current view and projection matrices. These can be set by the camera.
-	glm::mat4* defaultView;
-	glm::mat4* defaultProjection;
+	glm::mat4 defaultView;
+	glm::mat4 defaultProjection;
 
 	std::vector<RenderableObject*> currentRenderables;
 	std::vector<Light*> lights;
@@ -65,6 +65,6 @@ public:
 	static void DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size);
 
 private:
-	Camera * currentCamera;
+	Camera* currentCamera;
 	void CompileShaders();
 };

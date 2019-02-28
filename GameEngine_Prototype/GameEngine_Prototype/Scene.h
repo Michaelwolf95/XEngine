@@ -4,16 +4,15 @@
 #include "Serialization.h"
 class Scene
 {
-	typedef GameObject * gameObject_pointer; // Needed because we need an OBJECT.
 public:
 	std::string name;
 	std::string filePath;
-	std::vector<gameObject_pointer> rootGameObjects;
+	std::vector<GameObject_ptr> rootGameObjects;
 	bool isStarted = false;
 	bool isLoaded = false;
 	Scene();
 	Scene(const char* _name);
-	Scene(std::vector<gameObject_pointer> gameObjects);
+	Scene(std::vector<GameObject_ptr> gameObjects);
 	~Scene();
 	void PrintScene();
 	void Load();
@@ -21,8 +20,8 @@ public:
 	void Unload();
 	void Start();
 	void Update();
-	GameObject* CreateGameObject(const char* name, Transform* parent = nullptr);
-	void DeleteGameObject(GameObject* go);
+	GameObject_ptr CreateGameObject(const char* name, Transform* parent = nullptr);
+	void DeleteGameObject(GameObject_ptr go);
 private:
 	friend std::ostream & operator<<(std::ostream &os, const Scene &scene);
 	friend class boost::serialization::access;
@@ -51,6 +50,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(rootGameObjects);
 	}
 };
+typedef std::shared_ptr<Scene> Scene_ptr;
 
 std::ostream & operator<<(std::ostream &os, const Scene &scene);
 

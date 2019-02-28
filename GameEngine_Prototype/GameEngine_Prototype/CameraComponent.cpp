@@ -1,5 +1,6 @@
 #include "CameraComponent.h"
 #include "ApplicationManager.h"
+#include "RenderManager.h"
 #include "GameObject.h"
 #include <algorithm>
 #include <glm/glm.hpp>
@@ -17,7 +18,13 @@ CameraComponent::CameraComponent()
 		0.1f, 100.0f);
 }
 
-CameraComponent::~CameraComponent() {}
+CameraComponent::~CameraComponent() 
+{
+	if (RenderManager::getInstance().getCurrentCamera() == this)
+	{
+		RenderManager::getInstance().setCurrentCamera(nullptr);
+	}
+}
 
 mat4 CameraComponent::getProjection()
 {

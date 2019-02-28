@@ -5,9 +5,7 @@ Component::Component()
 {
 }
 
-Component::~Component()
-{
-}
+Component::~Component() {}
 
 std::ostream & operator<<(std::ostream &os, const Component &comp)
 {
@@ -21,7 +19,7 @@ ComponentTypeInfo::ComponentTypeInfo()
 	name = "UNNAMED";
 	Constructor = nullptr;
 }
-ComponentTypeInfo::ComponentTypeInfo(std::string _name, Component*(*_constructor)())
+ComponentTypeInfo::ComponentTypeInfo(std::string _name, Component_ptr(*_constructor)())
 {
 	name = _name;
 	Constructor = _constructor;

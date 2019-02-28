@@ -62,7 +62,8 @@
 #include <boost_1_68_0/boost/archive/xml_oarchive.hpp>
 #include <boost_1_68_0/boost/archive/xml_archive_exception.hpp>
 #include <boost_1_68_0/boost/archive/archive_exception.hpp>
-
+//#include <boost_1_68_0/boost/shared_ptr.hpp>
+#include <boost_1_68_0/boost/serialization/shared_ptr.hpp>
 
 
 //#include <boost_1_68_0/boost/assert.hpp>

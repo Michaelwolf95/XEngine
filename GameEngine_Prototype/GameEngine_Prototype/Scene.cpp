@@ -17,7 +17,7 @@ Scene::Scene(const char* _name)
 	}
 }
 
-Scene::Scene(std::vector<gameObject_pointer> gameObjects)
+Scene::Scene(std::vector<GameObject_ptr> gameObjects)
 {
 	for (size_t i = 0; i < gameObjects.size(); i++)
 	{
@@ -25,15 +25,17 @@ Scene::Scene(std::vector<gameObject_pointer> gameObjects)
 	}
 }
 
-Scene::~Scene() {}
-
+Scene::~Scene() 
+{
+	std::cout << "Deconstructing Scene " << name << std::endl;
+}
 
 
 std::ostream & operator<<(std::ostream &os, const Scene &scene)
 {
 	// note: we're displaying the pointer to permit verification
 	// that duplicated pointers are properly restored.
-	std::vector<GameObject*>::const_iterator it;
+	std::vector<std::shared_ptr<GameObject>>::const_iterator it;
 	for (it = scene.rootGameObjects.begin(); it != scene.rootGameObjects.end(); it++) {
 		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
 	}
@@ -50,7 +52,7 @@ void Scene::PrintScene()
 		std::cout << "   [" << i << "]: " << (rootGameObjects[i]->name) << std::endl;
 		if (rootGameObjects[i]->components.size() > 0)
 		{
-			for (Component* c : rootGameObjects[i]->components)
+			for (std::shared_ptr<Component> c : rootGameObjects[i]->components)
 			{
 				std::cout << "\t" << ((typeid(*c)).name()) << std::endl;
 				//std::cout << "\tOwner:" << c->gameObject->name << std::endl;
@@ -61,6 +63,7 @@ void Scene::PrintScene()
 
 void Scene::Load()
 {
+	std::cout << "Loading Scene" << name << std::endl;
 	PrintScene();
 	isLoaded = true;
 }
@@ -72,35 +75,12 @@ void Scene::Reset()
 
 void Scene::Unload()
 {
-	for (size_t i = 0; i < rootGameObjects.size(); i++)
-	{
-		std::cout << "Deleting " << rootGameObjects[i]->name << " Components" << std::endl;
-		for (std::vector< Component*>::iterator it_C = rootGameObjects[i]->components.begin(); it_C != rootGameObjects[i]->components.end(); ++it_C)
-		{
-			std::cout << "\tDeleting Component" << std::endl;
-			delete (*it_C);
-		}
-		rootGameObjects[i]->components.clear();
-	}
-	for (std::vector< GameObject* >::iterator it = rootGameObjects.begin(); it != rootGameObjects.end(); ++it)
-	{
-		delete (*it);
-	}
+	std::cout << "Unloading Scene " << name << std::endl;
+	std::cout << "Clearing GameObjects."<< std::endl;
 	rootGameObjects.clear();
-	//while (rootGameObjects.size() > 0)
-	//{
-	//	auto go = rootGameObjects.back();
-	//	/*for (Component* comp : go->components)
-	//	{
-	//		delete comp;
-	//	}*/
-	//	for (size_t i = 0; i < go->components.size(); i++)
-	//	{
-	//		delete go->components[i];
-	//	}
-	//	delete go;
-	//	rootGameObjects.pop_back();
-	//}
+	//std::cout << "Done Clearing GameObjects." << std::endl;
+	PrintScene();
+	
 	isLoaded = false;
 	isStarted = false;
 }
@@ -132,9 +112,9 @@ void Scene::Update()
 	}
 }
 
-GameObject* Scene::CreateGameObject(const char * name, Transform * parent)
+GameObject_ptr Scene::CreateGameObject(const char * name, Transform * parent)
 {
-	GameObject* go = new GameObject(name);
+	GameObject_ptr go = std::make_shared<GameObject>(GameObject(name));
 	if (parent == nullptr)
 	{
 		rootGameObjects.push_back(go);
@@ -142,8 +122,9 @@ GameObject* Scene::CreateGameObject(const char * name, Transform * parent)
 	return go;
 }
 
-void Scene::DeleteGameObject(GameObject * go)
+void Scene::DeleteGameObject(GameObject_ptr go)
 {
+	std::cout << "Deleting GameObject..." << std::endl;
 	// If vector contains it, remove it.
 	auto n = std::find(rootGameObjects.begin(), rootGameObjects.end(), go);
 	if (n != rootGameObjects.end())
@@ -153,18 +134,8 @@ void Scene::DeleteGameObject(GameObject * go)
 		// to prevent moving all items after '5' by one
 		std::swap(*n, rootGameObjects.back());
 		rootGameObjects.pop_back();
-		for (size_t i = 0; i < go->components.size(); i++)
-		{
-			delete go->components[i];
-			//go->components[i]->gameObject = nullptr;
-			//eventFunction(components[i]);
-		}
-		delete go;
-		//	go->gameObject = nullptr;
 
 		// TODO: Delete all children.
 		// TODO: Remove from parents child list.
 	}
-	//delete *go;
-	//rootGameObjects
 }

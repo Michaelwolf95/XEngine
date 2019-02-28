@@ -8,23 +8,69 @@
 #include "TestMoverComponent.h"
 #include "ApplicationManager.h"
 
-BOOST_CLASS_EXPORT_GUID(SceneEditor, "SceneEditor")
+//BOOST_CLASS_EXPORT_GUID(SceneEditor, "SceneEditor")
+
+SceneEditor * SceneEditor::CreateManager()
+{
+	SceneEditor* instance = &SceneEditor::getInstance();
+	instance->Init();
+	return instance;
+}
+
+int SceneEditor::Init()
+{
+	GameObject go();
+	isInitialized = true;
+	return 0;
+}
 
 SceneEditor::SceneEditor()
 {
-	executeInEditMode = true;
+	//executeInEditMode = true;
+	std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
 }
 
 SceneEditor::~SceneEditor()
 {
 }
 
-void SceneEditor::Start()
+void SceneEditor::StartEditMode()
 {
-	std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
+	//std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
+	if (ApplicationManager::getInstance().IsEditMode() == false)
+	{
+		ApplicationManager::getInstance().SetEditMode(true);
+		SceneManager::getInstance().ReloadSceneFromFile();
+		
+		std::cout << "ENTERING EDIT MODE =========================" << std::endl;
+		std::cout << "\tCTRL+E: Select Object to Edit" << std::endl;
+		std::cout << "\tCTRL+S: Save Scene" << std::endl;
+		std::cout << "\tCTRL+P: Print Scene" << std::endl;
+		std::cout << "\tCTRL+I: Inspect Selected Object" << std::endl;
+		std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
+
+		if (selectedGameObject == nullptr)
+		{
+			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 2)
+			{
+				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[1];
+				std::cout << "Auto-Selected GameObject[1]: " << selectedGameObject->name << std::endl;
+			}
+		}
+	}
 }
 
-void SceneEditor::Update()
+void SceneEditor::ExitEditMode()
+{
+	if (ApplicationManager::getInstance().IsEditMode())
+	{
+		std::cout << "EXITING EDIT MODE =========================" << std::endl;
+		ApplicationManager::getInstance().SetEditMode(false);
+		SceneManager::getInstance().ReloadSceneFromFile();
+	}
+}
+
+void SceneEditor::UpdateEditor()
 {
 	// Swap edit mode
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT))
@@ -33,32 +79,15 @@ void SceneEditor::Update()
 	{
 		if (ApplicationManager::getInstance().IsEditMode())
 		{
-			std::cout << "EXITING EDIT MODE =========================" << std::endl;
-			ApplicationManager::getInstance().SetEditMode(false);
-			SceneManager::getInstance().ReloadSceneFromFile();
+			ExitEditMode();
 		}
 		else
 		{
-			ApplicationManager::getInstance().SetEditMode(true);
-			SceneManager::getInstance().ReloadSceneFromFile();
-			std::cout << "ENTERING EDIT MODE =========================" << std::endl;
-			std::cout << "\tCTRL+E: Select Object to Edit" << std::endl;
-			std::cout << "\tCTRL+S: Save Scene" << std::endl;
-			std::cout << "\tCTRL+P: Print Scene" << std::endl;
-			std::cout << "\tCTRL+I: Inspect Selected Object" << std::endl;
-			std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
-
-			if (selectedGameObject == nullptr)
-			{
-				if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 2)
-				{
-					selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[1];
-					std::cout << "Auto-Selected GameObject[1]: " << selectedGameObject->name << std::endl;
-				}
-			}
+			StartEditMode();
 		}
 		return;
 	}
+
 	if (ApplicationManager::getInstance().IsEditMode())
 	{
 		if (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
@@ -72,8 +101,8 @@ void SceneEditor::Update()
 			{
 				std::cout << "Creating New GameObject" << std::endl;
 
-				Scene* scene =  SceneManager::getInstance().GetActiveScene();
-				GameObject* go = scene->CreateGameObject("New GameObject");
+				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 
 				//// Create Box Material
 				//Shader* modelShader = new Shader("model.vs", "model.fs");
@@ -91,7 +120,7 @@ void SceneEditor::Update()
 			{
 				if (selectedGameObject == nullptr)
 				{
-					Scene* scene = SceneManager::getInstance().GetActiveScene();
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 					//scene->PrintScene();
 
 					// Set focus to console.
@@ -131,7 +160,7 @@ void SceneEditor::Update()
 				}
 				else
 				{
-					Scene* scene = SceneManager::getInstance().GetActiveScene();
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 					auto index = std::distance(scene->rootGameObjects.begin(), std::find(scene->rootGameObjects.begin(), scene->rootGameObjects.end(), selectedGameObject));
 					std::cout << "Inspecting Object: [" << index << "]: " << selectedGameObject->name << std::endl;
 					// Output current position.

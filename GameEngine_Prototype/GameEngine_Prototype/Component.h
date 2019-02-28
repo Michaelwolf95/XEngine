@@ -1,27 +1,28 @@
 #pragma once
-//#include "GameObject.h" // Circular dependency - wont compile
-class GameObject; // Use a "forward declaration" instead.
-
 #include "Serialization.h"
 #include <typeindex>
 #include <unordered_map>
 #include <string>
+//#include <memory>
+//#include "GameObject.h" // Circular dependency - wont compile
+class GameObject; // Use a "forward declaration" instead.
+//typedef std::shared_ptr<GameObject> GameObject_ptr; // Forward declare typedef?
+
 
 //typedef std::unordered_map<std::type_index, std::string> typemap;
 struct ComponentTypeInfo;
 typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;
-
 
 class Component
 {
 public:
 	static typemap & registry();
 
-	GameObject* gameObject; // The owner of the component.
+	GameObject*  gameObject; // The owner of the component.
 	bool enabled = true;
 	bool executeInEditMode = false;
 	Component();
-	~Component();
+	virtual ~Component();
 	virtual void Start() = 0;
 	virtual void Update() = 0;
 	virtual void OnDestroy() {};
@@ -36,6 +37,8 @@ private:
 	}
 };
 
+typedef std::shared_ptr<Component> Component_ptr; // Needed because we need an OBJECT. ... right?
+
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(Component)
 //BOOST_IS_ABSTRACT(Component)
 //BOOST_CLASS_EXPORT_GUID(Component) //"Component") // Optional 2nd argument for the name.
@@ -47,9 +50,9 @@ struct ComponentTypeInfo
 {
 public:
 	std::string name;
-	Component*(*Constructor)(void);
+	Component_ptr(*Constructor)(void);
 	ComponentTypeInfo();
-	ComponentTypeInfo(std::string _name, Component*(*_constructor)());
+	ComponentTypeInfo(std::string _name, Component_ptr(*_constructor)());
 	//{
 	//	name = _name;
 	//	Constructor = _constructor;
@@ -73,7 +76,7 @@ template <typename T> struct Registrar
 
 #define REGISTER_COMPONENT(T, K)                                \
 BOOST_CLASS_EXPORT_GUID(T, K)                                   \
-Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Component*)(new T()); }));    \
+Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); }));    \
 /**/
 
 //Registrar<T> T::registrar(K);									\

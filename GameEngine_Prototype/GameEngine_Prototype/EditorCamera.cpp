@@ -20,7 +20,10 @@ EditorCamera::EditorCamera()
 		0.1f, 100.0f);
 }
 
-EditorCamera::~EditorCamera() {}
+EditorCamera::~EditorCamera() 
+{
+	std::cout << "Deleting EditorCamera" << std::endl;
+}
 
 glm::mat4 EditorCamera::getProjection()
 {
@@ -39,7 +42,7 @@ void EditorCamera::Start()
 	if (ApplicationManager::getInstance().IsEditMode())
 	{
 		RenderManager::getInstance().setCurrentCamera(this);
-
+		isBeingUsed = true;
 	}
 }
 void EditorCamera::Update()
@@ -57,7 +60,7 @@ void EditorCamera::Update()
 	{
 		if (!ApplicationManager::getInstance().IsEditMode())
 		{
-			RenderManager::getInstance().FindCameraInScene(SceneManager::getInstance().GetActiveScene());
+			RenderManager::getInstance().FindCameraInScene(SceneManager::getInstance().GetActiveScene().get());
 			isBeingUsed = false;
 		}
 	}
