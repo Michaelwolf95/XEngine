@@ -43,6 +43,9 @@ uniform vec3 lights[NUM_LIGHTS];
 uniform vec3 lightsPos[NUM_LIGHTS];
 uniform int numLights; // inside simple model component to limit for loop iterations
 
+vec3 calculateAmbientLighting(const vec4 texel); // NOTE: cannot pass by reference / use inline, 
+vec3 calculatePointLight(const vec3 lightPos, const vec3 lightColor, const vec3 norm, const vec4 texel);
+
 void main()
 {
     vec4 texel;// = texture(Texture, TexCoord);
@@ -54,34 +57,33 @@ void main()
     {
         texel = vec4(1.0,1.0,1.0,1.0);
     }
-
-    // ambient
-    float ambientStrength = 0.11;
-    vec3 ambient = ambientStrength * texel.rgb;
   	
     // diffuse 
     vec3 norm = normalize(Normal);
-    //vec3 lightDir = normalize(lightPos - FragPos);    
 
     int i;
-    vec4 result = vec4(0.0f);
+    vec3 result = vec3(0.0f);
     for (i = 0; i < numLights; i++) {
-        vec3 lightDir = normalize(lightsPos[i] - FragPos);    
-        float diff = max(dot(norm, lightDir), 0.0);
-        //vec3 diffuse =  diff * lightColor * texel.rgb;
-        vec3 diffuse = diff * lights[i] * texel.rgb;
-
-    
-        // specular
-        float specularStrength = 0.0; // 0.5;
-        vec3 viewDir = normalize(viewPos - FragPos); // TODO: assign viewPos. Currently nothing inputted
-        //vec3 viewDir = normalize(-FragPos);
-        vec3 reflectDir = reflect(-lightDir, norm);  
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); //32 = shininess
-        //vec3 specular = specularStrength * spec * lightColor;  
-        vec3 specular = specularStrength * spec * lights[i];
-        //vec4 result = vec4((ambient + diffuse + specular),1.0) * MainColor;    
-        result += vec4((ambient + diffuse + specular), 1.0) * MainColor;  // does MainColor even make a difference?
+        result += calculatePointLight(lightsPos[i], lights[i], norm, texel);
     }
-    FragColor = result;
+    FragColor = vec4(result, 1.0) * MainColor;
+}
+
+vec3 calculateAmbientLighting(const vec4 texel) {
+    float ambientStrength = 0.11;
+    return ambientStrength * texel.rgb;
+}
+
+vec3 calculatePointLight(const vec3 lightPos, const vec3 lightColor, const vec3 norm, const vec4 texel) {
+    vec3 lightDir = normalize(lightPos - FragPos);    
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor * texel.rgb;
+    
+    // specular
+    float specularStrength = 0.0; // 0.5;
+    vec3 viewDir = normalize(viewPos - FragPos); // TODO: assign viewPos. Currently nothing inputted
+    vec3 reflectDir = reflect(-lightDir, norm);  
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); //32 = shininess
+    vec3 specular = specularStrength * spec * lightColor;
+    return calculateAmbientLighting(texel) + diffuse + specular;
 }
