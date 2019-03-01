@@ -168,11 +168,14 @@
     <ClCompile Include="GameObjectAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="GameComponentAnalytic.cpp">
+    <ClCompile Include="GameComponentAnalytic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Analytics.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoMover.cpp">
+      <Filter>Source Files\Components\Testers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,11 +299,14 @@
     <ClInclude Include="GameObjectAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="GameComponentAnalytic.h">
+    <ClInclude Include="GameComponentAnalytic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Analytics.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoMover.h">
+      <Filter>Header Files\Components\Testers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -68,10 +68,20 @@ void SimpleModelComponent::Draw()
 	if (material->useLight)
 	{
 		// Get ONE light for now.
+		int i = 0;
+		material->shader->setInt("numLights", RenderManager::getInstance().lights.size());
 		for (Light* light : RenderManager::getInstance().lights)
 		{
-			material->shader->setVec3("lightColor", light->getLightColor());
-			material->shader->setVec3("lightPos", light->getLightPos());
+			std::string strLights = "lights[]";
+			std::string strLightsPos = "lightsPos[]";
+			strLights.insert(7, std::to_string(i));
+			strLightsPos.insert(10, std::to_string(i));
+			//std::cout << strLights << " , " << strLightsPos << std::endl;
+			//material->shader->setVec3("lightColor", light->getLightColor());
+			//material->shader->setVec3("lightPos", light->getLightPos());
+			material->shader->setVec3(strLights, light->getLightColor());
+			material->shader->setVec3(strLightsPos, light->getLightPos());
+			i++;
 		}
 		//material->shader->setMat3
 	}

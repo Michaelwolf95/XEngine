@@ -149,6 +149,7 @@
     <ClCompile Include="Analytics.cpp" />
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AutoMover.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Analytics.h" />
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AutoMover.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSwapper.h" />
