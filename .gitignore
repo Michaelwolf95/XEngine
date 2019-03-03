@@ -13,7 +13,8 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+/GameEngine_Prototype/Debug/
+/GameEngine_Prototype/GameEngine_Prototype/Debug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
