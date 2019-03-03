@@ -130,7 +130,7 @@ void SceneManager::UnloadActiveScene()
 		std::cout << "Unloading Scene: " << activeScene->name << std::endl;
 		activeScene->Unload();
 		//activeScene = nullptr;
-		//activeScene.reset();
+		activeScene.reset();
 	}
 }
 
@@ -144,7 +144,7 @@ void SceneManager::ReloadSceneFromFile()
 		UnloadActiveScene();
 		//activeScene->PrintScene();
 		//std::cout << "Reloading Scene from file" << std::endl;
-		std::cout << "Reloading From File: " << activeScene->name << std::endl;
+		std::cout << "Reloading From File: " << filePath << std::endl;
 		LoadSceneFromFile(*scene, filePath.c_str());
 		std::cout << "Finished Reloading!" << std::endl;
 		SceneManager::getInstance().SetActiveScene(scene);

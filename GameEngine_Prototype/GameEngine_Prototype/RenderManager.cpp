@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "Scene.h"
+#include "SceneEditor.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
@@ -117,6 +118,8 @@ void RenderManager::Render()
 			c->OnDrawGizmos();
 		}
 	}
+
+	SceneEditor::getInstance().DrawEditorGizmos();
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {

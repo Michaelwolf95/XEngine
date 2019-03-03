@@ -23,6 +23,10 @@ EditorCamera::EditorCamera()
 EditorCamera::~EditorCamera() 
 {
 	std::cout << "Deleting EditorCamera" << std::endl;
+	if (RenderManager::getInstance().getCurrentCamera() == this)
+	{
+		RenderManager::getInstance().setCurrentCamera(nullptr);
+	}
 }
 
 glm::mat4 EditorCamera::getProjection()

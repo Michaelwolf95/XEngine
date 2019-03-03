@@ -79,4 +79,3 @@ BOOST_CLASS_EXPORT_GUID(T, K)                                   \
 Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); }));    \
 /**/
 
-//Registrar<T> T::registrar(K);									\

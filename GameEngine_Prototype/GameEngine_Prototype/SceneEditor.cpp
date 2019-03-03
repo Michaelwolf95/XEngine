@@ -222,7 +222,7 @@ void SceneEditor::UpdateEditor()
 	}
 }
 
-void SceneEditor::OnDrawGizmos()
+void SceneEditor::DrawEditorGizmos()
 {
 	if (selectedGameObject != nullptr)
 	{

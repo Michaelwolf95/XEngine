@@ -27,7 +27,7 @@ public:
 	void ExitEditMode();
 	//void StartPlayMode();
 	void UpdateEditor();
-	void OnDrawGizmos();
+	void DrawEditorGizmos();
 	GameObject_ptr selectedGameObject = nullptr;
 	ManipToolMode manipTool = ManipToolMode::None;
 	void SelectManipTool();
