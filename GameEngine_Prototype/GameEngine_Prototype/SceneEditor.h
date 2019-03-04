@@ -4,6 +4,15 @@
 #include "Singleton.h"
 #include "Scene.h"
 #include "Camera.h"
+#include <nlohmann/json.hpp>
+#include "EditorCamera.h"
+
+static const char* EDITOR_CONFIG_FILE_PATH = "../Settings/Editor/EditorConfig.json";
+
+struct EditorConfig
+{
+	std::string firstSceneFilepath = "";
+};
 
 enum ManipToolMode
 {
@@ -17,12 +26,21 @@ class SceneEditor : public Singleton<SceneEditor> //: public Component
 	friend class Singleton<SceneEditor>;
 public:
 	bool isInitialized = false;
+	EditorConfig* editorConfig;
+
+	GameObject* editorCameraGameObject;
+	EditorCamera* editorCamera;
+
 	static SceneEditor* CreateManager();
-	std::shared_ptr<Camera> editorCamera;
-	//GameObject editorCameraGameObject;
 	int Init();
 	SceneEditor();
 	~SceneEditor();
+
+	void LoadEditorConfig();
+	void SaveEditorConfig();
+	//std::string Get
+	void LoadInitialEditorScene();
+
 	void StartEditMode();
 	void ExitEditMode();
 	//void StartPlayMode();
@@ -36,13 +54,6 @@ public:
 	void RotateTool();
 	void ScaleTool();
 	void AddComponentMenu();
-//private:
-//	friend class boost::serialization::access;
-//	//friend std::ostream & operator<<(std::ostream &os, const Component &comp);
-//	template<class Archive>
-//	void serialize(Archive &ar, const unsigned int version)
-//	{
-//		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-//	}
+	void LoadSceneMenu();
 };
 

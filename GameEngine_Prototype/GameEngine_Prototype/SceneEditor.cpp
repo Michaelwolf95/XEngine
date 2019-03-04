@@ -7,8 +7,11 @@
 #include "PrimitiveModels.h"
 #include "TestMoverComponent.h"
 #include "ApplicationManager.h"
+#include "RenderManager.h"
+//TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
+//#include <boost/filesystem.hpp>
+#include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
 
-//BOOST_CLASS_EXPORT_GUID(SceneEditor, "SceneEditor")
 
 SceneEditor * SceneEditor::CreateManager()
 {
@@ -19,8 +22,17 @@ SceneEditor * SceneEditor::CreateManager()
 
 int SceneEditor::Init()
 {
-	GameObject go();
+	LoadEditorConfig();
 	isInitialized = true;
+
+	editorCameraGameObject = new GameObject("EditorCamGo");
+	//editorCamera()
+
+	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
+	editorCamera = editCamPtr.get();
+	editorCameraGameObject->AddComponent(editCamPtr);
+	std::cout << "EditorCam Address: " << editorCamera << std::endl;
+
 	return 0;
 }
 
@@ -32,7 +44,113 @@ SceneEditor::SceneEditor()
 
 SceneEditor::~SceneEditor()
 {
+	//OutputDebugStringW(L"Trying to Save EditorConfig.\n");
+	SaveEditorConfig();
 }
+
+#pragma region EDITOR CONFIG
+
+void SceneEditor::LoadEditorConfig()
+{
+	editorConfig = new EditorConfig();
+	std::string configPath = std::string(EDITOR_CONFIG_FILE_PATH);
+
+	JSON configJSON;
+	char* tempChar;
+	try
+	{
+		std::ifstream file(configPath);
+
+		file >> configJSON;
+
+		std::string tempStr = configJSON["First_Scene_Filepath"];
+		tempChar = new char[tempStr.length() + 1];
+		strcpy_s(tempChar, tempStr.length() + 1, tempStr.c_str());
+
+		editorConfig->firstSceneFilepath = tempChar;
+
+
+		file.close();
+		delete[] tempChar;
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "ERROR: Problem loading EditorConfig.json." << std::endl;
+		std::cout << e.what() << std::endl;
+		std::cout << "Creating new EditorConfig.json" << std::endl;
+		_mkdir("../Settings/Editor");
+
+		editorConfig->firstSceneFilepath = "";
+		SaveEditorConfig();
+	}
+}
+
+void SceneEditor::SaveEditorConfig()
+{
+	OutputDebugStringW(L"Saving Editor Config...\n");
+	std::string configPath = std::string(EDITOR_CONFIG_FILE_PATH);
+	JSON configJSON;
+	try
+	{
+		std::ofstream file(configPath);
+
+		configJSON["First_Scene_Filepath"] = this->editorConfig->firstSceneFilepath.c_str();
+
+		file << configJSON.dump(4) << std::endl;
+
+		file.close();
+
+		OutputDebugStringW(L"Saved Editor Config.\n");
+		std::cout << "Saved EditorConfig.json with filePath: " << editorConfig->firstSceneFilepath << std::endl;
+		//delete[] tempChar;
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "ERROR: Problem Saving EditorConfig." << std::endl;
+		OutputDebugStringW(L"Failed to Save EditorConfg.\n");
+	}
+}
+
+void SceneEditor::LoadInitialEditorScene()
+{
+	bool exists = false;
+	Scene_ptr scene(new Scene("TEMP_NAME"));
+	if (editorConfig->firstSceneFilepath.empty() == false)
+	{
+		exists = SceneManager::getInstance().LoadSceneFromFile(*scene, editorConfig->firstSceneFilepath.c_str());
+		if (exists)
+		{
+			std::cout << "Loading First Editor Scene from File!" << std::endl;
+			//scene = &sc;
+			// Activate Scene
+			selectedGameObject = nullptr;
+			SceneManager::getInstance().SetActiveScene(scene);
+			return;
+		}
+	}
+	if(exists == false)
+	{
+		std::cout << "Creating new Empty Scene" << std::endl;
+		scene = SceneManager::getInstance().CreateNewScene();
+		editorConfig->firstSceneFilepath = scene->filePath;
+		SaveEditorConfig();
+
+		// Create Scene
+		//GameObject_ptr editorGo = scene->CreateGameObject("EditorCamera");
+		//editorGo->AddComponent(new SceneEditor());
+		//editorGo->AddComponent(std::make_shared<EditorCamera>(EditorCamera()));
+
+		// SAVE SCENE
+		SceneManager::getInstance().SaveSceneToFile(*scene);
+
+		// Activate Scene
+		selectedGameObject = nullptr;
+		SceneManager::getInstance().SetActiveScene(scene);
+	}
+	
+}
+
+#pragma endregion
 
 void SceneEditor::StartEditMode()
 {
@@ -40,7 +158,16 @@ void SceneEditor::StartEditMode()
 	if (ApplicationManager::getInstance().IsEditMode() == false)
 	{
 		ApplicationManager::getInstance().SetEditMode(true);
-		SceneManager::getInstance().ReloadSceneFromFile();
+		if (SceneManager::getInstance().GetActiveScene() != nullptr)
+		{
+			selectedGameObject = nullptr;
+			SceneManager::getInstance().ReloadSceneFromFile();
+		}
+		else
+		{
+			selectedGameObject = nullptr;
+			SceneEditor::getInstance().LoadInitialEditorScene();
+		}
 		
 		std::cout << "ENTERING EDIT MODE =========================" << std::endl;
 		std::cout << "\tCTRL+E: Select Object to Edit" << std::endl;
@@ -51,12 +178,14 @@ void SceneEditor::StartEditMode()
 
 		if (selectedGameObject == nullptr)
 		{
-			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 2)
+			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 1)
 			{
-				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[1];
+				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[0];
 				std::cout << "Auto-Selected GameObject[1]: " << selectedGameObject->name << std::endl;
 			}
 		}
+
+		RenderManager::getInstance().setCurrentCamera(editorCamera);
 	}
 }
 
@@ -65,6 +194,7 @@ void SceneEditor::ExitEditMode()
 	if (ApplicationManager::getInstance().IsEditMode())
 	{
 		std::cout << "EXITING EDIT MODE =========================" << std::endl;
+		selectedGameObject = nullptr;
 		ApplicationManager::getInstance().SetEditMode(false);
 		SceneManager::getInstance().ReloadSceneFromFile();
 	}
@@ -72,6 +202,8 @@ void SceneEditor::ExitEditMode()
 
 void SceneEditor::UpdateEditor()
 {
+	editorCameraGameObject->UpdateComponents();
+
 	// Swap edit mode
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT))
 		&& (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
@@ -206,18 +338,20 @@ void SceneEditor::UpdateEditor()
 				std::cin >> selectedGameObject->name;
 				std::cout << std::endl;
 			}
-
-
+			else if (Input::GetKeyDown(GLFW_KEY_L))
+			{
+				LoadSceneMenu();
+			}
 		}
 		else // Ctrl not pressed.
 		{
 			SelectManipTool();
-		}
 
-		// Update Manip Tool
-		if (selectedGameObject != nullptr)
-		{
-			ManipToolUpdate();
+			// Update Manip Tool
+			if (selectedGameObject != nullptr)
+			{
+				ManipToolUpdate();
+			}
 		}
 	}
 }
@@ -389,6 +523,55 @@ void SceneEditor::AddComponentMenu()
 	}
 	selectedGameObject->AddComponent(componentTypes[selectIndex].Constructor());
 	std::cout << "Added new '" << componentTypes[selectIndex].name << "' to " << selectedGameObject->name << std::endl;
+
+	// Set focus back to app.
+	glfwFocusWindow(ApplicationManager::APP_WINDOW);
+}
+
+void SceneEditor::LoadSceneMenu()
+{
+	// Set focus to console.
+	SetFocus(GetConsoleWindow());
+	BringWindowToTop(GetConsoleWindow());
+
+	std::cout << "Select a Scene to Load: ";
+	std::string sceneName;
+	std::cin >> sceneName;
+	Scene_ptr scene(new Scene("TEMP"));
+	bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName.c_str());
+	if (exists)
+	{
+		std::cout << "Scene Found!" << std::endl;
+		// Activate Scene
+		SceneManager::getInstance().SetActiveScene(scene);
+		//std::cout << "LOADING NEW SCENE" << std::endl;
+		editorConfig->firstSceneFilepath = scene->filePath;
+	}
+	else
+	{
+		std::cout << "Scene not found." << std::endl;
+		std::cout << "Create new Scene? (y/n): " << std::endl;
+		std::string answer;
+		std::cin >> answer;
+		if (answer == "Y" || answer == "y" || answer == "yes")
+		{
+			scene = SceneManager::getInstance().CreateNewScene(sceneName.c_str());
+			editorConfig->firstSceneFilepath = scene->filePath;
+			SaveEditorConfig();
+
+			// SAVE SCENE
+			SceneManager::getInstance().SaveSceneToFile(*scene);
+
+			selectedGameObject = nullptr;
+			// Activate Scene
+			SceneManager::getInstance().SetActiveScene(scene);
+		}
+		else
+		{
+			std::cout << "Not creating new scene." << std::endl;
+		}
+	}
+
 
 	// Set focus back to app.
 	glfwFocusWindow(ApplicationManager::APP_WINDOW);

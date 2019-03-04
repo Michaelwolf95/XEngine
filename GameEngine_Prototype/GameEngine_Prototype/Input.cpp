@@ -44,6 +44,22 @@ void Input::UpdateInput()
 	checkKeyInputs();
 
 	mouseIdle = true;
+
+	if (scrollUpdated == false)
+	{
+		yScrollOffset = 0;
+		xScrollOffset = 0;
+	}
+	scrollUpdated = false;
+}
+
+void Input::EndUpdateFrame()
+{
+	//std::cout << mouse[GLFW_MOUSE_BUTTON_RIGHT].isButtonPressed << ", " << mouse[GLFW_MOUSE_BUTTON_RIGHT].wasPressed << std::endl;
+	for (int i = 0; i < m_arr_sz; i++)
+	{
+		mouse[i].wasPressed = mouse[i].isButtonPressed;
+	}
 }
 
 void Input::_mouse_callback(double xpos, double ypos)
@@ -69,24 +85,30 @@ void Input::_scroll_callback(double xoffset, double yoffset)
 {
 	xScrollOffset = xoffset;
 	yScrollOffset = yoffset;
+	scrollUpdated = true;
 }
 
 void Input::_mouse_button_callback(int button, int action, int mods)
 {
-	for (int i = 0; i < m_arr_sz; i++)
+	if (action == GLFW_PRESS)
 	{
-		mouse[i].wasPressed = mouse[i].isButtonPressed;
-
-		if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) 
-			== GLFW_PRESS && mouse[i].isButtonPressed == false)
-		{
-			mouse[i].isButtonPressed = true;
-		}
-		else if (mouse[i].isButtonPressed == true)
-		{
-			mouse[i].isButtonPressed = false;
-		}
+		mouse[button].isButtonPressed = true;
 	}
+	else if (action == GLFW_RELEASE)
+	{
+		mouse[button].isButtonPressed = false;
+	}
+
+	//	if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) == GLFW_PRESS 
+	//		)//&& mouse[i].isButtonPressed == false)
+	//	{
+	//		mouse[i].isButtonPressed = true;
+	//	}
+	//	else if (mouse[i].isButtonPressed == true)
+	//	{
+	//		mouse[i].isButtonPressed = false;
+	//	}
+	//}
 }
 
 // glfw: whenever the mouse moves, this callback is called

@@ -6,17 +6,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
-using namespace glm;
+//using namespace glm;
 
 class CameraComponent : public Component, public Camera
 {
 public:
 	static Registrar<CameraComponent> registrar;
-	mat4 projection = mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
 	CameraComponent();
 	~CameraComponent();
-	mat4 getProjection() override;
-	mat4 getView() override;
+	glm::mat4 getProjection() override;
+	glm::mat4 __stdcall getView() override;
 	void Start() override;
 	void Update() override;
 

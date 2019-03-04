@@ -14,7 +14,7 @@ public:
 	EditorCamera();
 	~EditorCamera();
 	glm::mat4 getProjection() override;
-	glm::mat4 getView() override;
+	glm::mat4 __stdcall getView() override;
 	void Start() override;
 	void Update() override;
 

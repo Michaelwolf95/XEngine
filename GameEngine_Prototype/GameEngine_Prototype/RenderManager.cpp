@@ -63,9 +63,13 @@ void RenderManager::CompileShaders()
 
 glm::mat4 RenderManager::getView()
 {
+	//OutputDebugStringW(L"Getting View...\n");
+	//std::cout << "Getting View..." << std::endl;
 	if (currentCamera != nullptr && currentCamera != NULL)
 	{
-		return currentCamera->getView();
+		//std::cout << typeid(currentCamera).name() << std::endl;
+		glm::mat4 view = currentCamera->getView();
+		return view;
 	}
 	return defaultView;
 }
@@ -105,17 +109,21 @@ void RenderManager::Render()
 	//  Loop through and render all renderables
 	for (size_t i = 0; i < currentRenderables.size(); i++)
 	{
-		RenderObject(currentRenderables[i]);
+		if(currentRenderables[i] != nullptr)
+			RenderObject(currentRenderables[i]);
 	}
 
 	// TODO: Make it a global option of whether we draw gizmos or not.
 	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
 	// Draw Gizmos
-	for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
+	if (SceneManager::getInstance().GetActiveScene() != nullptr && SceneManager::getInstance().GetActiveScene()->isLoaded)
 	{
-		for (Component_ptr c : go->components)
+		for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
 		{
-			c->OnDrawGizmos();
+			for (Component_ptr c : go->components)
+			{
+				c->OnDrawGizmos();
+			}
 		}
 	}
 
@@ -168,14 +176,14 @@ void RenderManager::FreeObjectResources(RenderableObject* renderable)
 void RenderManager::FindCameraInScene(Scene* scene)
 {
 	// Init Camera for RenderManager
-	Camera* camera = nullptr;
+	CameraComponent* camera = nullptr;
 	for (GameObject_ptr go : scene->rootGameObjects)
 	{
 		// Finds the first object of the type CameraComponent
 		// Just checks roots for now. - change to search all later.
 		if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
 		{
-			setCurrentCamera(camera);
+			setCurrentCamera((CameraComponent*)camera);
 			break;
 		}
 	}
@@ -229,7 +237,7 @@ void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int s
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::vec3 point3 = vec3(point.x, point.y, 0.2);
+	glm::vec3 point3 = glm::vec3(point.x, point.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, point3);
 	glm::mat4 view(1.0);
@@ -292,7 +300,7 @@ void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm:
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::vec3 point3 = vec3(point1.x, point1.y, 0.2);
+	glm::vec3 point3 = glm::vec3(point1.x, point1.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, point3);
 	glm::mat4 view(1.0);

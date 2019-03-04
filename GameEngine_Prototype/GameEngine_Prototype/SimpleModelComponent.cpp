@@ -79,17 +79,17 @@ void SimpleModelComponent::Draw()
 
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
-	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	glm::mat4 view = RenderManager::getInstance().getView();
 
 	// Model uses GameObject transform.
-	glm::mat4* model = &gameObject->transform->getMatrix4x4();
+	glm::mat4 model = (gameObject->transform->getMatrix4x4());
 
 	// retrieve the matrix uniform locations
 	unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");
 	unsigned int viewLoc = glGetUniformLocation(material->shader->ID, "view");
 	// pass them to the shaders (3 different ways)
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(*model));
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
 	material->shader->setMat4("projection", projection);

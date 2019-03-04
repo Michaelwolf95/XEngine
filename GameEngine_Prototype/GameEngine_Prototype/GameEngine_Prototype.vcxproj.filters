@@ -190,7 +190,7 @@
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +314,6 @@
     <ClInclude Include="Analytics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Serialization.h">
       <Filter>Header Files\Serialization</Filter>
     </ClInclude>
@@ -326,8 +323,11 @@
     <ClInclude Include="SceneEditor.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="EditorCamera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

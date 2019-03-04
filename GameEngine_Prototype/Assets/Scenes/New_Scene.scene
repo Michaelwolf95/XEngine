@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="17">
+<s class_id="0" tracking_level="0" version="0">
+	<name>New_Scene</name>
+	<rootGameObjects class_id="1" tracking_level="0" version="0">
+		<count>0</count>
+		<item_version>1</item_version>
+	</rootGameObjects>
+</s>
+</boost_serialization>
+

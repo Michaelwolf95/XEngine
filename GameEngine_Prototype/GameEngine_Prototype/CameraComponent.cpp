@@ -26,15 +26,19 @@ CameraComponent::~CameraComponent()
 	}
 }
 
-mat4 CameraComponent::getProjection()
+glm::mat4 CameraComponent::getProjection()
 {
 	return projection;
 }
 
-mat4 CameraComponent::getView()
+glm::mat4 __stdcall CameraComponent::getView()
 {
+	//OutputDebugStringW(L"Getting CameraComponent View...\n");
+	//std::cout << "Getting CameraComponent View..." << std::endl;
 	glm::vec3 cameraPos = gameObject->transform->getPosition();
-	return glm::lookAt(cameraPos, cameraPos + gameObject->transform->getForwardDirection(), gameObject->transform->getUpDirection());
+	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + gameObject->transform->getForwardDirection(), gameObject->transform->getUpDirection());
+
+	return view;
 	//return (gameObject->transform->getMatrix4x4());
 }
 

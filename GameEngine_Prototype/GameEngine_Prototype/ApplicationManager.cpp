@@ -164,7 +164,7 @@ void ApplicationManager::LoadAppConfig()
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Problem loading file." << std::endl;
+		std::cout << "ERROR: Problem loading AppConfig.json." << std::endl;
 	}
 }
 

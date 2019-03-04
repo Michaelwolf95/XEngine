@@ -27,7 +27,7 @@ Scene::Scene(std::vector<GameObject_ptr> gameObjects)
 
 Scene::~Scene() 
 {
-	std::cout << "Deconstructing Scene " << name << std::endl;
+	std::cout << "\tDeconstructing Scene " << name << std::endl;
 }
 
 
@@ -63,7 +63,7 @@ void Scene::PrintScene()
 
 void Scene::Load()
 {
-	std::cout << "Loading Scene" << name << std::endl;
+	std::cout << "\tLoading Scene" << name << std::endl;
 	PrintScene();
 	isLoaded = true;
 }
@@ -75,8 +75,8 @@ void Scene::Reset()
 
 void Scene::Unload()
 {
-	std::cout << "Unloading Scene " << name << std::endl;
-	std::cout << "Clearing GameObjects."<< std::endl;
+	std::cout << "\tUnloading Scene " << name << std::endl;
+	std::cout << "\tClearing GameObjects."<< std::endl;
 	rootGameObjects.clear();
 	//std::cout << "Done Clearing GameObjects." << std::endl;
 	PrintScene();

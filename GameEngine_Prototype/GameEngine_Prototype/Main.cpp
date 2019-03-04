@@ -23,14 +23,17 @@ int main()
 	std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
 	// Init Managers
 	ApplicationManager::CreateManager();
-	RenderManager::CreateManager();
-	SceneManager::CreateManager();
 	Time::CreateManager();
 	Input::CreateManager();
+	RenderManager::CreateManager();
+	SceneManager::CreateManager();
 	SceneEditor::CreateManager();
 
 	// Create & Load Scene
-	RunTestScene();
+	//RunTestScene();
+	SceneEditor::getInstance().StartEditMode();
+	
+
 
 	// FRAME LOOP
 	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
@@ -47,6 +50,7 @@ int main()
 
 		RenderManager::getInstance().Render();
 
+		Input::getInstance().EndUpdateFrame();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 
