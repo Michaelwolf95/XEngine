@@ -25,7 +25,7 @@
 					</localScale>
 					<localRotation class_id="7" tracking_level="0" version="0">
 						<q.x>-1.804691181e-02</q.x>
-						<q.y>-4.551821947e-02</q.y>
+						<q.y>-4.551821575e-02</q.y>
 						<q.z>-8.224499761e-04</q.z>
 						<q.w>9.988001585e-01</q.w>
 					</localRotation>
@@ -68,7 +68,7 @@
 		</item>
 		<item>
 			<px class_id_reference="3" object_id="_5">
-				<name>New GameObject</name>
+				<name>Camera</name>
 				<transform class_id_reference="4" object_id="_6">
 					<Component>
 						<enabled>1</enabled>

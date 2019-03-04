@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Shader.h"
 //using namespace glm;
 
 class CameraComponent : public Component, public Camera
@@ -19,8 +20,15 @@ public:
 	glm::mat4 __stdcall getView() override;
 	void Start() override;
 	void Update() override;
-
+	void OnDrawGizmos() override;
 private:
+	// Render state
+	Shader* shader;
+	GLuint quadVAO;
+	int textureID;
+	// Initializes and configures the quad's buffer and vertex attributes
+	void initGizmoRenderData();
+
 	friend class boost::serialization::access;
 	template<class Archive>
 	void serialize(Archive &ar, const unsigned int version)
