@@ -73,6 +73,12 @@
     <Filter Include="Source Files\Editor">
       <UniqueIdentifier>{f12a5083-df30-4637-b909-5b4b35c8675b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{783c6fea-950c-4b5f-9077-edb28dc9fbf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{9a6c88b3-f6d0-4b63-80d8-faa09f9fcd4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -191,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
       <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="EditorCamera.h">
       <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
