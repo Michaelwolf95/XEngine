@@ -8,9 +8,13 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "Time.h"
+#include "Input.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 using namespace glm;
+
+// "'boost::serialization::guid': function must return a value" error if these macros don't have the string value.
+REGISTER_COMPONENT(TestMoverComponent, "TestMoverComponent")
 
 TestMoverComponent::TestMoverComponent() {}
 TestMoverComponent::~TestMoverComponent() {}
@@ -41,4 +45,11 @@ void TestMoverComponent::Update()
 		gameObject->transform->Translate(-up * deltaMove);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
 		gameObject->transform->Translate(up * deltaMove);
+
+	//if (Input::GetKeyDown(GLFW_KEY_P) && (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL)))
+	//{
+	//	// Output current position.
+	//	glm::vec3 pos = this->gameObject->transform->getPosition();
+	//	std::cout << "Pos: (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
+	//}
 }

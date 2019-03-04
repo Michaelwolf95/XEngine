@@ -58,7 +58,7 @@ void SimpleSprite::Setup()
 void SimpleSprite::Draw()
 {
 	// Draws right onto the screen
-	if (enabled)
+	if (render_enabled)
 	{
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);

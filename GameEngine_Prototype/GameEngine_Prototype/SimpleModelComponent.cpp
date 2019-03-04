@@ -7,6 +7,14 @@
 #include "RenderManager.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "Input.h"
+
+REGISTER_COMPONENT(SimpleModelComponent, "SimpleModelComponent")
+
+SimpleModelComponent::SimpleModelComponent()
+{
+
+}
 
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
@@ -14,10 +22,34 @@ SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, uns
 	Setup();
 }
 
-SimpleModelComponent::~SimpleModelComponent(){}
+SimpleModelComponent::~SimpleModelComponent()
+{
+	std::cout << "Deleting SimpleModelComponent" << std::endl;
+	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+}
 
 void SimpleModelComponent::Setup()
 {
+	if (isSetup)
+	{
+		return;
+	}
+	//std::cout << "Setting up SimpleModelComponent." << std::endl;
+	render_enabled = true;
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+
+	if (material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+		//std::cout << "Material set to default." << std::endl;
+	}
+	else
+	{
+		//std::cout << "Material already set." << std::endl;
+		//std::cout << this->material << std::endl;
+		//std::cout << this->material->shader->ID << std::endl;
+	}
+
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -36,6 +68,8 @@ void SimpleModelComponent::Setup()
 	// texture coord attribute
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexDataSize * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	isSetup = true;
 }
 
 void SimpleModelComponent::Draw()
@@ -45,17 +79,17 @@ void SimpleModelComponent::Draw()
 
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
-	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	glm::mat4 view = RenderManager::getInstance().getView();
 
 	// Model uses GameObject transform.
-	glm::mat4* model = &gameObject->transform->getMatrix4x4();
+	glm::mat4 model = (gameObject->transform->getMatrix4x4());
 
 	// retrieve the matrix uniform locations
 	unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");
 	unsigned int viewLoc = glGetUniformLocation(material->shader->ID, "view");
 	// pass them to the shaders (3 different ways)
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(*model));
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
 	material->shader->setMat4("projection", projection);
@@ -79,15 +113,17 @@ void SimpleModelComponent::Draw()
 
 void SimpleModelComponent::Start()
 {
-
+	if (isSetup == false)
+	{
+		Setup();
+	}
 }
 
 void SimpleModelComponent::Update()
 {
-
 }
 
 void SimpleModelComponent::OnDrawGizmos()
 {
-	gameObject->transform->DrawGizmo();
+	//gameObject->transform->DrawGizmo();
 }
