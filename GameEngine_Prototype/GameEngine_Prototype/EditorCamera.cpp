@@ -6,10 +6,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
 #include "Time.h"
 #include "Input.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 BOOST_CLASS_EXPORT_GUID(EditorCamera, "EditorCamera")
 
 EditorCamera::EditorCamera()
@@ -92,10 +96,47 @@ void EditorCamera::Update()
 
 		// TODO: Rotate with Right Click
 
+		if (menuWindow != nullptr)
+		{
+			glfwMakeContextCurrent(menuWindow);
+			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
+
 		//std::cout << "Read Input: " << Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) << std::endl;
 		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT))
 		{
+			if (menuWindow != nullptr)
+			{
+				glfwDestroyWindow(menuWindow);
+				menuWindow = nullptr;
+			}
 			std::cout << "Right click!" << std::endl;
+			//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+			//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+			//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			glfwWindowHint(GLFW_FLOATING, true);
+			glfwWindowHint(GLFW_DECORATED, false);
+			glfwWindowHint(GLFW_VISIBLE, true);
+			////glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+			//glfwWindowHint(GLFW_RESIZABLE, false);
+
+			menuWindow = glfwCreateWindow(120, 220, "Second Window", NULL, ApplicationManager::APP_WINDOW);
+			//GLFWwindow* second_window = glfwCreateWindow(100, 200, "Second Window", 0, 0);
+			//GLFWwindow* window = glfwCreateWindow(250, 500, "My Title", NULL, NULL);
+			//glfwSetWindowAttrib(second_window, GLFW_DECORATED);
+			//glfwSetWindowparam
+
+			int xPos, yPos;
+			double xPosCursor, yPosCursor;
+			//getting cursor position
+			glfwGetWindowPos(ApplicationManager::APP_WINDOW, &xPos, &yPos);
+			glfwGetCursorPos(ApplicationManager::APP_WINDOW, &xPosCursor, &yPosCursor);
+			glfwSetWindowPos(menuWindow, xPos + xPosCursor, yPos + yPosCursor);
+
+			glfwShowWindow(menuWindow);
+			glfwSwapBuffers(menuWindow);
+			//glfwMakeContextCurrent(second_window);
 		}
 
 		//====================================================================

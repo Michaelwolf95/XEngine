@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 //https://embeddedartistry.com/blog/2016/10/18/embedded-c-sharedfromthis
 class EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
 {
@@ -19,6 +21,7 @@ public:
 	void Update() override;
 
 private:
+	GLFWwindow* menuWindow = nullptr;
 	bool isBeingUsed = false;
 	friend class boost::serialization::access;
 	template<class Archive>

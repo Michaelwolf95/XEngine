@@ -14,9 +14,9 @@
 						<enabled>1</enabled>
 					</Component>
 					<localPosition class_id="6" tracking_level="0" version="0">
-						<vec.x>-1.912050247e+00</vec.x>
+						<vec.x>-3.279781342e-01</vec.x>
 						<vec.y>9.191870689e-01</vec.y>
-						<vec.z>1.040824699e+01</vec.z>
+						<vec.z>7.950284958e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.830718994e+00</vec.x>
@@ -24,10 +24,10 @@
 						<vec.z>2.169467926e+00</vec.z>
 					</localScale>
 					<localRotation class_id="7" tracking_level="0" version="0">
-						<q.x>0.000000000e+00</q.x>
-						<q.y>-2.323506773e-01</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>9.726320505e-01</q.w>
+						<q.x>-1.804691181e-02</q.x>
+						<q.y>-4.551821947e-02</q.y>
+						<q.z>-8.224499761e-04</q.z>
+						<q.w>9.988001585e-01</q.w>
 					</localRotation>
 				</transform>
 				<components class_id="8" tracking_level="0" version="0">
