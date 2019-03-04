@@ -23,7 +23,7 @@
 #include "GameObjectAnalytic.h"
 #include "FreeLookCameraController.h"
 #include "input.h"
-#include "AudioEngine.h"
+#include "AudioComponent.h"
 using namespace std;
 
 void CreateTestSceneJames1();
@@ -45,16 +45,23 @@ void CreateTestSceneJames1() {
 	cube->AddComponent(model);
 	cube->transform->setLocalPosition(0, 0, 0);
 
+
+
+	//change the moving ovject to the cube and set the camrea to the postion 000
+
+
 	// Create Camera GameObject
 	GameObject* camGo = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
 	//make camera move
 	FreeLookCameraController* moving = new  FreeLookCameraController();
-	camGo->AddComponent(moving);
+	//camGo->AddComponent(moving);------------------------------------------------
 
-	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5)); //setting position of the camera
-	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0)); //setting position of the camera
+	cube->AddComponent(moving);
+
+	camGo->transform->setLocalPosition(glm::vec3(0, 0, 0)); //setting position of the camera
+	camGo->transform->setLocalRotationEuler(glm::vec3(0, 0, 0)); //setting position of the camera
 
 
 	//disabling mouse cursor
@@ -62,28 +69,43 @@ void CreateTestSceneJames1() {
 	//toggling the cursor
 	//bool toggleCursor();
 
-	auto rotator = new ExampleRotator_James();
-	cube->AddComponent(new ExampleRotator_James());
-	rotator->rotationSpeed = 10;
+
+	//rotating----------------------------------------------------------------------
+	//auto rotator = new ExampleRotator_James();
+	//cube->AddComponent(new ExampleRotator_James());
+	//rotator->rotationSpeed = 10;
 
 	//testing by creating more GameObjects------------------------------------------
-	GameObjectAnalytic* testComponent = new GameObjectAnalytic();
-	cube->AddComponent(testComponent);
+	//GameObjectAnalytic* testComponent = new GameObjectAnalytic();
+	//cube->AddComponent(testComponent);
+
+
+
+	//void Set3dListenerAndOrientation(const Vector3& vPos = Vector3{ 0, 0, 0 }, float fVolumedB = 0.0f);
+	//void PlaySound(const string& strSoundName, const Vector3& vPos = Vector3{ 0, 0, 0 }, float fVolumedB = 0.0f)
+
 
 	//Audio
-	//string soundPath1 = "../Assets/sounds/old-car-engine_daniel_simion.mp3";
-	string soundPath1 = "../Assets/sounds/inception_sound.mp3";
-	
-	//Implementation* sgpImplementation = new Implementation();
-	//sgpImplementation->~Implementation;
-	CAudioEngine test;
-	test.Init();
+	glm::vec3 loc = cube->transform->getPosition();
+	Vector3 location(loc.x, loc.y, loc.z);
 
+	glm::vec3 camLoc = camGo->transform->getPosition();
+	Vector3 camLocation(camLoc.x, camLoc.y, camLoc.z);
+	
+	//Vector3 location(0, 0, 0);
+	//CAudioEngine soundTest;
+	//soundTest->Ini
 	//LoadSound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream)
 	//parameters about streaming, looping, and whether or not it's a 3D sound
-	test.LoadSound(soundPath1, false, true, true);
-	test.PlaySounds(soundPath1);
+	string soundPath1 = "../Assets/sounds/inception_sound.mp3";
+	AudioComponent* soundTest = new AudioComponent();
+	cube->AddComponent(soundTest);
 
+	soundTest->Load3D(soundPath1, true, true, true);
+
+	soundTest->Play(soundPath1, camLocation, 3);
+
+	//set the postion of the camera and one from the object for the sound to actually
 
 	SceneManager::getInstance().SetActiveScene(scene);
 }

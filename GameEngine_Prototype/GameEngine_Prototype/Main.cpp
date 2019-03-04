@@ -12,6 +12,7 @@
 #include "SceneManager.h"
 #include "Time.h"
 #include "Input.h"
+#include "AudioManager.h"
 
 #include "TestScenes.h"
 
@@ -26,6 +27,7 @@ int main()
 	SceneManager::CreateManager();
 	Time::CreateManager();
 	Input::CreateManager();
+	AudioManager::CreateManager(); //creating the only one Implementation for all audio to use
 
 	// Create & Load Scene
 	RunTestScene();
@@ -41,6 +43,7 @@ int main()
 		SceneManager::getInstance().UpdateActiveScene();
 
 		RenderManager::getInstance().Render();
+		AudioManager::getInstance().UpdateAudio(); //if audio does need to be updated
 
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}

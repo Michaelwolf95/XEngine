@@ -64,6 +64,12 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{15a9b904-ebca-460f-afe6-23603e2e0408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{7f246be5-d928-490a-a326-c95e70496d8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -177,6 +183,12 @@
     <ClCompile Include="AudioEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -245,9 +257,6 @@
     <ClInclude Include="ConsoleThread.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="TestScenes_Michael.h">
       <Filter>Test Scenes</Filter>
     </ClInclude>
@@ -307,6 +316,15 @@
     </ClInclude>
     <ClInclude Include="AudioEngine.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

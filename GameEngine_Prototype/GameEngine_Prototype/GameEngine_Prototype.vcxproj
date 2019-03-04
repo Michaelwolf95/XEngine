@@ -161,7 +161,9 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Analytics.cpp" />
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
@@ -200,7 +202,9 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Analytics.h" />
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioEngine.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSwapper.h" />
@@ -212,6 +216,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="GameComponentAnalytic.h" />
     <ClInclude Include="GameObjectAnalytic.h" />
     <ClInclude Include="PrimitiveModels.h" />
+    <ClInclude Include="TestScenes.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
@@ -232,7 +237,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="SimpleSprite.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TestMoverComponent.h" />
-    <ClInclude Include="TestScenes.h" />
     <ClInclude Include="TestScenes_Dennis.h" />
     <ClInclude Include="TestScenes_Donato.h" />
     <ClInclude Include="TestScenes_James.h" />
