@@ -5,10 +5,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/quaternion.hpp>
-//#define GLM_ENABLE_EXPERIMENTAL
+#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/matrix_decompose.hpp>
-//#include <glm/gtx/euler_angles.hpp>
-//#include <glm/gtx/transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
 #include "RenderManager.h"
 #include "DebugUtility.h"
 using namespace glm;
@@ -266,7 +267,9 @@ glm::quat Transform::getLocalRotation() // Local
 {
 	// This is the rotation matrix. It needs to be converted into a quaternion.
 	mat4 rotMat = getRotationMatrix();
+
 	glm::quat rq = quat_cast(rotMat);
+	
 	//std::cout << "_getRotQuat:(" << rq.w << ", " << rq.x << ", " << rq.y << ", " << rq.z << ")" << std::endl;
 	return rq;
 	//return quat_cast(rotMat);
@@ -275,14 +278,29 @@ glm::quat Transform::getLocalRotation() // Local
 // Returns the current local euler rotation in DEGREES.
 glm::vec3 Transform::getLocalRotationEuler()
 {
-	quat qRot = getLocalRotation();
-	vec3 rot = glm::eulerAngles(qRot);
+	glm::vec3 rot;
+	//glm::extractEulerAngleZXY(rotateMatrix, rot.x, rot.y, rot.z);
+	glm::extractEulerAngleYXZ(rotateMatrix, rot.x, rot.y, rot.z);
+	//glm::extractEulerAngleYZX(rotateMatrix, rot.x, rot.y, rot.z);
+	//glm::extractEulerAngleXYZ(rotateMatrix, rot.x, rot.y, rot.z);
+	//glm::extractEulerAngleZYX(rotateMatrix, rot.x, rot.y, rot.z);
+	//glm::extractEulerAngleXZY(rotateMatrix, rot.x, rot.y, rot.z);
+
+	rot.x = (abs(rot.x) < 0.00001) ? 0 : rot.x;
+	rot.y = (abs(rot.y) < 0.00001) ? 0 : rot.y;
+	rot.z = (abs(rot.z) < 0.00001) ? 0 : rot.z;
+
+	//quat qRot = getLocalRotation();
+	//rot = glm::eulerAngles(qRot);
+	//vec3 rot = glm::eulerAnglesYXZ(qRot);
+
+	//glm::eulerAngleYXZ
 	//TODO: Rotate using ZXY or YXZ. (Middle axis should be X)
 	//vec3 rot;
 	//toEulerAngles5(getLocalRotation(), rot.x, rot.y, rot.z);
-	rot.x = glm::degrees(rot.x);
-	rot.y = glm::degrees(rot.y);
-	rot.z = glm::degrees(rot.z);
+	//rot.x = glm::degrees(rot.x);
+	//rot.y = glm::degrees(rot.y);
+	//rot.z = glm::degrees(rot.z);
 	return rot;
 	/*
 	//vec3 rot;
@@ -322,7 +340,7 @@ void Transform::setLocalRotation(glm::quat rot)
 	return;
 }
 
-// Set rotation in terms of euler DEGREES.
+// Set rotation in terms of euler Radians.
 void Transform::setLocalRotationEuler(glm::vec3 rot)
 {
 	//for (size_t i = 0; i < 3; i++)
@@ -338,13 +356,18 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 	//		rot[i] = -(rot[i] + (360 * numOver));
 	//	}
 	//}
-	rot.x = glm::radians(rot.x); 
+	//rot.x = glm::radians(rot.x); 
 	//if (rot.x - glm::pi<float>() < 0.0001) rot.x = glm::pi<float>();
-	rot.y = glm::radians(rot.y);
-	rot.z = glm::radians(rot.z);
-	glm::quat rotQuat = glm::normalize(glm::quat(rot));
+	//rot.y = glm::radians(rot.y);
+	//rot.z = glm::radians(rot.z);
+
+	rotateMatrix = glm::eulerAngleYXZ(rot.x, rot.y, rot.z);
+	UpdateMatrix();
+	return;
+
+	//glm::quat rotQuat = glm::normalize(glm::quat(rot));
 	
-	setLocalRotation(rotQuat);
+	//setLocalRotation(rotQuat);
 }
 
 void Transform::setLocalRotationEuler(float x, float y, float z)
@@ -379,24 +402,27 @@ void Transform::Translate(glm::vec3 translation)
 
 void Transform::Rotate(glm::vec3 rotation)
 {
-	rotation.x = glm::radians(rotation.x);
-	rotation.y = glm::radians(rotation.y);
-	rotation.z = glm::radians(rotation.z);
-	if (rotation.x != 0)
-	{
-		//model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
-		rotateMatrix = glm::rotate(rotateMatrix, rotation.x, glm::vec3(1, 0, 0));
-	}
-	if (rotation.y != 0)
-	{
-		//model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
-		rotateMatrix = glm::rotate(rotateMatrix, rotation.y, glm::vec3(0, 1, 0));
-	}
-	if (rotation.z != 0)
-	{
-		//model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
-		rotateMatrix = glm::rotate(rotateMatrix, rotation.z, glm::vec3(0, 0, 1));
-	}
+	//rotation.x = glm::radians(rotation.x);
+	//rotation.y = glm::radians(rotation.y);
+	//rotation.z = glm::radians(rotation.z);
+	//
+	//if (rotation.x != 0)
+	//{
+	//	//model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+	//	//rotateMatrix = glm::rotate(rotateMatrix, rotation.x, glm::vec3(1, 0, 0));
+	//}
+	//if (rotation.z != 0)
+	//{
+	//	//model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
+	//	//rotateMatrix = glm::rotate(rotateMatrix, rotation.z, glm::vec3(0, 0, 1));
+	//}
+	//if (rotation.y != 0)
+	//{
+	//	//model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+	//	//rotateMatrix = glm::rotate(rotateMatrix, rotation.y, glm::vec3(0, 1, 0));
+	//}
+	rotateMatrix *= glm::eulerAngleYXZ(rotation.x, rotation.y, rotation.z);
+	//rotateMatrix *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
 	UpdateMatrix();
 }
 
@@ -411,7 +437,14 @@ void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
 {
 	glm::vec3 pos = getPosition();
 	//model = glm::lookAt(pos, lookPos, up);
-	rotateMatrix = glm::lookAt(pos, lookPos, up);
+	glm::quat result = glm::quatLookAt(glm::normalize(lookPos - pos), up);
+
+	//glm::look
+
+	//std::cout << "lookQuat:   (" << result.w << ", " << result.x << ", " << result.y << ", " << result.z << ")" << std::endl;
+	//rotateMatrix = glm::lookAt(pos, lookPos, up);
+	setLocalRotation(result);
+	//glm::lookAtLH
 	UpdateMatrix();
 }
 

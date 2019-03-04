@@ -8,10 +8,18 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+
 //https://embeddedartistry.com/blog/2016/10/18/embedded-c-sharedfromthis
 class EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
 {
 public:
+	enum EditorCameraMode
+	{
+		None = 0,
+		Rotate = 1,
+		Pan = 2
+	};
 	glm::mat4 projection = glm::mat4(1.0f);
 	EditorCamera();
 	~EditorCamera();
@@ -21,8 +29,16 @@ public:
 	void Update() override;
 
 private:
+	EditorCameraMode camMode;
+	glm::vec2 clickPos;
+	glm::vec2 lastDragPos;
 	GLFWwindow* menuWindow = nullptr;
 	bool isBeingUsed = false;
+	float zoomSpeed = 15.0f;
+	float xRotSpeed = 0.05f;
+	float yRotSpeed = 0.05f;
+	float panSpeed = 0.1f;
+
 	friend class boost::serialization::access;
 	template<class Archive>
 	void serialize(Archive &ar, const unsigned int version)

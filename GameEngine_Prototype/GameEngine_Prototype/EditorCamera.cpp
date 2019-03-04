@@ -76,26 +76,101 @@ void EditorCamera::Update()
 
 	if (isBeingUsed)
 	{
-		//glm::vec3 forward = glm::vec3(0.0f, 0.0f, 1.0f);
-		//glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+
 		glm::vec3 forward = this->gameObject->transform->getForwardDirection();
 		glm::vec3 up = this->gameObject->transform->getUpDirection();
-		float moveSpeed = 5.0f;
 
 		// Editor Camera Control.
 
-		// TODO: Move forward-back with Mouse Wheel.
-
+		// Move forward-back with Mouse Wheel.
 		if (abs(Input::getInstance().GetScrollOffsetY()) > 0)
 		{
-			float deltaZoom = moveSpeed * Time::deltaTime * Input::getInstance().GetScrollOffsetY();
+			float deltaZoom = zoomSpeed * Time::deltaTime * Input::getInstance().GetScrollOffsetY();
 			this->gameObject->transform->Translate(deltaZoom * forward);
 		}
 
-		// TODO: Pan with CTRL+Left Click (Or middle mouse)
+		switch (camMode)
+		{
+		case EditorCameraMode::None:
+			if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT))
+			{
+				clickPos = Input::GetMousePos();
+				lastDragPos = clickPos;
+				glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				camMode = EditorCameraMode::Rotate;
+				break;
+			}
+			if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) || (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) && Input::GetKey(GLFW_KEY_LEFT_CONTROL)))
+			{
+				clickPos = Input::GetMousePos();
+				lastDragPos = clickPos;
+				glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				camMode = EditorCameraMode::Pan;
+				break;
+			}
+			break;
+		case EditorCameraMode::Rotate:
+			if (Input::GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT))
+			{
+				glm::vec2 currentDragPos = Input::GetMousePos();
+				glm::vec2 deltaPos = currentDragPos - lastDragPos;
+				lastDragPos = currentDragPos;
+				float deltaYRot = xRotSpeed * Time::deltaTime * deltaPos.x;
+				float deltaXRot = yRotSpeed * Time::deltaTime * deltaPos.y;
 
-		// TODO: Rotate with Right Click
+				//glm::quat rot = gameObject->transform->getLocalRotation();
+				glm::vec3 localRot = gameObject->transform->getLocalRotationEuler();
 
+				//glm::vec3 direction = gameObject->transform->getForwardDirection();
+				//direction.x -= deltaYRot;
+				//direction.y -= deltaXRot;
+				//gameObject->transform->LookAt(gameObject->transform->getPosition() - direction);
+
+				localRot = glm::vec3(localRot.x + deltaYRot, localRot.y - deltaXRot, localRot.z);
+				gameObject->transform->setLocalRotationEuler(localRot);
+
+				//glm::quat result = gameObject->transform->getLocalRotation();
+				//glm::vec3 localRotResult = gameObject->transform->getLocalRotationEuler();
+				//std::cout << "direction:  (" << direction.x << ", " << direction.y << ", " << direction.z << ")" << std::endl;
+				//std::cout << "beforeQuat:  (" << rot.w << ", " << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
+				//std::cout << "beforeEuler: (" << localRot.x << ", " << localRot.y << ", " << localRot.z << ")" << std::endl;
+				//std::cout << "afterQuat:   (" << result.w << ", " << result.x << ", " << result.y << ", " << result.z << ")" << std::endl;
+				//std::cout << "afterEuler:  (" << localRotResult.x << ", " << localRotResult.y << ", " << localRotResult.z << ")" << std::endl;
+			}
+			else
+			{
+				glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				camMode = EditorCameraMode::None;
+			}
+			break;
+		case EditorCameraMode::Pan:
+			if (Input::GetMouseButton(GLFW_MOUSE_BUTTON_MIDDLE) || Input::GetMouseButton(GLFW_MOUSE_BUTTON_LEFT))
+			{
+				glm::vec2 currentDragPos = Input::GetMousePos();
+				glm::vec2 deltaPos = currentDragPos - lastDragPos;
+				lastDragPos = currentDragPos;
+				float deltaXPan = panSpeed * Time::deltaTime * deltaPos.x;
+				float deltaYPan = panSpeed * Time::deltaTime * deltaPos.y;// Input::GetDeltaPosY();
+
+				glm::vec3 right = gameObject->transform->getRightDirection();
+				//glm::vec3 up = gameObject->transform->getUpDirection();
+
+				this->gameObject->transform->Translate(right * deltaXPan);
+				this->gameObject->transform->Translate(up * deltaYPan);
+
+			}
+			else
+			{
+				glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				camMode = EditorCameraMode::None;
+			}
+
+			break;
+		default:
+			break;
+		}
+
+		// Popup Window Experiment.
 		if (menuWindow != nullptr)
 		{
 			glfwMakeContextCurrent(menuWindow);
@@ -104,14 +179,17 @@ void EditorCamera::Update()
 		}
 
 		//std::cout << "Read Input: " << Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) << std::endl;
-		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT))
+		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) && Input::GetKey(GLFW_KEY_LEFT_SHIFT))
 		{
 			if (menuWindow != nullptr)
 			{
 				glfwDestroyWindow(menuWindow);
 				menuWindow = nullptr;
+				glfwSwapBuffers(ApplicationManager::APP_WINDOW);
+				glfwMakeContextCurrent(ApplicationManager::APP_WINDOW);
+				return;
 			}
-			std::cout << "Right click!" << std::endl;
+			std::cout << "Opening 'Context Menu'" << std::endl;
 			//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -139,32 +217,5 @@ void EditorCamera::Update()
 			//glfwMakeContextCurrent(second_window);
 		}
 
-		//====================================================================
-		//float deltaMove = moveSpeed * Time::deltaTime;
-
-		//if (Input::GetKey(GLFW_KEY_UP))
-		//	this->gameObject->transform->Translate(deltaMove * forward);
-		//if (Input::GetKey(GLFW_KEY_DOWN))
-		//	this->gameObject->transform->Translate(-deltaMove * forward);
-
-		//if (Input::GetKey(GLFW_KEY_LEFT))
-		//	this->gameObject->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
-		//if (Input::GetKey(GLFW_KEY_RIGHT))
-		//	this->gameObject->transform->Translate(glm::normalize(glm::cross(forward, up)) * deltaMove);
-
-		//if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT)) == false)
-		//{
-		//	if (Input::GetKey(GLFW_KEY_UP))
-		//		this->gameObject->transform->Translate(deltaMove * forward);
-		//	if (Input::GetKey(GLFW_KEY_DOWN))
-		//		this->gameObject->transform->Translate(-deltaMove * forward);
-		//}
-		//else // Pressing Shift
-		//{
-		//	if (Input::GetKey(GLFW_KEY_UP))
-		//		this->gameObject->transform->Translate(up * deltaMove);
-		//	if (Input::GetKey(GLFW_KEY_DOWN))
-		//		this->gameObject->transform->Translate(-up * deltaMove);
-		//}
 	}
 }
