@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{9a6c88b3-f6d0-4b63-80d8-faa09f9fcd4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Analytics">
+      <UniqueIdentifier>{10826179-dbb5-497b-af3a-2d98ee13ded6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Analytics">
+      <UniqueIdentifier>{74d16c14-a93b-4241-92c1-818e696a07fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -180,15 +186,6 @@
     <ClCompile Include="ExampleRotator_James.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectAnalytic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameComponentAnalytic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Analytics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SceneEditor.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
@@ -200,6 +197,15 @@
     </ClCompile>
     <ClCompile Include="AudioEngine.cpp">
       <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Analytics.cpp">
+      <Filter>Source Files\Analytics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponentAnalytic.cpp">
+      <Filter>Source Files\Analytics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectAnalytic.cpp">
+      <Filter>Source Files\Analytics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,15 +320,6 @@
     <ClInclude Include="ExampleRotator_James.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectAnalytic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameComponentAnalytic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Analytics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Serialization.h">
       <Filter>Header Files\Serialization</Filter>
     </ClInclude>
@@ -340,6 +337,15 @@
     </ClInclude>
     <ClInclude Include="AudioEngine.h">
       <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Analytics.h">
+      <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponentAnalytic.h">
+      <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectAnalytic.h">
+      <Filter>Header Files\Analytics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
