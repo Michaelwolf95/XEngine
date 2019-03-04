@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 // TimeManager
-class Time : public Singleton<Time>
+class Time : public Singleton<Time> // TODO: Separate FPS into own class. 
 {
 	struct FPS { //TODO: forward declaration?
 		void(*getFPSCallback)(float fps) = nullptr;
@@ -55,5 +55,6 @@ public:
 	static void ModSampleSize(int &sample_sz);
 	static bool IsCounting();
 	static void SetSampleSetSize(int sample_set_sz); 
+	//TODO: Move private functions to private
 };
 

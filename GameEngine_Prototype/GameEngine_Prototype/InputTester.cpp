@@ -50,11 +50,11 @@ void InputTester::Update()
 	if (Input::GetKeyDown(GLFW_KEY_MINUS)) rotationSpeed -= 10.0f;
 	///if (Input::GetKeyDown(GLFW_KEY_P)) Input::ToggleCursor(); // Somebody added into another class
 	///if (Input::GetKeyDown(GLFW_KEY_C)) 
-	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
+	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS(); // ** Do not use for sampling -- use below method instead
 	if (Input::GetKeyDown(GLFW_KEY_R)) {
-		int modSampleSize = 100; // **number of samples per FPS sample
+		int modSampleSize = 1; // **number of samples per FPS sample
 		Time::SetSampleSetSize(modSampleSize); // **set the number of samples per FPS sample. 
-		Time::ModSampleSize(SAMPLE_SIZE_TEST = 25); // **sets sample size to 25. sample size is then modified to size necessary to take averaged samples.
+		Time::ModSampleSize(SAMPLE_SIZE_TEST = 25); // **sets sample size to 25 (how many measurements to be done). sample size is then modified to size necessary to take averaged samples.
 	}
 	fpsSample(SAMPLE_SIZE_TEST); // **modified sample size is passed to custom function -- maybe I should integrate this into FPS struct...
 	PrintFPS(); // **indefinitely prints FPS to console if isPrinting is true. Separate feature from fps sampling. Do not use if you only want to log fps samples to file.

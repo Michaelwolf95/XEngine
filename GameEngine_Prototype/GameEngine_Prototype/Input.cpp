@@ -58,7 +58,7 @@ void Input::EndUpdateFrame()
 	//std::cout << mouse[GLFW_MOUSE_BUTTON_RIGHT].isButtonPressed << ", " << mouse[GLFW_MOUSE_BUTTON_RIGHT].wasPressed << std::endl;
 	for (int i = 0; i < m_arr_sz; i++)
 	{
-		mouse[i].wasPressed = mouse[i].isButtonPressed;
+		mouse[i].wasPressed = mouse[i].isPressed;
 	}
 }
 
@@ -92,11 +92,11 @@ void Input::_mouse_button_callback(int button, int action, int mods)
 {
 	if (action == GLFW_PRESS)
 	{
-		mouse[button].isButtonPressed = true;
+		mouse[button].isPressed = true;
 	}
 	else if (action == GLFW_RELEASE)
 	{
-		mouse[button].isButtonPressed = false;
+		mouse[button].isPressed = false;
 	}
 
 	//	if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) == GLFW_PRESS 
@@ -160,12 +160,12 @@ bool Input::GetMouseButtonUp(int glfw_mouse_button)
 
 double Input::GetScrollOffsetX()
 {
-	return xScrollOffset;
+	return Input::getInstance().GetScrollOffsetX();// xScrollOffset;
 }
 
 double Input::GetScrollOffsetY()
 {
-	return yScrollOffset;
+	return Input::getInstance().GetScrollOffsetY();//yScrollOffset;
 }
 
 double Input::GetMousePosX()
@@ -255,20 +255,20 @@ bool Input::getMouseButtonDown(int glfw_mouse_button)
 {
 	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].wasPressed == false
-		&& mouse[glfw_mouse_button].isButtonPressed == true;
+		&& mouse[glfw_mouse_button].isPressed == true;
 }
 
 bool Input::getMouseButton(int glfw_mouse_button)
 {
 	validateMouseInputValue(glfw_mouse_button);
-	return mouse[glfw_mouse_button].isButtonPressed;
+	return mouse[glfw_mouse_button].isPressed;
 }
 
 bool Input::getMouseButtonUp(int glfw_mouse_button)
 {
 	validateMouseInputValue(glfw_mouse_button);
 	return mouse[glfw_mouse_button].wasPressed == true
-		&& mouse[glfw_mouse_button].isButtonPressed == false;
+		&& mouse[glfw_mouse_button].isPressed == false;
 }
 
 bool Input::getMousePosX()
