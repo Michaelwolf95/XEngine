@@ -207,6 +207,12 @@
     <ClCompile Include="GameObjectAnalytic.cpp">
       <Filter>Source Files\Analytics</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -329,9 +335,6 @@
     <ClInclude Include="SceneEditor.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="EditorCamera.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
@@ -346,6 +349,15 @@
     </ClInclude>
     <ClInclude Include="GameObjectAnalytic.h">
       <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

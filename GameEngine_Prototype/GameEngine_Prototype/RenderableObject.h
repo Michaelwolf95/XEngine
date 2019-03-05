@@ -19,6 +19,7 @@ public:
 	Material* material = nullptr;
 	bool render_enabled = false;
 	RenderableObject();
+	RenderableObject(Material* _material);
 	RenderableObject(
 		float* verts, unsigned int numV, unsigned int vertDataSize,
 		unsigned int* ind, unsigned int numInd, Material* _material = nullptr);

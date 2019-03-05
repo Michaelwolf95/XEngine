@@ -5,6 +5,24 @@ RenderableObject::RenderableObject()
 {
 }
 
+RenderableObject::RenderableObject(Material * _material)
+{
+	render_enabled = true;
+	if (_material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+	}
+	else
+	{
+		material = _material;
+	}
+
+	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
+	std::cout << "Created Object with shader ID: " << material->shader->ID << std::endl;
+
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+}
+
 RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize,
 	unsigned int* ind, unsigned int numInd, Material* _material)
 {
