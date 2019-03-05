@@ -102,11 +102,12 @@ void SimpleModelComponent::Draw()
 			material->shader->setVec3("lightColor", light->getLightColor());
 			material->shader->setVec3("lightPos", light->getLightPos());
 		}
-		//material->shader->setMat3
 	}
+
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
+	glBindVertexArray(0);
 
 	//gameObject->transform->DrawGizmo();
 }

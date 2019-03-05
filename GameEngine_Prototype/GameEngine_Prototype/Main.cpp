@@ -13,9 +13,14 @@
 #include "SceneManager.h"
 #include "Time.h"
 #include "Input.h"
-#include "SceneEditor.h"
 
+#define X_EDIT_MODE
+
+#ifdef X_EDIT_MODE
+#include "SceneEditor.h"
+#else
 #include "TestScenes.h"
+#endif
 
 // ENTRY POINT
 int main()
@@ -27,14 +32,19 @@ int main()
 	Input::CreateManager();
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
+	AssetManager::CreateManager();
+
+#ifdef X_EDIT_MODE
 	SceneEditor::CreateManager();
+#endif
 
 	// Create & Load Scene
-	//RunTestScene();
+#ifdef X_EDIT_MODE
 	SceneEditor::getInstance().StartEditMode();
+#else
+	RunTestScene();
+#endif
 	
-
-
 	// FRAME LOOP
 	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 	{

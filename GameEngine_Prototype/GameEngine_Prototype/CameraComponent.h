@@ -24,8 +24,9 @@ public:
 private:
 	// Render state
 	Shader* shader;
-	GLuint quadVAO;
-	int textureID;
+	GLuint VAO;
+	GLuint VBO;
+	unsigned int textureID;
 	// Initializes and configures the quad's buffer and vertex attributes
 	void initGizmoRenderData();
 

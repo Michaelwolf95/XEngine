@@ -143,7 +143,7 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	// TODO: Optimize draw calls by rendering all objects that use the same shader at once.
 	
 	// Start the shader
-	if (currentShaderID != renderable->material->shader->ID)
+	//if (currentShaderID != renderable->material->shader->ID) // DISABLED CHECK FOR NOW
 	{
 		//std::cout << "Swapping material" << std::endl;
 		renderable->material->shader->use();

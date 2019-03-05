@@ -40,5 +40,5 @@ void Material::Load()
 void Material::LoadTexture(const char * _textureFilePath)
 {
 	textureFilePath = _textureFilePath;
-	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
+	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
