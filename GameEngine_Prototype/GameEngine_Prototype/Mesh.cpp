@@ -4,6 +4,14 @@
 #include <glad/glad.h>
 #include "Shader.h"
 #include "Material.h"
+#include "RenderableObject.h"
+#include "RenderManager.h"
+#include "GameObject.h"
+#include "ApplicationManager.h"
+#include "RenderManager.h"
+#include "GameObject.h"
+//class MeshRenderer ;
+#include "MeshRenderer.h"
 
 #include <string>
 #include <fstream>
@@ -11,17 +19,16 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
+//using namespace std;
 
 /// Based on LearnOpenGL.com section on Meshes
 
 // Constructor
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material* material)
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures; 
-	this->material = material;
 
 	Setup();
 }
@@ -33,7 +40,8 @@ Mesh::~Mesh()
 
 void Mesh::Setup()
 {
-	// create buffers
+	cout << "SETUP-MESH" << endl;
+	// create buffersmaterial	
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -42,7 +50,6 @@ void Mesh::Setup()
 
 	// load data into vertex buffers
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
 	// pass pointer to struct, translate to glm vec2/3, which translate to 2/3 floats that translate to byte array
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
@@ -69,57 +76,12 @@ void Mesh::Setup()
 	// bitangent vector
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
-}
 
-void Mesh::Draw()
-{
-	// texture variables
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	unsigned int normalNr = 1;
-	unsigned int heightNr = 1;
-
-	// binding textures
-	for (unsigned int i = 0; i < textures.size(); i++) 
-	{
-		// get texture before binding
-		glActiveTexture(GL_TEXTURE0 + 1);
-
-		string number;
-		string name = textures[i].type;
-
-		// transfer unsigned to stream
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularNr++);
-		else if (name == "texture_normal")
-			number = std::to_string(normalNr++);
-		else if (name == "texture_height")
-			number = std::to_string(heightNr++);
-
-		// set texture unit
-		glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), i);
-
-		// bind texture
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
-	}
-
-	// draw mesh
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
-	// default once configured
-	glActiveTexture(GL_TEXTURE0);
+	cout << "END SETUP-MESH" << endl;
 }
 
-void Mesh::Start()
-{
-}
 
-void Mesh::Update()
-{
-}
+
 
 

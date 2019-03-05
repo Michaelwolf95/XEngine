@@ -1,10 +1,14 @@
+#ifndef MESH_H
+#define MESH_H
+
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
-#include "Shader.h"
-#include "RenderableObject.h"
 #include "Component.h"
 #include "Material.h"
+//#include "MeshRenderer.h"
+class MeshRenderer;
 
 #include <string>
 #include <fstream>
@@ -38,27 +42,24 @@ struct Texture {
 	string path;
 };
 
-class Mesh :	public RenderableObject, 
-				public Component
+class Mesh
 {
 	public:
-		// Constructors
-		Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material* material);
+		unsigned int VBO;
+		unsigned int VAO;
+		unsigned int EBO;
+		vector<Vertex> vertices;
+		vector<unsigned int> indices;
+		vector<Texture> textures;
+		// Constructor
+		Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 		
 		// Deconstructor
 		~Mesh();
 
-		// public variables
-		vector<Vertex> vertices;
-		vector<unsigned int> indices;
-		vector<Texture> textures;
-		Material* material;
+		void Setup();
 
-		// Renderable Object functions
-		void Setup() override;
-		void Draw() override;
-
-		// Component functions
-		void Start() override;
-		void Update() override;
 };
+
+
+#endif // !1

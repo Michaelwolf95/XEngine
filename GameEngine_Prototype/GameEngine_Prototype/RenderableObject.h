@@ -17,6 +17,7 @@ public:
 	unsigned int EBO;
 	Material* material;
 	bool enabled = false;
+	RenderableObject(Material* _material);
 	RenderableObject();
 	RenderableObject(
 		float* verts, unsigned int numV, unsigned int vertDataSize,

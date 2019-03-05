@@ -64,6 +64,15 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{2779880a-cc6d-43f5-bfdf-13a35e23bfd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\3Dmodel">
+      <UniqueIdentifier>{dcf600aa-08b0-4f8e-b0fb-6550c23008ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\3Dmodel\nanosuit">
+      <UniqueIdentifier>{36a84c9c-6059-4270-85f0-b9f4633f4622}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -355,13 +364,80 @@
     <None Include="..\Settings\AppConfig.json">
       <Filter>Settings</Filter>
     </None>
+    <None Include="..\Assets\3Dmodel\nanosuit\nanosuit.blend">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </None>
+    <None Include="..\Assets\3Dmodel\nanosuit\nanosuit.mtl">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </None>
+    <None Include="..\Shaders\3Dmodel.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\3Dmodel.fs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="3Dmodel.vs">
-      <Filter>Shaders</Filter>
+    <Image Include="..\Assets\3Dmodel\nanosuit\arm_dif.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\arm_showroom_ddn.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\arm_showroom_spec.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\body_dif.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\body_showroom_ddn.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\body_showroom_spec.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\glass_ddn.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\glass_dif.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\hand_dif.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\hand_showroom_ddn.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\hand_showroom_spec.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_diff.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_showroom_ddn.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_showroom_spec.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\leg_dif.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\leg_showroom_ddn.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+    <Image Include="..\Assets\3Dmodel\nanosuit\leg_showroom_spec.png">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\3Dmodel\nanosuit\LICENSE.txt">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
     </Text>
-    <Text Include="3Dmodel.fs">
-      <Filter>Shaders</Filter>
-    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Assets\3Dmodel\nanosuit\nanosuit.obj">
+      <Filter>Assets\3Dmodel\nanosuit</Filter>
+    </Object>
   </ItemGroup>
 </Project>

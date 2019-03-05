@@ -74,11 +74,11 @@
     <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,8 +96,16 @@
     <Link>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp/assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -120,14 +128,24 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp/assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -234,7 +252,11 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Assets\3Dmodel\nanosuit\nanosuit.blend" />
+    <None Include="..\Assets\3Dmodel\nanosuit\nanosuit.mtl" />
     <None Include="..\Settings\AppConfig.json" />
+    <None Include="..\Shaders\3Dmodel.fs" />
+    <None Include="..\Shaders\3Dmodel.vs" />
     <None Include="..\Shaders\color.fs" />
     <None Include="..\Shaders\color.vs" />
     <None Include="..\Shaders\default.fs" />
@@ -247,8 +269,32 @@
     <None Include="..\Shaders\sprite.vs" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="3Dmodel.vs" />
-    <Text Include="3Dmodel.fs" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\arm_dif.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\arm_showroom_ddn.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\arm_showroom_spec.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\body_dif.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\body_showroom_ddn.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\body_showroom_spec.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\glass_ddn.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\glass_dif.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\hand_dif.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\hand_showroom_ddn.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\hand_showroom_spec.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_diff.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_showroom_ddn.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_showroom_spec.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\leg_dif.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\leg_showroom_ddn.png" />
+    <Image Include="..\Assets\3Dmodel\nanosuit\leg_showroom_spec.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\3Dmodel\nanosuit\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Assets\3Dmodel\nanosuit\nanosuit.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

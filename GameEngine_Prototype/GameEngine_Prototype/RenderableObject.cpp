@@ -1,6 +1,27 @@
 #include "RenderableObject.h"
 #include "RenderManager.h"
 
+RenderableObject::RenderableObject(Material* _material)
+{
+	enabled = true;
+
+	if (_material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+	}
+	else
+	{
+		material = _material;
+	}
+
+	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
+	std::cout << "Created Object with shader ID: " << material->shader->ID << std::endl;
+	std::cout << "Created Object with material address: " << &material << std::endl;
+
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+	std::cout << "Created Object Address: " << (RenderableObject*)this << std::endl;
+}
+
 RenderableObject::RenderableObject()
 {
 }
@@ -41,6 +62,7 @@ void RenderableObject::Setup()
 {
 	std::cout << "Renderable Setup." << std::endl;
 	glGenVertexArrays(1, &VAO);
+
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).

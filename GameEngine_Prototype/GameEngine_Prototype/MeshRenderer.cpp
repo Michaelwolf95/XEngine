@@ -7,8 +7,16 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "GameObject.h"
+#include "RenderManager.h"
+#include "RenderableObject.h"
+#include "Component.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "ApplicationManager.h"
+#include "Camera.h"
+#include <glm/gtc/type_ptr.hpp>
+#include "RenderManager.h"
 
 #include <string>
 #include <fstream>
@@ -20,10 +28,13 @@
 
 
 // Constructor
-MeshRenderer::MeshRenderer(string const &path, Material material)
+MeshRenderer::MeshRenderer(string const &path, Material* m , bool gamma): 
+	gammaCorrection(gamma), 
+	RenderableObject(m)
 {
-	this->_material = &material;
-	loadModel(path);
+	this->pathToObjModel = path;
+
+	Setup();
 }
 
 MeshRenderer::~MeshRenderer()
@@ -32,10 +43,112 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Setup()
 {
+	cout << "loadModel" << endl;
+	// read file using ASSIMP
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+	// check for errors
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
+		return;
+	}
+	// retrieve the directory path of the filepath
+	directory = pathToObjModel.substr(0, pathToObjModel.find_last_of('/'));
+
+	// process ASSIMP's root node recursively
+	processNode(scene->mRootNode, scene);
+
+	std::cout << "Has Material? : " << scene->HasMaterials() << endl;
+	std::cout << "Has Meshes? : " << scene->HasMeshes() << endl;
+	std::cout << "Has Textures? : " << scene->HasTextures() << endl;
+
+
+	// add meshes to rendermanager
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		cout << "Mesh ADDRESS:" << &meshes[i] << endl;
+		//RenderManager::getInstance().AddRenderable(&meshes[i]); /// test mesh material address 
+		
+		//meshes[i].Draw();
+		//cout << "Material ADDRESS:" << RenderableObject::material << endl;
+		//cout << i << endl;
+	}
+
+	cout << "end loadModel" << endl;
 }
 
 void MeshRenderer::Draw()
 {
+	cout << "DRAW-MODEL" << endl;
+
+	
+	//if (gameObject == nullptr) return;
+
+	//View & projection from RenderManager, which uses active camera.
+	
+	// This was the error
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	material->shader->setMat4("view", view);
+	material->shader->setMat4("projection", projection);
+
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+	material->shader->setMat4("model", model);
+	
+	
+	cout << meshes.size() << endl;
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		cout << i << endl;
+		cout << "Mesh ADDRESS:" << &meshes[i] << endl;
+		// texture variables
+		unsigned int diffuseNr = 1;
+		unsigned int specularNr = 1;
+		unsigned int normalNr = 1;
+		unsigned int heightNr = 1;
+
+		// binding textures
+		for (unsigned int j = 0; j < meshes[i].textures.size(); j++)
+		{
+			// get texture before binding
+			glActiveTexture(GL_TEXTURE0 + j);
+
+			string number;
+			string name = meshes[i].textures[j].type;
+
+			// transfer unsigned to stream
+			if (name == "texture_diffuse")
+				number = std::to_string(diffuseNr++);
+			else if (name == "texture_specular")
+				number = std::to_string(specularNr++);
+			else if (name == "texture_normal")
+				number = std::to_string(normalNr++);
+			else if (name == "texture_height")
+				number = std::to_string(heightNr++);
+
+			// set texture unit
+			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+
+			// bind texture
+			glBindTexture(GL_TEXTURE_2D, meshes[i].textures[j].id);
+		}
+
+		// draw mesh
+		glBindVertexArray(meshes[i].VAO);
+		glDrawElements(GL_TRIANGLES, meshes[i].indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+
+		// default once configured
+		glActiveTexture(GL_TEXTURE0);
+
+		cout << "END DRAW-MESH" << endl;
+	}
+	
+	cout << "END DRAW-MODEL" << endl;
 }
 
 void MeshRenderer::Start()
@@ -46,29 +159,12 @@ void MeshRenderer::Update()
 {
 }
 
-void MeshRenderer::loadModel(string const & path)
-{
-	// read file using ASSIMP
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
-	// check for errors
-	if (scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-	{
-		cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
-		return;
-	}
-
-	// retrieve the directory path of the filepath
-	directory = path.substr(0, path.find_last_of('/'));
-
-	// process ASSIMP's root node recursively
-	processNode(scene->mRootNode, scene);
-}
 
 // process each node and its children node recursively
 void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 {
+	cout << "processNode" << endl;
+
 	// process each mesh at current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -81,10 +177,14 @@ void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 	{
 		processNode(node->mChildren[i], scene);
 	}
+
+	cout << "END processNode" << endl;
 }
 
 Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 {
+	cout << "processMesh" << endl;
+
 	// data of the meshes
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
@@ -102,15 +202,18 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
-
 		vertex.Position = vector;
 
 		// normal of vector
-		vector.x = mesh->mNormals[i].x;
-		vector.y = mesh->mNormals[i].y;
-		vector.z = mesh->mNormals[i].z;
+		if (mesh->HasNormals())
+		{
+			vector.x = mesh->mNormals[i].x;
+			vector.y = mesh->mNormals[i].y;
+			vector.z = mesh->mNormals[i].z;
+			vertex.Normal = vector;
+		}
 
-		vertex.Normal = vector;
+		
 
 		// texture coordinates
 		if (mesh->mTextureCoords[0])
@@ -126,19 +229,22 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 		else
 			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 
+
 		// tangent of vector
-		vector.x = mesh->mTangents[i].x;
-		vector.y = mesh->mTangents[i].y;
-		vector.z = mesh->mTangents[i].z;
+		if (mesh->HasTangentsAndBitangents())
+		{
+			vector.x = mesh->mTangents[i].x;
+			vector.y = mesh->mTangents[i].y;
+			vector.z = mesh->mTangents[i].z;
+			vertex.Tangent = vector;
 
-		vertex.Tangent = vector;
-
-		// bitangent of vector
-		vector.x = mesh->mBitangents[i].x;
-		vector.y = mesh->mBitangents[i].y;
-		vector.z = mesh->mBitangents[i].z;
-
-		vertex.Bitangent = vector;
+			// bitangent of vector
+			vector.x = mesh->mBitangents[i].x;
+			vector.y = mesh->mBitangents[i].y;
+			vector.z = mesh->mBitangents[i].z;
+			vertex.Bitangent = vector;
+		}
+		
 
 		vertices.push_back(vertex);
 	}
@@ -154,34 +260,36 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 	}
 
 	// process materials
-	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
 	// assume sampler names in shaders 
 	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
 
 	// 1.diffuse maps
-	std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse");
 	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		
 	// 2.specular maps
-	std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
 	// 3.normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_normal");
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
 	// 4.height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-
+	cout << "ENd processMesh" << endl;
 	// return mesh object from extracted mesh data
-	return Mesh(vertices, indices, textures, _material);
+	return Mesh(vertices, indices, textures);// :RenderableObject();
 }
 
 // checl material textures of a given type and loads texture if not loaded yet
 vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
 {
+	cout << "loadMaterialTextures" << endl;
+
 	vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
@@ -203,7 +311,7 @@ vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
 		if (!skip)
 		{
 			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), this->directory, gammaCorrection);
+			texture.id = TextureFromFile(str.C_Str(), this->directory);
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			textures.push_back(texture);
@@ -212,15 +320,20 @@ vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
 			// so we dont load duplicate textures
 			textures_loaded.push_back(texture);
 		}
-
+		cout << "end loadMaterialTextures" << endl;
 		return textures;
 	}
+
 }
 
 unsigned int MeshRenderer::TextureFromFile(const char * path, const string &directory, bool gamma)
 {
+	cout << "textureFromFile" << endl;
+
 	string filename = string(path);
 	filename = directory + '/' + filename;
+
+	cout << filename << endl;
 
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
@@ -255,6 +368,10 @@ unsigned int MeshRenderer::TextureFromFile(const char * path, const string &dire
 		std::cout << "Texture failed to load at path: " << path << std::endl;
 		stbi_image_free(data);
 	}
-
+	cout << "end textureFromFile" << endl;
 	return textureID;
+}
+void MeshRenderer::OnDrawGizmos()
+{
+	gameObject->transform->DrawGizmo();
 }
