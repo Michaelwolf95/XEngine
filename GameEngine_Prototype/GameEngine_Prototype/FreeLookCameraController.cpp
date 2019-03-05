@@ -13,6 +13,8 @@
 #include "Input.h"
 //using namespace glm;
 
+REGISTER_COMPONENT(FreeLookCameraController, "FreeLookCameraController")
+
 FreeLookCameraController::FreeLookCameraController() {}
 FreeLookCameraController::~FreeLookCameraController() {}
 
