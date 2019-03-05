@@ -53,7 +53,9 @@ int main()
 		Input::getInstance().UpdateInput();
 
 		// Editor Update
+#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().UpdateEditor();
+#endif
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
