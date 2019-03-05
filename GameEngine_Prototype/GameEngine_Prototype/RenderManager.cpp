@@ -129,8 +129,9 @@ void RenderManager::Render()
 			}
 		}
 	}
-
+#ifdef X_EDIT_MODE
 	SceneEditor::getInstance().DrawEditorGizmos();
+#endif
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
