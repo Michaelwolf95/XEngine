@@ -51,6 +51,7 @@ uniform GlobalLight globalLight;
 PointLight pointLights[NUM_LIGHTS]; // replace lights
 uniform vec3 lights[NUM_LIGHTS];
 uniform vec3 lightsPos[NUM_LIGHTS];
+uniform float lightIntensities[NUM_LIGHTS];
 uniform int numLights; // inside simple model component to limit for loop iterations
 
 vec3 calculateAmbientLighting(const vec4 texel); // NOTE: cannot pass by reference / use inline, 
@@ -79,7 +80,7 @@ void main()
 
     for (int i = 0; i < numLights; i++) {
         pointLights[i].position = lightsPos[i]; // Migrating to structures
-        pointLights[i].color = lights[i];
+        pointLights[i].color = lights[i] * lightIntensities[i];
         pointLights[i].constant = constant;
         pointLights[i].linear = linear;
         pointLights[i].quadratic = quadratic;

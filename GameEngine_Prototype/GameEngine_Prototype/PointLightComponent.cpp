@@ -3,11 +3,11 @@
 //class GameObject;
 
 PointLightComponent::PointLightComponent(glm::vec3 _color, float _intensity) 
-	: LightComponent::LightComponent()
+	: LightComponent::LightComponent(_color, _intensity)
 {
-	color = _color;
-	intensity = _intensity;
-	//gameObject = kgameObject;
+	//color = _color;
+	//intensity = _intensity;
+	//gameObject = gameObject;
 
 }
 

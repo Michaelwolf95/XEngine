@@ -5,7 +5,6 @@ LightComponent::LightComponent(glm::vec3 _color, float _intensity) : Light::Ligh
 {
 	color = _color;
 	intensity = _intensity;
-
 }
 
 void LightComponent::Start() {}
@@ -20,7 +19,7 @@ glm::vec3 LightComponent::getLightPos()
 {
 	return gameObject->transform->getPosition();
 }
-//
-//GameObject* LightComponent::getGameObject() {
-//	return gameObject;
-//}
+
+float LightComponent::getIntensity() {
+	return intensity;
+}

@@ -7,6 +7,7 @@
 #include "RenderManager.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "LightComponent.h"
 
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
@@ -71,7 +72,6 @@ void SimpleModelComponent::Draw()
 
 	if (material->useLight)
 	{
-		// Get ONE light for now.
 		int i = 0;
 		material->shader->setInt("numLights", RenderManager::getInstance().lights.size());
 		material->shader->setVec3("viewPos", RenderManager::getInstance().getCurrentCamera()->getPosition()); // TODO: not working properly
@@ -79,10 +79,15 @@ void SimpleModelComponent::Draw()
 		{
 			std::string strLights = "lights[]";
 			std::string strLightsPos = "lightsPos[]";
+			std::string strLightInt =  "lightIntensities[]";
 			strLights.insert(7, std::to_string(i));
 			strLightsPos.insert(10, std::to_string(i));
+			strLightInt.insert(17, std::to_string(i));
+			std::cout << "strLightInt == " << strLightInt << std::endl;
+			std::cout << "intensity == " << ((LightComponent *)light)->getIntensity() << std::endl;
 			material->shader->setVec3(strLights, light->getLightColor());
 			material->shader->setVec3(strLightsPos, light->getLightPos());
+			material->shader->setFloat(strLightInt, ((LightComponent *)light)->getIntensity());
 			i++;
 		}
 		//material->shader->setMat3
