@@ -25,6 +25,7 @@
 #include <map>
 #include <vector>
 #include "MeshRenderer.h"
+#include "AssetManager.h"
 
 REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
 
@@ -36,7 +37,8 @@ MeshRenderer::MeshRenderer(string const &path, Material* m , bool gamma):
 	gammaCorrection(gamma), 
 	RenderableObject(m)
 {
-	this->pathToObjModel = path;
+	// filepath for .obj file.
+	this->pathToObjModel = ASSET_FILE_PATH + std::string(path);
 
 	Setup();
 }

@@ -108,7 +108,7 @@ void CreateTestScene_GameComponentTest()
 
 	Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
 	Material* modelMaterial = new Material(modelShader);
-	std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+	std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 	//MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/Crate/Crate1.obj", modelMaterial);
 	GameObject_ptr modelMan = scene->CreateGameObject("ModelMan");
 
@@ -132,7 +132,6 @@ void CreateTestScene_GameComponentTest()
 
 	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
 	//camGo->transform->setLocalRotationEuler(glm::vec3(0, 3.14, 0));
-	
 
 	SceneManager::getInstance().SetActiveScene(scene);
 	//SceneManager::getInstance().SaveSceneToFile(*scene);
