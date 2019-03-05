@@ -51,6 +51,8 @@ void CameraComponent::Update() {}
 void CameraComponent::OnDrawGizmos()
 {
 	return;
+	/*
+	//return;
 	// Prepare transformations
 	this->shader->use();
 	glm::mat4 model = glm::mat4(1.0);
@@ -90,34 +92,109 @@ void CameraComponent::OnDrawGizmos()
 
 	glBindVertexArray(this->quadVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
+	*/
+	// Vertex shader
+	unsigned int programID = this->shader->ID;
+	GLuint CameraRight_worldspace_ID = glGetUniformLocation(programID, "CameraRight_worldspace");
+	GLuint CameraUp_worldspace_ID = glGetUniformLocation(programID, "CameraUp_worldspace");
+	GLuint ViewProjMatrixID = glGetUniformLocation(programID, "VP");
+	GLuint BillboardPosID = glGetUniformLocation(programID, "BillboardPos");
+	GLuint BillboardSizeID = glGetUniformLocation(programID, "BillboardSize");
+	//GLuint LifeLevelID = glGetUniformLocation(programID, "LifeLevel");
+
+	this->shader->use();
+	glm::mat4 model = glm::mat4(1.0);
+	glm::mat4 ProjectionMatrix = RenderManager::getInstance().getProjection();
+	glm::mat4 ViewMatrix = RenderManager::getInstance().getView();
+	glm::mat4 ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
+
+	glBindVertexArray(this->quadVAO);
+
+	glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, Texture);
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	//glUniform1i(TextureID, 0);
+	// This is the only interesting part of the tutorial.
+		// This is equivalent to mlutiplying (1,0,0) and (0,1,0) by inverse(ViewMatrix).
+		// ViewMatrix is orthogonal (it was made this way), 
+		// so its inverse is also its transpose, 
+		// and transposing a matrix is "free" (inversing is slooow)
+	glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
+	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
+
+	glUniform3f(BillboardPosID, 0.0f, 0.5f, 0.0f); // The billboard will be just above the cube
+	glUniform2f(BillboardSizeID, 1.0f, 0.125f);     // and 1m*12cm, because it matches its 256*32 resolution =)
+
+	//// Generate some fake life level and send it to glsl
+	//float LifeLevel = sin(currentTime)*0.1f + 0.7f;
+	//glUniform1f(LifeLevelID, LifeLevel);
+
+	glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
+
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, this->quadVAO);
+	glVertexAttribPointer(
+		0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+
+
+	// Draw the billboard !
+	// This draws a triangle_strip which looks like a quad.
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	
 }
 
 void CameraComponent::initGizmoRenderData()
 {
 	shader = RenderManager::defaultSpriteShader;
 	// Configure VAO/VBO
-	GLuint VBO;
-	GLfloat vertices[] = {
-		// Pos      // Tex
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f,
+	//GLuint VBO;
+	//GLfloat vertices[] = {
+	//	// Pos      // Tex
+	//	0.0f, 1.0f, 0.0f, 1.0f,
+	//	1.0f, 0.0f, 1.0f, 0.0f,
+	//	0.0f, 0.0f, 0.0f, 0.0f,
 
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f
+	//	0.0f, 1.0f, 0.0f, 1.0f,
+	//	1.0f, 1.0f, 1.0f, 1.0f,
+	//	1.0f, 0.0f, 1.0f, 0.0f
+	//};
+
+	//glGenVertexArrays(1, &this->quadVAO);
+	//glGenBuffers(1, &VBO);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	//glBindVertexArray(this->quadVAO);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindVertexArray(0);
+
+	//GLuint Texture = loadDDS("ExampleBillboard.DDS");
+
+	//glBindVertexArray(this->quadVAO);
+
+	// The VBO containing the 4 vertices of the particles.
+	static const GLfloat g_vertex_buffer_data[] = {
+		 -0.5f, -0.5f, 0.0f,
+		  0.5f, -0.5f, 0.0f,
+		 -0.5f,  0.5f, 0.0f,
+		  0.5f,  0.5f, 0.0f,
 	};
-
+	GLuint VBO;
 	glGenVertexArrays(1, &this->quadVAO);
 	glGenBuffers(1, &VBO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_DYNAMIC_DRAW);
 
-	glBindVertexArray(this->quadVAO);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 }

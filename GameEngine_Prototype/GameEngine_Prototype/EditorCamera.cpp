@@ -28,7 +28,7 @@ EditorCamera::EditorCamera()
 
 EditorCamera::~EditorCamera() 
 {
-	std::cout << "Deleting EditorCamera" << std::endl;
+	std::cout << "\tDeleting EditorCamera" << std::endl;
 	if (RenderManager::getInstance().getCurrentCamera() == this)
 	{
 		RenderManager::getInstance().setCurrentCamera(nullptr);

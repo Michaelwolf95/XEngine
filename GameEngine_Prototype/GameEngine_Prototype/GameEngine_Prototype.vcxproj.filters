@@ -382,5 +382,11 @@
     <None Include="..\Settings\AppConfig.json">
       <Filter>Settings</Filter>
     </None>
+    <None Include="..\Shaders\billboardSprite.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\billboardSprite.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -58,7 +58,7 @@ void RenderManager::CompileShaders()
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
 
-	defaultSpriteShader = new Shader("sprite.vs", "sprite.fs");
+	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 
