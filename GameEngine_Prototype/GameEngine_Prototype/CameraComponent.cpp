@@ -144,6 +144,8 @@ void CameraComponent::OnDrawGizmos()
 	// This draws a triangle_strip which looks like a quad.
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+	glBindVertexArray(0);
+
 	//glDisableVertexAttribArray(0);
 	glDisable(GL_BLEND);
 	

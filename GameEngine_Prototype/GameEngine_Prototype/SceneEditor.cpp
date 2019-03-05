@@ -31,7 +31,7 @@ int SceneEditor::Init()
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
 	editorCameraGameObject->AddComponent(editCamPtr);
-	std::cout << "EditorCam Address: " << editorCamera << std::endl;
+	//std::cout << "EditorCam Address: " << editorCamera << std::endl;
 
 	return 0;
 }
@@ -332,11 +332,17 @@ void SceneEditor::UpdateEditor()
 					std::cout << "No Object to Rename" << std::endl;
 					return;
 				}
+				// Set focus to console.
+				SetFocus(GetConsoleWindow());
+				BringWindowToTop(GetConsoleWindow());
+
 				std::cout << "Renaming: " << selectedGameObject->name << std::endl;
 				//std::string newName;
 				std::cout << "Name: ";
 				std::cin >> selectedGameObject->name;
-				std::cout << std::endl;
+
+				// Set focus back to app.
+				glfwFocusWindow(ApplicationManager::APP_WINDOW);
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_L))
 			{

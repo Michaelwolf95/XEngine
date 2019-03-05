@@ -119,9 +119,9 @@ void EditorCamera::Update()
 				float deltaYRot = xRotSpeed * Time::deltaTime * deltaPos.x;
 				float deltaXRot = yRotSpeed * Time::deltaTime * deltaPos.y;
 
-				//glm::quat rot = gameObject->transform->getLocalRotation();
 				glm::vec3 localRot = gameObject->transform->getLocalRotationEuler();
 
+				// ALTERNATIVE USING LOOKAT
 				//glm::vec3 direction = gameObject->transform->getForwardDirection();
 				//direction.x -= deltaYRot;
 				//direction.y -= deltaXRot;
@@ -129,14 +129,6 @@ void EditorCamera::Update()
 
 				localRot = glm::vec3(localRot.x + deltaYRot, localRot.y - deltaXRot, localRot.z);
 				gameObject->transform->setLocalRotationEuler(localRot);
-
-				//glm::quat result = gameObject->transform->getLocalRotation();
-				//glm::vec3 localRotResult = gameObject->transform->getLocalRotationEuler();
-				//std::cout << "direction:  (" << direction.x << ", " << direction.y << ", " << direction.z << ")" << std::endl;
-				//std::cout << "beforeQuat:  (" << rot.w << ", " << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
-				//std::cout << "beforeEuler: (" << localRot.x << ", " << localRot.y << ", " << localRot.z << ")" << std::endl;
-				//std::cout << "afterQuat:   (" << result.w << ", " << result.x << ", " << result.y << ", " << result.z << ")" << std::endl;
-				//std::cout << "afterEuler:  (" << localRotResult.x << ", " << localRotResult.y << ", " << localRotResult.z << ")" << std::endl;
 			}
 			else
 			{
