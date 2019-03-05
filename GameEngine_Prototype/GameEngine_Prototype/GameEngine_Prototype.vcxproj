@@ -262,6 +262,8 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Settings\AppConfig.json" />
+    <None Include="..\Shaders\3Dmodel.fs" />
+    <None Include="..\Shaders\3Dmodel.vs" />
     <None Include="..\Shaders\billboardSprite.fs" />
     <None Include="..\Shaders\billboardSprite.vs" />
     <None Include="..\Shaders\color.fs" />

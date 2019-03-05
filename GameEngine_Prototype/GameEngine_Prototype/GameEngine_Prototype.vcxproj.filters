@@ -400,5 +400,11 @@
     <None Include="..\Shaders\billboardSprite.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\Shaders\3Dmodel.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\3Dmodel.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

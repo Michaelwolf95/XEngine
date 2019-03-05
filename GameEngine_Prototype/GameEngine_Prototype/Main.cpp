@@ -14,7 +14,7 @@
 #include "Time.h"
 #include "Input.h"
 
-#define X_EDIT_MODE
+//#define X_EDIT_MODE
 
 #ifdef X_EDIT_MODE
 #include "SceneEditor.h"

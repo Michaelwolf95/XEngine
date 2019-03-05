@@ -118,8 +118,10 @@ void CreateTestScene_GameComponentTest()
 	//C:\Users\Simba\Documents\CECS_491_GameEngine_Prototype\GameEngine_Prototype\Assets\3Dmodel\nanosuit
 //MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/h66xqn7m98u8-Rubics_cube/Rubics_cube/cube.obj", modelMaterial);
 
-	//TestMoverComponent* move = new TestMoverComponent();
-	//modelMan->AddComponent(move);
+	std::shared_ptr<TestMoverComponent> move(new TestMoverComponent());
+	modelMan->AddComponent(move);
+
+	modelMan->transform->setLocalScale(0.5f, 0.5f, 0.5f);
 
 	// make camera
 	GameObject_ptr camGo = scene->CreateGameObject("Camera");
@@ -129,8 +131,9 @@ void CreateTestScene_GameComponentTest()
 	camGo->AddComponent(moving);
 
 	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
-	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
+	//camGo->transform->setLocalRotationEuler(glm::vec3(0, 3.14, 0));
 	
 
 	SceneManager::getInstance().SetActiveScene(scene);
+	//SceneManager::getInstance().SaveSceneToFile(*scene);
 }

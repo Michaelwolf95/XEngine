@@ -23,10 +23,11 @@
 using namespace std;
 
 
-class MeshRenderer: public RenderableObject,
-					public Component
+class MeshRenderer: public RenderableObject, public Component
 {
 	public:
+		static Registrar<MeshRenderer> registrar;
+
 		//GameObject* gameObject; // The owner of the component.
 		vector<Texture> textures_loaded;
 		vector<Mesh> meshes;
@@ -40,6 +41,7 @@ class MeshRenderer: public RenderableObject,
 
 		//MeshRenderer(string const & path, Material * m);
 
+		MeshRenderer();
 		// Deconstructor
 		~MeshRenderer();
 
@@ -59,4 +61,23 @@ class MeshRenderer: public RenderableObject,
 		Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 		vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
 		unsigned int TextureFromFile(const char * path, const string &directory, bool gamma = false);
+
+		friend class boost::serialization::access;
+		BOOST_SERIALIZATION_SPLIT_MEMBER()
+			template<class Archive>
+		void save(Archive & ar, const unsigned int version) const
+		{
+			//// invoke serialization of the base class 
+			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+			ar & BOOST_SERIALIZATION_NVP(directory);
+
+		}
+		template<class Archive>
+		void load(Archive & ar, const unsigned int version)
+		{
+			// invoke serialization of the base class 
+			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+			ar & BOOST_SERIALIZATION_NVP(directory);
+			Setup();
+		}
 };
