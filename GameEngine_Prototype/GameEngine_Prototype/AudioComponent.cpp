@@ -12,6 +12,7 @@
 //soundTest->LoadSound(soundPath1, false, true, true);
 //soundTest->PlaySounds(soundPath1);
 
+REGISTER_COMPONENT(AudioComponent, "AudioComponent")
 
 void AudioComponent::Start() {
 }

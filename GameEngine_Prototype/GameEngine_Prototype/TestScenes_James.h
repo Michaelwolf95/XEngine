@@ -34,14 +34,14 @@ void RunTestScene_James()
 }
 
 void CreateTestSceneJames1() {
-	Scene* scene = new Scene("SCENE1");
+	Scene_ptr scene(new Scene("SCENE1"));
 
 	Shader* modelShader = new Shader("model.vs", "model.fs");
 	Material* modelMaterial = new Material(modelShader);
 	modelMaterial->LoadTexture("textures/container.jpg");
 
-	GameObject* cube = scene->CreateGameObject("Cube");
-	SimpleModelComponent* model = new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial);
+	GameObject_ptr cube = scene->CreateGameObject("Cube");
+	std::shared_ptr<SimpleModelComponent> model(new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
 	cube->AddComponent(model);
 	cube->transform->setLocalPosition(0, 0, 0);
 
@@ -51,11 +51,11 @@ void CreateTestSceneJames1() {
 
 
 	// Create Camera GameObject
-	GameObject* camGo = scene->CreateGameObject("Camera");
-	CameraComponent* camera = new CameraComponent();
+	GameObject_ptr camGo = scene->CreateGameObject("Camera");
+	std::shared_ptr <CameraComponent> camera(new CameraComponent());
 	camGo->AddComponent(camera);
 	//make camera move
-	FreeLookCameraController* moving = new  FreeLookCameraController();
+	std::shared_ptr <FreeLookCameraController> moving(new FreeLookCameraController());
 	//camGo->AddComponent(moving);------------------------------------------------
 
 	cube->AddComponent(moving);
@@ -98,7 +98,7 @@ void CreateTestSceneJames1() {
 	//LoadSound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream)
 	//parameters about streaming, looping, and whether or not it's a 3D sound
 	string soundPath1 = "../Assets/sounds/inception_sound.mp3";
-	AudioComponent* soundTest = new AudioComponent();
+	std::shared_ptr<AudioComponent> soundTest(new AudioComponent());
 	cube->AddComponent(soundTest);
 
 	soundTest->Load3D(soundPath1, true, true, true);
@@ -107,5 +107,8 @@ void CreateTestSceneJames1() {
 
 	//set the postion of the camera and one from the object for the sound to actually
 
+
 	SceneManager::getInstance().SetActiveScene(scene);
+
+	//SceneManager::getInstance().SaveSceneToFile(*scene);
 }

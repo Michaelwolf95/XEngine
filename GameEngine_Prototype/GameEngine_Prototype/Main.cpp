@@ -13,6 +13,7 @@
 #include "SceneManager.h"
 #include "Time.h"
 #include "Input.h"
+#include "AudioManager.h"
 #include "SceneEditor.h"
 
 #include "TestScenes.h"
@@ -26,12 +27,13 @@ int main()
 	Time::CreateManager();
 	Input::CreateManager();
 	RenderManager::CreateManager();
+	AudioManager::CreateManager();
 	SceneManager::CreateManager();
 	SceneEditor::CreateManager();
 
 	// Create & Load Scene
-	//RunTestScene();
-	SceneEditor::getInstance().StartEditMode();
+	RunTestScene();
+	//SceneEditor::getInstance().StartEditMode();
 	
 
 
@@ -50,6 +52,7 @@ int main()
 
 		RenderManager::getInstance().Render();
 
+		AudioManager::getInstance().UpdateAudio();
 		Input::getInstance().EndUpdateFrame();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
