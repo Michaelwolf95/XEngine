@@ -88,8 +88,8 @@ void RunTestScene_Tam()
 
 void CreateTestScene_GameComponentTest()
 {
-	Scene* scene = new Scene("Testing 3D Model");
-
+	Scene_ptr scene(new Scene("Loading 3d models"));
+	//Scene scene = Scene_ptr();
 	
 	// make 3D model
 	
@@ -108,24 +108,25 @@ void CreateTestScene_GameComponentTest()
 
 	Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
 	Material* modelMaterial = new Material(modelShader);
-	MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/nanosuit/nanosuit.obj", modelMaterial);
+	std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 	//MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/Crate/Crate1.obj", modelMaterial);
-	GameObject* modelMan = scene->CreateGameObject("ModelMan");
+	GameObject_ptr modelMan = scene->CreateGameObject("ModelMan");
+
 	modelMan->AddComponent(modelNano);
 	modelMan->transform->setLocalPosition(0, 0, 0);
 	
 	//C:\Users\Simba\Documents\CECS_491_GameEngine_Prototype\GameEngine_Prototype\Assets\3Dmodel\nanosuit
 //MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/h66xqn7m98u8-Rubics_cube/Rubics_cube/cube.obj", modelMaterial);
 
-	TestMoverComponent* move = new TestMoverComponent();
-	modelMan->AddComponent(move);
+	//TestMoverComponent* move = new TestMoverComponent();
+	//modelMan->AddComponent(move);
 
 	// make camera
-	GameObject* camGo = scene->CreateGameObject("Camera");
-	CameraComponent* camera = new CameraComponent();
+	GameObject_ptr camGo = scene->CreateGameObject("Camera");
+	std::shared_ptr<CameraComponent> camera(new CameraComponent());
 	camGo->AddComponent(camera);
-	//FreeLookCameraController* moving = new  FreeLookCameraController();
-	//camGo->AddComponent(moving);
+	std::shared_ptr<FreeLookCameraController> moving(new FreeLookCameraController());
+	camGo->AddComponent(moving);
 
 	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
 	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));

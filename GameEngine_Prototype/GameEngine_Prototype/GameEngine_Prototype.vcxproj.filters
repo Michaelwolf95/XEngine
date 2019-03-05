@@ -64,14 +64,26 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets">
-      <UniqueIdentifier>{2779880a-cc6d-43f5-bfdf-13a35e23bfd6}</UniqueIdentifier>
+    <Filter Include="Header Files\Serialization">
+      <UniqueIdentifier>{9d6c3ad4-4126-4a93-ac1d-acfd9c938661}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\3Dmodel">
-      <UniqueIdentifier>{dcf600aa-08b0-4f8e-b0fb-6550c23008ec}</UniqueIdentifier>
+    <Filter Include="Header Files\Editor">
+      <UniqueIdentifier>{c08ffcf9-03c1-4886-90a2-16d8829d28c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\3Dmodel\nanosuit">
-      <UniqueIdentifier>{36a84c9c-6059-4270-85f0-b9f4633f4622}</UniqueIdentifier>
+    <Filter Include="Source Files\Editor">
+      <UniqueIdentifier>{f12a5083-df30-4637-b909-5b4b35c8675b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{783c6fea-950c-4b5f-9077-edb28dc9fbf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{9a6c88b3-f6d0-4b63-80d8-faa09f9fcd4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Analytics">
+      <UniqueIdentifier>{10826179-dbb5-497b-af3a-2d98ee13ded6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Analytics">
+      <UniqueIdentifier>{74d16c14-a93b-4241-92c1-818e696a07fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,17 +186,26 @@
     <ClCompile Include="ExampleRotator_James.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectAnalytic.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="SceneEditor.cpp">
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="GameComponentAnalytic.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PrimitiveModels.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Analytics.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Analytics</Filter>
     </ClCompile>
-    <ClCompile Include="ModelComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+    <ClCompile Include="GameComponentAnalytic.cpp">
+      <Filter>Source Files\Analytics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectAnalytic.cpp">
+      <Filter>Source Files\Analytics</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Rendering</Filter>
@@ -260,12 +281,6 @@
     <ClInclude Include="ConsoleThread.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScenes_Michael.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="TestScenes_Tam.h">
       <Filter>Test Scenes</Filter>
     </ClInclude>
@@ -311,17 +326,32 @@
     <ClInclude Include="ExampleRotator_James.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectAnalytic.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Serialization.h">
+      <Filter>Header Files\Serialization</Filter>
     </ClInclude>
-    <ClInclude Include="GameComponentAnalytic.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GLM_Serialize.h">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Analytics.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Analytics</Filter>
     </ClInclude>
-    <ClInclude Include="ModelComponent.h">
-      <Filter>Header Files\Components</Filter>
+    <ClInclude Include="GameComponentAnalytic.h">
+      <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectAnalytic.h">
+      <Filter>Header Files\Analytics</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Rendering</Filter>
@@ -364,80 +394,11 @@
     <None Include="..\Settings\AppConfig.json">
       <Filter>Settings</Filter>
     </None>
-    <None Include="..\Assets\3Dmodel\nanosuit\nanosuit.blend">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </None>
-    <None Include="..\Assets\3Dmodel\nanosuit\nanosuit.mtl">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </None>
-    <None Include="..\Shaders\3Dmodel.vs">
+    <None Include="..\Shaders\billboardSprite.fs">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Shaders\3Dmodel.fs">
+    <None Include="..\Shaders\billboardSprite.vs">
       <Filter>Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Assets\3Dmodel\nanosuit\arm_dif.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\arm_showroom_ddn.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\arm_showroom_spec.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\body_dif.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\body_showroom_ddn.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\body_showroom_spec.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\glass_ddn.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\glass_dif.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\hand_dif.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\hand_showroom_ddn.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\hand_showroom_spec.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_diff.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_showroom_ddn.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\helmet_showroom_spec.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\leg_dif.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\leg_showroom_ddn.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-    <Image Include="..\Assets\3Dmodel\nanosuit\leg_showroom_spec.png">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Assets\3Dmodel\nanosuit\LICENSE.txt">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\Assets\3Dmodel\nanosuit\nanosuit.obj">
-      <Filter>Assets\3Dmodel\nanosuit</Filter>
-    </Object>
   </ItemGroup>
 </Project>

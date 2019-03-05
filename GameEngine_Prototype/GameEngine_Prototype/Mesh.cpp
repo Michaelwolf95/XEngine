@@ -40,7 +40,6 @@ Mesh::~Mesh()
 
 void Mesh::Setup()
 {
-	cout << "SETUP-MESH" << endl;
 	// create buffersmaterial	
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -78,7 +77,6 @@ void Mesh::Setup()
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
 	glBindVertexArray(0);
-	cout << "END SETUP-MESH" << endl;
 }
 
 

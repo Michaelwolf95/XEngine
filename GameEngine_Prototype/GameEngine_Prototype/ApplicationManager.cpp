@@ -74,6 +74,7 @@ int ApplicationManager::Init()
 	// Set input mode (This should go into the Input manager class)
 	//glfwSetInputMode(APP_WINDOW, GLFW_STICKY_KEYS, 2);
 
+	ConfigureWindowLayout();
 
 	isInitialized = true;
 	return 0;
@@ -110,6 +111,16 @@ void ApplicationManager::CloseApplication()
 	glfwTerminate();
 }
 
+bool ApplicationManager::IsEditMode()
+{
+	return isEditMode;
+}
+
+void ApplicationManager::SetEditMode(bool mode)
+{
+	isEditMode = mode;
+}
+
 GLFWwindow* ApplicationManager::CreateAppWindow()
 {
 	// glfw window creation
@@ -127,6 +138,7 @@ GLFWwindow* ApplicationManager::CreateAppWindow()
 	}
 	glfwMakeContextCurrent(APP_WINDOW);
 	glfwSetFramebufferSizeCallback(APP_WINDOW, framebuffer_size_callback);
+
 	return APP_WINDOW;
 }
 
@@ -152,7 +164,7 @@ void ApplicationManager::LoadAppConfig()
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Problem loading file." << std::endl;
+		std::cout << "ERROR: Problem loading AppConfig.json." << std::endl;
 	}
 }
 
@@ -160,7 +172,7 @@ void ApplicationManager::SaveAppConfig()
 {
 	try
 	{
-		std::string appConfigPath = std::string(APP_CONFIG_DATA_PATH) + "AppConfig.json";
+		std::string appConfigPath = std::string(APP_CONFIG_FILE_PATH) + "AppConfig.json";
 
 		std::ofstream file(appConfigPath);
 
@@ -178,6 +190,26 @@ void ApplicationManager::SaveAppConfig()
 	{
 		std::cout << "ERROR: Problem saving to file." << std::endl;
 	}
+}
+
+void ApplicationManager::ConfigureWindowLayout()
+{
+	// Set position and size of console.
+	int border_thickness = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CYCAPTION);
+	RECT screenDimensions; //Without Taskbar
+	BOOL fResult = SystemParametersInfo(SPI_GETWORKAREA, 0, &screenDimensions, 0);
+	HWND console = GetConsoleWindow();
+	int consoleWidth = 600;
+	int consoleHeight = screenDimensions.bottom - border_thickness;
+	int consoleX = 0;
+	int consoleY = 0;// border_thickness;
+	MoveWindow(console, consoleX, consoleY, consoleWidth, consoleHeight, TRUE);
+
+
+	// Set position of window.
+	int appPosX = consoleWidth;
+	int appPosY = border_thickness; // border_thickness
+	glfwSetWindowPos(APP_WINDOW, appPosX, appPosY);
 }
 
 

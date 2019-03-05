@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+//#include "PrimitiveModels.h"
 
 class GameObjectAnalytic :
 	public Component

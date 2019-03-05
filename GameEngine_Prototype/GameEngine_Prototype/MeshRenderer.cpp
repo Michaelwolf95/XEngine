@@ -43,7 +43,6 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Setup()
 {
-	cout << "loadModel" << endl;
 	// read file using ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -60,33 +59,15 @@ void MeshRenderer::Setup()
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
 
-	std::cout << "Has Material? : " << scene->HasMaterials() << endl;
-	std::cout << "Has Meshes? : " << scene->HasMeshes() << endl;
-	std::cout << "Has Textures? : " << scene->HasTextures() << endl;
 
-
-	// add meshes to rendermanager
-	for (unsigned int i = 0; i < meshes.size(); i++)
-	{
-		cout << "Mesh ADDRESS:" << &meshes[i] << endl;
-		//RenderManager::getInstance().AddRenderable(&meshes[i]); /// test mesh material address 
-		
-		//meshes[i].Draw();
-		//cout << "Material ADDRESS:" << RenderableObject::material << endl;
-		//cout << i << endl;
-	}
-
-	cout << "end loadModel" << endl;
 }
 
 void MeshRenderer::Draw()
 {
-	cout << "DRAW-MODEL" << endl;
 
 	
 	//if (gameObject == nullptr) return;
 
-	//View & projection from RenderManager, which uses active camera.
 	
 	// This was the error
 	glm::mat4 view = RenderManager::getInstance().getView();
@@ -100,11 +81,8 @@ void MeshRenderer::Draw()
 	material->shader->setMat4("model", model);
 	
 	
-	cout << meshes.size() << endl;
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
-		cout << i << endl;
-		cout << "Mesh ADDRESS:" << &meshes[i] << endl;
 		// texture variables
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
@@ -145,10 +123,7 @@ void MeshRenderer::Draw()
 		// default once configured
 		glActiveTexture(GL_TEXTURE0);
 
-		cout << "END DRAW-MESH" << endl;
 	}
-	
-	cout << "END DRAW-MODEL" << endl;
 }
 
 void MeshRenderer::Start()
@@ -163,7 +138,6 @@ void MeshRenderer::Update()
 // process each node and its children node recursively
 void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 {
-	cout << "processNode" << endl;
 
 	// process each mesh at current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -178,13 +152,10 @@ void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 		processNode(node->mChildren[i], scene);
 	}
 
-	cout << "END processNode" << endl;
 }
 
 Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 {
-	cout << "processMesh" << endl;
-
 	// data of the meshes
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
@@ -280,7 +251,7 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 	// 4.height maps
 	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-	cout << "ENd processMesh" << endl;
+
 	// return mesh object from extracted mesh data
 	return Mesh(vertices, indices, textures);// :RenderableObject();
 }
@@ -288,7 +259,6 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 // checl material textures of a given type and loads texture if not loaded yet
 vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
 {
-	cout << "loadMaterialTextures" << endl;
 
 	vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -320,7 +290,6 @@ vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
 			// so we dont load duplicate textures
 			textures_loaded.push_back(texture);
 		}
-		cout << "end loadMaterialTextures" << endl;
 		return textures;
 	}
 
@@ -328,12 +297,10 @@ vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
 
 unsigned int MeshRenderer::TextureFromFile(const char * path, const string &directory, bool gamma)
 {
-	cout << "textureFromFile" << endl;
 
 	string filename = string(path);
 	filename = directory + '/' + filename;
 
-	cout << filename << endl;
 
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
@@ -368,7 +335,6 @@ unsigned int MeshRenderer::TextureFromFile(const char * path, const string &dire
 		std::cout << "Texture failed to load at path: " << path << std::endl;
 		stbi_image_free(data);
 	}
-	cout << "end textureFromFile" << endl;
 	return textureID;
 }
 void MeshRenderer::OnDrawGizmos()
