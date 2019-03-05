@@ -65,20 +65,22 @@ void SimpleModelComponent::Draw()
 	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
 	material->shader->setMat4("projection", projection);
 
+	material->shader->setFloat("constant", 1.0f);
+	material->shader->setFloat("linear", 0.1f);
+	material->shader->setFloat("quadratic", 0.3f);
+
 	if (material->useLight)
 	{
 		// Get ONE light for now.
 		int i = 0;
 		material->shader->setInt("numLights", RenderManager::getInstance().lights.size());
+		material->shader->setVec3("viewPos", RenderManager::getInstance().getCurrentCamera()->getPosition()); // TODO: not working properly
 		for (Light* light : RenderManager::getInstance().lights)
 		{
 			std::string strLights = "lights[]";
 			std::string strLightsPos = "lightsPos[]";
 			strLights.insert(7, std::to_string(i));
 			strLightsPos.insert(10, std::to_string(i));
-			//std::cout << strLights << " , " << strLightsPos << std::endl;
-			//material->shader->setVec3("lightColor", light->getLightColor());
-			//material->shader->setVec3("lightPos", light->getLightPos());
 			material->shader->setVec3(strLights, light->getLightColor());
 			material->shader->setVec3(strLightsPos, light->getLightPos());
 			i++;

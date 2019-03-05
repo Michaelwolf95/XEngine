@@ -177,6 +177,12 @@
     <ClCompile Include="AutoMover.cpp">
       <Filter>Source Files\Components\Testers</Filter>
     </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalLightComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -307,6 +313,12 @@
     </ClInclude>
     <ClInclude Include="AutoMover.h">
       <Filter>Header Files\Components\Testers</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalLightComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

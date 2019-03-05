@@ -29,5 +29,10 @@ mat4 CameraComponent::getView()
 	//return (gameObject->transform->getMatrix4x4());
 }
 
+vec3 CameraComponent::getPosition()
+{
+	return gameObject->transform->getPosition();
+}
+
 void CameraComponent::Start() {}
 void CameraComponent::Update() {}

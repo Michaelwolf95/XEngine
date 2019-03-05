@@ -16,6 +16,7 @@ public:
 	~CameraComponent();
 	mat4 getProjection() override;
 	mat4 getView() override;
+	vec3 getPosition() override; // added by dennis // why can't I access game object from Component class to access transform?
 	void Start() override;
 	void Update() override;
 };

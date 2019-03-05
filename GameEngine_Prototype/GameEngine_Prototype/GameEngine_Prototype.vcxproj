@@ -159,6 +159,8 @@
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
+    <ClCompile Include="GlobalLightComponent.cpp" />
+    <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -199,6 +201,8 @@
     <ClInclude Include="ExampleRotator_James.h" />
     <ClInclude Include="GameComponentAnalytic.h" />
     <ClInclude Include="GameObjectAnalytic.h" />
+    <ClInclude Include="GlobalLightComponent.h" />
+    <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="PrimitiveModels.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
