@@ -49,6 +49,25 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Setup()
 {
+	if (isSetup)
+	{
+		return;
+	}
+	//std::cout << "Setting up SimpleModelComponent." << std::endl;
+	render_enabled = true;
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+
+	if (material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+	}
+	else
+	{
+
+	}
+
+	isSetup = true;
+
 	// read file using ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);

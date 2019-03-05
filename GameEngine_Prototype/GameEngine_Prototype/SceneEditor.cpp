@@ -8,6 +8,7 @@
 #include "TestMoverComponent.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
+#include "MeshRenderer.h"
 //TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
 //#include <boost/filesystem.hpp>
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
@@ -244,6 +245,12 @@ void SceneEditor::UpdateEditor()
 				//	CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
 				//testModel->Setup();
 				//go->AddComponent(testModel);
+
+				Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
+				Material* modelMaterial = new Material(modelShader);
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/Crate/Crate1.obj", modelMaterial);
+				go->AddComponent(modelNano);
 
 				selectedGameObject = go;
 				//go->AddComponent(new TestMoverComponent());

@@ -56,6 +56,7 @@ class MeshRenderer: public RenderableObject, public Component
 
 	private:
 		//Material* _material;
+		bool isSetup = false;
 
 		void processNode(aiNode *node, const aiScene *scene);
 		Mesh processMesh(aiMesh *mesh, const aiScene *scene);
@@ -64,12 +65,13 @@ class MeshRenderer: public RenderableObject, public Component
 
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
-			template<class Archive>
+		template<class Archive>
 		void save(Archive & ar, const unsigned int version) const
 		{
 			//// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
+
 
 		}
 		template<class Archive>
