@@ -28,6 +28,7 @@ int main()
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
 	SceneEditor::CreateManager();
+	AssetManager::CreateManager();
 
 	// Create & Load Scene
 	//RunTestScene();
