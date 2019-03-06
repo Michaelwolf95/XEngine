@@ -71,7 +71,7 @@ class MeshRenderer: public RenderableObject, public Component
 			//// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-
+			ar & BOOST_SERIALIZATION_NVP(material);
 
 		}
 		template<class Archive>
@@ -80,6 +80,7 @@ class MeshRenderer: public RenderableObject, public Component
 			// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
+			ar & BOOST_SERIALIZATION_NVP(material);
 			Setup();
 		}
 };

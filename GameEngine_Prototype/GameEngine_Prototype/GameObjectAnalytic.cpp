@@ -28,8 +28,8 @@ void GameObjectAnalytic::Start()
 
 
 	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-	Shader* modelShader = new Shader("model.vs", "model.fs");
-	Material* modelMaterial = new Material(modelShader);
+	//Shader* modelShader = new Shader("model.vs", "model.fs");
+	Material* modelMaterial = new Material("model.vs", "model.fs");
 	modelMaterial->LoadTexture("textures/container.jpg"); //change model here if needed for different test
 
 	int range = 10;
