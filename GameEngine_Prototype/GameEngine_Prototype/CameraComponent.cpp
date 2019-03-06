@@ -46,11 +46,11 @@ glm::mat4 __stdcall CameraComponent::getView()
 
 	return view;
 }
-
-vec3 CameraComponent::getPosition()
-{
-	return gameObject->transform->getPosition();
-}
+//
+//glm::vec3 CameraComponent::getPosition()
+//{
+//	return gameObject->transform->getPosition();
+//}
 
 void CameraComponent::Start() {}
 void CameraComponent::Update() {}

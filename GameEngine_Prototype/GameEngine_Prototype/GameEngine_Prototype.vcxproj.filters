@@ -213,6 +213,15 @@
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalLightComponent.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoMover.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -359,6 +368,15 @@
     <ClInclude Include="TestScenes.h">
       <Filter>Test Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalLightComponent.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoMover.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
@@ -404,6 +422,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\3Dmodel.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

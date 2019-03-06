@@ -171,6 +171,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="AutoMover.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
@@ -181,8 +182,10 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
+    <ClCompile Include="GlobalLightComponent.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="PrimitiveModels.cpp" />
     <ClCompile Include="SceneEditor.cpp" />
     <ClCompile Include="TransformTester.cpp" />
@@ -215,6 +218,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioEngine.h" />
+    <ClInclude Include="AutoMover.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSwapper.h" />
@@ -227,8 +231,10 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="GameComponentAnalytic.h" />
     <ClInclude Include="GameObjectAnalytic.h" />
     <ClInclude Include="GLM_Serialize.h" />
+    <ClInclude Include="GlobalLightComponent.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="PrimitiveModels.h" />
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="Serialization.h" />
@@ -274,6 +280,8 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\diffuse.vs" />
     <None Include="..\Shaders\model.fs" />
     <None Include="..\Shaders\model.vs" />
+    <None Include="..\Shaders\multilights.fs" />
+    <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
   </ItemGroup>

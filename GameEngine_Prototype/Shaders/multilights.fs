@@ -76,6 +76,7 @@ void main()
     // diffuse 
     vec3 norm = normalize(Normal);
 
+    //vec3 viewPos = vec3(
     vec3 viewDir = normalize(viewPos - FragPos); // TODO: assign viewPos. Currently nothing inputted
 
     vec3 result = vec3(0.0f);
