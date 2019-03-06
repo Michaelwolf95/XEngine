@@ -1,10 +1,11 @@
 #include "LightComponent.h"
 #include "GameObject.h"
 
-LightComponent::LightComponent(glm::vec3 _color, float _intensity) : Light::Light()
+LightComponent::LightComponent(glm::vec3 _color, float _intensity, int typeID) : Light::Light()
 {
 	color = _color;
 	intensity = _intensity;
+	TYPE_ID = typeID;
 }
 
 void LightComponent::Start() {}
@@ -18,6 +19,11 @@ glm::vec3 LightComponent::getLightColor()
 glm::vec3 LightComponent::getLightPos()
 {
 	return gameObject->transform->getPosition();
+}
+
+int LightComponent::getTypeID()
+{
+	return TYPE_ID;
 }
 
 float LightComponent::getIntensity() {

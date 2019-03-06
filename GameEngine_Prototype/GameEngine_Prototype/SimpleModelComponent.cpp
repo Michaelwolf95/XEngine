@@ -3,11 +3,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <typeinfo>
+
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
-#include "LightComponent.h"
+//#include "LightComponent.h"
+#include "PointLightComponent.h"
+#include "GlobalLightComponent.h"
 
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
@@ -66,30 +70,43 @@ void SimpleModelComponent::Draw()
 	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
 	material->shader->setMat4("projection", projection);
 
-	material->shader->setFloat("constant", 1.0f);
-	material->shader->setFloat("linear", 0.1f);
-	material->shader->setFloat("quadratic", 0.3f);
-
 	if (material->useLight)
 	{
 		int i = 0;
+		int pointLightCount = 0;
+		int globalLightCount = 0;
+		int spotLightCount = 0;
 		material->shader->setInt("numLights", RenderManager::getInstance().lights.size());
 		material->shader->setVec3("viewPos", RenderManager::getInstance().getCurrentCamera()->getPosition()); // TODO: not working properly
 		for (Light* light : RenderManager::getInstance().lights)
 		{
-			std::string strLights = "lights[]";
-			std::string strLightsPos = "lightsPos[]";
-			std::string strLightInt =  "lightIntensities[]";
-			strLights.insert(7, std::to_string(i));
-			strLightsPos.insert(10, std::to_string(i));
-			strLightInt.insert(17, std::to_string(i));
-			std::cout << "strLightInt == " << strLightInt << std::endl;
-			std::cout << "intensity == " << ((LightComponent *)light)->getIntensity() << std::endl;
-			material->shader->setVec3(strLights, light->getLightColor());
-			material->shader->setVec3(strLightsPos, light->getLightPos());
-			material->shader->setFloat(strLightInt, ((LightComponent *)light)->getIntensity());
+			std::string strPointLights = "pointLights[]";
+			std::string strGlobalLights = "globalLights[]";
+
+			strPointLights.insert(12, std::to_string(pointLightCount));
+			strGlobalLights.insert(13, std::to_string(globalLightCount));
+
+			if (light->getTypeID() == PointLightComponent::TYPE_ID) {
+				material->shader->setVec3(strPointLights + ".color", light->getLightColor());
+				material->shader->setVec3(strPointLights + ".position", light->getLightPos());
+				material->shader->setFloat(strPointLights + ".intensity", ((LightComponent *)light)->getIntensity());
+				material->shader->setFloat(strPointLights + ".constant", ((PointLightComponent *)light)->getConstant());
+				material->shader->setFloat(strPointLights + ".linear", ((PointLightComponent *)light)->getLinear());
+				material->shader->setFloat(strPointLights + ".quadratic", ((PointLightComponent *)light)->getQuadratic());
+				pointLightCount++;
+			}
+
+			if (light->getTypeID() == GlobalLightComponent::TYPE_ID) {
+				material->shader->setVec3(strGlobalLights + ".color", light->getLightColor());
+				material->shader->setVec3(strGlobalLights + ".position", light->getLightPos());
+				material->shader->setFloat(strGlobalLights + ".intensity", ((LightComponent *)light)->getIntensity());
+				material->shader->setVec3(strGlobalLights+ ".direction", ((GlobalLightComponent *)light)->getDirection());
+				globalLightCount++;
+			}
 			i++;
 		}
+		material->shader->setInt("numPointLights", pointLightCount);
+		material->shader->setInt("numGlobalLights", globalLightCount);
 		//material->shader->setMat3
 	}
 

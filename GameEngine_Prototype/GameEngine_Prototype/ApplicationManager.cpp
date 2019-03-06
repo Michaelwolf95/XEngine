@@ -132,7 +132,7 @@ GLFWwindow* ApplicationManager::CreateAppWindow()
 
 void ApplicationManager::LoadAppConfig()
 {
-	std::string appConfigPath = std::string(APP_CONFIG_FILE_PATH) + "AppConfig.json";
+	std::string appConfigPath = std::string(APP_CONFIG_DATA_PATH) + "AppConfig.json";
 
 	try
 	{

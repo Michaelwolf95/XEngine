@@ -6,6 +6,7 @@
 class PointLightComponent : public LightComponent
 {
 public:
+	static const int TYPE_ID = 1;
 	//glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 	//float intensity = 1.0f;
 	// position is a function of transform component
@@ -18,5 +19,8 @@ public:
 	void Update() override;
 	glm::vec3 getLightColor() override;
 	glm::vec3 getLightPos() override;
+	float getConstant();
+	float getLinear();
+	float getQuadratic();
 };
 

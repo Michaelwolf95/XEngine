@@ -3,12 +3,11 @@
 //class GameObject;
 
 PointLightComponent::PointLightComponent(glm::vec3 _color, float _intensity) 
-	: LightComponent::LightComponent(_color, _intensity)
+	: LightComponent::LightComponent(_color, _intensity, TYPE_ID)
 {
 	//color = _color;
 	//intensity = _intensity;
 	//gameObject = gameObject;
-
 }
 
 void PointLightComponent::Start() {}
@@ -22,4 +21,19 @@ glm::vec3 PointLightComponent::getLightColor()
 glm::vec3 PointLightComponent::getLightPos()
 {
 	return this->gameObject->transform->getPosition();
+}
+
+float PointLightComponent::getConstant()
+{
+	return constant;
+}
+
+float PointLightComponent::getLinear()
+{
+	return linear;
+}
+
+float PointLightComponent::getQuadratic()
+{
+	return quadratic;
 }
