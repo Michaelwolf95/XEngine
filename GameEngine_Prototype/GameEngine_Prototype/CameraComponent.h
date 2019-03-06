@@ -6,18 +6,39 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
-using namespace glm;
+#include "Shader.h"
+//using namespace glm;
 
 class CameraComponent : public Component, public Camera
 {
 public:
-	mat4 projection = mat4(1.0f);
+	static Registrar<CameraComponent> registrar;
+	glm::mat4 projection = glm::mat4(1.0f);
 	CameraComponent();
 	~CameraComponent();
-	mat4 getProjection() override;
-	mat4 getView() override;
-	vec3 getPosition() override; // added by dennis // why can't I access game object from Component class to access transform?
+	glm::mat4 getProjection() override;
+	glm::mat4 __stdcall getView() override;
 	void Start() override;
 	void Update() override;
+	void OnDrawGizmos() override;
+private:
+	// Render state
+	Shader* shader;
+	GLuint VAO;
+	GLuint VBO;
+	unsigned int textureID;
+	// Initializes and configures the quad's buffer and vertex attributes
+	void initGizmoRenderData();
+
+	friend class boost::serialization::access;
+	template<class Archive>
+	void serialize(Archive &ar, const unsigned int version)
+	{
+		// save/load base class information
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+	}
 };
+// FIRST CLASS IS DEFINING?
+//BOOST_CLASS_EXPORT_GUID(CameraComponent, "CameraComponent")
+
 

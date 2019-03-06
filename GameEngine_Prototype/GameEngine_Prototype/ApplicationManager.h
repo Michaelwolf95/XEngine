@@ -51,15 +51,23 @@ public:
 
 	void CloseApplication();
 
+	bool IsEditMode();
+	void SetEditMode(bool mode);
+
 protected:
 	ApplicationManager();
 private:
 	JSON appSettings;
 	JSON saveSettings;
 	char *tempChar;
+	bool isEditMode = false;
+
+
 
 	GLFWwindow* CreateAppWindow();
 
 	void LoadAppConfig();
 	void SaveAppConfig();
+
+	void ConfigureWindowLayout();
 };

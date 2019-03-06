@@ -1,7 +1,29 @@
 #include "RenderableObject.h"
 #include "RenderManager.h"
 
-RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize, 
+RenderableObject::RenderableObject()
+{
+}
+
+RenderableObject::RenderableObject(Material * _material)
+{
+	render_enabled = true;
+	if (_material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+	}
+	else
+	{
+		material = _material;
+	}
+
+	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
+	std::cout << "Created Object with shader ID: " << material->shader->ID << std::endl;
+
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+}
+
+RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize,
 	unsigned int* ind, unsigned int numInd, Material* _material)
 {
 	vertices = verts;
@@ -9,7 +31,7 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	vertexDataSize = vertDataSize;
 	indices = ind;
 	numIndices = numInd;
-	enabled = true;
+	render_enabled = true;
 	if (_material == nullptr)
 	{
 		material = RenderManager::defaultMaterial;
@@ -31,6 +53,8 @@ RenderableObject::~RenderableObject()
 	glDeleteVertexArrays(1, &(VAO));
 	glDeleteBuffers(1, &(VBO));
 	glDeleteBuffers(1, &(EBO));
+
+	//RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 }
 
 void RenderableObject::Setup()
@@ -75,7 +99,7 @@ void RenderableObject::Setup()
 void RenderableObject::Draw()
 {
 	//std::cout << "RenderableObject.Draw()" << std::endl;
-	if (enabled)
+	if (render_enabled)
 	{
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);

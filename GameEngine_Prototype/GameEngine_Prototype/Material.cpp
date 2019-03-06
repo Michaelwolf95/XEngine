@@ -19,11 +19,13 @@ Material::Material(Shader* _shader, bool _useLight)
 
 Material::~Material()
 {
+	shader = RenderManager::defaultShader;
+	useLight = false;
+	Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Material::Load()
 {
-
 	shader->setColor("MainColor", Color.x, Color.y, Color.z, Color.w);
 
 	if (textureID > 0)
@@ -38,5 +40,5 @@ void Material::Load()
 void Material::LoadTexture(const char * _textureFilePath)
 {
 	textureFilePath = _textureFilePath;
-	AssetManager::LoadTexture(textureFilePath, &textureID);
+	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }

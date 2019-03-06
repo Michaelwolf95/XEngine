@@ -8,10 +8,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "SceneManager.h"
 #include "GameObject.h"
+#include "CameraComponent.h"
+#include "Scene.h"
+#include "SceneEditor.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
+Shader* RenderManager::defaultSpriteShader = nullptr;
 
 //TODO: Store this on the Camera.
 glm::vec4 clearColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f );
@@ -31,9 +35,10 @@ int RenderManager::Init()
 
 	currentCamera = nullptr;
 
-	defaultView = new glm::mat4(1.0f);
-	defaultProjection = new glm::mat4(1.0f);
-	*defaultProjection = glm::perspective(glm::radians(45.0f),
+	defaultView = glm::mat4(1.0f);
+	defaultView = glm::rotate((defaultView), glm::radians(180.0f), glm::vec3(0, 1, 0));
+	defaultProjection = glm::mat4(1.0f);
+	defaultProjection = glm::perspective(glm::radians(45.0f),
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
 		0.1f, 100.0f);
 
@@ -48,26 +53,28 @@ int RenderManager::Init()
 void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("model.vs", "model.fs");
-	defaultShader->use();
-	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
-	
 	defaultMaterial = new Material(defaultShader);
 	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+	//defaultMaterial->LoadTexture("textures/container.jpg");
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
-	colorDrawShader->use();
-	colorDrawShader->setColor("MainColor", 1.0f, 1.0f, 1.0f, 1.0f); // White
+
+	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 }
 
 glm::mat4 RenderManager::getView()
 {
-	if (currentCamera != nullptr)
+	//OutputDebugStringW(L"Getting View...\n");
+	//std::cout << "Getting View..." << std::endl;
+	if (currentCamera != nullptr && currentCamera != NULL)
 	{
-		return currentCamera->getView();
+		//std::cout << typeid(currentCamera).name() << std::endl;
+		glm::mat4 view = currentCamera->getView();
+		return view;
 	}
-	return *defaultView;
+	return defaultView;
 }
 
 glm::mat4 RenderManager::getProjection()
@@ -76,15 +83,15 @@ glm::mat4 RenderManager::getProjection()
 	{
 		return currentCamera->getProjection();
 	}
-	return *defaultProjection;
+	return defaultProjection;
 }
 
-Camera * RenderManager::getCurrentCamera()
+Camera* RenderManager::getCurrentCamera()
 {
 	return currentCamera;
 }
 
-void RenderManager::setCurrentCamera(Camera * cam)
+void RenderManager::setCurrentCamera(Camera* cam)
 {
 	std::cout << "Setting Current Cam: " << cam << std::endl;
 	if (currentCamera != cam)
@@ -105,23 +112,30 @@ void RenderManager::Render()
 	//  Loop through and render all renderables
 	for (size_t i = 0; i < currentRenderables.size(); i++)
 	{
-		RenderObject(currentRenderables[i]);
+		if(currentRenderables[i] != nullptr)
+			RenderObject(currentRenderables[i]);
 	}
 
 	// TODO: Make it a global option of whether we draw gizmos or not.
 	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
 	// Draw Gizmos
-	for (GameObject* go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
+	if (SceneManager::getInstance().GetActiveScene() != nullptr && SceneManager::getInstance().GetActiveScene()->isLoaded)
 	{
-		for (Component* c : go->components)
+		for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
 		{
-			c->OnDrawGizmos();
+			for (Component_ptr c : go->components)
+			{
+				c->OnDrawGizmos();
+			}
 		}
 	}
+#ifdef X_EDIT_MODE
+	SceneEditor::getInstance().DrawEditorGizmos();
+#endif
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
-	if (renderable->enabled == false)
+	if (renderable->render_enabled == false)
 	{
 		// Don't render anything
 		return;
@@ -130,7 +144,7 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	// TODO: Optimize draw calls by rendering all objects that use the same shader at once.
 	
 	// Start the shader
-	if (currentShaderID != renderable->material->shader->ID)
+	//if (currentShaderID != renderable->material->shader->ID) // DISABLED CHECK FOR NOW
 	{
 		//std::cout << "Swapping material" << std::endl;
 		renderable->material->shader->use();
@@ -163,9 +177,30 @@ void RenderManager::FreeObjectResources(RenderableObject* renderable)
 	glDeleteBuffers(1, &(renderable->EBO));
 }
 
+void RenderManager::FindCameraInScene(Scene* scene)
+{
+	// Init Camera for RenderManager
+	CameraComponent* camera = nullptr;
+	for (GameObject_ptr go : scene->rootGameObjects)
+	{
+		// Finds the first object of the type CameraComponent
+		// Just checks roots for now. - change to search all later.
+		if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
+		{
+			setCurrentCamera((CameraComponent*)camera);
+			break;
+		}
+	}
+}
+
 void RenderManager::AddRenderable(RenderableObject* renderable)
 {
-	currentRenderables.push_back(renderable);
+	// If vector does not contain it, add it.
+	auto n = std::find(currentRenderables.begin(), currentRenderables.end(), renderable);
+	if (n == currentRenderables.end())
+	{
+		currentRenderables.push_back(renderable);
+	}
 }
 void RenderManager::RemoveRenderable(RenderableObject* renderable)
 {
@@ -209,7 +244,7 @@ void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int s
 	//std::cout << color.b << std::endl;
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::vec3 point3 = vec3(point.x, point.y, 0.2);
+	glm::vec3 point3 = glm::vec3(point.x, point.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, point3);
 	glm::mat4 view(1.0);
@@ -272,7 +307,7 @@ void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm:
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::vec3 point3 = vec3(point1.x, point1.y, 0.2);
+	glm::vec3 point3 = glm::vec3(point1.x, point1.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, point3);
 	glm::mat4 view(1.0);

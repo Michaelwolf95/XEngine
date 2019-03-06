@@ -42,6 +42,7 @@ private:
 	bool mouseIdle = true;
 	bool firstMouse = true;
 	bool isCursorEnabled;
+	bool scrollUpdated = false;
 	double xPosLast;
 	double yPosLast;
 	double xPos; // TODO: Discuss why we should use 64bit double over 32bit float
@@ -79,6 +80,7 @@ public:
 	static Input* CreateManager();
 	// Update keys for each frame.
 	void UpdateInput();
+	void EndUpdateFrame();
 	~Input();
 
 	/// API calls below

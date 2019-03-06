@@ -44,6 +44,22 @@ void Input::UpdateInput()
 	checkKeyInputs();
 
 	mouseIdle = true;
+
+	if (scrollUpdated == false)
+	{
+		yScrollOffset = 0;
+		xScrollOffset = 0;
+	}
+	scrollUpdated = false;
+}
+
+void Input::EndUpdateFrame()
+{
+	//std::cout << mouse[GLFW_MOUSE_BUTTON_RIGHT].isButtonPressed << ", " << mouse[GLFW_MOUSE_BUTTON_RIGHT].wasPressed << std::endl;
+	for (int i = 0; i < m_arr_sz; i++)
+	{
+		mouse[i].wasPressed = mouse[i].isPressed;
+	}
 }
 
 void Input::_mouse_callback(double xpos, double ypos)
@@ -58,6 +74,8 @@ void Input::_mouse_callback(double xpos, double ypos)
 		mouseIdle = true;
 	}
 
+	//xDeltaPos = xpos - xPos;  
+	//yDeltaPos = yPos - ypos; // reversed since y-coordinates go from bottom to top
 	xPos = xpos;
 	yPos = ypos;	
 	mouseIdle = false;
@@ -67,24 +85,30 @@ void Input::_scroll_callback(double xoffset, double yoffset)
 {
 	xScrollOffset = xoffset;
 	yScrollOffset = yoffset;
+	scrollUpdated = true;
 }
 
 void Input::_mouse_button_callback(int button, int action, int mods)
 {
-	for (int i = 0; i < m_arr_sz; i++)
+	if (action == GLFW_PRESS)
 	{
-		mouse[i].wasPressed = mouse[i].isPressed;
-
-		if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) 
-			== GLFW_PRESS && mouse[i].isPressed == false)
-		{
-			mouse[i].isPressed = true;
-		}
-		else if (mouse[i].isPressed == true)
-		{
-			mouse[i].isPressed = false;
-		}
+		mouse[button].isPressed = true;
 	}
+	else if (action == GLFW_RELEASE)
+	{
+		mouse[button].isPressed = false;
+	}
+
+	//	if (glfwGetMouseButton(ApplicationManager::getInstance().APP_WINDOW, i) == GLFW_PRESS 
+	//		)//&& mouse[i].isButtonPressed == false)
+	//	{
+	//		mouse[i].isButtonPressed = true;
+	//	}
+	//	else if (mouse[i].isButtonPressed == true)
+	//	{
+	//		mouse[i].isButtonPressed = false;
+	//	}
+	//}
 }
 
 // glfw: whenever the mouse moves, this callback is called
@@ -137,11 +161,12 @@ bool Input::GetMouseButtonUp(int glfw_mouse_button)
 double Input::GetScrollOffsetX()
 {
 	return Input::getInstance().xScrollOffset;
+	//return Input::getInstance().GetScrollOffsetX();// xScrollOffset;
 }
 
 double Input::GetScrollOffsetY()
 {
-	return Input::getInstance().yScrollOffset;
+	return Input::getInstance().yScrollOffset;//yScrollOffset;
 }
 
 double Input::GetMousePosX()
@@ -203,8 +228,7 @@ void Input::checkKeyInputs()
 		{
 			keys[i].isPressed = false;
 		}
-		// Skips a large set of unused keys. Saves a lot of CPU time.
-		if (i == 96) i = 255; 
+		if (i == 96) i = 255; // Skips a large set of unused keys. Saves a lot of CPU time.
 	}	
 
 }
