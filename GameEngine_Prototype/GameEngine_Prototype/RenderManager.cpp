@@ -18,7 +18,7 @@ Shader* RenderManager::colorDrawShader = nullptr;
 Shader* RenderManager::defaultSpriteShader = nullptr;
 
 //TODO: Store this on the Camera.
-glm::vec4 clearColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f );
+glm::vec4 clearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f );
 
 // Create static instance
 RenderManager* RenderManager::CreateManager()
