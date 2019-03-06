@@ -53,7 +53,8 @@ int RenderManager::Init()
 void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("model.vs", "model.fs");
-	defaultMaterial = new Material(defaultShader);
+	defaultMaterial = new Material("model.vs", "model.fs");
+	//defaultMaterial = new Material(defaultShader);
 	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	//defaultMaterial->LoadTexture("textures/container.jpg");
 
