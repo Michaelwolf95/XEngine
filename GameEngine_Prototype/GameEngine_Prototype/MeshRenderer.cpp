@@ -364,5 +364,5 @@ unsigned int MeshRenderer::TextureFromFile(const char * path, const string &dire
 }
 void MeshRenderer::OnDrawGizmos()
 {
-	gameObject->transform->DrawGizmo();
+	//gameObject->transform->DrawGizmo();
 }

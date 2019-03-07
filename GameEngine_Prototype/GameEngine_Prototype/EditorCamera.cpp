@@ -127,7 +127,7 @@ void EditorCamera::Update()
 				//direction.y -= deltaXRot;
 				//gameObject->transform->LookAt(gameObject->transform->getPosition() - direction);
 
-				localRot = glm::vec3(localRot.x + deltaYRot, localRot.y - deltaXRot, localRot.z);
+				localRot = glm::vec3(localRot.x + deltaXRot, localRot.y - deltaYRot, localRot.z);
 				gameObject->transform->setLocalRotationEuler(localRot);
 			}
 			else
