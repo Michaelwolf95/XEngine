@@ -12,6 +12,8 @@
 #include <glm/gtx/transform.hpp>
 #include "RenderManager.h"
 #include "DebugUtility.h"
+
+//#include "imgui.h"
 using namespace glm;
 
 BOOST_CLASS_EXPORT_GUID(Transform, "Transform")
@@ -505,6 +507,28 @@ void Transform::DrawGizmo()
 	RenderManager::DrawWorldSpaceLine(pos + right*sL, pos + (right+forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
 	RenderManager::DrawWorldSpaceLine(pos + forward*sL, pos + (right + forward)*sL, vec4(0.5, 0.5, 0.5, 1), 3);
 
+}
+
+void Transform::DrawInspector()
+{
+	glm::vec3 pos = this->getPosition();
+	ImGui::InputFloat3("Position", (float*)&pos);
+	if (pos != this->getPosition())
+	{
+		this->setLocalPosition(pos);
+	}
+	glm::vec3 rot = this->getLocalRotationEuler();
+	ImGui::InputFloat3("Rotation", (float*)&rot);
+	if (rot != this->getLocalRotationEuler())
+	{
+		this->setLocalRotationEuler(rot);
+	}
+	glm::vec3 scale = this->getLocalScale();
+	ImGui::InputFloat3("Scale", (float*)&scale);
+	if (scale != this->getLocalScale())
+	{
+		this->setLocalScale(scale);
+	}
 }
 
 

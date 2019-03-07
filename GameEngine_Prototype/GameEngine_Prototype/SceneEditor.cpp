@@ -240,6 +240,9 @@ void SceneEditor::ExitEditMode()
 		std::cout << "EXITING EDIT MODE =========================" << std::endl;
 		selectedGameObject = nullptr;
 		selectedIndex = -1;
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 		ApplicationManager::getInstance().SetEditMode(false);
 		SceneManager::getInstance().ReloadSceneFromFile();
 	}
@@ -247,19 +250,6 @@ void SceneEditor::ExitEditMode()
 
 void SceneEditor::UpdateEditor()
 {
-	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-
-	editorCameraGameObject->UpdateComponents();
-
-	// GUI ======
-	bool open_dockspace = true;
-	UpdateDockSpace(&open_dockspace);
-	InspectorUpdate();
-	HierarchyUpdate();
-
 	// Swap edit mode
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT))
 		&& (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
@@ -278,6 +268,20 @@ void SceneEditor::UpdateEditor()
 
 	if (ApplicationManager::getInstance().IsEditMode())
 	{
+		// Start the Dear ImGui frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		editorCameraGameObject->UpdateComponents();
+
+		//ImGui::ShowDemoWindow();
+		// GUI ======
+		bool open_dockspace = true;
+		UpdateDockSpace(&open_dockspace);
+		InspectorUpdate();
+		HierarchyUpdate();
+
 		if (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
 		{
 			if (Input::GetKeyDown(GLFW_KEY_S))
@@ -293,16 +297,15 @@ void SceneEditor::UpdateEditor()
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 
 				// Create Box Material
-				//Shader* modelShader = new Shader("model.vs", "model.fs");
-				Material* modelMaterial = new Material("3Dmodel.vs", "3Dmodel.fs");
-				modelMaterial->LoadTexture("textures/container.jpg");
-				std::shared_ptr<SimpleModelComponent> testModel( new SimpleModelComponent(CUBE_VERTS, 36, 5,
-					CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial));
-				testModel->Setup();
-				go->AddComponent(testModel);
+				//Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
+				//modelMaterial->LoadTexture("textures/container.jpg");
+				//std::shared_ptr<SimpleModelComponent> testModel( new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+				//	DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
+				//testModel->Setup();
+				//go->AddComponent(testModel);
 
 				////Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
-				//Material* modelMaterial = new Material("3Dmodel.vs", "3Dmodel.fs");
+				//Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
 				//std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				//go->AddComponent(modelNano);
 
@@ -817,24 +820,7 @@ void SceneEditor::InspectorUpdate()
 		ImGui::Spacing();
 		if (ImGui::CollapsingHeader("Transform"))
 		{
-			glm::vec3 pos = selectedGameObject->transform->getPosition();
-			ImGui::InputFloat3("Position", (float*)&pos);
-			if (pos != selectedGameObject->transform->getPosition())
-			{
-				selectedGameObject->transform->setLocalPosition(pos);
-			}
-			glm::vec3 rot = selectedGameObject->transform->getLocalRotationEuler();
-			ImGui::InputFloat3("Rotation", (float*)&rot);
-			if (rot != selectedGameObject->transform->getLocalRotationEuler())
-			{
-				selectedGameObject->transform->setLocalRotationEuler(rot);
-			}
-			glm::vec3 scale = selectedGameObject->transform->getLocalScale();
-			ImGui::InputFloat3("Scale", (float*)&scale);
-			if (scale != selectedGameObject->transform->getLocalScale())
-			{
-				selectedGameObject->transform->setLocalScale(scale);
-			}
+			selectedGameObject->transform->DrawInspector();
 		}
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
@@ -842,7 +828,7 @@ void SceneEditor::InspectorUpdate()
 			if (ImGui::CollapsingHeader(componentTypeName.c_str()))
 			{
 				//TODO: Add inspector element for every component.
-
+				selectedGameObject->components[i]->DrawInspector();
 			}
 		}
 

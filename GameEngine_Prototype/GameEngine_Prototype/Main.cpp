@@ -24,7 +24,6 @@
 #include "Input.h"
 
 
-
 #ifdef X_EDIT_MODE
 #include "SceneEditor.h"
 #else

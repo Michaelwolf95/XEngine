@@ -18,6 +18,7 @@ public:
 	void Start() override;
 	void Update() override;
 	void OnDrawGizmos() override;	
+	void DrawInspector() override;
 private:
 	bool isSetup = false;
 	friend class boost::serialization::access;
@@ -46,8 +47,8 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(material);
 		//ar & BOOST_SERIALIZATION_NVP(indices);// = ind;
 		//ar & BOOST_SERIALIZATION_NVP(vertices);
-		vertices = CUBE_VERTS;
-		indices = CUBE_INDICES;
+		vertices = DiffusedMappedCube;
+		indices = DiffusedMappedCubeIndices;
 		Setup();
 	}
 };

@@ -5,8 +5,9 @@
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
 
-Material::Material(std::string vertPath, std::string fragPath, bool _useLight)
+Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
+	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
@@ -75,6 +76,49 @@ void Material::LoadTexture(const char * _textureFilePath)
 	textureFilePath = _textureFilePath;
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
+
+void Material::DrawInspector()
+{
+	if (ImGui::TreeNode("Material"))
+	{
+		ImGui::Text(this->name.c_str());
+
+		//bool updated = false;
+		char vertPath[32];
+		strcpy(vertPath, this->vertexShaderPath.c_str());// , );
+		ImGui::InputText("VertPath", vertPath, 32);
+		if (vertPath != this->vertexShaderPath.c_str())
+		{
+			this->vertexShaderPath = vertPath;
+			//updated = true;
+		}
+		char fragPath[48];
+		strcpy(fragPath, this->fragmentShaderPath.c_str());// , );
+		ImGui::InputText("FragPath", fragPath, 32);
+		if (fragPath != this->fragmentShaderPath.c_str())
+		{
+			this->fragmentShaderPath = fragPath;
+		}
+		char texturePath[32];
+		strcpy(texturePath, this->textureFilePath.c_str());
+		ImGui::InputText("TexturePath", texturePath, 32);
+		if (texturePath != this->textureFilePath.c_str())
+		{
+			this->textureFilePath = texturePath;
+		}
+
+		ImGui::Checkbox("Use Light", &useLight);
+
+		if (ImGui::Button("Update"))
+		{
+			isInitialized = false;
+			Init();
+		}
+
+		ImGui::TreePop();
+	}
+}
+
 //
 //std::ostream & operator<<(std::ostream &os, const Material &material)
 //{

@@ -44,7 +44,7 @@ void SimpleModelComponent::Setup()
 	if (material == nullptr)
 	{
 		//material = RenderManager::defaultMaterial;
-		material = new Material("3Dmodel.vs", "3Dmodel.fs");
+		material = new Material("MuliLight Model", "3Dmodel.vs", "3Dmodel.fs");
 		//std::cout << "Material set to default." << std::endl;
 	}
 	else
@@ -170,4 +170,9 @@ void SimpleModelComponent::Update()
 void SimpleModelComponent::OnDrawGizmos()
 {
 	//gameObject->transform->DrawGizmo();
+}
+
+void SimpleModelComponent::DrawInspector()
+{
+	this->material->DrawInspector();
 }

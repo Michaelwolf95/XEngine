@@ -3,6 +3,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <string>
+#include "imgui.h"
 //#include <memory>
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
@@ -27,6 +28,7 @@ public:
 	virtual void Update() = 0;
 	virtual void OnDestroy() {};
 	virtual void OnDrawGizmos() {};
+	virtual void DrawInspector() {};
 private:
 	friend class boost::serialization::access;
 	friend std::ostream & operator<<(std::ostream &os, const Component &comp);

@@ -54,6 +54,8 @@ class MeshRenderer: public RenderableObject, public Component
 		void Update() override;
 		void OnDrawGizmos() override;
 
+		void DrawInspector() override;
+
 	private:
 		//Material* _material;
 		bool isSetup = false;

@@ -18,7 +18,7 @@ Shader* RenderManager::colorDrawShader = nullptr;
 Shader* RenderManager::defaultSpriteShader = nullptr;
 
 //TODO: Store this on the Camera.
-glm::vec4 clearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f );
+glm::vec4 defaultClearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f );
 
 // Create static instance
 RenderManager* RenderManager::CreateManager()
@@ -53,7 +53,7 @@ int RenderManager::Init()
 void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("model.vs", "model.fs");
-	defaultMaterial = new Material("model.vs", "model.fs");
+	defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
 	//defaultMaterial = new Material(defaultShader);
 	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	//defaultMaterial->LoadTexture("textures/container.jpg");
@@ -104,6 +104,7 @@ void RenderManager::setCurrentCamera(Camera* cam)
 void RenderManager::Render()
 {
 	// Render back drop
+	glm::vec4 clearColor = (currentCamera != nullptr) ? currentCamera->clearColor : defaultClearColor;
 	glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

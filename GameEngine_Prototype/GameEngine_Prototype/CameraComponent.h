@@ -14,6 +14,7 @@ class CameraComponent : public Component, public Camera
 public:
 	static Registrar<CameraComponent> registrar;
 	glm::mat4 projection = glm::mat4(1.0f);
+	//glm::vec4 clearColor = glm::vec4(1.0f);
 	CameraComponent();
 	~CameraComponent();
 	glm::mat4 getProjection() override;
@@ -21,6 +22,7 @@ public:
 	void Start() override;
 	void Update() override;
 	void OnDrawGizmos() override;
+	void DrawInspector() override;
 private:
 	// Render state
 	Shader* shader;
@@ -36,6 +38,7 @@ private:
 	{
 		// save/load base class information
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		ar & BOOST_SERIALIZATION_NVP(clearColor);
 	}
 };
 // FIRST CLASS IS DEFINING?

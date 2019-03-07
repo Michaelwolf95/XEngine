@@ -24,6 +24,7 @@ EditorCamera::EditorCamera()
 	projection = glm::perspective(glm::radians(45.0f),
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
 		0.1f, 100.0f);
+	clearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
 EditorCamera::~EditorCamera() 

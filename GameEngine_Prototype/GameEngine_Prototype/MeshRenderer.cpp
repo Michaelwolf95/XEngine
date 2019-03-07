@@ -366,3 +366,15 @@ void MeshRenderer::OnDrawGizmos()
 {
 	//gameObject->transform->DrawGizmo();
 }
+
+void MeshRenderer::DrawInspector()
+{
+	char modelPath[48];
+	strcpy(modelPath, this->pathToObjModel.c_str());// , );
+	ImGui::InputText("ModelPath", modelPath, 48);
+	if (modelPath != this->pathToObjModel.c_str())
+	{
+		this->pathToObjModel = modelPath;
+	}
+	this->material->DrawInspector();
+}

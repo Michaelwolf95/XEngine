@@ -12,6 +12,7 @@ For now, we can just use some flags to check if its lit or not.
 class Material
 {
 public:
+	std::string name;
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
 	Shader* shader;
@@ -23,13 +24,15 @@ public:
 	float ambientStrength = 1.0f;
 	float specularStrength = 0.5f;
 	glm::vec4 Color;
-	Material(std::string vertPath, std::string fragPath, bool _useLight = false);
+	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = false);
 	Material();
 	~Material();
 	void Init();
 	void Load(); // Load for openGL to draw.
 
 	void LoadTexture(const char* _textureFilePath);
+
+	void DrawInspector();
 
 private:
 	bool isInitialized = false;
@@ -40,10 +43,11 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
-		ar & BOOST_SERIALIZATION_NVP(Color);
-		ar & BOOST_SERIALIZATION_NVP(useLight);
+		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
+		ar & BOOST_SERIALIZATION_NVP(Color);
+		ar & BOOST_SERIALIZATION_NVP(useLight);
 		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
 		ar & BOOST_SERIALIZATION_NVP(specularStrength);
 		ar & BOOST_SERIALIZATION_NVP(ambientStrength);
@@ -52,10 +56,11 @@ private:
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version) // file_version
 	{
-		ar & BOOST_SERIALIZATION_NVP(Color);
-		ar & BOOST_SERIALIZATION_NVP(useLight);
+		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
+		ar & BOOST_SERIALIZATION_NVP(Color);
+		ar & BOOST_SERIALIZATION_NVP(useLight);
 		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
 		ar & BOOST_SERIALIZATION_NVP(specularStrength);
 		ar & BOOST_SERIALIZATION_NVP(ambientStrength);

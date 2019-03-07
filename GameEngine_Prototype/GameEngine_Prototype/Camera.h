@@ -13,6 +13,7 @@ public:
 	~Camera();
 	virtual glm::mat4 getProjection() = 0;
 	virtual glm::mat4 __stdcall getView() = 0;
+	glm::vec4 clearColor = glm::vec4(1.0f);
 };
 
 //typedef std::shared_ptr<Camera> Camera_ptr;

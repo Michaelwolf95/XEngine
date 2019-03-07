@@ -46,6 +46,8 @@ public:
 
 	void DrawGizmo();
 
+	void DrawInspector() override;
+
 	void printTransformMatrix();
 
 	void TestEulerRotation(float x, float y, float z);
