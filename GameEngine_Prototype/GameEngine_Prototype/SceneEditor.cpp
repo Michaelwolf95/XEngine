@@ -731,7 +731,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			{
 				static char sceneName[32];
 				ImGui::Text("Scene Name:");
-				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				ImGui::InputText("##edit", sceneName, 32);
 				if (ImGui::Button("Open"))
 				{
 					Scene_ptr scene(new Scene("TEMP"));
@@ -757,7 +757,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			{
 				static char sceneName[32];
 				ImGui::Text("Scene Name:");
-				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				ImGui::InputText("##edit", sceneName, 32);
 				if (ImGui::Button("Create"))
 				{
 					Scene_ptr scene(new Scene("TEMP"));

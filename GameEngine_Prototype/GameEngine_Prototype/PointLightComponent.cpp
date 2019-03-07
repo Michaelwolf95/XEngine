@@ -17,16 +17,6 @@ PointLightComponent::~PointLightComponent() {}
 void PointLightComponent::Start() {}
 void PointLightComponent::Update() {}
 
-glm::vec3 PointLightComponent::getLightColor()
-{
-	return color;
-}
-
-glm::vec3 PointLightComponent::getLightPos()
-{
-	return this->gameObject->transform->getPosition();
-}
-
 float PointLightComponent::getConstant()
 {
 	return constant;
@@ -40,4 +30,15 @@ float PointLightComponent::getLinear()
 float PointLightComponent::getQuadratic()
 {
 	return quadratic;
+}
+
+glm::vec3 PointLightComponent::getDirection() // can we take this out?
+{
+	return glm::vec3();  // not used
+}
+
+
+int PointLightComponent::getTypeID()
+{
+	return TYPE_ID;
 }

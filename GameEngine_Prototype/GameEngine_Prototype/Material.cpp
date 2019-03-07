@@ -83,10 +83,11 @@ void Material::DrawInspector()
 	{
 		//ImGui::SameLine();
 		//ImGui::Text(this->name.c_str());
-
-		ImGui::InputText("VertPath", &vertexShaderPath[0], 32);
-		ImGui::InputText("FragPath", &fragmentShaderPath[0], 32);
-		ImGui::InputText("TexturePath", &textureFilePath[0], 32);
+		ImGuiInputTextFlags flags = 0;
+	//	flags |= ImGuiInputTextFlags_CharsScientific;// | ~ImGuiInputTextFlags_CharsNoBlank;
+		ImGui::InputText("VertPath", &vertexShaderPath[0], 32, flags);
+		ImGui::InputText("FragPath", &fragmentShaderPath[0], 32, flags);
+		ImGui::InputText("TexturePath", &textureFilePath[0], 32, flags);
 
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);
