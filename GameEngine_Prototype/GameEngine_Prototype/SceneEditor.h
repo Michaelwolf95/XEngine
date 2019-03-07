@@ -35,6 +35,10 @@ public:
 	int Init();
 	SceneEditor();
 	~SceneEditor();
+	void ShutDown();
+
+	void EditorPreRender();
+	void EditorPostRender();
 
 	void LoadEditorConfig();
 	void SaveEditorConfig();
@@ -55,5 +59,9 @@ public:
 	void ScaleTool();
 	void AddComponentMenu();
 	void LoadSceneMenu();
+
+	//imGUI update.
+	void InspectorUpdate();
+	void ConfigureWindowLayout();
 };
 

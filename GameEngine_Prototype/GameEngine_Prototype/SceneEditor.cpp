@@ -12,7 +12,10 @@
 //TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
 //#include <boost/filesystem.hpp>
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
-
+// imGUI
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 SceneEditor * SceneEditor::CreateManager()
 {
@@ -34,6 +37,25 @@ int SceneEditor::Init()
 	editorCameraGameObject->AddComponent(editCamPtr);
 	//std::cout << "EditorCam Address: " << editorCamera << std::endl;
 
+	GLFWwindow* window = ApplicationManager::APP_WINDOW;
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	const char* glsl_version = "#version 130";
+
+	// Setup Platform/Renderer bindings
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init(glsl_version);
+
 	return 0;
 }
 
@@ -47,6 +69,24 @@ SceneEditor::~SceneEditor()
 {
 	//OutputDebugStringW(L"Trying to Save EditorConfig.\n");
 	SaveEditorConfig();
+}
+
+void SceneEditor::ShutDown()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+}
+
+void SceneEditor::EditorPreRender()
+{
+	ImGui::Render();
+}
+
+void SceneEditor::EditorPostRender()
+{
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	SceneEditor::getInstance().DrawEditorGizmos();
 }
 
 #pragma region EDITOR CONFIG
@@ -203,7 +243,15 @@ void SceneEditor::ExitEditMode()
 
 void SceneEditor::UpdateEditor()
 {
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
 	editorCameraGameObject->UpdateComponents();
+
+
+	InspectorUpdate();
 
 	// Swap edit mode
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT))
@@ -587,4 +635,144 @@ void SceneEditor::LoadSceneMenu()
 
 	// Set focus back to app.
 	glfwFocusWindow(ApplicationManager::APP_WINDOW);
+}
+
+void SceneEditor::InspectorUpdate()
+{
+	//bool show_demo_window = true;
+	//ImGui::ShowDemoWindow(&show_demo_window);
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+
+
+	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
+	//ApplicationManager::APP_WINDOW.
+	ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
+
+	// Main body of the Demo window starts here.
+	if (!ImGui::Begin("Inspector"))//, p_open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+	//ImGui::Text("dear imgui says hello. (%s)", IMGUI_VERSION);
+	//ImGui::Begin("Inspector");								// Create a window called "Hello, world!" and append into it.
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu"))
+		{
+			//ShowExampleMenuFile();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Scene"))
+		{
+			
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			//ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
+			//ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+			//ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	 // Display some text (you can use a format strings too)
+	//ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+	//ImGui::Checkbox("Another Window", &show_another_window);
+
+
+	//ImGui::
+	if (selectedGameObject != nullptr)
+	{
+		ImGui::Text("Inspecting (%s)", selectedGameObject->name.c_str());
+		ImGui::Spacing();
+		if (ImGui::CollapsingHeader("Transform"))
+		{
+			glm::vec3 pos = selectedGameObject->transform->getPosition();
+			ImGui::InputFloat3("Position", (float*)&pos);
+			if (pos != selectedGameObject->transform->getPosition())
+			{
+				selectedGameObject->transform->setLocalPosition(pos);
+			}
+			glm::vec3 rot = selectedGameObject->transform->getLocalRotationEuler();
+			ImGui::InputFloat3("Rotation", (float*)&rot);
+			if (rot != selectedGameObject->transform->getLocalRotationEuler())
+			{
+				selectedGameObject->transform->setLocalRotationEuler(rot);
+			}
+			glm::vec3 scale = selectedGameObject->transform->getLocalScale();
+			ImGui::InputFloat3("Scale", (float*)&scale);
+			if (scale != selectedGameObject->transform->getLocalScale())
+			{
+				selectedGameObject->transform->setLocalScale(scale);
+			}
+		}
+		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
+		{
+			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
+			if (ImGui::CollapsingHeader(componentTypeName.c_str()))
+			{
+				//TODO: Add inspector element for every component.
+
+				//glm::vec3 pos = selectedGameObject->transform->getPosition();
+				//ImGui::InputFloat3("Position", (float*)&pos);
+				//if (pos != selectedGameObject->transform->getPosition())
+				//{
+				//	selectedGameObject->transform->setLocalPosition(pos);
+				//}
+				//glm::vec3 rot = selectedGameObject->transform->getLocalRotationEuler();
+				//ImGui::InputFloat3("Rotation", (float*)&rot);
+				//if (rot != selectedGameObject->transform->getLocalRotationEuler())
+				//{
+				//	selectedGameObject->transform->setLocalRotationEuler(rot);
+				//}
+				//glm::vec3 scale = selectedGameObject->transform->getLocalScale();
+				//ImGui::InputFloat3("Scale", (float*)&scale);
+				//if (scale != selectedGameObject->transform->getLocalScale())
+				//{
+				//	selectedGameObject->transform->setLocalScale(scale);
+				//}
+			}
+		}
+		
+
+	}
+	else
+	{
+		ImGui::Text("No GameObject Selected.");
+	}
+
+	//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	//ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+}
+
+void SceneEditor::ConfigureWindowLayout()
+{
+	// Set position and size of console.
+	int border_thickness = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CYCAPTION);
+	RECT screenDimensions; //Without Taskbar
+	BOOL fResult = SystemParametersInfo(SPI_GETWORKAREA, 0, &screenDimensions, 0);
+	HWND console = GetConsoleWindow();
+	int consoleWidth = 600;
+	int consoleHeight = screenDimensions.bottom - border_thickness;
+	int consoleX = 0;
+	int consoleY = 0;// border_thickness;
+	MoveWindow(console, consoleX, consoleY, consoleWidth, consoleHeight, TRUE);
+
+
+	// Set position of window.
+	int appPosX = consoleWidth;
+	int appPosY = border_thickness; // border_thickness
+	glfwSetWindowPos(ApplicationManager::APP_WINDOW, appPosX, appPosY);
 }
