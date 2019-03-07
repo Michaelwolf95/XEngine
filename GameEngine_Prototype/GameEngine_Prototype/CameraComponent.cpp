@@ -158,12 +158,6 @@ void CameraComponent::OnDrawGizmos()
 
 void CameraComponent::DrawInspector()
 {
-	//float col2[4] = { 0.4f,0.7f,0.0f,0.5f };
-	//glm::vec3 pos = this->getPosition();
-	//ImGui::ColorPicker4
 	ImGui::ColorEdit4("Color", (float*)&clearColor);
-	/*if (pos != this->getPosition())
-	{
-		this->setLocalPosition(pos);
-	}*/
+
 }

@@ -647,14 +647,18 @@ static void ShowDockingDisabledMessage()
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 // ===========================================================================================================================================================================
+// Editor GUI
+// ===========================================================================================================================================================================
 static bool show_demo_menu = false;
+static bool inspector_open = true;
+static bool hierarchy_open = true;
+
 void SceneEditor::UpdateGUI()
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-
 
 	bool open_dockspace = true;
 	UpdateDockSpace(&open_dockspace);
@@ -667,6 +671,10 @@ void SceneEditor::UpdateGUI()
 	}
 }
 
+//-/////////////////////////////////////////////////////////////////////////////////////
+// Defines and Updates Dockspace used for GUI. Other windows will dock to this.
+// Most of this is copied from imgui_demo.cpp.
+//
 void SceneEditor::UpdateDockSpace(bool* p_open)
 {
 	static bool opt_fullscreen_persistant = true;
@@ -716,116 +724,107 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 	if (ImGui::BeginMenuBar())
 	{
-		if (ImGui::BeginMenu("File"))
+		if (ImGui::BeginMenu("Scene"))
 		{
-			if (ImGui::BeginMenu("Scene"))
+			ImGui::Button("Open Scene...");
+			if (ImGui::BeginPopupContextItem("Open Scene", 0))
 			{
-				ImGui::Button("Open Scene...");
-				if (ImGui::BeginPopupContextItem("Open Scene", 0))
+				static char sceneName[32];
+				ImGui::Text("Scene Name:");
+				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				if (ImGui::Button("Open"))
 				{
-					static char sceneName[32];
-					ImGui::Text("Scene Name:");
-					ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
-					if (ImGui::Button("Open"))
+					Scene_ptr scene(new Scene("TEMP"));
+					bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName);
+					if (exists)
 					{
-						Scene_ptr scene(new Scene("TEMP"));
-						bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName);
-						if (exists)
-						{
-							//std::cout << "Scene Found!" << std::endl;
-							// Activate Scene
-							SceneManager::getInstance().SetActiveScene(scene);
-							//std::cout << "LOADING NEW SCENE" << std::endl;
-							editorConfig->firstSceneFilepath = scene->filePath;
-						}
-						else
-						{
-							std::cout << "Scene not found." << std::endl;
-						}
-						ImGui::CloseCurrentPopup();
+						//std::cout << "Scene Found!" << std::endl;
+						// Activate Scene
+						SceneManager::getInstance().SetActiveScene(scene);
+						//std::cout << "LOADING NEW SCENE" << std::endl;
+						editorConfig->firstSceneFilepath = scene->filePath;
 					}
-					ImGui::EndPopup();
+					else
+					{
+						std::cout << "Scene not found." << std::endl;
+					}
+					ImGui::CloseCurrentPopup();
 				}
-				ImGui::Button("New Scene");
-				if (ImGui::BeginPopupContextItem("New Scene", 0))
+				ImGui::EndPopup();
+			}
+			ImGui::Button("New Scene");
+			if (ImGui::BeginPopupContextItem("New Scene", 0))
+			{
+				static char sceneName[32];
+				ImGui::Text("Scene Name:");
+				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				if (ImGui::Button("Create"))
 				{
-					static char sceneName[32];
-					ImGui::Text("Scene Name:");
-					ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
-					if (ImGui::Button("Create"))
+					Scene_ptr scene(new Scene("TEMP"));
+					bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName);
+					if (!exists)
 					{
-						Scene_ptr scene(new Scene("TEMP"));
-						bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName);
-						if (!exists)
-						{
-							scene = SceneManager::getInstance().CreateNewScene(sceneName);
-							editorConfig->firstSceneFilepath = scene->filePath;
-							SaveEditorConfig();
+						scene = SceneManager::getInstance().CreateNewScene(sceneName);
+						editorConfig->firstSceneFilepath = scene->filePath;
+						SaveEditorConfig();
 
-							// SAVE SCENE
-							SceneManager::getInstance().SaveSceneToFile(*scene);
+						// SAVE SCENE
+						SceneManager::getInstance().SaveSceneToFile(*scene);
 
-							selectedGameObject = nullptr;
-							selectedIndex = -1;
-							// Activate Scene
-							SceneManager::getInstance().SetActiveScene(scene);
-						}
-						else
-						{
-							std::cout << "Scene already exists." << std::endl;
-						}
-						ImGui::CloseCurrentPopup();
+						selectedGameObject = nullptr;
+						selectedIndex = -1;
+						// Activate Scene
+						SceneManager::getInstance().SetActiveScene(scene);
 					}
-					ImGui::EndPopup();
+					else
+					{
+						std::cout << "Scene already exists." << std::endl;
+					}
+					ImGui::CloseCurrentPopup();
 				}
-				ImGui::EndMenu();
+				ImGui::EndPopup();
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Edit"))
+		if (ImGui::BeginMenu("Create"))
 		{
-			if (ImGui::BeginMenu("Create"))
+			// TODO: Create a way to add to this menu from another file.
+			if (ImGui::MenuItem("New Empty GameObject"))
 			{
-				// TODO: Create a way to add to this menu from another file.
-				if (ImGui::MenuItem("New Empty GameObject"))
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New GameObject");
-					selectedGameObject = go;
-					selectedIndex = scene->rootGameObjects.size() - 1;
-				}
-				if (ImGui::MenuItem("New Box"))
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Box");
-					selectedGameObject = go;
-					selectedIndex = scene->rootGameObjects.size() - 1;
-					// Create Box Material
-					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
-					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
-						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
-					testModel->Setup();
-					go->AddComponent(testModel);
-				}
-				if (ImGui::MenuItem("New Nanosuit"))
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
-					selectedGameObject = go;
-					selectedIndex = scene->rootGameObjects.size() - 1;
-					Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
-					std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
-					go->AddComponent(modelNano);
-				}
-
-				ImGui::EndMenu();
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New GameObject");
+				selectedGameObject = go;
+				selectedIndex = scene->rootGameObjects.size() - 1;
 			}
+			if (ImGui::MenuItem("New Box"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Box");
+				selectedGameObject = go;
+				selectedIndex = scene->rootGameObjects.size() - 1;
+				// Create Box Material
+				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+				modelMaterial->LoadTexture("textures/container.jpg");
+				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
+				testModel->Setup();
+				go->AddComponent(testModel);
+			}
+			if (ImGui::MenuItem("New Nanosuit"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
+				selectedGameObject = go;
+				selectedIndex = scene->rootGameObjects.size() - 1;
+				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				go->AddComponent(modelNano);
+			}
+
 			ImGui::EndMenu();
 		}
-		
 
-		if (ImGui::BeginMenu("Demo"))
+		if (ImGui::BeginMenu("ImGUI Demo"))
 		{
 			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
 			if (ImGui::BeginMenu("Docking"))
@@ -862,154 +861,154 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 	ImGui::End();
 }
 
-
+//-/////////////////////////////////////////////////////////////////////////////////////
+// Defines & Updates the Inspector Window. 
+// This window allows us to edit the selected gameObject.
+//
 void SceneEditor::InspectorUpdate()
 {
-
-	//bool show_demo_window = true;
-	//ImGui::ShowDemoWindow(&show_demo_window);
+	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! 
+	// We only do it to make the Demo applications a little more welcoming.
+	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
 
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_MenuBar;
-
-
-	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
-	//ApplicationManager::APP_WINDOW.
-	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
-	//ImGui::SetNextWindowDockID(ImGui::GetID("EditorDockSpace"), ImGuiCond_Once);
-	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
-
 	// Main body of the Demo window starts here.
-	if (!ImGui::Begin("Inspector"))//, p_open, window_flags))
+	if (!ImGui::Begin("Inspector", &inspector_open, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.
 		ImGui::End();
 		return;
 	}
-	
-	//ImGuiContext* ctx = ImGui::GetCurrentContext();
-	//ImGui::init
+	//ImGuiIO& io = ImGui::GetIO();
 
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("Menu"))
 		{
-			//ShowExampleMenuFile();
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Scene"))
-		{
-
+			if (ImGui::MenuItem("Delete GameObject", "CTRL+D", false, (selectedGameObject != nullptr)))
+			{
+				if (selectedGameObject != nullptr)
+				{
+					SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
+					selectedGameObject = nullptr;
+					selectedIndex = -1;
+				}
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
 		{
-			//ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
-			//ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
-			//ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
+			ImGui::Text("Nobody can help you now.");
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
 
-	//ImGui::
+	// Inspect Selected GameObject
 	if (selectedGameObject != nullptr)
 	{
-		//ImGui::Text("Name: %s", selectedGameObject->name.c_str());
-		char name[16];
-		strcpy(name, selectedGameObject->name.c_str());// , );
-		//ImGui::InputText("Name", name, 16);
+		// Edit Name of Selected GameObject
 		char buf[64];
 		sprintf(buf, "GameObject: %s###Button", selectedGameObject->name.c_str()); // ### operator override ID ignoring the preceding label
 		ImGui::Button(buf);
-		if (ImGui::BeginPopupContextItem())
+		if (ImGui::BeginPopupContextItem("gameObject_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			ImGui::InputText("##edit", name, IM_ARRAYSIZE(name));
-			
-			if (ImGui::Button("Submit"))
-			{
-				ImGui::CloseCurrentPopup();
-				if (name != selectedGameObject->name.c_str())
-				{
-					selectedGameObject->name = name;
-				}
-			}
+			ImGui::InputText("##edit", &selectedGameObject->name[0], 16);// IM_ARRAYSIZE(&selectedGameObject->name[0]));
 			ImGui::EndPopup();
 		}
-		//if (name != selectedGameObject->name.c_str())
-		//{
-		//	selectedGameObject->name = name;
-		//}
 		ImGui::Spacing();
-		if (ImGui::CollapsingHeader("Transform"))
+
+		// Draw Transform Inspector
+		if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			selectedGameObject->transform->DrawInspector();
 		}
+
+		// Draw Component Inspectors
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
 			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
-			if (ImGui::CollapsingHeader(componentTypeName.c_str()))
+			if (ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				//TODO: Add inspector element for every component.
 				selectedGameObject->components[i]->DrawInspector();
 			}
 		}
+		ImGui::Spacing();
 
-		//TODO: Add Component Dropdown Menu
+		// Add Component Dropdown Menu
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImGui::SameLine(50.0f);
+		if (ImGui::Button("Add Component..."))
+			ImGui::OpenPopup("add_component_menu");
+		if (ImGui::BeginPopup("add_component_menu"))
+		{
+			std::vector<ComponentTypeInfo> componentTypes;
+			for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry())
+			{
+				//std::cout << element.first.name() << ": " << element.second.name << std::endl;
+				componentTypes.push_back(element.second);
+			}
 
+			ImGui::Text("Add Component:");
+			ImGui::Separator();
+			int menuSelectIndex = -1;
+			for (int i = 0; i < componentTypes.size(); i++)
+			{
+				if (ImGui::Selectable(componentTypes[i].name.c_str()))
+				{
+					menuSelectIndex = i;
+					break;
+				}
+			}
+			if (menuSelectIndex > -1)
+			{
+				selectedGameObject->AddComponent(componentTypes[menuSelectIndex].Constructor());
+				std::cout << "Added new '" << componentTypes[menuSelectIndex].name << "' to " << selectedGameObject->name << std::endl;
+			}
+			ImGui::EndPopup();
+		}
 	}
 	else
 	{
 		ImGui::Text("No GameObject Selected.");
 	}
 
-	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 }
 
+//-/////////////////////////////////////////////////////////////////////////////////////
+// Defines & Updates the Hierarchy Window. 
+// This window allows us to quickly select GameObjects.
+//
 void SceneEditor::HierarchyUpdate()
 {
+	// We specify a default position/size in case there's no data in the .ini file. 
+	//Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
+	ImGui::SetNextWindowPos(ImVec2(0, 50), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
+
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_MenuBar;
 
-
-	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
-	ImGui::SetNextWindowPos(ImVec2(0, 50), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
-	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
-	//ImGui::SetNextWindowDockID(ImGui::GetID("EditorDockSpace"), ImGuiCond_Once);
-	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
-
 	// Main body of the Demo window starts here.
-	if (!ImGui::Begin("Heirarchy"))//, p_open, window_flags))
+	if (!ImGui::Begin("Heirarchy", &hierarchy_open, window_flags))//, p_open, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.
 		ImGui::End();
 		return;
 	}
 
-	//ImGuiContext* ctx = ImGui::GetCurrentContext();
-	//ImGui::init
-
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("Menu"))
 		{
-			//ShowExampleMenuFile();
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Scene"))
-		{
-
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Help"))
-		{
-			//ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
-			//ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
-			//ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
+			
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
@@ -1018,74 +1017,41 @@ void SceneEditor::HierarchyUpdate()
 	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 	if (scene != nullptr)
 	{
-		//ImGui::Text("Name: %s", scene->name.c_str());
-		//ImGui::Spacing();
-		//ImGui::editte
-		//static char name[32] = "Label1";
-		char name[32];
-		strcpy(name, scene->name.c_str());// , );
 		char buf[64]; 
 		sprintf(buf, "Scene: %s###Button", scene->name.c_str()); // ### operator override ID ignoring the preceding label
 		ImGui::Button(buf);
-		if (ImGui::BeginPopupContextItem())
+		if (ImGui::BeginPopupContextItem("scene_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			ImGui::InputText("##edit", name, IM_ARRAYSIZE(name));
-			if (ImGui::Button("Submit"))
-			{
-				if (name != scene->name.c_str())
-				{
-					scene->name = name;
-				}
-				ImGui::CloseCurrentPopup();
-			}
+			ImGui::InputText("##edit", &scene->name[0], IM_ARRAYSIZE(&scene->name[0]));
 			ImGui::EndPopup();
 		}
-		//if (ImGui::TreeNode(scene->name.c_str()))
+		static int selection_mask = (selectedIndex > -1)? (1 << selectedIndex) : 0; // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
+		int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
+		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
+		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
-			//HelpMarker("This is a more standard looking tree with selectable nodes.\nClick to select, CTRL+Click to toggle, click on arrows or double-click to open.");
-			//static bool align_label_with_current_x_position = false;
-			//ImGui::Checkbox("Align label with current X position)", &align_label_with_current_x_position);
-			//ImGui::Text("Hello!");
-			//if (align_label_with_current_x_position)
-			//	ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-
-			static int selection_mask = (selectedIndex > -1)? (1 << selectedIndex) : 0; // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
-			int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
-			ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
-			for (int i = 0; i < scene->rootGameObjects.size(); i++)
+			// Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
+			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+			// Node
+			bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "%s (%d)", scene->rootGameObjects[i]->name.c_str(), i);
+			if (ImGui::IsItemClicked())
+				node_clicked = i;
+			if (node_open)
 			{
-				// Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
-				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
-				// Node
-				bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "%s (%d)", scene->rootGameObjects[i]->name.c_str(), i);
-				if (ImGui::IsItemClicked())
-					node_clicked = i;
-				if (node_open)
-				{
-					//TODO: Recursively run through children.
-					//ImGui::Text("Blah blah\nBlah Blah");
-					ImGui::TreePop();
-				}
+				//TODO: Recursively run through children.
+				//ImGui::Text("Blah blah\nBlah Blah");
+				ImGui::TreePop();
 			}
-			if (node_clicked != -1)
-			{
-				selectedGameObject = scene->rootGameObjects[node_clicked];
-				selectedIndex = node_clicked;
-
-				selection_mask = (1 << node_clicked);           // Click to single-select
-				// Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-				//if (ImGui::GetIO().Keyd)
-				//	selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
-				//else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
-				//	selection_mask = (1 << node_clicked);           // Click to single-select
-			}
-			ImGui::PopStyleVar();
-			//if (align_label_with_current_x_position)
-			//	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-
-			//ImGui::TreePop();
 		}
+		if (node_clicked != -1)
+		{
+			selectedGameObject = scene->rootGameObjects[node_clicked];
+			selectedIndex = node_clicked;
+
+			selection_mask = (1 << node_clicked);           // Click to single-select
+		}
+		ImGui::PopStyleVar();
 
 	}
 	else
@@ -1095,23 +1061,26 @@ void SceneEditor::HierarchyUpdate()
 	ImGui::End();
 }
 
+
+// NOT IMPLEMENTED YET
+// TODO: Change the window layout depending on being in X_EDIT_MODE
 void SceneEditor::ConfigureWindowLayout()
 {
-	// Set position and size of console.
-	int border_thickness = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CYCAPTION);
-	RECT screenDimensions; //Without Taskbar
-	BOOL fResult = SystemParametersInfo(SPI_GETWORKAREA, 0, &screenDimensions, 0);
-	HWND console = GetConsoleWindow();
-	int consoleWidth = 600;
-	int consoleHeight = screenDimensions.bottom - border_thickness;
-	int consoleX = 0;
-	int consoleY = 0;// border_thickness;
-	MoveWindow(console, consoleX, consoleY, consoleWidth, consoleHeight, TRUE);
+	//// Set position and size of console.
+	//int border_thickness = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CYCAPTION);
+	//RECT screenDimensions; //Without Taskbar
+	//BOOL fResult = SystemParametersInfo(SPI_GETWORKAREA, 0, &screenDimensions, 0);
+	//HWND console = GetConsoleWindow();
+	//int consoleWidth = 600;
+	//int consoleHeight = screenDimensions.bottom - border_thickness;
+	//int consoleX = 0;
+	//int consoleY = 0;// border_thickness;
+	//MoveWindow(console, consoleX, consoleY, consoleWidth, consoleHeight, TRUE);
 
 
-	// Set position of window.
-	int appPosX = consoleWidth;
-	int appPosY = border_thickness; // border_thickness
-	glfwSetWindowPos(ApplicationManager::APP_WINDOW, appPosX, appPosY);
+	//// Set position of window.
+	//int appPosX = consoleWidth;
+	//int appPosY = border_thickness; // border_thickness
+	//glfwSetWindowPos(ApplicationManager::APP_WINDOW, appPosX, appPosY);
 }
 

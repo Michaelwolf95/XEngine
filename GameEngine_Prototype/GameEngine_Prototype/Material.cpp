@@ -79,33 +79,14 @@ void Material::LoadTexture(const char * _textureFilePath)
 
 void Material::DrawInspector()
 {
-	if (ImGui::TreeNode("Material"))
+	if (ImGui::TreeNode("Mat", "Material: %s", this->name.c_str()))
 	{
-		ImGui::Text(this->name.c_str());
+		//ImGui::SameLine();
+		//ImGui::Text(this->name.c_str());
 
-		//bool updated = false;
-		char vertPath[32];
-		strcpy(vertPath, this->vertexShaderPath.c_str());// , );
-		ImGui::InputText("VertPath", vertPath, 32);
-		if (vertPath != this->vertexShaderPath.c_str())
-		{
-			this->vertexShaderPath = vertPath;
-			//updated = true;
-		}
-		char fragPath[48];
-		strcpy(fragPath, this->fragmentShaderPath.c_str());// , );
-		ImGui::InputText("FragPath", fragPath, 32);
-		if (fragPath != this->fragmentShaderPath.c_str())
-		{
-			this->fragmentShaderPath = fragPath;
-		}
-		char texturePath[32];
-		strcpy(texturePath, this->textureFilePath.c_str());
-		ImGui::InputText("TexturePath", texturePath, 32);
-		if (texturePath != this->textureFilePath.c_str())
-		{
-			this->textureFilePath = texturePath;
-		}
+		ImGui::InputText("VertPath", &vertexShaderPath[0], 32);
+		ImGui::InputText("FragPath", &fragmentShaderPath[0], 32);
+		ImGui::InputText("TexturePath", &textureFilePath[0], 32);
 
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);
