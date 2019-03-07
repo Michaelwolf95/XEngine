@@ -51,6 +51,8 @@ public:
 
 	void CloseApplication();
 
+	//GLFWwindowsizefun OnWindowSizeChangedCallback();
+
 	bool IsEditMode();
 	void SetEditMode(bool mode);
 

@@ -637,15 +637,7 @@ void SceneEditor::LoadSceneMenu()
 	glfwFocusWindow(ApplicationManager::APP_WINDOW);
 }
 
-static void ShowDockingDisabledMessage()
-{
-	ImGuiIO& io = ImGui::GetIO();
-	ImGui::Text("ERROR: Docking is not enabled! See Demo > Configuration.");
-	ImGui::Text("Set io.ConfigFlags |= ImGuiConfigFlags_DockingEnable in your code, or ");
-	ImGui::SameLine(0.0f, 0.0f);
-	if (ImGui::SmallButton("click here"))
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-}
+
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 static void HelpMarker(const char* desc)
 {
@@ -660,7 +652,17 @@ static void HelpMarker(const char* desc)
 	}
 }
 
-void SceneEditor::InspectorUpdate()
+static void ShowDockingDisabledMessage()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::Text("ERROR: Docking is not enabled! See Demo > Configuration.");
+	ImGui::Text("Set io.ConfigFlags |= ImGuiConfigFlags_DockingEnable in your code, or ");
+	ImGui::SameLine(0.0f, 0.0f);
+	if (ImGui::SmallButton("click here"))
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+}
+
+void SceneEditor::UpdateDockSpace(bool* p_open)
 {
 	static bool opt_fullscreen_persistant = true;
 	static ImGuiDockNodeFlags opt_flags = ImGuiDockNodeFlags_None;
@@ -680,49 +682,32 @@ void SceneEditor::InspectorUpdate()
 		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
-	//bool show_demo_window = true;
-	//ImGui::ShowDemoWindow(&show_demo_window);
 
-	//ImGuiWindowFlags window_flags = 0;
-	//window_flags |= ImGuiWindowFlags_MenuBar;
 
 	// When using ImGuiDockNodeFlags_PassthruDockspace, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
 	if (opt_flags & ImGuiDockNodeFlags_PassthruDockspace)
 		window_flags |= ImGuiWindowFlags_NoBackground;
 
-	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
-	//ApplicationManager::APP_WINDOW.
-	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
-	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
-
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	// Main body of the Demo window starts here.
-	if (!ImGui::Begin("Inspector"))//, p_open, window_flags))
-	{
-		// Early out if the window is collapsed, as an optimization.
-		//ImGui::End();
-		//return;
-	}
+	ImGui::Begin("X-Engine Editor", p_open, window_flags);
 	ImGui::PopStyleVar();
+
 	if (opt_fullscreen)
 		ImGui::PopStyleVar(2);
 
 	// Dockspace
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
-		ImGuiID dockspace_id = ImGui::GetID("MyDockspace");
+		ImGuiID dockspace_id = ImGui::GetID("EditorDockSpace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), opt_flags);
 	}
 	else
 	{
 		ShowDockingDisabledMessage();
 	}
-	// temp for test
-	bool open = true;
-	bool* p_open = &open;
+	opt_flags |= ImGuiDockNodeFlags_PassthruDockspace;
 
 	if (ImGui::BeginMenuBar())
 	{
@@ -749,6 +734,48 @@ void SceneEditor::InspectorUpdate()
 			"ImGui::DockSpace() comes with one hard constraint: it needs to be submitted _before_ any window which may be docked into it. Therefore, if you use a dock spot as the central point of your application, you'll probably want it to be part of the very first window you are submitting to imgui every frame." "\n\n"
 			"(NB: because of this constraint, the implicit \"Debug\" window can not be docked into an explicit DockSpace() node, because that window is submitted as part of the NewFrame() call. An easy workaround is that you can create your own implicit \"Debug##2\" window after calling DockSpace() and leave it in the window stack for anyone to use.)"
 		);
+
+		ImGui::EndMenuBar();
+	}
+
+	ImGui::End();
+}
+
+
+void SceneEditor::InspectorUpdate()
+{
+	// ====
+	bool open_dockspace = true;
+	UpdateDockSpace(&open_dockspace);
+
+	// ===
+	//bool show_demo_window = true;
+	//ImGui::ShowDemoWindow(&show_demo_window);
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+
+
+	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
+	//ApplicationManager::APP_WINDOW.
+	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
+	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
+	//ImGui::SetNextWindowDockID(ImGui::GetID("EditorDockSpace"), ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
+
+	// Main body of the Demo window starts here.
+	if (!ImGui::Begin("Inspector"))//, p_open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+	
+	//ImGuiContext* ctx = ImGui::GetCurrentContext();
+	//ImGui::init
+
+	if (ImGui::BeginMenuBar())
+	{
 		if (ImGui::BeginMenu("Menu"))
 		{
 			//ShowExampleMenuFile();
@@ -756,7 +783,7 @@ void SceneEditor::InspectorUpdate()
 		}
 		if (ImGui::BeginMenu("Scene"))
 		{
-			
+
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
@@ -768,11 +795,6 @@ void SceneEditor::InspectorUpdate()
 		}
 		ImGui::EndMenuBar();
 	}
-
-	 // Display some text (you can use a format strings too)
-	//ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-	//ImGui::Checkbox("Another Window", &show_another_window);
-
 
 	//ImGui::
 	if (selectedGameObject != nullptr)
@@ -809,7 +831,7 @@ void SceneEditor::InspectorUpdate()
 
 			}
 		}
-		
+
 
 	}
 	else
@@ -821,7 +843,7 @@ void SceneEditor::InspectorUpdate()
 	//ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
 
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 }
 
@@ -844,3 +866,4 @@ void SceneEditor::ConfigureWindowLayout()
 	int appPosY = border_thickness; // border_thickness
 	glfwSetWindowPos(ApplicationManager::APP_WINDOW, appPosX, appPosY);
 }
+

@@ -61,6 +61,7 @@ public:
 	void LoadSceneMenu();
 
 	//imGUI update.
+	void UpdateDockSpace(bool* p_open);
 	void InspectorUpdate();
 	void ConfigureWindowLayout();
 };

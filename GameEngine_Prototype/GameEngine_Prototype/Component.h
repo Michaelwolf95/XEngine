@@ -53,10 +53,6 @@ public:
 	Component_ptr(*Constructor)(void);
 	ComponentTypeInfo();
 	ComponentTypeInfo(std::string _name, Component_ptr(*_constructor)());
-	//{
-	//	name = _name;
-	//	Constructor = _constructor;
-	//}
 };
 
 
@@ -67,11 +63,6 @@ template <typename T> struct Registrar
 	{
 		Component::registry()[typeid(T)] = s;
 	}
-	//Registrar(std::string const & s) 
-	//{ 
-	//	//Component::typemap()[typeid(T)] = s; 
-	//	Component::registry()[typeid(T)] = s;
-	//}
 };
 
 #define REGISTER_COMPONENT(T, K)                                \

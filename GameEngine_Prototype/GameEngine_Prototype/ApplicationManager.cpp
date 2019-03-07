@@ -71,6 +71,8 @@ int ApplicationManager::Init()
 		return -1;
 	}
 
+	//glfwSetWindowSizeCallback(APP_WINDOW, );
+
 	// Set input mode (This should go into the Input manager class)
 	//glfwSetInputMode(APP_WINDOW, GLFW_STICKY_KEYS, 2);
 
@@ -144,7 +146,7 @@ GLFWwindow* ApplicationManager::CreateAppWindow()
 
 void ApplicationManager::LoadAppConfig()
 {
-	std::string appConfigPath = std::string(APP_CONFIG_DATA_PATH) + "AppConfig.json";
+	std::string appConfigPath = std::string(APP_CONFIG_FILE_PATH) + "AppConfig.json";
 
 	try
 	{
