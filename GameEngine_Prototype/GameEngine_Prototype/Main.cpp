@@ -1,4 +1,4 @@
-//#define X_EDIT_MODE
+#define X_EDIT_MODE
 
 #define GLM_FORCE_RADIANS
 

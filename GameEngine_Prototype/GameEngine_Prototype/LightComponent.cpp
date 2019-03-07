@@ -1,13 +1,15 @@
 #include "LightComponent.h"
 #include "GameObject.h"
+#include "GizmoSpriteDrawer.h"
 
-REGISTER_COMPONENT(LightComponent, "LightComponent")
+//REGISTER_COMPONENT(LightComponent, "LightComponent")
 
 LightComponent::LightComponent(glm::vec3 _color, float _intensity, int typeID) : Light::Light()
 {
 	color = _color;
 	intensity = _intensity;
-	TYPE_ID = typeID;
+	gizmoDrawer = std::make_shared<GizmoSpriteDrawer>(GizmoSpriteDrawer("Editor/Gizmos/LightGizmo.png"));
+
 }
 
 LightComponent::~LightComponent() {}
@@ -64,15 +66,15 @@ glm::vec3 LightComponent::getDirection()
 	return glm::vec3(); // does nothing
 }
 
-int LightComponent::getTypeID()
-{
-	return TYPE_ID;
-}
-
 void LightComponent::DrawInspector()
 {
 	ImGui::ColorEdit4("Color", (float*)&color);
 	ImGui::InputFloat("Intensity", &intensity);
 	if (intensity < 0)
 		intensity = 0;
+}
+
+void LightComponent::OnDrawGizmos()
+{
+	gizmoDrawer->Draw(this->gameObject->transform->getPosition());
 }
