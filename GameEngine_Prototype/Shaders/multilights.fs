@@ -50,12 +50,10 @@ uniform sampler2D Texture;
 
 const int NUM_LIGHTS = 100;
 uniform GlobalLight globalLights[NUM_LIGHTS];
-uniform PointLight pointLights[NUM_LIGHTS]; // replace lights
-//uniform vec3 lights[NUM_LIGHTS];
-//uniform vec3 lightsPos[NUM_LIGHTS];
-//uniform float lightIntensities[NUM_LIGHTS];
+uniform PointLight pointLights[NUM_LIGHTS];
+
 uniform int numLights; // inside simple model component to limit for loop iterations
-uniform int numGlobalLights;
+uniform int numGlobalLights; // each num variable is determined within SimpleModelComponent's Draw
 uniform int numPointLights;
 uniform int numSpotLights;
 
@@ -90,7 +88,7 @@ void main()
         result += calculatePointLight(pointLights[i], norm, viewDir, texel);
     }
 
-    for (int i = 0; i < numSpotLights; i++) {
+    for (int i = 0; i < numSpotLights; i++) { // TODO: spotLight
         //result += calculateSpotLight();
     }
 
@@ -121,18 +119,13 @@ vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 vie
 
 vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec3 viewDir, const vec4 texel) {
     vec3 lightDir = normalize(-light.direction);    
-    //vec3 lightDir = normalize(-vec3(0.0f, -1.0f, 0.0f));
     float diff = max(dot(norm, lightDir), 0.0f);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0f), 16); //32 = shininess property of Material
-    
     float specularStrength = 0.3f;
 
     vec3 ambient = calculateAmbientLighting(texel);//light.ambient * vec3(
     vec3 diffuse = diff * light.color * texel.rgb;
-    //vec3 diffuse = diff * vec3(1.0f, 0.0f, 1.0f) * texel.rgb;
     vec3 specular = specularStrength * spec * light.color;
-    //vec3 specular = specularStrength * spec * vec3(1.0f, 0.0f, 1.0f);
-    
     return (ambient + diffuse + specular) * light.intensity;
 }
