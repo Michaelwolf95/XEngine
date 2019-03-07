@@ -138,7 +138,7 @@ void CameraComponent::OnDrawGizmos()
 	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
 
 	glUniform3f(BillboardPosID, pos.x, pos.y, pos.z); // The billboard will be just above the cube
-	glUniform2f(BillboardSizeID, 0.1f, 0.1f);     // and 1m*12cm, because it matches its 256*32 resolution =)
+	glUniform2f(BillboardSizeID, 0.5f, 0.5f);     // and 1m*12cm, because it matches its 256*32 resolution =)
 
 	glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
 

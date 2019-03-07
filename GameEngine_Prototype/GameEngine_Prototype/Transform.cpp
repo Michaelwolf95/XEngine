@@ -280,15 +280,16 @@ glm::vec3 Transform::getLocalRotationEuler()
 {
 	glm::vec3 rot;
 	//glm::extractEulerAngleZXY(rotateMatrix, rot.x, rot.y, rot.z);
-	glm::extractEulerAngleYXZ(rotateMatrix, rot.x, rot.y, rot.z);
+	glm::extractEulerAngleYXZ(rotateMatrix, rot.y, rot.x, rot.z);
 	//glm::extractEulerAngleYZX(rotateMatrix, rot.x, rot.y, rot.z);
 	//glm::extractEulerAngleXYZ(rotateMatrix, rot.x, rot.y, rot.z);
 	//glm::extractEulerAngleZYX(rotateMatrix, rot.x, rot.y, rot.z);
 	//glm::extractEulerAngleXZY(rotateMatrix, rot.x, rot.y, rot.z);
 
-	rot.x = (abs(rot.x) < 0.00001) ? 0 : rot.x;
-	rot.y = (abs(rot.y) < 0.00001) ? 0 : rot.y;
-	rot.z = (abs(rot.z) < 0.00001) ? 0 : rot.z;
+	rot.x = glm::degrees((abs(rot.x) < 0.00001) ? 0 : rot.x);
+	rot.y = glm::degrees((abs(rot.y) < 0.00001) ? 0 : rot.y);
+	rot.z = glm::degrees((abs(rot.z) < 0.00001) ? 0 : rot.z);
+
 
 	//quat qRot = getLocalRotation();
 	//rot = glm::eulerAngles(qRot);
@@ -302,34 +303,6 @@ glm::vec3 Transform::getLocalRotationEuler()
 	//rot.y = glm::degrees(rot.y);
 	//rot.z = glm::degrees(rot.z);
 	return rot;
-	/*
-	//vec3 rot;
-	//toEulerAngles4(getLocalRotation(), rot.x, rot.y, rot.z);
-	
-	float pi = glm::pi<float>();
-	//if (abs(q.y) > abs(q.w))
-	if (abs(qRot.y) > sin(pi / 4)) // Not always correct?
-	{
-		//std::cout << "SHOULD FLIP: " << std::endl;
-
-		rot.y = (pi / 2) + ((pi / 2) - rot.y); // only positive case...
-		rot.z = rot.z + pi;
-		rot.x = rot.x + pi;
-
-	}
-	float tau = 2 * glm::pi<float>();
-	if (rot.x >= tau) rot.x -= tau;
-	if (rot.x <= -tau) rot.x += tau;
-	if (rot.y >= tau) rot.y -= tau;
-	if (rot.y <= -tau) rot.y += tau;
-	if (rot.z >= tau) rot.z -= tau;
-	if (rot.z <= -tau) rot.z += tau;
-
-	rot[0] = glm::degrees(rot[0]);
-	rot[1] = glm::degrees(rot[1]);
-	rot[2] = glm::degrees(rot[2]);
-	return rot;
-	*/
 }
 
 void Transform::setLocalRotation(glm::quat rot)
@@ -343,25 +316,12 @@ void Transform::setLocalRotation(glm::quat rot)
 // Set rotation in terms of euler Radians.
 void Transform::setLocalRotationEuler(glm::vec3 rot)
 {
-	//for (size_t i = 0; i < 3; i++)
-	//{
-	//	if (rot[i] > 360)
-	//	{
-	//		int numOver = ((int)rot[i]) / 360;
-	//		rot[i] = -(rot[i] - (360 * numOver));
-	//	}
-	//	if (rot[i] < -360)
-	//	{
-	//		int numOver = ((int)rot[i]) / -360;
-	//		rot[i] = -(rot[i] + (360 * numOver));
-	//	}
-	//}
-	//rot.x = glm::radians(rot.x); 
+	rot.x = glm::radians(rot.x); 
 	//if (rot.x - glm::pi<float>() < 0.0001) rot.x = glm::pi<float>();
-	//rot.y = glm::radians(rot.y);
-	//rot.z = glm::radians(rot.z);
+	rot.y = glm::radians(rot.y);
+	rot.z = glm::radians(rot.z);
 
-	rotateMatrix = glm::eulerAngleYXZ(rot.x, rot.y, rot.z);
+	rotateMatrix = glm::eulerAngleYXZ(rot.y, rot.x, rot.z);
 	UpdateMatrix();
 	return;
 

@@ -35,8 +35,8 @@ private:
 	GLFWwindow* menuWindow = nullptr;
 	bool isBeingUsed = false;
 	float zoomSpeed = 15.0f;
-	float xRotSpeed = 0.05f;
-	float yRotSpeed = 0.05f;
+	float xRotSpeed = 1.0f;
+	float yRotSpeed = 1.0f;
 	float panSpeed = 0.1f;
 
 	friend class boost::serialization::access;

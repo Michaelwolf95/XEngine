@@ -285,19 +285,19 @@ void SceneEditor::UpdateEditor()
 				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 
-				//// Create Box Material
+				// Create Box Material
 				//Shader* modelShader = new Shader("model.vs", "model.fs");
-				//Material* modelMaterial = new Material(modelShader);
-				//modelMaterial->LoadTexture("textures/container.jpg");
-				//SimpleModelComponent* testModel = new SimpleModelComponent(CUBE_VERTS, 36, 5,
-				//	CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial);
-				//testModel->Setup();
-				//go->AddComponent(testModel);
-
-				//Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
 				Material* modelMaterial = new Material("3Dmodel.vs", "3Dmodel.fs");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
-				go->AddComponent(modelNano);
+				modelMaterial->LoadTexture("textures/container.jpg");
+				std::shared_ptr<SimpleModelComponent> testModel( new SimpleModelComponent(CUBE_VERTS, 36, 5,
+					CUBE_INDICES, sizeof(CUBE_INDICES) / sizeof(unsigned int), modelMaterial));
+				testModel->Setup();
+				go->AddComponent(testModel);
+
+				////Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
+				//Material* modelMaterial = new Material("3Dmodel.vs", "3Dmodel.fs");
+				//std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//go->AddComponent(modelNano);
 
 				selectedGameObject = go;
 				//go->AddComponent(new TestMoverComponent());
@@ -799,7 +799,7 @@ void SceneEditor::InspectorUpdate()
 	//ImGui::
 	if (selectedGameObject != nullptr)
 	{
-		ImGui::Text("Inspecting (%s)", selectedGameObject->name.c_str());
+		ImGui::Text("Name: %s", selectedGameObject->name.c_str());
 		ImGui::Spacing();
 		if (ImGui::CollapsingHeader("Transform"))
 		{

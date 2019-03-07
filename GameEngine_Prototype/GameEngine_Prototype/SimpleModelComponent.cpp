@@ -15,7 +15,7 @@ REGISTER_COMPONENT(SimpleModelComponent, "SimpleModelComponent")
 
 SimpleModelComponent::SimpleModelComponent()
 {
-
+	//Setup();
 }
 
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
@@ -34,6 +34,7 @@ void SimpleModelComponent::Setup()
 {
 	if (isSetup)
 	{
+		//RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 		return;
 	}
 	//std::cout << "Setting up SimpleModelComponent." << std::endl;
@@ -42,7 +43,8 @@ void SimpleModelComponent::Setup()
 
 	if (material == nullptr)
 	{
-		material = RenderManager::defaultMaterial;
+		//material = RenderManager::defaultMaterial;
+		material = new Material("3Dmodel.vs", "3Dmodel.fs");
 		//std::cout << "Material set to default." << std::endl;
 	}
 	else
