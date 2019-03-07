@@ -5,6 +5,7 @@
 class LightComponent : public Component, public Light
 {
 public:
+	static Registrar<LightComponent> registrar;
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 	float intensity = 1.0f;
 	int TYPE_ID;
@@ -15,6 +16,8 @@ public:
 
 	//GameObject *gameObject;
 	LightComponent(glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f), float _intensity = 20.0f, int typeID = 0);
+	//LightComponent();
+	~LightComponent();
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual glm::vec3 getLightColor() override;
@@ -22,5 +25,20 @@ public:
 	virtual int getTypeID() override;
 	float getIntensity();
 	//GameObject* LightComponent::getGameObject();
+
+	void DrawInspector() override;
+private:
+	friend class boost::serialization::access;
+	template<class Archive>
+	void serialize(Archive &ar, const unsigned int version)
+	{
+		// save/load base class information
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		ar & BOOST_SERIALIZATION_NVP(intensity);
+		ar & BOOST_SERIALIZATION_NVP(color);
+		//ar & BOOST_SERIALIZATION_NVP(ambient);
+		//ar & BOOST_SERIALIZATION_NVP(diffuse);
+		//ar & BOOST_SERIALIZATION_NVP(specular);
+	}
 };
 

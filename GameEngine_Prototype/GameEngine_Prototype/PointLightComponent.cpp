@@ -2,6 +2,8 @@
 #include "GameObject.h"
 //class GameObject;
 
+REGISTER_COMPONENT(PointLightComponent, "PointLightComponent")
+
 PointLightComponent::PointLightComponent(glm::vec3 _color, float _intensity) 
 	: LightComponent::LightComponent(_color, _intensity, TYPE_ID)
 {
@@ -9,6 +11,8 @@ PointLightComponent::PointLightComponent(glm::vec3 _color, float _intensity)
 	//intensity = _intensity;
 	//gameObject = gameObject;
 }
+
+PointLightComponent::~PointLightComponent() {}
 
 void PointLightComponent::Start() {}
 void PointLightComponent::Update() {}

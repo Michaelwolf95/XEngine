@@ -6,6 +6,7 @@
 class PointLightComponent : public LightComponent
 {
 public:
+	static Registrar<PointLightComponent> registrar;
 	static const int TYPE_ID = 1;
 	//glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 	//float intensity = 1.0f;
@@ -15,6 +16,7 @@ public:
 	float quadratic = 0.032f;
 
 	PointLightComponent(glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f), float _intensity = 1.0f);
+	~PointLightComponent();
 	void Start() override;
 	void Update() override;
 	glm::vec3 getLightColor() override;
@@ -22,5 +24,13 @@ public:
 	float getConstant();
 	float getLinear();
 	float getQuadratic();
+private:
+	friend class boost::serialization::access;
+	template<class Archive>
+	void serialize(Archive &ar, const unsigned int version)
+	{
+		// save/load base class information
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(LightComponent);
+	}
 };
 
