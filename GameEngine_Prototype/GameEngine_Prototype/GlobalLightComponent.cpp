@@ -10,19 +10,29 @@ GlobalLightComponent::GlobalLightComponent(glm::vec3 _color, float _intensity, g
 void GlobalLightComponent::Start() {}
 void GlobalLightComponent::Update() {}
 
-glm::vec3 GlobalLightComponent::getLightColor()
+float GlobalLightComponent::getConstant()
 {
-	return color;
+	return 0.0f; // not used
 }
 
-glm::vec3 GlobalLightComponent::getLightPos()
+float GlobalLightComponent::getLinear()
 {
-	return this->gameObject->transform->getPosition();
+	return 0.0f; // not used
+}
+
+float GlobalLightComponent::getQuadratic()
+{
+	return 0.0f; // not used
 }
 
 glm::vec3 GlobalLightComponent::getDirection()
 {
 	return direction;
+}
+
+int GlobalLightComponent::getTypeID()
+{
+	return TYPE_ID;
 }
 
 

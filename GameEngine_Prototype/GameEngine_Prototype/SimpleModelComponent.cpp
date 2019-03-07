@@ -126,18 +126,18 @@ void SimpleModelComponent::Draw()
 			if (light->getTypeID() == PointLightComponent::TYPE_ID) {
 				material->shader->setVec3(strPointLights + ".color", light->getLightColor());
 				material->shader->setVec3(strPointLights + ".position", light->getLightPos());
-				material->shader->setFloat(strPointLights + ".intensity", ((LightComponent *)light)->getIntensity());
-				material->shader->setFloat(strPointLights + ".constant", ((PointLightComponent *)light)->getConstant());
-				material->shader->setFloat(strPointLights + ".linear", ((PointLightComponent *)light)->getLinear());
-				material->shader->setFloat(strPointLights + ".quadratic", ((PointLightComponent *)light)->getQuadratic());
+				material->shader->setFloat(strPointLights + ".intensity", light->getIntensity());
+				material->shader->setFloat(strPointLights + ".constant", light->getConstant());
+				material->shader->setFloat(strPointLights + ".linear", light->getLinear());
+				material->shader->setFloat(strPointLights + ".quadratic", light->getQuadratic());
 				pointLightCount++;
 			}
 
 			if (light->getTypeID() == GlobalLightComponent::TYPE_ID) {
 				material->shader->setVec3(strGlobalLights + ".color", light->getLightColor());
 				material->shader->setVec3(strGlobalLights + ".position", light->getLightPos());
-				material->shader->setFloat(strGlobalLights + ".intensity", ((LightComponent *)light)->getIntensity());
-				material->shader->setVec3(strGlobalLights + ".direction", ((GlobalLightComponent *)light)->getDirection());
+				material->shader->setFloat(strGlobalLights + ".intensity", light->getIntensity());
+				material->shader->setVec3(strGlobalLights + ".direction", light->getDirection());
 				globalLightCount++;
 			}
 			i++;
