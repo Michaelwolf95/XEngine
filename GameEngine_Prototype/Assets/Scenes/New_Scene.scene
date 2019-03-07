@@ -149,7 +149,7 @@
 		</item>
 		<item>
 			<px class_id_reference="3" object_id="_11">
-				<name>New GameObject</name>
+				<name>Floor</name>
 				<transform class_id_reference="4" object_id="_12">
 					<Component>
 						<enabled>1</enabled>

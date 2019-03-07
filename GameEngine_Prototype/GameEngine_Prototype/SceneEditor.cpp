@@ -165,6 +165,7 @@ void SceneEditor::LoadInitialEditorScene()
 			//scene = &sc;
 			// Activate Scene
 			selectedGameObject = nullptr;
+			selectedIndex = -1;
 			SceneManager::getInstance().SetActiveScene(scene);
 			return;
 		}
@@ -186,6 +187,7 @@ void SceneEditor::LoadInitialEditorScene()
 
 		// Activate Scene
 		selectedGameObject = nullptr;
+		selectedIndex = -1;
 		SceneManager::getInstance().SetActiveScene(scene);
 	}
 	
@@ -222,7 +224,8 @@ void SceneEditor::StartEditMode()
 			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 1)
 			{
 				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[0];
-				std::cout << "Auto-Selected GameObject[1]: " << selectedGameObject->name << std::endl;
+				selectedIndex = 0;
+				std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
 			}
 		}
 
@@ -236,6 +239,7 @@ void SceneEditor::ExitEditMode()
 	{
 		std::cout << "EXITING EDIT MODE =========================" << std::endl;
 		selectedGameObject = nullptr;
+		selectedIndex = -1;
 		ApplicationManager::getInstance().SetEditMode(false);
 		SceneManager::getInstance().ReloadSceneFromFile();
 	}
@@ -250,8 +254,11 @@ void SceneEditor::UpdateEditor()
 
 	editorCameraGameObject->UpdateComponents();
 
-
+	// GUI ======
+	bool open_dockspace = true;
+	UpdateDockSpace(&open_dockspace);
 	InspectorUpdate();
+	HierarchyUpdate();
 
 	// Swap edit mode
 	if ((Input::GetKey(GLFW_KEY_LEFT_SHIFT) || Input::GetKey(GLFW_KEY_RIGHT_SHIFT))
@@ -300,6 +307,7 @@ void SceneEditor::UpdateEditor()
 				//go->AddComponent(modelNano);
 
 				selectedGameObject = go;
+				selectedIndex = scene->rootGameObjects.size() - 1;
 				//go->AddComponent(new TestMoverComponent());
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
@@ -315,13 +323,14 @@ void SceneEditor::UpdateEditor()
 					//glfwFocusWindow(glfwconsole)
 
 					// Select GameObject by index.
-					int selectIndex = -1;
-					while (selectIndex < 0 && selectIndex > scene->rootGameObjects.size())
+					int sIndex = -1;
+					while (sIndex < 0 && sIndex > scene->rootGameObjects.size())
 					{
 						std::cout << "Select GameObject Index: ";// << std::endl;
-						std::cin >> selectIndex;
+						std::cin >> sIndex;
 						//std::cout << std::endl;
-						selectedGameObject = scene->rootGameObjects[selectIndex];
+						selectedGameObject = scene->rootGameObjects[sIndex];
+						selectedIndex = sIndex;
 					}
 					std::cout << "Selected: " << selectedGameObject->name << std::endl;
 
@@ -368,6 +377,7 @@ void SceneEditor::UpdateEditor()
 				}
 				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 				selectedGameObject = nullptr;
+				selectedIndex = -1;
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_A))
 			{
@@ -623,6 +633,7 @@ void SceneEditor::LoadSceneMenu()
 			SceneManager::getInstance().SaveSceneToFile(*scene);
 
 			selectedGameObject = nullptr;
+			selectedIndex = -1;
 			// Activate Scene
 			SceneManager::getInstance().SetActiveScene(scene);
 		}
@@ -744,11 +755,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 void SceneEditor::InspectorUpdate()
 {
-	// ====
-	bool open_dockspace = true;
-	UpdateDockSpace(&open_dockspace);
 
-	// ===
 	//bool show_demo_window = true;
 	//ImGui::ShowDemoWindow(&show_demo_window);
 
@@ -759,7 +766,7 @@ void SceneEditor::InspectorUpdate()
 	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
 	//ApplicationManager::APP_WINDOW.
 	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
-	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
 	//ImGui::SetNextWindowDockID(ImGui::GetID("EditorDockSpace"), ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
 
@@ -799,7 +806,14 @@ void SceneEditor::InspectorUpdate()
 	//ImGui::
 	if (selectedGameObject != nullptr)
 	{
-		ImGui::Text("Name: %s", selectedGameObject->name.c_str());
+		//ImGui::Text("Name: %s", selectedGameObject->name.c_str());
+		char name[16];
+		strcpy(name, selectedGameObject->name.c_str());// , );
+		ImGui::InputText("Name", name, 16);
+		if (name != selectedGameObject->name.c_str())
+		{
+			selectedGameObject->name = name;
+		}
 		ImGui::Spacing();
 		if (ImGui::CollapsingHeader("Transform"))
 		{
@@ -844,6 +858,112 @@ void SceneEditor::InspectorUpdate()
 
 
 	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+}
+
+void SceneEditor::HierarchyUpdate()
+{
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+
+
+	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
+	//ApplicationManager::APP_WINDOW.
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
+	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
+	//ImGui::SetNextWindowDockID(ImGui::GetID("EditorDockSpace"), ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
+
+	// Main body of the Demo window starts here.
+	if (!ImGui::Begin("Heirarchy"))//, p_open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+
+	//ImGuiContext* ctx = ImGui::GetCurrentContext();
+	//ImGui::init
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu"))
+		{
+			//ShowExampleMenuFile();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Scene"))
+		{
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			//ImGui::MenuItem("Metrics", NULL, &show_app_metrics);
+			//ImGui::MenuItem("Style Editor", NULL, &show_app_style_editor);
+			//ImGui::MenuItem("About Dear ImGui", NULL, &show_app_about);
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+	if (scene != nullptr)
+	{
+		//ImGui::Text("Name: %s", scene->name.c_str());
+		//ImGui::Spacing();
+
+		if (ImGui::TreeNode(scene->name.c_str()))
+		{
+			//HelpMarker("This is a more standard looking tree with selectable nodes.\nClick to select, CTRL+Click to toggle, click on arrows or double-click to open.");
+			//static bool align_label_with_current_x_position = false;
+			//ImGui::Checkbox("Align label with current X position)", &align_label_with_current_x_position);
+			//ImGui::Text("Hello!");
+			//if (align_label_with_current_x_position)
+			//	ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+
+			static int selection_mask = (selectedIndex > -1)? (1 << selectedIndex) : 0; // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
+			int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
+			ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
+			for (int i = 0; i < scene->rootGameObjects.size(); i++)
+			{
+				// Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
+				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+				// Node
+				bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "%s (%d)", scene->rootGameObjects[i]->name.c_str(), i);
+				if (ImGui::IsItemClicked())
+					node_clicked = i;
+				if (node_open)
+				{
+					//TODO: Recursively run through children.
+					//ImGui::Text("Blah blah\nBlah Blah");
+					ImGui::TreePop();
+				}
+			}
+			if (node_clicked != -1)
+			{
+				selectedGameObject = scene->rootGameObjects[node_clicked];
+				selectedIndex = node_clicked;
+
+				selection_mask = (1 << node_clicked);           // Click to single-select
+				// Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
+				//if (ImGui::GetIO().Keyd)
+				//	selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
+				//else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
+				//	selection_mask = (1 << node_clicked);           // Click to single-select
+			}
+			ImGui::PopStyleVar();
+			//if (align_label_with_current_x_position)
+			//	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
+			ImGui::TreePop();
+		}
+
+	}
+	else
+	{
+		ImGui::Text("No Scene Loaded.");
+	}
 	ImGui::End();
 }
 

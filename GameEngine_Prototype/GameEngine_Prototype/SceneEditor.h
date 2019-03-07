@@ -52,6 +52,7 @@ public:
 	void DrawEditorGizmos();
 	GameObject_ptr selectedGameObject = nullptr;
 	ManipToolMode manipTool = ManipToolMode::None;
+	int selectedIndex = -1;
 	void SelectManipTool();
 	void ManipToolUpdate();
 	void MoveTool();
@@ -63,6 +64,7 @@ public:
 	//imGUI update.
 	void UpdateDockSpace(bool* p_open);
 	void InspectorUpdate();
+	void HierarchyUpdate();
 	void ConfigureWindowLayout();
 };
 
