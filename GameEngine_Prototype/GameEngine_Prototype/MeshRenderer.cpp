@@ -369,12 +369,6 @@ void MeshRenderer::OnDrawGizmos()
 
 void MeshRenderer::DrawInspector()
 {
-	char modelPath[48];
-	strcpy(modelPath, this->pathToObjModel.c_str());// , );
-	ImGui::InputText("ModelPath", modelPath, 48);
-	if (modelPath != this->pathToObjModel.c_str())
-	{
-		this->pathToObjModel = modelPath;
-	}
+	ImGui::InputText("ModelPath", &this->pathToObjModel[0], 48);
 	this->material->DrawInspector();
 }

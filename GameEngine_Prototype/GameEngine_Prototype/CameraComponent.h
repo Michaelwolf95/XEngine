@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include "GizmoSpriteDrawer.h"
 //using namespace glm;
 
 class CameraComponent : public Component, public Camera
@@ -25,12 +26,10 @@ public:
 	void DrawInspector() override;
 private:
 	// Render state
-	Shader* shader;
-	GLuint VAO;
-	GLuint VBO;
-	unsigned int textureID;
+	std::shared_ptr<GizmoSpriteDrawer> gizmoDrawer;
+
 	// Initializes and configures the quad's buffer and vertex attributes
-	void initGizmoRenderData();
+	//void initGizmoRenderData();
 
 	friend class boost::serialization::access;
 	template<class Archive>

@@ -44,7 +44,7 @@ void SimpleModelComponent::Setup()
 	if (material == nullptr)
 	{
 		//material = RenderManager::defaultMaterial;
-		material = new Material("MuliLight Model", "3Dmodel.vs", "3Dmodel.fs");
+		material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
 		//std::cout << "Material set to default." << std::endl;
 	}
 	else
