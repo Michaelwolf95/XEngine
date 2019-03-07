@@ -177,11 +177,6 @@ void SceneEditor::LoadInitialEditorScene()
 		editorConfig->firstSceneFilepath = scene->filePath;
 		SaveEditorConfig();
 
-		// Create Scene
-		//GameObject_ptr editorGo = scene->CreateGameObject("EditorCamera");
-		//editorGo->AddComponent(new SceneEditor());
-		//editorGo->AddComponent(std::make_shared<EditorCamera>(EditorCamera()));
-
 		// SAVE SCENE
 		SceneManager::getInstance().SaveSceneToFile(*scene);
 
@@ -268,19 +263,10 @@ void SceneEditor::UpdateEditor()
 
 	if (ApplicationManager::getInstance().IsEditMode())
 	{
-		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
 		editorCameraGameObject->UpdateComponents();
 
-		//ImGui::ShowDemoWindow();
 		// GUI ======
-		bool open_dockspace = true;
-		UpdateDockSpace(&open_dockspace);
-		InspectorUpdate();
-		HierarchyUpdate();
+		UpdateGUI();
 
 		if (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
 		{
@@ -295,23 +281,8 @@ void SceneEditor::UpdateEditor()
 
 				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
-
-				// Create Box Material
-				//Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
-				//modelMaterial->LoadTexture("textures/container.jpg");
-				//std::shared_ptr<SimpleModelComponent> testModel( new SimpleModelComponent(DiffusedMappedCube, 36, 8,
-				//	DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
-				//testModel->Setup();
-				//go->AddComponent(testModel);
-
-				////Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
-				//Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
-				//std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
-				//go->AddComponent(modelNano);
-
 				selectedGameObject = go;
 				selectedIndex = scene->rootGameObjects.size() - 1;
-				//go->AddComponent(new TestMoverComponent());
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
 			{
@@ -675,6 +646,26 @@ static void ShowDockingDisabledMessage()
 	if (ImGui::SmallButton("click here"))
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
+// ===========================================================================================================================================================================
+static bool show_demo_menu = false;
+void SceneEditor::UpdateGUI()
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+
+	bool open_dockspace = true;
+	UpdateDockSpace(&open_dockspace);
+	InspectorUpdate();
+	HierarchyUpdate();
+
+	if (show_demo_menu)
+	{
+		ImGui::ShowDemoWindow();
+	}
+}
 
 void SceneEditor::UpdateDockSpace(bool* p_open)
 {
@@ -725,29 +716,145 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 	if (ImGui::BeginMenuBar())
 	{
-		if (ImGui::BeginMenu("Docking"))
+		if (ImGui::BeginMenu("File"))
 		{
-			// Disabling fullscreen would allow the window to be moved to the front of other windows, 
-			// which we can't undo at the moment without finer window depth/z control.
-			//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+			if (ImGui::BeginMenu("Scene"))
+			{
+				ImGui::Button("Open Scene...");
+				if (ImGui::BeginPopupContextItem("Open Scene", 0))
+				{
+					static char sceneName[32];
+					ImGui::Text("Scene Name:");
+					ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+					if (ImGui::Button("Open"))
+					{
+						Scene_ptr scene(new Scene("TEMP"));
+						bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName);
+						if (exists)
+						{
+							//std::cout << "Scene Found!" << std::endl;
+							// Activate Scene
+							SceneManager::getInstance().SetActiveScene(scene);
+							//std::cout << "LOADING NEW SCENE" << std::endl;
+							editorConfig->firstSceneFilepath = scene->filePath;
+						}
+						else
+						{
+							std::cout << "Scene not found." << std::endl;
+						}
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+				ImGui::Button("New Scene");
+				if (ImGui::BeginPopupContextItem("New Scene", 0))
+				{
+					static char sceneName[32];
+					ImGui::Text("Scene Name:");
+					ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+					if (ImGui::Button("Create"))
+					{
+						Scene_ptr scene(new Scene("TEMP"));
+						bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName);
+						if (!exists)
+						{
+							scene = SceneManager::getInstance().CreateNewScene(sceneName);
+							editorConfig->firstSceneFilepath = scene->filePath;
+							SaveEditorConfig();
 
-			if (ImGui::MenuItem("Flag: NoSplit", "", (opt_flags & ImGuiDockNodeFlags_NoSplit) != 0))                 opt_flags ^= ImGuiDockNodeFlags_NoSplit;
-			if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (opt_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  opt_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
-			if (ImGui::MenuItem("Flag: NoResize", "", (opt_flags & ImGuiDockNodeFlags_NoResize) != 0))                opt_flags ^= ImGuiDockNodeFlags_NoResize;
-			if (ImGui::MenuItem("Flag: PassthruDockspace", "", (opt_flags & ImGuiDockNodeFlags_PassthruDockspace) != 0))       opt_flags ^= ImGuiDockNodeFlags_PassthruDockspace;
-			if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (opt_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          opt_flags ^= ImGuiDockNodeFlags_AutoHideTabBar;
-			ImGui::Separator();
-			if (ImGui::MenuItem("Close DockSpace", NULL, false, p_open != NULL))
-				*p_open = false;
+							// SAVE SCENE
+							SceneManager::getInstance().SaveSceneToFile(*scene);
+
+							selectedGameObject = nullptr;
+							selectedIndex = -1;
+							// Activate Scene
+							SceneManager::getInstance().SetActiveScene(scene);
+						}
+						else
+						{
+							std::cout << "Scene already exists." << std::endl;
+						}
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+				ImGui::EndMenu();
+			}
 			ImGui::EndMenu();
 		}
-		HelpMarker(
-			"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
-			"This demo app has nothing to do with it!" "\n\n"
-			"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
-			"ImGui::DockSpace() comes with one hard constraint: it needs to be submitted _before_ any window which may be docked into it. Therefore, if you use a dock spot as the central point of your application, you'll probably want it to be part of the very first window you are submitting to imgui every frame." "\n\n"
-			"(NB: because of this constraint, the implicit \"Debug\" window can not be docked into an explicit DockSpace() node, because that window is submitted as part of the NewFrame() call. An easy workaround is that you can create your own implicit \"Debug##2\" window after calling DockSpace() and leave it in the window stack for anyone to use.)"
-		);
+		if (ImGui::BeginMenu("Edit"))
+		{
+			if (ImGui::BeginMenu("Create"))
+			{
+				// TODO: Create a way to add to this menu from another file.
+				if (ImGui::MenuItem("New Empty GameObject"))
+				{
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+					GameObject_ptr go = scene->CreateGameObject("New GameObject");
+					selectedGameObject = go;
+					selectedIndex = scene->rootGameObjects.size() - 1;
+				}
+				if (ImGui::MenuItem("New Box"))
+				{
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+					GameObject_ptr go = scene->CreateGameObject("New Box");
+					selectedGameObject = go;
+					selectedIndex = scene->rootGameObjects.size() - 1;
+					// Create Box Material
+					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+					modelMaterial->LoadTexture("textures/container.jpg");
+					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
+					testModel->Setup();
+					go->AddComponent(testModel);
+				}
+				if (ImGui::MenuItem("New Nanosuit"))
+				{
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+					GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
+					selectedGameObject = go;
+					selectedIndex = scene->rootGameObjects.size() - 1;
+					Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
+					std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+					go->AddComponent(modelNano);
+				}
+
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenu();
+		}
+		
+
+		if (ImGui::BeginMenu("Demo"))
+		{
+			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
+			if (ImGui::BeginMenu("Docking"))
+			{
+				// Disabling fullscreen would allow the window to be moved to the front of other windows, 
+				// which we can't undo at the moment without finer window depth/z control.
+				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+
+				if (ImGui::MenuItem("Flag: NoSplit", "", (opt_flags & ImGuiDockNodeFlags_NoSplit) != 0))                 opt_flags ^= ImGuiDockNodeFlags_NoSplit;
+				if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (opt_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  opt_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
+				if (ImGui::MenuItem("Flag: NoResize", "", (opt_flags & ImGuiDockNodeFlags_NoResize) != 0))                opt_flags ^= ImGuiDockNodeFlags_NoResize;
+				if (ImGui::MenuItem("Flag: PassthruDockspace", "", (opt_flags & ImGuiDockNodeFlags_PassthruDockspace) != 0))       opt_flags ^= ImGuiDockNodeFlags_PassthruDockspace;
+				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (opt_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          opt_flags ^= ImGuiDockNodeFlags_AutoHideTabBar;
+				ImGui::Separator();
+				if (ImGui::MenuItem("Close DockSpace", NULL, false, p_open != NULL))
+					*p_open = false;
+				ImGui::EndMenu();
+			}
+
+			HelpMarker(
+				"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
+				"This demo app has nothing to do with it!" "\n\n"
+				"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
+				"ImGui::DockSpace() comes with one hard constraint: it needs to be submitted _before_ any window which may be docked into it. Therefore, if you use a dock spot as the central point of your application, you'll probably want it to be part of the very first window you are submitting to imgui every frame." "\n\n"
+				"(NB: because of this constraint, the implicit \"Debug\" window can not be docked into an explicit DockSpace() node, because that window is submitted as part of the NewFrame() call. An easy workaround is that you can create your own implicit \"Debug##2\" window after calling DockSpace() and leave it in the window stack for anyone to use.)"
+			);
+			ImGui::EndMenu();
+		}
+
 
 		ImGui::EndMenuBar();
 	}
@@ -850,16 +957,13 @@ void SceneEditor::InspectorUpdate()
 			}
 		}
 
+		//TODO: Add Component Dropdown Menu
 
 	}
 	else
 	{
 		ImGui::Text("No GameObject Selected.");
 	}
-
-	//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-	//ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
 
 	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
@@ -872,7 +976,7 @@ void SceneEditor::HierarchyUpdate()
 
 
 	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
-	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(0, 50), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
 	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
 	//ImGui::SetNextWindowDockID(ImGui::GetID("EditorDockSpace"), ImGuiCond_Once);
