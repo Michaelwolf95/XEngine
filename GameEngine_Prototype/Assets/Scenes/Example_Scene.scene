@@ -2,7 +2,7 @@
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="17">
 <s class_id="0" tracking_level="0" version="0">
-	<name>New_Scene</name>
+	<name>Example_Scene</name>
 	<rootGameObjects class_id="1" tracking_level="0" version="0">
 		<count>4</count>
 		<item_version>1</item_version>
@@ -47,8 +47,8 @@
 								<fragmentShaderPath>3Dmodel.fs</fragmentShaderPath>
 								<Color class_id="12" tracking_level="0" version="0">
 									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
+									<vec.y>9.999899864e-01</vec.y>
+									<vec.z>9.999899864e-01</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>
 								<useLight>0</useLight>
@@ -99,8 +99,8 @@
 								<vertexShaderPath>3Dmodel.vs</vertexShaderPath>
 								<fragmentShaderPath>3Dmodel.fs</fragmentShaderPath>
 								<Color>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
+									<vec.x>9.999899864e-01</vec.x>
+									<vec.y>9.999917746e-01</vec.y>
 									<vec.z>1.000000000e+00</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>
@@ -152,8 +152,8 @@
 								<vertexShaderPath>3Dmodel.vs</vertexShaderPath>
 								<fragmentShaderPath>3Dmodel.fs</fragmentShaderPath>
 								<Color>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
+									<vec.x>9.999899864e-01</vec.x>
+									<vec.y>9.999935031e-01</vec.y>
 									<vec.z>1.000000000e+00</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>

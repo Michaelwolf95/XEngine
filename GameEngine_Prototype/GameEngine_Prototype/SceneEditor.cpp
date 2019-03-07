@@ -812,11 +812,29 @@ void SceneEditor::InspectorUpdate()
 		//ImGui::Text("Name: %s", selectedGameObject->name.c_str());
 		char name[16];
 		strcpy(name, selectedGameObject->name.c_str());// , );
-		ImGui::InputText("Name", name, 16);
-		if (name != selectedGameObject->name.c_str())
+		//ImGui::InputText("Name", name, 16);
+		char buf[64];
+		sprintf(buf, "GameObject: %s###Button", selectedGameObject->name.c_str()); // ### operator override ID ignoring the preceding label
+		ImGui::Button(buf);
+		if (ImGui::BeginPopupContextItem())
 		{
-			selectedGameObject->name = name;
+			ImGui::Text("Edit name:");
+			ImGui::InputText("##edit", name, IM_ARRAYSIZE(name));
+			
+			if (ImGui::Button("Submit"))
+			{
+				ImGui::CloseCurrentPopup();
+				if (name != selectedGameObject->name.c_str())
+				{
+					selectedGameObject->name = name;
+				}
+			}
+			ImGui::EndPopup();
 		}
+		//if (name != selectedGameObject->name.c_str())
+		//{
+		//	selectedGameObject->name = name;
+		//}
 		ImGui::Spacing();
 		if (ImGui::CollapsingHeader("Transform"))
 		{
@@ -854,7 +872,6 @@ void SceneEditor::HierarchyUpdate()
 
 
 	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
-	//ApplicationManager::APP_WINDOW.
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
 	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
@@ -899,8 +916,28 @@ void SceneEditor::HierarchyUpdate()
 	{
 		//ImGui::Text("Name: %s", scene->name.c_str());
 		//ImGui::Spacing();
-
-		if (ImGui::TreeNode(scene->name.c_str()))
+		//ImGui::editte
+		//static char name[32] = "Label1";
+		char name[32];
+		strcpy(name, scene->name.c_str());// , );
+		char buf[64]; 
+		sprintf(buf, "Scene: %s###Button", scene->name.c_str()); // ### operator override ID ignoring the preceding label
+		ImGui::Button(buf);
+		if (ImGui::BeginPopupContextItem())
+		{
+			ImGui::Text("Edit name:");
+			ImGui::InputText("##edit", name, IM_ARRAYSIZE(name));
+			if (ImGui::Button("Submit"))
+			{
+				if (name != scene->name.c_str())
+				{
+					scene->name = name;
+				}
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+		//if (ImGui::TreeNode(scene->name.c_str()))
 		{
 			//HelpMarker("This is a more standard looking tree with selectable nodes.\nClick to select, CTRL+Click to toggle, click on arrows or double-click to open.");
 			//static bool align_label_with_current_x_position = false;
@@ -942,7 +979,8 @@ void SceneEditor::HierarchyUpdate()
 			ImGui::PopStyleVar();
 			//if (align_label_with_current_x_position)
 			//	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-			ImGui::TreePop();
+
+			//ImGui::TreePop();
 		}
 
 	}

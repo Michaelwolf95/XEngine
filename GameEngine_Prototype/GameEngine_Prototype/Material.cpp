@@ -108,6 +108,7 @@ void Material::DrawInspector()
 		}
 
 		ImGui::Checkbox("Use Light", &useLight);
+		ImGui::ColorEdit4("Color", (float*)&Color);
 
 		if (ImGui::Button("Update"))
 		{
