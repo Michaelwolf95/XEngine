@@ -19,7 +19,7 @@ CameraComponent::CameraComponent()
 		0.1f, 100.0f);
 	//initGizmoRenderData();
 
-	gizmoDrawer = std::make_shared<GizmoSpriteDrawer>(GizmoSpriteDrawer("Editor/Gizmos/CameraGizmo.png"));
+	gizmoDrawer = std::shared_ptr<GizmoSpriteDrawer>(new GizmoSpriteDrawer("Editor/Gizmos/CameraGizmo.png"));
 }
 
 CameraComponent::~CameraComponent() 

@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Light.h"
 #include <glm/glm.hpp>
+#include "GizmoSpriteDrawer.h"
 class LightComponent : public Component, public Light
 {
 public:
@@ -26,8 +27,11 @@ public:
 	float getIntensity();
 	//GameObject* LightComponent::getGameObject();
 
+	void OnDrawGizmos() override;
 	void DrawInspector() override;
 private:
+	std::shared_ptr<GizmoSpriteDrawer> gizmoDrawer;
+
 	friend class boost::serialization::access;
 	template<class Archive>
 	void serialize(Archive &ar, const unsigned int version)

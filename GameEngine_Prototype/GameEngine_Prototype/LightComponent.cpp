@@ -8,6 +8,8 @@ LightComponent::LightComponent(glm::vec3 _color, float _intensity, int typeID) :
 	color = _color;
 	intensity = _intensity;
 	TYPE_ID = typeID;
+
+	gizmoDrawer = std::shared_ptr<GizmoSpriteDrawer>(new GizmoSpriteDrawer("Editor/Gizmos/LightGizmo.png"));
 }
 
 LightComponent::~LightComponent() {}
@@ -32,6 +34,11 @@ int LightComponent::getTypeID()
 
 float LightComponent::getIntensity() {
 	return intensity;
+}
+
+void LightComponent::OnDrawGizmos()
+{
+	gizmoDrawer->Draw(this->gameObject->transform->getPosition());
 }
 
 void LightComponent::DrawInspector()
