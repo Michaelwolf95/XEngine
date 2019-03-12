@@ -104,24 +104,42 @@ void Scene::Start()
 	isStarted = true;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
-		if (rootGameObjects[i]->isActive)
-		{
-			rootGameObjects[i]->StartComponents();
-		}
-		// ToDo: Recursively go through hierarchy. - CURRENTLY NO CHILDREN SUPPORT
+		StartGameObject(rootGameObjects[i]);
 
+	}
+}
+
+void Scene::StartGameObject(GameObject_ptr go)
+{
+	if (go->isActive)
+	{
+		go->StartComponents();
+		auto children = go->GetChildren();
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			StartGameObject(children[i]->GetSelfPtr());
+		}
 	}
 }
 
 void Scene::Update()
 {
-	//PrintScene();
-	//std::cout << "Updating Scene... " << rootGameObjects.size() << std::endl;
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
-		rootGameObjects[i]->UpdateComponents();
+		UpdateGameObject(rootGameObjects[i]);
+	}
+}
 
-		// ToDo: Recursively go through hierarchy. - CURRENTLY NO CHILDREN SUPPORT
+void Scene::UpdateGameObject(GameObject_ptr go)
+{
+	if (go->isActive)
+	{
+		go->UpdateComponents();
+		auto children = go->GetChildren();
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			UpdateGameObject(children[i]->GetSelfPtr());
+		}
 	}
 }
 
@@ -143,28 +161,23 @@ void Scene::DeleteGameObject(GameObject_ptr go)
 	auto n = std::find(allGameObjects.begin(), allGameObjects.end(), go);
 	if (n != allGameObjects.end())
 	{
+		// Move to back of the vector. (to pop-off later)
 		allGameObjects.erase(n);
 		allGameObjects.insert(allGameObjects.end(), go);
-		//std::move(allGameObjects.begin(), allGameObjects.end())
 
-		// TODO: Remove from parents child list.
+		// Unparent
 		go->transform->SetParent(nullptr);
 
-		// TODO: Delete all children.
+		// Delete all children - leaf nodes will be deleted first.
 		std::vector<GameObject*> children = go->GetChildren();
 		for (size_t i = 0; i < children.size(); i++)
 		{
 			DeleteGameObject(children[i]->GetSelfPtr());
 		}
 
-		// From Tutorial:
-		//    swap the one to be removed with the last element and remove the item at the end of the container
-		//    to prevent moving all items after '5' by one
-		//auto n = std::find(allGameObjects.begin(), allGameObjects.end(), go);
-		std::cout << "-- Deleting " << go->name << std::endl;
-		//std::remov
-		//std::swap(go, allGameObjects.back());
+		// Reset shared_ptr (Deletion)
 		go.reset();
+		// Pop vector.
 		allGameObjects.pop_back();
 	}
 	OnHierarchyUpdate();
@@ -173,11 +186,8 @@ void Scene::DeleteGameObject(GameObject_ptr go)
 void Scene::OnHierarchyUpdate()
 {
 	rootGameObjects.clear();
-	// TODO: Delete Empty or null
-	for (size_t i = 0; i < allGameObjects.size(); i++)
-	{
+	// TODO: Delete Empty or null objects if they exist.
 
-	}
 	for (size_t i = 0; i < allGameObjects.size(); i++)
 	{
 		if (allGameObjects[i] == nullptr)
@@ -191,13 +201,3 @@ void Scene::OnHierarchyUpdate()
 		}
 	}
 }
-
-//GameObject_ptr Scene::FindSharedGameObjectPointer(GameObject* go)
-//{
-//	for (size_t i = 0; i < allGameObjects.size(); i++)
-//	{
-//		if(allGameObjects[i].get() )
-//	}
-//	return GameObject_ptr();
-//}
-
