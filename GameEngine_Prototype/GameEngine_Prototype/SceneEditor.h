@@ -32,7 +32,6 @@ public:
 	EditorCamera* editorCamera;
 
 	GameObject_ptr selectedGameObject = nullptr;
-	//int selectedIndex = -1;
 	ManipToolMode manipTool = ManipToolMode::None;
 
 	static SceneEditor* CreateManager();
@@ -62,7 +61,7 @@ public:
 	void AddComponentMenu();
 	void LoadSceneMenu();
 
-	//imGUI update.
+	//ImGui update.
 	void UpdateGUI();
 	void UpdateDockSpace(bool* p_open);
 	void InspectorUpdate();

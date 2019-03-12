@@ -89,9 +89,7 @@ void Scene::Reset()
 void Scene::Unload()
 {
 	std::cout << "\tUnloading Scene " << name << std::endl;
-	std::cout << "\tClearing GameObjects."<< std::endl;
 	rootGameObjects.clear();
-	//std::cout << "Done Clearing GameObjects." << std::endl;
 	PrintScene();
 	
 	isLoaded = false;
@@ -105,7 +103,6 @@ void Scene::Start()
 	for (size_t i = 0; i < rootGameObjects.size(); i++)
 	{
 		StartGameObject(rootGameObjects[i]);
-
 	}
 }
 

@@ -167,7 +167,6 @@ void SceneEditor::LoadInitialEditorScene()
 			//scene = &sc;
 			// Activate Scene
 			selectedGameObject = nullptr;
-			//selectedIndex = -1;
 			SceneManager::getInstance().SetActiveScene(scene);
 			return;
 		}
@@ -219,7 +218,6 @@ void SceneEditor::StartEditMode()
 			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 1)
 			{
 				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[0];
-				//selectedIndex = 0;
 				std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
 			}
 		}
@@ -234,7 +232,6 @@ void SceneEditor::ExitEditMode()
 	{
 		std::cout << "EXITING EDIT MODE =========================" << std::endl;
 		selectedGameObject = nullptr;
-		//selectedIndex = -1;
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -282,14 +279,12 @@ void SceneEditor::UpdateEditor()
 				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
-				//selectedIndex = scene->rootGameObjects.size() - 1;
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
 			{
 				if (selectedGameObject == nullptr)
 				{
 					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					//scene->PrintScene();
 
 					// Set focus to console.
 					SetFocus(GetConsoleWindow());
@@ -302,9 +297,7 @@ void SceneEditor::UpdateEditor()
 					{
 						std::cout << "Select GameObject Index: ";// << std::endl;
 						std::cin >> sIndex;
-						//std::cout << std::endl;
 						selectedGameObject = scene->rootGameObjects[sIndex];
-						//selectedIndex = sIndex;
 					}
 					std::cout << "Selected: " << selectedGameObject->name << std::endl;
 
@@ -351,7 +344,6 @@ void SceneEditor::UpdateEditor()
 				}
 				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 				selectedGameObject = nullptr;
-				//selectedIndex = -1;
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_A))
 			{
@@ -607,7 +599,6 @@ void SceneEditor::LoadSceneMenu()
 			SceneManager::getInstance().SaveSceneToFile(*scene);
 
 			selectedGameObject = nullptr;
-			//selectedIndex = -1;
 			// Activate Scene
 			SceneManager::getInstance().SetActiveScene(scene);
 		}
@@ -772,7 +763,6 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 						SceneManager::getInstance().SaveSceneToFile(*scene);
 
 						selectedGameObject = nullptr;
-						//selectedIndex = -1;
 						// Activate Scene
 						SceneManager::getInstance().SetActiveScene(scene);
 					}
@@ -794,14 +784,12 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
-				//selectedIndex = scene->rootGameObjects.size() - 1;
 			}
 			if (ImGui::MenuItem("New Box"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Box");
 				selectedGameObject = go;
-				//selectedIndex = scene->rootGameObjects.size() - 1;
 				// Create Box Material
 				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 				modelMaterial->LoadTexture("textures/container.jpg");
@@ -833,7 +821,6 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				//selectedIndex = scene->rootGameObjects.size() - 1;
 				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				go->AddComponent(modelNano);
@@ -911,7 +898,6 @@ void SceneEditor::InspectorUpdate()
 				{
 					SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 					selectedGameObject = nullptr;
-					//selectedIndex = -1;
 				}
 			}
 			ImGui::EndMenu();
@@ -1041,7 +1027,6 @@ void SceneEditor::HierarchyUpdate()
 		if (ImGui::BeginPopupContextItem("scene_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			//ImGui::InputText("##edit", &scene->name[0], IM_ARRAYSIZE(&scene->name[0]));
 			ImGui::InputText("##edit", &scene->name);
 			ImGui::EndPopup();
 		}
