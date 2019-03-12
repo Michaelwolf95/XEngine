@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include <iostream>
-
+#include <vector>
 Scene::Scene()
 {
 	name = "New Scene";
@@ -143,13 +143,9 @@ void Scene::DeleteGameObject(GameObject_ptr go)
 	auto n = std::find(allGameObjects.begin(), allGameObjects.end(), go);
 	if (n != allGameObjects.end())
 	{
-		// From Tutorial:
-		//    swap the one to be removed with the last element and remove the item at the end of the container
-		//    to prevent moving all items after '5' by one
-		std::swap(*n, allGameObjects.back());
-		n->reset();
-		allGameObjects.pop_back();
-
+		allGameObjects.erase(n);
+		allGameObjects.insert(allGameObjects.end(), go);
+		//std::move(allGameObjects.begin(), allGameObjects.end())
 
 		// TODO: Remove from parents child list.
 		go->transform->SetParent(nullptr);
@@ -161,6 +157,15 @@ void Scene::DeleteGameObject(GameObject_ptr go)
 			DeleteGameObject(children[i]->GetSelfPtr());
 		}
 
+		// From Tutorial:
+		//    swap the one to be removed with the last element and remove the item at the end of the container
+		//    to prevent moving all items after '5' by one
+		//auto n = std::find(allGameObjects.begin(), allGameObjects.end(), go);
+		std::cout << "-- Deleting " << go->name << std::endl;
+		//std::remov
+		//std::swap(go, allGameObjects.back());
+		go.reset();
+		allGameObjects.pop_back();
 	}
 	OnHierarchyUpdate();
 }
