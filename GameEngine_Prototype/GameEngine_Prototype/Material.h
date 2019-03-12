@@ -1,22 +1,36 @@
 #pragma once
+#ifndef MATERIAL_H
+#define MATERIAL_H
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Shader.h"
 #include "Serialization.h"
+#include <vector>
 
 /* TODO: The information we want to store about each material
 should be stored in "material modules" that can be attached to it.
 For now, we can just use some flags to check if its lit or not.
 */
+
+struct Texture {
+	// texture id
+	unsigned int id;
+	// texture type
+	std::string type;
+	// texture path
+	std::string path;
+};
+
 class Material
 {
 public:
-	std::string name;
+	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
 	Shader* shader;
 	bool useLight = false;
+	std::vector<Texture> textures;
 
 	std::string textureFilePath;
 	unsigned int textureID = 0;
@@ -75,3 +89,4 @@ private:
 
 //std::ostream & operator<<(std::ostream &os, const Material &material);
 //BOOST_SERIALIZATION_
+#endif // !1

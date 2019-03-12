@@ -20,26 +20,22 @@
 #include <map>
 #include <vector>
 
-using namespace std;
-
-
 class MeshRenderer: public RenderableObject, public Component
 {
 	public:
 		static Registrar<MeshRenderer> registrar;
 
-		//GameObject* gameObject; // The owner of the component.
-		vector<Texture> textures_loaded;
-		vector<Mesh> meshes;
-		string directory;
+		std::vector<Texture> textures_loaded;
+		std::vector<Mesh> meshes;
+		std::string directory;
 		bool gammaCorrection;
-		
-		string pathToObjModel;
+		std::string pathToObjModel;
 
+		// mapping name of mesh to its respective material in the mesh renderer
+		std::unordered_map<std::string, Material*> MeshToMaterial;
+		
 		// Constructor
 		MeshRenderer(string const &path, Material* m = nullptr, bool gamma = false);
-
-		//MeshRenderer(string const & path, Material * m);
 
 		MeshRenderer();
 		// Deconstructor
