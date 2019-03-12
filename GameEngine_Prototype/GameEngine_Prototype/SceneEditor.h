@@ -68,6 +68,7 @@ public:
 	void InspectorUpdate();
 	void HierarchyUpdate();
 	void DrawGameObjectTreeNode(GameObject * go, std::string label);
+
 	void ConfigureWindowLayout();
 };
 

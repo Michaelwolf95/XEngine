@@ -59,7 +59,6 @@ public:
 
 	void TestEulerRotation(float x, float y, float z);
 
-// ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
 private:
 	friend class GameObject;
 	Transform* parent = nullptr;
@@ -87,7 +86,6 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(localScale);
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
 		
-		//std::cout << "Saved Parent Address:" << parent << std::endl;
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
@@ -102,12 +100,9 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
 		setLocalRotation(localRotation);
 
-		//std::cout << "Loaded Parent Address: " << parent << std::endl;
-
 		if (parent != nullptr)
 		{
 			parent->children.push_back(this);
-			//std::cout << "  Parent GO:" << parent->gameObject->name << std::endl;
 		}
 	}
 };

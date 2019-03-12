@@ -16,6 +16,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_inspector_extensions.h"
+#include "imgui_stdlib.h"
 
 SceneEditor * SceneEditor::CreateManager()
 {
@@ -182,7 +184,6 @@ void SceneEditor::LoadInitialEditorScene()
 
 		// Activate Scene
 		selectedGameObject = nullptr;
-		//selectedIndex = -1;
 		SceneManager::getInstance().SetActiveScene(scene);
 	}
 	
@@ -192,7 +193,6 @@ void SceneEditor::LoadInitialEditorScene()
 
 void SceneEditor::StartEditMode()
 {
-	//std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
 	if (ApplicationManager::getInstance().IsEditMode() == false)
 	{
 		ApplicationManager::getInstance().SetEditMode(true);
@@ -934,7 +934,8 @@ void SceneEditor::InspectorUpdate()
 		if (ImGui::BeginPopupContextItem("gameObject_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			ImGui::InputText("##edit", &selectedGameObject->name[0], 16);// IM_ARRAYSIZE(&selectedGameObject->name[0]));
+			//SceneEditor::InputTextField(selectedGameObject->name, "##edit");
+			ImGui::InputText("##edit", &selectedGameObject->name);
 			ImGui::EndPopup();
 		}
 		ImGui::Spacing();
@@ -1040,7 +1041,8 @@ void SceneEditor::HierarchyUpdate()
 		if (ImGui::BeginPopupContextItem("scene_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			ImGui::InputText("##edit", &scene->name[0], IM_ARRAYSIZE(&scene->name[0]));
+			//ImGui::InputText("##edit", &scene->name[0], IM_ARRAYSIZE(&scene->name[0]));
+			ImGui::InputText("##edit", &scene->name);
 			ImGui::EndPopup();
 		}
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
@@ -1089,7 +1091,6 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		ImGui::TreePop();
 	}
 }
-
 
 // NOT IMPLEMENTED YET
 // TODO: Change the window layout depending on being in X_EDIT_MODE

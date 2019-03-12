@@ -257,13 +257,20 @@ void Transform::SetParent(Transform * _parent)
 			std::swap(*n, this->parent->children.back());
 			this->parent->children.pop_back();
 		}
-		//this->gameObject
 	}
 
 	parent = _parent;
-	parent->children.push_back(this);
+	if (_parent == nullptr)
+	{
+
+	}
+	else
+	{
+		parent->children.push_back(this);
+	}
 
 	// TEMP WORK AROUND.
+	// TODO: Resolve dependency on SceneManager
 	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 	if (scene != nullptr)
 	{
@@ -472,10 +479,10 @@ void Transform::Translate(glm::vec3 translation)
 
 void Transform::Rotate(glm::vec3 rotation)
 {
-	//rotation.x = glm::radians(rotation.x);
-	//rotation.y = glm::radians(rotation.y);
-	//rotation.z = glm::radians(rotation.z);
-	//
+	rotation.x = glm::radians(rotation.x);
+	rotation.y = glm::radians(rotation.y);
+	rotation.z = glm::radians(rotation.z);
+	
 	//if (rotation.x != 0)
 	//{
 	//	//model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
@@ -508,8 +515,6 @@ void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
 	glm::vec3 pos = getPosition();
 	//model = glm::lookAt(pos, lookPos, up);
 	glm::quat result = glm::quatLookAt(glm::normalize(lookPos - pos), up);
-
-	//glm::look
 
 	//std::cout << "lookQuat:   (" << result.w << ", " << result.x << ", " << result.y << ", " << result.z << ")" << std::endl;
 	//rotateMatrix = glm::lookAt(pos, lookPos, up);
@@ -583,8 +588,6 @@ void Transform::UpdateMatrix()
 	localPosition = getLocalPosition();
 	localRotation = getLocalRotation();
 	localScale = getLocalScale();
-
-	//std::cout << "scale:   (" << localScale.x << ", " << localScale.y << ", " << localScale.z << ")" << std::endl;
 }
 
 void Transform::OnDrawGizmos()

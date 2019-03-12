@@ -1,13 +1,13 @@
 #include <vector>
 #include "GameObject.h"
-//#include "Transform.h"
 #include "ApplicationManager.h"
 
 std::ostream & operator<<(std::ostream &os, const GameObject &go)
 {
 	//std::list<bus_stop *>::const_iterator it;
-	// note: we're displaying the pointer to permit verification
-	// that duplicated pointers are properly restored.
+	// From Tutorial:
+	//    note: we're displaying the pointer to permit verification
+	//    that duplicated pointers are properly restored.
 	std::vector<Component_ptr>::const_iterator it;
 	for (it = go.components.begin(); it != go.components.end(); it++) {
 		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
@@ -28,66 +28,17 @@ GameObject::GameObject(const char* _name)
 	}
 	transform = new Transform();
 	transform->gameObject = this;// shared_from_this();
-	std::cout << "Constructed GameObject: " << name << "\t Transform: " << transform << std::endl;
 }
 
 GameObject::~GameObject()
 {
-	std::cout << "\tGameObject " << name << " Deconstructed." << std::endl;
+	std::cout << "\tDeconstructing " << name << "..." << std::endl;
+	//TODO: Deconstruct children.
+	
+
 	components.clear();
 }
-//
-//// Public Access
-//void GameObject::SetParent(GameObject_ptr newParent)
-//{
-//	if (newParent == parent)
-//		return;
-//	if (newParent == nullptr)
-//	{
-//		std::cout << "NOT YET IMPLEMENTED: GameObject set parent to null. Should be set as a rootGameObject for the scene." << std::endl;
-//
-//		// TODO: Set as rootGameObject in scene...?
-//
-//
-//		this->transform->parent = nullptr;
-//		return;
-//	}
-//	GameObject_ptr sharedSelf = shared_from_this();
-//	
-//	GameObject_ptr prevParent = this->parent;
-//	if (prevParent != nullptr)
-//	{
-//		prevParent->RemoveChild(sharedSelf);
-//	}
-//
-//	//newParent->children.push_back(sharedSelf);
-//	newParent->AddChild(sharedSelf);
-//
-//	this->transform->parent = newParent->transform;
-//
-//}
-//// PRIVATE ACCESS
-//void GameObject::AddChild(GameObject_ptr child)
-//{
-//	if(child->parent.get() != this)
-//	{
-//		children.push_back(child);
-//		
-//		//child->transform->SetParent(this->transform);
-//		//comp->gameObject = this;// shared_from_this();
-//	}
-//}
-//// PRIVATE ACCESS
-//void GameObject::RemoveChild(GameObject_ptr child)
-//{
-//	if (child->parent.get() == this)
-//	{
-//		std::swap(child, children.back());
-//		children.pop_back();
-//	}
-//}
 
-//
 std::vector<GameObject*> GameObject::GetChildren()
 {
 	std::vector<GameObject*> children;
@@ -107,12 +58,6 @@ GameObject* GameObject::GetChild(int index)
 	return nullptr;
 }
 
-
-//void GameObject::AddComponent(Component* comp)
-//{
-//	//std::shared_ptr<comp> my_ptr(raw_ptr)
-//	AddComponent(std::make_shared<Component>(comp));
-//}
 void GameObject::AddComponent(Component_ptr comp)
 {
 	components.push_back(comp);
@@ -126,12 +71,10 @@ void GameObject::RemoveComponent(Component_ptr comp)
 	auto n = std::find(components.begin(), components.end(), comp);
 	if (n != components.end())
 	{
-		// swap the one to be removed with the last element
-		// and remove the item at the end of the container
-		// to prevent moving all items after '5' by one
+		// swap the one to be removed with the last element and remove the item at the end of the container
+		// to prevent moving all items after it by one
 		std::swap(*n, components.back());
 		components.pop_back();
-		//comp->gameObject = nullptr;
 	}
 }
 
@@ -151,6 +94,7 @@ void GameObject::StartComponents()
 	}
 }
 
+//TODO: Remove dependency on ApplicationManager
 void GameObject::StartComponent(Component_ptr comp)
 {
 	if((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
@@ -197,6 +141,8 @@ bool GameObject::FindComponent(const std::type_info& typeInfo, void** object)
 	})!= NULL);
 }
 
+// WARNING: This can cause crashes if a shared_ptr to the object does not already exist.
+// TODO: Add safety measure to prevent crashes.
 GameObject_ptr GameObject::GetSelfPtr()
 {
 	return shared_from_this();

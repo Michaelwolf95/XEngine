@@ -6,6 +6,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_inspector_extensions.h"
+#include "imgui_stdlib.h"
 #endif
 
 #include <glad/glad.h>
