@@ -119,9 +119,9 @@ glm::vec3 Transform::getPosition()
 		glm::vec3 parentPos = this->parent->getPosition();
 		glm::vec3 parentScale = this->parent->getScale();
 		return glm::vec3(
-			parentPos.x + this->localPosition.x,
-			parentPos.y + this->localPosition.y,
-			parentPos.z + this->localPosition.z);
+			parentPos.x + (this->localPosition.x * parentScale.x),
+			parentPos.y + (this->localPosition.y* parentScale.y),
+			parentPos.z + (this->localPosition.z* parentScale.z));
 	}
 	else
 		return getLocalPosition();
@@ -137,7 +137,6 @@ void Transform::setLocalPosition(glm::vec3 pos)
 	translateMatrix[3].z = pos.z;
 	UpdateMatrix();
 }
-
 
 // ROTATION ACCESS =====================================================================================================
 //

@@ -77,8 +77,9 @@ void Material::Load()
 
 void Material::LoadTexture(const char * _textureFilePath)
 {
-	textureFilePath = _textureFilePath;
-	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
+	textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
+	//textureFilePath = _textureFilePath;
+	//AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
 
 void Material::DrawInspector()

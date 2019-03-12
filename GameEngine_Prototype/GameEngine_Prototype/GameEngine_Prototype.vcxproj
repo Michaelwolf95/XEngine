@@ -169,6 +169,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClCompile Include="Analytics.cpp" />
     <ClCompile Include="ApplicationManager.cpp" />
+    <ClCompile Include="AssetLibrary.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="AutoMover.cpp" />
@@ -196,6 +197,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="PrimitiveModels.cpp" />
     <ClCompile Include="SceneEditor.cpp" />
+    <ClCompile Include="TextureLibrary.cpp" />
     <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -224,6 +226,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="Analytics.h" />
     <ClInclude Include="ApplicationManager.h" />
+    <ClInclude Include="AssetLibrary.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="AutoMover.h" />
@@ -258,6 +261,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="TestScenes.h" />
+    <ClInclude Include="TextureLibrary.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />

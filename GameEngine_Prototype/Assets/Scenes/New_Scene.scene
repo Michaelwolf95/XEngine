@@ -15,14 +15,14 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition class_id="6" tracking_level="0" version="0">
-						<vec.x>-2.275907993e-01</vec.x>
-						<vec.y>-3.938674927e-02</vec.y>
-						<vec.z>5.680231094e+00</vec.z>
+						<vec.x>-2.889156342e-02</vec.x>
+						<vec.y>-1.338171959e-01</vec.y>
+						<vec.z>5.635299206e+00</vec.z>
 					</localPosition>
 					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
+						<vec.x>4.969940186e-01</vec.x>
+						<vec.y>4.404563904e-01</vec.y>
+						<vec.z>5.500221252e-01</vec.z>
 					</localScale>
 					<localRotation class_id="7" tracking_level="0" version="0">
 						<q.x>0.000000000e+00</q.x>
@@ -127,9 +127,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>-1.179313660e-01</vec.x>
-						<vec.y>9.850692749e-01</vec.y>
-						<vec.z>4.363641739e+00</vec.z>
+						<vec.x>5.308127403e-01</vec.x>
+						<vec.y>-1.773309708e-01</vec.y>
+						<vec.z>5.046539307e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
