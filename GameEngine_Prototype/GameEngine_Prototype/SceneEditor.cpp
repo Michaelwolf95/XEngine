@@ -9,15 +9,17 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "MeshRenderer.h"
-//TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
-//#include <boost/filesystem.hpp>
-#include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
-// imGUI
+// ImGui
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
+//TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
+//#include <boost/filesystem.hpp>
+#include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
+
+#pragma region Initialization
 
 SceneEditor * SceneEditor::CreateManager()
 {
@@ -36,7 +38,6 @@ int SceneEditor::Init()
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
 	editorCameraGameObject->AddComponent(editCamPtr);
-	//std::cout << "EditorCam Address: " << editorCamera << std::endl;
 
 	GLFWwindow* window = ApplicationManager::APP_WINDOW;
 
@@ -84,6 +85,8 @@ void SceneEditor::EditorPostRender()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	SceneEditor::getInstance().DrawEditorGizmos();
 }
+
+#pragma endregion
 
 #pragma region EDITOR CONFIG
 
@@ -182,6 +185,8 @@ void SceneEditor::LoadInitialEditorScene()
 
 #pragma endregion
 
+#pragma region EDIT_MODE_CONTROL
+
 void SceneEditor::StartEditMode()
 {
 	if (ApplicationManager::getInstance().IsEditMode() == false)
@@ -196,14 +201,12 @@ void SceneEditor::StartEditMode()
 		{
 			selectedGameObject = nullptr;
 			SceneEditor::getInstance().LoadInitialEditorScene();
-			std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
+			std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Toggle Edit Mode." << std::endl;
 		}
 		
-		std::cout << "ENTERING EDIT MODE =========================" << std::endl;
-		std::cout << "\tCTRL+E: Select Object to Edit" << std::endl;
+		std::cout << "ENTERING EDIT MODE =============================" << std::endl;
 		std::cout << "\tCTRL+S: Save Scene" << std::endl;
 		std::cout << "\tCTRL+P: Print Scene" << std::endl;
-		std::cout << "\tCTRL+I: Inspect Selected Object" << std::endl;
 		std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
 
 		if (selectedGameObject == nullptr)
@@ -211,10 +214,9 @@ void SceneEditor::StartEditMode()
 			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 1)
 			{
 				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[0];
-				std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
+				//std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
 			}
 		}
-
 		RenderManager::getInstance().setCurrentCamera(editorCamera);
 	}
 }
@@ -258,6 +260,7 @@ void SceneEditor::UpdateEditor()
 		// GUI ======
 		UpdateGUI();
 
+		// Keyboard Input ======
 		if (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
 		{
 			if (Input::GetKeyDown(GLFW_KEY_S))
@@ -265,111 +268,9 @@ void SceneEditor::UpdateEditor()
 				// Might need to add some sort of "wait until it finished saving" functionality.
 				SceneManager::getInstance().SaveActiveScene();
 			}
-			else if (Input::GetKeyDown(GLFW_KEY_N)) // New GameObject
-			{
-				std::cout << "Creating New GameObject" << std::endl;
-
-				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New GameObject");
-				selectedGameObject = go;
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
-			{
-				if (selectedGameObject == nullptr)
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-
-					// Set focus to console.
-					SetFocus(GetConsoleWindow());
-					BringWindowToTop(GetConsoleWindow());
-					//glfwFocusWindow(glfwconsole)
-
-					// Select GameObject by index.
-					int sIndex = -1;
-					while (sIndex < 0 && sIndex > scene->rootGameObjects.size())
-					{
-						std::cout << "Select GameObject Index: ";// << std::endl;
-						std::cin >> sIndex;
-						selectedGameObject = scene->rootGameObjects[sIndex];
-					}
-					std::cout << "Selected: " << selectedGameObject->name << std::endl;
-
-					// Set focus back to app.
-					glfwFocusWindow(ApplicationManager::APP_WINDOW);
-				}
-				else
-				{
-					selectedGameObject = nullptr;
-					std::cout << "No longer selecting." << std::endl;
-				}
-			}
 			else if(Input::GetKeyDown(GLFW_KEY_P)) // Print Scene
 			{
 				SceneManager::getInstance().GetActiveScene()->PrintScene();
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_I)) // Inspect selected
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Inspect." << std::endl;
-				}
-				else
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					auto index = std::distance(scene->rootGameObjects.begin(), std::find(scene->rootGameObjects.begin(), scene->rootGameObjects.end(), selectedGameObject));
-					std::cout << "Inspecting Object: [" << index << "]: " << selectedGameObject->name << std::endl;
-					// Output current position.
-					glm::vec3 pos = selectedGameObject->transform->getPosition();
-					std::cout << "Pos:  (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
-					// Output current local scale.
-					glm::vec3 scale = selectedGameObject->transform->getLocalScale();
-					std::cout << "Scale:(" << scale.x << ", " << scale.y << ", " << scale.z << ")" << std::endl;
-					glm::quat rot = selectedGameObject->transform->getLocalRotation();
-					std::cout << "Rot:  (" << rot.x << ", " << rot.y << ", " << rot.z << ", " << rot.w << ")" << std::endl;
-				}
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_D)) // Delete selected
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Delete." << std::endl;
-					return;
-				}
-				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
-				selectedGameObject = nullptr;
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_A))
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Add Component." << std::endl;
-					return;
-				}
-				std::cout << "Add Component:" << std::endl;
-				AddComponentMenu();
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_R))
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Rename" << std::endl;
-					return;
-				}
-				// Set focus to console.
-				SetFocus(GetConsoleWindow());
-				BringWindowToTop(GetConsoleWindow());
-
-				std::cout << "Renaming: " << selectedGameObject->name << std::endl;
-				//std::string newName;
-				std::cout << "Name: ";
-				std::cin >> selectedGameObject->name;
-
-				// Set focus back to app.
-				glfwFocusWindow(ApplicationManager::APP_WINDOW);
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_L))
-			{
-				LoadSceneMenu();
 			}
 		}
 		else // Ctrl not pressed.
@@ -392,6 +293,9 @@ void SceneEditor::DrawEditorGizmos()
 		selectedGameObject->transform->DrawGizmo();
 	}
 }
+#pragma endregion
+
+#pragma region MANIPULATION_TOOLS
 
 void SceneEditor::SelectManipTool()
 {
@@ -525,111 +429,10 @@ void SceneEditor::ScaleTool()
 			selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (-up * deltaScale));
 	}
 }
+#pragma endregion
 
-void SceneEditor::AddComponentMenu()
-{
-	std::vector<ComponentTypeInfo> componentTypes;
-	for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry()) 
-	{
-		//std::cout << element.first.name() << ": " << element.second.name << std::endl;
-		componentTypes.push_back(element.second);
-	}
-	for (size_t i = 0; i < componentTypes.size(); i++)
-	{
-		std::cout << "["<< i << "]: " << componentTypes[i].name << std::endl;
-	}
+#pragma region Editor_GUI
 
-	// Set focus to console.
-	SetFocus(GetConsoleWindow());
-	BringWindowToTop(GetConsoleWindow());
-
-	// Select GameObject by index.
-	int selectIndex = -1;
-	while (selectIndex < 0 && selectIndex > componentTypes.size())
-	{
-		std::cout << "Select Component Index: ";
-		std::cin >> selectIndex;
-	}
-	selectedGameObject->AddComponent(componentTypes[selectIndex].Constructor());
-	std::cout << "Added new '" << componentTypes[selectIndex].name << "' to " << selectedGameObject->name << std::endl;
-
-	// Set focus back to app.
-	glfwFocusWindow(ApplicationManager::APP_WINDOW);
-}
-
-void SceneEditor::LoadSceneMenu()
-{
-	// Set focus to console.
-	SetFocus(GetConsoleWindow());
-	BringWindowToTop(GetConsoleWindow());
-
-	std::cout << "Select a Scene to Load: ";
-	std::string sceneName;
-	std::cin >> sceneName;
-	Scene_ptr scene(new Scene("TEMP"));
-	bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName.c_str());
-	if (exists)
-	{
-		std::cout << "Scene Found!" << std::endl;
-		// Activate Scene
-		SceneManager::getInstance().SetActiveScene(scene);
-		//std::cout << "LOADING NEW SCENE" << std::endl;
-		editorConfig->firstSceneFilepath = scene->filePath;
-	}
-	else
-	{
-		std::cout << "Scene not found." << std::endl;
-		std::cout << "Create new Scene? (y/n): " << std::endl;
-		std::string answer;
-		std::cin >> answer;
-		if (answer == "Y" || answer == "y" || answer == "yes")
-		{
-			scene = SceneManager::getInstance().CreateNewScene(sceneName.c_str());
-			editorConfig->firstSceneFilepath = scene->filePath;
-			SaveEditorConfig();
-
-			// SAVE SCENE
-			SceneManager::getInstance().SaveSceneToFile(*scene);
-
-			selectedGameObject = nullptr;
-			// Activate Scene
-			SceneManager::getInstance().SetActiveScene(scene);
-		}
-		else
-		{
-			std::cout << "Not creating new scene." << std::endl;
-		}
-	}
-
-
-	// Set focus back to app.
-	glfwFocusWindow(ApplicationManager::APP_WINDOW);
-}
-
-
-// Helper to display a little (?) mark which shows a tooltip when hovered.
-static void HelpMarker(const char* desc)
-{
-	ImGui::TextDisabled("(?)");
-	if (ImGui::IsItemHovered())
-	{
-		ImGui::BeginTooltip();
-		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-		ImGui::TextUnformatted(desc);
-		ImGui::PopTextWrapPos();
-		ImGui::EndTooltip();
-	}
-}
-
-static void ShowDockingDisabledMessage()
-{
-	ImGuiIO& io = ImGui::GetIO();
-	ImGui::Text("ERROR: Docking is not enabled! See Demo > Configuration.");
-	ImGui::Text("Set io.ConfigFlags |= ImGuiConfigFlags_DockingEnable in your code, or ");
-	ImGui::SameLine(0.0f, 0.0f);
-	if (ImGui::SmallButton("click here"))
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-}
 // ===========================================================================================================================================================================
 // Editor GUI
 // ===========================================================================================================================================================================
@@ -702,7 +505,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 	}
 	else
 	{
-		ShowDockingDisabledMessage();
+		//ShowDockingDisabledMessage();
 	}
 	opt_flags |= ImGuiDockNodeFlags_PassthruDockspace;
 
@@ -842,7 +645,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				ImGui::EndMenu();
 			}
 
-			HelpMarker(
+			ImGui::HelpMarker(
 				"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
 				"This demo app has nothing to do with it!" "\n\n"
 				"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
@@ -1091,4 +894,6 @@ void SceneEditor::ConfigureWindowLayout()
 	//int appPosY = border_thickness; // border_thickness
 	//glfwSetWindowPos(ApplicationManager::APP_WINDOW, appPosX, appPosY);
 }
+
+#pragma endregion
 

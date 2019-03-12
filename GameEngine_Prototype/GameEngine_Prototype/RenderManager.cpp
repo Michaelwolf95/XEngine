@@ -94,7 +94,7 @@ Camera* RenderManager::getCurrentCamera()
 
 void RenderManager::setCurrentCamera(Camera* cam)
 {
-	std::cout << "Setting Current Cam: " << cam << std::endl;
+	//std::cout << "Setting Current Cam: " << cam << std::endl;
 	if (currentCamera != cam)
 	{
 		currentCamera = cam;
