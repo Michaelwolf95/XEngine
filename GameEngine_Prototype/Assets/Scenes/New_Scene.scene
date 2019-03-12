@@ -71,9 +71,9 @@
 					</Component>
 					<parent class_id_reference="4" object_id_reference="_1"></parent>
 					<localPosition>
-						<vec.x>1.266635656e+00</vec.x>
+						<vec.x>1.340342760e+00</vec.x>
 						<vec.y>8.200216293e-01</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
+						<vec.z>4.527568817e-01</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>

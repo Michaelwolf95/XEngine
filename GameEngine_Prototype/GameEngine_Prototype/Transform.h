@@ -10,51 +10,51 @@ class Transform : public Component
 {
 public:
 	static Registrar<Transform> registrar;
-
 	Transform();
 	~Transform();
 	void Start() override;
 	void Update() override;
-	void OnDrawGizmos() override;
-
+	// Hierarchy Access
 	Transform* GetParent();
-	void SetParent(Transform* _parent);
 	std::vector<Transform*> GetChildren();
 	unsigned int GetChildCount();
-
+	void SetParent(Transform* _parent);
+	// Matrix Access
 	glm::mat4 getMatrix4x4();
-	glm::vec3 getPosition();
+	glm::mat4 getTranslationMatrix();
+	glm::mat4 getRotationMatrix();
+	glm::mat4 getScaleMatrix();
+	// Position
 	glm::vec3 getLocalPosition();
-	void setLocalPosition(glm::vec3 pos);
+	glm::vec3 getPosition();
 	void setLocalPosition(float x, float y, float z);
-	glm::quat getRotation();
+	void setLocalPosition(glm::vec3 pos);
+	// Rotation
 	glm::quat getLocalRotation();
-	glm::vec3 getLocalRotationEuler();
+	glm::quat getRotation();
 	void setLocalRotation(glm::quat rot);
-	void setLocalRotationEuler(glm::vec3 rot);
+	glm::vec3 getLocalRotationEuler();
 	void setLocalRotationEuler(float x, float y, float z);
-	glm::vec3 getScale();
+	void setLocalRotationEuler(glm::vec3 rot);
+	// Scale
 	glm::vec3 getLocalScale();
-	void setLocalScale(glm::vec3 scale);
+	glm::vec3 getScale();
 	void setLocalScale(float x, float y, float z);
-
+	void setLocalScale(glm::vec3 scale);
+	// GLM Matrix Functions
 	void Translate(glm::vec3 translation);
 	void Rotate(glm::vec3 rotation);
 	void Scale(glm::vec3 scale);
 	void LookAt(glm::vec3 lookPos, glm::vec3 up = glm::vec3(0,1,0));
-
-	glm::mat4 getTranslationMatrix();
-	glm::mat4 getRotationMatrix();
-	glm::mat4 getScaleMatrix();
-
+	// Directions
 	glm::vec3 getRightDirection();
 	glm::vec3 getUpDirection();
 	glm::vec3 getForwardDirection();
 
+	// Gizmo
 	void DrawGizmo();
-
+	// Editor Utility
 	void DrawInspector() override;
-
 	void printTransformMatrix();
 
 	void TestEulerRotation(float x, float y, float z);
@@ -72,7 +72,11 @@ private:
 	glm::mat4 translateMatrix = glm::mat4(1.0f);
 	glm::mat4 rotateMatrix = glm::mat4(1.0f);
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
+
 	void UpdateMatrix();
+	glm::vec3 _calcLocalPositionFromMatrix();
+	glm::quat _calcLocalRotationFromMatrix();
+	glm::vec3 _calcLocalScaleFromMatrix();
 
 	// SERIALIZATION
 	friend class boost::serialization::access;
@@ -107,7 +111,3 @@ private:
 		}
 	}
 };
-
-//ToDo: Split save/load using https://www.boost.org/doc/libs/1_38_0/libs/serialization/doc/serialization.html
-
-//BOOST_CLASS_EXPORT_GUID(Transform, "Transform")
