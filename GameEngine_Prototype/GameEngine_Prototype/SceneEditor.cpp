@@ -165,7 +165,7 @@ void SceneEditor::LoadInitialEditorScene()
 			//scene = &sc;
 			// Activate Scene
 			selectedGameObject = nullptr;
-			selectedIndex = -1;
+			//selectedIndex = -1;
 			SceneManager::getInstance().SetActiveScene(scene);
 			return;
 		}
@@ -182,7 +182,7 @@ void SceneEditor::LoadInitialEditorScene()
 
 		// Activate Scene
 		selectedGameObject = nullptr;
-		selectedIndex = -1;
+		//selectedIndex = -1;
 		SceneManager::getInstance().SetActiveScene(scene);
 	}
 	
@@ -219,7 +219,7 @@ void SceneEditor::StartEditMode()
 			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 1)
 			{
 				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[0];
-				selectedIndex = 0;
+				//selectedIndex = 0;
 				std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
 			}
 		}
@@ -234,7 +234,7 @@ void SceneEditor::ExitEditMode()
 	{
 		std::cout << "EXITING EDIT MODE =========================" << std::endl;
 		selectedGameObject = nullptr;
-		selectedIndex = -1;
+		//selectedIndex = -1;
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -282,7 +282,7 @@ void SceneEditor::UpdateEditor()
 				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
+				//selectedIndex = scene->rootGameObjects.size() - 1;
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
 			{
@@ -304,7 +304,7 @@ void SceneEditor::UpdateEditor()
 						std::cin >> sIndex;
 						//std::cout << std::endl;
 						selectedGameObject = scene->rootGameObjects[sIndex];
-						selectedIndex = sIndex;
+						//selectedIndex = sIndex;
 					}
 					std::cout << "Selected: " << selectedGameObject->name << std::endl;
 
@@ -351,7 +351,7 @@ void SceneEditor::UpdateEditor()
 				}
 				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 				selectedGameObject = nullptr;
-				selectedIndex = -1;
+				//selectedIndex = -1;
 			}
 			else if (Input::GetKeyDown(GLFW_KEY_A))
 			{
@@ -607,7 +607,7 @@ void SceneEditor::LoadSceneMenu()
 			SceneManager::getInstance().SaveSceneToFile(*scene);
 
 			selectedGameObject = nullptr;
-			selectedIndex = -1;
+			//selectedIndex = -1;
 			// Activate Scene
 			SceneManager::getInstance().SetActiveScene(scene);
 		}
@@ -772,7 +772,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 						SceneManager::getInstance().SaveSceneToFile(*scene);
 
 						selectedGameObject = nullptr;
-						selectedIndex = -1;
+						//selectedIndex = -1;
 						// Activate Scene
 						SceneManager::getInstance().SetActiveScene(scene);
 					}
@@ -794,14 +794,14 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
+				//selectedIndex = scene->rootGameObjects.size() - 1;
 			}
 			if (ImGui::MenuItem("New Box"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Box");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
+				//selectedIndex = scene->rootGameObjects.size() - 1;
 				// Create Box Material
 				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 				modelMaterial->LoadTexture("textures/container.jpg");
@@ -816,11 +816,8 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				{
 					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 					GameObject_ptr go = scene->CreateGameObject("New Box (child)");
-					//GameObject_ptr go = std::shared_ptr<GameObject>(new GameObject("New Box (Child)"));
 					go->transform->SetParent(selectedGameObject->transform);
-					//go->transform->parent = selectedGameObject->transform;
 					selectedGameObject = go;
-					//selectedIndex = scene->rootGameObjects.size() - 1;
 
 					// Create Box Material
 					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
@@ -836,7 +833,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
+				//selectedIndex = scene->rootGameObjects.size() - 1;
 				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				go->AddComponent(modelNano);
@@ -903,7 +900,6 @@ void SceneEditor::InspectorUpdate()
 		ImGui::End();
 		return;
 	}
-	//ImGuiIO& io = ImGui::GetIO();
 
 	if (ImGui::BeginMenuBar())
 	{
@@ -915,7 +911,7 @@ void SceneEditor::InspectorUpdate()
 				{
 					SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 					selectedGameObject = nullptr;
-					selectedIndex = -1;
+					//selectedIndex = -1;
 				}
 			}
 			ImGui::EndMenu();
@@ -1047,47 +1043,51 @@ void SceneEditor::HierarchyUpdate()
 			ImGui::InputText("##edit", &scene->name[0], IM_ARRAYSIZE(&scene->name[0]));
 			ImGui::EndPopup();
 		}
-		static int selection_mask = (selectedIndex > -1)? (1 << selectedIndex) : 0; // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
-		int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
 		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
-			// Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
-			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
-			// Node
-			bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "%s (%d)", scene->rootGameObjects[i]->name.c_str(), i);
-			if (ImGui::IsItemClicked())
-				node_clicked = i;
-			if (node_open)
-			{
-				std::vector<GameObject*> children = scene->rootGameObjects[i]->GetChildren();
-				for (size_t j = 0; j < children.size(); j++)
-				{
-					if (ImGui::TreeNode(children[j]->name.c_str()))
-					{
-						ImGui::TreePop();
-					}
-				}
-				//TODO: Recursively run through children.
-				//ImGui::Text("Blah blah\nBlah Blah");
-				ImGui::TreePop();
-			}
+			DrawGameObjectTreeNode(scene->rootGameObjects[i].get(), "[" + to_string(i) + "]");
 		}
-		if (node_clicked != -1)
-		{
-			selectedGameObject = scene->rootGameObjects[node_clicked];
-			selectedIndex = node_clicked;
 
-			selection_mask = (1 << node_clicked);           // Click to single-select
-		}
 		ImGui::PopStyleVar();
-
 	}
 	else
 	{
 		ImGui::Text("No Scene Loaded.");
 	}
 	ImGui::End();
+}
+
+void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
+{
+	//Node Flags:
+	// If no children, display as leaf. Otherwise, an openable tree.
+	// If selected, display as selected.
+	ImGuiTreeNodeFlags node_flags = ((go->transform->GetChildCount() > 0)?
+		(ImGuiTreeNodeFlags_OpenOnArrow
+			| ImGuiTreeNodeFlags_OpenOnDoubleClick
+			| ImGuiTreeNodeFlags_DefaultOpen)
+		: ImGuiTreeNodeFlags_Leaf)
+		| ((go == selectedGameObject.get()) ? ImGuiTreeNodeFlags_Selected : 0);
+		//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+
+	// Node
+	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags);
+	if (ImGui::IsItemClicked())
+	{
+		//node_clicked = i;
+		selectedGameObject = go->GetSelfPtr();
+	}
+	if (node_open)
+	{
+		// TODO: Replace this temp approach. This is only one level deep.
+		std::vector<GameObject*> children = go->GetChildren();
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			this->DrawGameObjectTreeNode(children[i], label + "["+ to_string(i)+"]");
+		}
+		ImGui::TreePop();
+	}
 }
 
 

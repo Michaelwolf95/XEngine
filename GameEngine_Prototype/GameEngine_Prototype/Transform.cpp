@@ -579,8 +579,8 @@ void Transform::UpdateMatrix()
 	//model = scaleMatrix * translateMatrix * rotateMatrix;
 	model =  translateMatrix * rotateMatrix * scaleMatrix;
 
-	// TEMP
-	localPosition = getPosition();
+	// TEMP ..?
+	localPosition = getLocalPosition();
 	localRotation = getLocalRotation();
 	localScale = getLocalScale();
 

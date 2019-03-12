@@ -63,6 +63,7 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(transform);
+		transform->gameObject = this;
 
 		// ToDo: Initialize using add component.
 		//std::vector<Component_ptr> comps;

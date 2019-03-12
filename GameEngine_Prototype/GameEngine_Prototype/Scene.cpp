@@ -61,7 +61,14 @@ void Scene::PrintGameObject(GameObject* go, std::string prefix)
 	for (size_t i = 0; i < children.size(); i++)
 	{
 		std::string cPrefix = prefix + "[" + std::to_string(i) + "]";
-
+		if (children[i] == nullptr)
+		{
+			std::cout << "NULL CHILD" << std::endl;
+		}
+		else
+		{
+			std::cout << "Next Child: " << children[i]->name << std::endl;
+		}
 		PrintGameObject(children[i], cPrefix);
 	}
 }

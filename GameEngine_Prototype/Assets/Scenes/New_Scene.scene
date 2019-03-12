@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>New_Scene</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>6</count>
+		<count>4</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -15,9 +15,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition class_id="6" tracking_level="0" version="0">
-						<vec.x>9.443759918e-02</vec.x>
-						<vec.y>-5.239307880e-01</vec.y>
-						<vec.z>4.718944073e+00</vec.z>
+						<vec.x>-2.275907993e-01</vec.x>
+						<vec.y>-3.938674927e-02</vec.y>
+						<vec.z>5.680231094e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -52,7 +52,7 @@
 									<vec.z>1.000000000e+00</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>
-								<useLight>0</useLight>
+								<useLight>1</useLight>
 								<textureFilePath>textures/container.jpg</textureFilePath>
 								<specularStrength>5.000000000e-01</specularStrength>
 								<ambientStrength>1.000000000e+00</ambientStrength>
@@ -71,9 +71,9 @@
 					</Component>
 					<parent class_id_reference="4" object_id_reference="_1"></parent>
 					<localPosition>
-						<vec.x>5.666255951e-01</vec.x>
-						<vec.y>-1.761837158e+02</vec.y>
-						<vec.z>1.416593018e+03</vec.z>
+						<vec.x>1.266635656e+00</vec.x>
+						<vec.y>8.200216293e-01</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -108,7 +108,7 @@
 									<vec.z>1.000000000e+00</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>
-								<useLight>0</useLight>
+								<useLight>1</useLight>
 								<textureFilePath>textures/container.jpg</textureFilePath>
 								<specularStrength>5.000000000e-01</specularStrength>
 								<ambientStrength>1.000000000e+00</ambientStrength>
@@ -120,16 +120,16 @@
 		</item>
 		<item>
 			<px class_id_reference="3" object_id="_8">
-				<name>New Box (child)</name>
+				<name>New GameObject</name>
 				<transform class_id_reference="4" object_id="_9">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_1"></parent>
+					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>1.388220367e+02</vec.x>
-						<vec.y>-8.068386841e+02</vec.y>
-						<vec.z>6.936761719e+03</vec.z>
+						<vec.x>-1.179313660e-01</vec.x>
+						<vec.y>9.850692749e-01</vec.y>
+						<vec.z>4.363641739e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -147,50 +147,40 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_10">
-							<Component>
-								<enabled>1</enabled>
-							</Component>
-							<numVerts>36</numVerts>
-							<vertexDataSize>8</vertexDataSize>
-							<numIndices>1</numIndices>
-							<material class_id_reference="11" object_id="_11">
-								<name>MultiLight Model</name>
-								<vertexShaderPath>multilights.vs</vertexShaderPath>
-								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
-								<Color>
+						<px class_id="13" class_name="PointLightComponent" tracking_level="1" version="0" object_id="_10">
+							<LightComponent class_id="14" tracking_level="0" version="0">
+								<Component>
+									<enabled>1</enabled>
+								</Component>
+								<intensity>1.000000000e+00</intensity>
+								<color>
 									<vec.x>1.000000000e+00</vec.x>
 									<vec.y>1.000000000e+00</vec.y>
 									<vec.z>1.000000000e+00</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</Color>
-								<useLight>0</useLight>
-								<textureFilePath>textures/container.jpg</textureFilePath>
-								<specularStrength>5.000000000e-01</specularStrength>
-								<ambientStrength>1.000000000e+00</ambientStrength>
-							</material>
+								</color>
+							</LightComponent>
 						</px>
 					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_12">
+			<px class_id_reference="3" object_id="_11">
 				<name>New Box (child)</name>
-				<transform class_id_reference="4" object_id="_13">
+				<transform class_id_reference="4" object_id="_12">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_1"></parent>
+					<parent class_id_reference="4" object_id_reference="_5"></parent>
 					<localPosition>
-						<vec.x>1.459047852e+02</vec.x>
-						<vec.y>-8.480053711e+02</vec.y>
-						<vec.z>7.290667969e+03</vec.z>
+						<vec.x>-1.169109344e+00</vec.x>
+						<vec.y>7.457637787e-01</vec.y>
+						<vec.z>-7.687091827e-01</vec.z>
 					</localPosition>
 					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
+						<vec.x>2.967033386e-01</vec.x>
+						<vec.y>2.866744995e-01</vec.y>
+						<vec.z>2.965965271e-01</vec.z>
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
@@ -203,14 +193,14 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_14">
+						<px class_id_reference="10" object_id="_13">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 							<numVerts>36</numVerts>
 							<vertexDataSize>8</vertexDataSize>
 							<numIndices>1</numIndices>
-							<material class_id_reference="11" object_id="_15">
+							<material class_id_reference="11" object_id="_14">
 								<name>MultiLight Model</name>
 								<vertexShaderPath>multilights.vs</vertexShaderPath>
 								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
@@ -220,119 +210,7 @@
 									<vec.z>1.000000000e+00</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>
-								<useLight>0</useLight>
-								<textureFilePath>textures/container.jpg</textureFilePath>
-								<specularStrength>5.000000000e-01</specularStrength>
-								<ambientStrength>1.000000000e+00</ambientStrength>
-							</material>
-						</px>
-					</item>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_16">
-				<name>New Box (child)</name>
-				<transform class_id_reference="4" object_id="_17">
-					<Component>
-						<enabled>1</enabled>
-					</Component>
-					<parent class_id_reference="4" object_id_reference="_1"></parent>
-					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>0.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>1</count>
-					<item_version>1</item_version>
-					<item>
-						<px class_id_reference="10" object_id="_18">
-							<Component>
-								<enabled>1</enabled>
-							</Component>
-							<numVerts>36</numVerts>
-							<vertexDataSize>8</vertexDataSize>
-							<numIndices>1</numIndices>
-							<material class_id_reference="11" object_id="_19">
-								<name>MultiLight Model</name>
-								<vertexShaderPath>multilights.vs</vertexShaderPath>
-								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
-								<Color>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</Color>
-								<useLight>0</useLight>
-								<textureFilePath>textures/container.jpg</textureFilePath>
-								<specularStrength>5.000000000e-01</specularStrength>
-								<ambientStrength>1.000000000e+00</ambientStrength>
-							</material>
-						</px>
-					</item>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_20">
-				<name>New Box (child)</name>
-				<transform class_id_reference="4" object_id="_21">
-					<Component>
-						<enabled>1</enabled>
-					</Component>
-					<parent class_id_reference="4" object_id_reference="_1"></parent>
-					<localPosition>
-						<vec.x>5.024045944e+01</vec.x>
-						<vec.y>-2.787300110e+02</vec.y>
-						<vec.z>2.510492188e+03</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>1</count>
-					<item_version>1</item_version>
-					<item>
-						<px class_id_reference="10" object_id="_22">
-							<Component>
-								<enabled>1</enabled>
-							</Component>
-							<numVerts>36</numVerts>
-							<vertexDataSize>8</vertexDataSize>
-							<numIndices>1</numIndices>
-							<material class_id_reference="11" object_id="_23">
-								<name>MultiLight Model</name>
-								<vertexShaderPath>multilights.vs</vertexShaderPath>
-								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
-								<Color>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</Color>
-								<useLight>0</useLight>
+								<useLight>1</useLight>
 								<textureFilePath>textures/container.jpg</textureFilePath>
 								<specularStrength>5.000000000e-01</specularStrength>
 								<ambientStrength>1.000000000e+00</ambientStrength>

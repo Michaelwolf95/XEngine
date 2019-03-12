@@ -75,9 +75,6 @@ private:
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
 	void UpdateMatrix();
 
-	//std::string ConstructFileID();
-	//GameObject_ptr 
-
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>
@@ -90,21 +87,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(localScale);
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
 		
-		
-		//std::string fileID = "";
-		//ar & BOOST_SERIALIZATION_NVP(fileID);
-		/*int parentAddress = 0;
-		if (parent != nullptr)
-		{
-			parentAddress = &
-		}*/
-
-		/*std::vector<GameObject_ptr> childGameObjects;
-		for (size_t i = 0; i < children.size(); i++)
-		{
-			childGameObjects.push_back(children[i]->gameObject->GetSelfPtr());
-		}
-		ar & BOOST_SERIALIZATION_NVP(childGameObjects);*/
+		//std::cout << "Saved Parent Address:" << parent << std::endl;
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
@@ -119,15 +102,13 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
 		setLocalRotation(localRotation);
 
+		//std::cout << "Loaded Parent Address: " << parent << std::endl;
 
-
-
-		//std::vector<GameObject_ptr> childGameObjects;
-		//ar & BOOST_SERIALIZATION_NVP(childGameObjects);
-		//for (size_t i = 0; i < children.size(); i++)
-		//{
-		//	childGameObjects[i]->transform->SetParent(this);
-		//}
+		if (parent != nullptr)
+		{
+			parent->children.push_back(this);
+			//std::cout << "  Parent GO:" << parent->gameObject->name << std::endl;
+		}
 	}
 };
 

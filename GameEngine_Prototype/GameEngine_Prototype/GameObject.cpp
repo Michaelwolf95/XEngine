@@ -28,7 +28,7 @@ GameObject::GameObject(const char* _name)
 	}
 	transform = new Transform();
 	transform->gameObject = this;// shared_from_this();
-	std::cout << name << ", Transform: " << transform << std::endl;
+	std::cout << "Constructed GameObject: " << name << "\t Transform: " << transform << std::endl;
 }
 
 GameObject::~GameObject()
