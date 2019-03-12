@@ -32,7 +32,6 @@ int SceneEditor::Init()
 	isInitialized = true;
 
 	editorCameraGameObject = new GameObject("EditorCamGo");
-	//editorCamera()
 
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
@@ -61,15 +60,10 @@ int SceneEditor::Init()
 	return 0;
 }
 
-SceneEditor::SceneEditor()
-{
-	//executeInEditMode = true;
-	std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
-}
+SceneEditor::SceneEditor() {}
 
 SceneEditor::~SceneEditor()
 {
-	//OutputDebugStringW(L"Trying to Save EditorConfig.\n");
 	SaveEditorConfig();
 }
 
@@ -145,7 +139,6 @@ void SceneEditor::SaveEditorConfig()
 
 		OutputDebugStringW(L"Saved Editor Config.\n");
 		std::cout << "Saved EditorConfig.json with filePath: " << editorConfig->firstSceneFilepath << std::endl;
-		//delete[] tempChar;
 	}
 	catch (const std::exception& e)
 	{
@@ -164,7 +157,6 @@ void SceneEditor::LoadInitialEditorScene()
 		if (exists)
 		{
 			std::cout << "Loading First Editor Scene from File!" << std::endl;
-			//scene = &sc;
 			// Activate Scene
 			selectedGameObject = nullptr;
 			SceneManager::getInstance().SetActiveScene(scene);
@@ -204,6 +196,7 @@ void SceneEditor::StartEditMode()
 		{
 			selectedGameObject = nullptr;
 			SceneEditor::getInstance().LoadInitialEditorScene();
+			std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
 		}
 		
 		std::cout << "ENTERING EDIT MODE =========================" << std::endl;

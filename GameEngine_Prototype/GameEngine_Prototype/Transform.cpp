@@ -245,28 +245,25 @@ Transform * Transform::GetParent()
 void Transform::SetParent(Transform * _parent)
 {
 	// Make sure the object isn't already a child.
-	// TODO: Extract out this method.
+	// TODO: Extract out this method..?
 	if (this->parent != nullptr)
 	{
 		auto n = std::find(this->parent->children.begin(), this->parent->children.end(), this);
 		if (n != this->parent->children.end())
 		{
-			// swap the one to be removed with the last element
-			// and remove the item at the end of the container
-			// to prevent moving all items after '5' by one
 			std::swap(*n, this->parent->children.back());
 			this->parent->children.pop_back();
 		}
 	}
 
 	parent = _parent;
-	if (_parent == nullptr)
+	if (_parent != nullptr)
 	{
-
+		parent->children.push_back(this);
 	}
 	else
 	{
-		parent->children.push_back(this);
+		// Set as root object. Handled in scene OnHierarchyUpdate
 	}
 
 	// TEMP WORK AROUND.
@@ -276,8 +273,6 @@ void Transform::SetParent(Transform * _parent)
 	{
 		scene->OnHierarchyUpdate();
 	}
-
-
 }
 
 std::vector<Transform*> Transform::GetChildren()
@@ -313,14 +308,6 @@ glm::vec3 Transform::getPosition()
 			parentPos.x + this->localPosition.x,
 			parentPos.y + this->localPosition.y,
 			parentPos.z + this->localPosition.z);
-		/*
-		glm::vec3 parentPos = this->parent->getPosition();
-		glm::vec3 parentScale = this->parent->getScale();
-		return glm::vec3(
-			parentPos.x + (this->localPosition.x * parentScale.x),
-			parentPos.y + (this->localPosition.y * parentScale.y),
-			parentPos.z + (this->localPosition.z * parentScale.z));
-		*/
 	}
 	else
 	{

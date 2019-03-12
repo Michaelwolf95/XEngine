@@ -4,7 +4,6 @@
 
 std::ostream & operator<<(std::ostream &os, const GameObject &go)
 {
-	//std::list<bus_stop *>::const_iterator it;
 	// From Tutorial:
 	//    note: we're displaying the pointer to permit verification
 	//    that duplicated pointers are properly restored.
@@ -33,9 +32,6 @@ GameObject::GameObject(const char* _name)
 GameObject::~GameObject()
 {
 	std::cout << "\tDeconstructing " << name << "..." << std::endl;
-	//TODO: Deconstruct children.
-	
-
 	components.clear();
 }
 

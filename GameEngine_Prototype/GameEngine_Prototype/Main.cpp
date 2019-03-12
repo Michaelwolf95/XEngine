@@ -33,11 +33,6 @@
 #endif
 
 
-static void glfw_error_callback(int error, const char* description)
-{
-	//fprintf(stderr, "Glfw Error %d: %s\n", error, description);
-}
-
 // ENTRY POINT
 int main()
 {
@@ -70,30 +65,30 @@ int main()
 		Input::getInstance().UpdateInput();
 
 		// Editor Update
-#ifdef X_EDIT_MODE
+		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().UpdateEditor();
-#endif
+		#endif
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
 
-#ifdef X_EDIT_MODE
+		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().EditorPreRender();
-#endif
+		#endif
 
 		RenderManager::getInstance().Render();
 
-#ifdef X_EDIT_MODE
+		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().EditorPostRender();
-#endif
+		#endif
 
 		Input::getInstance().EndUpdateFrame();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 
-#ifdef X_EDIT_MODE
+	#ifdef X_EDIT_MODE
 	SceneEditor::getInstance().ShutDown();
-#endif
+	#endif
 
 	ApplicationManager::getInstance().CloseApplication();
 	return 0;

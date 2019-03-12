@@ -74,6 +74,7 @@ private:
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
 	void UpdateMatrix();
 
+	// SERIALIZATION
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>

@@ -56,7 +56,7 @@ private:
 		// ToDo: Initialize using add component instead..?
 		for (Component_ptr c : components)
 		{
-			c->gameObject = this;// shared_from_this();
+			c->gameObject = this;
 		}
 	}
 
