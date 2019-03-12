@@ -53,7 +53,7 @@ void MeshRenderer::Setup()
 	{
 		return;
 	}
-	//std::cout << "Setting up SimpleModelComponent." << std::endl;
+
 	render_enabled = true;
 	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
 
@@ -115,13 +115,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 
 		// binding textures
-		for (unsigned int j = 0; j < meshes[i].textures.size(); j++)
+		for (unsigned int j = 0; j < MeshToMaterial.at(meshes[i].name)->textures.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
 			string number;
-			string name = meshes[i].textures[j].type;
+			string name = MeshToMaterial.at(meshes[i].name)->textures[j].type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -137,7 +137,7 @@ void MeshRenderer::Draw()
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, meshes[i].textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, MeshToMaterial.at(meshes[i].name)->textures[j].id);
 		}
 
 		// draw mesh
@@ -163,7 +163,6 @@ void MeshRenderer::Update()
 // process each node and its children node recursively
 void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 {
-
 	// process each mesh at current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -209,8 +208,6 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 			vertex.Normal = vector;
 		}
 
-		
-
 		// texture coordinates
 		if (mesh->mTextureCoords[0])
 		{
@@ -240,7 +237,6 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 			vector.z = mesh->mBitangents[i].z;
 			vertex.Bitangent = vector;
 		}
-		
 
 		vertices.push_back(vertex);
 	}
@@ -277,14 +273,18 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+	// mapped name of mesh to the material
+	Material* MatforMesh = new Material(material->name, material->vertexShaderPath, material->fragmentShaderPath);
+	MatforMesh->textures = textures;
+	MeshToMaterial.emplace(mesh->mName.C_Str(), MatforMesh);
+
 	// return mesh object from extracted mesh data
-	return Mesh(vertices, indices, textures);// :RenderableObject();
+	return Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
 }
 
-// checl material textures of a given type and loads texture if not loaded yet
+// check material textures of a given type and loads texture if not loaded yet
 vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
 {
-
 	vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
@@ -317,15 +317,12 @@ vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
 		}
 		return textures;
 	}
-
 }
 
 unsigned int MeshRenderer::TextureFromFile(const char * path, const string &directory, bool gamma)
 {
-
 	string filename = string(path);
 	filename = directory + '/' + filename;
-
 
 	unsigned int textureID;
 	glGenTextures(1, &textureID);

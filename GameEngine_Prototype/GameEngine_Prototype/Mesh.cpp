@@ -24,11 +24,11 @@
 /// Based on LearnOpenGL.com section on Meshes
 
 // Constructor
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+Mesh::Mesh(string name, vector<Vertex> vertices, vector<unsigned int> indices)
 {
+	this->name = name;
 	this->vertices = vertices;
 	this->indices = indices;
-	this->textures = textures; 
 
 	Setup();
 }

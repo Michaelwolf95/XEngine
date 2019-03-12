@@ -20,6 +20,7 @@ using namespace std;
 
 /// Based on LearnOpenGL.com section on Meshes
 
+// stride = 14
 struct Vertex {
 	// position vector
 	glm::vec3 Position;
@@ -33,14 +34,7 @@ struct Vertex {
 	glm::vec3 Bitangent;
 };
 
-struct Texture {
-	// texture id
-	unsigned int id;
-	// texture type
-	string type;
-	// texture path
-	string path;
-};
+
 
 class Mesh
 {
@@ -50,15 +44,15 @@ class Mesh
 		unsigned int EBO;
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
-		vector<Texture> textures;
+		std::string name;
+		
 		// Constructor
-		Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+		Mesh(string name, vector<Vertex> vertices, vector<unsigned int> indices);
 		
 		// Deconstructor
 		~Mesh();
 
 		void Setup();
-
 };
 
 
