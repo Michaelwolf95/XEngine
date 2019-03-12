@@ -13,6 +13,8 @@
 #include "RenderManager.h"
 #include "DebugUtility.h"
 
+#include "SceneManager.h"
+
 //#include "imgui.h"
 using namespace glm;
 
@@ -229,27 +231,104 @@ Transform::Transform() : Component::Component()
 {
 	model = glm::mat4(1.0f);
 }
-
 Transform::~Transform() {}
-
-
-void Transform::SetParent(Transform * _parent)
-{
-	// TODO: Make sure the object isn't a child.
-	parent = _parent;
-}
 
 void Transform::Start() {}
 void Transform::Update() {}
 
+
+Transform * Transform::GetParent()
+{
+	return parent;
+}
+
+void Transform::SetParent(Transform * _parent)
+{
+	// Make sure the object isn't already a child.
+	// TODO: Extract out this method.
+	if (this->parent != nullptr)
+	{
+		auto n = std::find(this->parent->children.begin(), this->parent->children.end(), this);
+		if (n != this->parent->children.end())
+		{
+			// swap the one to be removed with the last element
+			// and remove the item at the end of the container
+			// to prevent moving all items after '5' by one
+			std::swap(*n, this->parent->children.back());
+			this->parent->children.pop_back();
+		}
+		//this->gameObject
+	}
+
+	parent = _parent;
+	parent->children.push_back(this);
+
+	// TEMP WORK AROUND.
+	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+	if (scene != nullptr)
+	{
+		scene->OnHierarchyUpdate();
+	}
+
+
+}
+
+std::vector<Transform*> Transform::GetChildren()
+{
+	return children;
+}
+
+unsigned int Transform::GetChildCount()
+{
+	return children.size();
+}
+
 glm::mat4 Transform::getMatrix4x4()
 {
-	return model;
+	//Global Child = Global Parent * Local Child
+	if (this->parent != nullptr)
+	{
+		return this->parent->getMatrix4x4() * model;
+	}
+	else
+	{
+		return model;
+	}
 }
 
 glm::vec3 Transform::getPosition()
 {
-	return glm::vec3(model[3]);
+	if (this->parent != nullptr)
+	{
+		glm::vec3 parentPos = this->parent->getPosition();
+		glm::vec3 parentScale = this->parent->getScale();
+		return glm::vec3(
+			parentPos.x + this->localPosition.x,
+			parentPos.y + this->localPosition.y,
+			parentPos.z + this->localPosition.z);
+		/*
+		glm::vec3 parentPos = this->parent->getPosition();
+		glm::vec3 parentScale = this->parent->getScale();
+		return glm::vec3(
+			parentPos.x + (this->localPosition.x * parentScale.x),
+			parentPos.y + (this->localPosition.y * parentScale.y),
+			parentPos.z + (this->localPosition.z * parentScale.z));
+		*/
+	}
+	else
+	{
+		return getLocalPosition();
+	}
+}
+
+glm::vec3 Transform::getLocalPosition()
+{
+	//return localPosition;
+	//return glm::vec3(
+	//	translateMatrix[3].x,
+	//	translateMatrix[3].y,
+	//	translateMatrix[3].z);
+	return glm::vec3(model[3]); //localPosition
 }
 
 void Transform::setLocalPosition(glm::vec3 pos)
@@ -263,6 +342,20 @@ void Transform::setLocalPosition(glm::vec3 pos)
 void Transform::setLocalPosition(float x, float y, float z)
 {
 	setLocalPosition(glm::vec3(x, y, z));
+}
+
+glm::quat Transform::getRotation()
+{
+	if (this->parent != nullptr)
+	{
+		glm::quat parentRot = this->parent->getRotation();
+		glm::quat localRot = getLocalRotation();
+		return localRot * parentRot;
+	}
+	else
+	{
+		return getLocalRotation();
+	}
 }
 
 glm::quat Transform::getLocalRotation() // Local
@@ -335,6 +428,21 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 void Transform::setLocalRotationEuler(float x, float y, float z)
 {
 	setLocalRotationEuler(glm::vec3(x, y, z));
+}
+
+// Gets scale in world space.
+glm::vec3 Transform::getScale()
+{
+	if (this->parent != nullptr)
+	{
+		glm::vec3 parentScale = this->parent->getScale();
+		glm::vec3 localScale = getLocalScale();
+		return glm::vec3(parentScale.x * localScale.x, parentScale.y * localScale.y, parentScale.z * localScale.z);
+	}
+	else
+	{
+		return getLocalScale();
+	}
 }
 
 glm::vec3 Transform::getLocalScale()
@@ -511,9 +619,9 @@ void Transform::DrawGizmo()
 
 void Transform::DrawInspector()
 {
-	glm::vec3 pos = this->getPosition();
+	glm::vec3 pos = this->getLocalPosition();
 	ImGui::InputFloat3("Position", (float*)&pos);
-	if (pos != this->getPosition())
+	if (pos != this->getLocalPosition())
 	{
 		this->setLocalPosition(pos);
 	}

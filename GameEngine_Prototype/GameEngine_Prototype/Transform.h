@@ -10,23 +10,30 @@ class Transform : public Component
 {
 public:
 	static Registrar<Transform> registrar;
-	Transform* parent;
-	std::vector<Transform*> children;
+
 	Transform();
 	~Transform();
-	void SetParent(Transform* _parent);
 	void Start() override;
 	void Update() override;
 	void OnDrawGizmos() override;
+
+	Transform* GetParent();
+	void SetParent(Transform* _parent);
+	std::vector<Transform*> GetChildren();
+	unsigned int GetChildCount();
+
 	glm::mat4 getMatrix4x4();
 	glm::vec3 getPosition();
+	glm::vec3 getLocalPosition();
 	void setLocalPosition(glm::vec3 pos);
 	void setLocalPosition(float x, float y, float z);
+	glm::quat getRotation();
 	glm::quat getLocalRotation();
 	glm::vec3 getLocalRotationEuler();
 	void setLocalRotation(glm::quat rot);
 	void setLocalRotationEuler(glm::vec3 rot);
 	void setLocalRotationEuler(float x, float y, float z);
+	glm::vec3 getScale();
 	glm::vec3 getLocalScale();
 	void setLocalScale(glm::vec3 scale);
 	void setLocalScale(float x, float y, float z);
@@ -53,15 +60,23 @@ public:
 	void TestEulerRotation(float x, float y, float z);
 
 // ToDo: Make this private after making appropriate accessors. For right now use GLM API directly.
-private: 
+private:
+	friend class GameObject;
+	Transform* parent = nullptr;
+	std::vector<Transform*> children;
+
 	glm::vec3 localPosition = glm::vec3();
 	glm::quat localRotation = glm::quat();
 	glm::vec3 localScale = glm::vec3(1.0);
 	glm::mat4 model = glm::mat4(1.0f);
+
 	glm::mat4 translateMatrix = glm::mat4(1.0f);
 	glm::mat4 rotateMatrix = glm::mat4(1.0f);
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
 	void UpdateMatrix();
+
+	//std::string ConstructFileID();
+	//GameObject_ptr 
 
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -70,16 +85,33 @@ private:
 	{
 		//// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		ar & BOOST_SERIALIZATION_NVP(parent);
 		ar & BOOST_SERIALIZATION_NVP(localPosition);
 		ar & BOOST_SERIALIZATION_NVP(localScale);
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
+		
+		
+		//std::string fileID = "";
+		//ar & BOOST_SERIALIZATION_NVP(fileID);
+		/*int parentAddress = 0;
+		if (parent != nullptr)
+		{
+			parentAddress = &
+		}*/
 
+		/*std::vector<GameObject_ptr> childGameObjects;
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			childGameObjects.push_back(children[i]->gameObject->GetSelfPtr());
+		}
+		ar & BOOST_SERIALIZATION_NVP(childGameObjects);*/
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
 	{
 		// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		ar & BOOST_SERIALIZATION_NVP(parent);
 		ar & BOOST_SERIALIZATION_NVP(localPosition);
 		setLocalPosition(localPosition);
 		ar & BOOST_SERIALIZATION_NVP(localScale);
@@ -87,6 +119,15 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
 		setLocalRotation(localRotation);
 
+
+
+
+		//std::vector<GameObject_ptr> childGameObjects;
+		//ar & BOOST_SERIALIZATION_NVP(childGameObjects);
+		//for (size_t i = 0; i < children.size(); i++)
+		//{
+		//	childGameObjects[i]->transform->SetParent(this);
+		//}
 	}
 };
 

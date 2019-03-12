@@ -19,7 +19,9 @@ class Component
 public:
 	static typemap & registry();
 
-	GameObject*  gameObject; // The owner of the component.
+	// The owner of the component.
+	GameObject* gameObject;
+	//std::shared_ptr<GameObject> gameObject;
 	bool enabled = true;
 	bool executeInEditMode = false;
 	Component();

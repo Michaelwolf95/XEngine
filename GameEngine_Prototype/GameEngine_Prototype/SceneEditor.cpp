@@ -810,6 +810,27 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				testModel->Setup();
 				go->AddComponent(testModel);
 			}
+			if (ImGui::MenuItem("New Box (Child)"))
+			{
+				if (selectedGameObject != nullptr)
+				{
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+					GameObject_ptr go = scene->CreateGameObject("New Box (child)");
+					//GameObject_ptr go = std::shared_ptr<GameObject>(new GameObject("New Box (Child)"));
+					go->transform->SetParent(selectedGameObject->transform);
+					//go->transform->parent = selectedGameObject->transform;
+					selectedGameObject = go;
+					//selectedIndex = scene->rootGameObjects.size() - 1;
+
+					// Create Box Material
+					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+					modelMaterial->LoadTexture("textures/container.jpg");
+					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
+					testModel->Setup();
+					go->AddComponent(testModel);
+				}
+			}
 			if (ImGui::MenuItem("New Nanosuit"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
@@ -1039,6 +1060,14 @@ void SceneEditor::HierarchyUpdate()
 				node_clicked = i;
 			if (node_open)
 			{
+				std::vector<GameObject*> children = scene->rootGameObjects[i]->GetChildren();
+				for (size_t j = 0; j < children.size(); j++)
+				{
+					if (ImGui::TreeNode(children[j]->name.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
 				//TODO: Recursively run through children.
 				//ImGui::Text("Blah blah\nBlah Blah");
 				ImGui::TreePop();
