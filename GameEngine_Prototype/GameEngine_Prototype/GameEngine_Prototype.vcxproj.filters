@@ -434,6 +434,9 @@
     <ClInclude Include="imgui_stdlib.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="imgui_inspector_extensions.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">

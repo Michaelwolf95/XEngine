@@ -1,8 +1,19 @@
 #include <vector>
 #include "GameObject.h"
-//#include "Transform.h"
 #include "ApplicationManager.h"
 
+std::ostream & operator<<(std::ostream &os, const GameObject &go)
+{
+	// From Tutorial:
+	//    note: we're displaying the pointer to permit verification
+	//    that duplicated pointers are properly restored.
+	std::vector<Component_ptr>::const_iterator it;
+	for (it = go.components.begin(); it != go.components.end(); it++) {
+		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
+	}
+
+	return os;
+}
 
 GameObject::GameObject(const char* _name)
 {
@@ -20,29 +31,29 @@ GameObject::GameObject(const char* _name)
 
 GameObject::~GameObject()
 {
-	std::cout << "\tGameObject " << name << " Deconstructed." << std::endl;
+	std::cout << "\tDeconstructing " << name << "..." << std::endl;
 	components.clear();
 }
 
-
-std::ostream & operator<<(std::ostream &os, const GameObject &go)
+std::vector<GameObject*> GameObject::GetChildren()
 {
-	//std::list<bus_stop *>::const_iterator it;
-	// note: we're displaying the pointer to permit verification
-	// that duplicated pointers are properly restored.
-	std::vector<Component_ptr>::const_iterator it;
-	for (it = go.components.begin(); it != go.components.end(); it++) {
-		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
+	std::vector<GameObject*> children;
+	for (size_t i = 0; i < this->transform->children.size(); i++)
+	{
+		children.push_back(this->transform->children[i]->gameObject);
 	}
-
-	return os;
+	return children;
 }
 
-//void GameObject::AddComponent(Component* comp)
-//{
-//	//std::shared_ptr<comp> my_ptr(raw_ptr)
-//	AddComponent(std::make_shared<Component>(comp));
-//}
+GameObject* GameObject::GetChild(int index)
+{
+	if (index >= 0 && index < this->transform->children.size())
+	{
+		return this->transform->children[index]->gameObject;
+	}
+	return nullptr;
+}
+
 void GameObject::AddComponent(Component_ptr comp)
 {
 	components.push_back(comp);
@@ -56,12 +67,10 @@ void GameObject::RemoveComponent(Component_ptr comp)
 	auto n = std::find(components.begin(), components.end(), comp);
 	if (n != components.end())
 	{
-		// swap the one to be removed with the last element
-		// and remove the item at the end of the container
-		// to prevent moving all items after '5' by one
+		// swap the one to be removed with the last element and remove the item at the end of the container
+		// to prevent moving all items after it by one
 		std::swap(*n, components.back());
 		components.pop_back();
-		//comp->gameObject = nullptr;
 	}
 }
 
@@ -81,6 +90,7 @@ void GameObject::StartComponents()
 	}
 }
 
+//TODO: Remove dependency on ApplicationManager
 void GameObject::StartComponent(Component_ptr comp)
 {
 	if((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
@@ -125,4 +135,11 @@ bool GameObject::FindComponent(const std::type_info& typeInfo, void** object)
 		}
 		return false;
 	})!= NULL);
+}
+
+// WARNING: This can cause crashes if a shared_ptr to the object does not already exist.
+// TODO: Add safety measure to prevent crashes.
+GameObject_ptr GameObject::GetSelfPtr()
+{
+	return shared_from_this();
 }

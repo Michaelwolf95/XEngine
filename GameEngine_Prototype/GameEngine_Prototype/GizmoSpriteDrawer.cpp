@@ -1,4 +1,5 @@
 #include "GizmoSpriteDrawer.h"
+#include "ApplicationManager.h"
 
 float GizmoSpriteDrawer::gizmoScale = 0.25f;
 const GLfloat GizmoSpriteDrawer::spriteQuadVerices[12] = {
@@ -10,7 +11,7 @@ const GLfloat GizmoSpriteDrawer::spriteQuadVerices[12] = {
 
 GizmoSpriteDrawer::GizmoSpriteDrawer(const char* _texturePath)
 {
-	std::cout << "Constructing Sprite Drawer ==============================" << std::endl;
+	//std::cout << "Constructing Sprite Drawer ==============================" << std::endl;
 	gizmoTexturePath = _texturePath;
 	color = glm::vec4(1.0f, 1.0f, 1.0f, 0.8f);
 	Setup();
@@ -18,7 +19,7 @@ GizmoSpriteDrawer::GizmoSpriteDrawer(const char* _texturePath)
 
 GizmoSpriteDrawer::~GizmoSpriteDrawer() 
 {
-	std::cout << "Deconstructing Sprite Drawer ==============================" << std::endl;
+	//std::cout << "Deconstructing Sprite Drawer ==============================" << std::endl;
 	// Delete Gizmo
 	glDeleteVertexArrays(1, &this->VAO);
 	glDeleteVertexArrays(1, &this->VBO);
@@ -26,17 +27,12 @@ GizmoSpriteDrawer::~GizmoSpriteDrawer()
 
 void GizmoSpriteDrawer::Setup()
 {
-	std::cout << "Setting up Sprite Drawer: " << gizmoTexturePath << std::endl;
+	//std::cout << "Setting up Sprite Drawer: " << gizmoTexturePath << std::endl;
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
 	AssetManager::getInstance().LoadTextureAsset(gizmoTexturePath.c_str(), &textureID, 4); //4 for alpha
-
-	for (size_t i = 0; i < 12; i++)
-	{
-		std::cout << spriteQuadVerices[i] << std::endl;
-	}
 
 	//GLuint billboard_vertex_buffer;
 	glGenBuffers(1, &VBO);
@@ -61,6 +57,10 @@ void GizmoSpriteDrawer::Setup()
 
 void GizmoSpriteDrawer::Draw(glm::vec3 position)
 {
+	if (ApplicationManager::getInstance().IsEditMode() == false)
+	{
+		return;
+	}
 	//std::cout << "Drawing Sprite Gizmo" << std::endl;
 	Shader* shader = RenderManager::defaultSpriteShader;
 

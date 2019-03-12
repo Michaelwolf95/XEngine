@@ -6,6 +6,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_inspector_extensions.h"
+#include "imgui_stdlib.h"
 #endif
 
 #include <glad/glad.h>
@@ -31,11 +33,6 @@
 #endif
 
 
-static void glfw_error_callback(int error, const char* description)
-{
-	//fprintf(stderr, "Glfw Error %d: %s\n", error, description);
-}
-
 // ENTRY POINT
 int main()
 {
@@ -60,14 +57,6 @@ int main()
 	RunTestScene();
 #endif
 
-	//// Setup window
-	//glfwSetErrorCallback(glfw_error_callback);
-	//if (!glfwInit())
-	//	return 1;
-	bool show_demo_window = true;
-	bool show_another_window = false;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	
 	// FRAME LOOP
 	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 	{
@@ -76,30 +65,30 @@ int main()
 		Input::getInstance().UpdateInput();
 
 		// Editor Update
-#ifdef X_EDIT_MODE
+		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().UpdateEditor();
-#endif
+		#endif
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
 
-#ifdef X_EDIT_MODE
+		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().EditorPreRender();
-#endif
+		#endif
 
 		RenderManager::getInstance().Render();
 
-#ifdef X_EDIT_MODE
+		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().EditorPostRender();
-#endif
+		#endif
 
 		Input::getInstance().EndUpdateFrame();
 		ApplicationManager::getInstance().ApplicationEndUpdate();
 	}
 
-#ifdef X_EDIT_MODE
+	#ifdef X_EDIT_MODE
 	SceneEditor::getInstance().ShutDown();
-#endif
+	#endif
 
 	ApplicationManager::getInstance().CloseApplication();
 	return 0;
