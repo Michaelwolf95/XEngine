@@ -24,10 +24,19 @@ public:
 	virtual ~Component();
 	virtual void Start() = 0;
 	virtual void Update() = 0;
+	virtual void FixedUpdate() {};
 	virtual void OnDestroy() {};
 	virtual void OnDrawGizmos() {};
-	virtual void DrawInspector() {};
+
+	virtual void DrawInspector();// {};
+
+	// Engine Callbacks
+	bool isStarted = false;
+	void callback_PerformStart();
+	void callback_PerformUpdate();
+	//void callback_PerformFixedUpdate()
 private:
+
 	friend class boost::serialization::access;
 	friend std::ostream & operator<<(std::ostream &os, const Component &comp);
 	template<class Archive>

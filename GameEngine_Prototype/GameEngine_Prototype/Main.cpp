@@ -18,20 +18,19 @@
 #include <iostream>
 #include "DebugUtility.h" // Define only once
 #include "Serialization.h"
-#include "AssetManager.h"
 #include "ApplicationManager.h"
-#include "RenderManager.h"
-#include "SceneManager.h"
 #include "Time.h"
 #include "Input.h"
-
+#include "AssetManager.h"
+#include "RenderManager.h"
+#include "SceneManager.h"
+#include "PhysicsManager.h"
 
 #ifdef X_EDIT_MODE
 #include "SceneEditor.h"
 #else
 #include "TestScenes.h"
 #endif
-
 
 // ENTRY POINT
 int main()
@@ -42,20 +41,22 @@ int main()
 	ApplicationManager::CreateManager();
 	Time::CreateManager();
 	Input::CreateManager();
+	AssetManager::CreateManager();
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
-	AssetManager::CreateManager();
 
-#ifdef X_EDIT_MODE
+	PhysicsManager::CreateManager();
+
+	#ifdef X_EDIT_MODE
 	SceneEditor::CreateManager();
-#endif
+	#endif
 
 	// Create & Load Scene
-#ifdef X_EDIT_MODE
+	#ifdef X_EDIT_MODE
 	SceneEditor::getInstance().StartEditMode();
-#else
+	#else
 	RunTestScene();
-#endif
+	#endif
 
 	// FRAME LOOP
 	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
@@ -71,6 +72,8 @@ int main()
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
+
+		PhysicsManager::getInstance().PhysicsUpdate();
 
 		#ifdef X_EDIT_MODE
 		SceneEditor::getInstance().EditorPreRender();

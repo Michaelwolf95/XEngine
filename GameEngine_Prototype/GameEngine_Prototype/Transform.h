@@ -21,6 +21,7 @@ public:
 	void SetParent(Transform* _parent);
 	// Matrix Access
 	glm::mat4 getMatrix4x4();
+	void setLocalMatrix4x4(glm::mat4 newModel);
 	glm::mat4 getTranslationMatrix();
 	glm::mat4 getRotationMatrix();
 	glm::mat4 getScaleMatrix();
@@ -29,6 +30,8 @@ public:
 	glm::vec3 getPosition();
 	void setLocalPosition(float x, float y, float z);
 	void setLocalPosition(glm::vec3 pos);
+	void setPosition(float x, float y, float z);
+	void setPosition(glm::vec3 pos);
 	// Rotation
 	glm::quat getLocalRotation();
 	glm::quat getRotation();
@@ -61,6 +64,7 @@ public:
 
 private:
 	friend class GameObject;
+	
 	Transform* parent = nullptr;
 	std::vector<Transform*> children;
 

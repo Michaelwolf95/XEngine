@@ -22,6 +22,8 @@ public:
 	void StartGameObject(GameObject_ptr go);
 	void Update();
 	void UpdateGameObject(GameObject_ptr go);
+	void FixedUpdate();
+	void FixedUpdateGameObject(GameObject_ptr go);
 	GameObject_ptr CreateGameObject(const char* name, Transform* parent = nullptr);
 	void DeleteGameObject(GameObject_ptr go);
 	void OnHierarchyUpdate();

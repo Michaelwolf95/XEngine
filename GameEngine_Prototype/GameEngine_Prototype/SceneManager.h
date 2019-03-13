@@ -16,6 +16,7 @@ public:
 	void SetActiveScene(Scene_ptr scene);
 	void StartActiveScene();
 	void UpdateActiveScene();
+	void FixedUpdateActiveScene();
 
 	Scene_ptr CreateNewScene();
 	Scene_ptr CreateNewScene(const char * sceneName);

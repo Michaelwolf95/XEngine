@@ -48,7 +48,7 @@ uniform vec3 lightColor;
 uniform vec4 MainColor;
 uniform sampler2D Texture;
 
-const int NUM_LIGHTS = 100;
+const int NUM_LIGHTS = 10;
 uniform GlobalLight globalLights[NUM_LIGHTS];
 uniform PointLight pointLights[NUM_LIGHTS];
 

@@ -140,6 +140,27 @@ void Scene::UpdateGameObject(GameObject_ptr go)
 	}
 }
 
+void Scene::FixedUpdate()
+{
+	for (size_t i = 0; i < rootGameObjects.size(); i++)
+	{
+		FixedUpdateGameObject(rootGameObjects[i]);
+	}
+}
+
+void Scene::FixedUpdateGameObject(GameObject_ptr go)
+{
+	if (go->isActive)
+	{
+		go->FixedUpdateComponents();
+		auto children = go->GetChildren();
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			FixedUpdateGameObject(children[i]->GetSelfPtr());
+		}
+	}
+}
+
 GameObject_ptr Scene::CreateGameObject(const char * name, Transform * parent)
 {
 	GameObject_ptr go = std::shared_ptr<GameObject>(new GameObject(name));

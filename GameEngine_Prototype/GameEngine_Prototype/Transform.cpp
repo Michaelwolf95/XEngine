@@ -73,14 +73,7 @@ void Transform::SetParent(Transform * _parent)
 	}
 
 	// Recalculate localSpace vars on re-parent.
-	glm::vec3 scale;
-	glm::quat rot;
-	glm::vec3 pos;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(newModel, scale, rot, pos, skew, perspective);
-	rot = glm::conjugate(rot);
-	RecalculateMatrices(pos, rot, scale);
+	setLocalMatrix4x4(newModel);
 
 	// TEMP WORK AROUND.
 	// TODO: Resolve dependency on SceneManager
@@ -142,6 +135,25 @@ glm::mat4 Transform::getMatrix4x4()
 		return model;
 }
 
+void Transform::setLocalMatrix4x4(glm::mat4 newModel)
+{
+	glm::vec3 scale;
+	glm::quat rot;
+	glm::vec3 pos;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(newModel, scale, rot, pos, skew, perspective);
+	rot = glm::conjugate(rot);
+	RecalculateMatrices(pos, rot, scale);
+
+	//model = newModel;
+	//// Calculate the simple values from their matrices.
+	//localPosition = _calcLocalPositionFromMatrix();
+	//localRotation = _calcLocalRotationFromMatrix();
+	//localScale = _calcLocalScaleFromMatrix();
+	//RecalculateMatrices(localPosition, localRotation, localScale);
+}
+
 glm::mat4 Transform::getTranslationMatrix() { return translateMatrix; }
 glm::mat4 Transform::getRotationMatrix(){ return rotateMatrix; }
 glm::mat4 Transform::getScaleMatrix() { return scaleMatrix; }
@@ -172,6 +184,26 @@ void Transform::setLocalPosition(glm::vec3 pos)
 	translateMatrix[3].y = pos.y;
 	translateMatrix[3].z = pos.z;
 	UpdateMatrix();
+}
+
+void Transform::setPosition(float x, float y, float z) { setPosition(glm::vec3(x, y, z)); }
+// Set World space position.
+void Transform::setPosition(glm::vec3 pos)
+{
+	if (parent != nullptr)
+	{
+		glm::mat4 globalChild = getMatrix4x4();
+		globalChild[3].x = pos.x;
+		globalChild[3].y = pos.y;
+		globalChild[3].z = pos.z;
+		glm::mat4 newModel = glm::inverse(parent->getMatrix4x4()) * globalChild;
+		setLocalMatrix4x4(newModel);
+	}
+	else
+	{
+		setLocalPosition(pos);
+	}
+	
 }
 
 // ROTATION ACCESS =====================================================================================================

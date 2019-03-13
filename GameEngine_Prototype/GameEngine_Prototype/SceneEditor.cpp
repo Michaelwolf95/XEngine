@@ -38,6 +38,8 @@ int SceneEditor::Init()
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
 	editorCameraGameObject->AddComponent(editCamPtr);
+	editorCameraGameObject->transform->setPosition(-5.0f, 4.0f, -7.0f);
+	editorCameraGameObject->transform->setLocalRotationEuler(15, 35, 0);
 
 	GLFWwindow* window = ApplicationManager::APP_WINDOW;
 

@@ -28,6 +28,8 @@ public:
 	void StartComponent(Component_ptr comp);
 	void UpdateComponents();
 	void UpdateComponent(Component_ptr comp);
+	void FixedUpdateComponents();
+	void FixedUpdateComponent(Component_ptr comp);
 
 	Component_ptr FilterComponent(std::function<bool(Component_ptr)> predicate);
 	bool FindComponent(const std::type_info& typeInfo, void** object);

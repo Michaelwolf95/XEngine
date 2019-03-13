@@ -70,6 +70,16 @@ void SceneManager::UpdateActiveScene()
 		}
 	}
 }
+void SceneManager::FixedUpdateActiveScene()
+{
+	if (activeScene != nullptr && activeScene->isLoaded)
+	{
+		if (activeScene->isStarted)
+		{
+			activeScene->FixedUpdate();
+		}
+	}
+}
 
 Scene_ptr SceneManager::CreateNewScene()
 {
