@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/quaternion.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
-//#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
@@ -37,6 +37,7 @@ unsigned int Transform::GetChildCount() { return children.size(); }
 
 void Transform::SetParent(Transform * _parent)
 {
+	if(parent == _parent) return;
 	// Make sure the object isn't already a child.
 	if (this->parent != nullptr)
 	{
@@ -47,15 +48,39 @@ void Transform::SetParent(Transform * _parent)
 			this->parent->children.pop_back();
 		}
 	}
+
+	glm::mat4 globalChild = getMatrix4x4();
+	glm::mat4 newModel(1.0);
+
 	parent = _parent;
 	if (_parent != nullptr)
 	{
 		parent->children.push_back(this);
+
+		// Global Child = Global Parent * Local Child
+		// GP^-1 *GC = GP^-1 * GP * LC
+		// GP^-1 * GC = LC
+		// Local Child = Inverse Global Parent * Global Child
+		newModel = glm::inverse(parent->getMatrix4x4()) * globalChild;
 	}
 	else
 	{
-		// Set as root object. Handled in scene OnHierarchyUpdate
+		// No Parent.
+		// Set as root object -> (Handled in scene OnHierarchyUpdate)
+
+		// With no parent, global space is local space.
+		newModel = globalChild;
 	}
+
+	// Recalculate localSpace vars on re-parent.
+	glm::vec3 scale;
+	glm::quat rot;
+	glm::vec3 pos;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(newModel, scale, rot, pos, skew, perspective);
+	rot = glm::conjugate(rot);
+	RecalculateMatrices(pos, rot, scale);
 
 	// TEMP WORK AROUND.
 	// TODO: Resolve dependency on SceneManager
@@ -82,6 +107,17 @@ void Transform::UpdateMatrix()
 	localPosition = _calcLocalPositionFromMatrix();
 	localRotation = _calcLocalRotationFromMatrix();
 	localScale = _calcLocalScaleFromMatrix();
+}
+void Transform::RecalculateMatrices(glm::vec3 pos, glm::quat rot, glm::vec3 scale)
+{
+	translateMatrix[3].x = pos.x;
+	translateMatrix[3].y = pos.y;
+	translateMatrix[3].z = pos.z;
+	rotateMatrix = glm::mat4_cast(rot);
+	scaleMatrix[0][0] = scale.x;
+	scaleMatrix[1][1] = scale.y;
+	scaleMatrix[2][2] = scale.z;
+	UpdateMatrix();
 }
 glm::vec3 Transform::_calcLocalPositionFromMatrix()
 {

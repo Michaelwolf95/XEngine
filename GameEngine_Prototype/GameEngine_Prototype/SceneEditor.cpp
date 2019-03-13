@@ -838,6 +838,31 @@ void SceneEditor::HierarchyUpdate()
 	{
 		ImGui::Text("No Scene Loaded.");
 	}
+
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+	{
+		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		if (payload != nullptr && payload->IsDataType("GAMEOBJECT_DRAG"))
+		{
+			ImGui::Spacing();
+			ImGui::Indent();
+			ImGui::Text("<----- UNPARENT ----->");
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+					GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+					std::cout << "Dropping " << payload_n->name << " on empty." << std::endl;
+
+					payload_n->transform->SetParent(nullptr);
+				}
+				ImGui::EndDragDropTarget();
+			}
+			ImGui::Unindent();
+		}
+	}
+
 	ImGui::End();
 }
 
@@ -858,9 +883,30 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags);
 	if (ImGui::IsItemClicked())
 	{
-		//node_clicked = i;
 		selectedGameObject = go->GetSelfPtr();
 	}
+	// Our buttons are both drag sources and drag targets here!
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	{
+		if (go->GetSelfPtr() != selectedGameObject)
+			return;
+		ImGui::SetDragDropPayload("GAMEOBJECT_DRAG", &selectedGameObject, sizeof(GameObject_ptr));        // Set payload to carry our item 
+		ImGui::Text("Moving %s", selectedGameObject->name.c_str());
+		ImGui::EndDragDropSource();
+	}
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT_DRAG"))
+		{
+			IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+			GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+			std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
+
+			payload_n->transform->SetParent(go->transform);
+		}
+		ImGui::EndDragDropTarget();
+	}
+
 	if (node_open)
 	{
 		// TODO: Replace this temp approach. This is only one level deep.
