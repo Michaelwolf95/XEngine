@@ -547,6 +547,8 @@
     <None Include="..\Shaders\multilights.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\Shaders\multi.fs" />
+    <None Include="..\Shaders\multi.vs" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine_Prototype.rc">
