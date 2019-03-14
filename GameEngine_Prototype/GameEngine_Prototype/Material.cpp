@@ -163,8 +163,20 @@ void Material::DrawInspector()
 	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
 		ImGui::InputText("VertPath", &vertexShaderPath);
+
 		ImGui::InputText("FragPath", &fragmentShaderPath);
 		ImGui::InputText("TexturePath", &textureFilePath);
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			{
+				IM_ASSERT(payload->DataSize == 32);
+				const char* payload_n = (const char*)payload->Data;
+
+				textureFilePath = payload_n;
+			}
+			ImGui::EndDragDropTarget();
+		}
 
 		//ImGuiInputTextFlags flags = 0;
 		//	flags |= ImGuiInputTextFlags_CharsScientific;// | ~ImGuiInputTextFlags_CharsNoBlank;

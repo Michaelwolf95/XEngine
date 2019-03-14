@@ -506,7 +506,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 	//ImGui::PopStyleVar();
 	ImGui::PopStyleVar(3);
 	ImGuiID dockSpaceId_m = ImGui::GetID("DOCK_SPACE");
-	if(false)
+	//if(false)
 	if (layoutInitialized)
 	{
 		std::cout << "Creating Dock" << std::endl;
@@ -519,7 +519,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, nullptr, &dock_main_id);
 		ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, nullptr, &dock_main_id);
 
-		ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
+		//ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
 
 		ImGui::DockBuilderFinish(dockSpaceId_m);
 		layoutInitialized = true;
@@ -754,7 +754,7 @@ void SceneEditor::InspectorUpdate()
 	//ImGui::SetNextWindowDockID(dockSpaceId_m, ImGuiCond_Once);
 
 	ImGuiID dockspace_id = ImGui::GetID("DOCK_SPACE");
-	ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);//)redock_all ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
 
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_MenuBar;
@@ -1118,34 +1118,23 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 
 void SceneEditor::DrawFileTreeNode(const char * directory)
 {
-	//TODO: Add Drag-and-Drop behavior, and unique behavior for files like scenes and... materials?
+	//TODO: Add Drag-and-Drop behavior, and unique behavior for files like scenes and materials.
 	std::string fileName = GetFileNameFromPath(directory);
-	//ImGui::Button(fileName.c_str());
-	//ImGui::TextEx(fileName.c_str());
 	bool node_open = ImGui::TreeNodeEx((fileName).c_str(), ImGuiTreeNodeFlags_Leaf);
-	//if (ImGui::IsItemClicked())
-	//{
-	//	//selectedGameObject = go->GetSelfPtr();
-	//}
-	// Our buttons are both drag sources and drag targets here!
+	if (ImGui::IsItemClicked())
+	{
+		// Do Something on click.
+	}
+	// Drag file.
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))//ImGuiDragDropFlags_None))
 	{
-		//std::string dir(directory);
+		//TODO: Remove ASSET_FILE_PATH from directory.
+		//std::string assetPath = std::string(directory).substr();
 		ImGui::SetDragDropPayload("FILE_DRAG", directory, 32);        // Set payload to carry our item 
 		ImGui::Text("%s", fileName.c_str());
 		ImGui::EndDragDropSource();
 	}
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
-		{
-			//IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
-			//GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
-			//std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
-			//payload_n->transform->SetParent(go->transform);
-		}
-		ImGui::EndDragDropTarget();
-	}
+
 	if (node_open)
 	{
 		ImGui::TreePop();
