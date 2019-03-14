@@ -1,5 +1,6 @@
 #include "TextureLibrary.h"
 #include "AssetManager.h"
+#include "Texture.h"
 
 TextureLibrary::TextureLibrary() {}
 

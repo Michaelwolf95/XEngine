@@ -1,6 +1,7 @@
 #pragma once
 #include "AssetLibrary.h"
-#include "Material.h" //Texture struct definition
+//#include "Material.h" //Texture struct definition
+#include "Texture.h"
 
 //TODO: Rework this so that textures are structs, not just openGL textureIDs
 
