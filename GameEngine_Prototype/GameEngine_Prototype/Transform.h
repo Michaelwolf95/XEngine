@@ -74,6 +74,7 @@ private:
 	glm::mat4 scaleMatrix = glm::mat4(1.0f);
 
 	void UpdateMatrix();
+	void RecalculateMatrices(glm::vec3 pos, glm::quat rot, glm::vec3 scale);
 	glm::vec3 _calcLocalPositionFromMatrix();
 	glm::quat _calcLocalRotationFromMatrix();
 	glm::vec3 _calcLocalScaleFromMatrix();
@@ -99,12 +100,12 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(parent);
 		ar & BOOST_SERIALIZATION_NVP(localPosition);
-		setLocalPosition(localPosition);
+		//setLocalPosition(localPosition);
 		ar & BOOST_SERIALIZATION_NVP(localScale);
-		setLocalScale(localScale);
+		//setLocalScale(localScale);
 		ar & BOOST_SERIALIZATION_NVP(localRotation);
-		setLocalRotation(localRotation);
-
+		//setLocalRotation(localRotation);
+		RecalculateMatrices(localPosition, localRotation, localScale);
 		if (parent != nullptr)
 		{
 			parent->children.push_back(this);
