@@ -27,11 +27,12 @@ class MeshRenderer: public RenderableObject, public Component
 	public:
 		static Registrar<MeshRenderer> registrar;
 
-		std::vector<Texture> textures_loaded;
-		Model* model = new Model();//std::vector<Mesh> meshes;
-		std::string directory;
+		Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
 		bool gammaCorrection;
 		std::string pathToObjModel;
+
+		//std::string directory;
+		//std::vector<Texture> textures_loaded;
 
 		// mapping name of mesh to its respective material in the mesh renderer
 		std::unordered_map<std::string, Material*> MeshToMaterial;
@@ -58,10 +59,12 @@ class MeshRenderer: public RenderableObject, public Component
 		//Material* _material;
 		bool isSetup = false;
 
-		void processNode(aiNode *node, const aiScene *scene);
-		Mesh* processMesh(aiMesh *mesh, const aiScene *scene);
-		std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
-		unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
+		bool LoadModel();
+
+		//void processNode(aiNode *node, const aiScene *scene);
+		//Mesh* processMesh(aiMesh *mesh, const aiScene *scene);
+		//std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
+		//unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
 
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()

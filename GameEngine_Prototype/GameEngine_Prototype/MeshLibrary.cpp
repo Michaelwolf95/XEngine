@@ -1,17 +1,9 @@
 #include "MeshLibrary.h"
 
+MeshLibrary::MeshLibrary() {}
+MeshLibrary::~MeshLibrary() {}
 
-
-MeshLibrary::MeshLibrary()
-{
-}
-
-
-MeshLibrary::~MeshLibrary()
-{
-}
-
-void MeshLibrary::SaveAsset(std::string filePath, Mesh * mesh)
+void MeshLibrary::ProvideAsset(std::string filePath, Mesh * mesh)
 {
 	library.insert({ filePath, mesh });
 	//std::cout << "Mesh Saved into Library" << std::endl;

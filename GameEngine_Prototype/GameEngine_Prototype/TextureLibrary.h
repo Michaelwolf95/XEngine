@@ -1,10 +1,20 @@
 #pragma once
 #include "AssetLibrary.h"
-class TextureLibrary : public AssetLibrary<std::string, unsigned int>
+#include "Material.h" //Texture struct definition
+
+//TODO: Rework this so that textures are structs, not just openGL textureIDs
+
+class TextureLibrary : public AssetLibrary<std::string, Texture>
 {
 public:
+	struct TextureQuery
+	{
+		std::string filePath;
+		std::string type;
+
+	};
 	TextureLibrary();
 	~TextureLibrary();
-	unsigned int& LoadAsset(std::string filePath) override;
+	Texture& LoadAsset(std::string filePath) override;
 };
 

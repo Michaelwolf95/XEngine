@@ -6,8 +6,9 @@ template<typename K, class T>
 class AssetLibrary
 {
 public:
-	std::map<K, T> library;
 	virtual T& GetAsset(K key);
+protected:
+	std::map<K, T> library;
 	virtual T& LoadAsset(K key) = 0;
 };
 

@@ -9,9 +9,10 @@
 #include <vector>
 
 /* TODO: The information we want to store about each material
-should be stored in "material modules" that can be attached to it.
+could be stored in "material modules" that can be attached to it.
 For now, we can just use some flags to check if its lit or not.
 */
+
 
 struct Texture {
 	// texture id

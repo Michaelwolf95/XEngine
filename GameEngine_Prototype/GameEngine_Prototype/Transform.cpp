@@ -305,7 +305,7 @@ void Transform::Rotate(glm::vec3 rotation)
 	rotation.y = glm::radians(rotation.y);
 	rotation.z = glm::radians(rotation.z);
 	
-	rotateMatrix *= glm::eulerAngleYXZ(rotation.x, rotation.y, rotation.z);
+	rotateMatrix *= glm::eulerAngleYXZ(rotation.y, rotation.x, rotation.z);
 	//rotateMatrix *= glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
 	UpdateMatrix();
 }

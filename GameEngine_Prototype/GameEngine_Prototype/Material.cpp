@@ -84,7 +84,7 @@ void Material::LoadTexture(const char * _textureFilePath)
 
 void Material::DrawInspector()
 {
-	if (ImGui::TreeNode("Mat", "Material: %s", this->name.c_str()))
+	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
 		ImGui::InputText("VertPath", &vertexShaderPath);
 		ImGui::InputText("FragPath", &fragmentShaderPath);
