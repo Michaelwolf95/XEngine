@@ -18,6 +18,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "RenderManager.h"
 #include "Model.h"
+#include "AssetManager.h"
 
 #include <string>
 #include <fstream>
@@ -69,21 +70,51 @@ void MeshRenderer::Setup()
 
 	isSetup = true;
 
-	// read file using ASSIMP
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
-	// check for errors
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	// if model is not found in model library.
+	if (AssetManager::getInstance().modelLib.library.find(pathToObjModel) == AssetManager::getInstance().modelLib.library.end())
 	{
-		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-		return;
-	}
-	// retrieve the directory path of the filepath
-	directory = pathToObjModel.substr(0, pathToObjModel.find_last_of('/'));
+		std::cout << "Model not found in Model Library" << std::endl;
 
-	// process ASSIMP's root node recursively
-	processNode(scene->mRootNode, scene);
+		// read file using ASSIMP
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+		// Save model into model library
+		AssetManager::getInstance().modelLib.SaveAsset(pathToObjModel, model);
+
+		// check for errors
+		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+		{
+			std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+			return;
+		}
+		// retrieve the directory path of the filepath
+		directory = pathToObjModel.substr(0, pathToObjModel.find_last_of('/'));
+
+		// process ASSIMP's root node recursively
+		processNode(scene->mRootNode, scene);
+
+	}
+	else // if model is found
+	{
+		std::cout << "Model is found in Model Library" << std::endl;
+
+		model = AssetManager::getInstance().modelLib.LoadAsset(pathToObjModel);
+
+		// get material for the meshes
+		for (int i = 0; i < model->meshes.size(); i++)
+		{
+			// load material from lib
+			Material* materialInLib = AssetManager::getInstance().materialLib.LoadAsset(pathToObjModel + model->meshes[i].name);
+			
+			// save material in MeshRenderer
+			MeshToMaterial.emplace(model->meshes[i].name, materialInLib);
+		}
+	}
+
+	// Check Model Library size
+	std::cout << "Model Library Size:" << AssetManager::getInstance().modelLib.library.size() << std::endl;
+	std::cout << "Meshes Model Library Size:" << AssetManager::getInstance().modelLib.library.at(pathToObjModel)->meshes.size() << std::endl;
 }
 
 void MeshRenderer::Draw()
@@ -282,6 +313,8 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 	Material* MatforMesh = new Material(material->name, material->vertexShaderPath, material->fragmentShaderPath);
 	MatforMesh->textures = textures;
 	MeshToMaterial.emplace(mesh->mName.C_Str(), MatforMesh);
+	// add material to material library
+	AssetManager::getInstance().materialLib.SaveAsset( pathToObjModel + mesh->mName.C_Str(), MatforMesh);
 
 	// return mesh object from extracted mesh data
 	return Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();

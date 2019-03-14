@@ -1,6 +1,8 @@
 #pragma once
 #include "Singleton.h"
 #include "TextureLibrary.h"
+#include "ModelLibrary.h"
+#include "MaterialLibrary.h"
 //#include <stb/stb_image.h>
 
 static const char* ASSET_FILE_PATH = "../Assets/";
@@ -10,6 +12,8 @@ class AssetManager : public Singleton<AssetManager>
 	friend class Singleton<AssetManager>;
 public:
 	TextureLibrary textureLib;
+	ModelLibrary modelLib;
+	MaterialLibrary materialLib;
 	AssetManager();
 	~AssetManager();
 	static AssetManager* CreateManager();
