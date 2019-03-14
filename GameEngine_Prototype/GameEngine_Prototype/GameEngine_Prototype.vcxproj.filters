@@ -88,6 +88,12 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{1b3754d3-0d62-428c-ba8d-ea44024fc849}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{9804e167-cb6c-4ae7-9f07-5c40cfe272cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{7db5fa39-1ea5-435f-b5a1-811ff2c648fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -255,16 +261,22 @@
     <ClCompile Include="TextureLibrary.cpp">
       <Filter>Source Files\AssetManagement</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLibrary.cpp">
-      <Filter>Source Files\AssetManagement</Filter>
     </ClCompile>
     <ClCompile Include="MaterialLibrary.cpp">
       <Filter>Source Files\AssetManagement</Filter>
     </ClCompile>
     <ClCompile Include="MeshLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLibrary.cpp">
       <Filter>Source Files\AssetManagement</Filter>
     </ClCompile>
   </ItemGroup>
@@ -464,16 +476,22 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLibrary.h">
-      <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
     <ClInclude Include="MaterialLibrary.h">
       <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
     <ClInclude Include="MeshLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLibrary.h">
       <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
   </ItemGroup>

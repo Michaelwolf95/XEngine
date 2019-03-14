@@ -94,7 +94,7 @@ void GameObject::StartComponents()
 void GameObject::StartComponent(Component_ptr comp)
 {
 	if((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
-		comp->Start();
+		comp->callback_PerformStart();
 }
 
 void GameObject::UpdateComponents()
@@ -108,7 +108,20 @@ void GameObject::UpdateComponents()
 void GameObject::UpdateComponent(Component_ptr comp)
 {
 	if ((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
-		comp->Update();
+		comp->callback_PerformUpdate();
+}
+void GameObject::FixedUpdateComponents()
+{
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		FixedUpdateComponent(components[i]);
+	}
+}
+
+void GameObject::FixedUpdateComponent(Component_ptr comp)
+{
+	if ((ApplicationManager::getInstance().IsEditMode() == false) || comp->executeInEditMode)
+		comp->FixedUpdate();
 }
 
 Component_ptr GameObject::FilterComponent(std::function<bool(Component_ptr)> predicate)
