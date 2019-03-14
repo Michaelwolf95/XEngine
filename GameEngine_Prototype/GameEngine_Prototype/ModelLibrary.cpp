@@ -5,6 +5,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <stb/stb_image.h>
+#include "MeshRenderer.h"
 
 ModelLibrary::ModelLibrary() {}
 
@@ -18,29 +19,41 @@ ModelLibrary::~ModelLibrary() {}
 
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
-	Model* model = new Model();
-	std::string pathToObjModel = ASSET_FILE_PATH + filePath;
-	// read file using ASSIMP
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
-	// check for errors
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	if (library.find(filePath) == library.end())
 	{
-		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-		return model;
+		std::cout << "Model is not in Library" << std::endl;
+
+		Model* model = new Model();
+		//std::string pathToObjModel = ASSET_FILE_PATH + filePath;
+		//std::string pathToObjModel = "../Assets/" + filePath;
+		std::string pathToObjModel = filePath;
+		std::cout << filePath << std::endl;
+		std::cout << pathToObjModel << std::endl;
+		// read file using ASSIMP
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+		// check for errors
+		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+		{
+			std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+			return model;
+		}
+
+		// process ASSIMP's root node recursively
+		processNode(model, scene->mRootNode, scene, filePath);
+
+		// Save model into model library
+		// AssetManager::getInstance().modelLib.SaveAsset(pathToObjModel, model);
+		library.insert({ filePath, model });
 	}
-
-	// Save model into model library
-	//AssetManager::getInstance().modelLib.SaveAsset(pathToObjModel, model);
-	library.insert({ filePath, model });
-
+	else
+		std::cout << "Model is in Library" << std::endl;
 	//// retrieve the directory path of the filepath
 	//std::string directory = pathToObjModel.substr(0, pathToObjModel.find_last_of('/'));
 
-	// process ASSIMP's root node recursively
-	processNode(model, scene->mRootNode, scene, filePath);
-
+	
+	std::cout << "Size of Model Library:" << library.size() << std::endl;
 	//std::cout << "Model Loaded from Library" << std::endl;
 	// get model based on filePath
 	//Model* model = library.at(filePath);
@@ -61,7 +74,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		model->meshes.push_back(mesh);
 
 		// save mesh to mesh library
-		AssetManager::getInstance().meshLib.ProvideAsset(filePath + model->meshes.back()->name, model->meshes.back());
+		//AssetManager::getInstance().meshLib.ProvideAsset(filePath + model->meshes.back()->name, model->meshes.back());
 	}
 
 	// recursively call the children nodes
@@ -77,7 +90,6 @@ Mesh* ModelLibrary::processMesh(Model* model, aiMesh *mesh, const aiScene *scene
 	// data of the meshes
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
 
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -145,10 +157,19 @@ Mesh* ModelLibrary::processMesh(Model* model, aiMesh *mesh, const aiScene *scene
 			indices.push_back(face.mIndices[j]);
 	}
 
+	// mapped name of mesh to the material
+	//Material* MatforMesh = model->material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
+	//MatforMesh->textures = textures;
+	//model->MeshToMaterial.emplace(mesh->mName.C_Str(), MatforMesh);
+	
+	// add material to material library
+	//AssetManager::getInstance().materialLib.SaveAsset( pathToObjModel + mesh->mName.C_Str(), MatforMesh);
+	processMeshMaterial(model, mesh, scene, filePath);
+
 	// return mesh object from extracted mesh data
 	return new Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
 }
-/*
+
 Material * ModelLibrary::processMeshMaterial(Model * model, aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
 	// process materials
@@ -156,21 +177,22 @@ Material * ModelLibrary::processMeshMaterial(Model * model, aiMesh * mesh, const
 
 	// assume sampler names in shaders 
 	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
+	std::vector<Texture> textures;
 
 	// 1.diffuse maps
-	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse");
+	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
 	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 	// 2.specular maps
-	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular");
+	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
 	// 3.normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_normal");
+	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_normal", filePath);
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
 	// 4.height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height");
+	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height", filePath);
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 	// TODO: Load Material from Library instead. Use a struct of name and shader files as a key.
@@ -178,15 +200,14 @@ Material * ModelLibrary::processMeshMaterial(Model * model, aiMesh * mesh, const
 	// mapped name of mesh to the material
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
-	Material* MatforMesh = new Material(meshMatName, "multilights.vs", "multilights.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-	
+	Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
 	
 	MatforMesh->textures = textures;
 	
-	//MeshToMaterial.emplace(mesh->mName.C_Str(), MatforMesh);
+	model->MeshToMaterial.emplace(meshMatName, MatforMesh);
 
 	// add material to material library
-	AssetManager::getInstance().materialLib.SaveAsset(filePath + mesh->mName.C_Str(), MatforMesh);
+	//AssetManager::getInstance().materialLib.SaveAsset(filePath + mesh->mName.C_Str(), MatforMesh);
 
 	return nullptr;
 }
@@ -199,6 +220,9 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 
 	std::vector<Texture> textures;
+
+	std::vector<Texture> textures_loaded;
+
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
@@ -219,7 +243,7 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 		if (!skip)
 		{
 			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), this->directory);
+			texture.id = TextureFromFile(str.C_Str(), directory);
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			textures.push_back(texture);
@@ -232,4 +256,43 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 	}
 }
 
-*/
+unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
+{
+	std::string filename = std::string(path);
+	filename = directory + '/' + filename;
+
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+
+	if (data)
+	{
+		GLenum format;
+
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
+	return textureID;
+}
