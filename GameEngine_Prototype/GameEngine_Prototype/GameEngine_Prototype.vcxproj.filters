@@ -264,6 +264,9 @@
     <ClCompile Include="MaterialLibrary.cpp">
       <Filter>Source Files\AssetManagement</Filter>
     </ClCompile>
+    <ClCompile Include="MeshLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -468,6 +471,9 @@
       <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
     <ClInclude Include="MaterialLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLibrary.h">
       <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
   </ItemGroup>

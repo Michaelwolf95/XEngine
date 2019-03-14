@@ -3,6 +3,7 @@
 #include "TextureLibrary.h"
 #include "ModelLibrary.h"
 #include "MaterialLibrary.h"
+#include "MeshLibrary.h"
 //#include <stb/stb_image.h>
 
 static const char* ASSET_FILE_PATH = "../Assets/";
@@ -14,6 +15,7 @@ public:
 	TextureLibrary textureLib;
 	ModelLibrary modelLib;
 	MaterialLibrary materialLib;
+	MeshLibrary meshLib;
 	AssetManager();
 	~AssetManager();
 	static AssetManager* CreateManager();

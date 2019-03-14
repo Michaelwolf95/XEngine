@@ -194,6 +194,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="MaterialLibrary.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshLibrary.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLibrary.cpp" />
@@ -259,6 +260,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="MaterialLibrary.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshLibrary.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLibrary.h" />

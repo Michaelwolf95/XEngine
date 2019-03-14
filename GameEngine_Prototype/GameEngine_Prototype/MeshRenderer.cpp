@@ -105,16 +105,16 @@ void MeshRenderer::Setup()
 		for (int i = 0; i < model->meshes.size(); i++)
 		{
 			// load material from lib
-			Material* materialInLib = AssetManager::getInstance().materialLib.LoadAsset(pathToObjModel + model->meshes[i].name);
+			Material* materialInLib = AssetManager::getInstance().materialLib.LoadAsset(pathToObjModel + model->meshes[i]->name);
 			
 			// save material in MeshRenderer
-			MeshToMaterial.emplace(model->meshes[i].name, materialInLib);
+			MeshToMaterial.emplace(model->meshes[i]->name, materialInLib);
 		}
 	}
-
-	// Check Model Library size
-	std::cout << "Model Library Size:" << AssetManager::getInstance().modelLib.library.size() << std::endl;
-	std::cout << "Meshes Model Library Size:" << AssetManager::getInstance().modelLib.library.at(pathToObjModel)->meshes.size() << std::endl;
+	
+	//std::cout << "Model Library Size:" << AssetManager::getInstance().modelLib.library.size() << std::endl;
+	//std::cout << "Material Model Library Size:" << AssetManager::getInstance().materialLib.library.size() << std::endl;
+	//std::cout << "Mesh Model Library Size:" << AssetManager::getInstance().meshLib.library.size() << std::endl;
 }
 
 void MeshRenderer::Draw()
@@ -146,13 +146,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 
 		// binding textures
-		for (unsigned int j = 0; j < MeshToMaterial.at(model->meshes[i].name)->textures.size(); j++)
+		for (unsigned int j = 0; j < MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
 			std::string number;
-			std::string name = MeshToMaterial.at(model->meshes[i].name)->textures[j].type;
+			std::string name = MeshToMaterial.at(model->meshes[i]->name)->textures[j].type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -168,12 +168,12 @@ void MeshRenderer::Draw()
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, MeshToMaterial.at(model->meshes[i].name)->textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
 		// draw mesh
-		glBindVertexArray(model->meshes[i].VAO);
-		glDrawElements(GL_TRIANGLES, model->meshes[i].indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(model->meshes[i]->VAO);
+		glDrawElements(GL_TRIANGLES, model->meshes[i]->indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		// default once configured
@@ -203,7 +203,7 @@ void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 		model->meshes.push_back(processMesh(mesh, scene));
 
 		// save mesh to mesh library
-		//AssetManager::getInstance().meshLib.SaveAsset();
+		AssetManager::getInstance().meshLib.SaveAsset( pathToObjModel + model->meshes.back()->name, model->meshes.back());
 	}
 
 	// recursively call the children nodes
@@ -214,7 +214,7 @@ void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 
 }
 
-Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
+Mesh* MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 {
 	// data of the meshes
 	std::vector<Vertex> vertices;
@@ -317,7 +317,7 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 	AssetManager::getInstance().materialLib.SaveAsset( pathToObjModel + mesh->mName.C_Str(), MatforMesh);
 
 	// return mesh object from extracted mesh data
-	return Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
+	return new Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
 }
 
 // check material textures of a given type and loads texture if not loaded yet
