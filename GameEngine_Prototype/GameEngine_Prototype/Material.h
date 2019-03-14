@@ -8,6 +8,7 @@
 #include "Serialization.h"
 #include <vector>
 #include "Texture.h"
+#include "MaterialProperty.h"
 
 /* TODO: The information we want to store about each material
 could be stored in "material modules" that can be attached to it.
@@ -23,7 +24,7 @@ public:
 	std::string fragmentShaderPath;
 	Shader* shader;
 
-	std::vector<MaterialProperty>
+	std::vector<FloatProperty> floatProperties;
 
 	bool useLight = false;
 	std::vector<Texture> textures;
