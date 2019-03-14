@@ -7,21 +7,13 @@
 #include "Shader.h"
 #include "Serialization.h"
 #include <vector>
+#include "Texture.h"
 
 /* TODO: The information we want to store about each material
 could be stored in "material modules" that can be attached to it.
 For now, we can just use some flags to check if its lit or not.
 */
 
-
-struct Texture {
-	// texture id
-	unsigned int id;
-	// texture type
-	std::string type;
-	// texture path
-	std::string path;
-};
 
 class Material
 {
@@ -30,6 +22,9 @@ public:
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
 	Shader* shader;
+
+	std::vector<MaterialProperty>
+
 	bool useLight = false;
 	std::vector<Texture> textures;
 
