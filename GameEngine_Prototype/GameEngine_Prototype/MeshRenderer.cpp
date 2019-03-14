@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "RenderManager.h"
+#include "Model.h"
 
 #include <string>
 #include <fstream>
@@ -33,7 +34,7 @@ MeshRenderer::MeshRenderer()
 {
 }
 // Constructor
-MeshRenderer::MeshRenderer(string const &path, Material* m , bool gamma): 
+MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma):
 	gammaCorrection(gamma), 
 	RenderableObject(m)
 {
@@ -75,7 +76,7 @@ void MeshRenderer::Setup()
 	// check for errors
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
+		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
 		return;
 	}
 	// retrieve the directory path of the filepath
@@ -83,8 +84,6 @@ void MeshRenderer::Setup()
 
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
-
-
 }
 
 void MeshRenderer::Draw()
@@ -106,7 +105,8 @@ void MeshRenderer::Draw()
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 	
 	
-	for (unsigned int i = 0; i < meshes.size(); i++)
+	
+	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
 		// texture variables
 		unsigned int diffuseNr = 1;
@@ -115,13 +115,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 
 		// binding textures
-		for (unsigned int j = 0; j < MeshToMaterial.at(meshes[i].name)->textures.size(); j++)
+		for (unsigned int j = 0; j < MeshToMaterial.at(model->meshes[i].name)->textures.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
-			string number;
-			string name = MeshToMaterial.at(meshes[i].name)->textures[j].type;
+			std::string number;
+			std::string name = MeshToMaterial.at(model->meshes[i].name)->textures[j].type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -137,12 +137,12 @@ void MeshRenderer::Draw()
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, MeshToMaterial.at(meshes[i].name)->textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, MeshToMaterial.at(model->meshes[i].name)->textures[j].id);
 		}
 
 		// draw mesh
-		glBindVertexArray(meshes[i].VAO);
-		glDrawElements(GL_TRIANGLES, meshes[i].indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(model->meshes[i].VAO);
+		glDrawElements(GL_TRIANGLES, model->meshes[i].indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		// default once configured
@@ -167,7 +167,12 @@ void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(processMesh(mesh, scene));
+
+		//mesh->mName
+		model->meshes.push_back(processMesh(mesh, scene));
+
+		// save mesh to mesh library
+		//AssetManager::getInstance().meshLib.SaveAsset();
 	}
 
 	// recursively call the children nodes
@@ -181,9 +186,9 @@ void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
 Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 {
 	// data of the meshes
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
-	vector<Texture> textures;
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+	std::vector<Texture> textures;
 
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -283,9 +288,9 @@ Mesh MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
 }
 
 // check material textures of a given type and loads texture if not loaded yet
-vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
+std::vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
 {
-	vector<Texture> textures;
+	std::vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
@@ -319,9 +324,9 @@ vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
 	}
 }
 
-unsigned int MeshRenderer::TextureFromFile(const char * path, const string &directory, bool gamma)
+unsigned int MeshRenderer::TextureFromFile(const char * path, const std::string &directory, bool gamma)
 {
-	string filename = string(path);
+	std::string filename = std::string(path);
 	filename = directory + '/' + filename;
 
 	unsigned int textureID;

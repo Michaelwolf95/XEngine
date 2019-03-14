@@ -24,7 +24,7 @@
 /// Based on LearnOpenGL.com section on Meshes
 
 // Constructor
-Mesh::Mesh(string name, vector<Vertex> vertices, vector<unsigned int> indices)
+Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 {
 	this->name = name;
 	this->vertices = vertices;

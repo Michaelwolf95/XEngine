@@ -12,6 +12,7 @@
 #include "RenderableObject.h"
 #include "Component.h"
 #include "GameObject.h"
+#include "Model.h"
 
 #include <string>
 #include <fstream>
@@ -20,13 +21,14 @@
 #include <map>
 #include <vector>
 
+
 class MeshRenderer: public RenderableObject, public Component
 {
 	public:
 		static Registrar<MeshRenderer> registrar;
 
 		std::vector<Texture> textures_loaded;
-		std::vector<Mesh> meshes;
+		Model* model = new Model();//std::vector<Mesh> meshes;
 		std::string directory;
 		bool gammaCorrection;
 		std::string pathToObjModel;
@@ -35,7 +37,7 @@ class MeshRenderer: public RenderableObject, public Component
 		std::unordered_map<std::string, Material*> MeshToMaterial;
 		
 		// Constructor
-		MeshRenderer(string const &path, Material* m = nullptr, bool gamma = false);
+		MeshRenderer(std::string const &path, Material* m = nullptr, bool gamma = false);
 
 		MeshRenderer();
 		// Deconstructor
@@ -58,8 +60,8 @@ class MeshRenderer: public RenderableObject, public Component
 
 		void processNode(aiNode *node, const aiScene *scene);
 		Mesh processMesh(aiMesh *mesh, const aiScene *scene);
-		vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
-		unsigned int TextureFromFile(const char * path, const string &directory, bool gamma = false);
+		std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
+		unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
 
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()

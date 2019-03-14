@@ -16,7 +16,7 @@ class MeshRenderer;
 #include <iostream>
 #include <vector>
 
-using namespace std;
+//using namespace std;
 
 /// Based on LearnOpenGL.com section on Meshes
 
@@ -42,12 +42,12 @@ class Mesh
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
-		vector<Vertex> vertices;
-		vector<unsigned int> indices;
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
 		std::string name;
 		
 		// Constructor
-		Mesh(string name, vector<Vertex> vertices, vector<unsigned int> indices);
+		Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 		
 		// Deconstructor
 		~Mesh();

@@ -829,7 +829,7 @@ void SceneEditor::HierarchyUpdate()
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
 		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
-			DrawGameObjectTreeNode(scene->rootGameObjects[i].get(), "[" + to_string(i) + "]");
+			DrawGameObjectTreeNode(scene->rootGameObjects[i].get(), "[" + std::to_string(i) + "]");
 		}
 
 		ImGui::PopStyleVar();
@@ -867,7 +867,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		std::vector<GameObject*> children = go->GetChildren();
 		for (size_t i = 0; i < children.size(); i++)
 		{
-			this->DrawGameObjectTreeNode(children[i], label + "["+ to_string(i)+"]");
+			this->DrawGameObjectTreeNode(children[i], label + "["+ std::to_string(i)+"]");
 		}
 		ImGui::TreePop();
 	}
