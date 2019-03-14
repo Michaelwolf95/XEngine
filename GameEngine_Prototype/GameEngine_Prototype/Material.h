@@ -25,10 +25,15 @@ class Material
 public:
 	// Shader attributes
 	glm::vec4 Color;
+	Vec3Property colorProperty;
 	glm::vec3 ambient = glm::vec3(0.05f);
+	Vec3Property ambientProperty;
 	glm::vec3 diffuse = glm::vec3(0.8f);
+	Vec3Property diffuseProperty;
 	glm::vec3 specular = glm::vec3(1.0f);
+	Vec3Property specularProperty;
 	float shininess = 32.0f;
+	FloatProperty shinyProperty;
 
 	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
@@ -36,6 +41,11 @@ public:
 	Shader* shader;
 
 	std::vector<FloatProperty> floatProperties;
+	std::vector<IntProperty> intProperties;
+	std::vector<Vec2Property> vec2Properties;
+	std::vector<Vec3Property> vec3Properties;
+	std::vector<Vec4Property> vec4Properties;
+	std::vector<TextureProperty> textureProperties;
 
 	bool useLight = false;
 	std::vector<Texture> textures;

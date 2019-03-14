@@ -11,7 +11,22 @@
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
-	name = _name;
+	colorProperty.propertyName = "color";
+	colorProperty.setValue(glm::vec3(Color.x, Color.y, Color.z));
+	vec3Properties.push_back(colorProperty);
+	ambientProperty.propertyName = VAR_NAME(ambient);
+	ambientProperty.setValue(ambient);
+	vec3Properties.push_back(ambientProperty);
+	diffuseProperty.propertyName = VAR_NAME(diffuse);
+	diffuseProperty.setValue(diffuse);
+	vec3Properties.push_back(diffuseProperty);
+	specularProperty.propertyName = VAR_NAME(specular);
+	specularProperty.setValue(specular);
+	vec3Properties.push_back(specularProperty);
+	shinyProperty.propertyName = VAR_NAME(shininess);
+	shinyProperty.setValue(shininess);
+	floatProperties.push_back(shinyProperty);
+	//name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
@@ -101,10 +116,30 @@ void Material::Draw(std::vector<Light*> lights)
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
 
-			shader->setVec3(uniformString + VAR_NAME(ambient), ambient);
-			shader->setVec3(uniformString + VAR_NAME(diffuse), diffuse);
-			shader->setVec3(uniformString + VAR_NAME(specular), specular);
+			//shader->setVec3(uniformString + VAR_NAME(ambient), ambient);
+			//shader->setVec3(uniformString + VAR_NAME(diffuse), diffuse);
+			//shader->setVec3(uniformString + VAR_NAME(specular), specular);
 			
+			for (auto fp : floatProperties) {
+				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
+			}
+
+			for (auto ip : intProperties) {
+				shader->setInt(uniformString + ip.propertyName, ip.getValue());
+			}
+
+			for (auto v2p : vec2Properties) {
+				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
+			}
+
+			for (auto v3p : vec3Properties) {
+				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
+			}
+
+			for (auto v4p : vec4Properties) {
+				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
+			}
+
 			// Add light properties to shader.
 			light->draw(shader, *counter);
 
