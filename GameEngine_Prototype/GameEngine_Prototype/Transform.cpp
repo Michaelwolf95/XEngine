@@ -126,6 +126,12 @@ glm::vec3 Transform::_calcLocalScaleFromMatrix()
 {
 	return glm::vec3(scaleMatrix[0][0], scaleMatrix[1][1], scaleMatrix[2][2]);
 }
+
+glm::mat4& Transform::getModelRef()
+{
+	return model;
+}
+
 glm::mat4 Transform::getMatrix4x4()
 {
 	//Global Child = Global Parent * Local Child
@@ -145,13 +151,6 @@ void Transform::setLocalMatrix4x4(glm::mat4 newModel)
 	glm::decompose(newModel, scale, rot, pos, skew, perspective);
 	rot = glm::conjugate(rot);
 	RecalculateMatrices(pos, rot, scale);
-
-	//model = newModel;
-	//// Calculate the simple values from their matrices.
-	//localPosition = _calcLocalPositionFromMatrix();
-	//localRotation = _calcLocalRotationFromMatrix();
-	//localScale = _calcLocalScaleFromMatrix();
-	//RecalculateMatrices(localPosition, localRotation, localScale);
 }
 
 glm::mat4 Transform::getTranslationMatrix() { return translateMatrix; }
@@ -203,7 +202,6 @@ void Transform::setPosition(glm::vec3 pos)
 	{
 		setLocalPosition(pos);
 	}
-	
 }
 
 // ROTATION ACCESS =====================================================================================================

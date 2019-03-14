@@ -23,8 +23,11 @@ public:
 
 	//keep track of the shapes, we release memory at exit.
 	//make sure to re-use collision shapes among rigid bodies whenever possible!
+	//btAlignedObjectArray<btCollisionShape*> collisionShapes;
 	btAlignedObjectArray<btCollisionShape*> collisionShapes;
 
+	void AddCollisionShape(btCollisionShape* colShape);
+	void RemoveCollisionShape(btCollisionShape* colShape);
 
 protected:
 	PhysicsManager();

@@ -43,7 +43,7 @@ int PhysicsManager::Init()
 	//the ground is a cube of side 100 at position y = -56.
 	//the sphere will hit it at y = -6, with center at -5
 	{
-		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(1.), btScalar(50.)));
+		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(0.5), btScalar(50.)));
 
 		collisionShapes.push_back(groundShape);
 
@@ -142,6 +142,7 @@ void PhysicsManager::CleanUp()
 
 	//delete dynamics world
 	delete dynamicsWorld;
+	dynamicsWorld = nullptr;
 
 	//delete solver
 	delete solver;
@@ -158,3 +159,22 @@ void PhysicsManager::CleanUp()
 	collisionShapes.clear();
 }
 
+void PhysicsManager::AddCollisionShape(btCollisionShape* colShape)
+{
+	collisionShapes.push_back(colShape);
+	//auto n = std::find(collisionShapes..begin(), collisionShapes.end(), colShape);
+	//if (n == collisionShapes.end())
+	//{
+	//	collisionShapes.push_back(colShape);
+	//}
+}
+void PhysicsManager::RemoveCollisionShape(btCollisionShape* colShape)
+{
+	collisionShapes.remove(colShape);
+	//auto n = std::find(collisionShapes.begin(), collisionShapes.end(), colShape);
+	//if (n != collisionShapes.end())
+	//{
+	//	std::swap(*n, collisionShapes.back());
+	//	collisionShapes.pop_back();
+	//}
+}

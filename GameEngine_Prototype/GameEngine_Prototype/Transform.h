@@ -20,6 +20,7 @@ public:
 	unsigned int GetChildCount();
 	void SetParent(Transform* _parent);
 	// Matrix Access
+	glm::mat4& getModelRef();
 	glm::mat4 getMatrix4x4();
 	void setLocalMatrix4x4(glm::mat4 newModel);
 	glm::mat4 getTranslationMatrix();

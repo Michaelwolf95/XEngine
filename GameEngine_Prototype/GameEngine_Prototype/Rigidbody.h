@@ -24,8 +24,10 @@ public:
 private:
 	btTransform physTransformModel;
 	btScalar _convertTransformArray[16];
+	bool isInitialized = false;
 	void Init();
-	void SyncPhysicsModel();
+	void SyncTransformWithPhysicsModel();
+	void SyncPhysicsModelWithTransform();
 	glm::mat4 btScalar2glmMat4(btScalar* matrix);
 
 	friend class boost::serialization::access;
