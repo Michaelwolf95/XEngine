@@ -9,6 +9,7 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "MeshRenderer.h"
+#include "AssetManager.h"
 // ImGui
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -18,6 +19,7 @@
 //TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
 //#include <boost/filesystem.hpp>
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
+#include <filesystem> // C++ 17 Filesystem
 
 #pragma region Initialization
 
@@ -445,6 +447,7 @@ void SceneEditor::ScaleTool()
 static bool show_demo_menu = false;
 static bool inspector_open = true;
 static bool hierarchy_open = true;
+static bool assetFolder_open = true;
 
 void SceneEditor::UpdateGUI()
 {
@@ -457,6 +460,7 @@ void SceneEditor::UpdateGUI()
 	UpdateDockSpace(&open_dockspace);
 	InspectorUpdate();
 	HierarchyUpdate();
+	AssetFolderMenuUpdate();
 
 	if (show_demo_menu)
 	{
@@ -915,7 +919,6 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 
 	if (node_open)
 	{
-		// TODO: Replace this temp approach. This is only one level deep.
 		std::vector<GameObject*> children = go->GetChildren();
 		for (size_t i = 0; i < children.size(); i++)
 		{
@@ -923,6 +926,141 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		}
 		ImGui::TreePop();
 	}
+}
+
+void SceneEditor::AssetFolderMenuUpdate()
+{
+	ImGui::SetNextWindowPos(ImVec2(250, 680), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(680, 250), ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+
+	// Main body of the Demo window starts here.
+	if (!ImGui::Begin("AssetFolderMenu", &assetFolder_open, window_flags))//, p_open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu"))
+		{
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH))
+	{
+		//std::cout << entry.path() << std::endl;
+		if (entry.is_directory())
+		{
+			DrawDirectoryTreeNode(entry.path().string().c_str());
+		}
+		else if(entry.is_regular_file())
+		{
+			DrawFileTreeNode(entry.path().string().c_str());
+		}
+	}
+		
+
+
+	ImGui::End();
+}
+
+// Temp static utility - move to a seperate header later.
+static std::string GetFileNameFromPath(const char* path)
+{
+	char sep = '/';
+#ifdef _WIN32
+	sep = '\\';
+#endif
+	std::string s(path);
+	//std::string fileName;
+	size_t i = s.rfind(sep, s.length());
+	if (i != std::string::npos) {
+		return s.substr(i + 1, s.length() - i);
+	}
+	return ("");
+}
+
+void SceneEditor::DrawDirectoryTreeNode(const char * directory)
+{
+	bool isEmpty = std::filesystem::is_empty(directory);
+	//Node Flags:
+	// If no children, display as leaf. Otherwise, an openable tree.
+	// If selected, display as selected.
+	ImGuiTreeNodeFlags node_flags = ((!isEmpty) ?
+		(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)
+		: ImGuiTreeNodeFlags_Leaf);
+		//| ((go == selectedGameObject.get()) ? ImGuiTreeNodeFlags_Selected : 0);
+	//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+
+	std::string fileName = GetFileNameFromPath(directory);
+	
+
+	// Node
+	bool node_open = ImGui::TreeNodeEx(directory, node_flags, "%s", fileName.c_str());
+	if (ImGui::IsItemClicked())
+	{
+		//selectedGameObject = go->GetSelfPtr();
+	}
+	// Our buttons are both drag sources and drag targets here!
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	{
+		//if (go->GetSelfPtr() != selectedGameObject)
+		//	return;
+		ImGui::SetDragDropPayload("FILE_DRAG", &selectedGameObject, sizeof(GameObject_ptr));        // Set payload to carry our item 
+		ImGui::Text("Moving %s", directory);
+		ImGui::EndDragDropSource();
+	}
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+		{
+			//IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+			//GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+			//std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
+			//payload_n->transform->SetParent(go->transform);
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	if (node_open)
+	{
+		for (const auto & entry : std::filesystem::directory_iterator(directory))
+		{
+			//std::cout << entry.path() << std::endl;
+			if (entry.is_directory())
+			{
+				DrawDirectoryTreeNode(entry.path().string().c_str());
+			}
+			else if (entry.is_regular_file())
+			{
+				DrawFileTreeNode(entry.path().string().c_str());
+			}
+		}
+		// TODO: Replace this temp approach. This is only one level deep.
+		//std::vector<GameObject*> children = go->GetChildren();
+		//for (size_t i = 0; i < children.size(); i++)
+		//{
+		//	this->DrawGameObjectTreeNode(children[i], label + "[" + std::to_string(i) + "]");
+		//}
+		ImGui::TreePop();
+	}
+	
+}
+
+void SceneEditor::DrawFileTreeNode(const char * directory)
+{
+	//TODO: Add Drag-and-Drop behavior, and unique behavior for files like scenes and... materials?
+	std::string fileName = GetFileNameFromPath(directory);
+	ImGui::Text(fileName.c_str());
 }
 
 // NOT IMPLEMENTED YET

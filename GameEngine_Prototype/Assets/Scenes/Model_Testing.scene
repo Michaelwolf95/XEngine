@@ -26,9 +26,9 @@
 					</localScale>
 					<localRotation class_id="7" tracking_level="0" version="0">
 						<q.x>-0.000000000e+00</q.x>
-						<q.y>-7.071065903e-01</q.y>
+						<q.y>-7.071065307e-01</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>7.071068883e-01</q.w>
+						<q.w>7.071069479e-01</q.w>
 					</localRotation>
 				</transform>
 				<components class_id="8" tracking_level="0" version="0">

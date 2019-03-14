@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include <nlohmann/json.hpp>
 #include "EditorCamera.h"
+#include <filesystem>
 
 static const char* EDITOR_CONFIG_FILE_PATH = "../Settings/Editor/EditorConfig.json";
 
@@ -58,8 +59,8 @@ public:
 	void MoveTool();
 	void RotateTool();
 	void ScaleTool();
-	void AddComponentMenu();
-	void LoadSceneMenu();
+	//void AddComponentMenu();
+	//void LoadSceneMenu();
 
 	//ImGui update.
 	void UpdateGUI();
@@ -67,6 +68,10 @@ public:
 	void InspectorUpdate();
 	void HierarchyUpdate();
 	void DrawGameObjectTreeNode(GameObject * go, std::string label);
+
+	void AssetFolderMenuUpdate();
+	void DrawDirectoryTreeNode(const char * directory);
+	void DrawFileTreeNode(const char * directory);
 
 	void ConfigureWindowLayout();
 };
