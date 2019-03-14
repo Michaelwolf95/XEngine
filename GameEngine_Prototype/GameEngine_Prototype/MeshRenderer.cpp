@@ -39,7 +39,7 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma):
 	RenderableObject(m)
 {
 	// filepath for .obj file.
-	//this->pathToObjModel = ASSET_FILE_PATH + std::string(path);
+	this->pathToObjModel = ASSET_FILE_PATH + std::string(path);
 
 	Setup();
 }
@@ -64,6 +64,7 @@ void MeshRenderer::Setup()
 		material = RenderManager::defaultMaterial;
 	}
 	std::cout << model << std::endl;
+	//model->material = material;
 	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
 	std::cout << model << std::endl;
 	if (model == nullptr)
@@ -71,14 +72,15 @@ void MeshRenderer::Setup()
 		std::cout << "ERROR LOADING MESH" << std::endl;
 		return;
 	}
+	/*
 	if (!model->meshes.empty())
 	{
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
-			MeshToMaterial[model->meshes[i]->name] = material;
+			model->MeshToMaterial[model->meshes[i]->name] = material;
 		}
 	}
-
+	*/
 	isSetup = true;
 }
 
@@ -97,8 +99,14 @@ void MeshRenderer::Draw()
 	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 	
+	// for mesh name
+	std::string meshMatName = "_mat";
+
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
+		// name key for material
+		std::string MatKey = model->meshes[i]->name + meshMatName;
+
 		// texture variables
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
@@ -106,13 +114,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 
 		// binding textures
-		for (unsigned int j = 0; j < MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
+		for (unsigned int j = 0; j < model->MeshToMaterial.at(MatKey)->textures.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
 			std::string number;
-			std::string name = MeshToMaterial.at(model->meshes[i]->name)->textures[j].type;
+			std::string name = model->MeshToMaterial.at(MatKey)->textures[j].type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -128,7 +136,7 @@ void MeshRenderer::Draw()
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(MatKey)->textures[j].id);
 		}
 
 		// draw mesh
@@ -423,13 +431,13 @@ void MeshRenderer::DrawInspector()
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
 			ImGui::Text(model->meshes[i]->name.c_str());
-			MeshToMaterial.at(model->meshes[i]->name)->DrawInspector();
+			model->MeshToMaterial.at(model->meshes[i]->name+"_mat")->DrawInspector();
 		}
 	}
 
 	if (ImGui::Button("Change Model"))
 	{
-		MeshToMaterial.clear();
+		model->MeshToMaterial.clear();
 		model->meshes.clear();
 		model = nullptr;
 
