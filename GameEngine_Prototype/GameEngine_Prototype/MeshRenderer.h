@@ -34,8 +34,7 @@ class MeshRenderer: public RenderableObject, public Component
 		//std::string directory;
 		//std::vector<Texture> textures_loaded;
 
-		// mapping name of mesh to its respective material in the mesh renderer
-		std::unordered_map<std::string, Material*> MeshToMaterial;
+		
 		
 		// Constructor
 		MeshRenderer(std::string const &path, Material* m = nullptr, bool gamma = false);
@@ -86,4 +85,5 @@ class MeshRenderer: public RenderableObject, public Component
 			ar & BOOST_SERIALIZATION_NVP(material);
 			Setup();
 		}
+		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
 };

@@ -16,6 +16,6 @@ protected:
 	// The ModelLibrary is given specific privledges to access the private members of the MeshLibrary
 	friend class ModelLibrary;
 	// Friend classes can provide an asset directly.
-	void ProvideAsset(std::string key, Mesh* mesh);
+	void ProvideAsset(std::string key, Mesh* mesh); // retrieves the obj from lib?
 };
 

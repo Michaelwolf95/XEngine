@@ -16,6 +16,8 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
+#include "imgui_internal.h" // Access to default docking.
+
 //TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
 //#include <boost/filesystem.hpp>
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
@@ -449,12 +451,20 @@ static bool inspector_open = true;
 static bool hierarchy_open = true;
 static bool assetFolder_open = true;
 
+bool layoutInitialized = false;
+//bool  currentLayout_m = true;
+//ImGuiID dockSpaceId_m;
+
+
 void SceneEditor::UpdateGUI()
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+
+	//drawTestDock();
+	//return;
 
 	bool open_dockspace = true;
 	UpdateDockSpace(&open_dockspace);
@@ -474,6 +484,57 @@ void SceneEditor::UpdateGUI()
 //
 void SceneEditor::UpdateDockSpace(bool* p_open)
 {
+	//drawTestDock();
+	//return;
+	
+	bool open = true;
+
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::SetNextWindowViewport(viewport->ID);
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
+	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	window_flags |= ImGuiWindowFlags_NoBackground;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DOCK_ROOT", &open, window_flags); // Start Root
+	//ImGui::PopStyleVar();
+	ImGui::PopStyleVar(3);
+	ImGuiID dockSpaceId_m = ImGui::GetID("DOCK_SPACE");
+	if(false)
+	if (layoutInitialized)
+	{
+		std::cout << "Creating Dock" << std::endl;
+		ImGui::DockBuilderRemoveNode(dockSpaceId_m);
+		ImGui::DockBuilderAddNode(dockSpaceId_m, ImGuiDockNodeFlags_None);// , ImGuiDockNodeFlags_Dockspace);
+		ImGui::DockBuilderSetNodeSize(dockSpaceId_m, viewport->Size);
+
+		ImGuiID dock_main_id = dockSpaceId_m;
+		ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
+		ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, nullptr, &dock_main_id);
+		ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, nullptr, &dock_main_id);
+
+		ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
+
+		ImGui::DockBuilderFinish(dockSpaceId_m);
+		layoutInitialized = true;
+	}
+
+	//ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID.c_str());
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	ImGui::DockSpace(dockSpaceId_m, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruDockspace);
+	//ImGui::End();
+	ImGui::PopStyleVar();
+	/*
 	static bool opt_fullscreen_persistant = true;
 	static ImGuiDockNodeFlags opt_flags = ImGuiDockNodeFlags_None;
 	bool opt_fullscreen = opt_fullscreen_persistant;
@@ -493,7 +554,6 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
 
-
 	// When using ImGuiDockNodeFlags_PassthruDockspace, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
 	if (opt_flags & ImGuiDockNodeFlags_PassthruDockspace)
 		window_flags |= ImGuiWindowFlags_NoBackground;
@@ -510,14 +570,23 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
-		ImGuiID dockspace_id = ImGui::GetID("EditorDockSpace");
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), opt_flags);
+		//ImGuiID dockspace_id = ImGui::GetID("EditorDockSpace");
+		//ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), opt_flags);
+
+		ImGuiID dock_id = ImGui::DockBuilderAddNode(0, ImGuiDockNodeFlags_None);
+		ImVec2 viewport_pos = ImGui::GetMainViewport()->Pos;
+		ImGui::DockBuilderSetNodePos(dock_id, ImVec2(viewport_pos.x + 100, viewport_pos.y + 100));
+		ImGui::DockBuilderSetNodeSize(dock_id, ImVec2(200, 200));
+		ImGui::DockBuilderDockWindow("Inspector", dock_id);
+		ImGui::DockBuilderFinish(dock_id);
 	}
 	else
 	{
 		//ShowDockingDisabledMessage();
 	}
 	opt_flags |= ImGuiDockNodeFlags_PassthruDockspace;
+	*/
+
 
 	if (ImGui::BeginMenuBar())
 	{
@@ -638,30 +707,30 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		if (ImGui::BeginMenu("ImGUI Demo"))
 		{
 			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
-			if (ImGui::BeginMenu("Docking"))
-			{
-				// Disabling fullscreen would allow the window to be moved to the front of other windows, 
-				// which we can't undo at the moment without finer window depth/z control.
-				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+			//if (ImGui::BeginMenu("Docking"))
+			//{
+			//	// Disabling fullscreen would allow the window to be moved to the front of other windows, 
+			//	// which we can't undo at the moment without finer window depth/z control.
+			//	//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
-				if (ImGui::MenuItem("Flag: NoSplit", "", (opt_flags & ImGuiDockNodeFlags_NoSplit) != 0))                 opt_flags ^= ImGuiDockNodeFlags_NoSplit;
-				if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (opt_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  opt_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
-				if (ImGui::MenuItem("Flag: NoResize", "", (opt_flags & ImGuiDockNodeFlags_NoResize) != 0))                opt_flags ^= ImGuiDockNodeFlags_NoResize;
-				if (ImGui::MenuItem("Flag: PassthruDockspace", "", (opt_flags & ImGuiDockNodeFlags_PassthruDockspace) != 0))       opt_flags ^= ImGuiDockNodeFlags_PassthruDockspace;
-				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (opt_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          opt_flags ^= ImGuiDockNodeFlags_AutoHideTabBar;
-				ImGui::Separator();
-				if (ImGui::MenuItem("Close DockSpace", NULL, false, p_open != NULL))
-					*p_open = false;
-				ImGui::EndMenu();
-			}
+			//	if (ImGui::MenuItem("Flag: NoSplit", "", (opt_flags & ImGuiDockNodeFlags_NoSplit) != 0))                 opt_flags ^= ImGuiDockNodeFlags_NoSplit;
+			//	if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (opt_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  opt_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
+			//	if (ImGui::MenuItem("Flag: NoResize", "", (opt_flags & ImGuiDockNodeFlags_NoResize) != 0))                opt_flags ^= ImGuiDockNodeFlags_NoResize;
+			//	if (ImGui::MenuItem("Flag: PassthruDockspace", "", (opt_flags & ImGuiDockNodeFlags_PassthruDockspace) != 0))       opt_flags ^= ImGuiDockNodeFlags_PassthruDockspace;
+			//	if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (opt_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          opt_flags ^= ImGuiDockNodeFlags_AutoHideTabBar;
+			//	ImGui::Separator();
+			//	if (ImGui::MenuItem("Close DockSpace", NULL, false, p_open != NULL))
+			//		*p_open = false;
+			//	ImGui::EndMenu();
+			//}
 
-			ImGui::HelpMarker(
-				"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
-				"This demo app has nothing to do with it!" "\n\n"
-				"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
-				"ImGui::DockSpace() comes with one hard constraint: it needs to be submitted _before_ any window which may be docked into it. Therefore, if you use a dock spot as the central point of your application, you'll probably want it to be part of the very first window you are submitting to imgui every frame." "\n\n"
-				"(NB: because of this constraint, the implicit \"Debug\" window can not be docked into an explicit DockSpace() node, because that window is submitted as part of the NewFrame() call. An easy workaround is that you can create your own implicit \"Debug##2\" window after calling DockSpace() and leave it in the window stack for anyone to use.)"
-			);
+			//ImGui::HelpMarker(
+			//	"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
+			//	"This demo app has nothing to do with it!" "\n\n"
+			//	"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
+			//	"ImGui::DockSpace() comes with one hard constraint: it needs to be submitted _before_ any window which may be docked into it. Therefore, if you use a dock spot as the central point of your application, you'll probably want it to be part of the very first window you are submitting to imgui every frame." "\n\n"
+			//	"(NB: because of this constraint, the implicit \"Debug\" window can not be docked into an explicit DockSpace() node, because that window is submitted as part of the NewFrame() call. An easy workaround is that you can create your own implicit \"Debug##2\" window after calling DockSpace() and leave it in the window stack for anyone to use.)"
+			//);
 			ImGui::EndMenu();
 		}
 
@@ -669,7 +738,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		ImGui::EndMenuBar();
 	}
 
-	ImGui::End();
+	ImGui::End(); // End Root
 }
 
 //-/////////////////////////////////////////////////////////////////////////////////////
@@ -681,8 +750,11 @@ void SceneEditor::InspectorUpdate()
 	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! 
 	// We only do it to make the Demo applications a little more welcoming.
 	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
-	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
+	//ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);// , ImGuiCond_FirstUseEver);
+	//ImGui::SetNextWindowDockID(dockSpaceId_m, ImGuiCond_Once);
+
+	ImGuiID dockspace_id = ImGui::GetID("DOCK_SPACE");
+	ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);//)redock_all ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
 
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_MenuBar;
@@ -693,6 +765,17 @@ void SceneEditor::InspectorUpdate()
 		ImGui::End();
 		return;
 	}
+/*
+	ImGuiID dockspace_id = ImGui::GetID("EditorDockSpace");
+
+	ImGui::DockBuilderRemoveNode(dockspace_id);
+	ImGuiDockNodeFlags dockSpaceFlags = 0;
+	dockSpaceFlags |= ImGuiDockNodeFlags_PassthruDockspace;
+	ImGui::DockBuilderAddNode(dockspace_id, dockSpaceFlags);
+
+	ImGuiID dockMain = dockspace_id;
+	ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.40f, NULL, &dockMain);*/
+
 
 	if (ImGui::BeginMenuBar())
 	{
@@ -1006,30 +1089,6 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 
 	// Node
 	bool node_open = ImGui::TreeNodeEx(directory, node_flags, "%s", fileName.c_str());
-	if (ImGui::IsItemClicked())
-	{
-		//selectedGameObject = go->GetSelfPtr();
-	}
-	// Our buttons are both drag sources and drag targets here!
-	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-	{
-		//if (go->GetSelfPtr() != selectedGameObject)
-		//	return;
-		ImGui::SetDragDropPayload("FILE_DRAG", &selectedGameObject, sizeof(GameObject_ptr));        // Set payload to carry our item 
-		ImGui::Text("Moving %s", directory);
-		ImGui::EndDragDropSource();
-	}
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
-		{
-			//IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
-			//GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
-			//std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
-			//payload_n->transform->SetParent(go->transform);
-		}
-		ImGui::EndDragDropTarget();
-	}
 
 	if (node_open)
 	{
@@ -1038,6 +1097,7 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 			//std::cout << entry.path() << std::endl;
 			if (entry.is_directory())
 			{
+				//entry.path().
 				DrawDirectoryTreeNode(entry.path().string().c_str());
 			}
 			else if (entry.is_regular_file())
@@ -1060,7 +1120,36 @@ void SceneEditor::DrawFileTreeNode(const char * directory)
 {
 	//TODO: Add Drag-and-Drop behavior, and unique behavior for files like scenes and... materials?
 	std::string fileName = GetFileNameFromPath(directory);
-	ImGui::Text(fileName.c_str());
+	//ImGui::Button(fileName.c_str());
+	//ImGui::TextEx(fileName.c_str());
+	bool node_open = ImGui::TreeNodeEx((fileName).c_str(), ImGuiTreeNodeFlags_Leaf);
+	//if (ImGui::IsItemClicked())
+	//{
+	//	//selectedGameObject = go->GetSelfPtr();
+	//}
+	// Our buttons are both drag sources and drag targets here!
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))//ImGuiDragDropFlags_None))
+	{
+		//std::string dir(directory);
+		ImGui::SetDragDropPayload("FILE_DRAG", directory, 32);        // Set payload to carry our item 
+		ImGui::Text("%s", fileName.c_str());
+		ImGui::EndDragDropSource();
+	}
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+		{
+			//IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+			//GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+			//std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
+			//payload_n->transform->SetParent(go->transform);
+		}
+		ImGui::EndDragDropTarget();
+	}
+	if (node_open)
+	{
+		ImGui::TreePop();
+	}
 }
 
 // NOT IMPLEMENTED YET
