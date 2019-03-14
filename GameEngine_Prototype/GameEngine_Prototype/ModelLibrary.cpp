@@ -24,7 +24,9 @@ Model*& ModelLibrary::LoadAsset(std::string filePath)
 		std::cout << "Model is not in Library" << std::endl;
 
 		Model* model = new Model();
-		std::string pathToObjModel = ASSET_FILE_PATH + filePath;
+		//std::string pathToObjModel = ASSET_FILE_PATH + filePath;
+		//std::string pathToObjModel = "../Assets/" + filePath;
+		std::string pathToObjModel = filePath;
 		std::cout << filePath << std::endl;
 		std::cout << pathToObjModel << std::endl;
 		// read file using ASSIMP

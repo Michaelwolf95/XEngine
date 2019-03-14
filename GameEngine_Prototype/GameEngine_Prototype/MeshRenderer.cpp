@@ -39,7 +39,7 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma):
 	RenderableObject(m)
 {
 	// filepath for .obj file.
-	this->pathToObjModel = ASSET_FILE_PATH + std::string(path);
+	this->pathToObjModel ="../Assets/"  + std::string(path);
 
 	Setup();
 }
