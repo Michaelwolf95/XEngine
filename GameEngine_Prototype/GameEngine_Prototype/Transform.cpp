@@ -256,6 +256,12 @@ void Transform::setLocalRotationEuler(glm::vec3 rot)
 	return;
 }
 
+void Transform::setRotation(glm::quat rot)
+{
+	//TODO: CONVERT TO WORLD SPACE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	setLocalRotation(rot);
+}
+
 // SCALE ACCESS ========================================================================================================
 //
 glm::vec3 Transform::getLocalScale() { return localScale; }

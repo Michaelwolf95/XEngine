@@ -293,6 +293,10 @@ void SceneEditor::DrawEditorGizmos()
 	if (selectedGameObject != nullptr)
 	{
 		selectedGameObject->transform->DrawGizmo();
+		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
+		{
+			selectedGameObject->components[i]->OnDrawGizmosSelected();
+		}
 	}
 }
 #pragma endregion

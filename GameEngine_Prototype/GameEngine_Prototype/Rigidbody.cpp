@@ -7,15 +7,12 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include "RenderManager.h"
 //#include <BulletPhysics/Bullet3Common/b3TransformUtil.h>
 
 REGISTER_COMPONENT(Rigidbody, "Rigidbody")
 
-Rigidbody::Rigidbody()
-{
-	
-}
-
+Rigidbody::Rigidbody() {}
 Rigidbody::~Rigidbody()
 {
 	// TODO: Remove from physics manager.
@@ -35,8 +32,10 @@ Rigidbody::~Rigidbody()
 }
 void Rigidbody::Init()
 {
-	colShape = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
+	//btVector3 x = *((btVector3*)&this->gameObject->transform->localScale);
 
+	boxColliderHalfExtents = *(btVector3*)&this->gameObject->transform->getScale() * 0.5f;
+	colShape = new btBoxShape(boxColliderHalfExtents);// , btVector3(0.5f, 0.5f, 0.5f));
 	PhysicsManager::getInstance().AddCollisionShape(colShape);
 
 	/// Create Dynamic Objects
@@ -44,20 +43,28 @@ void Rigidbody::Init()
 	physTransformModel.setIdentity();
 	SyncPhysicsModelWithTransform();
 
-	//btScalar mass(1.f);
-
 	//rigidbody is dynamic if and only if mass is non zero, otherwise static
+	if (isKinematic)
+		mass = 0.0f;
 	bool isDynamic = (mass != 0.f);
 	btVector3 localInertia(0, 0, 0);
 	if (isDynamic)
+	{
 		colShape->calculateLocalInertia(mass, localInertia);
-	
+	}
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 	motionState = new btDefaultMotionState(physTransformModel);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
 	//rbInfo = btRigidBody::btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia);
 	body = new btRigidBody(rbInfo);
+
+	if (isKinematic)
+	{
+		// Kinematic static
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		body->setActivationState(DISABLE_DEACTIVATION);
+	}
 
 	physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 	body->setWorldTransform(physTransformModel);
@@ -75,28 +82,9 @@ void Rigidbody::Start()
 }
 void Rigidbody::Update() 
 {
-	//body->getMotionState()->getWorldTransform(physTransformModel);
-	//PhysicsManager::getInstance().dynamicsWorld->debugDrawObject(physTransformModel,);
-	if (body && body->getMotionState())
-	{
-		//SyncTransformWithPhysicsModel();
-		
-		/*
-		// Interpolation
-		bool isDynamic = (mass != 0.f);`
-		btVector3 localInertia(0, 0, 0);
-		if (isDynamic)
-		{
-			colShape->calculateLocalInertia(mass, localInertia);
-			
-			glm::vec3 deltaPos(localInertia.getX(), localInertia.getY(), localInertia.getZ());
-			deltaPos *= Time::deltaTime;
-			glm::vec3 newPos = this->gameObject->transform->getPosition() + deltaPos;
-			this->gameObject->transform->setPosition(newPos);
-			//SyncPhysicsModel();
-		}
-		*/
-	}
+	boxColliderHalfExtents = *(btVector3*)&this->gameObject->transform->getScale() * 0.5f;
+	SyncPhysicsModelWithTransform();
+	//SyncTransformWithPhysicsModel();
 }
 
 void Rigidbody::FixedUpdate()
@@ -119,23 +107,10 @@ void Rigidbody::SyncTransformWithPhysicsModel()
 	btVector3 pos = body->getWorldTransform().getOrigin();
 	btQuaternion orn = body->getWorldTransform().getRotation();
 	glm::vec3 newPos(pos[0], pos[1], pos[2]);
-	//glm::quat newRot(orn[0], orn[1], orn[2], orn[3]);
-	//glm::quat newRot(orn[2], orn[1], orn[0], orn[3]);
 	glm::quat newRot(orn[3], orn[0], orn[1], orn[2]);
-	//glm::quat newRot(orn[0], orn[3], orn[2], orn[1]);
-	//newRot = glm::conjugate(newRot);
+
 	this->gameObject->transform->setPosition(newPos);
-	this->gameObject->transform->setLocalRotation(newRot); // TODO: MAKE WORLD SPACE
-
-	//body->getMotionState()->getWorldTransform(physTransformModel);
-	//physTransformModel.getOpenGLMatrix(_convertTransformArray);
-	//glm::mat4 model = btScalar2glmMat4(_convertTransformArray);
-	////glm::rotate()
-	////model = glm::tra
-	//this->gameObject->transform->setLocalMatrix4x4(model);
-
-	//physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
-	//body->setWorldTransform(physTransformModel);
+	this->gameObject->transform->setRotation(newRot); // TODO: MAKE WORLD SPACE
 }
 void Rigidbody::SyncPhysicsModelWithTransform()
 {
@@ -156,10 +131,52 @@ glm::mat4 Rigidbody::btScalar2glmMat4(btScalar* matrix)
 		matrix[4], matrix[5], matrix[6], matrix[7],
 		matrix[8], matrix[9], matrix[10], matrix[11],
 		matrix[12], matrix[13], matrix[14], matrix[15]);
-
-		//matrix[15], matrix[14], matrix[13], matrix[12],
-		//matrix[11], matrix[10], matrix[9], matrix[8],
-		//matrix[7], matrix[6], matrix[5], matrix[4],
-		//matrix[3], matrix[2], matrix[1], matrix[0]);
 }
 
+void Rigidbody::DrawInspector()
+{
+	ImGui::Checkbox("IsKinematic", &isKinematic);
+	if (isKinematic == false)
+	{
+		ImGui::InputFloat("Mass", &mass);
+	}
+}
+void Rigidbody::OnDrawGizmosSelected()
+{
+	glm::vec3 pos = this->gameObject->transform->getPosition();
+	//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
+	glm::vec3 halfExt = this->gameObject->transform->getScale() * 0.5f;
+	//colShape->getHalfExtentsWithMargin()
+	//RenderManager::DrawWorldSpaceBox(pos, halfExt, glm::vec4(0, 0, 1, 1), 2);
+
+	glm::vec3 right = glm::normalize(this->gameObject->transform->getRightDirection());
+	glm::vec3 up = glm::normalize(this->gameObject->transform->getUpDirection());
+	glm::vec3 forward = glm::normalize(this->gameObject->transform->getForwardDirection());
+	glm::vec3 corners[8] = {
+		pos + (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 0
+		pos + (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 1
+		pos + (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 2
+		pos + (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 3
+		pos - (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 4
+		pos - (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 5
+		pos - (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 6
+		pos - (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 7
+	};
+	glm::vec4 color(0, 1, 0, 0.5f);
+	int size = 1;
+	//RenderManager::DrawWorldSpacePoint(pos + right * L, glm::vec4(1, 0, 0, 1), 5); // Center
+	RenderManager::DrawWorldSpaceLine(corners[0], corners[1], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[0], corners[2], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[3], corners[1], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[3], corners[2], color, size);
+
+	RenderManager::DrawWorldSpaceLine(corners[0], corners[4], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[1], corners[5], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[2], corners[6], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[3], corners[7], color, size);
+
+	RenderManager::DrawWorldSpaceLine(corners[4], corners[5], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[4], corners[6], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[7], corners[5], color, size);
+	RenderManager::DrawWorldSpaceLine(corners[7], corners[6], color, size);
+}

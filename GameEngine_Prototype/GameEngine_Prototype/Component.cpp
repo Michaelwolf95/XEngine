@@ -29,13 +29,6 @@ void Component::callback_PerformUpdate()
 }
 
 
-
-void Component::DrawInspector()
-{
-
-}
-
-
 ComponentTypeInfo::ComponentTypeInfo()
 {
 	name = "UNNAMED";

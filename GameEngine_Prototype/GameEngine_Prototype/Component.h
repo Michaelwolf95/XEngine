@@ -26,9 +26,11 @@ public:
 	virtual void Update() = 0;
 	virtual void FixedUpdate() {};
 	virtual void OnDestroy() {};
-	virtual void OnDrawGizmos() {};
 
-	virtual void DrawInspector();// {};
+	virtual void OnDrawGizmos() {};
+	virtual void OnDrawGizmosSelected() {};
+
+	virtual void DrawInspector() {};
 
 	// Engine Callbacks
 	bool isStarted = false;

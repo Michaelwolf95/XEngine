@@ -40,6 +40,7 @@ public:
 	glm::vec3 getLocalRotationEuler();
 	void setLocalRotationEuler(float x, float y, float z);
 	void setLocalRotationEuler(glm::vec3 rot);
+	void setRotation(glm::quat rot);
 	// Scale
 	glm::vec3 getLocalScale();
 	glm::vec3 getScale();
@@ -65,6 +66,7 @@ public:
 
 private:
 	friend class GameObject;
+	friend class Rigidbody;
 	
 	Transform* parent = nullptr;
 	std::vector<Transform*> children;

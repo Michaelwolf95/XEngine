@@ -18,7 +18,7 @@ PhysicsManager * PhysicsManager::CreateManager()
 
 int PhysicsManager::Init()
 {
-	///-----initialization_start-----
+	///-----initialization_start----- (Comments from Demo)
 
 	///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
 	collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -36,40 +36,6 @@ int PhysicsManager::Init()
 
 	dynamicsWorld->setGravity(btVector3(gravity.x, gravity.y, gravity.z));
 
-	//dynamicsWorld->set
-
-	// TEMP FROM DEMO =============================================
-	
-	//the ground is a cube of side 100 at position y = -56.
-	//the sphere will hit it at y = -6, with center at -5
-	{
-		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(0.5), btScalar(50.)));
-
-		collisionShapes.push_back(groundShape);
-
-		btTransform groundTransform;
-		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(0, -2.5, 0));
-
-		btScalar mass(0.);
-
-		//rigidbody is dynamic if and only if mass is non zero, otherwise static
-		bool isDynamic = (mass != 0.f);
-
-		btVector3 localInertia(0, 0, 0);
-		if (isDynamic)
-			groundShape->calculateLocalInertia(mass, localInertia);
-
-		//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-		btRigidBody* body = new btRigidBody(rbInfo);
-
-		//add the body to the dynamics world
-		dynamicsWorld->addRigidBody(body);
-
-	}
-	//=============================================================
 	
 	// Callback for physics ticks.
 	dynamicsWorld->setInternalTickCallback(&PhysicsManager::PhysicsTickCallback);
@@ -81,31 +47,10 @@ int PhysicsManager::Init()
 void PhysicsManager::PhysicsUpdate()
 {
 	dynamicsWorld->stepSimulation(Time::deltaTime, 10, fixedUpdateTime);
-
-	dynamicsWorld->debugDrawWorld();
-	//print positions of all objects
-	/*for (int j = dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
-	{
-		btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[j];
-		btRigidBody* body = btRigidBody::upcast(obj);
-		btTransform trans;
-		if (body && body->getMotionState())
-		{
-			body->getMotionState()->getWorldTransform(trans);
-		}
-		else
-		{
-			trans = obj->getWorldTransform();
-		}
-		printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
-	}*/
-
-	///-----stepsimulation_end-----
 }
 
 void PhysicsManager::PhysicsTick()
 {
-	//std::cout << "Physics Tick." << std::endl;
 	SceneManager::getInstance().FixedUpdateActiveScene();
 }
 
