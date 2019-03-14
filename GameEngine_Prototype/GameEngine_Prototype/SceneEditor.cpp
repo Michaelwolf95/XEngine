@@ -9,13 +9,19 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "MeshRenderer.h"
-//TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
-//#include <boost/filesystem.hpp>
-#include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
-// imGUI
+#include "AssetManager.h"
+// ImGui
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_inspector_extensions.h"
+#include "imgui_stdlib.h"
+//TODO: Put 'libboost_filesystem-vc141-mt-gd-x32-1_68.lib' in Libraries folder so we can use this.
+//#include <boost/filesystem.hpp>
+#include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
+#include <filesystem> // C++ 17 Filesystem
+
+#pragma region Initialization
 
 SceneEditor * SceneEditor::CreateManager()
 {
@@ -30,12 +36,12 @@ int SceneEditor::Init()
 	isInitialized = true;
 
 	editorCameraGameObject = new GameObject("EditorCamGo");
-	//editorCamera()
 
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
 	editorCameraGameObject->AddComponent(editCamPtr);
-	//std::cout << "EditorCam Address: " << editorCamera << std::endl;
+	editorCameraGameObject->transform->setPosition(-5.0f, 4.0f, -7.0f);
+	editorCameraGameObject->transform->setLocalRotationEuler(15, 35, 0);
 
 	GLFWwindow* window = ApplicationManager::APP_WINDOW;
 
@@ -59,15 +65,10 @@ int SceneEditor::Init()
 	return 0;
 }
 
-SceneEditor::SceneEditor()
-{
-	//executeInEditMode = true;
-	std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
-}
+SceneEditor::SceneEditor() {}
 
 SceneEditor::~SceneEditor()
 {
-	//OutputDebugStringW(L"Trying to Save EditorConfig.\n");
 	SaveEditorConfig();
 }
 
@@ -88,6 +89,8 @@ void SceneEditor::EditorPostRender()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	SceneEditor::getInstance().DrawEditorGizmos();
 }
+
+#pragma endregion
 
 #pragma region EDITOR CONFIG
 
@@ -143,7 +146,6 @@ void SceneEditor::SaveEditorConfig()
 
 		OutputDebugStringW(L"Saved Editor Config.\n");
 		std::cout << "Saved EditorConfig.json with filePath: " << editorConfig->firstSceneFilepath << std::endl;
-		//delete[] tempChar;
 	}
 	catch (const std::exception& e)
 	{
@@ -162,10 +164,8 @@ void SceneEditor::LoadInitialEditorScene()
 		if (exists)
 		{
 			std::cout << "Loading First Editor Scene from File!" << std::endl;
-			//scene = &sc;
 			// Activate Scene
 			selectedGameObject = nullptr;
-			selectedIndex = -1;
 			SceneManager::getInstance().SetActiveScene(scene);
 			return;
 		}
@@ -182,7 +182,6 @@ void SceneEditor::LoadInitialEditorScene()
 
 		// Activate Scene
 		selectedGameObject = nullptr;
-		selectedIndex = -1;
 		SceneManager::getInstance().SetActiveScene(scene);
 	}
 	
@@ -190,9 +189,10 @@ void SceneEditor::LoadInitialEditorScene()
 
 #pragma endregion
 
+#pragma region EDIT_MODE_CONTROL
+
 void SceneEditor::StartEditMode()
 {
-	//std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Edit scene." << std::endl;
 	if (ApplicationManager::getInstance().IsEditMode() == false)
 	{
 		ApplicationManager::getInstance().SetEditMode(true);
@@ -205,13 +205,12 @@ void SceneEditor::StartEditMode()
 		{
 			selectedGameObject = nullptr;
 			SceneEditor::getInstance().LoadInitialEditorScene();
+			std::cout << "SCENE EDITOR: Press CTRL+SHIFT+E to Toggle Edit Mode." << std::endl;
 		}
 		
-		std::cout << "ENTERING EDIT MODE =========================" << std::endl;
-		std::cout << "\tCTRL+E: Select Object to Edit" << std::endl;
+		std::cout << "ENTERING EDIT MODE =============================" << std::endl;
 		std::cout << "\tCTRL+S: Save Scene" << std::endl;
 		std::cout << "\tCTRL+P: Print Scene" << std::endl;
-		std::cout << "\tCTRL+I: Inspect Selected Object" << std::endl;
 		std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
 
 		if (selectedGameObject == nullptr)
@@ -219,11 +218,9 @@ void SceneEditor::StartEditMode()
 			if (SceneManager::getInstance().GetActiveScene()->rootGameObjects.size() >= 1)
 			{
 				selectedGameObject = SceneManager::getInstance().GetActiveScene()->rootGameObjects[0];
-				selectedIndex = 0;
-				std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
+				//std::cout << "Auto-Selected GameObject[0]: " << selectedGameObject->name << std::endl;
 			}
 		}
-
 		RenderManager::getInstance().setCurrentCamera(editorCamera);
 	}
 }
@@ -234,7 +231,6 @@ void SceneEditor::ExitEditMode()
 	{
 		std::cout << "EXITING EDIT MODE =========================" << std::endl;
 		selectedGameObject = nullptr;
-		selectedIndex = -1;
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -268,6 +264,7 @@ void SceneEditor::UpdateEditor()
 		// GUI ======
 		UpdateGUI();
 
+		// Keyboard Input ======
 		if (Input::GetKey(GLFW_KEY_LEFT_CONTROL) || Input::GetKey(GLFW_KEY_RIGHT_CONTROL))
 		{
 			if (Input::GetKeyDown(GLFW_KEY_S))
@@ -275,116 +272,9 @@ void SceneEditor::UpdateEditor()
 				// Might need to add some sort of "wait until it finished saving" functionality.
 				SceneManager::getInstance().SaveActiveScene();
 			}
-			else if (Input::GetKeyDown(GLFW_KEY_N)) // New GameObject
-			{
-				std::cout << "Creating New GameObject" << std::endl;
-
-				Scene_ptr scene =  SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New GameObject");
-				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_E)) // "Edit" object - select an object to edit.
-			{
-				if (selectedGameObject == nullptr)
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					//scene->PrintScene();
-
-					// Set focus to console.
-					SetFocus(GetConsoleWindow());
-					BringWindowToTop(GetConsoleWindow());
-					//glfwFocusWindow(glfwconsole)
-
-					// Select GameObject by index.
-					int sIndex = -1;
-					while (sIndex < 0 && sIndex > scene->rootGameObjects.size())
-					{
-						std::cout << "Select GameObject Index: ";// << std::endl;
-						std::cin >> sIndex;
-						//std::cout << std::endl;
-						selectedGameObject = scene->rootGameObjects[sIndex];
-						selectedIndex = sIndex;
-					}
-					std::cout << "Selected: " << selectedGameObject->name << std::endl;
-
-					// Set focus back to app.
-					glfwFocusWindow(ApplicationManager::APP_WINDOW);
-				}
-				else
-				{
-					selectedGameObject = nullptr;
-					std::cout << "No longer selecting." << std::endl;
-				}
-			}
 			else if(Input::GetKeyDown(GLFW_KEY_P)) // Print Scene
 			{
 				SceneManager::getInstance().GetActiveScene()->PrintScene();
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_I)) // Inspect selected
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Inspect." << std::endl;
-				}
-				else
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					auto index = std::distance(scene->rootGameObjects.begin(), std::find(scene->rootGameObjects.begin(), scene->rootGameObjects.end(), selectedGameObject));
-					std::cout << "Inspecting Object: [" << index << "]: " << selectedGameObject->name << std::endl;
-					// Output current position.
-					glm::vec3 pos = selectedGameObject->transform->getPosition();
-					std::cout << "Pos:  (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
-					// Output current local scale.
-					glm::vec3 scale = selectedGameObject->transform->getLocalScale();
-					std::cout << "Scale:(" << scale.x << ", " << scale.y << ", " << scale.z << ")" << std::endl;
-					glm::quat rot = selectedGameObject->transform->getLocalRotation();
-					std::cout << "Rot:  (" << rot.x << ", " << rot.y << ", " << rot.z << ", " << rot.w << ")" << std::endl;
-				}
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_D)) // Delete selected
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Delete." << std::endl;
-					return;
-				}
-				SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
-				selectedGameObject = nullptr;
-				selectedIndex = -1;
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_A))
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Add Component." << std::endl;
-					return;
-				}
-				std::cout << "Add Component:" << std::endl;
-				AddComponentMenu();
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_R))
-			{
-				if (selectedGameObject == nullptr)
-				{
-					std::cout << "No Object to Rename" << std::endl;
-					return;
-				}
-				// Set focus to console.
-				SetFocus(GetConsoleWindow());
-				BringWindowToTop(GetConsoleWindow());
-
-				std::cout << "Renaming: " << selectedGameObject->name << std::endl;
-				//std::string newName;
-				std::cout << "Name: ";
-				std::cin >> selectedGameObject->name;
-
-				// Set focus back to app.
-				glfwFocusWindow(ApplicationManager::APP_WINDOW);
-			}
-			else if (Input::GetKeyDown(GLFW_KEY_L))
-			{
-				LoadSceneMenu();
 			}
 		}
 		else // Ctrl not pressed.
@@ -405,8 +295,15 @@ void SceneEditor::DrawEditorGizmos()
 	if (selectedGameObject != nullptr)
 	{
 		selectedGameObject->transform->DrawGizmo();
+		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
+		{
+			selectedGameObject->components[i]->OnDrawGizmosSelected();
+		}
 	}
 }
+#pragma endregion
+
+#pragma region MANIPULATION_TOOLS
 
 void SceneEditor::SelectManipTool()
 {
@@ -540,118 +437,17 @@ void SceneEditor::ScaleTool()
 			selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (-up * deltaScale));
 	}
 }
+#pragma endregion
 
-void SceneEditor::AddComponentMenu()
-{
-	std::vector<ComponentTypeInfo> componentTypes;
-	for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry()) 
-	{
-		//std::cout << element.first.name() << ": " << element.second.name << std::endl;
-		componentTypes.push_back(element.second);
-	}
-	for (size_t i = 0; i < componentTypes.size(); i++)
-	{
-		std::cout << "["<< i << "]: " << componentTypes[i].name << std::endl;
-	}
+#pragma region Editor_GUI
 
-	// Set focus to console.
-	SetFocus(GetConsoleWindow());
-	BringWindowToTop(GetConsoleWindow());
-
-	// Select GameObject by index.
-	int selectIndex = -1;
-	while (selectIndex < 0 && selectIndex > componentTypes.size())
-	{
-		std::cout << "Select Component Index: ";
-		std::cin >> selectIndex;
-	}
-	selectedGameObject->AddComponent(componentTypes[selectIndex].Constructor());
-	std::cout << "Added new '" << componentTypes[selectIndex].name << "' to " << selectedGameObject->name << std::endl;
-
-	// Set focus back to app.
-	glfwFocusWindow(ApplicationManager::APP_WINDOW);
-}
-
-void SceneEditor::LoadSceneMenu()
-{
-	// Set focus to console.
-	SetFocus(GetConsoleWindow());
-	BringWindowToTop(GetConsoleWindow());
-
-	std::cout << "Select a Scene to Load: ";
-	std::string sceneName;
-	std::cin >> sceneName;
-	Scene_ptr scene(new Scene("TEMP"));
-	bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*scene, sceneName.c_str());
-	if (exists)
-	{
-		std::cout << "Scene Found!" << std::endl;
-		// Activate Scene
-		SceneManager::getInstance().SetActiveScene(scene);
-		//std::cout << "LOADING NEW SCENE" << std::endl;
-		editorConfig->firstSceneFilepath = scene->filePath;
-	}
-	else
-	{
-		std::cout << "Scene not found." << std::endl;
-		std::cout << "Create new Scene? (y/n): " << std::endl;
-		std::string answer;
-		std::cin >> answer;
-		if (answer == "Y" || answer == "y" || answer == "yes")
-		{
-			scene = SceneManager::getInstance().CreateNewScene(sceneName.c_str());
-			editorConfig->firstSceneFilepath = scene->filePath;
-			SaveEditorConfig();
-
-			// SAVE SCENE
-			SceneManager::getInstance().SaveSceneToFile(*scene);
-
-			selectedGameObject = nullptr;
-			selectedIndex = -1;
-			// Activate Scene
-			SceneManager::getInstance().SetActiveScene(scene);
-		}
-		else
-		{
-			std::cout << "Not creating new scene." << std::endl;
-		}
-	}
-
-
-	// Set focus back to app.
-	glfwFocusWindow(ApplicationManager::APP_WINDOW);
-}
-
-
-// Helper to display a little (?) mark which shows a tooltip when hovered.
-static void HelpMarker(const char* desc)
-{
-	ImGui::TextDisabled("(?)");
-	if (ImGui::IsItemHovered())
-	{
-		ImGui::BeginTooltip();
-		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-		ImGui::TextUnformatted(desc);
-		ImGui::PopTextWrapPos();
-		ImGui::EndTooltip();
-	}
-}
-
-static void ShowDockingDisabledMessage()
-{
-	ImGuiIO& io = ImGui::GetIO();
-	ImGui::Text("ERROR: Docking is not enabled! See Demo > Configuration.");
-	ImGui::Text("Set io.ConfigFlags |= ImGuiConfigFlags_DockingEnable in your code, or ");
-	ImGui::SameLine(0.0f, 0.0f);
-	if (ImGui::SmallButton("click here"))
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-}
 // ===========================================================================================================================================================================
 // Editor GUI
 // ===========================================================================================================================================================================
 static bool show_demo_menu = false;
 static bool inspector_open = true;
 static bool hierarchy_open = true;
+static bool assetFolder_open = true;
 
 void SceneEditor::UpdateGUI()
 {
@@ -664,6 +460,7 @@ void SceneEditor::UpdateGUI()
 	UpdateDockSpace(&open_dockspace);
 	InspectorUpdate();
 	HierarchyUpdate();
+	AssetFolderMenuUpdate();
 
 	if (show_demo_menu)
 	{
@@ -718,7 +515,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 	}
 	else
 	{
-		ShowDockingDisabledMessage();
+		//ShowDockingDisabledMessage();
 	}
 	opt_flags |= ImGuiDockNodeFlags_PassthruDockspace;
 
@@ -731,7 +528,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			{
 				static char sceneName[32];
 				ImGui::Text("Scene Name:");
-				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				ImGui::InputText("##edit", sceneName, 32);
 				if (ImGui::Button("Open"))
 				{
 					Scene_ptr scene(new Scene("TEMP"));
@@ -757,7 +554,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			{
 				static char sceneName[32];
 				ImGui::Text("Scene Name:");
-				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				ImGui::InputText("##edit", sceneName, 32);
 				if (ImGui::Button("Create"))
 				{
 					Scene_ptr scene(new Scene("TEMP"));
@@ -772,7 +569,6 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 						SceneManager::getInstance().SaveSceneToFile(*scene);
 
 						selectedGameObject = nullptr;
-						selectedIndex = -1;
 						// Activate Scene
 						SceneManager::getInstance().SetActiveScene(scene);
 					}
@@ -794,14 +590,12 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
 			}
 			if (ImGui::MenuItem("New Box"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Box");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
 				// Create Box Material
 				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 				modelMaterial->LoadTexture("textures/container.jpg");
@@ -810,12 +604,29 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				testModel->Setup();
 				go->AddComponent(testModel);
 			}
+			if (ImGui::MenuItem("New Box (Child)"))
+			{
+				if (selectedGameObject != nullptr)
+				{
+					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+					GameObject_ptr go = scene->CreateGameObject("New Box (child)");
+					go->transform->SetParent(selectedGameObject->transform);
+					selectedGameObject = go;
+
+					// Create Box Material
+					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+					modelMaterial->LoadTexture("textures/container.jpg");
+					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
+					testModel->Setup();
+					go->AddComponent(testModel);
+				}
+			}
 			if (ImGui::MenuItem("New Nanosuit"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				selectedIndex = scene->rootGameObjects.size() - 1;
 				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				go->AddComponent(modelNano);
@@ -844,7 +655,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				ImGui::EndMenu();
 			}
 
-			HelpMarker(
+			ImGui::HelpMarker(
 				"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
 				"This demo app has nothing to do with it!" "\n\n"
 				"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
@@ -882,7 +693,6 @@ void SceneEditor::InspectorUpdate()
 		ImGui::End();
 		return;
 	}
-	//ImGuiIO& io = ImGui::GetIO();
 
 	if (ImGui::BeginMenuBar())
 	{
@@ -894,7 +704,6 @@ void SceneEditor::InspectorUpdate()
 				{
 					SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 					selectedGameObject = nullptr;
-					selectedIndex = -1;
 				}
 			}
 			ImGui::EndMenu();
@@ -917,7 +726,8 @@ void SceneEditor::InspectorUpdate()
 		if (ImGui::BeginPopupContextItem("gameObject_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			ImGui::InputText("##edit", &selectedGameObject->name[0], 16);// IM_ARRAYSIZE(&selectedGameObject->name[0]));
+			//SceneEditor::InputTextField(selectedGameObject->name, "##edit");
+			ImGui::InputText("##edit", &selectedGameObject->name);
 			ImGui::EndPopup();
 		}
 		ImGui::Spacing();
@@ -1023,44 +833,235 @@ void SceneEditor::HierarchyUpdate()
 		if (ImGui::BeginPopupContextItem("scene_edit_name", 0))
 		{
 			ImGui::Text("Edit name:");
-			ImGui::InputText("##edit", &scene->name[0], IM_ARRAYSIZE(&scene->name[0]));
+			ImGui::InputText("##edit", &scene->name);
 			ImGui::EndPopup();
 		}
-		static int selection_mask = (selectedIndex > -1)? (1 << selectedIndex) : 0; // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
-		int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
 		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
-			// Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
-			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
-			// Node
-			bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "%s (%d)", scene->rootGameObjects[i]->name.c_str(), i);
-			if (ImGui::IsItemClicked())
-				node_clicked = i;
-			if (node_open)
-			{
-				//TODO: Recursively run through children.
-				//ImGui::Text("Blah blah\nBlah Blah");
-				ImGui::TreePop();
-			}
+			DrawGameObjectTreeNode(scene->rootGameObjects[i].get(), "[" + std::to_string(i) + "]");
 		}
-		if (node_clicked != -1)
-		{
-			selectedGameObject = scene->rootGameObjects[node_clicked];
-			selectedIndex = node_clicked;
 
-			selection_mask = (1 << node_clicked);           // Click to single-select
-		}
 		ImGui::PopStyleVar();
-
 	}
 	else
 	{
 		ImGui::Text("No Scene Loaded.");
 	}
+
+	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+	{
+		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		if (payload != nullptr && payload->IsDataType("GAMEOBJECT_DRAG"))
+		{
+			ImGui::Spacing();
+			ImGui::Indent();
+			ImGui::Text("<----- UNPARENT ----->");
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+					GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+					std::cout << "Dropping " << payload_n->name << " on empty." << std::endl;
+
+					payload_n->transform->SetParent(nullptr);
+				}
+				ImGui::EndDragDropTarget();
+			}
+			ImGui::Unindent();
+		}
+	}
+
 	ImGui::End();
 }
 
+void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
+{
+	//Node Flags:
+	// If no children, display as leaf. Otherwise, an openable tree.
+	// If selected, display as selected.
+	ImGuiTreeNodeFlags node_flags = ((go->transform->GetChildCount() > 0)?
+		(ImGuiTreeNodeFlags_OpenOnArrow
+			| ImGuiTreeNodeFlags_OpenOnDoubleClick
+			| ImGuiTreeNodeFlags_DefaultOpen)
+		: ImGuiTreeNodeFlags_Leaf)
+		| ((go == selectedGameObject.get()) ? ImGuiTreeNodeFlags_Selected : 0);
+		//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+
+	// Node
+	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags);
+	if (ImGui::IsItemClicked())
+	{
+		selectedGameObject = go->GetSelfPtr();
+	}
+	// Our buttons are both drag sources and drag targets here!
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	{
+		if (go->GetSelfPtr() != selectedGameObject)
+			return;
+		ImGui::SetDragDropPayload("GAMEOBJECT_DRAG", &selectedGameObject, sizeof(GameObject_ptr));        // Set payload to carry our item 
+		ImGui::Text("Moving %s", selectedGameObject->name.c_str());
+		ImGui::EndDragDropSource();
+	}
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT_DRAG"))
+		{
+			IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+			GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+			std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
+
+			payload_n->transform->SetParent(go->transform);
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	if (node_open)
+	{
+		std::vector<GameObject*> children = go->GetChildren();
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			this->DrawGameObjectTreeNode(children[i], label + "["+ std::to_string(i)+"]");
+		}
+		ImGui::TreePop();
+	}
+}
+
+void SceneEditor::AssetFolderMenuUpdate()
+{
+	ImGui::SetNextWindowPos(ImVec2(250, 680), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(680, 250), ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+
+	// Main body of the Demo window starts here.
+	if (!ImGui::Begin("AssetFolderMenu", &assetFolder_open, window_flags))//, p_open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu"))
+		{
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH))
+	{
+		//std::cout << entry.path() << std::endl;
+		if (entry.is_directory())
+		{
+			DrawDirectoryTreeNode(entry.path().string().c_str());
+		}
+		else if(entry.is_regular_file())
+		{
+			DrawFileTreeNode(entry.path().string().c_str());
+		}
+	}
+		
+
+
+	ImGui::End();
+}
+
+// Temp static utility - move to a seperate header later.
+static std::string GetFileNameFromPath(const char* path)
+{
+	char sep = '/';
+#ifdef _WIN32
+	sep = '\\';
+#endif
+	std::string s(path);
+	//std::string fileName;
+	size_t i = s.rfind(sep, s.length());
+	if (i != std::string::npos) {
+		return s.substr(i + 1, s.length() - i);
+	}
+	return ("");
+}
+
+void SceneEditor::DrawDirectoryTreeNode(const char * directory)
+{
+	bool isEmpty = std::filesystem::is_empty(directory);
+	//Node Flags:
+	// If no children, display as leaf. Otherwise, an openable tree.
+	// If selected, display as selected.
+	ImGuiTreeNodeFlags node_flags = ((!isEmpty) ?
+		(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)
+		: ImGuiTreeNodeFlags_Leaf);
+		//| ((go == selectedGameObject.get()) ? ImGuiTreeNodeFlags_Selected : 0);
+	//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
+
+	std::string fileName = GetFileNameFromPath(directory);
+	
+
+	// Node
+	bool node_open = ImGui::TreeNodeEx(directory, node_flags, "%s", fileName.c_str());
+	if (ImGui::IsItemClicked())
+	{
+		//selectedGameObject = go->GetSelfPtr();
+	}
+	// Our buttons are both drag sources and drag targets here!
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	{
+		//if (go->GetSelfPtr() != selectedGameObject)
+		//	return;
+		ImGui::SetDragDropPayload("FILE_DRAG", &selectedGameObject, sizeof(GameObject_ptr));        // Set payload to carry our item 
+		ImGui::Text("Moving %s", directory);
+		ImGui::EndDragDropSource();
+	}
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+		{
+			//IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+			//GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+			//std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
+			//payload_n->transform->SetParent(go->transform);
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	if (node_open)
+	{
+		for (const auto & entry : std::filesystem::directory_iterator(directory))
+		{
+			//std::cout << entry.path() << std::endl;
+			if (entry.is_directory())
+			{
+				DrawDirectoryTreeNode(entry.path().string().c_str());
+			}
+			else if (entry.is_regular_file())
+			{
+				DrawFileTreeNode(entry.path().string().c_str());
+			}
+		}
+		// TODO: Replace this temp approach. This is only one level deep.
+		//std::vector<GameObject*> children = go->GetChildren();
+		//for (size_t i = 0; i < children.size(); i++)
+		//{
+		//	this->DrawGameObjectTreeNode(children[i], label + "[" + std::to_string(i) + "]");
+		//}
+		ImGui::TreePop();
+	}
+	
+}
+
+void SceneEditor::DrawFileTreeNode(const char * directory)
+{
+	//TODO: Add Drag-and-Drop behavior, and unique behavior for files like scenes and... materials?
+	std::string fileName = GetFileNameFromPath(directory);
+	ImGui::Text(fileName.c_str());
+}
 
 // NOT IMPLEMENTED YET
 // TODO: Change the window layout depending on being in X_EDIT_MODE
@@ -1083,4 +1084,6 @@ void SceneEditor::ConfigureWindowLayout()
 	//int appPosY = border_thickness; // border_thickness
 	//glfwSetWindowPos(ApplicationManager::APP_WINDOW, appPosX, appPosY);
 }
+
+#pragma endregion
 

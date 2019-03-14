@@ -64,6 +64,7 @@ public:
 	static void DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size);
 	static void DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size);
 	static void DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size);
+	static void DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size);
 
 private:
 	Camera* currentCamera;

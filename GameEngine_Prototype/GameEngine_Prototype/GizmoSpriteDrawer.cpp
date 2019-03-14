@@ -1,5 +1,7 @@
 #include "GizmoSpriteDrawer.h"
+#include "ApplicationManager.h"
 
+float GizmoSpriteDrawer::gizmoScale = 0.25f;
 const GLfloat GizmoSpriteDrawer::spriteQuadVerices[12] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
@@ -9,12 +11,15 @@ const GLfloat GizmoSpriteDrawer::spriteQuadVerices[12] = {
 
 GizmoSpriteDrawer::GizmoSpriteDrawer(const char* _texturePath)
 {
+	//std::cout << "Constructing Sprite Drawer ==============================" << std::endl;
 	gizmoTexturePath = _texturePath;
+	color = glm::vec4(1.0f, 1.0f, 1.0f, 0.8f);
 	Setup();
 }
 
 GizmoSpriteDrawer::~GizmoSpriteDrawer() 
 {
+	//std::cout << "Deconstructing Sprite Drawer ==============================" << std::endl;
 	// Delete Gizmo
 	glDeleteVertexArrays(1, &this->VAO);
 	glDeleteVertexArrays(1, &this->VBO);
@@ -22,6 +27,8 @@ GizmoSpriteDrawer::~GizmoSpriteDrawer()
 
 void GizmoSpriteDrawer::Setup()
 {
+	//std::cout << "Setting up Sprite Drawer: " << gizmoTexturePath << std::endl;
+
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
@@ -50,6 +57,11 @@ void GizmoSpriteDrawer::Setup()
 
 void GizmoSpriteDrawer::Draw(glm::vec3 position)
 {
+	if (ApplicationManager::getInstance().IsEditMode() == false)
+	{
+		return;
+	}
+	//std::cout << "Drawing Sprite Gizmo" << std::endl;
 	Shader* shader = RenderManager::defaultSpriteShader;
 
 	// Vertex shader
@@ -62,17 +74,19 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 	GLuint TexturePropID = glGetUniformLocation(programID, "TextureSampler");
 
 	glm::vec3 pos = position;
-	glm::mat4 model = glm::mat4(1.0);
+	//glm::mat4 model = glm::mat4(1.0);
+	//std::cout << "pos:   (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
 	glm::mat4 ProjectionMatrix = RenderManager::getInstance().getProjection();
 	glm::mat4 ViewMatrix = RenderManager::getInstance().getView();
 	glm::mat4 ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
 
-
+	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	shader->use();
 
+	//glm::vec4 color(1.0f, 1.0f, 1.0f, 0.8f);
 	//glm::vec4 color(1.0f, 1.0f, 1.0f, 0.8f);
 	shader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
@@ -92,7 +106,7 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
 
 	glUniform3f(BillboardPosID, pos.x, pos.y, pos.z); // The billboard will be just above the cube
-	glUniform2f(BillboardSizeID, 0.5f, 0.5f);     // and 1m*12cm, because it matches its 256*32 resolution =)
+	glUniform2f(BillboardSizeID, gizmoScale, gizmoScale);     // and 1m*12cm, because it matches its 256*32 resolution =)
 
 	glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
 
@@ -107,4 +121,5 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 
 	//glDisableVertexAttribArray(0);
 	glDisable(GL_BLEND);
+	//glDisable(GL_DEPTH_TEST);
 }

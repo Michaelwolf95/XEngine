@@ -1,18 +1,25 @@
 #pragma once
+#ifndef MATERIAL_H
+#define MATERIAL_H
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Shader.h"
 #include "Light.h"
 #include "Serialization.h"
+#include <vector>
+#include "Texture.h"
+#include "MaterialProperty.h"
 
 #define VAR_NAME(Var) (#Var)
 
 
 /* TODO: The information we want to store about each material
-should be stored in "material modules" that can be attached to it.
+could be stored in "material modules" that can be attached to it.
 For now, we can just use some flags to check if its lit or not.
 */
+
+
 class Material
 {
 public:
@@ -23,11 +30,15 @@ public:
 	glm::vec3 specular = glm::vec3(1.0f);
 	float shininess = 32.0f;
 
-	std::string name;
+	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
 	Shader* shader;
+
+	std::vector<FloatProperty> floatProperties;
+
 	bool useLight = false;
+	std::vector<Texture> textures;
 
 	std::string textureFilePath;
 	unsigned int textureID = 0;
@@ -94,3 +105,4 @@ private:
 
 //std::ostream & operator<<(std::ostream &os, const Material &material);
 //BOOST_SERIALIZATION_
+#endif // !1

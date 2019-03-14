@@ -3,6 +3,9 @@
 #include "Shader.h"
 #include "AssetManager.h"
 
+//#include "SceneEditor.h"
+#include "imgui_inspector_extensions.h"
+#include "imgui_stdlib.h"
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
 
@@ -115,20 +118,24 @@ void Material::Draw(std::vector<Light*> lights)
 
 void Material::LoadTexture(const char * _textureFilePath)
 {
+	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
 
 void Material::DrawInspector()
 {
-	if (ImGui::TreeNode("Mat", "Material: %s", this->name.c_str()))
+	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
-		//ImGui::SameLine();
-		//ImGui::Text(this->name.c_str());
+		ImGui::InputText("VertPath", &vertexShaderPath);
+		ImGui::InputText("FragPath", &fragmentShaderPath);
+		ImGui::InputText("TexturePath", &textureFilePath);
 
-		ImGui::InputText("VertPath", &vertexShaderPath[0], 32);
-		ImGui::InputText("FragPath", &fragmentShaderPath[0], 32);
-		ImGui::InputText("TexturePath", &textureFilePath[0], 32);
+		//ImGuiInputTextFlags flags = 0;
+		//	flags |= ImGuiInputTextFlags_CharsScientific;// | ~ImGuiInputTextFlags_CharsNoBlank;
+		//ImGui::InputText("VertPath", &vertexShaderPath[0], 32, flags);
+		//ImGui::InputText("FragPath", &fragmentShaderPath[0], 32, flags);
+		//ImGui::InputText("TexturePath", &textureFilePath[0], 32, flags);
 
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);

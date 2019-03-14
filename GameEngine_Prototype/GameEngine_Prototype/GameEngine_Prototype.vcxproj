@@ -90,13 +90,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SolutionDir)Includes\BulletPhysics;%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
@@ -109,12 +110,12 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SolutionDir)Includes\BulletPhysics;%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -131,12 +132,12 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SolutionDir)Includes\BulletPhysics;%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>fmodstudio_vc.lib;fmod_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp/assimp-vc140-mt.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -153,12 +154,12 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(SolutionDir)Includes\BulletPhysics;%(SolutionDir)Includes\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>fmodstudio_vc.lib;fmod_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -169,6 +170,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClCompile Include="Analytics.cpp" />
     <ClCompile Include="ApplicationManager.cpp" />
+    <ClCompile Include="AssetLibrary.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="AutoMover.cpp" />
@@ -190,12 +192,20 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui_stdlib.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="MaterialLibrary.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshLibrary.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelLibrary.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="PrimitiveModels.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SceneEditor.cpp" />
+    <ClCompile Include="TextureLibrary.cpp" />
     <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -224,6 +234,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="Analytics.h" />
     <ClInclude Include="ApplicationManager.h" />
+    <ClInclude Include="AssetLibrary.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="AutoMover.h" />
@@ -246,17 +257,27 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_glfw.h" />
     <ClInclude Include="imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui_inspector_extensions.h" />
     <ClInclude Include="imgui_internal.h" />
+    <ClInclude Include="imgui_stdlib.h" />
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="MaterialLibrary.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshLibrary.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelLibrary.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PointLightComponent.h" />
     <ClInclude Include="PrimitiveModels.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="TestScenes.h" />
+    <ClInclude Include="TextureLibrary.h" />
     <ClInclude Include="TransformTester.h" />
     <ClInclude Include="FreeLookCameraController.h" />
     <ClInclude Include="GameObject.h" />
@@ -304,6 +325,15 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc">
+      <DeploymentContent>false</DeploymentContent>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico" />
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

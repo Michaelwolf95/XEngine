@@ -11,6 +11,7 @@
 #include "CameraComponent.h"
 #include "Scene.h"
 #include "SceneEditor.h"
+#include "PrimitiveModels.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
@@ -94,7 +95,7 @@ Camera* RenderManager::getCurrentCamera()
 
 void RenderManager::setCurrentCamera(Camera* cam)
 {
-	std::cout << "Setting Current Cam: " << cam << std::endl;
+	//std::cout << "Setting Current Cam: " << cam << std::endl;
 	if (currentCamera != cam)
 	{
 		currentCamera = cam;
@@ -374,6 +375,62 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	glLineWidth(size);
 	//glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, 2);
+
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+}
+
+void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size)
+{
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	glm::mat4 model(1.0);
+	model = glm::translate(model, center);
+	model = glm::scale(model, extents);
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	//glm::vec3 diff = point2 - point1;
+	//std::cout << "Drawing box" << std::endl;
+	/*GLfloat p[]
+	{
+		1.0, 1.0, 1.0,
+		
+		diff.x, diff.y, diff.z
+	};*/
+	unsigned int VAO;
+	unsigned int VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(CUBE_VERTS), CUBE_VERTS, GL_STATIC_DRAW);
+	unsigned int numIndices = sizeof(CUBE_INDICES) / (sizeof(unsigned int));
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), CUBE_INDICES, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_BACK, GL_LINE);
+
+	glLineWidth(size);
+	glBindVertexArray(VAO);
+	//glDrawArrays(GL_LINES, 0, sizeof(CUBE_VERTS)/(5*sizeof(float)));
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(CUBE_VERTS) / (5 * sizeof(float)));
+
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glPolygonMode(GL_BACK, GL_FILL);
 
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);

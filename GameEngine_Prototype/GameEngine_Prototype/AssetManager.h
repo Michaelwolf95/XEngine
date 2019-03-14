@@ -1,13 +1,26 @@
 #pragma once
 #include "Singleton.h"
+#include "TextureLibrary.h"
+#include "ModelLibrary.h"
+#include "MaterialLibrary.h"
+#include "MeshLibrary.h"
 //#include <stb/stb_image.h>
 
-static const char* ASSET_FILE_PATH = "../Assets/";
+static const char* ASSET_FILE_PATH
+#ifdef _WIN32
+= "..\\Assets\\";
+#else
+= "../Assets/";
+#endif
 
 class AssetManager : public Singleton<AssetManager>
 {
 	friend class Singleton<AssetManager>;
 public:
+	TextureLibrary textureLib;
+	ModelLibrary modelLib;
+	MaterialLibrary materialLib;
+	MeshLibrary meshLib;
 	AssetManager();
 	~AssetManager();
 	static AssetManager* CreateManager();

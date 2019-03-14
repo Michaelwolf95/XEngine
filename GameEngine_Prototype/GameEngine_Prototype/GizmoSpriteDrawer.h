@@ -6,6 +6,8 @@
 class GizmoSpriteDrawer
 {
 public:
+	static float gizmoScale;
+
 	GizmoSpriteDrawer(const char* _texturePath);
 	~GizmoSpriteDrawer();
 	void Setup();
@@ -15,10 +17,10 @@ public:
 	static const GLfloat spriteQuadVerices[];
 
 	std::string gizmoTexturePath;
-	glm::vec4 color;
 	// Render state
 	GLuint VAO;
 	GLuint VBO;
 	unsigned int textureID;
+	glm::vec4 color = glm::vec4(1.0f);
 };
 

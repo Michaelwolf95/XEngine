@@ -16,10 +16,11 @@ class MeshRenderer;
 #include <iostream>
 #include <vector>
 
-using namespace std;
+//using namespace std;
 
 /// Based on LearnOpenGL.com section on Meshes
 
+// stride = 14
 struct Vertex {
 	// position vector
 	glm::vec3 Position;
@@ -33,14 +34,7 @@ struct Vertex {
 	glm::vec3 Bitangent;
 };
 
-struct Texture {
-	// texture id
-	unsigned int id;
-	// texture type
-	string type;
-	// texture path
-	string path;
-};
+
 
 class Mesh
 {
@@ -48,17 +42,17 @@ class Mesh
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
-		vector<Vertex> vertices;
-		vector<unsigned int> indices;
-		vector<Texture> textures;
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
+		std::string name;
+		
 		// Constructor
-		Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+		Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 		
 		// Deconstructor
 		~Mesh();
 
 		void Setup();
-
 };
 
 

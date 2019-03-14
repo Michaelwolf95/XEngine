@@ -4,13 +4,9 @@
 #include <unordered_map>
 #include <string>
 #include "imgui.h"
-//#include <memory>
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
-//typedef std::shared_ptr<GameObject> GameObject_ptr; // Forward declare typedef?
 
-
-//typedef std::unordered_map<std::type_index, std::string> typemap;
 struct ComponentTypeInfo;
 typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;
 
@@ -19,17 +15,30 @@ class Component
 public:
 	static typemap & registry();
 
-	GameObject*  gameObject; // The owner of the component.
+	// The owner of the component.
+	// Cannot use shared_ptr here due to the way we want things to unload.
+	GameObject* gameObject;
 	bool enabled = true;
 	bool executeInEditMode = false;
 	Component();
 	virtual ~Component();
 	virtual void Start() = 0;
 	virtual void Update() = 0;
+	virtual void FixedUpdate() {};
 	virtual void OnDestroy() {};
+
 	virtual void OnDrawGizmos() {};
+	virtual void OnDrawGizmosSelected() {};
+
 	virtual void DrawInspector() {};
+
+	// Engine Callbacks
+	bool isStarted = false;
+	void callback_PerformStart();
+	void callback_PerformUpdate();
+	//void callback_PerformFixedUpdate()
 private:
+
 	friend class boost::serialization::access;
 	friend std::ostream & operator<<(std::ostream &os, const Component &comp);
 	template<class Archive>
@@ -39,14 +48,11 @@ private:
 	}
 };
 
-typedef std::shared_ptr<Component> Component_ptr; // Needed because we need an OBJECT. ... right?
+typedef std::shared_ptr<Component> Component_ptr;
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(Component)
-//BOOST_IS_ABSTRACT(Component)
-//BOOST_CLASS_EXPORT_GUID(Component) //"Component") // Optional 2nd argument for the name.
 
 std::ostream & operator<<(std::ostream &os, const Component &comp);
-
 
 struct ComponentTypeInfo
 {

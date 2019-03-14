@@ -88,6 +88,12 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{1b3754d3-0d62-428c-ba8d-ea44024fc849}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{9804e167-cb6c-4ae7-9f07-5c40cfe272cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{7db5fa39-1ea5-435f-b5a1-811ff2c648fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -246,8 +252,32 @@
     <ClCompile Include="GizmoSpriteDrawer.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="DerivedMaterial.cpp">
+    <ClCompile Include="imgui_stdlib.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,8 +461,38 @@
     <ClInclude Include="GizmoSpriteDrawer.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="DerivedMaterial.h">
+    <ClInclude Include="imgui_stdlib.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_inspector_extensions.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -487,11 +547,18 @@
     <None Include="..\Shaders\multilights.vs">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Shaders\multi.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\multi.vs">
-      <Filter>Shaders</Filter>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

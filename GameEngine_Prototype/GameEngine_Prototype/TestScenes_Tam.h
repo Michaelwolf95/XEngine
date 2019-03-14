@@ -106,9 +106,10 @@ void CreateTestScene_GameComponentTest()
 	//cube->transform->setLocalPosition(1, 0, 0);
 
 
-	Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
-	Material* modelMaterial = new Material(modelShader);
-	std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+	//Shader* modelShader = new Shader("3Dmodel.vs", "3Dmodel.fs");
+	Material* modelMaterial = new Material("ModelManTest", "3Dmodel.vs", "3Dmodel.fs");
+	//std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+	std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial));
 	//MeshRenderer* modelNano = new MeshRenderer("C:/Users/Simba/Documents/CECS_491_GameEngine_Prototype/GameEngine_Prototype/Assets/3Dmodel/Crate/Crate1.obj", modelMaterial);
 	GameObject_ptr modelMan = scene->CreateGameObject("ModelMan");
 

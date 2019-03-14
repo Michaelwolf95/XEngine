@@ -6,7 +6,9 @@
 #include "Transform.h"
 #include "Serialization.h"
 
-class GameObject //: public std::enable_shared_from_this<GameObject>
+typedef std::shared_ptr<GameObject> GameObject_ptr;
+
+class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
 	Transform* transform;
@@ -15,7 +17,10 @@ public:
 	std::vector<Component_ptr> components;
 	GameObject(const char* _name = nullptr);
 	~GameObject();
-	//void AddComponent(Component* comp);
+
+	std::vector<GameObject*> GetChildren();
+	GameObject* GetChild(int index);
+
 	void AddComponent(Component_ptr comp);
 	void RemoveComponent(Component_ptr comp);
 	void EmitComponentEvent(void(*eventFunction)(Component_ptr));
@@ -23,11 +28,15 @@ public:
 	void StartComponent(Component_ptr comp);
 	void UpdateComponents();
 	void UpdateComponent(Component_ptr comp);
+	void FixedUpdateComponents();
+	void FixedUpdateComponent(Component_ptr comp);
 
 	Component_ptr FilterComponent(std::function<bool(Component_ptr)> predicate);
 	bool FindComponent(const std::type_info& typeInfo, void** object);
 
+	GameObject_ptr GetSelfPtr();
 private:
+
 	friend std::ostream & operator<<(std::ostream &os, const GameObject &go);
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -43,19 +52,17 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(transform);
-
-		// ToDo: Initialize using add component.
-		//std::vector<Component_ptr> comps;
+		transform->gameObject = this;
+		
 		ar & BOOST_SERIALIZATION_NVP(components);
-
+		// ToDo: Initialize using add component instead..?
 		for (Component_ptr c : components)
 		{
-			c->gameObject = this;// shared_from_this();
+			c->gameObject = this;
 		}
 	}
 
 };
 
-typedef std::shared_ptr<GameObject> GameObject_ptr; // Needed because we need an OBJECT.
 
 std::ostream & operator<<(std::ostream &os, const GameObject &go);
