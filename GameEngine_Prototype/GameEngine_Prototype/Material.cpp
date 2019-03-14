@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "AssetManager.h"
 
+
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
@@ -68,6 +69,47 @@ void Material::Load()
 	else
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+}
+
+void Material::Draw(std::vector<Light*> lights)
+{
+	//std::cout << "Material Draw\n";
+
+	if (useLight) {
+		//std::cout << "Rendering lights in Draw material\n";
+		int *counter = nullptr;
+		std::string uniformString;
+
+		int pointLightCount = 0;
+		int globalLightCount = 0;
+		int spotLightCount = 0;
+
+		shader->setInt("numLights", RenderManager::getInstance().lights.size());
+
+		for (Light* light : lights) {
+			
+			if (light->getTypeID() == Light::LightType::PointLight) {
+				counter = &pointLightCount;
+			}
+			else if (light->getTypeID() == Light::LightType::GlobalLight) {
+				counter = &globalLightCount;
+			}
+			
+			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
+
+			shader->setVec3(uniformString + VAR_NAME(ambient), ambient);
+			shader->setVec3(uniformString + VAR_NAME(diffuse), diffuse);
+			shader->setVec3(uniformString + VAR_NAME(specular), specular);
+			
+			// Add light properties to shader.
+			light->draw(shader, *counter);
+
+			counter ? (*counter)++ : printf("ERROR: counter is NULL! (Materials->Draw)\n");
+		}
+
+		shader->setInt("numPointLights", pointLightCount);
+		shader->setInt("numGlobalLights", globalLightCount);
 	}
 }
 

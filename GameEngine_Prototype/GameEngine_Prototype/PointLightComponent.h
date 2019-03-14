@@ -3,19 +3,22 @@
 #include "Light.h"
 #include "LightComponent.h"
 #include <glm/glm.hpp>
+#include <vector>
+
+#define VAR_NAME(Var) (#Var)
+
 class PointLightComponent : public LightComponent
 {
 public:
 	static Registrar<PointLightComponent> registrar;
-	static const int TYPE_ID = 1;
+	static const LightType TYPE_ID = LightType::PointLight;
 
 	// position is a function of transform component
-	float constant = 1.0f;
-	float linear = 0.09f;
-	float quadratic = 0.032f;
+	float constant;
+	float linear;
+	float quadratic;
 
-	PointLightComponent(glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f), 
-		float _intensity = 1.0f);
+	PointLightComponent(glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f), float _intensity = 1.0f);
 	~PointLightComponent();
 
 	void Start() override;
@@ -26,6 +29,9 @@ public:
 	float getQuadratic() override;
 	glm::vec3 getDirection() override;
 	int getTypeID() override;
+	void draw(Shader* shader, int &counter) override;
+
+
 private:
 	friend class boost::serialization::access;
 	template<class Archive>

@@ -177,6 +177,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="CameraSwapper.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
+    <ClCompile Include="DerivedMaterial.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
@@ -232,6 +233,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConsoleThread.h" />
     <ClInclude Include="DebugUtility.h" />
+    <ClInclude Include="DerivedMaterial.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="EditorCamera.h" />
     <ClInclude Include="ExampleRotator_James.h" />
@@ -296,6 +298,8 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\diffuse.vs" />
     <None Include="..\Shaders\model.fs" />
     <None Include="..\Shaders\model.vs" />
+    <None Include="..\Shaders\multi.fs" />
+    <None Include="..\Shaders\multi.vs" />
     <None Include="..\Shaders\multilights.fs" />
     <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />

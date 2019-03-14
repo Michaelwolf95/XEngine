@@ -63,7 +63,7 @@ void MeshRenderer::Setup()
 	}
 	else
 	{
-
+		
 	}
 
 	isSetup = true;

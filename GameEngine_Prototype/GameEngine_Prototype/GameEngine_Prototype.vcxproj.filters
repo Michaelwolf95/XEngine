@@ -246,6 +246,9 @@
     <ClCompile Include="GizmoSpriteDrawer.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="DerivedMaterial.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -428,6 +431,9 @@
     <ClInclude Include="GizmoSpriteDrawer.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="DerivedMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
@@ -479,6 +485,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\multilights.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multi.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multi.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
