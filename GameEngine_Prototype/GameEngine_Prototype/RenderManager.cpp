@@ -8,13 +8,18 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "SceneManager.h"
 #include "GameObject.h"
+#include "CameraComponent.h"
+#include "Scene.h"
+#include "SceneEditor.h"
+#include "PrimitiveModels.h"
 
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
+Shader* RenderManager::defaultSpriteShader = nullptr;
 
 //TODO: Store this on the Camera.
-glm::vec4 clearColor = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f );
+glm::vec4 defaultClearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f );
 
 // Create static instance
 RenderManager* RenderManager::CreateManager()
@@ -31,9 +36,10 @@ int RenderManager::Init()
 
 	currentCamera = nullptr;
 
-	defaultView = new glm::mat4(1.0f);
-	defaultProjection = new glm::mat4(1.0f);
-	*defaultProjection = glm::perspective(glm::radians(45.0f),
+	defaultView = glm::mat4(1.0f);
+	defaultView = glm::rotate((defaultView), glm::radians(180.0f), glm::vec3(0, 1, 0));
+	defaultProjection = glm::mat4(1.0f);
+	defaultProjection = glm::perspective(glm::radians(45.0f),
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
 		0.1f, 100.0f);
 
@@ -44,30 +50,33 @@ int RenderManager::Init()
 	isInitialized = true;
 	return 0;
 }
+
 void RenderManager::CompileShaders()
 {
 	defaultShader = new Shader("model.vs", "model.fs");
-	defaultShader->use();
-	defaultShader->setColor("MainColor", 1.0f, 0.0f, 1.0f, 1.0f); // Pink
-	
-	defaultMaterial = new Material(defaultShader);
+	defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
+	//defaultMaterial = new Material(defaultShader);
 	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+	//defaultMaterial->LoadTexture("textures/container.jpg");
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
-	colorDrawShader->use();
-	colorDrawShader->setColor("MainColor", 1.0f, 1.0f, 1.0f, 1.0f); // White
+
+	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
-
 }
 
 glm::mat4 RenderManager::getView()
 {
-	if (currentCamera != nullptr)
+	//OutputDebugStringW(L"Getting View...\n");
+	//std::cout << "Getting View..." << std::endl;
+	if (currentCamera != nullptr && currentCamera != NULL)
 	{
-		return currentCamera->getView();
+		//std::cout << typeid(currentCamera).name() << std::endl;
+		glm::mat4 view = currentCamera->getView();
+		return view;
 	}
-	return *defaultView;
+	return defaultView;
 }
 
 glm::mat4 RenderManager::getProjection()
@@ -76,17 +85,17 @@ glm::mat4 RenderManager::getProjection()
 	{
 		return currentCamera->getProjection();
 	}
-	return *defaultProjection;
+	return defaultProjection;
 }
 
-Camera * RenderManager::getCurrentCamera()
+Camera* RenderManager::getCurrentCamera()
 {
 	return currentCamera;
 }
 
-void RenderManager::setCurrentCamera(Camera * cam)
+void RenderManager::setCurrentCamera(Camera* cam)
 {
-	std::cout << "Setting Current Cam: " << cam << std::endl;
+	//std::cout << "Setting Current Cam: " << cam << std::endl;
 	if (currentCamera != cam)
 	{
 		currentCamera = cam;
@@ -96,6 +105,7 @@ void RenderManager::setCurrentCamera(Camera * cam)
 void RenderManager::Render()
 {
 	// Render back drop
+	glm::vec4 clearColor = (currentCamera != nullptr) ? currentCamera->clearColor : defaultClearColor;
 	glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -105,23 +115,27 @@ void RenderManager::Render()
 	//  Loop through and render all renderables
 	for (size_t i = 0; i < currentRenderables.size(); i++)
 	{
-		RenderObject(currentRenderables[i]);
+		if(currentRenderables[i] != nullptr)
+			RenderObject(currentRenderables[i]);
 	}
 
 	// TODO: Make it a global option of whether we draw gizmos or not.
 	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
 	// Draw Gizmos
-	for (GameObject* go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
+	if (SceneManager::getInstance().GetActiveScene() != nullptr && SceneManager::getInstance().GetActiveScene()->isLoaded)
 	{
-		for (Component* c : go->components)
+		for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
 		{
-			c->OnDrawGizmos();
+			for (Component_ptr c : go->components)
+			{
+				c->OnDrawGizmos();
+			}
 		}
 	}
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
-	if (renderable->enabled == false)
+	if (renderable->render_enabled == false)
 	{
 		// Don't render anything
 		return;
@@ -130,7 +144,7 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	// TODO: Optimize draw calls by rendering all objects that use the same shader at once.
 	
 	// Start the shader
-	if (currentShaderID != renderable->material->shader->ID)
+	//if (currentShaderID != renderable->material->shader->ID) // DISABLED CHECK FOR NOW
 	{
 		//std::cout << "Swapping material" << std::endl;
 		renderable->material->shader->use();
@@ -163,9 +177,30 @@ void RenderManager::FreeObjectResources(RenderableObject* renderable)
 	glDeleteBuffers(1, &(renderable->EBO));
 }
 
+void RenderManager::FindCameraInScene(Scene* scene)
+{
+	// Init Camera for RenderManager
+	CameraComponent* camera = nullptr;
+	for (GameObject_ptr go : scene->rootGameObjects)
+	{
+		// Finds the first object of the type CameraComponent
+		// Just checks roots for now. - change to search all later.
+		if (go->FindComponent(typeid(CameraComponent), (void**)&camera)) // Pointer to a pointer!
+		{
+			setCurrentCamera((CameraComponent*)camera);
+			break;
+		}
+	}
+}
+
 void RenderManager::AddRenderable(RenderableObject* renderable)
 {
-	currentRenderables.push_back(renderable);
+	// If vector does not contain it, add it.
+	auto n = std::find(currentRenderables.begin(), currentRenderables.end(), renderable);
+	if (n == currentRenderables.end())
+	{
+		currentRenderables.push_back(renderable);
+	}
 }
 void RenderManager::RemoveRenderable(RenderableObject* renderable)
 {
@@ -204,9 +239,12 @@ void RenderManager::DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int s
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
 	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
+	//std::cout << color.r << std::endl;
+	//std::cout << color.g << std::endl;
+	//std::cout << color.b << std::endl;
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::vec3 point3 = vec3(point.x, point.y, 0.2);
+	glm::vec3 point3 = glm::vec3(point.x, point.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, point3);
 	glm::mat4 view(1.0);
@@ -269,7 +307,7 @@ void RenderManager::DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm:
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
 
-	glm::vec3 point3 = vec3(point1.x, point1.y, 0.2);
+	glm::vec3 point3 = glm::vec3(point1.x, point1.y, 0.2);
 	glm::mat4 model(1.0);
 	model = glm::translate(model, point3);
 	glm::mat4 view(1.0);
@@ -337,6 +375,62 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	glLineWidth(size);
 	//glBindVertexArray(VAO);
 	glDrawArrays(GL_LINES, 0, 2);
+
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+}
+
+void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size)
+{
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	glm::mat4 model(1.0);
+	model = glm::translate(model, center);
+	model = glm::scale(model, extents);
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	//glm::vec3 diff = point2 - point1;
+	//std::cout << "Drawing box" << std::endl;
+	/*GLfloat p[]
+	{
+		1.0, 1.0, 1.0,
+		
+		diff.x, diff.y, diff.z
+	};*/
+	unsigned int VAO;
+	unsigned int VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(CUBE_VERTS), CUBE_VERTS, GL_STATIC_DRAW);
+	unsigned int numIndices = sizeof(CUBE_INDICES) / (sizeof(unsigned int));
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), CUBE_INDICES, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_BACK, GL_LINE);
+
+	glLineWidth(size);
+	glBindVertexArray(VAO);
+	//glDrawArrays(GL_LINES, 0, sizeof(CUBE_VERTS)/(5*sizeof(float)));
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(CUBE_VERTS) / (5 * sizeof(float)));
+
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glPolygonMode(GL_BACK, GL_FILL);
 
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);

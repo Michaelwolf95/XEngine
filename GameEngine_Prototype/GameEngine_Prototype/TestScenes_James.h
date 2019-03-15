@@ -21,6 +21,9 @@
 #include "ExampleRotator_James.h"
 #include "PrimitiveModels.h"
 #include "GameObjectAnalytic.h"
+#include "FreeLookCameraController.h"
+#include "input.h"
+#include "AudioEngine.h"
 using namespace std;
 
 void CreateTestSceneJames1();
@@ -46,9 +49,18 @@ void CreateTestSceneJames1() {
 	GameObject* camGo = scene->CreateGameObject("Camera");
 	CameraComponent* camera = new CameraComponent();
 	camGo->AddComponent(camera);
+	//make camera move
+	FreeLookCameraController* moving = new  FreeLookCameraController();
+	camGo->AddComponent(moving);
 
-	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5));
-	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0));
+	camGo->transform->setLocalPosition(glm::vec3(0, 1, -5)); //setting position of the camera
+	camGo->transform->setLocalRotationEuler(glm::vec3(20, 0, 0)); //setting position of the camera
+
+
+	//disabling mouse cursor
+	Input::getInstance().ShowCursor(false);
+	//toggling the cursor
+	//bool toggleCursor();
 
 	auto rotator = new ExampleRotator_James();
 	cube->AddComponent(new ExampleRotator_James());
@@ -57,6 +69,21 @@ void CreateTestSceneJames1() {
 	//testing by creating more GameObjects------------------------------------------
 	GameObjectAnalytic* testComponent = new GameObjectAnalytic();
 	cube->AddComponent(testComponent);
+
+	//Audio
+	//string soundPath1 = "../Assets/sounds/old-car-engine_daniel_simion.mp3";
+	string soundPath1 = "../Assets/sounds/inception_sound.mp3";
+	
+	//Implementation* sgpImplementation = new Implementation();
+	//sgpImplementation->~Implementation;
+	CAudioEngine test;
+	test.Init();
+
+	//LoadSound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream)
+	//parameters about streaming, looping, and whether or not it's a 3D sound
+	test.LoadSound(soundPath1, false, true, true);
+	test.PlaySounds(soundPath1);
+
 
 	SceneManager::getInstance().SetActiveScene(scene);
 }

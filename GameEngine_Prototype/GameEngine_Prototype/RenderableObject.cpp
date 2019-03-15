@@ -1,7 +1,29 @@
 #include "RenderableObject.h"
 #include "RenderManager.h"
 
-RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize, 
+RenderableObject::RenderableObject()
+{
+}
+
+RenderableObject::RenderableObject(Material * _material)
+{
+	render_enabled = true;
+	if (_material == nullptr)
+	{
+		material = RenderManager::defaultMaterial;
+	}
+	else
+	{
+		material = _material;
+	}
+
+	//this->Setup(); // NO VIRTUAL FUNCTIONS IN CONSTRUCTOR
+	std::cout << "Created Object with shader ID: " << material->shader->ID << std::endl;
+
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+}
+
+RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int vertDataSize,
 	unsigned int* ind, unsigned int numInd, Material* _material)
 {
 	vertices = verts;
@@ -9,7 +31,7 @@ RenderableObject::RenderableObject(float* verts, unsigned int numV, unsigned int
 	vertexDataSize = vertDataSize;
 	indices = ind;
 	numIndices = numInd;
-	enabled = true;
+	render_enabled = true;
 	if (_material == nullptr)
 	{
 		material = RenderManager::defaultMaterial;
@@ -31,6 +53,8 @@ RenderableObject::~RenderableObject()
 	glDeleteVertexArrays(1, &(VAO));
 	glDeleteBuffers(1, &(VBO));
 	glDeleteBuffers(1, &(EBO));
+
+	//RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 }
 
 void RenderableObject::Setup()
@@ -48,8 +72,15 @@ void RenderableObject::Setup()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices*sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(0 * sizeof(float)));
 	glEnableVertexAttribArray(0);
+
+	// next two glvertextattribpointer and enablevertex calls for normals and textures coords -- DM
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -68,7 +99,7 @@ void RenderableObject::Setup()
 void RenderableObject::Draw()
 {
 	//std::cout << "RenderableObject.Draw()" << std::endl;
-	if (enabled)
+	if (render_enabled)
 	{
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);

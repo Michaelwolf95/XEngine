@@ -37,7 +37,7 @@ void SimpleModel::Setup()
 
 void SimpleModel::Draw()
 {
-	if (enabled == false) return;
+	if (render_enabled == false) return;
 	// ToDo: Get view & projection from active camera.
 	// ToDo: Set "Model" based on GameObject transform.
 

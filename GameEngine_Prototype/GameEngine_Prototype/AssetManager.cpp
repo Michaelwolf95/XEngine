@@ -7,8 +7,28 @@
 
 
 AssetManager::AssetManager() {}
+AssetManager::~AssetManager() {}
 
-void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textureID)
+AssetManager* AssetManager::CreateManager()
+{
+	AssetManager* instance = &AssetManager::getInstance();
+
+	instance->Init();
+	return instance;
+}
+void AssetManager::Init()
+{
+	stbi_set_flip_vertically_on_load(1);
+}
+
+void AssetManager::LoadTextureAsset(const char* textureFilePath, unsigned int* textureID, unsigned int loadMode)
+{
+	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+	std::string path = ASSET_FILE_PATH + std::string(textureFilePath);
+	AssetManager::LoadTexture(path.c_str(), textureID, loadMode);
+}
+
+void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textureID, unsigned int loadMode)
 {
 	// load and create a texture 
 	// -------------------------
@@ -22,12 +42,14 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
-	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-	std::string path = ASSET_FILE_PATH + std::string(textureFilePath);
-	unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+	//stbi_load_
+	unsigned char *data = stbi_load(textureFilePath, &width, &height, &nrChannels, loadMode);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		auto formatByte = (loadMode == 4)? GL_RGBA : GL_RGB;
+		glTexImage2D(GL_TEXTURE_2D, 0, formatByte, width, height, 0, formatByte, GL_UNSIGNED_BYTE, data);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -35,4 +57,5 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+	glBindTexture(GL_TEXTURE_2D, 0); //?
 }

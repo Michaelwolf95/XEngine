@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "LineDrawer.h"
+#include "Scene.h"
 
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
@@ -24,12 +25,13 @@ public:
 	static Shader* defaultShader;
 	static Material* defaultMaterial;
 	static Shader* colorDrawShader;
+	static Shader* defaultSpriteShader;
 
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
 	// Current view and projection matrices. These can be set by the camera.
-	glm::mat4* defaultView;
-	glm::mat4* defaultProjection;
+	glm::mat4 defaultView;
+	glm::mat4 defaultProjection;
 
 	std::vector<RenderableObject*> currentRenderables;
 	std::vector<Light*> lights;
@@ -56,12 +58,15 @@ public:
 	void FreeAllResources();
 	void FreeObjectResources(RenderableObject* renderable);
 
+	void FindCameraInScene(Scene* scene);
+
 	static void DrawScreenSpacePoint(glm::vec2 point, glm::vec4 color, int size);
 	static void DrawWorldSpacePoint(glm::vec3 worldPoint, glm::vec4 color, int size);
 	static void DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size);
 	static void DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size);
+	static void DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size);
 
 private:
-	Camera * currentCamera;
+	Camera* currentCamera;
 	void CompileShaders();
 };

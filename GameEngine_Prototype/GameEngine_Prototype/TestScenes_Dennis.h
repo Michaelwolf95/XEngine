@@ -32,6 +32,7 @@ void CreateTestScene_DM1()
 	/// Preparing cube model
 	// Creating object called "cube"
 	GameObject* cube = scene->CreateGameObject("Cube");
+	GameObject* light = scene->CreateGameObject("Light");
 
 	// Cube
 	float vertices[] = {
@@ -87,14 +88,19 @@ void CreateTestScene_DM1()
 	};
 	
 	Shader* modelShader = new Shader("model.vs", "model.fs");
+	//Shader* lightShader 
 	Material* modelMaterial = new Material(modelShader);
+	//Material* lightMaterial = new Material()
 	modelMaterial->LoadTexture("textures/container.jpg");
 	
 
 	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
-	model->Setup();
+	SimpleModelComponent* lampModel = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
+	//model->Setup();
 	cube->AddComponent(model);
+	light->AddComponent(lampModel);
 	cube->transform->setLocalPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	light->transform->setLocalPosition(glm::vec3(0.f, 5.f, -1.f));
 	auto inputTester = new InputTester();
 	cube->AddComponent(inputTester);
 	cube->transform->setLocalPosition(glm::vec3(5.0f, 0.0f, 0.0f));

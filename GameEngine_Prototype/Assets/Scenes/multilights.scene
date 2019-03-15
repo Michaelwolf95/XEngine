@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="17">
+<s class_id="0" tracking_level="0" version="0">
+	<name>multilights</name>
+	<rootGameObjects class_id="1" tracking_level="0" version="0">
+		<count>5</count>
+		<item_version>1</item_version>
+		<item class_id="2" tracking_level="0" version="1">
+			<px class_id="3" tracking_level="1" version="0" object_id="_0">
+				<name>New Box</name>
+				<transform class_id="4" tracking_level="1" version="0" object_id="_1">
+					<Component class_id="5" tracking_level="0" version="0">
+						<enabled>1</enabled>
+					</Component>
+					<localPosition class_id="6" tracking_level="0" version="0">
+						<vec.x>7.058143616e-01</vec.x>
+						<vec.y>-6.119728088e-02</vec.y>
+						<vec.z>2.775530815e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation class_id="7" tracking_level="0" version="0">
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components class_id="8" tracking_level="0" version="0">
+					<count>1</count>
+					<item_version>1</item_version>
+					<item class_id="9" tracking_level="0" version="1">
+						<px class_id="10" class_name="SimpleModelComponent" tracking_level="1" version="0" object_id="_2">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<numVerts>36</numVerts>
+							<vertexDataSize>8</vertexDataSize>
+							<numIndices>1</numIndices>
+							<material class_id="11" tracking_level="1" version="0" object_id="_3">
+								<name>MultiLight Model</name>
+								<vertexShaderPath>multilights.vs</vertexShaderPath>
+								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
+								<Color class_id="12" tracking_level="0" version="0">
+									<vec.x>1.000000000e+00</vec.x>
+									<vec.y>1.000000000e+00</vec.y>
+									<vec.z>1.000000000e+00</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</Color>
+								<useLight>1</useLight>
+								<textureFilePath>textures/container2.png</textureFilePath>
+								<specularStrength>5.000000000e-01</specularStrength>
+								<ambientStrength>1.000000000e+00</ambientStrength>
+							</material>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_4">
+				<name>New GameObject</name>
+				<transform class_id_reference="4" object_id="_5">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<localPosition>
+						<vec.x>-1.485395432e+00</vec.x>
+						<vec.y>7.565784454e-01</vec.y>
+						<vec.z>-1.031465530e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="13" class_name="PointLightComponent" tracking_level="1" version="0" object_id="_6">
+							<LightComponent class_id="14" tracking_level="0" version="0">
+								<Component>
+									<enabled>1</enabled>
+								</Component>
+								<intensity>1.000000000e+00</intensity>
+								<color>
+									<vec.x>7.990195751e-01</vec.x>
+									<vec.y>2.976739407e-01</vec.y>
+									<vec.z>2.976739407e-01</vec.z>
+								</color>
+							</LightComponent>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_7">
+				<name>New Nanosuit</name>
+				<transform class_id_reference="4" object_id="_8">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<localPosition>
+						<vec.x>-2.083158493e-01</vec.x>
+						<vec.y>-5.510711670e-01</vec.y>
+						<vec.z>4.168758392e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.500000060e-01</vec.x>
+						<vec.y>1.500000060e-01</vec.y>
+						<vec.z>1.500000060e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>1.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>-4.371138829e-08</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="15" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_9">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/nanosuit/nanosuit.obj</pathToObjModel>
+							<material class_id_reference="11" object_id="_10">
+								<name>MultiLight Model</name>
+								<vertexShaderPath>multilight</vertexShaderPath>
+								<fragmentShaderPath>multilight</fragmentShaderPath>
+								<Color>
+									<vec.x>1.000000000e+00</vec.x>
+									<vec.y>1.000000000e+00</vec.y>
+									<vec.z>1.000000000e+00</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</Color>
+								<useLight>1</useLight>
+								<textureFilePath></textureFilePath>
+								<specularStrength>5.000000000e-01</specularStrength>
+								<ambientStrength>1.000000000e+00</ambientStrength>
+							</material>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_11">
+				<name>New Box</name>
+				<transform class_id_reference="4" object_id="_12">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<localPosition>
+						<vec.x>-1.095943451e+00</vec.x>
+						<vec.y>-7.396697998e-02</vec.y>
+						<vec.z>2.792816162e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>2</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_13">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<numVerts>36</numVerts>
+							<vertexDataSize>8</vertexDataSize>
+							<numIndices>1</numIndices>
+							<material class_id_reference="11" object_id="_14">
+								<name>MultiLight Model</name>
+								<vertexShaderPath>multilights.vs</vertexShaderPath>
+								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
+								<Color>
+									<vec.x>1.000000000e+00</vec.x>
+									<vec.y>1.000000000e+00</vec.y>
+									<vec.z>1.000000000e+00</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</Color>
+								<useLight>1</useLight>
+								<textureFilePath>textures/container.jpg</textureFilePath>
+								<specularStrength>5.000000000e-01</specularStrength>
+								<ambientStrength>1.000000000e+00</ambientStrength>
+							</material>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="13" object_id="_15">
+							<LightComponent>
+								<Component>
+									<enabled>1</enabled>
+								</Component>
+								<intensity>1.000000000e+00</intensity>
+								<color>
+									<vec.x>1.000000000e+00</vec.x>
+									<vec.y>1.000000000e+00</vec.y>
+									<vec.z>1.000000000e+00</vec.z>
+								</color>
+							</LightComponent>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_16">
+				<name>New Nanosuit</name>
+				<transform class_id_reference="4" object_id="_17">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="15" object_id="_18">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/nanosuit/nanosuit.obj</pathToObjModel>
+							<material class_id_reference="11" object_id="_19">
+								<name>MultiLight Model</name>
+								<vertexShaderPath></vertexShaderPath>
+								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
+								<Color>
+									<vec.x>8.627451062e-01</vec.x>
+									<vec.y>6.597462893e-01</vec.y>
+									<vec.z>6.597462893e-01</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</Color>
+								<useLight>1</useLight>
+								<textureFilePath></textureFilePath>
+								<specularStrength>5.000000000e-01</specularStrength>
+								<ambientStrength>1.000000000e+00</ambientStrength>
+							</material>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+	</rootGameObjects>
+</s>
+</boost_serialization>
+
