@@ -36,10 +36,6 @@ uniform float quadratic;
 in vec3 FragPos;  
 in vec2 TexCoord;
 in vec3 Normal;  
-  
-uniform vec3 lightPos;
-//uniform Material material;
-//uniform Light light;
 
 uniform vec3 viewPos; 
 uniform vec3 lightColor;
@@ -110,7 +106,7 @@ vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 vie
     vec3 diffuse = diff * light.color * texel.rgb;
     
     // specular
-    float specularStrength = 0.3f;
+    float specularStrength = 0.3f; // hardcoded specular strength for now
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16); //32 = shininess property of Material
     vec3 specular = specularStrength * spec * light.color;

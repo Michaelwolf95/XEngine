@@ -92,8 +92,6 @@ void Material::Load()
 
 void Material::Draw(std::vector<Light*> lights)
 {
-	//std::cout << "Material Draw\n";
-
 	if (useLight) {
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;
@@ -115,10 +113,6 @@ void Material::Draw(std::vector<Light*> lights)
 			}
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
-
-			//shader->setVec3(uniformString + VAR_NAME(ambient), ambient);
-			//shader->setVec3(uniformString + VAR_NAME(diffuse), diffuse);
-			//shader->setVec3(uniformString + VAR_NAME(specular), specular);
 			
 			for (auto fp : floatProperties) {
 				shader->setFloat(uniformString + fp.propertyName, fp.getValue());

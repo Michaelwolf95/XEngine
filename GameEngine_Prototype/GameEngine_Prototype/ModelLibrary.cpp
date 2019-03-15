@@ -188,11 +188,11 @@ Material * ModelLibrary::processMeshMaterial(Model * model, aiMesh * mesh, const
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
 	// 3.normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_normal", filePath);
+	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
 	// 4.height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height", filePath);
+	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 	// TODO: Load Material from Library instead. Use a struct of name and shader files as a key.

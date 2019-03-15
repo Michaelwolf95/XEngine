@@ -29,6 +29,13 @@
 #include "MeshRenderer.h"
 #include "AssetManager.h"
 
+
+
+
+#include "CameraComponent.h"
+
+
+
 REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
 
 MeshRenderer::MeshRenderer() {}
@@ -99,8 +106,23 @@ void MeshRenderer::Draw()
 	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 	
+	//material->shader->setVec3()
+
 	// for mesh name
 	std::string meshMatName = "_mat";
+
+
+	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
+	material->shader->setVec3("viewPos", viewPos);
+
+
+	material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
+
+	material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
+
+
+
+
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
@@ -134,7 +156,6 @@ void MeshRenderer::Draw()
 
 			// set texture unit
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
-
 			// bind texture
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(MatKey)->textures[j].id);
 		}

@@ -18,5 +18,5 @@ void main()
 	TexCoord = aTexCoord;//vec2(aTexCoord.x, aTexCoord.y);
 
 	//gl_Position = projection * view * model * vec4(aPos, 1.0);
-	gl_Position = projection * view *  vec4(FragPos, 1.0);
+	gl_Position = projection * view * vec4(FragPos, 1.0); // added model back into equation, no discernable difference--removed
 }

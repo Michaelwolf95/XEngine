@@ -87,6 +87,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
+		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		//ar & BOOST_SERIALIZATION_NVP(intProperties);
+		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
 
 	}
 	template<class Archive>
@@ -104,6 +109,12 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
+		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		//ar & BOOST_SERIALIZATION_NVP(intProperties);
+		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+
 
 		Init();
 		//shader = RenderManager::defaultShader;
