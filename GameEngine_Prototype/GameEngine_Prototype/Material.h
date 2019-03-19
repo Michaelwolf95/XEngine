@@ -38,6 +38,7 @@ public:
 	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
+	std::string filePath; // the filepath of obj for boost serialization
 	Shader* shader;
 
 	std::vector<FloatProperty> floatProperties;

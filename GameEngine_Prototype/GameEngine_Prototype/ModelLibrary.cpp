@@ -48,6 +48,7 @@ Model*& ModelLibrary::LoadAsset(std::string filePath)
 	
 	std::cout << "Size of Model Library:" << library.size() << std::endl;
 	std::cout << "Size of Mesh Library:" << AssetManager::getInstance().meshLib.library.size() << std::endl;
+	std::cout << "Size of Material Library:" << AssetManager::getInstance().materialLib.library.size() << std::endl;
 	//std::cout << "Model Loaded from Library" << std::endl;
 	// get model based on filePath
 	//Model* model = library.at(filePath);
@@ -65,15 +66,15 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		
 		// create mesh and save or load mesh GetAsset(MeshQuery meshQ, aiMesh * mesh)
 		Mesh* mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, ai_mesh->mName.C_Str(), ai_mesh);
-
+		
 		// add material to material library
-		processMeshMaterial(model, ai_mesh, scene, filePath);
+		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
+
+		// put one to one for mesh to material
+		model->MeshToMaterial.emplace(mesh->name + "_mat", mat);
 
 		//mesh->mName
 		model->meshes.push_back(mesh);
-
-		// save mesh to mesh library
-		//AssetManager::getInstance().meshLib.ProvideAsset(filePath + model->meshes.back()->name, model->meshes.back());
 	}
 
 	// recursively call the children nodes
@@ -84,48 +85,49 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 
 }
 
-
-
-Material * ModelLibrary::processMeshMaterial(Model * model, aiMesh * mesh, const aiScene * scene, std::string filePath)
+Material * ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
-	// process materials
-	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
-
-	// assume sampler names in shaders 
-	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
-	std::vector<Texture> textures;
-
-	// 1.diffuse maps
-	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
-	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-
-	// 2.specular maps
-	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
-	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-
-	// 3.normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
-	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-
-	// 4.height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
-	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-
-	// TODO: Load Material from Library instead. Use a struct of name and shader files as a key.
-
-	// mapped name of mesh to the material
+	// get material
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
-	Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-	
-	MatforMesh->textures = textures;
-	
-	model->MeshToMaterial.emplace(meshMatName, MatforMesh);
+	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 
-	// add material to material library
-	//AssetManager::getInstance().materialLib.SaveAsset(filePath + mesh->mName.C_Str(), MatforMesh);
+	std::cout << "Material Empty?: " << MatforMesh->textures.empty() << std::endl;
+	std::cout << "Material Size: " << MatforMesh->textures.size() << std::endl;
 
-	return nullptr;
+	// if loaded material does not have textures, then load the textures
+	if (MatforMesh->textures.empty())
+	{
+		std::cout << "Adding textures to Material" << std::endl;
+
+		// process materials
+		aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
+
+		// assume sampler names in shaders 
+		// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
+		std::vector<Texture> textures;
+
+		// 1.diffuse maps
+		std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+
+		// 2.specular maps
+		std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+		// 3.normal maps
+		std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
+		// 4.height maps
+		std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
+		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+		
+		// save textures in material
+		MatforMesh->textures = textures;
+	}
+	
+	return MatforMesh;
 }
 
 

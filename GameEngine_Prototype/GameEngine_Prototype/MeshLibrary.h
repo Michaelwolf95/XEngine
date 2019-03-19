@@ -41,12 +41,13 @@ public:
 protected:
 	Mesh*& GetAsset(std::string filepath, std::string name, aiMesh * mesh);
 
-	Mesh*& LoadAsset(MeshQuery meshQ, aiMesh * mesh);
+	Mesh*& LoadAsset(MeshQuery meshQ, aiMesh * mesh); // overloaded method of the load Asset  
 	Mesh*& LoadAsset(MeshQuery meshQ) override;
 
 	// The ModelLibrary is given specific privledges to access the private members of the MeshLibrary
-	friend class ModelLibrary;
 	// Friend classes can provide an asset directly.
+	friend class ModelLibrary;
+	
 private:
 	Mesh * processMesh(aiMesh * mesh);
 };

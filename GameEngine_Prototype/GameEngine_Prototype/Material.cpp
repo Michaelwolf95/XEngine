@@ -26,7 +26,7 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	shinyProperty.propertyName = VAR_NAME(shininess);
 	shinyProperty.setValue(shininess);
 	floatProperties.push_back(shinyProperty);
-	//name = _name;
+	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 

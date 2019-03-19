@@ -3,12 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-MeshLibrary::MeshLibrary() 
-{
-	// reset the library to have comparator
-	//library.key_compare = MeshQuery;
-		//std::map<K, T> library;
-}
+MeshLibrary::MeshLibrary() {}
 MeshLibrary::~MeshLibrary() {}
 
 Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * mesh)
@@ -29,10 +24,9 @@ Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * m
 	}
 }
 
+// New LoadAsset to work with struct MeshQuery
 Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ, aiMesh * mesh)
 {
-	//MeshQuery meshQ(filePath, type);
-
 	Mesh* loadedMesh = processMesh(mesh);
 
 	library.insert( {meshQ, loadedMesh} );
@@ -40,11 +34,11 @@ Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ, aiMesh * mesh)
 	return library[meshQ];
 }
 
+
 Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ)
 {
 	return library[meshQ];
 }
-
 
 Mesh* MeshLibrary::processMesh(aiMesh *mesh)
 {
@@ -117,15 +111,6 @@ Mesh* MeshLibrary::processMesh(aiMesh *mesh)
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
-
-	// mapped name of mesh to the material
-	//Material* MatforMesh = model->material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-	//MatforMesh->textures = textures;
-	//model->MeshToMaterial.emplace(mesh->mName.C_Str(), MatforMesh);
-
-	// TODO:Add to material library
-	// add material to material library
-	//processMeshMaterial(model, mesh, scene, filePath);
 
 	// return mesh object from extracted mesh data
 	return new Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
