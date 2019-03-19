@@ -37,7 +37,7 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 
 Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 {
-	Material* loadedMaterial = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
+	Material* loadedMaterial = new Material();
 
 	// load from file in directory
 	if (LoadMaterialFromFileByName(*loadedMaterial, materialQ.name.c_str()))
@@ -48,7 +48,8 @@ Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 	else // cant load, then create new one
 	{
 		// create new material
-		//loadedMaterial = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
+		delete loadedMaterial;
+		loadedMaterial = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
 		
 		// save into library
 		library.insert({ materialQ, loadedMaterial }); 
