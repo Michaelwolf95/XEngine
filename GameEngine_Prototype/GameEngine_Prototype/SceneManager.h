@@ -27,6 +27,8 @@ public:
 	bool LoadSceneFromFileByName(Scene &s, const char * sceneName);
 	bool LoadSceneFromFile(Scene &s, const char * fileName);
 
+	bool LoadAndActivateSceneFromFile(std::string fileName);
+
 	void UnloadActiveScene();
 	void ReloadSceneFromFile();
 private:

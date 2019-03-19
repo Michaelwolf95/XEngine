@@ -160,6 +160,24 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	return true;
 }
 
+bool SceneManager::LoadAndActivateSceneFromFile(std::string fileName)
+{
+	bool exists = false;
+	Scene_ptr scene(new Scene("TEMP_NAME"));
+	if (fileName.empty() == false)
+	{
+		exists = SceneManager::getInstance().LoadSceneFromFile(*scene, fileName.c_str());
+		if (exists)
+		{
+			SceneManager::getInstance().SetActiveScene(scene);
+			//return;
+		}
+		std::cout << "Scene " << fileName << " exists: " << exists << std::endl;
+		return exists;
+	}
+	return false;
+}
+
 void SceneManager::UnloadActiveScene()
 {
 	if (activeScene != nullptr && activeScene->isLoaded)
