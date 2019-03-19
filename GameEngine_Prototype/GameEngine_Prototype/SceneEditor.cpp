@@ -1129,7 +1129,10 @@ void SceneEditor::DrawFileTreeNode(const char * directory)
 			if (fileName.substr(fileName.find_last_of(".") + 1) == "scene") 
 			{
 				// Load Scene.
-				SceneManager::getInstance().LoadAndActivateSceneFromFile(directory);
+				if (SceneManager::getInstance().LoadAndActivateSceneFromFile(directory))
+				{
+					editorConfig->firstSceneFilepath = SceneManager::getInstance().GetActiveScene()->filePath;
+				}
 			}
 		}
 	}
