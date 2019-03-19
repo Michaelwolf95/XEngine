@@ -125,13 +125,9 @@ void SceneManager::SaveSceneToFile(const Scene &s, const char * fileName)
 		std::cout << "Out File Stream BAD" << std::endl;
 		return;
 	}
-	//std::string nS(fileName);
-	//.filePath = nS;// new std::string(fileName);
 
-	//boost::archive::text_oarchive oa(ofs);
 	boost::archive::xml_oarchive oa(ofs);
 	oa << BOOST_SERIALIZATION_NVP(s);
-
 }
 
 bool SceneManager::LoadSceneFromFileByName(Scene &s, const char * sceneName)
@@ -150,13 +146,21 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 		return false;
 	}
 
-	//boost::archive::text_iarchive ia(ifs);
 	boost::archive::xml_iarchive ia(ifs);
-	
-	// restore from the archive
-	ia >> BOOST_SERIALIZATION_NVP(s);
-
-	s.filePath = fileName;
+	try
+	{
+		// Restore from the archive
+		ia >> BOOST_SERIALIZATION_NVP(s);
+		s.filePath = fileName;
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "==================================================" << std::endl;
+		std::cout << "ERROR: Failed to Load Scene from File.\nProbably due to outdated serialization." << std::endl;
+		std::cout << e.what() << std::endl;
+		std::cout << "==================================================" << std::endl;
+		return false;
+	}
 	return true;
 }
 
@@ -170,9 +174,7 @@ bool SceneManager::LoadAndActivateSceneFromFile(std::string fileName)
 		if (exists)
 		{
 			SceneManager::getInstance().SetActiveScene(scene);
-			//return;
 		}
-		std::cout << "Scene " << fileName << " exists: " << exists << std::endl;
 		return exists;
 	}
 	return false;
@@ -201,7 +203,7 @@ void SceneManager::ReloadSceneFromFile()
 		UnloadActiveScene();
 		//activeScene->PrintScene();
 		//std::cout << "Reloading Scene from file" << std::endl;
-		std::cout << "Reloading From File: " << filePath << std::endl;
+		std::cout << "Reloading Scene From File: " << filePath << std::endl;
 		LoadSceneFromFile(*scene, filePath.c_str());
 		std::cout << "\tFinished Reloading!" << std::endl;
 		SceneManager::getInstance().SetActiveScene(scene);
