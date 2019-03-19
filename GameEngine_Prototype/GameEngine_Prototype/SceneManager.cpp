@@ -8,6 +8,7 @@
 #include <string>
 
 static const char* DEFAULT_SCENE_FILE_PATH = "../Assets/Scenes/";
+static const char* SCENE_FILE_EXT = ".scene";
 
 SceneManager::SceneManager() {}
 
@@ -20,9 +21,7 @@ SceneManager* SceneManager::CreateManager()
 	return instance;
 }
 
-void SceneManager::Init()
-{
-}
+void SceneManager::Init() {}
 
 Scene_ptr SceneManager::GetActiveScene()
 {
@@ -42,7 +41,6 @@ void SceneManager::SetActiveScene(Scene_ptr scene)
 
 	if (ApplicationManager::getInstance().IsEditMode() == false)
 	{
-		std::cout << "Looking for Camera." << std::endl;
 		RenderManager::getInstance().FindCameraInScene(activeScene.get());
 	}
 }
@@ -92,7 +90,7 @@ Scene_ptr SceneManager::CreateNewScene(const char * sceneName)
 	scene->name = sceneName;
 	SaveSceneToFile(*scene);
 	std::string filename = DEFAULT_SCENE_FILE_PATH;
-	filename += scene->name + ".scene";
+	filename += scene->name + SCENE_FILE_EXT;
 	scene->filePath = filename;
 	return scene;
 }
@@ -105,9 +103,10 @@ void SceneManager::SaveActiveScene()
 	}
 }
 
-void SceneManager::SaveSceneToFile(const Scene &s) {
+void SceneManager::SaveSceneToFile(const Scene &s) 
+{
 	std::string filename = DEFAULT_SCENE_FILE_PATH;
-	filename += s.name + ".scene";
+	filename += s.name + SCENE_FILE_EXT;
 	SaveSceneToFile(s, filename.c_str());
 }
 void SceneManager::SaveSceneToFile(const Scene &s, const char * fileName) 
@@ -132,14 +131,14 @@ void SceneManager::SaveSceneToFile(const Scene &s, const char * fileName)
 
 bool SceneManager::LoadSceneFromFileByName(Scene &s, const char * sceneName)
 {
-	std::string filename("../Assets/Scenes/");
-	filename += std::string(sceneName) + ".scene";
+	std::string filename(DEFAULT_SCENE_FILE_PATH);
+	filename += std::string(sceneName) + SCENE_FILE_EXT;
 	return LoadSceneFromFile(s, filename.c_str());
 }
 
 bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 {
-	// open the archive 
+	// Open the archive 
 	std::ifstream ifs(fileName);
 	if (!ifs.good()) //Doesn't exist 
 	{
@@ -149,8 +148,7 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	boost::archive::xml_iarchive ia(ifs);
 	try
 	{
-		// Restore from the archive
-		ia >> BOOST_SERIALIZATION_NVP(s);
+		ia >> BOOST_SERIALIZATION_NVP(s);		// Restore from the archive
 		s.filePath = fileName;
 	}
 	catch (const std::exception& e)
@@ -164,13 +162,13 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	return true;
 }
 
-bool SceneManager::LoadAndActivateSceneFromFile(std::string fileName)
+bool SceneManager::LoadAndActivateSceneFromFile(const char* fileName)
 {
 	bool exists = false;
 	Scene_ptr scene(new Scene("TEMP_NAME"));
-	if (fileName.empty() == false)
+	if ((unsigned int)strlen(fileName) > 0)
 	{
-		exists = SceneManager::getInstance().LoadSceneFromFile(*scene, fileName.c_str());
+		exists = SceneManager::getInstance().LoadSceneFromFile(*scene, fileName);
 		if (exists)
 		{
 			SceneManager::getInstance().SetActiveScene(scene);
@@ -184,11 +182,8 @@ void SceneManager::UnloadActiveScene()
 {
 	if (activeScene != nullptr && activeScene->isLoaded)
 	{
-		//std::cout << "Unloading Scene: " << activeScene->name << std::endl;
 		activeScene->Unload();
-		//activeScene = nullptr;
 		activeScene.reset();
-
 		RenderManager::getInstance().currentRenderables.clear();
 	}
 }
@@ -197,16 +192,12 @@ void SceneManager::ReloadSceneFromFile()
 {
 	if (activeScene != nullptr && activeScene->isLoaded)
 	{
-		//std::cout << "Reloading Scene: " << activeScene->name << std::endl;
 		Scene_ptr scene(new Scene(activeScene->name.c_str()));
 		std::string filePath = activeScene->filePath;
 		UnloadActiveScene();
-		//activeScene->PrintScene();
-		//std::cout << "Reloading Scene from file" << std::endl;
-		std::cout << "Reloading Scene From File: " << filePath << std::endl;
+		std::cout << "Reloading Scene '" << filePath  << "' From File..."<< std::endl;
 		LoadSceneFromFile(*scene, filePath.c_str());
-		std::cout << "\tFinished Reloading!" << std::endl;
+		std::cout << "\tFinished Reloading Scene" << std::endl;
 		SceneManager::getInstance().SetActiveScene(scene);
-		//std::cout << "Set Active!" << std::endl;
 	}
 }
