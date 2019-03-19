@@ -116,6 +116,7 @@ void PhysicsManager::AddCollisionShape(btCollisionShape* colShape)
 void PhysicsManager::RemoveCollisionShape(btCollisionShape* colShape)
 {
 	collisionShapes.remove(colShape);
+	std::cout << "Removed colShape" << std::endl;
 	//auto n = std::find(collisionShapes.begin(), collisionShapes.end(), colShape);
 	//if (n != collisionShapes.end())
 	//{

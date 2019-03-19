@@ -8,13 +8,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include "RenderManager.h"
-//#include <BulletPhysics/Bullet3Common/b3TransformUtil.h>
+#include <BulletPhysics/LinearMath/btAlignedAllocator.h>
 
 REGISTER_COMPONENT(Rigidbody, "Rigidbody")
 
 Rigidbody::Rigidbody() {}
 Rigidbody::~Rigidbody()
 {
+	std::cout << "\t\tDeconstructing Rigidbody..." << std::endl;
 	// TODO: Remove from physics manager.
 	if (isInitialized)
 	{
@@ -22,25 +23,34 @@ Rigidbody::~Rigidbody()
 
 		if (body != nullptr && PhysicsManager::getInstance().dynamicsWorld != nullptr)
 		{
-			//if(PhysicsManager::getInstance())
 			PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
 
 			delete body;
 			body = nullptr;
 		}
+		delete boxColliderHalfExtents;
+		boxColliderHalfExtents = nullptr;
+		delete physTransformModel;
+		physTransformModel = nullptr;
+		delete colShape;
+		colShape = nullptr;
+		delete motionState;
+		motionState = nullptr;
+
+		std::cout << "\t\t\tFinished Deconstructing Rigidbody" << std::endl;
 	}
 }
 void Rigidbody::Init()
 {
-	//btVector3 x = *((btVector3*)&this->gameObject->transform->localScale);
-
-	boxColliderHalfExtents = *(btVector3*)&this->gameObject->transform->getScale() * 0.5f;
-	colShape = new btBoxShape(boxColliderHalfExtents);// , btVector3(0.5f, 0.5f, 0.5f));
+	std::cout << "\t\tInitializing Rigidbody..." << std::endl;
+	glm::vec3 scale = this->gameObject->transform->getScale() * 0.5f;
+	boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
+	colShape = new btBoxShape(*boxColliderHalfExtents);
 	PhysicsManager::getInstance().AddCollisionShape(colShape);
 
 	/// Create Dynamic Objects
-	//btTransform startTransform;
-	physTransformModel.setIdentity();
+	physTransformModel = new btTransform();
+	physTransformModel->setIdentity();
 	SyncPhysicsModelWithTransform();
 
 	//rigidbody is dynamic if and only if mass is non zero, otherwise static
@@ -54,9 +64,8 @@ void Rigidbody::Init()
 	}
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	motionState = new btDefaultMotionState(physTransformModel);
+	motionState = new btDefaultMotionState(*physTransformModel);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-	//rbInfo = btRigidBody::btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia);
 	body = new btRigidBody(rbInfo);
 
 	if (isKinematic)
@@ -66,13 +75,12 @@ void Rigidbody::Init()
 		body->setActivationState(DISABLE_DEACTIVATION);
 	}
 
-	physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
-	body->setWorldTransform(physTransformModel);
+	physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
+	body->setWorldTransform(*physTransformModel);
 
 	PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
 
 	//body->serialize() // Might be useful?
-	//body.
 	isInitialized = true;
 }
 
@@ -82,7 +90,10 @@ void Rigidbody::Start()
 }
 void Rigidbody::Update() 
 {
-	boxColliderHalfExtents = *(btVector3*)&this->gameObject->transform->getScale() * 0.5f;
+	glm::vec3 scale =  this->gameObject->transform->getScale() * 0.5f;
+	boxColliderHalfExtents->setX(scale.x);
+	boxColliderHalfExtents->setY(scale.y);
+	boxColliderHalfExtents->setZ(scale.z);
 	SyncPhysicsModelWithTransform();
 	//SyncTransformWithPhysicsModel();
 }
@@ -95,10 +106,6 @@ void Rigidbody::FixedUpdate()
 	{
 		SyncTransformWithPhysicsModel();
 
-		//SyncPhysicsModel();
-		//physTransformModel.getOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
-		//physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
-		//body->setWorldTransform(physTransformModel);
 	}
 }
 
@@ -119,8 +126,8 @@ void Rigidbody::SyncPhysicsModelWithTransform()
 
 	glm::vec3 pos = this->gameObject->transform->getPosition();
 	glm::quat rot = this->gameObject->transform->getRotation();
-	physTransformModel.setOrigin(btVector3(pos.x, pos.y, pos.z));
-	physTransformModel.setRotation(btQuaternion(rot.x, rot.y, rot.z, rot.w));
+	physTransformModel->setOrigin(btVector3(pos.x, pos.y, pos.z));
+	physTransformModel->setRotation(btQuaternion(rot.x, rot.y, rot.z, rot.w));
 }
 
 // Temp utility - move elsewhere later
@@ -143,6 +150,8 @@ void Rigidbody::DrawInspector()
 }
 void Rigidbody::OnDrawGizmosSelected()
 {
+	//TODO: Replace this with a "DrawWorldSpaceBox" Method.
+
 	glm::vec3 pos = this->gameObject->transform->getPosition();
 	//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
 	glm::vec3 halfExt = this->gameObject->transform->getScale() * 0.5f;
