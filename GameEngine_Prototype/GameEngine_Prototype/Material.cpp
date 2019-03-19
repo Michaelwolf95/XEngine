@@ -113,26 +113,7 @@ void Material::Draw(std::vector<Light*> lights)
 			}
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
-			
-			for (auto fp : floatProperties) {
-				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
-			}
 
-			for (auto ip : intProperties) {
-				shader->setInt(uniformString + ip.propertyName, ip.getValue());
-			}
-
-			for (auto v2p : vec2Properties) {
-				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
-			}
-
-			for (auto v3p : vec3Properties) {
-				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
-			}
-
-			for (auto v4p : vec4Properties) {
-				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
-			}
 
 			// Add light properties to shader.
 			light->draw(shader, *counter);
@@ -142,6 +123,27 @@ void Material::Draw(std::vector<Light*> lights)
 
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
+
+
+		for (auto fp : floatProperties) {
+			shader->setFloat(uniformString + fp.propertyName, fp.getValue());
+		}
+
+		for (auto ip : intProperties) {
+			shader->setInt(uniformString + ip.propertyName, ip.getValue());
+		}
+
+		for (auto v2p : vec2Properties) {
+			shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
+		}
+
+		for (auto v3p : vec3Properties) {
+			shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
+		}
+
+		for (auto v4p : vec4Properties) {
+			shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
+		}
 	}
 }
 
