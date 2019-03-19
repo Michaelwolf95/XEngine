@@ -1124,6 +1124,17 @@ void SceneEditor::DrawFileTreeNode(const char * directory)
 	if (ImGui::IsItemClicked())
 	{
 		// Do Something on click.
+		if (ImGui::IsMouseDoubleClicked(0))
+		{
+			if (fileName.substr(fileName.find_last_of(".") + 1) == "scene") 
+			{
+				// Load Scene.
+				if (SceneManager::getInstance().LoadAndActivateSceneFromFile(directory))
+				{
+					editorConfig->firstSceneFilepath = SceneManager::getInstance().GetActiveScene()->filePath;
+				}
+			}
+		}
 	}
 	// Drag file.
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))//ImGuiDragDropFlags_None))
