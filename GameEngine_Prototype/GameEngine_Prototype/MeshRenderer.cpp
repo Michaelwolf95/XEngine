@@ -452,7 +452,7 @@ void MeshRenderer::DrawInspector()
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
 			ImGui::Text(model->meshes[i]->name.c_str());
-			model->MeshToMaterial.at(model->meshes[i]->name+"_mat")->DrawInspector();
+			//model->MeshToMaterial.at(model->meshes[i]->name+"_mat")->DrawInspector();
 		}
 	}
 

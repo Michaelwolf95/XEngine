@@ -91,42 +91,35 @@ Material * ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scen
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
-	/*if (MatforMesh == nullptr)
-		return nullptr;*/
-	std::cout << "Material Empty?: " << MatforMesh->textures.empty() << std::endl;
-	std::cout << "Material Size: " << MatforMesh->textures.size() << std::endl;
 
-	// if loaded material does not have textures, then load the textures
-	//if (MatforMesh->textures.empty())
-	//{
-		std::cout << "Adding textures to Material" << std::endl;
+	// since vector<textures> is not serialized, load vector<textures> or else the model has no textures or system crashes
+	std::cout << "Adding textures to Material" << std::endl;
 
-		// process materials
-		aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
+	// process materials
+	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
-		// assume sampler names in shaders 
-		// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
-		std::vector<Texture> textures;
+	// assume sampler names in shaders 
+	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
+	std::vector<Texture> textures;
 
-		// 1.diffuse maps
-		std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+	// 1.diffuse maps
+	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
+	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-		// 2.specular maps
-		std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	// 2.specular maps
+	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
+	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-		// 3.normal maps
-		std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
-		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	// 3.normal maps
+	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
+	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
-		// 4.height maps
-		std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
-		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+	// 4.height maps
+	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
+	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 		
-		// save textures in material
-		MatforMesh->textures = textures;
-	//}
+	// save textures in material
+	MatforMesh->textures = textures;
 	
 	return MatforMesh;
 }

@@ -37,26 +37,28 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 
 Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 {
-	Material* loadedMaterial = new Material();
+	Material mat = Material();
 
 	// load from file in directory
-	if (LoadMaterialFromFileByName(*loadedMaterial, materialQ.name.c_str()))
+	if (LoadMaterialFromFileByName(mat, materialQ.name.c_str()))
 	{ 
+		Material* loadedMaterial = &mat;
 		std::cout << "Material loaded from file in Assets directory" << std::endl;
+		std::cout << "Material saved into Library" << std::endl;
 		library.insert({ materialQ, loadedMaterial });
 	}
 	else // cant load, then create new one
 	{
-		// create new material
-		delete loadedMaterial;
-		loadedMaterial = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
+		//delete loadedMaterial;
+		Material* loadedMaterialForLib = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
 		
 		// save into library
-		library.insert({ materialQ, loadedMaterial }); 
+		library.insert({ materialQ, loadedMaterialForLib });
+		std::cout << "Material not loaded from file in Assets directory" << std::endl;
 		std::cout << "Material saved into Library" << std::endl;
 		
 		// create file and save into directory
-		SaveMaterialToFile(*loadedMaterial);	
+		SaveMaterialToFile(*loadedMaterialForLib);
 	}
 	return library[materialQ];
 }
@@ -84,13 +86,9 @@ void MaterialLibrary::SaveMaterialToFile(const Material &m, const char * fileNam
 		std::cout << "Out File Stream BAD" << std::endl;
 		return;
 	}
-	//std::string nS(fileName);
-	//.filePath = nS;// new std::string(fileName);
 
-	//boost::archive::text_oarchive oa(ofs);
 	boost::archive::xml_oarchive oa(ofs);
 	oa << BOOST_SERIALIZATION_NVP(m);
-
 }
 
 // Loading material from file by name
