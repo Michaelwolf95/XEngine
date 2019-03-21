@@ -31,19 +31,6 @@ Scene::~Scene()
 }
 
 
-std::ostream & operator<<(std::ostream &os, const Scene &scene)
-{
-	// note: we're displaying the pointer to permit verification
-	// that duplicated pointers are properly restored.
-	std::vector<std::shared_ptr<GameObject>>::const_iterator it;
-	for (it = scene.rootGameObjects.begin(); it != scene.rootGameObjects.end(); it++) {
-		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
-	}
-
-	return os;
-}
-
-
 void Scene::PrintGameObject(GameObject* go, std::string prefix)
 {
 	std::cout << prefix << " : " << go->name << std::endl;

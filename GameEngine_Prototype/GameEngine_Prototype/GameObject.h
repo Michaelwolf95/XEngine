@@ -37,7 +37,6 @@ public:
 	GameObject_ptr GetSelfPtr();
 private:
 
-	friend std::ostream & operator<<(std::ostream &os, const GameObject &go);
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>
@@ -64,5 +63,3 @@ private:
 
 };
 
-
-std::ostream & operator<<(std::ostream &os, const GameObject &go);
