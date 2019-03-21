@@ -6,6 +6,7 @@
 MeshLibrary::MeshLibrary() {}
 MeshLibrary::~MeshLibrary() {}
 
+// Overloading method: pass filepath and name to create a query to load asset, requires aiMesh to create mesh if not loaded from library
 Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * mesh)
 {
 	MeshQuery meshQ{ filepath, name };
@@ -24,7 +25,7 @@ Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * m
 	}
 }
 
-// New LoadAsset to work with struct MeshQuery
+// Overloading method for LoadAsset. requires aiMesh
 Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ, aiMesh * mesh)
 {
 	Mesh* loadedMesh = processMesh(mesh);
@@ -34,12 +35,13 @@ Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ, aiMesh * mesh)
 	return library[meshQ];
 }
 
-
+// Overrided method( not commonly used )
 Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ)
 {
 	return library[meshQ];
 }
 
+// Process mesh from aiMesh
 Mesh* MeshLibrary::processMesh(aiMesh *mesh)
 {
 	// data of the meshes

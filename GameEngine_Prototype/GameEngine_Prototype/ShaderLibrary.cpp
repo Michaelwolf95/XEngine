@@ -1,6 +1,15 @@
 #include "ShaderLibrary.h"
 #include "Shader.h"
 
+ShaderLibrary::ShaderLibrary()
+{
+}
+
+ShaderLibrary::~ShaderLibrary()
+{
+}
+
+// Overloading method: pass filepaths create a query to load asset
 Shader * ShaderLibrary::GetAsset(std::string vs, std::string fs)
 {
 	// create query based on arguments
@@ -23,6 +32,7 @@ Shader * ShaderLibrary::GetAsset(std::string vs, std::string fs)
 	}
 }
 
+// Overriden LoadAsset method
 Shader *& ShaderLibrary::LoadAsset(ShaderQuery query)
 {
 	// make new shader

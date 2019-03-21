@@ -60,7 +60,8 @@ void Material::Init()
 	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
 	{
 		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
-		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		//
+		shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 	}
 	else

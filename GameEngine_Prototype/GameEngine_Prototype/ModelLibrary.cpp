@@ -11,20 +11,12 @@ ModelLibrary::ModelLibrary() {}
 
 ModelLibrary::~ModelLibrary() {}
 
-//void ModelLibrary::SaveAsset(std::string filePath, Model* model)
-//{
-//	library.insert({ filePath, model });
-//	//std::cout << "Model Saved into Library" << std::endl;
-//}
-
+// Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
 	Model* model = new Model();
-	//std::string pathToObjModel = ASSET_FILE_PATH + filePath;
-	//std::string pathToObjModel = "../Assets/" + filePath;
 	std::string pathToObjModel = filePath;
-	std::cout << filePath << std::endl;
-	std::cout << pathToObjModel << std::endl;
+
 	// read file using ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -40,23 +32,13 @@ Model*& ModelLibrary::LoadAsset(std::string filePath)
 	processNode(model, scene->mRootNode, scene, filePath);
 
 	// Save model into model library
-	// AssetManager::getInstance().modelLib.SaveAsset(pathToObjModel, model);
 	library.insert({ filePath, model });
-	//// retrieve the directory path of the filepath
-	//std::string directory = pathToObjModel.substr(0, pathToObjModel.find_last_of('/'));
 
-	
-	std::cout << "Size of Model Library:" << library.size() << std::endl;
-	std::cout << "Size of Mesh Library:" << AssetManager::getInstance().meshLib.library.size() << std::endl;
-	std::cout << "Size of Material Library:" << AssetManager::getInstance().materialLib.library.size() << std::endl;
-	//std::cout << "Model Loaded from Library" << std::endl;
-	// get model based on filePath
-	//Model* model = library.at(filePath);
 	return library[filePath];
 }
 
 
-// process each node and its children node recursively
+// Process each node and its children node recursively
 void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene, std::string filePath)
 {
 	// process each mesh at current node
@@ -70,10 +52,9 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		// add material to material library
 		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
 
-		// put one to one for mesh to material
+		// put one to one relationship for mesh to material
 		model->MeshToMaterial.emplace(mesh->name + "_mat", mat);
 
-		//mesh->mName
 		model->meshes.push_back(mesh);
 	}
 
@@ -82,29 +63,19 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 	{
 		processNode(model, node->mChildren[i], scene, filePath);
 	}
-
 }
 
+// Process the material for the mesh
 Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
-
 	// get material
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 
-
-	std::cout << "Size of modelLib: " << AssetManager::getInstance().modelLib.library.size() << std::endl;
-	std::cout << "Size of meshlLib: " << AssetManager::getInstance().meshLib.library.size() << std::endl;
-	std::cout << "Size of materialLib: " << AssetManager::getInstance().materialLib.library.size() << std::endl;
-
-	// since vector<textures> is not serialized, load vector<textures> or else the model has no textures or system crashes
-	std::cout << "Adding textures to Material" << std::endl;
-
 	// process materials
 	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
-	// assume sampler names in shaders 
 	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
 	std::vector<Texture> textures;
 
@@ -131,7 +102,7 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 }
 
 
-// check material textures of a given type and loads texture if not loaded yet
+// Check material textures of a given type and loads texture if not loaded yet
 std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
 	// retrieve the directory path of the filepath
@@ -174,6 +145,7 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 	}
 }
 
+// Get the texture from the file
 unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
 {
 	std::string filename = std::string(path);

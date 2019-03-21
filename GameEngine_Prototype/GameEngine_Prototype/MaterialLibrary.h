@@ -3,6 +3,7 @@
 #include "Material.h"
 #include "Scene.h"
 
+// Query used as a key for mapping the mesh library
 struct MaterialQuery
 {
 	std::string name;
@@ -13,7 +14,7 @@ public:
 	MaterialQuery(std::string _name, std::string _vertPath, std::string _fragPath) : name(_name), vertPath(_vertPath), fragPath(_fragPath) {};
 	~MaterialQuery() {};
 
-	// comparison used for map
+	// Default operator used in for comparison inside the library map
 	bool operator<(const MaterialQuery& query) const
 	{
 		return std::tie(name, vertPath, fragPath) < std::tie(query.name, query.vertPath, query.fragPath);
@@ -36,6 +37,5 @@ public:
 
 protected:
 	friend class ModelLibrary;
-	//static Material * processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath);
 };
 
