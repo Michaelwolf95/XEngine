@@ -38,12 +38,11 @@ AudioComponent::AudioComponent()
 	//string soundPath1 = "../Assets/sounds/inception_sound.mp3";
 	//std::shared_ptr<AudioComponent> soundTest(new AudioComponent());
 	//Load3D(soundPath1, true, true, true);
-	
-
 	range = 1500;
 }
 AudioComponent::~AudioComponent()
 {
+	AudioManager::getInstance().sound.UnLoadSound("../Assets/sounds/inception_sound.mp3");
 }
 
 void AudioComponent::Load2D(string path, bool loop, bool stream)
