@@ -51,7 +51,10 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma):
 	Setup();
 }
 
-MeshRenderer::~MeshRenderer() {}
+MeshRenderer::~MeshRenderer() 
+{
+	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+}
 
 void MeshRenderer::Start() {}
 void MeshRenderer::Update() {}

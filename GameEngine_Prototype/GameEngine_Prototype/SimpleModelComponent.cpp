@@ -137,5 +137,44 @@ void SimpleModelComponent::OnDrawGizmos()
 
 void SimpleModelComponent::DrawInspector()
 {
+
 	this->material->DrawInspector();
+
+	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+	if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+	{
+		ImGui::Text("<----- CHANGE MATERIAL ----->");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			{
+				IM_ASSERT(payload->DataSize == 128);
+				const char* payload_n = (const char*)payload->Data;
+
+				std::string fileName(payload_n);
+				std::cout << "Dropping Payload: " << fileName << std::endl;
+				if (fileName.substr(fileName.find_last_of(".")) == ".material")
+				{
+					std::cout << "Dropping Material!" << std::endl;
+					fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+					size_t lastindex = fileName.find_last_of(".");
+					fileName = fileName.substr(0, lastindex);
+					Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName, "multilights.vs", "multilights.fs");
+					if (mat != nullptr)
+					{
+						this->material = mat;
+					}
+				}
+				//IM_ASSERT(payload->DataSize == sizeof(Material*));
+				//Material* payload_n = (Material*)payload->Data;
+				////std::cout << "Dropping " << payload_n->name << " on empty." << std::endl;
+
+				//this->material = payload_n;
+				//payload_n->transform->SetParent(nullptr);
+			}
+			ImGui::EndDragDropTarget();
+		}
+		//ImGui::Unindent();
+	}
+
 }

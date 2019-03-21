@@ -44,6 +44,7 @@ Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 	{ 
 		std::cout << "Material loaded from file in Assets directory" << std::endl;
 		library.insert({ materialQ, loadedMaterial });
+		loadedMaterial->name = materialQ.name.c_str();
 	}
 	else // cant load, then create new one
 	{
@@ -118,5 +119,6 @@ bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * fileName)
 	ia >> BOOST_SERIALIZATION_NVP(m);
 
 	m.filePath = fileName;
+	
 	return true;
 }
