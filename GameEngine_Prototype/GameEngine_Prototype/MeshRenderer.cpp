@@ -111,16 +111,17 @@ void MeshRenderer::Draw()
 	// for mesh name
 	std::string meshMatName = "_mat";
 
-
+	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
 	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
 
+	// Not sure if this should be here...
+	if (RenderManager::getInstance().lights.size() > 0)
+	{
+		material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
 
-	material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
-
-	material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
-
-
+		material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
+	}
 
 
 
