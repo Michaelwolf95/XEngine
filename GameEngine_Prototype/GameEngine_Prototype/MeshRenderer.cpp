@@ -73,10 +73,10 @@ void MeshRenderer::Setup()
 	{
 		material = RenderManager::defaultMaterial;
 	}
-	std::cout << model << std::endl;
+	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;
 	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	std::cout << model << std::endl;
+	std::cout << "End Loading Model" << std::endl;
 	if (model == nullptr)
 	{
 		std::cout << "ERROR LOADING MESH" << std::endl;
@@ -96,21 +96,12 @@ void MeshRenderer::Setup()
 
 void MeshRenderer::Draw()
 {
-	//if (gameObject == nullptr) return;
-	
-	// This was the error
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	material->shader->setMat4("view", view);
 	material->shader->setMat4("projection", projection);
-
-	//glm::mat4 model = glm::mat4(1.0f);
-	//model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 	
-	//material->shader->setVec3()
-
 	// for mesh name
 	std::string meshMatName = "_mat";
 

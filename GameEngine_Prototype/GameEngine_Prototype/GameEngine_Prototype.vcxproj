@@ -207,6 +207,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="PrimitiveModels.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SceneEditor.cpp" />
+    <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="TextureLibrary.cpp" />
     <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
@@ -280,6 +281,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="Serialization.h" />
+    <ClInclude Include="ShaderLibrary.h" />
     <ClInclude Include="TestScenes.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLibrary.h" />
