@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>AudioTesting</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>1</count>
+		<count>2</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -28,7 +28,7 @@
 						<q.x>0.000000000e+00</q.x>
 						<q.y>0.000000000e+00</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>0.000000000e+00</q.w>
+						<q.w>1.000000000e+00</q.w>
 					</localRotation>
 				</transform>
 				<components class_id="8" tracking_level="0" version="0">
@@ -52,8 +52,8 @@
 									<vec.z>1.000000000e+00</vec.z>
 									<vec.w>1.000000000e+00</vec.w>
 								</Color>
-								<useLight>0</useLight>
-								<textureFilePath>textures/container.jpg</textureFilePath>
+								<useLight>1</useLight>
+								<textureFilePath>..\Assets\textures\container.jpgýýýýÝÝÝÝ´x^ž</textureFilePath>
 								<ambient>
 									<vec.x>5.000000075e-02</vec.x>
 									<vec.y>5.000000075e-02</vec.y>
@@ -75,6 +75,57 @@
 					</item>
 					<item>
 						<px class_id="13" class_name="AudioComponent" tracking_level="1" version="0" object_id="_4">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_5">
+				<name>Camera</name>
+				<transform class_id_reference="4" object_id="_6">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>2</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="14" class_name="CameraComponent" tracking_level="1" version="0" object_id="_7">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<clearColor>
+								<vec.x>1.000000000e+00</vec.x>
+								<vec.y>1.000000000e+00</vec.y>
+								<vec.z>1.000000000e+00</vec.z>
+								<vec.w>1.000000000e+00</vec.w>
+							</clearColor>
+						</px>
+					</item>
+					<item>
+						<px class_id="15" class_name="FreeLookCameraController" tracking_level="1" version="0" object_id="_8">
 							<Component>
 								<enabled>1</enabled>
 							</Component>

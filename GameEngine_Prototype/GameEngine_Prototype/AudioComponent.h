@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "AudioManager.h"
+#include <vector>
+
 class AudioComponent : public Component
 {
 public:
@@ -14,6 +16,8 @@ public:
 	void Load2D(string, bool, bool);
 	void Load3D(string, bool, bool, bool);
 	void Play(string, Vector3, float);
+	vector<string> soundList;
+	
 	//void Distance(Vector3);
 
 private:

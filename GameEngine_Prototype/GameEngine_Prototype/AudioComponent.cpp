@@ -17,6 +17,7 @@ REGISTER_COMPONENT(AudioComponent, "AudioComponent")
 
 void AudioComponent::Start() {
 	string soundPath1 = "../Assets/sounds/inception_sound.mp3";
+	soundList.push_back(soundPath1);
 	Load3D(soundPath1, true, true, true);
 	glm::mat4 camView = RenderManager::getInstance().getCurrentCamera()->getView();
 	Vector3 camLocation(camView[3].x, camView[3].y, camView[3].z);
@@ -42,7 +43,11 @@ AudioComponent::AudioComponent()
 }
 AudioComponent::~AudioComponent()
 {
-	AudioManager::getInstance().sound.UnLoadSound("../Assets/sounds/inception_sound.mp3");
+	//questions.erase(questions.begin() + i);
+	//answers.erase(answers.begin() + i);
+	for (int i = 0; i < soundList.size(); i++) {
+		AudioManager::getInstance().sound.UnLoadSound(soundList.at(i));
+	}
 }
 
 void AudioComponent::Load2D(string path, bool loop, bool stream)
