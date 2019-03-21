@@ -172,7 +172,9 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="AssetLibrary.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AutoMover.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -236,7 +238,9 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="AssetLibrary.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioEngine.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="AutoMover.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraComponent.h" />
