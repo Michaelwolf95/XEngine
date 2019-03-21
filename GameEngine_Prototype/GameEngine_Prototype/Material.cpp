@@ -185,11 +185,39 @@ void Material::DrawInspector()
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);
 
-
-		for (size_t i = 0; i < floatProperties.size(); i++)
+		if (ImGui::TreeNode(this, "Float Properties", "%s_Floats", this->name.c_str()))
 		{
-			
+			for (size_t i = 0; i < floatProperties.size(); i++)
+			{
+				ImGui::Text(floatProperties[i].propertyName.c_str());
+				ImGui::SameLine();
+				float value = floatProperties[i].getValue();
+				ImGui::InputFloat(floatProperties[i].propertyName.c_str(), &value);
+				if (value != floatProperties[i].getValue())
+					floatProperties[i].setValue(value);
+			}
+			ImGui::TreePop();
 		}
+		if (ImGui::TreeNode(this, "Texture Properties", "%s_Textures", this->name.c_str()))
+		{
+			for (size_t i = 0; i < textureProperties.size(); i++)
+			{
+				ImGui::Text(textureProperties[i].propertyName.c_str());
+				ImGui::SameLine();
+				Texture* value = textureProperties[i].getValue();
+				std::string path = value->path;
+				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
+				if (path != value->path)
+				{
+					value->path = path;
+				}
+				//ImGui::InputFloat(textureProperties[i].propertyName.c_str(), &value);
+				/*if (value != textureProperties[i].getValue())
+					textureProperties[i].setValue(value);*/
+			}
+			ImGui::TreePop();
+		}
+		
 
 		if (ImGui::Button("Update"))
 		{
