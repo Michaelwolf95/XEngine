@@ -90,12 +90,19 @@ Material * ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scen
 	// get material
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
-	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
+	
+	
+	
+	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
+	Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
+	
+	
 	
 	/*if (MatforMesh == nullptr)
 		return nullptr;*/
-	std::cout << "Material Empty?: " << MatforMesh->textures.empty() << std::endl;
-	std::cout << "Material Size: " << MatforMesh->textures.size() << std::endl;
+	//std::cout << "Material Empty?: " << MatforMesh->textures.empty() << std::endl;
+	//std::cout << "MAterialLib" << AssetManager::getInstance().materialLib.library. << std::endl;
+	//std::cout << "Material Size: " << MatforMesh->textures.size() << std::endl;
 
 	// if loaded material does not have textures, then load the textures
 	//if (MatforMesh->textures.empty())
