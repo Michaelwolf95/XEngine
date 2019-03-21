@@ -18,36 +18,35 @@ void MaterialLibrary::SaveAllMaterials()
 
 }
 
-// Overloading method: pass filepaths to create a query to load asset
-Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, std::string fragPath)
+// Overloading method: pass material name(extension will be added)
+Material *& MaterialLibrary::GetAsset(std::string fileName)
 {
-	// create query based on arguments
-	MaterialQuery materialQ{ name, vertPath, fragPath };
-
-	auto search = this->library.find(materialQ);
+	std::string filePath = "../Assets/Materials/";	// material filepath
+	filePath += fileName + ".material";				// material file
+	auto search = this->library.find(filePath);
 
 	// find in library
 	if (search == this->library.end())
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
-		return LoadAsset(materialQ);
+		return LoadAsset(filePath);
 	}
 	else
 	{
 		// Found
 		std::cout << "Material loaded from Library" << std::endl;
-		return this->library[materialQ];
+		return this->library[filePath];
 	}
 }
 
 // Overriden LoadAsset method
-Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
+Material *& MaterialLibrary::LoadAsset(std::string filePath)
 {
-	Material* loadedMaterial =  new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
-	
+	Material* loadedMaterial =  new Material();
+
 	// load from file in directory
-	if (LoadMaterialFromFileByName(*loadedMaterial, materialQ.name.c_str()))
+	if (LoadMaterialFromFile(*loadedMaterial, filePath.c_str()) )
 	{ 
 		std::cout << "Material loaded from file in Assets directory" << std::endl;
 	}
@@ -57,13 +56,13 @@ Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 	}
 
 	// save into library
-	library.insert({ materialQ, loadedMaterial });
+	library.insert({ filePath, loadedMaterial });
 	std::cout << "Material saved into Library" << std::endl;
 
 	// create file and save into directory
-	SaveMaterialToFile(*loadedMaterial);
+	SaveMaterialToFile(*loadedMaterial, filePath.c_str() );
 
-	return library[materialQ];
+	return library[filePath];
 }
 
 // Saving material to file
@@ -74,11 +73,11 @@ void MaterialLibrary::SaveMaterialToFile(const Material &m) {
 }
 
 // Saving material to file
-void MaterialLibrary::SaveMaterialToFile(const Material &m, const char * fileName)
+void MaterialLibrary::SaveMaterialToFile(const Material &m, const char * filePath)
 {
-	std::cout << "Saving Material: " << fileName << std::endl;
+	std::cout << "Saving Material: " << filePath << std::endl;
 	// make an archive
-	std::ofstream ofs(fileName);
+	std::ofstream ofs(filePath);
 	if (!ofs)
 	{
 		std::cout << "Cannot open outfile" << std::endl;
@@ -103,10 +102,10 @@ bool MaterialLibrary::LoadMaterialFromFileByName(Material &m, const char * mater
 }
 
 // Loading material from file
-bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * fileName)
+bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * filePath)
 {
 	// open the archive 
-	std::ifstream ifs(fileName);
+	std::ifstream ifs(filePath);
 	if (!ifs.good()) //Doesn't exist 
 	{
 		return false;
@@ -118,6 +117,6 @@ bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * fileName)
 	// restore from the archive
 	ia >> BOOST_SERIALIZATION_NVP(m);
 
-	m.filePath = fileName;
+	m.filePath = filePath;
 	return true;
 }

@@ -101,9 +101,6 @@ void MeshRenderer::Draw()
 	material->shader->setMat4("view", view);
 	material->shader->setMat4("projection", projection);
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-	
-	// for mesh name
-	std::string meshMatName = "_mat";
 
 	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
 	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
@@ -121,8 +118,6 @@ void MeshRenderer::Draw()
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
-		// name key for material
-		std::string MatKey = model->meshes[i]->name + meshMatName;
 
 		// texture variables
 		unsigned int diffuseNr = 1;
@@ -131,13 +126,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 
 		// binding textures
-		for (unsigned int j = 0; j < model->MeshToMaterial.at(MatKey)->textures.size(); j++)
+		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
 			std::string number;
-			std::string name = model->MeshToMaterial.at(MatKey)->textures[j].type;
+			std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -152,7 +147,7 @@ void MeshRenderer::Draw()
 			// set texture unit
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(MatKey)->textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
 		// draw mesh
@@ -447,7 +442,7 @@ void MeshRenderer::DrawInspector()
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
 			ImGui::Text(model->meshes[i]->name.c_str());
-			model->MeshToMaterial.at(model->meshes[i]->name+"_mat")->DrawInspector();
+			model->MeshToMaterial.at(model->meshes[i]->name)->DrawInspector();
 		}
 	}
 

@@ -3,6 +3,7 @@
 #include "Material.h"
 #include "Scene.h"
 
+/*
 // Query used as a key for mapping the mesh library
 struct MaterialQuery
 {
@@ -20,9 +21,10 @@ public:
 		return std::tie(name, vertPath, fragPath) < std::tie(query.name, query.vertPath, query.fragPath);
 	}
 };
-
+*/
 // Note for material for meshes from obj files, use the filepath + name of mesh
-class MaterialLibrary : public AssetLibrary<MaterialQuery, Material*>
+
+class MaterialLibrary : public AssetLibrary<std::string, Material*>
 {
 public:
 	MaterialLibrary();
@@ -30,12 +32,13 @@ public:
 
 	void SaveAllMaterials();
 
-	Material*& GetAsset(std::string filepath, std::string vertPath, std::string fragPath);
-	Material*& LoadAsset(MaterialQuery materialQ) override;
+	Material*& GetAsset(std::string fileName);
+	Material*& LoadAsset(std::string fileName) override;
+
 	void SaveMaterialToFile(const Material & s);
-	void SaveMaterialToFile(const Material & s, const char * fileName);
+	void SaveMaterialToFile(const Material & s, const char * filePath);
 	bool LoadMaterialFromFileByName(Material &m, const char * materialName);
-	bool LoadMaterialFromFile(Material &m, const char * fileName);
+	bool LoadMaterialFromFile(Material &m, const char * filePath);
 
 protected:
 	friend class ModelLibrary;

@@ -1104,7 +1104,7 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 	{
 		if (ImGui::Button("Create Material"))
 		{
-			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT", "multilights.vs", "multilights.fs");
+			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT");
 		}
 		ImGui::EndPopup();
 	}
