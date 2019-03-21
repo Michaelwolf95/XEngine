@@ -1,10 +1,20 @@
 #include "MaterialProperty.h"
+#include "Serialization.h"
 
 //template<typename T>
 //MaterialProperty<T>::MaterialProperty(std::string name, T val) {
 //	propertyName = name;
 //	value = val;
 //}
+
+BOOST_CLASS_EXPORT_GUID(FloatProperty, "FloatProperty")
+BOOST_CLASS_EXPORT_GUID(TextureProperty, "TextureProperty")
+
+
+FloatProperty::FloatProperty()
+{
+	value = 0.0f;
+}
 
 float FloatProperty::getValue()
 {
@@ -56,12 +66,17 @@ void Vec4Property::setValue(glm::vec4 val)
 	value = val;
 }
 
-Texture& TextureProperty::getValue()
+TextureProperty::TextureProperty()
 {
-	return Texture();
+	value = nullptr;
 }
 
-void TextureProperty::setValue(Texture& val)
+Texture* TextureProperty::getValue()
+{
+	return value;
+}
+
+void TextureProperty::setValue(Texture* val)
 {
 	value = val;
 }
