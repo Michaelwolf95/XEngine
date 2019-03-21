@@ -2,19 +2,6 @@
 #include "GameObject.h"
 #include "ApplicationManager.h"
 
-std::ostream & operator<<(std::ostream &os, const GameObject &go)
-{
-	// From Tutorial:
-	//    note: we're displaying the pointer to permit verification
-	//    that duplicated pointers are properly restored.
-	std::vector<Component_ptr>::const_iterator it;
-	for (it = go.components.begin(); it != go.components.end(); it++) {
-		os << '\n' << std::hex << "0x" << *it << std::dec << ' ' << **it;
-	}
-
-	return os;
-}
-
 GameObject::GameObject(const char* _name)
 {
 	if (_name == nullptr)

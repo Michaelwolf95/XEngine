@@ -40,7 +40,6 @@ public:
 private:
 
 	friend class boost::serialization::access;
-	friend std::ostream & operator<<(std::ostream &os, const Component &comp);
 	template<class Archive>
 	void serialize(Archive &ar, const unsigned int version)
 	{
@@ -51,8 +50,6 @@ private:
 typedef std::shared_ptr<Component> Component_ptr;
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(Component)
-
-std::ostream & operator<<(std::ostream &os, const Component &comp);
 
 struct ComponentTypeInfo
 {

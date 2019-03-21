@@ -5,7 +5,7 @@
 class Light
 {
 public:
-	static enum LightType { PointLight = 1, GlobalLight, SpotLight };
+	enum LightType { PointLight = 1, GlobalLight, SpotLight };
 	std::string UNIFORM_NAME;
 	Light();
 	virtual ~Light();

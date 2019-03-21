@@ -2,11 +2,6 @@
 
 typemap & Component::registry() { static typemap impl; return impl; }
 
-std::ostream & operator<<(std::ostream &os, const Component &comp)
-{
-	return os << comp;// .enabled;
-}
-
 Component::Component() {}
 Component::~Component() {}
 
