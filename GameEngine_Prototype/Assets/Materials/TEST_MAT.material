@@ -7,12 +7,12 @@
 	<fragmentShaderPath>multilights.fs</fragmentShaderPath>
 	<Color class_id="1" tracking_level="0" version="0">
 		<vec.x>1.000000000e+00</vec.x>
-		<vec.y>1.000000000e+00</vec.y>
-		<vec.z>1.000000000e+00</vec.z>
+		<vec.y>9.999899864e-01</vec.y>
+		<vec.z>9.999899864e-01</vec.z>
 		<vec.w>1.000000000e+00</vec.w>
 	</Color>
-	<useLight>0</useLight>
-	<textureFilePath></textureFilePath>
+	<useLight>1</useLight>
+	<textureFilePath>textures/container.jpg</textureFilePath>
 	<ambient class_id="2" tracking_level="0" version="0">
 		<vec.x>5.000000075e-02</vec.x>
 		<vec.y>5.000000075e-02</vec.y>

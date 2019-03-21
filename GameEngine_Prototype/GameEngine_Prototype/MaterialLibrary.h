@@ -28,6 +28,8 @@ public:
 	MaterialLibrary();
 	~MaterialLibrary();
 
+	void SaveAllMaterials();
+
 	Material*& GetAsset(std::string filepath, std::string vertPath, std::string fragPath);
 	Material*& LoadAsset(MaterialQuery materialQ) override;
 	void SaveMaterialToFile(const Material & s);

@@ -196,6 +196,8 @@ void Material::DrawInspector()
 		{
 			isInitialized = false;
 			Init();
+
+			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}
 
 		ImGui::TreePop();

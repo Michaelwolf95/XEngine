@@ -13,6 +13,11 @@ MaterialLibrary::~MaterialLibrary()
 {
 }
 
+void MaterialLibrary::SaveAllMaterials()
+{
+
+}
+
 // Overloading method: pass filepaths to create a query to load asset
 Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, std::string fragPath)
 {

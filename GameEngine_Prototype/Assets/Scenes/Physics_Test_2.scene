@@ -135,7 +135,7 @@
 								<Component>
 									<enabled>1</enabled>
 								</Component>
-								<intensity>1.000000000e+00</intensity>
+								<intensity>3.000000000e+00</intensity>
 								<color>
 									<vec.x>1.000000000e+00</vec.x>
 									<vec.y>1.000000000e+00</vec.y>
