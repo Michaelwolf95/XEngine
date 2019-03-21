@@ -83,7 +83,9 @@ void CAudioEngine::Set3dListenerAndOrientation(const Vector3 & vPosition, const 
 	/*FMOD_3D_ATTRIBUTES 
 	System::set3DListenerAttributes
 		System::set3DListenerAttributes*/
-	FMOD::System::set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+
+	//FMOD::System::set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+
 		//sgpImplementation->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
 
 }

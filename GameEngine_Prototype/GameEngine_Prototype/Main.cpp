@@ -25,7 +25,7 @@
 #include "RenderManager.h"
 #include "SceneManager.h"
 #include "PhysicsManager.h"
-
+#include "AudioManager.h"
 #ifdef X_EDIT_MODE
 #include "SceneEditor.h"
 #else
@@ -44,7 +44,7 @@ int main()
 	AssetManager::CreateManager();
 	RenderManager::CreateManager();
 	SceneManager::CreateManager();
-
+	AudioManager::CreateManager();
 	PhysicsManager::CreateManager();
 
 	#ifdef X_EDIT_MODE
@@ -72,6 +72,7 @@ int main()
 
 		// Do Game Logic here
 		SceneManager::getInstance().UpdateActiveScene();
+		AudioManager::getInstance().UpdateAudio();
 
 		PhysicsManager::getInstance().PhysicsUpdate();
 

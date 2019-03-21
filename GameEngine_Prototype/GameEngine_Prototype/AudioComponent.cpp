@@ -4,6 +4,7 @@
 #include "GameObject.h" 
 #include "Component.h"
 #include <math.h> 
+#include "RenderManager.h"
 //CAudioEngine test;
 //soundTest->Init();
 //
@@ -15,6 +16,11 @@
 REGISTER_COMPONENT(AudioComponent, "AudioComponent")
 
 void AudioComponent::Start() {
+	string soundPath1 = "../Assets/sounds/inception_sound.mp3";
+	Load3D(soundPath1, true, true, true);
+	glm::mat4 camView = RenderManager::getInstance().getCurrentCamera()->getView();
+	Vector3 camLocation(camView[3].x, camView[3].y, camView[3].z);
+	Play(soundPath1, camLocation, 1);
 }
 
 void AudioComponent::Update()
@@ -29,6 +35,11 @@ void AudioComponent::Update()
 
 AudioComponent::AudioComponent()
 {
+	//string soundPath1 = "../Assets/sounds/inception_sound.mp3";
+	//std::shared_ptr<AudioComponent> soundTest(new AudioComponent());
+	//Load3D(soundPath1, true, true, true);
+	
+
 	range = 1500;
 }
 AudioComponent::~AudioComponent()
