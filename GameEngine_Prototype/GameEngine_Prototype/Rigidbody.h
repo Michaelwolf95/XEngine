@@ -3,19 +3,21 @@
 #include <BulletPhysics/btBulletDynamicsCommon.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+//#include <BulletPhysics/LinearMath/btAlignedAllocator.h>
+//ATTRIBUTE_ALIGNED16(class)
 class Rigidbody : public Component
 {
 public:
 	static Registrar<Rigidbody> registrar;
 
-	btBoxShape* colShape;
-	btDefaultMotionState* motionState;
+	btBoxShape* colShape = nullptr;
+	btDefaultMotionState* motionState = nullptr;
+	btRigidBody* body = nullptr;
 	//btRigidBody::btRigidBodyConstructionInfo rbInfo;
-	btRigidBody* body;
 	float mass = 1.0f;
 	bool isKinematic = false;
 
-	btVector3 boxColliderHalfExtents;
+	btVector3* boxColliderHalfExtents = nullptr;
 
 	Rigidbody();
 	~Rigidbody();
@@ -25,8 +27,8 @@ public:
 	void DrawInspector() override;
 	void OnDrawGizmosSelected() override;
 private:
-	btTransform physTransformModel;
-	btScalar _convertTransformArray[16];
+	btTransform* physTransformModel = nullptr;
+	//btScalar* _convertTransformArray[16];
 	bool isInitialized = false;
 	void Init();
 	void SyncTransformWithPhysicsModel();

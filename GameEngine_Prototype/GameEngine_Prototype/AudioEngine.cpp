@@ -1,5 +1,6 @@
 #include "AudioEngine.h"
 
+
 Implementation::Implementation() {
 	mpStudioSystem = NULL;
 	CAudioEngine::ErrorCheck(FMOD::Studio::System::create(&mpStudioSystem));
@@ -71,7 +72,26 @@ void CAudioEngine::UnLoadSound(const std::string& strSoundName)
 	sgpImplementation->mSounds.erase(tFoundIt);
 }
 
-int CAudioEngine::PlaySounds(const string& strSoundName, const Vector3& vPosition, float fVolumedB)
+
+//this needs to work with the camera or get it working with the camera
+void CAudioEngine::Set3dListenerAndOrientation(const glm::vec3 & vPosition, const glm::vec3 & vLook, const glm::vec3 & vUp)
+{
+	
+	FMOD_VECTOR pos = { 3.0f, 4.0f, 2.0f };
+	FMOD_VECTOR vel = { 1.0f, 0.0f, 0.0f };
+	FMOD_VECTOR forward = { 1.0f, 0.0f, 0.0f };
+	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
+	/*FMOD_3D_ATTRIBUTES 
+	System::set3DListenerAttributes
+		System::set3DListenerAttributes*/
+
+	//FMOD::System::set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+
+		//sgpImplementation->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+
+}
+
+int CAudioEngine::PlaySounds(const string& strSoundName, const glm::vec3& vPosition, float fVolumedB)
 {
 	int nChannelId = sgpImplementation->mnNextChannelId++;
 	auto tFoundIt = sgpImplementation->mSounds.find(strSoundName);
@@ -101,7 +121,7 @@ int CAudioEngine::PlaySounds(const string& strSoundName, const Vector3& vPositio
 	return nChannelId;
 }
 
-void CAudioEngine::SetChannel3dPosition(int nChannelId, const Vector3& vPosition)
+void CAudioEngine::SetChannel3dPosition(int nChannelId, const glm::vec3& vPosition)
 {
 	auto tFoundIt = sgpImplementation->mChannels.find(nChannelId);
 	if (tFoundIt == sgpImplementation->mChannels.end())
@@ -199,7 +219,7 @@ void CAudioEngine::SetEventParameter(const string &strEventName, const string &s
 	CAudioEngine::ErrorCheck(pParameter->setValue(fValue));
 }
 
-FMOD_VECTOR CAudioEngine::VectorToFmod(const Vector3& vPosition) {
+FMOD_VECTOR CAudioEngine::VectorToFmod(const glm::vec3& vPosition) {
 	FMOD_VECTOR fVec;
 	fVec.x = vPosition.x;
 	fVec.y = vPosition.y;

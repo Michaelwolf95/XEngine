@@ -49,7 +49,10 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma): g
 	Setup();
 }
 
-MeshRenderer::~MeshRenderer() {}
+MeshRenderer::~MeshRenderer() 
+{
+	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+}
 
 void MeshRenderer::Start() {}
 void MeshRenderer::Update() {}
@@ -68,11 +71,11 @@ void MeshRenderer::Setup()
 	{
 		material = RenderManager::defaultMaterial;
 	}
-	std::cout << model << std::endl;
+	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;
 	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	
-	std::cout << model << std::endl;
+
+	std::cout << "End Loading Model" << std::endl;
 
 	if (model == nullptr)
 	{
@@ -129,31 +132,35 @@ void MeshRenderer::Draw()
 	//if (gameObject == nullptr) return;
 	
 	// This was the error
+
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	material->shader->setMat4("view", view);
 	material->shader->setMat4("projection", projection);
-
-	//glm::mat4 model = glm::mat4(1.0f);
-	//model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 	
-	//material->shader->setVec3()
-
 	// for mesh name
 	std::string meshMatName = "_mat";
 
-
+	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
 	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
 
+	// Not sure if this should be here...
+	if (RenderManager::getInstance().lights.size() > 0)
+	{
+		material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
 
-	//material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
-
-	//material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
-
-
+//<<<<<<< HEAD
+//	//material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
+//
+//	//material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
+//
+//
+//=======
+//		material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
+//	}
+//>>>>>>> develop
 
 
 

@@ -61,10 +61,12 @@ void Material::Init()
 	{
 		return;
 	}
+	std::cout << "Initializing Material: " << name << std::endl;
 	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
 	{
-		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
-		shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		//std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
+		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 	}
 	else
 	{
@@ -120,26 +122,7 @@ void Material::Draw(std::vector<Light*> lights)
 			}
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
-			
-			for (auto fp : floatProperties) {
-				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
-			}
 
-			for (auto ip : intProperties) {
-				shader->setInt(uniformString + ip.propertyName, ip.getValue());
-			}
-
-			for (auto v2p : vec2Properties) {
-				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
-			}
-
-			for (auto v3p : vec3Properties) {
-				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
-			}
-
-			for (auto v4p : vec4Properties) {
-				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
-			}
 
 
 			// Add light properties to shader.
@@ -150,6 +133,27 @@ void Material::Draw(std::vector<Light*> lights)
 
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
+
+
+		for (auto fp : floatProperties) {
+			shader->setFloat(uniformString + fp.propertyName, fp.getValue());
+		}
+
+		for (auto ip : intProperties) {
+			shader->setInt(uniformString + ip.propertyName, ip.getValue());
+		}
+
+		for (auto v2p : vec2Properties) {
+			shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
+		}
+
+		for (auto v3p : vec3Properties) {
+			shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
+		}
+
+		for (auto v4p : vec4Properties) {
+			shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
+		}
 	}
 }
 
@@ -172,7 +176,7 @@ void Material::DrawInspector()
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
 			{
-				IM_ASSERT(payload->DataSize == 32);
+				IM_ASSERT(payload->DataSize == 128);
 				const char* payload_n = (const char*)payload->Data;
 
 				textureFilePath = payload_n;
@@ -189,10 +193,18 @@ void Material::DrawInspector()
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);
 
+
+		for (size_t i = 0; i < floatProperties.size(); i++)
+		{
+			
+		}
+
 		if (ImGui::Button("Update"))
 		{
 			isInitialized = false;
 			Init();
+
+			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}
 
 		ImGui::TreePop();
