@@ -46,6 +46,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
 
 
+		//TODO: Use the filePath instead when getting from the library.
 		std::string materialFilePath;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
 		material = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT", "multilights.vs","multilights.fs");
