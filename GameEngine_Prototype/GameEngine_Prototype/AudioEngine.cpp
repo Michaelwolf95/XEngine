@@ -71,6 +71,23 @@ void CAudioEngine::UnLoadSound(const std::string& strSoundName)
 	sgpImplementation->mSounds.erase(tFoundIt);
 }
 
+
+//this needs to work with the camera or get it working with the camera
+void CAudioEngine::Set3dListenerAndOrientation(const Vector3 & vPosition, const Vector3 & vLook, const Vector3 & vUp)
+{
+	
+	FMOD_VECTOR pos = { 3.0f, 4.0f, 2.0f };
+	FMOD_VECTOR vel = { 1.0f, 0.0f, 0.0f };
+	FMOD_VECTOR forward = { 1.0f, 0.0f, 0.0f };
+	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
+	/*FMOD_3D_ATTRIBUTES 
+	System::set3DListenerAttributes
+		System::set3DListenerAttributes*/
+	FMOD::System::set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+		//sgpImplementation->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+
+}
+
 int CAudioEngine::PlaySounds(const string& strSoundName, const Vector3& vPosition, float fVolumedB)
 {
 	int nChannelId = sgpImplementation->mnNextChannelId++;

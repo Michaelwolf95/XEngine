@@ -11,10 +11,17 @@
 
 using namespace std;
 
-struct Vector3 {
+struct Vector3 
+{
 	float x;
 	float y;
 	float z;
+	Vector3(float _x = 0.0f, float _y= 0.0f, float _z = 0.0f)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+	}
 };
 
 struct Implementation {
@@ -25,6 +32,7 @@ struct Implementation {
 
 	FMOD::Studio::System* mpStudioSystem;
 	FMOD::System* mpSystem;
+
 
 	int mnNextChannelId;
 
@@ -38,7 +46,8 @@ struct Implementation {
 	ChannelMap mChannels;
 };
 
-class CAudioEngine {
+class CAudioEngine
+{
 public:
 	static void Init();
 	static void Update();
