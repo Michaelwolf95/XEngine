@@ -200,7 +200,8 @@ Material * ModelLibrary::processMeshMaterial(Model * model, aiMesh * mesh, const
 	// mapped name of mesh to the material
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
-	Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
+	//Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
+	Material* MatforMesh = new Material(meshMatName, "multilights.vs", "multilights.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
 	
 	MatforMesh->textures = textures;
 	

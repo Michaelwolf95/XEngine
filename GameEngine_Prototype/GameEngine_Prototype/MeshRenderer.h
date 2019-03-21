@@ -25,6 +25,17 @@
 class MeshRenderer: public RenderableObject, public Component
 {
 	public:
+		float* vertices;
+		unsigned int numVerts;
+		unsigned int vertexDataSize;
+		unsigned int* indices;
+		unsigned int numIndices;
+		unsigned int VBO;
+		unsigned int VAO;
+		unsigned int EBO;
+		Material* material = nullptr;
+
+
 		static Registrar<MeshRenderer> registrar;
 
 		Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
@@ -53,6 +64,10 @@ class MeshRenderer: public RenderableObject, public Component
 		void OnDrawGizmos() override;
 
 		void DrawInspector() override;
+
+		void FreeObjectResources();
+		//void FreeAllResources()
+
 
 	private:
 		//Material* _material;

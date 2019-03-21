@@ -660,10 +660,10 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
 			}
-			if (ImGui::MenuItem("New Box"))
+			if (ImGui::MenuItem("New Simple Box"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Box");
+				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
 				selectedGameObject = go;
 				// Create Box Material
 				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
@@ -672,6 +672,16 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
+			}
+			if (ImGui::MenuItem("New Model Box"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Model Box");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("3D Model Box", "multilights.vs", "multilights.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
+				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
+				go->AddComponent(modelNano);
 			}
 			if (ImGui::MenuItem("New Box (Child)"))
 			{
@@ -696,8 +706,9 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
+				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
 			}
 

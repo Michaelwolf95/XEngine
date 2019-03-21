@@ -20,8 +20,14 @@ SimpleModelComponent::SimpleModelComponent()
 }
 
 SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
-	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
+	//: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material) // removed from renderableobject
 {
+	this->vertices = verts;
+	this->numVerts = numV;
+	this->vertexDataSize = vertDataSize;
+	this->indices = ind;
+	this->numIndices = numInd;
+	this->material = _material;
 	Setup();
 }
 
@@ -84,6 +90,7 @@ void SimpleModelComponent::Setup()
 
 void SimpleModelComponent::Draw()
 {
+	//std::cout << "SimpleModelComponent->Draw()\n";
 	//if (Component::enabled == false) return;
 	if (gameObject == nullptr) return;
 
@@ -110,11 +117,14 @@ void SimpleModelComponent::Draw()
 	glm::vec3 viewPos  = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
 	
-	material->Draw(RenderManager::getInstance().lights);
+	material->Draw(RenderManager::getInstance().lights); // THIS IS WHERE MATERIAL DRAWS*******
 
+	// Move to Material class????
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 	glBindVertexArray(0);
+
+	glActiveTexture(GL_TEXTURE0);
 	//gameObject->transform->DrawGizmo();
 }
 

@@ -24,7 +24,7 @@ class Material
 {
 public:
 	// Shader attributes
-	glm::vec4 Color;
+	glm::vec4 Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	Vec3Property colorProperty;
 	glm::vec3 ambient = glm::vec3(0.05f);
 	Vec3Property ambientProperty;
@@ -65,6 +65,8 @@ public:
 	void LoadTexture(const char* _textureFilePath);
 
 	void DrawInspector();
+
+	std::string to_string();
 
 private:
 	bool isInitialized = false;

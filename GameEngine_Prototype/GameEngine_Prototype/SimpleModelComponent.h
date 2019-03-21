@@ -3,8 +3,7 @@
 #include "Component.h"
 #include "PrimitiveModels.h"
 //#include "std/vector"
-class SimpleModelComponent :
-	public RenderableObject, public Component
+class SimpleModelComponent : public RenderableObject, public Component
 {
 public:
 	static Registrar<SimpleModelComponent> registrar;
@@ -20,6 +19,17 @@ public:
 	void OnDrawGizmos() override;	
 	void DrawInspector() override;
 private:
+	// taken from RenderableObject
+	float* vertices;
+	unsigned int numVerts;
+	unsigned int vertexDataSize;
+	unsigned int* indices;
+	unsigned int numIndices;
+	unsigned int VBO;
+	unsigned int VAO;
+	unsigned int EBO;
+	Material* material = nullptr;
+	//
 	bool isSetup = false;
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

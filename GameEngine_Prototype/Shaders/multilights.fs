@@ -43,6 +43,7 @@ uniform vec3 lightColor;
 
 uniform vec4 MainColor;
 uniform sampler2D Texture;
+uniform sampler2D texture_diffuse1;
 
 const int NUM_LIGHTS = 10;
 uniform GlobalLight globalLights[NUM_LIGHTS];
@@ -60,7 +61,10 @@ vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec
 void main()
 {
     vec4 texel;// = texture(Texture, TexCoord);
-    if(float(textureSize(Texture,0).x) > 1) {
+    if (float(textureSize(texture_diffuse1, 0).x) > 1) {
+        texel = texture(texture_diffuse1, TexCoord);
+    }
+    else if(float(textureSize(Texture,0).x) > 1) {
         texel = texture(Texture, TexCoord);
     }
     else {
