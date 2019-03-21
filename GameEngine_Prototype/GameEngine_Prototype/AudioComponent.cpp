@@ -3,7 +3,7 @@
 #include "AudioManager.h"
 #include "GameObject.h" 
 #include "Component.h"
-#include <math.h> 
+#include <math.h>
 #include "RenderManager.h"
 //CAudioEngine test;
 //soundTest->Init();
@@ -20,7 +20,7 @@ void AudioComponent::Start() {
 	soundList.push_back(soundPath1);
 	Load3D(soundPath1, true, true, true);
 	glm::mat4 camView = RenderManager::getInstance().getCurrentCamera()->getView();
-	Vector3 camLocation(camView[3].x, camView[3].y, camView[3].z);
+	glm::vec3 camLocation(camView[3].x, camView[3].y, camView[3].z);
 	Play(soundPath1, camLocation, 1);
 }
 
@@ -29,8 +29,7 @@ void AudioComponent::Update()
 	// get our pos
 	// get obj pos
 	// perform distance formula
-	//  get it\in relation to the range 
-
+	// get it\in relation to the range 
 	//
 }
 
@@ -66,7 +65,7 @@ void AudioComponent::Load3D(string path, bool location, bool loop, bool stream) 
 	}
 }
 
-//void AudioComponent::Distance(Vector3 cam) {
+//void AudioComponent::Distance(glm::vec3 cam) {
 //	//---------------------------------------------
 //	distance = sqrt(pow(cam.x - gameObject->transform->getPosition().x,2) + pow(cam.y - gameObject->transform->getPosition().y,2) + pow(cam.z - gameObject->transform->getPosition().z,2));
 //
@@ -87,7 +86,7 @@ void AudioComponent::Load3D(string path, bool location, bool loop, bool stream) 
 //		
 //}
 
-void AudioComponent::Play(string path, Vector3 location, float fVolumedB) {
+void AudioComponent::Play(string path, glm::vec3 location, float fVolumedB) {
 	AudioManager::getInstance().sound.PlaySounds(path, location, fVolumedB);
 	//AudioManager::getInstance().sound.PlaySound
 }
@@ -95,7 +94,7 @@ void AudioComponent::Play(string path, Vector3 location, float fVolumedB) {
 
 
 //void AudioComponent::Play3DSound(string path, ) {
-//	//void PlaySound(const string& strSoundName, const Vector3& vPos = Vector3{ 0, 0, 0 }, float fVolumedB = 0.0f);
+//	//void PlaySound(const string& strSoundName, const glm::vec3& vPos = glm::vec3{ 0, 0, 0 }, float fVolumedB = 0.0f);
 //	//PlaySound
 //}
 

@@ -15,7 +15,7 @@ public:
 	~AudioComponent();
 	void Load2D(string, bool, bool);
 	void Load3D(string, bool, bool, bool);
-	void Play(string, Vector3, float);
+	void Play(string, glm::vec3, float);
 	vector<string> soundList;
 	
 	//void Distance(Vector3);
