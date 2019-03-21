@@ -47,7 +47,7 @@ void CreateTestSceneJames1() {
 
 
 
-	//change the moving ovject to the cube and set the camrea to the postion 000
+	//change the moving object to the cube and set the camrea to the postion 000
 
 
 	// Create Camera GameObject
@@ -55,10 +55,12 @@ void CreateTestSceneJames1() {
 	std::shared_ptr <CameraComponent> camera(new CameraComponent());
 	camGo->AddComponent(camera);
 	//make camera move
-	std::shared_ptr <FreeLookCameraController> moving(new FreeLookCameraController());
-	//camGo->AddComponent(moving);------------------------------------------------
+	//std::shared_ptr <FreeLookCameraController> moving(new FreeLookCameraController());
+	std::shared_ptr <TestMoverComponent> moving(new TestMoverComponent());
+	camGo->AddComponent(moving);
 
-	cube->AddComponent(moving);
+
+	//cube->AddComponent(moving);--------------------------------------------
 
 	camGo->transform->setLocalPosition(glm::vec3(0, 0, 0)); //setting position of the camera
 	camGo->transform->setLocalRotationEuler(glm::vec3(0, 0, 0)); //setting position of the camera
@@ -103,7 +105,7 @@ void CreateTestSceneJames1() {
 
 	soundTest->Load3D(soundPath1, true, true, true);
 
-	soundTest->Play(soundPath1, camLocation, 3);
+	soundTest->Play(soundPath1, camLocation, 1);
 
 	//set the postion of the camera and one from the object for the sound to actually
 

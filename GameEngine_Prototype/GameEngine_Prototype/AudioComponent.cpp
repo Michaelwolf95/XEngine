@@ -35,13 +35,12 @@ AudioComponent::~AudioComponent()
 {
 }
 
-void AudioComponent::Load2D(string path, bool location, bool loop, bool stream)
+void AudioComponent::Load2D(string path, bool loop, bool stream)
 {
 	//CAudioEngine sound = AudioManager::getInstance();
 	//AudioManager::AudioEngine;
-	if (location == false) {
-		AudioManager::getInstance().sound.LoadSound(path, location, loop, stream);
-	}
+	AudioManager::getInstance().sound.LoadSound(path, false, loop, stream);
+	
 	//AudioManager::getInstance().LoadSound(path, 3d, loop, stream);
 }
 
@@ -52,28 +51,26 @@ void AudioComponent::Load3D(string path, bool location, bool loop, bool stream) 
 	}
 }
 
-void AudioComponent::Distance(Vector3 cam) {
-	//---------------------------------------------
-	distance = sqrt(pow(cam.x - gameObject->transform->getPosition().x,2) + pow(cam.y - gameObject->transform->getPosition().y,2) + pow(cam.z - gameObject->transform->getPosition().z,2));
-
-
-	/*std::cout << sqrt(pow(x - x1, 2) + pow(y - y2, 2) + pow(z - z2, 2)) << "!\n";
-	std::cout << (sqrt(pow(x - x1, 2) + pow(y - y2, 2) + pow(z - z2, 2)) / 20);*/
-
-
-
-	//use the void SetVolume(float value) thats directly from the api like the function sets 
-
-	//under 1
-	float x = distance / range;
-	if (x < 1) { // no sound
-			//play sound
-	}
-	else {
-
-	}
-		
-}
+//void AudioComponent::Distance(Vector3 cam) {
+//	//---------------------------------------------
+//	distance = sqrt(pow(cam.x - gameObject->transform->getPosition().x,2) + pow(cam.y - gameObject->transform->getPosition().y,2) + pow(cam.z - gameObject->transform->getPosition().z,2));
+//
+//
+//	/*std::cout << sqrt(pow(x - x1, 2) + pow(y - y2, 2) + pow(z - z2, 2)) << "!\n";
+//	std::cout << (sqrt(pow(x - x1, 2) + pow(y - y2, 2) + pow(z - z2, 2)) / 20);*/
+//
+//	//use the void SetVolume(float value) thats directly from the api like the function sets 
+//
+//	//under 1
+//	float x = distance / range;
+//	if (x < 1) { // no sound
+//			//play sound
+//	}
+//	else {
+//
+//	}
+//		
+//}
 
 void AudioComponent::Play(string path, Vector3 location, float fVolumedB) {
 	AudioManager::getInstance().sound.PlaySounds(path, location, fVolumedB);

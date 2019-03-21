@@ -11,10 +11,10 @@ public:
 
 	AudioComponent();
 	~AudioComponent();
-	void Load2D(string, bool, bool, bool);
+	void Load2D(string, bool, bool);
 	void Load3D(string, bool, bool, bool);
 	void Play(string, Vector3, float);
-	void Distance(Vector3);
+	//void Distance(Vector3);
 private:
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
