@@ -25,7 +25,7 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
-		LoadAsset(materialQ);
+		return LoadAsset(materialQ);
 	}
 	else
 	{
@@ -37,28 +37,25 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 
 Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 {
-	Material mat = Material();
+	Material* loadedMaterial =  new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
 
 	// load from file in directory
-	if (LoadMaterialFromFileByName(mat, materialQ.name.c_str()))
+	if (LoadMaterialFromFileByName(*loadedMaterial, materialQ.name.c_str()))
 	{ 
-		Material* loadedMaterial = &mat;
 		std::cout << "Material loaded from file in Assets directory" << std::endl;
 		std::cout << "Material saved into Library" << std::endl;
 		library.insert({ materialQ, loadedMaterial });
 	}
 	else // cant load, then create new one
 	{
-		//delete loadedMaterial;
-		Material* loadedMaterialForLib = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
 		
 		// save into library
-		library.insert({ materialQ, loadedMaterialForLib });
+		library.insert({ materialQ, loadedMaterial });
 		std::cout << "Material not loaded from file in Assets directory" << std::endl;
 		std::cout << "Material saved into Library" << std::endl;
 		
 		// create file and save into directory
-		SaveMaterialToFile(*loadedMaterialForLib);
+		SaveMaterialToFile(*loadedMaterial);
 	}
 	return library[materialQ];
 }

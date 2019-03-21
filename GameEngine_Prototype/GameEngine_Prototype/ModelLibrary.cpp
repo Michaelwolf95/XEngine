@@ -85,12 +85,18 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 
 }
 
-Material * ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
+Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
+
 	// get material
 	std::string meshMatName = mesh->mName.C_Str();
 	meshMatName += "_mat";
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
+
+
+	std::cout << "Size of modelLib: " << AssetManager::getInstance().modelLib.library.size() << std::endl;
+	std::cout << "Size of meshlLib: " << AssetManager::getInstance().meshLib.library.size() << std::endl;
+	std::cout << "Size of materialLib: " << AssetManager::getInstance().materialLib.library.size() << std::endl;
 
 	// since vector<textures> is not serialized, load vector<textures> or else the model has no textures or system crashes
 	std::cout << "Adding textures to Material" << std::endl;
