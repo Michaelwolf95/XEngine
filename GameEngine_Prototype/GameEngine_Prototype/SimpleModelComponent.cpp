@@ -152,7 +152,6 @@ void SimpleModelComponent::DrawInspector()
 				const char* payload_n = (const char*)payload->Data;
 
 				std::string fileName(payload_n);
-				std::cout << "Dropping Payload: " << fileName << std::endl;
 				if (fileName.substr(fileName.find_last_of(".")) == ".material")
 				{
 					std::cout << "Dropping Material!" << std::endl;
@@ -163,18 +162,12 @@ void SimpleModelComponent::DrawInspector()
 					if (mat != nullptr)
 					{
 						this->material = mat;
+						std::cout << "Dropping Material!" << std::endl;
 					}
 				}
-				//IM_ASSERT(payload->DataSize == sizeof(Material*));
-				//Material* payload_n = (Material*)payload->Data;
-				////std::cout << "Dropping " << payload_n->name << " on empty." << std::endl;
-
-				//this->material = payload_n;
-				//payload_n->transform->SetParent(nullptr);
 			}
 			ImGui::EndDragDropTarget();
 		}
-		//ImGui::Unindent();
 	}
 
 }

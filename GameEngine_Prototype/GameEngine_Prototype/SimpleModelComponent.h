@@ -31,9 +31,9 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
-		ar & BOOST_SERIALIZATION_NVP(material);
-		//ar & BOOST_SERIALIZATION_NVP(indices);// = ind;
-		//ar & BOOST_SERIALIZATION_NVP(vertices);// = verts;
+
+		//ar & BOOST_SERIALIZATION_NVP(material);
+		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
 
 	}
 	template<class Archive>
@@ -44,9 +44,12 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
-		ar & BOOST_SERIALIZATION_NVP(material);
-		//ar & BOOST_SERIALIZATION_NVP(indices);// = ind;
-		//ar & BOOST_SERIALIZATION_NVP(vertices);
+
+
+		std::string materialFilePath;
+		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
+		material = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT", "multilights.vs","multilights.fs");
+
 		vertices = DiffusedMappedCube;
 		indices = DiffusedMappedCubeIndices;
 		Setup();

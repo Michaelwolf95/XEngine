@@ -42,39 +42,11 @@
 							<numVerts>36</numVerts>
 							<vertexDataSize>8</vertexDataSize>
 							<numIndices>1</numIndices>
-							<material class_id="11" tracking_level="1" version="0" object_id="_3">
-								<name></name>
-								<vertexShaderPath>multilights.vs</vertexShaderPath>
-								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
-								<Color class_id="12" tracking_level="0" version="0">
-									<vec.x>1.960784197e-01</vec.x>
-									<vec.y>1.960764527e-01</vec.y>
-									<vec.z>1.960764527e-01</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</Color>
-								<useLight>1</useLight>
-								<textureFilePath></textureFilePath>
-								<ambient>
-									<vec.x>5.000000075e-02</vec.x>
-									<vec.y>5.000000075e-02</vec.y>
-									<vec.z>5.000000075e-02</vec.z>
-								</ambient>
-								<diffuse>
-									<vec.x>8.000000119e-01</vec.x>
-									<vec.y>8.000000119e-01</vec.y>
-									<vec.z>8.000000119e-01</vec.z>
-								</diffuse>
-								<specular>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
-								</specular>
-								<shininess>3.200000000e+01</shininess>
-							</material>
+							<materialFilePath>../Assets/Materials/TEST_MAT.material</materialFilePath>
 						</px>
 					</item>
 					<item>
-						<px class_id="13" class_name="Rigidbody" tracking_level="1" version="0" object_id="_4">
+						<px class_id="11" class_name="Rigidbody" tracking_level="1" version="0" object_id="_3">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -86,9 +58,9 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_5">
+			<px class_id_reference="3" object_id="_4">
 				<name>Camera</name>
-				<transform class_id_reference="4" object_id="_6">
+				<transform class_id_reference="4" object_id="_5">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -114,11 +86,11 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="14" class_name="CameraComponent" tracking_level="1" version="0" object_id="_7">
+						<px class_id="12" class_name="CameraComponent" tracking_level="1" version="0" object_id="_6">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
-							<clearColor>
+							<clearColor class_id="13" tracking_level="0" version="0">
 								<vec.x>3.088235259e-01</vec.x>
 								<vec.y>3.088204265e-01</vec.y>
 								<vec.z>3.088204265e-01</vec.z>
@@ -130,9 +102,9 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_8">
+			<px class_id_reference="3" object_id="_7">
 				<name>Light</name>
-				<transform class_id_reference="4" object_id="_9">
+				<transform class_id_reference="4" object_id="_8">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -158,8 +130,8 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="15" class_name="GlobalLightComponent" tracking_level="1" version="0" object_id="_10">
-							<LightComponent class_id="16" tracking_level="0" version="0">
+						<px class_id="14" class_name="GlobalLightComponent" tracking_level="1" version="0" object_id="_9">
+							<LightComponent class_id="15" tracking_level="0" version="0">
 								<Component>
 									<enabled>1</enabled>
 								</Component>
@@ -181,9 +153,9 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_11">
+			<px class_id_reference="3" object_id="_10">
 				<name>New Box</name>
-				<transform class_id_reference="4" object_id="_12">
+				<transform class_id_reference="4" object_id="_11">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -209,46 +181,18 @@
 					<count>2</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_13">
+						<px class_id_reference="10" object_id="_12">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 							<numVerts>36</numVerts>
 							<vertexDataSize>8</vertexDataSize>
 							<numIndices>1</numIndices>
-							<material class_id_reference="11" object_id="_14">
-								<name></name>
-								<vertexShaderPath>multilights.vs</vertexShaderPath>
-								<fragmentShaderPath>multilights.fs</fragmentShaderPath>
-								<Color>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>0.000000000e+00</vec.y>
-									<vec.z>0.000000000e+00</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</Color>
-								<useLight>1</useLight>
-								<textureFilePath></textureFilePath>
-								<ambient>
-									<vec.x>5.000000075e-02</vec.x>
-									<vec.y>5.000000075e-02</vec.y>
-									<vec.z>5.000000075e-02</vec.z>
-								</ambient>
-								<diffuse>
-									<vec.x>8.000000119e-01</vec.x>
-									<vec.y>8.000000119e-01</vec.y>
-									<vec.z>8.000000119e-01</vec.z>
-								</diffuse>
-								<specular>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
-								</specular>
-								<shininess>3.200000000e+01</shininess>
-							</material>
+							<materialFilePath>../Assets/Materials/TEST_MAT.material</materialFilePath>
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id="_15">
+						<px class_id_reference="11" object_id="_13">
 							<Component>
 								<enabled>1</enabled>
 							</Component>

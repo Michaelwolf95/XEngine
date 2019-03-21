@@ -25,7 +25,7 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
-		LoadAsset(materialQ);
+		return LoadAsset(materialQ);
 	}
 	else
 	{
