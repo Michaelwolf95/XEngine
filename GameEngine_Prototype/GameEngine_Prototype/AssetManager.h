@@ -4,6 +4,7 @@
 #include "ModelLibrary.h"
 #include "MaterialLibrary.h"
 #include "MeshLibrary.h"
+#include "ShaderLibrary.h"
 //#include <stb/stb_image.h>
 
 static const char* ASSET_FILE_PATH
@@ -21,6 +22,7 @@ public:
 	ModelLibrary modelLib;
 	MaterialLibrary materialLib;
 	MeshLibrary meshLib;
+	ShaderLibrary shaderLib;
 	AssetManager();
 	~AssetManager();
 	static AssetManager* CreateManager();

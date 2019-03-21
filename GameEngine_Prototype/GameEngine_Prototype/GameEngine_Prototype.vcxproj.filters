@@ -288,6 +288,9 @@
     <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h">
@@ -514,6 +517,9 @@
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -56,7 +56,7 @@ public:
 	
 	//float ambientStrength = 1.0f;
 	//float specularStrength = 0.5f;
-	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = false);
+	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = true);
 	Material();
 	~Material();
 	void Init();
@@ -116,7 +116,7 @@ private:
 		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
 		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
 
-
+		isInitialized = false;
 		Init();
 		//shader = RenderManager::defaultShader;
 		

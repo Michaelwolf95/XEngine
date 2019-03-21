@@ -6,6 +6,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+// Query used as a key for mapping the mesh library
 struct MeshQuery
 {
 	std::string filePath;
@@ -15,17 +16,9 @@ public :
 	MeshQuery(std::string _filePath, std::string _type) : filePath(_filePath), name(_type) {};
 	~MeshQuery(){};
 
+	// Default operator used in for comparison inside the library map
 	bool operator<(const MeshQuery& query) const
 	{
-		// if they both string variables are equal
-		/*
-		if (!filePath.compare(query.filePath) &&
-			!name.compare(query.name))
-			return true;
-		else
-			return false;
-			*/
-
 		return std::tie(filePath, name) < std::tie(query.filePath, query.name);
 	}
 
@@ -40,12 +33,9 @@ public:
 
 protected:
 	Mesh*& GetAsset(std::string filepath, std::string name, aiMesh * mesh);
-
-	Mesh*& LoadAsset(MeshQuery meshQ, aiMesh * mesh); // overloaded method of the load Asset  
+	Mesh*& LoadAsset(MeshQuery meshQ, aiMesh * mesh); 
 	Mesh*& LoadAsset(MeshQuery meshQ) override;
 
-	// The ModelLibrary is given specific privledges to access the private members of the MeshLibrary
-	// Friend classes can provide an asset directly.
 	friend class ModelLibrary;
 	
 private:

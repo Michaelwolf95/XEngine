@@ -13,6 +13,12 @@ MaterialLibrary::~MaterialLibrary()
 {
 }
 
+void MaterialLibrary::SaveAllMaterials()
+{
+
+}
+
+// Overloading method: pass filepaths to create a query to load asset
 Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, std::string fragPath)
 {
 	// create query based on arguments
@@ -25,7 +31,7 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
-		LoadAsset(materialQ);
+		return LoadAsset(materialQ);
 	}
 	else
 	{
@@ -35,29 +41,28 @@ Material *& MaterialLibrary::GetAsset(std::string name, std::string vertPath, st
 	}
 }
 
+// Overriden LoadAsset method
 Material *& MaterialLibrary::LoadAsset(MaterialQuery materialQ)
 {
-	Material* loadedMaterial = new Material();
-
+	Material* loadedMaterial =  new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
+	
 	// load from file in directory
 	if (LoadMaterialFromFileByName(*loadedMaterial, materialQ.name.c_str()))
 	{ 
 		std::cout << "Material loaded from file in Assets directory" << std::endl;
-		library.insert({ materialQ, loadedMaterial });
 	}
 	else // cant load, then create new one
 	{
-		// create new material
-		delete loadedMaterial;
-		loadedMaterial = new Material(materialQ.name, materialQ.vertPath, materialQ.fragPath);
-		
-		// save into library
-		library.insert({ materialQ, loadedMaterial }); 
-		std::cout << "Material saved into Library" << std::endl;
-		
-		// create file and save into directory
-		SaveMaterialToFile(*loadedMaterial);	
+		std::cout << "Material not loaded from file in Assets directory" << std::endl;
 	}
+
+	// save into library
+	library.insert({ materialQ, loadedMaterial });
+	std::cout << "Material saved into Library" << std::endl;
+
+	// create file and save into directory
+	SaveMaterialToFile(*loadedMaterial);
+
 	return library[materialQ];
 }
 
@@ -84,13 +89,9 @@ void MaterialLibrary::SaveMaterialToFile(const Material &m, const char * fileNam
 		std::cout << "Out File Stream BAD" << std::endl;
 		return;
 	}
-	//std::string nS(fileName);
-	//.filePath = nS;// new std::string(fileName);
 
-	//boost::archive::text_oarchive oa(ofs);
 	boost::archive::xml_oarchive oa(ofs);
 	oa << BOOST_SERIALIZATION_NVP(m);
-
 }
 
 // Loading material from file by name

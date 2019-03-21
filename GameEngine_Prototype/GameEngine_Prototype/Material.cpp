@@ -57,10 +57,12 @@ void Material::Init()
 	{
 		return;
 	}
+	std::cout << "Initializing Material: " << name << std::endl;
 	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
 	{
-		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
-		shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		//std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
+		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 	}
 	else
 	{
@@ -166,7 +168,7 @@ void Material::DrawInspector()
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
 			{
-				IM_ASSERT(payload->DataSize == 32);
+				IM_ASSERT(payload->DataSize == 128);
 				const char* payload_n = (const char*)payload->Data;
 
 				textureFilePath = payload_n;
@@ -183,10 +185,18 @@ void Material::DrawInspector()
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);
 
+
+		for (size_t i = 0; i < floatProperties.size(); i++)
+		{
+			
+		}
+
 		if (ImGui::Button("Update"))
 		{
 			isInitialized = false;
 			Init();
+
+			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}
 
 		ImGui::TreePop();
