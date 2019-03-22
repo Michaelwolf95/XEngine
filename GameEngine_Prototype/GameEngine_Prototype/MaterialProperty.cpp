@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <string>
 //#include "GLM_Serialize.h"
+#include "AssetManager.h"
 
 BOOST_CLASS_EXPORT_GUID(FloatProperty, "FloatProperty")
 BOOST_CLASS_EXPORT_GUID(IntProperty, "IntProperty")
@@ -100,4 +101,9 @@ Texture* TextureProperty::getValue()
 void TextureProperty::setValue(Texture* val)
 {
 	value = val;
+}
+
+void TextureProperty::LoadTextureFromPath(std::string filePath)
+{
+	value = &AssetManager::getInstance().textureLib.GetAsset(filePath);
 }

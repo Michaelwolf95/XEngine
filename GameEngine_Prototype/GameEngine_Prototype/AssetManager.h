@@ -3,6 +3,7 @@
 #include "TextureLibrary.h"
 #include "ModelLibrary.h"
 #include "MaterialLibrary.h"
+//class MaterialLibrary;
 #include "MeshLibrary.h"
 #include "ShaderLibrary.h"
 //#include <stb/stb_image.h>
