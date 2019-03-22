@@ -49,7 +49,7 @@ private:
 		//TODO: Use the filePath instead when getting from the library.
 		std::string materialFilePath;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
-		material = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT.material");
+		material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
 
 		vertices = DiffusedMappedCube;
 		indices = DiffusedMappedCubeIndices;

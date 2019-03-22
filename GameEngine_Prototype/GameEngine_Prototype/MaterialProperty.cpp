@@ -1,6 +1,7 @@
 #include "MaterialProperty.h"
 #include "Serialization.h"
 #include <glm/glm.hpp>
+#include <string>
 //#include "GLM_Serialize.h"
 
 BOOST_CLASS_EXPORT_GUID(FloatProperty, "FloatProperty")

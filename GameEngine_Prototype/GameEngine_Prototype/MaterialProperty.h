@@ -1,9 +1,10 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <string>
-#include "Texture.h"
 #include "Serialization.h"
 #include "GLM_Serialize.h"
+//#include "AssetManager.h"
+#include "Texture.h"
 
 template<typename T>
 class MaterialProperty
@@ -122,11 +123,15 @@ private:
 	void save(Archive &ar, const unsigned int version) const
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
+		//ar & boost::serialization::make_nvp<std::string>("filePath", value->path);
 	}
 	template<class Archive>
 	void load(Archive &ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
+		//std::string filePath;
+		//ar & boost::serialization::make_nvp<std::string>("filePath", filePath);
+		//value = AssetManager::getInstance().textureLib.GetAsset(filePath);
 	}
 };
 //

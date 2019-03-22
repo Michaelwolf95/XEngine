@@ -156,9 +156,9 @@ void SimpleModelComponent::DrawInspector()
 				if (fileName.substr(fileName.find_last_of(".")) == ".material")
 				{
 					std::cout << "Dropping Material!" << std::endl;
-					fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
-					size_t lastindex = fileName.find_last_of(".");
-					fileName = fileName.substr(0, lastindex);
+					//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+					//size_t lastindex = fileName.find_last_of(".");
+					//fileName = fileName.substr(0, lastindex);
 					Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
 					if (mat != nullptr)
 					{

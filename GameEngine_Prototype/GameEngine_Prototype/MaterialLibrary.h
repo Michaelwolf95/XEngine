@@ -30,7 +30,7 @@ public:
 	MaterialLibrary();
 	~MaterialLibrary();
 
-	void SaveAllMaterials();
+	//void SaveAllMaterials();
 
 	Material*& GetAsset(std::string fileName);
 	Material*& LoadAsset(std::string fileName) override;

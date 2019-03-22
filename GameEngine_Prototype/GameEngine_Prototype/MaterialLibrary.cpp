@@ -13,30 +13,30 @@ MaterialLibrary::~MaterialLibrary()
 {
 }
 
-void MaterialLibrary::SaveAllMaterials()
-{
-
-}
+//void MaterialLibrary::SaveAllMaterials()
+//{
+//
+//}
 
 // Overloading method: pass material name(extension will be added)
 Material *& MaterialLibrary::GetAsset(std::string fileName)
 {
-	std::string filePath = "../Assets/Materials/";	// material filepath
-	filePath += fileName + ".material";				// material file
-	auto search = this->library.find(filePath);
+	//std::string filePath = "../Assets/Materials/";	// material filepath
+	//filePath += fileName + ".material";				// material file
+	auto search = this->library.find(fileName);
 
 	// find in library
 	if (search == this->library.end())
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
-		return LoadAsset(filePath);
+		return LoadAsset(fileName);
 	}
 	else
 	{
 		// Found
 		std::cout << "Material loaded from Library" << std::endl;
-		return this->library[filePath];
+		return this->library[fileName];
 	}
 }
 
