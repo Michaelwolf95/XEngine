@@ -45,8 +45,8 @@ void SimpleModelComponent::Setup()
 	if (material == nullptr)
 	{
 		//material = RenderManager::defaultMaterial;
-		material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
-
+		//material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
+		material = AssetManager::getInstance().materialLib.GetAsset("MuliLight Model");
 		//std::cout << "Material set to default." << std::endl;
 	}
 	else
@@ -157,8 +157,8 @@ void SimpleModelComponent::DrawInspector()
 				{
 					std::cout << "Dropping Material!" << std::endl;
 					fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
-					//size_t lastindex = fileName.find_last_of(".");
-					//fileName = fileName.substr(0, lastindex);
+					size_t lastindex = fileName.find_last_of(".");
+					fileName = fileName.substr(0, lastindex);
 					Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
 					if (mat != nullptr)
 					{
