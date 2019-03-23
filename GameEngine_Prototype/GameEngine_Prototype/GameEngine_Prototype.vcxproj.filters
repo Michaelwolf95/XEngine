@@ -94,6 +94,9 @@
     <Filter Include="Header Files\Physics">
       <UniqueIdentifier>{7db5fa39-1ea5-435f-b5a1-811ff2c648fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fonts">
+      <UniqueIdentifier>{aa9b3773-c29e-4572-b352-e4c00c7bea22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -281,6 +284,9 @@
     </ClCompile>
     <ClCompile Include="MaterialProperty.cpp">
       <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -503,6 +509,9 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
@@ -558,6 +567,12 @@
     </None>
     <None Include="..\Shaders\multi.fs" />
     <None Include="..\Shaders\multi.vs" />
+    <None Include="..\Shaders\text.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\text.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine_Prototype.rc">
@@ -571,5 +586,19 @@
     <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Fonts\arial.ttf">
+      <Filter>Fonts</Filter>
+    </Font>
+    <Font Include="..\Fonts\Egyptian Nights.ttf">
+      <Filter>Fonts</Filter>
+    </Font>
+    <Font Include="..\Fonts\Hearty Script.ttf">
+      <Filter>Fonts</Filter>
+    </Font>
+    <Font Include="..\Fonts\IHATCS__.TTF">
+      <Filter>Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>
