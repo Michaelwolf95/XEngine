@@ -53,7 +53,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
 
 		// put one to one relationship for mesh to material
-		model->MeshToMaterial.emplace(mesh->name + "_mat", mat);
+		model->MeshToMaterial.emplace(mesh->name, mat);
 
 		model->meshes.push_back(mesh);
 	}
@@ -68,10 +68,17 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 // Process the material for the mesh
 Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
+	filePath = "../Assets/Materials/" + filePath + ".material";	// material filepath
+	//filePath += fileName + ".material";
 	// get material
-	std::string meshMatName = mesh->mName.C_Str();
-	meshMatName += "_mat";
-	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
+	//std::string meshMatName = ;
+	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
+	
+	// only used name of the material to get it
+	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(filePath);
+	MatforMesh->vertexShaderPath = "multilights.vs"; // set shader and file path
+	MatforMesh->fragmentShaderPath = "multilights.fs";
+	MatforMesh->Init(); // initilize with new vs and fs
 
 	// process materials
 	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];

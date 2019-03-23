@@ -845,7 +845,27 @@ void SceneEditor::InspectorUpdate()
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
 			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
-			if (ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
+			bool isOpen = ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
+			
+			if (ImGui::IsItemClicked(1))
+			{
+				std::cout << "Right clicked component." << std::endl;
+
+				ImGui::OpenPopup(componentTypeName.c_str());
+
+			}
+			if (ImGui::BeginPopup(componentTypeName.c_str()))
+			{
+				if (ImGui::Button("Delete"))
+				{
+					selectedGameObject->RemoveComponent(selectedGameObject->components[i]);
+					//break;
+					isOpen = false;
+				}
+				ImGui::EndPopup();
+			}
+
+			if(isOpen)
 			{
 				selectedGameObject->components[i]->DrawInspector();
 			}
@@ -1124,7 +1144,7 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 	{
 		if (ImGui::Button("Create Material"))
 		{
-			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT", "multilights.vs", "multilights.fs");
+			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT");
 		}
 		ImGui::EndPopup();
 	}
