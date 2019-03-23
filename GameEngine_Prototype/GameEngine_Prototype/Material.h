@@ -48,6 +48,9 @@ public:
 	std::vector<Vec4Property> vec4Properties;
 	std::vector<TextureProperty> textureProperties;
 
+	//std::vector<MaterialPropertyBase*>properties;
+
+
 	bool useLight = false;
 	std::vector<Texture> textures;
 

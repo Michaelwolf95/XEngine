@@ -68,12 +68,15 @@ class MeshRenderer: public RenderableObject, public Component
 		void FreeObjectResources();
 		//void FreeAllResources()
 
+		void PrintVertices();
 
 	private:
 		//Material* _material;
 		bool isSetup = false;
 
 		bool LoadModel();
+
+
 
 		//void processNode(aiNode *node, const aiScene *scene);
 		//Mesh* processMesh(aiMesh *mesh, const aiScene *scene);

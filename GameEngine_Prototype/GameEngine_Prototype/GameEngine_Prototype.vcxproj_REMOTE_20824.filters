@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Rendering">
+      <UniqueIdentifier>{8c748766-26a6-4d77-8545-0e6099d2455e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{3d8a75c6-a95c-45ef-8492-d258cf294a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{31563b66-9041-4438-8af3-fc130e6692c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering">
+      <UniqueIdentifier>{e6431b8e-f6d0-4d7c-9600-d701a01a1e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{a8e589c0-0bb1-4e2d-8b7c-96b35da27b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AssetManagement">
+      <UniqueIdentifier>{925979a1-1c1d-492b-9201-faa9df5673ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AssetManagement">
+      <UniqueIdentifier>{6fe90d8f-65ea-48b3-9817-32ff19ab318f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject">
+      <UniqueIdentifier>{c59b2def-e67a-418b-80a1-a1d10f56f3f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject">
+      <UniqueIdentifier>{58145831-a8f7-4e8c-a8aa-ad320d5ea931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{e3213461-4d1b-4c9b-be67-3d93df5a9fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{7330173a-746b-4b50-b35d-1bbaaf5bc42b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{ebafac91-c3be-40cb-9816-d88fd2f52bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{4b7e28f8-ee8d-43f0-8efb-682b83713eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Scenes">
+      <UniqueIdentifier>{6a3b8c31-ec1d-4476-a795-6b0a28c7d8e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Testers">
+      <UniqueIdentifier>{36ac55bc-4219-4e49-b676-9741b2cd99c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Testers">
+      <UniqueIdentifier>{e7d399e7-47b0-4977-a6f3-718a35bf6521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{9da6b059-733e-492d-a042-0a4c54267f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Serialization">
+      <UniqueIdentifier>{9d6c3ad4-4126-4a93-ac1d-acfd9c938661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Editor">
+      <UniqueIdentifier>{c08ffcf9-03c1-4886-90a2-16d8829d28c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Editor">
+      <UniqueIdentifier>{f12a5083-df30-4637-b909-5b4b35c8675b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{783c6fea-950c-4b5f-9077-edb28dc9fbf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{9a6c88b3-f6d0-4b63-80d8-faa09f9fcd4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Analytics">
+      <UniqueIdentifier>{10826179-dbb5-497b-af3a-2d98ee13ded6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Analytics">
+      <UniqueIdentifier>{74d16c14-a93b-4241-92c1-818e696a07fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\imgui">
+      <UniqueIdentifier>{1b3754d3-0d62-428c-ba8d-ea44024fc849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{9804e167-cb6c-4ae7-9f07-5c40cfe272cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{7db5fa39-1ea5-435f-b5a1-811ff2c648fb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManager.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleSprite.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleModel.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMoverComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleModelComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSwapper.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LightComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LineDrawer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeLookCameraController.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugUtility.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleRotator.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformTester.cpp">
+      <Filter>Source Files\Components\Testers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputTester.cpp">
+      <Filter>Source Files\Components\Testers</Filter>
+    </ClCompile>
+    <ClCompile Include="ExampleRotator_James.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEditor.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="PrimitiveModels.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Analytics.cpp">
+      <Filter>Source Files\Analytics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponentAnalytic.cpp">
+      <Filter>Source Files\Analytics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectAnalytic.cpp">
+      <Filter>Source Files\Analytics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalLightComponent.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoMover.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="GizmoSpriteDrawer.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_stdlib.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialProperty.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ApplicationManager.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleSprite.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleModel.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMoverComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleModelComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraSwapper.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleThread.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Tam.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_James.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Donato.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes_Dennis.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LineDrawer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugUtility.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeLookCameraController.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleRotator.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitiveModels.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="InputTester.h">
+      <Filter>Header Files\Components\Testers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformTester.h">
+      <Filter>Header Files\Components\Testers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleRotator_James.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization.h">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="GLM_Serialize.h">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEditor.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Analytics.h">
+      <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponentAnalytic.h">
+      <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectAnalytic.h">
+      <Filter>Header Files\Analytics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalLightComponent.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoMover.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="GizmoSpriteDrawer.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_stdlib.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_inspector_extensions.h">
+      <Filter>Source Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialProperty.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioComponent.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Shaders\default.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\default.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\sprite.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\sprite.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\model.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\model.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\diffuse.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\diffuse.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\color.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Settings\AppConfig.json">
+      <Filter>Settings</Filter>
+    </None>
+    <None Include="..\Shaders\billboardSprite.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\billboardSprite.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\3Dmodel.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\3Dmodel.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multi.fs" />
+    <None Include="..\Shaders\multi.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

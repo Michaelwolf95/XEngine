@@ -16,9 +16,10 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 	useLight = _useLight;
 
-	std::cout << to_string() << std::endl;
-
 	Init();
+
+	//std::cout << to_string() << std::endl;
+
 }
 
 
@@ -57,6 +58,8 @@ void Material::Init()
 	shinyProperty.setValue(shininess);
 	floatProperties.push_back(shinyProperty);
 
+	
+
 	if (isInitialized)
 	{
 		return;
@@ -73,11 +76,12 @@ void Material::Init()
 		shader = RenderManager::defaultShader;
 	}
 
+	textureFilePath = "textures/container.jpg";
+
 	if (!textureFilePath.empty())
 	{
 		LoadTexture(textureFilePath.c_str());
 	}
-
 
 	isInitialized = true;
 }
@@ -123,8 +127,6 @@ void Material::Draw(std::vector<Light*> lights)
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
 
-
-
 			// Add light properties to shader.
 			light->draw(shader, *counter);
 
@@ -161,6 +163,8 @@ void Material::LoadTexture(const char * _textureFilePath)
 {
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
+
+
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
 
@@ -213,7 +217,7 @@ void Material::DrawInspector()
 
 std::string Material::to_string()
 {
-	std::string str = "\nPrint contents of material:";
+	std::string str = "\nPrint contents of material (" + name + "): ";
 	for (auto cp : floatProperties) {
 		str += '\n' + cp.propertyName + ": " + std::to_string(cp.getValue());
 	}
@@ -233,9 +237,15 @@ std::string Material::to_string()
 											  
 	}
 	for (auto tp : textureProperties) {
-		str += '\n' + tp.propertyName + ": " + tp.getValue().type;
+		str += '\n' + tp.propertyName + ": " + tp.getValue()->type;
 	}
 
+	str += "\nfilePath: " + this->filePath;
+	str += "\nFragmentShaderPath: " + this->fragmentShaderPath;
+	str += "\nvertexShaderPath: " + this->vertexShaderPath;
+	str += "\nisInitialized: "; str += this->isInitialized ? "True" : "False";
+	str += this->shader->to_string();
+	str += "\nEnd of material's contents.";
 	return str;
 }
 

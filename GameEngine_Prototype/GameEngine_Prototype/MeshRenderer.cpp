@@ -102,6 +102,8 @@ void MeshRenderer::Setup()
 	
 
 	isSetup = true;
+
+	//PrintVertices();
 }
 
 //void MeshRenderer::FreeAllResources()
@@ -120,6 +122,27 @@ void MeshRenderer::FreeObjectResources()
 	glDeleteVertexArrays(1, &(VAO));
 	glDeleteBuffers(1, &(VBO));
 	glDeleteBuffers(1, &(EBO));
+}
+
+void MeshRenderer::PrintVertices()
+{
+	for (int i = 0; i < model->meshes.size(); i++)
+	{
+		std::cout << "Mesh Index: " << model->meshes[i]->name << "\t";
+		for (int j = 0; j < model->meshes[i]->vertices.size(); j++)
+		{
+			std::cout << "Vertex Index: " << j << "\t";
+			std::cout << model->meshes[i]->vertices[j].Position.x << " " << model->meshes[i]->vertices[j].Position.y << " " << model->meshes[i]->vertices[j].Position.z;
+			std::cout << "\t" << model->meshes[i]->vertices[j].Normal.x << " " << model->meshes[i]->vertices[j].Normal.y << " " << model->meshes[i]->vertices[j].Normal.z;
+			std::cout << "\t" << model->meshes[i]->vertices[j].TexCoords.x << " " << model->meshes[i]->vertices[j].TexCoords.y << std::endl;
+		}
+	}
+}
+
+bool MeshRenderer::LoadModel()
+{
+	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+	return (model == nullptr);
 }
 
 void MeshRenderer::Draw()
@@ -145,24 +168,6 @@ void MeshRenderer::Draw()
 	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
 	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
-
-	// Not sure if this should be here...
-	if (RenderManager::getInstance().lights.size() > 0)
-	{
-		material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
-
-//<<<<<<< HEAD
-//	//material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
-//
-//	//material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
-//
-//
-//=======
-//		material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
-//	}
-//>>>>>>> develop
-
-
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
@@ -213,12 +218,12 @@ void MeshRenderer::Draw()
 
 	}
 }
-
-bool MeshRenderer::LoadModel()
-{
-	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	return (model == nullptr);
-}
+//
+//bool MeshRenderer::LoadModel()
+//{
+//	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+//	return (model == nullptr);
+//}
 
 //bool MeshRenderer::LoadModel()
 //{

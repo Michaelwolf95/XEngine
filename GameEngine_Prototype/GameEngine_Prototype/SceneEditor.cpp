@@ -667,20 +667,29 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				selectedGameObject = go;
 				// Create Box Material
 				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
-				modelMaterial->LoadTexture("textures/container.jpg");
-				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
+				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
 					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
 			}
-			if (ImGui::MenuItem("New Model Box"))
+			if (ImGui::MenuItem("New Model Metal Crate"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Model Box");
+				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("3D Model Box", "multilights.vs", "multilights.fs");
+				Material* modelMaterial = new Material("3D Model Crate", "multilights.vs", "multilights.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
+				go->AddComponent(modelNano);
+			}
+
+			if (ImGui::MenuItem("New Model Wooden Crate"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("3D Model Wooden Crate", "multilights.vs", "multilights.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
-				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
 			}
 			if (ImGui::MenuItem("New Box (Child)"))
@@ -688,14 +697,14 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				if (selectedGameObject != nullptr)
 				{
 					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Box (child)");
+					GameObject_ptr go = scene->CreateGameObject("New Simple Box (Child)");
 					go->transform->SetParent(selectedGameObject->transform);
 					selectedGameObject = go;
 
 					// Create Box Material
 					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
 						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 					testModel->Setup();
 					go->AddComponent(testModel);

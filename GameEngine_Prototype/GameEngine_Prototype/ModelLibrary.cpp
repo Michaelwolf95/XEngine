@@ -167,6 +167,9 @@ unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string 
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
+
+	std::cout << "3. filename == " << filename << std::endl;
+
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 
 	if (data)

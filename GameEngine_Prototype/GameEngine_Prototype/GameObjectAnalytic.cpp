@@ -37,7 +37,7 @@ void GameObjectAnalytic::Start()
 	for (int i = 1; i < 50; i++)
 	{
 		GameObject_ptr c = scene->CreateGameObject("Cube");
-		std::shared_ptr<SimpleModelComponent> m(new SimpleModelComponent(CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
+		std::shared_ptr<SimpleModelComponent> m(new SimpleModelComponent("Cube", CUBE_VERTS, 36, 5, CUBE_INDICES, 36, modelMaterial));
 		c->AddComponent(m);
 		c->transform->setLocalPosition((rand() % range) + 1, (rand() % range) + 1, (rand() % range) + 1);
 		std::shared_ptr<ExampleRotator_James> rotator(new ExampleRotator_James());

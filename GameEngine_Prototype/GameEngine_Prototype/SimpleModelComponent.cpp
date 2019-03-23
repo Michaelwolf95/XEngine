@@ -19,9 +19,10 @@ SimpleModelComponent::SimpleModelComponent()
 	//Setup();
 }
 
-SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
+SimpleModelComponent::SimpleModelComponent(std::string _name, float* verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material * _material)
 	//: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material) // removed from renderableobject
 {
+	name = _name;
 	this->vertices = verts;
 	this->numVerts = numV;
 	this->vertexDataSize = vertDataSize;
@@ -29,6 +30,7 @@ SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, uns
 	this->numIndices = numInd;
 	this->material = _material;
 	Setup();
+	//std::cout << this->material->to_string() << std::endl;
 }
 
 SimpleModelComponent::~SimpleModelComponent()
@@ -51,7 +53,9 @@ void SimpleModelComponent::Setup()
 	if (material == nullptr)
 	{
 		//material = RenderManager::defaultMaterial;
-		material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
+		
+		material = AssetManager::getInstance().materialLib.GetAsset("Multilight Model", "multilights.vs", "multilights.fs");
+		//material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
 		//std::cout << "Material set to default." << std::endl;
 	}
 	else
@@ -90,34 +94,60 @@ void SimpleModelComponent::Setup()
 
 void SimpleModelComponent::Draw()
 {
+
+
+	//for (int i = 0; i < this->numVerts; i++)
+	//{
+	//	if (i % 8 == 0) std::cout << std::endl;
+	//	std::cout << vertices[i] << " ";
+	//}
+
+	//std::cout << "\n\n";
 	//std::cout << "SimpleModelComponent->Draw()\n";
 	//if (Component::enabled == false) return;
-	if (gameObject == nullptr) return;
+	if (gameObject == nullptr) {
+		std::cout << "***gameObject was NULL" << std::endl;
+		return;
+	}
 
+	material->shader->use();
+	RenderManager::getInstance().currentShaderID = material->shader->ID;
+	material->Load();
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
-	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+
+	material->shader->setMat4("view", view);
+	material->shader->setMat4("projection", projection);
+	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 
 	// Model uses GameObject transform.
 	glm::mat4 model = (gameObject->transform->getMatrix4x4());
 
 	// retrieve the matrix uniform locations
-	unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");
-	unsigned int viewLoc = glGetUniformLocation(material->shader->ID, "view");
+	//unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");
+	//unsigned int viewLoc = glGetUniformLocation(material->shader->ID, "view");
 	
 	// pass them to the shaders (3 different ways)
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+	//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 	
 	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-	material->shader->setMat4("projection", projection);
+	//material->shader->setMat4("projection", projection);
 
 
 	glm::vec3 viewPos  = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
 	
-	material->Draw(RenderManager::getInstance().lights); // THIS IS WHERE MATERIAL DRAWS*******
+
+	//glUniformli
+	material->shader->setInt("Texture", material->textureID);
+
+	//glBindTexture
+	glBindTexture(GL_TEXTURE_2D, material->textureID);
+
+	material->Draw(RenderManager::getInstance().lights); // THIS IS WHERE MATERIAL DRAWS******
 
 	// Move to Material class????
 	glBindVertexArray(VAO);
@@ -125,7 +155,6 @@ void SimpleModelComponent::Draw()
 	glBindVertexArray(0);
 
 	glActiveTexture(GL_TEXTURE0);
-	//gameObject->transform->DrawGizmo();
 }
 
 void SimpleModelComponent::Start()

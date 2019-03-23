@@ -8,7 +8,7 @@ class SimpleModelComponent : public RenderableObject, public Component
 public:
 	static Registrar<SimpleModelComponent> registrar;
 	SimpleModelComponent();
-	SimpleModelComponent(float* verts, unsigned int numV, unsigned int vertDataSize, unsigned int* ind, unsigned int numInd, Material* _shader = nullptr);
+	SimpleModelComponent(std::string name, float* verts, unsigned int numV, unsigned int vertDataSize, unsigned int* ind, unsigned int numInd, Material* _shader = nullptr);
 	~SimpleModelComponent();
 
 	void Setup() override;
@@ -19,6 +19,7 @@ public:
 	void OnDrawGizmos() override;	
 	void DrawInspector() override;
 private:
+	std::string name;
 	// taken from RenderableObject
 	float* vertices;
 	unsigned int numVerts;

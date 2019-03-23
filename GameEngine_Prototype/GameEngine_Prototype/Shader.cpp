@@ -174,6 +174,16 @@ void Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
+std::string Shader::to_string()
+{
+	std::string str = "";
+
+	str += "\nPrint contents of Shader: ";
+	str += "\nID: " + std::to_string(this->ID);
+
+	return str;
+}
+
 // utility function for checking shader compilation/linking errors.
 // ------------------------------------------------------------------------
 void Shader::checkCompileErrors(unsigned int shader, std::string type)

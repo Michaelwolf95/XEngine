@@ -124,8 +124,7 @@ vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec
     float spec = pow(max(dot(viewDir, reflectDir), 0.0f), 16); //32 = shininess property of Material
     float specularStrength = 0.3f;
 
-    vec3 ambient = calculateAmbientLighting(texel);//light.ambient * vec3(
     vec3 diffuse = diff * light.color * texel.rgb;
     vec3 specular = specularStrength * spec * light.color;
-    return (ambient + diffuse + specular) * light.intensity;
+    return (calculateAmbientLighting(texel) + diffuse + specular) * light.intensity;
 }

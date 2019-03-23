@@ -43,6 +43,7 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
 	//stbi_load_
+
 	unsigned char *data = stbi_load(textureFilePath, &width, &height, &nrChannels, loadMode);
 	if (data)
 	{
