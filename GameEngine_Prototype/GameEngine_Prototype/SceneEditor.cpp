@@ -825,7 +825,27 @@ void SceneEditor::InspectorUpdate()
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
 			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
-			if (ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen))
+			bool isOpen = ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
+			
+			if (ImGui::IsItemClicked(1))
+			{
+				std::cout << "Right clicked component." << std::endl;
+
+				ImGui::OpenPopup(componentTypeName.c_str());
+
+			}
+			if (ImGui::BeginPopup(componentTypeName.c_str()))
+			{
+				if (ImGui::Button("Delete"))
+				{
+					selectedGameObject->RemoveComponent(selectedGameObject->components[i]);
+					//break;
+					isOpen = false;
+				}
+				ImGui::EndPopup();
+			}
+
+			if(isOpen)
 			{
 				selectedGameObject->components[i]->DrawInspector();
 			}
@@ -1086,9 +1106,28 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 
 	std::string fileName = GetFileNameFromPath(directory);
 	
+	std::string createMenuPopupName("DIRECTORY_CREATE_");
+	createMenuPopupName += directory;
 
 	// Node
 	bool node_open = ImGui::TreeNodeEx(directory, node_flags, "%s", fileName.c_str());
+
+	// Create Menu Popup.
+	if (ImGui::IsItemClicked(1))
+	{
+		//std::cout << "Right clicked " << directory << std::endl;
+		
+		ImGui::OpenPopup(createMenuPopupName.c_str());
+		
+	}
+	if (ImGui::BeginPopup(createMenuPopupName.c_str()))
+	{
+		if (ImGui::Button("Create Material"))
+		{
+			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT");
+		}
+		ImGui::EndPopup();
+	}
 
 	if (node_open)
 	{
@@ -1105,12 +1144,6 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 				DrawFileTreeNode(entry.path().string().c_str());
 			}
 		}
-		// TODO: Replace this temp approach. This is only one level deep.
-		//std::vector<GameObject*> children = go->GetChildren();
-		//for (size_t i = 0; i < children.size(); i++)
-		//{
-		//	this->DrawGameObjectTreeNode(children[i], label + "[" + std::to_string(i) + "]");
-		//}
 		ImGui::TreePop();
 	}
 	
@@ -1124,13 +1157,29 @@ void SceneEditor::DrawFileTreeNode(const char * directory)
 	if (ImGui::IsItemClicked())
 	{
 		// Do Something on click.
+		if (ImGui::IsMouseDoubleClicked(0))
+		{
+			if (fileName.substr(fileName.find_last_of(".")) == ".scene") 
+			{
+				// Load Scene.
+				if (SceneManager::getInstance().LoadAndActivateSceneFromFile(directory))
+				{
+					editorConfig->firstSceneFilepath = SceneManager::getInstance().GetActiveScene()->filePath;
+				}
+			}
+			if (fileName.substr(fileName.find_last_of(".")) == ".material")
+			{
+				// File Inspector Popup?
+			}
+		}
 	}
 	// Drag file.
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))//ImGuiDragDropFlags_None))
 	{
 		//TODO: Remove ASSET_FILE_PATH from directory.
 		//std::string assetPath = std::string(directory).substr();
-		ImGui::SetDragDropPayload("FILE_DRAG", directory, 32);        // Set payload to carry our item 
+		//std::cout << "Creating Payload: " << directory << std::endl;
+		ImGui::SetDragDropPayload("FILE_DRAG", directory, 128);        // Set payload to carry our item 
 		ImGui::Text("%s", fileName.c_str());
 		ImGui::EndDragDropSource();
 	}

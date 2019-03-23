@@ -38,6 +38,7 @@ public:
 	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
+	std::string filePath; // the filepath of obj for boost serialization
 	Shader* shader;
 
 	std::vector<FloatProperty> floatProperties;
@@ -55,7 +56,7 @@ public:
 	
 	//float ambientStrength = 1.0f;
 	//float specularStrength = 0.5f;
-	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = false);
+	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = true);
 	Material();
 	~Material();
 	void Init();
@@ -87,6 +88,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
+		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		//ar & BOOST_SERIALIZATION_NVP(intProperties);
+		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
 
 	}
 	template<class Archive>
@@ -104,7 +110,13 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
+		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		//ar & BOOST_SERIALIZATION_NVP(intProperties);
+		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
 
+		isInitialized = false;
 		Init();
 		//shader = RenderManager::defaultShader;
 		

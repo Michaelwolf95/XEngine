@@ -26,7 +26,7 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	shinyProperty.propertyName = VAR_NAME(shininess);
 	shinyProperty.setValue(shininess);
 	floatProperties.push_back(shinyProperty);
-	//name = _name;
+	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
@@ -57,10 +57,12 @@ void Material::Init()
 	{
 		return;
 	}
+	std::cout << "Initializing Material: " << name << std::endl;
 	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
 	{
-		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
-		shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		//std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
+		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 	}
 	else
 	{
@@ -92,8 +94,6 @@ void Material::Load()
 
 void Material::Draw(std::vector<Light*> lights)
 {
-	//std::cout << "Material Draw\n";
-
 	if (useLight) {
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;
@@ -116,29 +116,6 @@ void Material::Draw(std::vector<Light*> lights)
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
 
-			//shader->setVec3(uniformString + VAR_NAME(ambient), ambient);
-			//shader->setVec3(uniformString + VAR_NAME(diffuse), diffuse);
-			//shader->setVec3(uniformString + VAR_NAME(specular), specular);
-			
-			for (auto fp : floatProperties) {
-				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
-			}
-
-			for (auto ip : intProperties) {
-				shader->setInt(uniformString + ip.propertyName, ip.getValue());
-			}
-
-			for (auto v2p : vec2Properties) {
-				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
-			}
-
-			for (auto v3p : vec3Properties) {
-				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
-			}
-
-			for (auto v4p : vec4Properties) {
-				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
-			}
 
 			// Add light properties to shader.
 			light->draw(shader, *counter);
@@ -148,6 +125,27 @@ void Material::Draw(std::vector<Light*> lights)
 
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
+
+
+		for (auto fp : floatProperties) {
+			shader->setFloat(uniformString + fp.propertyName, fp.getValue());
+		}
+
+		for (auto ip : intProperties) {
+			shader->setInt(uniformString + ip.propertyName, ip.getValue());
+		}
+
+		for (auto v2p : vec2Properties) {
+			shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
+		}
+
+		for (auto v3p : vec3Properties) {
+			shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
+		}
+
+		for (auto v4p : vec4Properties) {
+			shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
+		}
 	}
 }
 
@@ -170,7 +168,7 @@ void Material::DrawInspector()
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
 			{
-				IM_ASSERT(payload->DataSize == 32);
+				IM_ASSERT(payload->DataSize == 128);
 				const char* payload_n = (const char*)payload->Data;
 
 				textureFilePath = payload_n;
@@ -187,10 +185,46 @@ void Material::DrawInspector()
 		ImGui::Checkbox("Use Light", &useLight);
 		ImGui::ColorEdit4("Color", (float*)&Color);
 
+		if (ImGui::TreeNode(this, "Float Properties", "%s_Floats", this->name.c_str()))
+		{
+			for (size_t i = 0; i < floatProperties.size(); i++)
+			{
+				ImGui::Text(floatProperties[i].propertyName.c_str());
+				ImGui::SameLine();
+				float value = floatProperties[i].getValue();
+				ImGui::InputFloat(floatProperties[i].propertyName.c_str(), &value);
+				if (value != floatProperties[i].getValue())
+					floatProperties[i].setValue(value);
+			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode(this, "Texture Properties", "%s_Textures", this->name.c_str()))
+		{
+			for (size_t i = 0; i < textureProperties.size(); i++)
+			{
+				ImGui::Text(textureProperties[i].propertyName.c_str());
+				ImGui::SameLine();
+				Texture* value = textureProperties[i].getValue();
+				std::string path = value->path;
+				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
+				if (path != value->path)
+				{
+					value->path = path;
+				}
+				//ImGui::InputFloat(textureProperties[i].propertyName.c_str(), &value);
+				/*if (value != textureProperties[i].getValue())
+					textureProperties[i].setValue(value);*/
+			}
+			ImGui::TreePop();
+		}
+		
+
 		if (ImGui::Button("Update"))
 		{
 			isInitialized = false;
 			Init();
+
+			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}
 
 		ImGui::TreePop();

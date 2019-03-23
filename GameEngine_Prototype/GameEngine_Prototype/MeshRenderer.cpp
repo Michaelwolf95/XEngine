@@ -29,6 +29,13 @@
 #include "MeshRenderer.h"
 #include "AssetManager.h"
 
+
+
+
+#include "CameraComponent.h"
+
+
+
 REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
 
 MeshRenderer::MeshRenderer() {}
@@ -44,7 +51,10 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma):
 	Setup();
 }
 
-MeshRenderer::~MeshRenderer() {}
+MeshRenderer::~MeshRenderer() 
+{
+	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+}
 
 void MeshRenderer::Start() {}
 void MeshRenderer::Update() {}
@@ -63,10 +73,10 @@ void MeshRenderer::Setup()
 	{
 		material = RenderManager::defaultMaterial;
 	}
-	std::cout << model << std::endl;
+	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;
 	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	std::cout << model << std::endl;
+	std::cout << "End Loading Model" << std::endl;
 	if (model == nullptr)
 	{
 		std::cout << "ERROR LOADING MESH" << std::endl;
@@ -86,26 +96,28 @@ void MeshRenderer::Setup()
 
 void MeshRenderer::Draw()
 {
-	//if (gameObject == nullptr) return;
-	
-	// This was the error
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	material->shader->setMat4("view", view);
 	material->shader->setMat4("projection", projection);
-
-	//glm::mat4 model = glm::mat4(1.0f);
-	//model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-	
-	// for mesh name
-	std::string meshMatName = "_mat";
+
+	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
+	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
+	material->shader->setVec3("viewPos", viewPos);
+
+	// Not sure if this should be here...
+	if (RenderManager::getInstance().lights.size() > 0)
+	{
+		material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
+
+		material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
+	}
+
+
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
-		// name key for material
-		std::string MatKey = model->meshes[i]->name + meshMatName;
 
 		// texture variables
 		unsigned int diffuseNr = 1;
@@ -114,13 +126,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 
 		// binding textures
-		for (unsigned int j = 0; j < model->MeshToMaterial.at(MatKey)->textures.size(); j++)
+		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
 			std::string number;
-			std::string name = model->MeshToMaterial.at(MatKey)->textures[j].type;
+			std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -134,9 +146,8 @@ void MeshRenderer::Draw()
 
 			// set texture unit
 			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
-
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(MatKey)->textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
 		// draw mesh
@@ -431,7 +442,7 @@ void MeshRenderer::DrawInspector()
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
 			ImGui::Text(model->meshes[i]->name.c_str());
-			model->MeshToMaterial.at(model->meshes[i]->name+"_mat")->DrawInspector();
+			model->MeshToMaterial.at(model->meshes[i]->name)->DrawInspector();
 		}
 	}
 
@@ -442,5 +453,35 @@ void MeshRenderer::DrawInspector()
 		model = nullptr;
 
 		LoadModel();
+	}
+
+	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+	if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+	{
+		ImGui::Text("<----- CHANGE MATERIAL ----->");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			{
+				IM_ASSERT(payload->DataSize == 128);
+				const char* payload_n = (const char*)payload->Data;
+
+				std::string fileName(payload_n);
+				if (fileName.substr(fileName.find_last_of(".")) == ".material")
+				{
+					std::cout << "Dropping Material!" << std::endl;
+					//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+					//size_t lastindex = fileName.find_last_of(".");
+					//fileName = fileName.substr(0, lastindex);
+					Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+					if (mat != nullptr)
+					{
+						this->material = mat;
+						std::cout << "Dropping Material!" << std::endl;
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
 	}
 }

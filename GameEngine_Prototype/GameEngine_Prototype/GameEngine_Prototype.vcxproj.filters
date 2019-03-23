@@ -285,8 +285,19 @@
     <ClCompile Include="MaterialProperty.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Text.cpp">
       <Filter>Source Files</Filter>
+=======
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+>>>>>>> develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,8 +520,19 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
+=======
+    <ClInclude Include="AudioComponent.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLibrary.h">
+      <Filter>Header Files\AssetManagement</Filter>
+>>>>>>> develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

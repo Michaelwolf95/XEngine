@@ -1,10 +1,22 @@
 #include "MaterialProperty.h"
+#include "Serialization.h"
+#include <glm/glm.hpp>
+#include <string>
+//#include "GLM_Serialize.h"
+#include "AssetManager.h"
 
-//template<typename T>
-//MaterialProperty<T>::MaterialProperty(std::string name, T val) {
-//	propertyName = name;
-//	value = val;
-//}
+BOOST_CLASS_EXPORT_GUID(FloatProperty, "FloatProperty")
+BOOST_CLASS_EXPORT_GUID(IntProperty, "IntProperty")
+BOOST_CLASS_EXPORT_GUID(Vec2Property, "Vec2Property")
+BOOST_CLASS_EXPORT_GUID(Vec3Property, "Vec3Property")
+BOOST_CLASS_EXPORT_GUID(Vec4Property, "Vec4Property")
+BOOST_CLASS_EXPORT_GUID(TextureProperty, "TextureProperty")
+
+
+FloatProperty::FloatProperty()
+{
+	value = 0.0f;
+}
 
 float FloatProperty::getValue()
 {
@@ -14,6 +26,11 @@ float FloatProperty::getValue()
 void FloatProperty::setValue(float val)
 {
 	value = val;
+}
+
+IntProperty::IntProperty()
+{
+	value = 0;
 }
 
 int IntProperty::getValue()
@@ -26,6 +43,11 @@ void IntProperty::setValue(int val)
 	value = val;
 }
 
+Vec2Property::Vec2Property()
+{
+	value = glm::vec2();
+}
+
 glm::vec2 Vec2Property::getValue()
 {
 	return value;
@@ -34,6 +56,11 @@ glm::vec2 Vec2Property::getValue()
 void Vec2Property::setValue(glm::vec2 val)
 {
 	value = val;
+}
+
+Vec3Property::Vec3Property()
+{
+	value = glm::vec3();
 }
 
 glm::vec3 Vec3Property::getValue()
@@ -46,6 +73,11 @@ void Vec3Property::setValue(glm::vec3 val)
 	value = val;
 }
 
+Vec4Property::Vec4Property()
+{
+	value = glm::vec4();
+}
+
 glm::vec4 Vec4Property::getValue()
 {
 	return value;
@@ -56,12 +88,22 @@ void Vec4Property::setValue(glm::vec4 val)
 	value = val;
 }
 
-Texture& TextureProperty::getValue()
+TextureProperty::TextureProperty()
 {
-	return Texture();
+	value = nullptr;
 }
 
-void TextureProperty::setValue(Texture& val)
+Texture* TextureProperty::getValue()
+{
+	return value;
+}
+
+void TextureProperty::setValue(Texture* val)
 {
 	value = val;
+}
+
+void TextureProperty::LoadTextureFromPath(std::string filePath)
+{
+	value = &AssetManager::getInstance().textureLib.GetAsset(filePath);
 }

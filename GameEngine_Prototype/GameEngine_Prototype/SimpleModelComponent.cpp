@@ -27,7 +27,7 @@ SimpleModelComponent::SimpleModelComponent(float * verts, unsigned int numV, uns
 
 SimpleModelComponent::~SimpleModelComponent()
 {
-	std::cout << "Deleting SimpleModelComponent" << std::endl;
+	std::cout << "\t\tDeleting SimpleModelComponent" << std::endl;
 	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 }
 
@@ -45,7 +45,8 @@ void SimpleModelComponent::Setup()
 	if (material == nullptr)
 	{
 		//material = RenderManager::defaultMaterial;
-		material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
+		//material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
+		material = AssetManager::getInstance().materialLib.GetAsset("MuliLight Model");
 		//std::cout << "Material set to default." << std::endl;
 	}
 	else
@@ -137,5 +138,37 @@ void SimpleModelComponent::OnDrawGizmos()
 
 void SimpleModelComponent::DrawInspector()
 {
+
 	this->material->DrawInspector();
+
+	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+	if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+	{
+		ImGui::Text("<----- CHANGE MATERIAL ----->");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			{
+				IM_ASSERT(payload->DataSize == 128);
+				const char* payload_n = (const char*)payload->Data;
+
+				std::string fileName(payload_n);
+				if (fileName.substr(fileName.find_last_of(".")) == ".material")
+				{
+					std::cout << "Dropping Material!" << std::endl;
+					//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+					//size_t lastindex = fileName.find_last_of(".");
+					//fileName = fileName.substr(0, lastindex);
+					Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+					if (mat != nullptr)
+					{
+						this->material = mat;
+						std::cout << "Dropping Material!" << std::endl;
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+	}
+
 }
