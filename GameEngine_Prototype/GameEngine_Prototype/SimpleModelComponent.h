@@ -31,6 +31,7 @@ private:
 	unsigned int EBO;
 	Material* material = nullptr;
 	//
+
 	bool isSetup = false;
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -42,6 +43,12 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
+		ar & BOOST_SERIALIZATION_NVP(VBO);
+		ar & BOOST_SERIALIZATION_NVP(VAO);
+		ar & BOOST_SERIALIZATION_NVP(EBO);
+		ar & BOOST_SERIALIZATION_NVP(material);
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
 		//ar & BOOST_SERIALIZATION_NVP(material);
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
@@ -55,11 +62,18 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
+		ar & BOOST_SERIALIZATION_NVP(VBO);
+		ar & BOOST_SERIALIZATION_NVP(VAO);
+		ar & BOOST_SERIALIZATION_NVP(EBO);
+		ar & BOOST_SERIALIZATION_NVP(material);
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
 
 		//TODO: Use the filePath instead when getting from the library.
 		std::string materialFilePath;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
+		std::cout << "materialFilePath == " << materialFilePath << std::endl;
 		material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
 
 		vertices = DiffusedMappedCube;

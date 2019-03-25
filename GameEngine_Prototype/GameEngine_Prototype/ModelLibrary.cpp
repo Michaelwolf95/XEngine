@@ -14,6 +14,7 @@ ModelLibrary::~ModelLibrary() {}
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
+	std::cout << "ModelLibrary.LoadAsset filePath == " << filePath << std::endl;
 	Model* model = new Model();
 	std::string pathToObjModel = filePath;
 
@@ -68,14 +69,14 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 // Process the material for the mesh
 Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
-	filePath = "../Assets/Materials/" + filePath + ".material";	// material filepath
-	//filePath += fileName + ".material";
+	std::cout << "ModelLibrary.processMeshMaterial: filePath == " << filePath << std::endl;
+	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.data + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
 	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 	
 	// only used name of the material to get it
-	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(filePath);
+	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
 	MatforMesh->vertexShaderPath = "multilights.vs"; // set shader and file path
 	MatforMesh->fragmentShaderPath = "multilights.fs";
 	MatforMesh->Init(); // initilize with new vs and fs
@@ -124,6 +125,7 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 // Check material textures of a given type and loads texture if not loaded yet
 std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
+	std::cout << "ModelLibrary.loadMaterialTextures: filePath == " << filePath << std::endl;
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 

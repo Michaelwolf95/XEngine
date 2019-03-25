@@ -93,12 +93,15 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
-		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
-		//ar & BOOST_SERIALIZATION_NVP(intProperties);
-		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
-
+		ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		ar & BOOST_SERIALIZATION_NVP(intProperties);
+		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(filePath);
+		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version) // file_version
@@ -115,11 +118,15 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
-		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
-		//ar & BOOST_SERIALIZATION_NVP(intProperties);
-		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+		ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		ar & BOOST_SERIALIZATION_NVP(intProperties);
+		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(filePath);
+		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 
 		isInitialized = false;
 		Init();

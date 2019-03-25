@@ -130,32 +130,32 @@ void Material::Draw(std::vector<Light*> lights)
 			// Add light properties to shader.
 			light->draw(shader, *counter);
 
+			for (auto fp : floatProperties) {
+				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
+			}
+
+			for (auto ip : intProperties) {
+				shader->setInt(uniformString + ip.propertyName, ip.getValue());
+			}
+
+			for (auto v2p : vec2Properties) {
+				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
+			}
+
+			for (auto v3p : vec3Properties) {
+				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
+				//std::cout << "uniformString + v3p.propertyName == " << uniformString + v3p.propertyName << std::endl;
+			}
+
+			for (auto v4p : vec4Properties) {
+				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
+			}
+
 			counter ? (*counter)++ : printf("ERROR: counter is NULL! (Materials->Draw)\n");
 		}
 
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
-
-
-		for (auto fp : floatProperties) {
-			shader->setFloat(uniformString + fp.propertyName, fp.getValue());
-		}
-
-		for (auto ip : intProperties) {
-			shader->setInt(uniformString + ip.propertyName, ip.getValue());
-		}
-
-		for (auto v2p : vec2Properties) {
-			shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
-		}
-
-		for (auto v3p : vec3Properties) {
-			shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
-		}
-
-		for (auto v4p : vec4Properties) {
-			shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
-		}
 	}
 }
 
