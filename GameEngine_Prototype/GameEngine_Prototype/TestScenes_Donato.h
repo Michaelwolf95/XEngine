@@ -27,9 +27,17 @@ void CreateTestScene_Donato()
 {
 	Scene_ptr scene(new Scene("Loading 3d models"));
 
-	Text t1("IHATCS__.ttf", 40);
-	t1.RenderText("HISDFBDSJFBSDFJDSBFSD", 0.0f, 0.0f, 2.0f, glm::vec3(0.5, 0.8f, 0.2f));
-
+	//Text t1("IHATCS__.ttf", 40);
+	//t1.RenderText("HISDFBDSJFBSDFJDSBFSD", 0.0f, 0.0f, 2.0f, glm::vec3(0.5, 0.8f, 0.2f));
+	
+	Material* textM = new Material("TextTest", "text.vs", "text.fs");
+	std::shared_ptr<Text> tt(new Text("IHATCS__.ttf", 40, textM));
+	tt->setText("HIHIHIHI");
+	tt->setColor(glm::vec3(0.5, 0.8f, 0.2f));
+	tt->setPosandScale(0.0f, 0.0f, 1.0f);
+	GameObject_ptr text1 = scene->CreateGameObject("Text");
+	text1->AddComponent(tt);
+	
 	Material* modelMaterial = new Material("ModelManTest", "3Dmodel.vs", "3Dmodel.fs");
 	std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial));
 	GameObject_ptr modelMan = scene->CreateGameObject("ModelMan");

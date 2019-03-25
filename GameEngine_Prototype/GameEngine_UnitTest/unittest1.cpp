@@ -284,47 +284,4 @@ namespace GameEngine_UnitTest
 			Assert::IsTrue(true == Time::getInstance().IsCounting());
 		}
 	};
-
-	TEST_CLASS(LightComp)
-	{
-	public:
-		/*
-			Functions/Methods not tested:
-				- Start()
-				- Update()
-				- getLightPos()
-		*/
-
-		/*
-		TEST_METHOD(GetLightColor)
-		{
-			glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
-			float intensity = 2.0f;
-
-			LightComponent light(color, intensity);
-
-			Assert::IsTrue(color == light.getLightColor());
-		}
-		*/
-	};
-
-	TEST_CLASS(CameraComp)
-	{
-	public:
-		/*
-			Functions/Methods not tested:
-				- 
-		*/
-
-		TEST_METHOD(GetProjection)
-		{
-			/*
-			CameraComponent camera;
-
-			glm::mat4 projection = glm::mat4(1.0f);
-
-			Assert::IsTrue(projection == camera.getProjection());
-			*/
-		}
-	};
 }
