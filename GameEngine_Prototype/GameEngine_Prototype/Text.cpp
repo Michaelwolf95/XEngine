@@ -1,5 +1,6 @@
 #include "Text.h"
-
+#include <ft2build.h>
+#include FT_FREETYPE_H
 const std::string FILE_PATH = "../Fonts/";
 
 Text::Text(const char *filePath, FT_UInt size, Material* m) : RenderableObject(m)
