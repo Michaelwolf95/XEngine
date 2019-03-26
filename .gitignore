@@ -19,6 +19,8 @@
 # Build results
 /GameEngine_Prototype/Debug/
 /GameEngine_Prototype/GameEngine_Prototype/Debug/
+/GameEngine_Prototype/Build_Debug/
+/GameEngine_Prototype/GameEngine_Prototype/Build_Debug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
