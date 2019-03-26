@@ -13,8 +13,6 @@
 // FreeType
 #include <ft2build.h>
 #include FT_FREETYPE_H
-//#include <freetype/freetype.h>
-//#include <freetype.h>
 //Other
 #include "Shader.h"
 #include "RenderManager.h"
