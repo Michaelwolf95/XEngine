@@ -26,6 +26,7 @@ public:
 	static Material* defaultMaterial;
 	static Shader* colorDrawShader;
 	static Shader* defaultSpriteShader;
+	static Shader* defaultTextShader;
 
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
