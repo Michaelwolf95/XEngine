@@ -238,6 +238,13 @@ namespace GameEngine_UnitTest
 
 			Assert::IsTrue(false == Input::getInstance().GetKeyUp(1));
 		}
+		
+		TEST_METHOD(Test_Test)
+		{
+			int num = 1;
+
+			Assert::IsTrue(num == 1);
+		}
 	};
 	
 	TEST_CLASS(TimeManager)
