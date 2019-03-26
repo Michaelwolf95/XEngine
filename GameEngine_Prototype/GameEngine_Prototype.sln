@@ -7,12 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine_Prototype", "Gam
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Build_Debug|x64 = Build_Debug|x64
+		Build_Debug|x86 = Build_Debug|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Build_Debug|x64.ActiveCfg = Build_Debug|x64
+		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Build_Debug|x64.Build.0 = Build_Debug|x64
+		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Build_Debug|x86.ActiveCfg = Build_Debug|Win32
+		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Build_Debug|x86.Build.0 = Build_Debug|Win32
 		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Debug|x64.ActiveCfg = Debug|x64
 		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Debug|x64.Build.0 = Debug|x64
 		{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}.Debug|x86.ActiveCfg = Debug|Win32
@@ -24,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0B734CD-A7EC-4683-89CE-7452560C2039}
 	EndGlobalSection
 EndGlobal
