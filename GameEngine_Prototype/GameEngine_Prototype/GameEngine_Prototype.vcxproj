@@ -131,12 +131,13 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"</Command>
+xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'">
@@ -156,7 +157,8 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"</Command>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"</Command>
+xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -214,7 +216,9 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
