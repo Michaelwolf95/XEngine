@@ -18,12 +18,22 @@
 
 # Build results
 /GameEngine_Prototype/Debug/
+/GameEngine_Prototype/Build_Debug/
 /GameEngine_Prototype/GameEngine_Prototype/Debug/
+/GameEngine_Prototype/GameEngine_Prototype/Build_Debug/
+/GameEngine_Prototype/GameEngine_Prototype/x64/
+/GameEngine_Prototype/GameEngine_Prototype/x86/
+
+/GameEngine_UnitTest/Debug/
+/GameEngine_UnitTest/Build_Debug/
+/GameEngine_Prototype/GameEngine_UnitTest/Debug/
+/GameEngine_Prototype/GameEngine_UnitTest/Build_Debug/
+/GameEngine_Prototype/GameEngine_UnitTest/x64/
+/GameEngine_Prototype/GameEngine_UnitTest/x86/
+
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-/GameEngine_Prototype/GameEngine_Prototype/x64/
-/GameEngine_Prototype/GameEngine_Prototype/x86/
 bld/
 [Bb]in/
 [Oo]bj/

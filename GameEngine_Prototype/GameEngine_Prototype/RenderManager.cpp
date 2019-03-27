@@ -17,6 +17,7 @@ Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
 Shader* RenderManager::defaultSpriteShader = nullptr;
+Shader* RenderManager::defaultTextShader = nullptr;
 
 //TODO: Store this on the Camera.
 glm::vec4 defaultClearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f );
@@ -62,6 +63,7 @@ void RenderManager::CompileShaders()
 	colorDrawShader = new Shader("color.vs", "color.fs");
 
 	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
+	defaultTextShader = new Shader("text.vs", "text.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 }

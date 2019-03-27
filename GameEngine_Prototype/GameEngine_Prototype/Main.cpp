@@ -1,14 +1,14 @@
-#define X_EDIT_MODE
+//define X_EDIT_MODE // DEFINED IN PROJECT SETTINGS
 
 #define GLM_FORCE_RADIANS
 
-#ifdef X_EDIT_MODE
+//#ifdef X_EDIT_MODE
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
-#endif
+//#endif
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -29,7 +29,7 @@
 #ifdef X_EDIT_MODE
 #include "SceneEditor.h"
 #else
-#include "TestScenes.h"
+//#include "TestScenes.h"
 #endif
 
 // ENTRY POINT
@@ -55,7 +55,8 @@ int main()
 	#ifdef X_EDIT_MODE
 	SceneEditor::getInstance().StartEditMode();
 	#else
-	RunTestScene();
+	// TODO: Configure Build Config to load first scene based on a file.
+	SceneManager::getInstance().LoadAndActivateSceneFromFile("../Assets/Scenes/Physics_Test_2.scene");
 	#endif
 
 	// FRAME LOOP
