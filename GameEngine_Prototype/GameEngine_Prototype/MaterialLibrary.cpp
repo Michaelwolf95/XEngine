@@ -43,7 +43,7 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 // Overriden LoadAsset method
 Material *& MaterialLibrary::LoadAsset(std::string filePath)
 {
-	Material* loadedMaterial =  new Material();
+	Material* loadedMaterial =  new Material("DefaultMat", "multilights.vs", "multilights.fs");
 
 	// load from file in directory
 	if (LoadMaterialFromFile(*loadedMaterial, filePath.c_str()) )

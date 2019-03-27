@@ -666,12 +666,19 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
 				selectedGameObject = go;
 				// Create Box Material
-				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightModel.material");
+				//std::string filename = "../Assets/Materials/";	// material filepath
+				//filename += m.name + ".material";				// material file
+				//Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+				modelMaterial->vertexShaderPath = "multilights.vs";
+				modelMaterial->fragmentShaderPath = "multilights.fs";
 				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
 				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
 					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
+
+				std::cout << "\nSceneEditor, modelMaterial->vertexShaderPath == " << modelMaterial->vertexShaderPath << std::endl;
 			}
 			if (ImGui::MenuItem("New Model Metal Crate"))
 			{

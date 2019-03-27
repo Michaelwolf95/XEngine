@@ -16,6 +16,8 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 	useLight = _useLight;
 
+	filePath = "../Assets/Materials/MultiLightModel.material";
+
 	Init();
 
 	//std::cout << to_string() << std::endl;
@@ -67,7 +69,7 @@ void Material::Init()
 	std::cout << "Initializing Material: " << name << std::endl;
 	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
 	{
-		//std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
+		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
 		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 	}
@@ -76,7 +78,7 @@ void Material::Init()
 		shader = RenderManager::defaultShader;
 	}
 
-	textureFilePath = "textures/container.jpg";
+	
 
 	if (!textureFilePath.empty())
 	{
@@ -103,6 +105,19 @@ void Material::Load()
 
 void Material::Draw(std::vector<Light*> lights)
 {
+	if (this->textureFilePath != "")
+	{
+		std::cout << "textureFilePath == " << this->textureFilePath << std::endl;
+		std::cout << "fragmentShaderPath == " << this->fragmentShaderPath << std::endl;
+		std::cout << "vertexShaderPath == " << this->vertexShaderPath << std::endl;
+	}
+	else
+	{
+		std::cout << "textureFilePath == " << this->textureFilePath << std::endl;
+		std::cout << "fragmentShaderPath == " << this->fragmentShaderPath << std::endl;
+		std::cout << "vertexShaderPath == " << this->vertexShaderPath << std::endl;
+		//std::getchar();
+	}
 	if (useLight) {
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;

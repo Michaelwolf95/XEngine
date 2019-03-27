@@ -95,6 +95,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 		glDeleteShader(geometry);
 }
 
+Shader::Shader(const std::string shaderFilePath)
+{
+	parseShaderFile(shaderFilePath);
+}
+
 // activate the shader
 // ------------------------------------------------------------------------
 void Shader::use()
@@ -208,4 +213,12 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
+}
+
+int Shader::parseShaderFile(const std::string & path)
+{
+	std::ifstream shaderFile(path);
+	shaderFile.is_open() ? printf("File is open!\n") : printf("File is NOT open!\n");
+	shaderFile.close();
+	return -1;
 }

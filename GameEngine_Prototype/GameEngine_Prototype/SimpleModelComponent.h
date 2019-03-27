@@ -46,12 +46,13 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(VBO);
 		ar & BOOST_SERIALIZATION_NVP(VAO);
 		ar & BOOST_SERIALIZATION_NVP(EBO);
-		ar & BOOST_SERIALIZATION_NVP(material);
+		//ar & BOOST_SERIALIZATION_NVP(material);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
-		//ar & BOOST_SERIALIZATION_NVP(material);
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
+		//TODO:save material too?'
+		AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
 
 	}
 	template<class Archive>
@@ -65,7 +66,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(VBO);
 		ar & BOOST_SERIALIZATION_NVP(VAO);
 		ar & BOOST_SERIALIZATION_NVP(EBO);
-		ar & BOOST_SERIALIZATION_NVP(material);
+		//ar & BOOST_SERIALIZATION_NVP(material);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 

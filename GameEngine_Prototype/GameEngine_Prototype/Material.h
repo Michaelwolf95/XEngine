@@ -81,6 +81,9 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
+		std::cout << "save " << textureFilePath << std::endl;
+
+
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
@@ -129,6 +132,7 @@ private:
 		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 
 		isInitialized = false;
+		std::cout << "load " << textureFilePath << std::endl;
 		Init();
 		//shader = RenderManager::defaultShader;
 		

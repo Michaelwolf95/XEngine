@@ -54,7 +54,9 @@ void SimpleModelComponent::Setup()
 	{
 		//material = RenderManager::defaultMaterial;
 		
-		material = AssetManager::getInstance().materialLib.GetAsset("Multilight Model");
+		std::cout << "Warning: material was NULL!\n";
+		material = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightModel.material");
+		
 		//material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
 		//std::cout << "Material set to default." << std::endl;
 	}
