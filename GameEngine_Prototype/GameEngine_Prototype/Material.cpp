@@ -105,19 +105,6 @@ void Material::Load()
 
 void Material::Draw(std::vector<Light*> lights)
 {
-	if (this->textureFilePath != "")
-	{
-		std::cout << "textureFilePath == " << this->textureFilePath << std::endl;
-		std::cout << "fragmentShaderPath == " << this->fragmentShaderPath << std::endl;
-		std::cout << "vertexShaderPath == " << this->vertexShaderPath << std::endl;
-	}
-	else
-	{
-		std::cout << "textureFilePath == " << this->textureFilePath << std::endl;
-		std::cout << "fragmentShaderPath == " << this->fragmentShaderPath << std::endl;
-		std::cout << "vertexShaderPath == " << this->vertexShaderPath << std::endl;
-		//std::getchar();
-	}
 	if (useLight) {
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;

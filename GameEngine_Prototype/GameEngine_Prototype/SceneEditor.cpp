@@ -891,7 +891,7 @@ void SceneEditor::InspectorUpdate()
 			for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry())
 			{
 				//std::cout << element.first.name() << ": " << element.second.name << std::endl;
-				componentTypes.push_back(element.second);
+				componentTypes.push_back(element.second); // TODO: fix bug that causes engine to crash when simple model component is chosen
 			}
 
 			ImGui::Text("Add Component:");
