@@ -660,32 +660,58 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
 			}
-			if (ImGui::MenuItem("New Box"))
+			if (ImGui::MenuItem("New Simple Box"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Box");
+				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
 				selectedGameObject = go;
 				// Create Box Material
-				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
-				modelMaterial->LoadTexture("textures/container.jpg");
-				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightModel.material");
+				//std::string filename = "../Assets/Materials/";	// material filepath
+				//filename += m.name + ".material";				// material file
+				//Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+				modelMaterial->vertexShaderPath = "multilights.vs";
+				modelMaterial->fragmentShaderPath = "multilights.fs";
+				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
+				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
 					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
+
+				std::cout << "\nSceneEditor, modelMaterial->vertexShaderPath == " << modelMaterial->vertexShaderPath << std::endl;
+			}
+			if (ImGui::MenuItem("New Model Metal Crate"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("3D Model Crate", "multilights.vs", "multilights.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
+				go->AddComponent(modelNano);
+			}
+
+			if (ImGui::MenuItem("New Model Wooden Crate"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("3D Model Wooden Crate", "multilights.vs", "multilights.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
+				go->AddComponent(modelNano);
 			}
 			if (ImGui::MenuItem("New Box (Child)"))
 			{
 				if (selectedGameObject != nullptr)
 				{
 					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Box (child)");
+					GameObject_ptr go = scene->CreateGameObject("New Simple Box (Child)");
 					go->transform->SetParent(selectedGameObject->transform);
 					selectedGameObject = go;
 
 					// Create Box Material
 					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
 						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 					testModel->Setup();
 					go->AddComponent(testModel);
@@ -696,8 +722,9 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
+				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
 			}
 
@@ -864,7 +891,7 @@ void SceneEditor::InspectorUpdate()
 			for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry())
 			{
 				//std::cout << element.first.name() << ": " << element.second.name << std::endl;
-				componentTypes.push_back(element.second);
+				componentTypes.push_back(element.second); // TODO: fix bug that causes engine to crash when simple model component is chosen
 			}
 
 			ImGui::Text("Add Component:");

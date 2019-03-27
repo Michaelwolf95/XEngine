@@ -352,3 +352,5 @@ GameEngine_Prototype/Analytics/fps_sample.csv
 GameEngine_Prototype/Analytics/component.csv
 GameEngine_Prototype/GameEngine_Prototype/imgui.ini
 GameEngine_Prototype/Assets/Scenes/dennis.scene
+*.material
+*.scene

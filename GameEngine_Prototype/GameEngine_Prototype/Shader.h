@@ -14,6 +14,7 @@ public:
 
 	// constructor reads and builds the shader
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+	Shader(const std::string shaderFilePath);
 	// use/activate the shader
 	void use();
 	// utility uniform functions
@@ -30,7 +31,9 @@ public:
 	void setMat2(const std::string & name, const glm::mat2 & mat) const;
 	void setMat3(const std::string & name, const glm::mat3 & mat) const;
 	void setMat4(const std::string & name, const glm::mat4 & mat) const;
+	std::string to_string();
 private:
 	void checkCompileErrors(unsigned int shader, std::string type);
+	int parseShaderFile(const std::string & path);
 };
 

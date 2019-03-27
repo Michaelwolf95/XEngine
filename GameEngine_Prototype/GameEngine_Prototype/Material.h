@@ -24,7 +24,7 @@ class Material
 {
 public:
 	// Shader attributes
-	glm::vec4 Color;
+	glm::vec4 Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	Vec3Property colorProperty;
 	glm::vec3 ambient = glm::vec3(0.05f);
 	Vec3Property ambientProperty;
@@ -48,6 +48,9 @@ public:
 	std::vector<Vec4Property> vec4Properties;
 	std::vector<TextureProperty> textureProperties;
 
+	//std::vector<MaterialPropertyBase*>properties;
+
+
 	bool useLight = false;
 	std::vector<Texture> textures;
 
@@ -67,6 +70,8 @@ public:
 
 	void DrawInspector();
 
+	std::string to_string();
+
 private:
 	bool isInitialized = false;
 
@@ -76,6 +81,9 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
+		std::cout << "save " << textureFilePath << std::endl;
+
+
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
@@ -88,12 +96,15 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
-		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
-		//ar & BOOST_SERIALIZATION_NVP(intProperties);
-		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
-
+		ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		ar & BOOST_SERIALIZATION_NVP(intProperties);
+		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(filePath);
+		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version) // file_version
@@ -110,13 +121,18 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(diffuse);
 		ar & BOOST_SERIALIZATION_NVP(specular);
 		ar & BOOST_SERIALIZATION_NVP(shininess);
-		//ar & BOOST_SERIALIZATION_NVP(floatProperties);
-		//ar & BOOST_SERIALIZATION_NVP(intProperties);
-		//ar & BOOST_SERIALIZATION_NVP(vec2Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec3Properties);
-		//ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+		ar & BOOST_SERIALIZATION_NVP(floatProperties);
+		ar & BOOST_SERIALIZATION_NVP(intProperties);
+		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
+		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
+		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(filePath);
+		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 
 		isInitialized = false;
+		std::cout << "load " << textureFilePath << std::endl;
 		Init();
 		//shader = RenderManager::defaultShader;
 		

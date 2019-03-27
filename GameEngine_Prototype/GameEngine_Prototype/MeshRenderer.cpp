@@ -41,13 +41,11 @@ REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
 MeshRenderer::MeshRenderer() {}
 
 // Constructor
-MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma):
-	gammaCorrection(gamma), 
-	RenderableObject(m)
+MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
 {
 	// filepath for .obj file.
-	this->pathToObjModel ="../Assets/"  + std::string(path);
-
+	this->pathToObjModel = "../Assets/" + std::string(path);
+	material = m;
 	Setup();
 }
 
@@ -76,12 +74,21 @@ void MeshRenderer::Setup()
 	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;
 	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+
 	std::cout << "End Loading Model" << std::endl;
+
 	if (model == nullptr)
 	{
 		std::cout << "ERROR LOADING MESH" << std::endl;
 		return;
 	}
+	
+	//// set up each mesh here??? - DM
+	//for (auto m : model->meshes) {
+	//	std::cout << "setting up mesh: " << m->name << std::endl;
+	//	m->Setup();
+	//}
+
 	/*
 	if (!model->meshes.empty())
 	{
@@ -91,11 +98,64 @@ void MeshRenderer::Setup()
 		}
 	}
 	*/
+
+	
+
 	isSetup = true;
+
+	//PrintVertices();
+}
+
+//void MeshRenderer::FreeAllResources()
+//{
+//	//ToDo: Loop through all renderables and free their resources
+//	for (size_t i = 0; i < currentRenderables.size(); i++)
+//	{
+//		FreeObjectResources(currentRenderables[i]);
+//	}
+//}
+
+void MeshRenderer::FreeObjectResources()
+{
+	// optional: de-allocate all resources once they've outlived their purpose:
+	// ------------------------------------------------------------------------
+	glDeleteVertexArrays(1, &(VAO));
+	glDeleteBuffers(1, &(VBO));
+	glDeleteBuffers(1, &(EBO));
+}
+
+void MeshRenderer::PrintVertices()
+{
+	for (int i = 0; i < model->meshes.size(); i++)
+	{
+		std::cout << "Mesh Index: " << model->meshes[i]->name << "\t";
+		for (int j = 0; j < model->meshes[i]->vertices.size(); j++)
+		{
+			std::cout << "Vertex Index: " << j << "\t";
+			std::cout << model->meshes[i]->vertices[j].Position.x << " " << model->meshes[i]->vertices[j].Position.y << " " << model->meshes[i]->vertices[j].Position.z;
+			std::cout << "\t" << model->meshes[i]->vertices[j].Normal.x << " " << model->meshes[i]->vertices[j].Normal.y << " " << model->meshes[i]->vertices[j].Normal.z;
+			std::cout << "\t" << model->meshes[i]->vertices[j].TexCoords.x << " " << model->meshes[i]->vertices[j].TexCoords.y << std::endl;
+		}
+	}
+}
+
+bool MeshRenderer::LoadModel()
+{
+	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+	return (model == nullptr);
 }
 
 void MeshRenderer::Draw()
 {
+	material->shader->use();
+	RenderManager::getInstance().currentShaderID = material->shader->ID;
+
+	material->Load();
+
+	//if (gameObject == nullptr) return;
+	
+	// This was the error
+
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	material->shader->setMat4("view", view);
@@ -106,16 +166,6 @@ void MeshRenderer::Draw()
 	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
 
-	// Not sure if this should be here...
-	if (RenderManager::getInstance().lights.size() > 0)
-	{
-		material->shader->setVec3("lightPos", RenderManager::getInstance().lights.back()->getLightPos());
-
-		material->shader->setVec3("lightColor", RenderManager::getInstance().lights.back()->getLightColor());
-	}
-
-
-
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
 
@@ -124,7 +174,7 @@ void MeshRenderer::Draw()
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
-
+		
 		// binding textures
 		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
 		{
@@ -150,6 +200,9 @@ void MeshRenderer::Draw()
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
+		material->Draw(RenderManager::getInstance().lights);
+
+		// Try to delegate to Material class????
 		// draw mesh
 		glBindVertexArray(model->meshes[i]->VAO);
 		glDrawElements(GL_TRIANGLES, model->meshes[i]->indices.size(), GL_UNSIGNED_INT, 0);
@@ -160,12 +213,12 @@ void MeshRenderer::Draw()
 
 	}
 }
-
-bool MeshRenderer::LoadModel()
-{
-	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	return (model == nullptr);
-}
+//
+//bool MeshRenderer::LoadModel()
+//{
+//	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+//	return (model == nullptr);
+//}
 
 //bool MeshRenderer::LoadModel()
 //{

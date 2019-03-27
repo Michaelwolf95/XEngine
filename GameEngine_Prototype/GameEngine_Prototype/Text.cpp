@@ -3,7 +3,7 @@
 #include FT_FREETYPE_H
 const std::string FILE_PATH = "../Fonts/";
 
-Text::Text(const char *filePath, FT_UInt size, Material* m) : RenderableObject(m)
+Text::Text(const char *filePath, FT_UInt size, Material* m) //: RenderableObject(m)
 {
 	fontPath = filePath;
 	fontSize = size;

@@ -27,12 +27,12 @@ void RunTestScene_Dennis()
 
 void CreateTestScene_DM1()
 {
-	Scene* scene = new Scene("DM1-test");
-	
+	Scene_ptr scene(new Scene("Multi Lights"));
+
 	/// Preparing cube model
 	// Creating object called "cube"
-	GameObject* cube = scene->CreateGameObject("Cube");
-	GameObject* light = scene->CreateGameObject("Light");
+	GameObject_ptr cube = scene->CreateGameObject("Cube");
+	GameObject_ptr light = scene->CreateGameObject("Light");
 
 	// Cube
 	float vertices[] = {
@@ -87,34 +87,38 @@ void CreateTestScene_DM1()
 		20, 21, 22, 20, 22, 23,   // left
 	};
 	
-	Shader* modelShader = new Shader("model.vs", "model.fs");
+	//Shader* modelShader = new Shader("model.vs", "model.fs");
 	//Shader* lightShader 
-	Material* modelMaterial = new Material(modelShader);
+	Material* modelMaterial = new Material("Model", "model.vs", "model.fs");
 	//Material* lightMaterial = new Material()
 	modelMaterial->LoadTexture("textures/container.jpg");
 	
 
-	SimpleModelComponent* model = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
-	SimpleModelComponent* lampModel = new SimpleModelComponent(vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial);
+	std::shared_ptr<SimpleModelComponent>lightModel2(new SimpleModelComponent("PointLight Green", DiffusedMappedCube, 36, 8,
+		DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int)/*, lightMaterial2*/));
+
+	std::shared_ptr<SimpleModelComponent>model(new SimpleModelComponent("Simple Model", vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial));
+	std::shared_ptr<SimpleModelComponent>lampModel(new SimpleModelComponent("Lamp Model", vertices, 36, 5, indices, sizeof(indices) / sizeof(float), modelMaterial));
 	//model->Setup();
 	cube->AddComponent(model);
 	light->AddComponent(lampModel);
 	cube->transform->setLocalPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	light->transform->setLocalPosition(glm::vec3(0.f, 5.f, -1.f));
-	auto inputTester = new InputTester();
+	std::shared_ptr<InputTester>inputTester(new InputTester());
 	cube->AddComponent(inputTester);
 	cube->transform->setLocalPosition(glm::vec3(5.0f, 0.0f, 0.0f));
 	inputTester->rotationSpeed = 15.0f;
 
 
 	// CAMERA SETUP
-	GameObject* camGo = scene->CreateGameObject("Cam");
-	CameraComponent* cam = new CameraComponent();
+	GameObject_ptr camGo = scene->CreateGameObject("Cam");
+	std::shared_ptr<CameraComponent>cam(new CameraComponent());
 	camGo->AddComponent(cam);
 	camGo->transform->Translate(glm::vec3(0.0f, -0.0f, -0.5f)); // y: negative goes up, x: neg goes right, z: neg goes to horizon
 	//camGo->transform->Rotate(glm::vec3(15.0f, 0.0f, 0.0f));
 	//camGo->AddComponent(inputTester);
-	camGo->AddComponent(new FreeLookCameraController());
+	std::shared_ptr<FreeLookCameraController> freeLookCam(new FreeLookCameraController());
+	camGo->AddComponent(freeLookCam);
 
 
 	SceneManager::getInstance().SetActiveScene(scene);

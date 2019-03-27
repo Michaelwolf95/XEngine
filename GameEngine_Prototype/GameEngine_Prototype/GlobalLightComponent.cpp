@@ -3,10 +3,11 @@
 
 REGISTER_COMPONENT(GlobalLightComponent, "GlobalLightComponent")
 
-GlobalLightComponent::GlobalLightComponent(glm::vec3 _color, float _intensity, glm::vec3 _direction)
+GlobalLightComponent::GlobalLightComponent(glm::vec3 _color, float _intensity, glm::vec3 _initial_direction)
 	: LightComponent(_color, _intensity, TYPE_ID)
 {
-	direction = _direction;
+	direction = _initial_direction;
+	//direction = this->gameObject->transform->getForwardDirection();
 	UNIFORM_NAME = "globalLights";
 }
 
@@ -40,7 +41,7 @@ int GlobalLightComponent::getTypeID()
 
 void GlobalLightComponent::draw(Shader * shader, int &counter)
 {
+	direction = this->gameObject->transform->getForwardDirection(); // TODO: Only update when necessary (static techique)
 	shader->setVec3(UNIFORM_NAME + '[' + std::to_string(counter) + "]." + VAR_NAME(direction), direction);
-	//std::cout << UNIFORM_NAME + '[' + std::to_string(counter) + "]." + VAR_NAME(direction) << " == " << direction.x << " " << direction.y << " " << direction.z << std::endl;
 	LightComponent::draw(shader, counter);
 }

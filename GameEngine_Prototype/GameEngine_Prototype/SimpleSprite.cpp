@@ -4,7 +4,7 @@
 
 SimpleSprite::SimpleSprite(float* verts, unsigned int numV, unsigned int vertDataSize,
 	unsigned int* ind, unsigned int numInd, Material* _material)
-	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
+	//: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material) // removed from renderableobject
 {
 	
 }

@@ -43,6 +43,7 @@ uniform vec3 lightColor;
 
 uniform vec4 MainColor;
 uniform sampler2D Texture;
+uniform sampler2D texture_diffuse1;
 
 const int NUM_LIGHTS = 10;
 uniform GlobalLight globalLights[NUM_LIGHTS];
@@ -60,7 +61,10 @@ vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec
 void main()
 {
     vec4 texel;// = texture(Texture, TexCoord);
-    if(float(textureSize(Texture,0).x) > 1) {
+    if (float(textureSize(texture_diffuse1, 0).x) > 1) {
+        texel = texture(texture_diffuse1, TexCoord);
+    }
+    else if(float(textureSize(Texture,0).x) > 1) {
         texel = texture(Texture, TexCoord);
     }
     else {
@@ -120,8 +124,7 @@ vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec
     float spec = pow(max(dot(viewDir, reflectDir), 0.0f), 16); //32 = shininess property of Material
     float specularStrength = 0.3f;
 
-    vec3 ambient = calculateAmbientLighting(texel);//light.ambient * vec3(
     vec3 diffuse = diff * light.color * texel.rgb;
     vec3 specular = specularStrength * spec * light.color;
-    return (ambient + diffuse + specular) * light.intensity;
+    return (calculateAmbientLighting(texel) + diffuse + specular) * light.intensity;
 }

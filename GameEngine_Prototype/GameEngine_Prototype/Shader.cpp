@@ -95,6 +95,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 		glDeleteShader(geometry);
 }
 
+Shader::Shader(const std::string shaderFilePath)
+{
+	parseShaderFile(shaderFilePath);
+}
+
 // activate the shader
 // ------------------------------------------------------------------------
 void Shader::use()
@@ -174,6 +179,16 @@ void Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
+std::string Shader::to_string()
+{
+	std::string str = "";
+
+	str += "\nPrint contents of Shader: ";
+	str += "\nID: " + std::to_string(this->ID);
+
+	return str;
+}
+
 // utility function for checking shader compilation/linking errors.
 // ------------------------------------------------------------------------
 void Shader::checkCompileErrors(unsigned int shader, std::string type)
@@ -198,4 +213,12 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
+}
+
+int Shader::parseShaderFile(const std::string & path)
+{
+	std::ifstream shaderFile(path);
+	shaderFile.is_open() ? printf("File is open!\n") : printf("File is NOT open!\n");
+	shaderFile.close();
+	return -1;
 }
