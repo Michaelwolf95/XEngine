@@ -520,7 +520,7 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Common</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -532,6 +532,12 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryExport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XEngine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@ void processInput(GLFWwindow *window);
 // Application Settings - window title, screen dimensions, etc.
 struct AppConfig
 {
-	char* appTitle = "CECS 491 Game Engine";
+	char* appTitle = (char*)"CECS 491 Game Engine";
 	unsigned int screenWidth = 800;
 	unsigned int screenHeight = 600;
 };

@@ -4,7 +4,7 @@
 namespace ImGui
 {
 	//IMGUI_API void InputTextField(std::string& str, char* label = "##edit");
-	IMGUI_IMPL_API inline void InputTextField(std::string& str, char* label = "##edit")
+	IMGUI_IMPL_API inline void InputTextField(std::string& str, const char* label = "##edit")
 	{
 		//ImGui::Text("Edit name:");
 		char buf[32];
