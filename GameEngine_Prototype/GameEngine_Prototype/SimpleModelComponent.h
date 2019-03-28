@@ -46,12 +46,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(VBO);
 		ar & BOOST_SERIALIZATION_NVP(VAO);
 		ar & BOOST_SERIALIZATION_NVP(EBO);
-		//ar & BOOST_SERIALIZATION_NVP(material);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
+		// save the material using the material file path
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
-		//TODO:save material too?'
 		AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
 
 	}
@@ -66,12 +65,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(VBO);
 		ar & BOOST_SERIALIZATION_NVP(VAO);
 		ar & BOOST_SERIALIZATION_NVP(EBO);
-		//ar & BOOST_SERIALIZATION_NVP(material);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
 
-		//TODO: Use the filePath instead when getting from the library.
+		// load the material using the material file path
 		std::string materialFilePath;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
 		std::cout << "materialFilePath == " << materialFilePath << std::endl;
