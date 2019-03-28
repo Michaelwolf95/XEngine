@@ -11,6 +11,7 @@
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
+	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
@@ -174,6 +175,8 @@ void Material::DrawInspector()
 {
 	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
+		ImGui::InputText("Name", &name);
+
 		ImGui::InputText("VertPath", &vertexShaderPath);
 
 		ImGui::InputText("FragPath", &fragmentShaderPath);

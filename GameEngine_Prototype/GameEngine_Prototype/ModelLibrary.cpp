@@ -70,16 +70,13 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
 	std::cout << "ModelLibrary.processMeshMaterial: filePath == " << filePath << std::endl;
-	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.data + ".material";	//filePath += fileName + ".material";
+	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
 	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 	
 	// only used name of the material to get it
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
-	MatforMesh->vertexShaderPath = "multilights.vs"; // set shader and file path
-	MatforMesh->fragmentShaderPath = "multilights.fs";
-	MatforMesh->Init(); // initilize with new vs and fs
 
 	// process materials
 	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
