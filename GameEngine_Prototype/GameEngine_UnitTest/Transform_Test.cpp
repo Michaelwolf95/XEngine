@@ -29,21 +29,17 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace GameEngine_UnitTest
 {
-	/*
-		Classes not tested:
-			- AssetManager
-			- DebugUtility
-			- Singleton
-	*/
 
-	/*TEST_CLASS(Transform)
+	TEST_CLASS(Transform_Test)
 	{
 	public:
 		TEST_METHOD(Test_Test)
 		{
 			int num = 1;
 
+			//Transform
+
 			Assert::IsTrue(num == 1);
 		}
-	};*/
+	};
 }

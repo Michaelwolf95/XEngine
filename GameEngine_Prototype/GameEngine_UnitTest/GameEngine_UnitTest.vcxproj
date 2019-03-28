@@ -240,6 +240,8 @@
   <ItemGroup>
     <ProjectReference Include="..\GameEngine_Prototype\GameEngine_Prototype.vcxproj">
       <Project>{b91b3f6d-a712-4e36-b894-dbe4b1b8c579}</Project>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
