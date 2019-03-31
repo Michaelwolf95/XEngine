@@ -54,6 +54,7 @@ int RenderManager::Init()
 
 void RenderManager::CompileShaders()
 {
+	std::cout << "RENDERMANAGER::CompileShaders\n";
 	defaultShader = new Shader("model.vs", "model.fs");
 	defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
 	//defaultMaterial = new Material(defaultShader);

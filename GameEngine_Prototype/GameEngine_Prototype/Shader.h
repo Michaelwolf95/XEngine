@@ -14,6 +14,7 @@ public:
 
 	// constructor reads and builds the shader
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+	// Single shader file
 	Shader(const std::string shaderFilePath);
 	// use/activate the shader
 	void use();
@@ -35,5 +36,6 @@ public:
 private:
 	void checkCompileErrors(unsigned int shader, std::string type);
 	int parseShaderFile(const std::string & path);
+	void compileShaders(const char* vertexCode, const char* fragmentCode, const char* geometryCode = nullptr);
 };
 

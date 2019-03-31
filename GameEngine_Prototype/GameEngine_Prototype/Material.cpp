@@ -11,6 +11,12 @@
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
+	std::cout << "Material constructor called with arguments\n";
+	std::cout << "\t_name: " << _name			<< std::endl;
+	std::cout << "\tvertPath: "	<< vertPath		<< std::endl;
+	std::cout << "\tfragPath " << fragPath 		<< std::endl;
+	std::cout << "\t_useLight: " << _useLight	<< std::endl;
+
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
@@ -24,10 +30,9 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 }
 
-
-
 Material::Material()
 {
+	std::cout << "Material default constructor with defaultShader call\n";
 	if (shader == nullptr)
 	{
 		shader = RenderManager::defaultShader;
@@ -67,14 +72,19 @@ void Material::Init()
 		return;
 	}
 	std::cout << "Initializing Material: " << name << std::endl;
-	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
+	if ((vertexShaderPath.empty() /*|| fragmentShaderPath.empty()*/) == false)
 	{
-		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
+
+		std::cout << "Loading Shaders for Material" << std::endl
+			<< "\tname: " << this->name << std::endl
+			<< "\tvertexShaderPath: " << vertexShaderPath << std::endl
+			<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
 		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 	}
 	else
 	{
+		std::cout << "Loading default Shaders..." << std::endl;
 		shader = RenderManager::defaultShader;
 	}
 

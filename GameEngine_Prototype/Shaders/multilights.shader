@@ -1,4 +1,4 @@
-#Vertex
+#VERTEX_SHADER
 #version 330 core
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aNormal;
@@ -18,10 +18,10 @@ void main()
 	Normal = mat3(transpose(inverse(model))) * aNormal;
 	TexCoord = aTexCoord;
 	gl_Position = projection * view * model * vec4(aPos, 1.0); // added model back into equation, no discernable difference--removed
-															   //gl_Position = projection * view * model * vec4(FragPos, 1.0); // added model back into equation, no discernable difference--removed
+	//gl_Position = projection * view * model * vec4(FragPos, 1.0); // added model back into equation, no discernable difference--removed
 }
 
-#Fragment
+#FRAGMENT_SHADER
 #version 330 core
 out vec4 FragColor;
 

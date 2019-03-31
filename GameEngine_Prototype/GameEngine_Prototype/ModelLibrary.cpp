@@ -102,20 +102,16 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	// 4.height maps
 	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-//<<<<<<< HEAD
-//
+
 //	// TODO: Load Material from Library instead. Use a struct of name and shader files as a key.
-//
+
 //	// mapped name of mesh to the material
 //	std::string meshMatName = mesh->mName.C_Str();
 //	meshMatName += "_mat";
 //	//Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
 //	Material* MatforMesh = new Material(meshMatName, "multilights.vs", "multilights.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-//	
-//=======
-//		
-//	// save textures in material
-//>>>>>>> develop
+		
+	// save textures in material
 	MatforMesh->textures = textures;
 	
 	return MatforMesh;
