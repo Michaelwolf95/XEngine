@@ -25,6 +25,17 @@
 class MeshRenderer: public RenderableObject, public Component
 {
 	public:
+		float* vertices;
+		unsigned int numVerts;
+		unsigned int vertexDataSize;
+		unsigned int* indices;
+		unsigned int numIndices;
+		unsigned int VBO;
+		unsigned int VAO;
+		unsigned int EBO;
+		Material* material = nullptr;
+
+
 		static Registrar<MeshRenderer> registrar;
 
 		Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
@@ -54,11 +65,18 @@ class MeshRenderer: public RenderableObject, public Component
 
 		void DrawInspector() override;
 
+		void FreeObjectResources();
+		//void FreeAllResources()
+
+		void PrintVertices();
+
 	private:
 		//Material* _material;
 		bool isSetup = false;
 
 		bool LoadModel();
+
+
 
 		//void processNode(aiNode *node, const aiScene *scene);
 		//Mesh* processMesh(aiMesh *mesh, const aiScene *scene);
@@ -73,8 +91,10 @@ class MeshRenderer: public RenderableObject, public Component
 			//// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-			ar & BOOST_SERIALIZATION_NVP(material);
-
+			
+			// save material using the material filepath
+			ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
+			AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
 		}
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version)
@@ -82,7 +102,13 @@ class MeshRenderer: public RenderableObject, public Component
 			// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-			ar & BOOST_SERIALIZATION_NVP(material);
+
+			// load material using the material filepath
+			std::string materialFilePath;
+			ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
+			std::cout << "materialFilePath == " << materialFilePath << std::endl;
+			material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
+
 			Setup();
 		}
 		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);

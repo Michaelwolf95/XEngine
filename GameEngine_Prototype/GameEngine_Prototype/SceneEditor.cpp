@@ -660,32 +660,58 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
 			}
-			if (ImGui::MenuItem("New Box"))
+			if (ImGui::MenuItem("New Simple Box"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Box");
+				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
 				selectedGameObject = go;
 				// Create Box Material
-				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
-				modelMaterial->LoadTexture("textures/container.jpg");
-				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightModel.material");
+				//std::string filename = "../Assets/Materials/";	// material filepath
+				//filename += m.name + ".material";				// material file
+				//Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+				modelMaterial->vertexShaderPath = "multilights.vs";
+				modelMaterial->fragmentShaderPath = "multilights.fs";
+				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
+				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
 					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
+
+				std::cout << "\nSceneEditor, modelMaterial->vertexShaderPath == " << modelMaterial->vertexShaderPath << std::endl;
+			}
+			if (ImGui::MenuItem("New Model Metal Crate"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("3D Model Crate", "multilights.vs", "multilights.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
+				go->AddComponent(modelNano);
+			}
+
+			if (ImGui::MenuItem("New Model Wooden Crate"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("3D Model Wooden Crate", "multilights.vs", "multilights.fs");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
+				go->AddComponent(modelNano);
 			}
 			if (ImGui::MenuItem("New Box (Child)"))
 			{
 				if (selectedGameObject != nullptr)
 				{
 					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Box (child)");
+					GameObject_ptr go = scene->CreateGameObject("New Simple Box (Child)");
 					go->transform->SetParent(selectedGameObject->transform);
 					selectedGameObject = go;
 
 					// Create Box Material
 					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent(DiffusedMappedCube, 36, 8,
+					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
 						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
 					testModel->Setup();
 					go->AddComponent(testModel);
@@ -696,41 +722,28 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("MultiLight Model", "3Dmodel.vs", "3Dmodel.fs");
+				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
 			}
 
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Build"))
+		{
+			if (ImGui::Button("Build Project"))
+			{
+				// TODO: Finish this...?
+				std::cout << "'Build Project' command currently doesn't do anything." << std::endl;
+				//std::string buildCommand;
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("ImGUI Demo"))
 		{
 			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
-			//if (ImGui::BeginMenu("Docking"))
-			//{
-			//	// Disabling fullscreen would allow the window to be moved to the front of other windows, 
-			//	// which we can't undo at the moment without finer window depth/z control.
-			//	//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
-
-			//	if (ImGui::MenuItem("Flag: NoSplit", "", (opt_flags & ImGuiDockNodeFlags_NoSplit) != 0))                 opt_flags ^= ImGuiDockNodeFlags_NoSplit;
-			//	if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (opt_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  opt_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
-			//	if (ImGui::MenuItem("Flag: NoResize", "", (opt_flags & ImGuiDockNodeFlags_NoResize) != 0))                opt_flags ^= ImGuiDockNodeFlags_NoResize;
-			//	if (ImGui::MenuItem("Flag: PassthruDockspace", "", (opt_flags & ImGuiDockNodeFlags_PassthruDockspace) != 0))       opt_flags ^= ImGuiDockNodeFlags_PassthruDockspace;
-			//	if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (opt_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          opt_flags ^= ImGuiDockNodeFlags_AutoHideTabBar;
-			//	ImGui::Separator();
-			//	if (ImGui::MenuItem("Close DockSpace", NULL, false, p_open != NULL))
-			//		*p_open = false;
-			//	ImGui::EndMenu();
-			//}
-
-			//ImGui::HelpMarker(
-			//	"You can _always_ dock _any_ window into another by holding the SHIFT key while moving a window. Try it now!" "\n"
-			//	"This demo app has nothing to do with it!" "\n\n"
-			//	"This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window. This is useful so you can decorate your main application window (e.g. with a menu bar)." "\n\n"
-			//	"ImGui::DockSpace() comes with one hard constraint: it needs to be submitted _before_ any window which may be docked into it. Therefore, if you use a dock spot as the central point of your application, you'll probably want it to be part of the very first window you are submitting to imgui every frame." "\n\n"
-			//	"(NB: because of this constraint, the implicit \"Debug\" window can not be docked into an explicit DockSpace() node, because that window is submitted as part of the NewFrame() call. An easy workaround is that you can create your own implicit \"Debug##2\" window after calling DockSpace() and leave it in the window stack for anyone to use.)"
-			//);
 			ImGui::EndMenu();
 		}
 
@@ -864,7 +877,7 @@ void SceneEditor::InspectorUpdate()
 			for (std::pair<std::type_index, ComponentTypeInfo> element : Component::registry())
 			{
 				//std::cout << element.first.name() << ": " << element.second.name << std::endl;
-				componentTypes.push_back(element.second);
+				componentTypes.push_back(element.second); // TODO: fix bug that causes engine to crash when simple model component is chosen
 			}
 
 			ImGui::Text("Add Component:");

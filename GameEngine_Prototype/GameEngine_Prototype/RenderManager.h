@@ -56,8 +56,9 @@ public:
 	void AddLight(Light * light);
 	void RemoveLight(Light * light);
 
-	void FreeAllResources();
-	void FreeObjectResources(RenderableObject* renderable);
+	///moved to MeshRenderer
+	//void FreeAllResources();
+	//void FreeObjectResources(RenderableObject* renderable);
 
 	void FindCameraInScene(Scene* scene);
 

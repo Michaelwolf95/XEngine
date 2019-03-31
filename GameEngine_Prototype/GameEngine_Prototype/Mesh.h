@@ -1,12 +1,12 @@
 #ifndef MESH_H
 #define MESH_H
 
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include "Component.h"
 #include "Material.h"
+#include "Vertex.h"
 //#include "MeshRenderer.h"
 class MeshRenderer;
 
@@ -19,20 +19,6 @@ class MeshRenderer;
 //using namespace std;
 
 /// Based on LearnOpenGL.com section on Meshes
-
-// stride = 14
-struct Vertex {
-	// position vector
-	glm::vec3 Position;
-	// normal vector
-	glm::vec3 Normal;
-	// texture coordinate vector
-	glm::vec2 TexCoords;
-	// tangent vector
-	glm::vec3 Tangent;
-	// bitangent vector 
-	glm::vec3 Bitangent;
-};
 
 
 

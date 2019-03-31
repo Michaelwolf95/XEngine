@@ -6,14 +6,21 @@
 #include "Texture.h"
 //#include "AssetManager.h"
 
+
+//class MaterialPropertyBase
+//{
+//	virtual void getValue(void* &val) = 0;
+//};
+
 template<typename T>
-class MaterialProperty
+class MaterialProperty //: public MaterialPropertyBase
 {
 public:
 	MaterialProperty() {};
 
 	std::string propertyName = "";
 
+	//virtual void getValue(void* &val);
 	virtual T getValue() = 0;
 	virtual void setValue(T val) = 0;
 protected:
@@ -140,4 +147,16 @@ private:
 //template<typename T>
 //inline MaterialProperty<T>::MaterialProperty()
 //{
+//}
+
+//template<typename T>
+//inline void * MaterialProperty<T>::getValue0(void* &val)
+//{
+//	val = value;
+//}
+
+//template<typename T>
+//inline T MaterialProperty<T>::getValue()
+//{
+//	return (T)getValue0();
 //}

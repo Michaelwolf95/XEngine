@@ -137,7 +137,7 @@ void RenderManager::Render()
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {
-	if (renderable->render_enabled == false)
+	if (renderable->render_enabled == false) // TODO: if enabled then draw. get rid of everything else
 	{
 		// Don't render anything
 		return;
@@ -149,35 +149,35 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	//if (currentShaderID != renderable->material->shader->ID) // DISABLED CHECK FOR NOW
 	{
 		//std::cout << "Swapping material" << std::endl;
-		renderable->material->shader->use();
-		currentShaderID = renderable->material->shader->ID;
+		//renderable->material->shader->use();
+		//currentShaderID = renderable->material->shader->ID;
 	}
 	//TODO: Track current material and draw all objects that use it
-	renderable->material->Load();
+	//renderable->material->Load();
 
 	//std::cout << renderable << std::endl;
 	// Draw the object
 	renderable->Draw();
 }
 
-
-void RenderManager::FreeAllResources()
-{
-	//ToDo: Loop through all renderables and free their resources
-	for (size_t i = 0; i < currentRenderables.size(); i++)
-	{
-		FreeObjectResources(currentRenderables[i]);
-	}
-}
-
-void RenderManager::FreeObjectResources(RenderableObject* renderable)
-{
-	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
-	glDeleteVertexArrays(1, &(renderable->VAO));
-	glDeleteBuffers(1, &(renderable->VBO));
-	glDeleteBuffers(1, &(renderable->EBO));
-}
+//// moved to MeshRenderer
+//void RenderManager::FreeAllResources()
+//{
+//	//ToDo: Loop through all renderables and free their resources
+//	for (size_t i = 0; i < currentRenderables.size(); i++)
+//	{
+//		FreeObjectResources(currentRenderables[i]);
+//	}
+//}
+//
+//void RenderManager::FreeObjectResources(RenderableObject* renderable)
+//{
+//	// optional: de-allocate all resources once they've outlived their purpose:
+//	// ------------------------------------------------------------------------
+//	glDeleteVertexArrays(1, &(renderable->VAO));
+//	glDeleteBuffers(1, &(renderable->VBO));
+//	glDeleteBuffers(1, &(renderable->EBO));
+//}
 
 void RenderManager::FindCameraInScene(Scene* scene)
 {
