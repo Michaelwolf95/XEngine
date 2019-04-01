@@ -11,6 +11,7 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 using namespace glm;
+using namespace XEngine;
 
 AutoMover::AutoMover() {}
 AutoMover::AutoMover(float modDirIn) {

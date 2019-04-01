@@ -5,6 +5,7 @@
 #include "Input.h"
 #include <iostream>
 #include "FreeLookCameraController.h"
+using namespace XEngine;
 
 //std::ofstream csv_test;
 CSVMaker InputTester::csv_test = CSVMaker("fps_sample"); // *** if static must initialize outside of class's body

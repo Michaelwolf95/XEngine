@@ -14,6 +14,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "AudioEngine.h"
+using namespace XEngine;
 
 BOOST_CLASS_EXPORT_GUID(EditorCamera, "EditorCamera")
 

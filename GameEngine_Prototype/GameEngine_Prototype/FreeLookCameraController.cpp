@@ -12,6 +12,7 @@
 #include "RenderManager.h"
 #include "Input.h"
 //using namespace glm;
+using namespace XEngine;
 
 REGISTER_COMPONENT(FreeLookCameraController, "FreeLookCameraController")
 

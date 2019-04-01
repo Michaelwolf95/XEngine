@@ -10,7 +10,7 @@
 #include "Time.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
-
+using namespace XEngine;
 
 SimpleRotator::SimpleRotator() {}
 SimpleRotator::~SimpleRotator() {}

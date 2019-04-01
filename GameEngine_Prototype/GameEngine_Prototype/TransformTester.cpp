@@ -4,6 +4,7 @@
 //#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
 #include "DebugUtility.h"
+using namespace XEngine;
 
 TransformTester::TransformTester() {}
 TransformTester::~TransformTester() {}

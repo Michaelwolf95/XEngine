@@ -1,5 +1,6 @@
 #pragma once
 //define X_EDIT_MODE // DEFINED IN PROJECT SETTINGS
+
 #include "LibraryExport.h"
 
 #define GLM_FORCE_RADIANS

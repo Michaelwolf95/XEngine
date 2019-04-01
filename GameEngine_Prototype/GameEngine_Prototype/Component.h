@@ -70,6 +70,8 @@ template <typename T> struct Registrar
 	}
 };
 
+// Registers the component for use in the editor, and enables serialization.
+// Note: keep this outside of namespace.
 #define REGISTER_COMPONENT(T, K)                                \
 BOOST_CLASS_EXPORT_GUID(T, K)                                   \
 Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); }));    \

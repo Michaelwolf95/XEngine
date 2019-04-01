@@ -12,6 +12,7 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 using namespace glm;
+using namespace XEngine;
 
 // "'boost::serialization::guid': function must return a value" error if these macros don't have the string value.
 REGISTER_COMPONENT(TestMoverComponent, "TestMoverComponent")

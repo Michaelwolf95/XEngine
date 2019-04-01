@@ -1,7 +1,7 @@
 #include "ExampleRotator_James.h"
 #include "GameObject.h"
 #include "Time.h"
-
+using namespace XEngine;
 
 ExampleRotator_James::ExampleRotator_James() {}
 

@@ -3,71 +3,74 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-float Time::deltaTime = 0.0f;
-float Time::currentTime = 0.0f;
-
-Time::Time(){}
-
-Time * Time::CreateManager()
+namespace XEngine
 {
-	Time* instance = &Time::getInstance();
-	instance->Init();
-	return instance;
-}
+	float Time::deltaTime = 0.0f;
+	float Time::currentTime = 0.0f;
 
-void Time::Init()
-{
-	currentTime = (float)glfwGetTime();
-	timeLastFrame = 0.0f;
-	deltaTime = 0.0f;
-}
+	Time::Time() {}
 
-void Time::updateTime()
-{
-	currentTime = (float)glfwGetTime();
-	deltaTime = currentTime - timeLastFrame;
-	timeLastFrame = currentTime;
-}
+	Time * Time::CreateManager()
+	{
+		Time* instance = &Time::getInstance();
+		instance->Init();
+		return instance;
+	}
 
-void Time::UpdateTime()
-{
-	Time::getInstance().updateTime();
-}
+	void Time::Init()
+	{
+		currentTime = (float)glfwGetTime();
+		timeLastFrame = 0.0f;
+		deltaTime = 0.0f;
+	}
 
-void Time::getFPS(void(*callback)(float))
-{
-	fps.getFPS(callback);
-	// remote function assigned to callback is called
-}
+	void Time::updateTime()
+	{
+		currentTime = (float)glfwGetTime();
+		deltaTime = currentTime - timeLastFrame;
+		timeLastFrame = currentTime;
+	}
 
-void Time::toggleFPS()
-{
-	fps.isCounting = !fps.isCounting;
-}
+	void Time::UpdateTime()
+	{
+		Time::getInstance().updateTime();
+	}
 
-void Time::ToggleFPS()
-{
-	Time::getInstance().toggleFPS();
-}
+	void Time::getFPS(void(*callback)(float))
+	{
+		fps.getFPS(callback);
+		// remote function assigned to callback is called
+	}
 
-void Time::ModSampleSize(int &sample_sz)
-{
-	Time::getInstance().fps.modSampleSize(sample_sz);
-}
+	void Time::toggleFPS()
+	{
+		fps.isCounting = !fps.isCounting;
+	}
 
-void Time::GetFPS(void(*callback)(float))
-{
-	Time::getInstance().getFPS(callback);
-	Time::getInstance().fps.doFPSCallback();
-}
+	void Time::ToggleFPS()
+	{
+		Time::getInstance().toggleFPS();
+	}
 
-bool Time::IsCounting()
-{
-	return Time::getInstance().fps.isCounting;
-}
+	void Time::ModSampleSize(int &sample_sz)
+	{
+		Time::getInstance().fps.modSampleSize(sample_sz);
+	}
 
-void Time::SetSampleSetSize(int sample_set_sz)
-{
-	Time::getInstance().fps.sampleSetSize = sample_set_sz;
-}
+	void Time::GetFPS(void(*callback)(float))
+	{
+		Time::getInstance().getFPS(callback);
+		Time::getInstance().fps.doFPSCallback();
+	}
 
+	bool Time::IsCounting()
+	{
+		return Time::getInstance().fps.isCounting;
+	}
+
+	void Time::SetSampleSetSize(int sample_set_sz)
+	{
+		Time::getInstance().fps.sampleSetSize = sample_set_sz;
+	}
+
+}

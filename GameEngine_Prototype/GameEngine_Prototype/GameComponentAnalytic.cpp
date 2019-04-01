@@ -24,6 +24,7 @@
 #include "Analytics.h"
 #include <string> 
 #include "ApplicationManager.h"
+using namespace XEngine;
 
 CSVMaker GameComponentAnalytic::csv = CSVMaker("component");
 int GameComponentAnalytic::objectNum = 1;
