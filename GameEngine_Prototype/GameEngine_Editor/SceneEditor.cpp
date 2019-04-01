@@ -23,9 +23,7 @@
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
 #include <filesystem> // C++ 17 Filesystem
 
-//using namespace XEngine;
-namespace XEngine::Editor
-{
+namespace XEngine::Editor {
 
 
 #pragma region Initialization

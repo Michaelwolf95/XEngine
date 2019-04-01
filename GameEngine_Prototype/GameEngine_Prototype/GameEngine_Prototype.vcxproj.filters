@@ -201,9 +201,6 @@
     <ClCompile Include="PrimitiveModels.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="EditorCamera.cpp">
-      <Filter>Source Files\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="AudioEngine.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
@@ -436,9 +433,6 @@
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\Text.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\EditorCamera.h">
-      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\GizmoSpriteDrawer.h">
       <Filter>Header Files\Editor</Filter>

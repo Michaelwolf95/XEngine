@@ -10,7 +10,6 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "Scene.h"
-#include "SceneEditor.h"
 #include "PrimitiveModels.h"
 
 Shader* RenderManager::defaultShader = nullptr;

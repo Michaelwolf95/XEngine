@@ -1,66 +1,12 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h> 
-#include <stb/stb_image.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/matrix_access.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-/*
-#include "../GameEngine_Prototype/DebugUtility.h"
-#include "../GameEngine_Prototype/DebugUtility.cpp"
-#include "../GameEngine_Prototype/Shader.h"
-#include "../GameEngine_Prototype/Shader.cpp"
-//#include "../GameEngine_Prototype/Drawer.h"
-//#include "../GameEngine_Prototype/Drawer.cpp"
-//#include "../GameEngine_Prototype/Material.h"
-//#include "../GameEngine_Prototype/Material.cpp"
-#include "../GameEngine_Prototype/Light.h"
-#include "../GameEngine_Prototype/Light.cpp"
-*/
-#include "../GameEngine_Prototype/Camera.h"
-#include "../GameEngine_Prototype/Camera.cpp"
-/*
-#include "../GameEngine_Prototype/Component.h"
-#include "../GameEngine_Prototype/Component.cpp"
-#include "../GameEngine_Prototype/Scene.h"
-#include "../GameEngine_Prototype/Scene.cpp"
-//#include "../GameEngine_Prototype/Transform.h"
-//#include "../GameEngine_Prototype/Transform.cpp"
-#include "../GameEngine_Prototype/GameObject.h"
-#include "../GameEngine_Prototype/GameObject.cpp"
-#include "../GameEngine_Prototype/CameraComponent.h"
-#include "../GameEngine_Prototype/CameraComponent.cpp"
-#include "../GameEngine_Prototype/CameraSwapper.h"
-#include "../GameEngine_Prototype/CameraSwapper.cpp"
-#include "../GameEngine_Prototype/LightComponent.h"
-#include "../GameEngine_Prototype/LightComponent.cpp"
-*/
-#include "../GameEngine_Prototype/ApplicationManager.h"
-#include "../GameEngine_Prototype/ApplicationManager.cpp"
-//#include "../GameEngine_Prototype/AssetManager.h"
-//#include "../GameEngine_Prototype/AssetManager.cpp"
-//#include "../GameEngine_Prototype/SceneManager.h"
-//#include "../GameEngine_Prototype/SceneManager.cpp"
-//#include "../GameEngine_Prototype/RenderManager.h"
-//#include "../GameEngine_Prototype/RenderManager.cpp"
-#include "../GameEngine_Prototype/glad.c"
-#include "../GameEngine_Prototype/Input.h"
-#include "../GameEngine_Prototype/Input.cpp"
-#include "../GameEngine_Prototype/Time.h"
-#include "../GameEngine_Prototype/Time.cpp"
+//
+#include "XEngine.h"
+using namespace XEngine;
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace GameEngine_UnitTest
+namespace XEngine_UnitTest
 {	
 	/*
 		Classes not tested:
@@ -262,33 +208,33 @@ namespace GameEngine_UnitTest
 
 		TEST_METHOD(UpdateTime)
 		{
-			Time::CreateManager();
+			GameTime::CreateManager();
 
-			float current = Time::getInstance().currentTime;
-			float delta = current - Time::getInstance().timeLastFrame;
+			float current = GameTime::getInstance().currentTime;
+			float delta = current - GameTime::getInstance().timeLastFrame;
 			float last = current;
 
-			Time::getInstance().UpdateTime();
+			GameTime::getInstance().UpdateTime();
 
-			Assert::AreEqual(Time::getInstance().currentTime, current);
-			Assert::AreEqual(Time::getInstance().deltaTime, delta);
-			Assert::AreEqual(Time::getInstance().timeLastFrame, last);
+			Assert::AreEqual(GameTime::getInstance().currentTime, current);
+			Assert::AreEqual(GameTime::getInstance().deltaTime, delta);
+			Assert::AreEqual(GameTime::getInstance().timeLastFrame, last);
 		}
 
 		TEST_METHOD(ToggleFPS)
 		{
-			Time::CreateManager();
+			GameTime::CreateManager();
 
-			Time::getInstance().ToggleFPS();
+			GameTime::getInstance().ToggleFPS();
 
-			Assert::IsTrue(true == Time::getInstance().IsCounting());
+			Assert::IsTrue(true == GameTime::getInstance().IsCounting());
 		}
 
 		TEST_METHOD(IsCounting)
 		{
-			Time::CreateManager();
+			GameTime::CreateManager();
 
-			Assert::IsTrue(true == Time::getInstance().IsCounting());
+			Assert::IsTrue(true == GameTime::getInstance().IsCounting());
 		}
 	};
 }

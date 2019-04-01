@@ -1,9 +1,6 @@
-#include "XEngine.h"
-//#include "../GameEngine_Prototype/XEngine.h"
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <Windows.h>
+//==================================================
+// ENTRY POINT FOR EDITOR
+//==================================================
 
 #ifndef STB_DEFINE
 #define STB_DEFINE  
@@ -11,6 +8,8 @@
 // Disabled to prevent duplicate from the engine.
 //include <stb/stb_image.h> 
 #endif
+
+#include "XEngine.h"
 
 #include "SceneEditor.h"
 
@@ -23,7 +22,7 @@ namespace XEngine::Editor
 	static void Editor_PostRender();
 	static void Editor_ApplicationClose();
 
-	// Editor entry point.
+	// Editor entry point function.
 	int EDITOR_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
@@ -64,7 +63,7 @@ namespace XEngine::Editor
 	}
 }
 
-
+// ENTRY POINT
 int main()
 {
 	return XEngine::Editor::EDITOR_MAIN();

@@ -1,5 +1,9 @@
-//define X_EDIT_MODE // DEFINED IN PROJECT SETTINGS
+//==================================================
+// MAIN ENTRY POINT FOR ENGINE
+//==================================================
 
+// Defining this here to prevent duplicate definitions
+// when the XEngine header is used.
 #ifndef STB_DEFINE
 #define STB_DEFINE  
 #define STB_IMAGE_IMPLEMENTATION
@@ -18,15 +22,7 @@ namespace XEngine
 
 	bool useDefaultSceneInitialization = true;
 
-	// Used for .DLL implementation.
-	extern "C" {
-		int Engine_Main()
-		{
-			return ENGINE_MAIN();
-		}
-	}
-
-	// ENTRY POINT
+	// Main Game Function.
 	int ENGINE_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
@@ -41,16 +37,7 @@ namespace XEngine
 		AudioManager::CreateManager();
 		PhysicsManager::CreateManager();
 
-		//ifdef X_EDIT_MODE
-		//SceneEditor::CreateManager();
-		//endif
-
 		if (OnEngineInit != nullptr) XEngine::OnEngineInit();
-
-		//ifdef X_EDIT_MODE
-		//SceneEditor::getInstance().StartEditMode();
-		//else
-		//endif
 
 		// Create & Load Scene
 		if (useDefaultSceneInitialization)
@@ -66,40 +53,33 @@ namespace XEngine
 			GameTime::getInstance().UpdateTime();
 			Input::getInstance().UpdateInput();
 
-			// Editor Update
+			// MAIN UPDATE
 			if (OnEngineUpdate != nullptr) OnEngineUpdate();
-			//ifdef X_EDIT_MODE
-			//SceneEditor::getInstance().UpdateEditor();
-			//endif
-
-			// Do Game Logic here
 			SceneManager::getInstance().UpdateActiveScene();
 			AudioManager::getInstance().UpdateAudio();
 
 			PhysicsManager::getInstance().PhysicsUpdate();
 
 			if (OnEnginePreRender != nullptr) OnEnginePreRender();
-			//ifdef X_EDIT_MODE
-			//SceneEditor::getInstance().EditorPreRender();
-			//endif
 
 			RenderManager::getInstance().Render();
 
 			if (OnEnginePostRender != nullptr) OnEnginePostRender();
-			//ifdef X_EDIT_MODE
-			//SceneEditor::getInstance().EditorPostRender();
-			//endif
 
 			Input::getInstance().EndUpdateFrame();
 			ApplicationManager::getInstance().ApplicationEndUpdate();
 		}
 
 		if (OnApplicationClose != nullptr) OnApplicationClose();
-		//ifdef X_EDIT_MODE
-		//SceneEditor::getInstance().ShutDown();
-		//endif
 
 		ApplicationManager::getInstance().CloseApplication();
 		return 0;
 	}
 }
+
+// ENTRY POINT
+// Used when the application is run as an executable.
+//int main()
+//{
+//	XEngine::ENGINE_MAIN();
+//}

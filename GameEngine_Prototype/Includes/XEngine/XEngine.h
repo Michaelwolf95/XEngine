@@ -1,18 +1,17 @@
 #pragma once
-//define X_EDIT_MODE // DEFINED IN PROJECT SETTINGS
-
+// Used for .DLL implementation.
 #include "LibraryExport.h"
 
-#define GLM_FORCE_RADIANS
-
-//ifdef X_EDIT_MODE
+//ImGui is used by the editor,
+// but can be used in the engine for easy declarations.
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
-//endif
+//
 
+#define GLM_FORCE_RADIANS
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -26,9 +25,6 @@
 #include "SceneManager.h"
 #include "PhysicsManager.h"
 #include "AudioManager.h"
-#ifdef X_EDIT_MODE
-#include "SceneEditor.h"
-#endif
 
 namespace XEngine
 {
@@ -44,10 +40,4 @@ namespace XEngine
 	extern bool useDefaultSceneInitialization;
 
 	int ENGINE_MAIN();
-
-	// Used for .DLL implementation.
-	extern "C"
-	{
-		LIBRARY_API int Engine_Main();
-	}
 }
