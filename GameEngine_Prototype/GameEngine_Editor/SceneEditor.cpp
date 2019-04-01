@@ -1,6 +1,6 @@
 #include "SceneEditor.h"
 #include "Input.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "SceneManager.h"
 #include "Shader.h"
 #include "SimpleModelComponent.h"
@@ -363,7 +363,7 @@ void SceneEditor::MoveTool()
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	float moveSpeed = 2.5f;
 
-	float deltaMove = moveSpeed * Time::deltaTime;
+	float deltaMove = moveSpeed * GameTime::deltaTime;
 
 	if (Input::GetKey(GLFW_KEY_LEFT))
 		selectedGameObject->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
@@ -392,7 +392,7 @@ void SceneEditor::RotateTool()
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	float rotSpeed = 25.0f;
 
-	float deltaRot = rotSpeed * Time::deltaTime;
+	float deltaRot = rotSpeed * GameTime::deltaTime;
 
 	if (Input::GetKey(GLFW_KEY_LEFT))
 		selectedGameObject->transform->Rotate(glm::vec3(0, deltaRot, 0));
@@ -421,7 +421,7 @@ void SceneEditor::ScaleTool()
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	float scaleSpeed = 1.0f;
 
-	float deltaScale = scaleSpeed * Time::deltaTime;
+	float deltaScale = scaleSpeed * GameTime::deltaTime;
 
 	if (Input::GetKey(GLFW_KEY_LEFT))
 		selectedGameObject->transform->setLocalScale(selectedGameObject->transform->getLocalScale() + (-glm::normalize(glm::cross(forward, up))*deltaScale));

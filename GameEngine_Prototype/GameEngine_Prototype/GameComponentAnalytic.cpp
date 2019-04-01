@@ -18,7 +18,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
-#include "Time.h"
+#include "GameTime.h"
 #include "InputTester.h"
 #include "Input.h"
 #include "Analytics.h"
@@ -82,14 +82,14 @@ void GameComponentAnalytic::Start()
 
 void GameComponentAnalytic::Update()
 {
-	if (Input::GetKeyDown(GLFW_KEY_F)) Time::ToggleFPS();
+	if (Input::GetKeyDown(GLFW_KEY_F)) GameTime::ToggleFPS();
 
 	// Press R to print into the csv files
 	// Wait a couple of seconds if there are a lot of components
 	if (Input::GetKeyDown(GLFW_KEY_R)) {
 		int framesPerSampleSize = 100; // **number of samples per FPS sample
-		Time::SetSampleSetSize(framesPerSampleSize); // **set the number of samples per FPS sample. 
-		Time::ModSampleSize(SAMPLE_SIZE = 25);	// set to take 25 samples
+		GameTime::SetSampleSetSize(framesPerSampleSize); // **set the number of samples per FPS sample. 
+		GameTime::ModSampleSize(SAMPLE_SIZE = 25);	// set to take 25 samples
 												// each sample size is average with the number of frames provided by modSampleSize
 	}
 	fpsSample(SAMPLE_SIZE); // **modified sample size is passed to custom function 
@@ -102,14 +102,14 @@ void GameComponentAnalytic::fpsSample(int &sample_sz)
 	if (sample_sz > 0)
 	{
 		--sample_sz;
-		Time::GetFPS(logFPSComponent); // **passes logFPS function as callback function.
+		GameTime::GetFPS(logFPSComponent); // **passes logFPS function as callback function.
 	}
 }
 
 // Printe fps (based on InputTester)
 void GameComponentAnalytic::PrintFPS()
 {
-	if (Time::getInstance().IsCounting()) // **use IsCounting function to find out if FPS system is running.
-		Time::GetFPS(printFPSComponent); // **passes printFPS function as callback function.	
+	if (GameTime::getInstance().IsCounting()) // **use IsCounting function to find out if FPS system is running.
+		GameTime::GetFPS(printFPSComponent); // **passes printFPS function as callback function.	
 }
 

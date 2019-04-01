@@ -3,7 +3,7 @@
 #include "Singleton.h"
 #include "Scene.h"
 
-std::ostream & operator<<(std::ostream &os, const Scene &scene);
+//std::ostream & operator<<(std::ostream &os, const Scene &scene);
 //ToDo: Track scenes and be able to swap between them.
 class SceneManager : public Singleton<SceneManager>
 {

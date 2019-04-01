@@ -124,7 +124,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -139,13 +139,17 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -160,13 +164,17 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -178,13 +186,17 @@ xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -196,6 +208,10 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -206,7 +222,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -220,6 +236,10 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -230,7 +250,7 @@ xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
       <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -242,6 +262,10 @@ xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Analytics.cpp" />
@@ -355,7 +379,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\PrimitiveModels.h" />
     <ClInclude Include="..\Includes\XEngine\RenderableObject.h" />
     <ClInclude Include="..\Includes\XEngine\RenderManager.h" />
-    <ClInclude Include="..\Includes\XEngine\resource.h" />
     <ClInclude Include="..\Includes\XEngine\Rigidbody.h" />
     <ClInclude Include="..\Includes\XEngine\Scene.h" />
     <ClInclude Include="..\Includes\XEngine\SceneEditor.h" />
@@ -372,7 +395,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\Text.h" />
     <ClInclude Include="..\Includes\XEngine\Texture.h" />
     <ClInclude Include="..\Includes\XEngine\TextureLibrary.h" />
-    <ClInclude Include="..\Includes\XEngine\Time.h" />
+    <ClInclude Include="..\Includes\XEngine\GameTime.h" />
     <ClInclude Include="..\Includes\XEngine\Transform.h" />
     <ClInclude Include="..\Includes\XEngine\TransformTester.h" />
     <ClInclude Include="..\Includes\XEngine\Vertex.h" />
@@ -387,6 +410,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="TestScenes.h" />
     <ClInclude Include="TestScenes_Dennis.h" />
     <ClInclude Include="TestScenes_Donato.h" />

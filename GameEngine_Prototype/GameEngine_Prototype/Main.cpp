@@ -22,18 +22,18 @@ namespace XEngine
 	extern "C" {
 		int Engine_Main()
 		{
-			return main();
+			return ENGINE_MAIN();
 		}
 	}
 
 	// ENTRY POINT
-	int main()
+	int ENGINE_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
 
 		// Init Managers
 		ApplicationManager::CreateManager();
-		Time::CreateManager();
+		GameTime::CreateManager();
 		Input::CreateManager();
 		AssetManager::CreateManager();
 		RenderManager::CreateManager();
@@ -63,7 +63,7 @@ namespace XEngine
 		while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 		{
 			ApplicationManager::getInstance().ApplicationStartUpdate();
-			Time::getInstance().UpdateTime();
+			GameTime::getInstance().UpdateTime();
 			Input::getInstance().UpdateInput();
 
 			// Editor Update

@@ -1,76 +1,76 @@
-#include "Time.h"
+#include "GameTime.h"
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace XEngine
 {
-	float Time::deltaTime = 0.0f;
-	float Time::currentTime = 0.0f;
+	float GameTime::deltaTime = 0.0f;
+	float GameTime::currentTime = 0.0f;
 
-	Time::Time() {}
+	GameTime::GameTime() {}
 
-	Time * Time::CreateManager()
+	GameTime * GameTime::CreateManager()
 	{
-		Time* instance = &Time::getInstance();
+		GameTime* instance = &GameTime::getInstance();
 		instance->Init();
 		return instance;
 	}
 
-	void Time::Init()
+	void GameTime::Init()
 	{
 		currentTime = (float)glfwGetTime();
 		timeLastFrame = 0.0f;
 		deltaTime = 0.0f;
 	}
 
-	void Time::updateTime()
+	void GameTime::updateTime()
 	{
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - timeLastFrame;
 		timeLastFrame = currentTime;
 	}
 
-	void Time::UpdateTime()
+	void GameTime::UpdateTime()
 	{
-		Time::getInstance().updateTime();
+		GameTime::getInstance().updateTime();
 	}
 
-	void Time::getFPS(void(*callback)(float))
+	void GameTime::getFPS(void(*callback)(float))
 	{
 		fps.getFPS(callback);
 		// remote function assigned to callback is called
 	}
 
-	void Time::toggleFPS()
+	void GameTime::toggleFPS()
 	{
 		fps.isCounting = !fps.isCounting;
 	}
 
-	void Time::ToggleFPS()
+	void GameTime::ToggleFPS()
 	{
-		Time::getInstance().toggleFPS();
+		GameTime::getInstance().toggleFPS();
 	}
 
-	void Time::ModSampleSize(int &sample_sz)
+	void GameTime::ModSampleSize(int &sample_sz)
 	{
-		Time::getInstance().fps.modSampleSize(sample_sz);
+		GameTime::getInstance().fps.modSampleSize(sample_sz);
 	}
 
-	void Time::GetFPS(void(*callback)(float))
+	void GameTime::GetFPS(void(*callback)(float))
 	{
-		Time::getInstance().getFPS(callback);
-		Time::getInstance().fps.doFPSCallback();
+		GameTime::getInstance().getFPS(callback);
+		GameTime::getInstance().fps.doFPSCallback();
 	}
 
-	bool Time::IsCounting()
+	bool GameTime::IsCounting()
 	{
-		return Time::getInstance().fps.isCounting;
+		return GameTime::getInstance().fps.isCounting;
 	}
 
-	void Time::SetSampleSetSize(int sample_set_sz)
+	void GameTime::SetSampleSetSize(int sample_set_sz)
 	{
-		Time::getInstance().fps.sampleSetSize = sample_set_sz;
+		GameTime::getInstance().fps.sampleSetSize = sample_set_sz;
 	}
 
 }

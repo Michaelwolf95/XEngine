@@ -19,7 +19,7 @@
 #include "DebugUtility.h" // Define only once
 #include "Serialization.h"
 #include "ApplicationManager.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "Input.h"
 #include "AssetManager.h"
 #include "RenderManager.h"
@@ -43,7 +43,7 @@ namespace XEngine
 	// Set to false if you are replacing the scene loading functionality.
 	extern bool useDefaultSceneInitialization;
 
-	int main();
+	int ENGINE_MAIN();
 
 	// Used for .DLL implementation.
 	extern "C"

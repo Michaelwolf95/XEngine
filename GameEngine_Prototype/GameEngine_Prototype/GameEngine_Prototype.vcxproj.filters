@@ -362,9 +362,6 @@
     <ClInclude Include="..\Includes\XEngine\Input.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\Time.h">
-      <Filter>Header Files\Application</Filter>
-    </ClInclude>
     <ClInclude Include="..\Includes\XEngine\AssetLibrary.h">
       <Filter>Header Files\AssetManagement</Filter>
     </ClInclude>
@@ -485,9 +482,6 @@
     <ClInclude Include="..\Includes\XEngine\LibraryExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Includes\XEngine\Camera.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
@@ -538,6 +532,12 @@
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\Texture.h">
       <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\GameTime.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,7 @@ namespace XEngine::Editor
 	typedef int(WINAPI *MainFunc)(void);
 
 	// Editor entry point.
-	int main()
+	int EDITOR_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
 
@@ -38,7 +38,7 @@ namespace XEngine::Editor
 
 		XEngine::useDefaultSceneInitialization = false;
 
-		return XEngine::main();
+		return XEngine::ENGINE_MAIN();
 	}
 
 	void Editor_Init()
@@ -61,4 +61,10 @@ namespace XEngine::Editor
 	{
 
 	}
+}
+
+
+int main()
+{
+	return XEngine::Editor::EDITOR_MAIN();
 }

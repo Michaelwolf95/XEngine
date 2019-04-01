@@ -81,7 +81,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;$(SolutionDir)GameEngine_Prototype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -97,7 +97,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;$(SolutionDir)GameEngine_Prototype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,7 +115,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;$(SolutionDir)GameEngine_Prototype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -135,7 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;$(SolutionDir)GameEngine_Prototype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>

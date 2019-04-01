@@ -1,6 +1,6 @@
 #include "TransformTester.h"
 #include "GameObject.h"
-#include "Time.h"
+#include "GameTime.h"
 //#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
 #include "DebugUtility.h"
@@ -66,8 +66,8 @@ void TransformTester::Update()
 {
 	//return;
 
-	float deltaY = rotationSpeed * Time::deltaTime;
-	float deltaZ = rotationSpeed * Time::deltaTime;
+	float deltaY = rotationSpeed * GameTime::deltaTime;
+	float deltaZ = rotationSpeed * GameTime::deltaTime;
 
 	float horizontal = 0;
 	float vertical = 0;

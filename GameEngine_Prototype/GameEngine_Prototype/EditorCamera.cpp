@@ -9,7 +9,7 @@
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "Input.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -88,7 +88,7 @@ void EditorCamera::Update()
 		// Move forward-back with Mouse Wheel.
 		if (abs(Input::getInstance().GetScrollOffsetY()) > 0)
 		{
-			float deltaZoom = zoomSpeed * Time::deltaTime * Input::getInstance().GetScrollOffsetY();
+			float deltaZoom = zoomSpeed * GameTime::deltaTime * Input::getInstance().GetScrollOffsetY();
 			this->gameObject->transform->Translate(deltaZoom * forward);
 		}
 
@@ -118,8 +118,8 @@ void EditorCamera::Update()
 				glm::vec2 currentDragPos = Input::GetMousePos();
 				glm::vec2 deltaPos = currentDragPos - lastDragPos;
 				lastDragPos = currentDragPos;
-				float deltaYRot = xRotSpeed * Time::deltaTime * deltaPos.x;
-				float deltaXRot = yRotSpeed * Time::deltaTime * deltaPos.y;
+				float deltaYRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
+				float deltaXRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
 
 				glm::vec3 localRot = gameObject->transform->getLocalRotationEuler();
 
@@ -144,8 +144,8 @@ void EditorCamera::Update()
 				glm::vec2 currentDragPos = Input::GetMousePos();
 				glm::vec2 deltaPos = currentDragPos - lastDragPos;
 				lastDragPos = currentDragPos;
-				float deltaXPan = panSpeed * Time::deltaTime * deltaPos.x;
-				float deltaYPan = panSpeed * Time::deltaTime * deltaPos.y;// Input::GetDeltaPosY();
+				float deltaXPan = panSpeed * GameTime::deltaTime * deltaPos.x;
+				float deltaYPan = panSpeed * GameTime::deltaTime * deltaPos.y;// Input::GetDeltaPosY();
 
 				glm::vec3 right = gameObject->transform->getRightDirection();
 				//glm::vec3 up = gameObject->transform->getUpDirection();

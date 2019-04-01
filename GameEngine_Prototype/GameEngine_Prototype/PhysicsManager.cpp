@@ -1,5 +1,5 @@
 #include "PhysicsManager.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "SceneManager.h"
 #include "Rigidbody.h"
 
@@ -48,7 +48,7 @@ namespace XEngine
 
 	void PhysicsManager::PhysicsUpdate()
 	{
-		dynamicsWorld->stepSimulation(Time::deltaTime, 10, fixedUpdateTime);
+		dynamicsWorld->stepSimulation(GameTime::deltaTime, 10, fixedUpdateTime);
 	}
 
 	void PhysicsManager::PhysicsTick()

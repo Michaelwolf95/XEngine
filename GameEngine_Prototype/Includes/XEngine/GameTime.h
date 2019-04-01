@@ -3,7 +3,7 @@
 namespace XEngine
 {
 	// TimeManager
-	class Time : public Singleton<Time> // TODO: Separate FPS into own class. 
+	class GameTime : public Singleton<GameTime> // TODO: Separate FPS into own class. 
 	{
 		struct FPS { //TODO: forward declaration?
 			void(*getFPSCallback)(float fps) = nullptr;
@@ -22,8 +22,8 @@ namespace XEngine
 
 			inline void getFPS(void(*callback)(float)) {
 				if (counter == 0)
-					deltaTimeSum = Time::deltaTime;
-				else deltaTimeSum += Time::deltaTime;
+					deltaTimeSum = GameTime::deltaTime;
+				else deltaTimeSum += GameTime::deltaTime;
 				if (!(++counter < sampleSetSize))
 				{
 					if (callback != nullptr)
@@ -39,14 +39,14 @@ namespace XEngine
 				sample_sz *= sampleSetSize;
 			}
 		} fps;
-		friend class Singleton<Time>;
+		friend class Singleton<GameTime>;
 	public:
 		//FPS fps;
 		static float deltaTime; // TODO: Create static functions
 		static float currentTime; // TODO: Create static functions
 		float timeLastFrame;
-		Time();
-		static Time* CreateManager();
+		GameTime();
+		static GameTime* CreateManager();
 		void Init();
 		inline void updateTime();
 		static void UpdateTime();
