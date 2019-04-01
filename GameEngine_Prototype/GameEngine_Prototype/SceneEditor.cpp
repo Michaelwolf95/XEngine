@@ -662,13 +662,18 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			if (ImGui::MenuItem("New Simple Box"))
 			{
+				std::cout << "SceneEditor::UpdateDockSpace creating New Simple Box\n";
+
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
 				selectedGameObject = go;
 				// Create Box Material
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightModel.material");
+				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
+				Material* modelMaterial = new Material("MultiLight SimpleModel", "multilights.shader", "");
 
-				modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
+				
+
+				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
 
 				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
 				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,

@@ -14,7 +14,9 @@ ModelLibrary::~ModelLibrary() {}
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
-	std::cout << "ModelLibrary.LoadAsset filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::LoadAsset with arguments\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
+
 	Model* model = new Model();
 	std::string pathToObjModel = filePath;
 
@@ -69,7 +71,9 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 // Process the material for the mesh
 Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
-	std::cout << "ModelLibrary.processMeshMaterial: filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::processMeshMaterial with arguments\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
+
 	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.data + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
@@ -121,7 +125,9 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 // Check material textures of a given type and loads texture if not loaded yet
 std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
-	std::cout << "ModelLibrary.loadMaterialTextures: filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::loadMaterialTextures with arguments\n";
+	std::cout << "\ttypeName: " << typeName << std::endl;
+	std::cout << "\tfilePath: " << filePath << std::endl;
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 
@@ -165,15 +171,20 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 // Get the texture from the file
 unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
 {
+	std::cout << "ModelLibrary::TextureFromFile with arguments\n";
+	std::cout << "\tpath: " << path << std::endl;
+	std::cout << "\tdirectory: " << directory << std::endl;
+	std::cout << "\tgamma: " << gamma << std::endl;
+
 	std::string filename = std::string(path);
 	filename = directory + '/' + filename;
+
+	std::cout << "\tderived filename: " << filename << std::endl;
 
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
-
-	std::cout << "3. filename == " << filename << std::endl;
 
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 

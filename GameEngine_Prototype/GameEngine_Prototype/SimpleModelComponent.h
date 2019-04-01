@@ -38,6 +38,7 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
+		std::cout << "SimpleModelComponent::save\n";
 		//// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
@@ -50,6 +51,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
+		std::cout << "\tmaterialFilePath serializing: " << material->filePath << std::endl;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
 		//TODO:save material too?'
 		AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
@@ -58,6 +60,7 @@ private:
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
 	{
+		std::cout << "SimpleModelComponent::load\n";
 		// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
@@ -74,7 +77,7 @@ private:
 		//TODO: Use the filePath instead when getting from the library.
 		std::string materialFilePath;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
-		std::cout << "materialFilePath == " << materialFilePath << std::endl;
+		std::cout << "\tmaterialFilePath deserialized: " << materialFilePath << std::endl;
 		material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
 
 		vertices = DiffusedMappedCube;
