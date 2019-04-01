@@ -23,8 +23,8 @@ namespace XEngine
 		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
 
 		// TEST CALLBACKS
-		std::cout << *XEngine::OnEngineInit << std::endl;
-		XEngine::OnEngineInit();
+		//std::cout << *XEngine::OnEngineInit << std::endl;
+		//XEngine::OnEngineInit();
 
 		// Init Managers
 		ApplicationManager::CreateManager();
