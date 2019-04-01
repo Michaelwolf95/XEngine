@@ -17,6 +17,7 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	std::cout << "\tfragPath " << fragPath 		<< std::endl;
 	std::cout << "\t_useLight: " << _useLight	<< std::endl;
 
+	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 

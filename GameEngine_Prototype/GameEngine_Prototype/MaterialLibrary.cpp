@@ -43,13 +43,12 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 // Overriden LoadAsset method
 Material *& MaterialLibrary::LoadAsset(std::string filePath)
 {
-	//Material* loadedMaterial =  new Material("DefaultMat", "multilights.vs", "multilights.fs");
-	    // get material name from filepath
-    std::string fileName = filePath.substr(filePath.find_last_of("/") + 1);
-    size_t lastindex = fileName.find_last_of(".");
-    std::string materialName = fileName.substr( 0, lastindex );
+	// get material name from filepath
+	std::string fileName = filePath.substr(filePath.find_last_of("/") + 1);
+	size_t lastindex = fileName.find_last_of(".");
+	std::string materialName = fileName.substr( 0, lastindex );
 
-    Material* loadedMaterial =  new Material(materialName, "multilights.vs", "multilights.fs");
+	Material* loadedMaterial =  new Material(materialName, "multilights.vs", "multilights.fs");
 
 	// load from file in directory
 	if (LoadMaterialFromFile(*loadedMaterial, filePath.c_str()) )

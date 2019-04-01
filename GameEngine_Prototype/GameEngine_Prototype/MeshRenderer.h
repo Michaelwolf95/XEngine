@@ -95,8 +95,6 @@ class MeshRenderer: public RenderableObject, public Component
 			// save material using the material filepath
 			ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
 			AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
-
-
 		}
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version)
@@ -104,13 +102,12 @@ class MeshRenderer: public RenderableObject, public Component
 			// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-			
+
 			// load material using the material filepath
 			std::string materialFilePath;
 			ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
 			std::cout << "materialFilePath == " << materialFilePath << std::endl;
 			material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
-
 
 			Setup();
 		}
