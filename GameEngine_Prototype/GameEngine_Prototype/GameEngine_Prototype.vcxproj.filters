@@ -198,9 +198,6 @@
     <ClCompile Include="ExampleRotator_James.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="SceneEditor.cpp">
-      <Filter>Source Files\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="PrimitiveModels.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
@@ -444,9 +441,6 @@
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\GizmoSpriteDrawer.h">
-      <Filter>Header Files\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\SceneEditor.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\Component.h">

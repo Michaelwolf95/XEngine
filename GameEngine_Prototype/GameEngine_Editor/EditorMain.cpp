@@ -12,18 +12,16 @@
 //include <stb/stb_image.h> 
 #endif
 
+#include "SceneEditor.h"
+
 namespace XEngine::Editor
 {
-
+	// Engine Callbacks
 	static void Editor_Init();
 	static void Editor_Update();
 	static void Editor_PreRender();
 	static void Editor_PostRender();
 	static void Editor_ApplicationClose();
-
-	// Used for .DLL implementation.
-
-	typedef int(WINAPI *MainFunc)(void);
 
 	// Editor entry point.
 	int EDITOR_MAIN()
@@ -44,22 +42,25 @@ namespace XEngine::Editor
 	void Editor_Init()
 	{
 		std::cout << "Initializing Editor. =======================================" << std::endl;
+		XEngine::Editor::SceneEditor::CreateManager();
+
+		XEngine::Editor::SceneEditor::getInstance().StartEditMode();
 	}
 	void Editor_Update()
 	{
-
+		XEngine::Editor::SceneEditor::getInstance().UpdateEditor();
 	}
 	void Editor_PreRender()
 	{
-
+		XEngine::Editor::SceneEditor::getInstance().EditorPreRender();
 	}
 	void Editor_PostRender()
 	{
-
+		XEngine::Editor::SceneEditor::getInstance().EditorPostRender();
 	}
 	void Editor_ApplicationClose()
 	{
-
+		XEngine::Editor::SceneEditor::getInstance().ShutDown();
 	}
 }
 

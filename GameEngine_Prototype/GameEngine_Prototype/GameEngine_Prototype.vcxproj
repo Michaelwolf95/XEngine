@@ -306,7 +306,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="PrimitiveModels.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
-    <ClCompile Include="SceneEditor.cpp" />
     <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureLibrary.cpp" />
@@ -381,7 +380,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\RenderManager.h" />
     <ClInclude Include="..\Includes\XEngine\Rigidbody.h" />
     <ClInclude Include="..\Includes\XEngine\Scene.h" />
-    <ClInclude Include="..\Includes\XEngine\SceneEditor.h" />
     <ClInclude Include="..\Includes\XEngine\SceneManager.h" />
     <ClInclude Include="..\Includes\XEngine\Serialization.h" />
     <ClInclude Include="..\Includes\XEngine\Shader.h" />
