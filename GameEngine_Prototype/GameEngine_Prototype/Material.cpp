@@ -186,6 +186,8 @@ void Material::DrawInspector()
 {
 	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
+		ImGui::InputText("Name", &name);
+
 		ImGui::InputText("VertPath", &vertexShaderPath);
 
 		ImGui::InputText("FragPath", &fragmentShaderPath);

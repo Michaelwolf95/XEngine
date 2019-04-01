@@ -168,13 +168,16 @@ void MeshRenderer::Draw()
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
-
+		//std::cout << "mesh name: " << model->meshes[i]->name << std::endl;
+		//std::cout << "i: " << i << std::endl;
 		// texture variables
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
 		
+
+
 		// binding textures
 		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
 		{
