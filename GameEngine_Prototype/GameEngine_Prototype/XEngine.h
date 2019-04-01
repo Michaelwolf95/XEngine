@@ -27,22 +27,24 @@
 #include "AudioManager.h"
 #ifdef X_EDIT_MODE
 #include "SceneEditor.h"
-#else
-//#include "TestScenes.h"
 #endif
-
 
 namespace XEngine
 {
 	typedef void (*EngineEvent)(void);
-	static EngineEvent OnEngineInit = nullptr;
-	static EngineEvent OnEngineUpdate = nullptr;
-	static EngineEvent OnEnginePreRender = nullptr;
-	static EngineEvent OnEnginePostRender = nullptr;
-	static EngineEvent OnApplicationClose = nullptr;
+	extern EngineEvent OnEngineInit;
+	extern EngineEvent OnEngineUpdate;
+	extern EngineEvent OnEnginePreRender;
+	extern EngineEvent OnEnginePostRender;
+	extern EngineEvent OnApplicationClose;
+
+	// Flag to load scenes normally. (Used by editor.)
+	// Set to false if you are replacing the scene loading functionality.
+	extern bool useDefaultSceneInitialization;
 
 	int main();
 
+	// Used for .DLL implementation.
 	extern "C"
 	{
 		LIBRARY_API int Engine_Main();

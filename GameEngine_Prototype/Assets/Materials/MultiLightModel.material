@@ -30,7 +30,7 @@
 	</specular>
 	<shininess>3.200000000e+01</shininess>
 	<floatProperties class_id="3" tracking_level="0" version="0">
-		<count>8</count>
+		<count>10</count>
 		<item_version>0</item_version>
 		<item class_id="4" tracking_level="1" version="0" object_id="_0">
 			<MaterialProperty class_id="5" tracking_level="0" version="0">
@@ -72,6 +72,16 @@
 				<propertyName>shininess</propertyName>
 			</MaterialProperty>
 		</item>
+		<item object_id="_8">
+			<MaterialProperty>
+				<propertyName>shininess</propertyName>
+			</MaterialProperty>
+		</item>
+		<item object_id="_9">
+			<MaterialProperty>
+				<propertyName>shininess</propertyName>
+			</MaterialProperty>
+		</item>
 	</floatProperties>
 	<intProperties class_id="6" tracking_level="0" version="0">
 		<count>0</count>
@@ -82,9 +92,9 @@
 		<item_version>0</item_version>
 	</vec2Properties>
 	<vec3Properties class_id="8" tracking_level="0" version="0">
-		<count>32</count>
+		<count>40</count>
 		<item_version>0</item_version>
-		<item class_id="9" tracking_level="1" version="0" object_id="_8">
+		<item class_id="9" tracking_level="1" version="0" object_id="_10">
 			<MaterialProperty class_id="10" tracking_level="0" version="0">
 				<propertyName>color</propertyName>
 			</MaterialProperty>
@@ -94,7 +104,7 @@
 				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
-		<item object_id="_9">
+		<item object_id="_11">
 			<MaterialProperty>
 				<propertyName>ambient</propertyName>
 			</MaterialProperty>
@@ -102,250 +112,210 @@
 				<vec.x>5.000000075e-02</vec.x>
 				<vec.y>5.000000075e-02</vec.y>
 				<vec.z>5.000000075e-02</vec.z>
-			</value>
-		</item>
-		<item object_id="_10">
-			<MaterialProperty>
-				<propertyName>diffuse</propertyName>
-			</MaterialProperty>
-			<value>
-				<vec.x>8.000000119e-01</vec.x>
-				<vec.y>8.000000119e-01</vec.y>
-				<vec.z>8.000000119e-01</vec.z>
-			</value>
-		</item>
-		<item object_id="_11">
-			<MaterialProperty>
-				<propertyName>specular</propertyName>
-			</MaterialProperty>
-			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_12">
 			<MaterialProperty>
-				<propertyName>color</propertyName>
+				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
 		<item object_id="_13">
 			<MaterialProperty>
-				<propertyName>ambient</propertyName>
+				<propertyName>specular</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>5.000000075e-02</vec.x>
-				<vec.y>5.000000075e-02</vec.y>
-				<vec.z>5.000000075e-02</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_14">
 			<MaterialProperty>
-				<propertyName>diffuse</propertyName>
+				<propertyName>color</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>8.000000119e-01</vec.x>
-				<vec.y>8.000000119e-01</vec.y>
-				<vec.z>8.000000119e-01</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_15">
 			<MaterialProperty>
-				<propertyName>specular</propertyName>
+				<propertyName>ambient</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
 			</value>
 		</item>
 		<item object_id="_16">
 			<MaterialProperty>
-				<propertyName>color</propertyName>
+				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
 		<item object_id="_17">
 			<MaterialProperty>
-				<propertyName>ambient</propertyName>
+				<propertyName>specular</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>5.000000075e-02</vec.x>
-				<vec.y>5.000000075e-02</vec.y>
-				<vec.z>5.000000075e-02</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_18">
 			<MaterialProperty>
-				<propertyName>diffuse</propertyName>
+				<propertyName>color</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>8.000000119e-01</vec.x>
-				<vec.y>8.000000119e-01</vec.y>
-				<vec.z>8.000000119e-01</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_19">
 			<MaterialProperty>
-				<propertyName>specular</propertyName>
+				<propertyName>ambient</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
 			</value>
 		</item>
 		<item object_id="_20">
 			<MaterialProperty>
-				<propertyName>color</propertyName>
+				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
 		<item object_id="_21">
 			<MaterialProperty>
-				<propertyName>ambient</propertyName>
+				<propertyName>specular</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>5.000000075e-02</vec.x>
-				<vec.y>5.000000075e-02</vec.y>
-				<vec.z>5.000000075e-02</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_22">
 			<MaterialProperty>
-				<propertyName>diffuse</propertyName>
+				<propertyName>color</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>8.000000119e-01</vec.x>
-				<vec.y>8.000000119e-01</vec.y>
-				<vec.z>8.000000119e-01</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_23">
 			<MaterialProperty>
-				<propertyName>specular</propertyName>
+				<propertyName>ambient</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
 			</value>
 		</item>
 		<item object_id="_24">
 			<MaterialProperty>
-				<propertyName>color</propertyName>
+				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
 		<item object_id="_25">
 			<MaterialProperty>
-				<propertyName>ambient</propertyName>
+				<propertyName>specular</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>5.000000075e-02</vec.x>
-				<vec.y>5.000000075e-02</vec.y>
-				<vec.z>5.000000075e-02</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_26">
 			<MaterialProperty>
-				<propertyName>diffuse</propertyName>
+				<propertyName>color</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>8.000000119e-01</vec.x>
-				<vec.y>8.000000119e-01</vec.y>
-				<vec.z>8.000000119e-01</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_27">
 			<MaterialProperty>
-				<propertyName>specular</propertyName>
+				<propertyName>ambient</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
 			</value>
 		</item>
 		<item object_id="_28">
 			<MaterialProperty>
-				<propertyName>color</propertyName>
+				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
 		<item object_id="_29">
 			<MaterialProperty>
-				<propertyName>ambient</propertyName>
+				<propertyName>specular</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>5.000000075e-02</vec.x>
-				<vec.y>5.000000075e-02</vec.y>
-				<vec.z>5.000000075e-02</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_30">
 			<MaterialProperty>
-				<propertyName>diffuse</propertyName>
+				<propertyName>color</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>8.000000119e-01</vec.x>
-				<vec.y>8.000000119e-01</vec.y>
-				<vec.z>8.000000119e-01</vec.z>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
 		<item object_id="_31">
 			<MaterialProperty>
-				<propertyName>specular</propertyName>
+				<propertyName>ambient</propertyName>
 			</MaterialProperty>
 			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
 			</value>
 		</item>
 		<item object_id="_32">
 			<MaterialProperty>
-				<propertyName>color</propertyName>
-			</MaterialProperty>
-			<value>
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
-			</value>
-		</item>
-		<item object_id="_33">
-			<MaterialProperty>
-				<propertyName>ambient</propertyName>
-			</MaterialProperty>
-			<value>
-				<vec.x>5.000000075e-02</vec.x>
-				<vec.y>5.000000075e-02</vec.y>
-				<vec.z>5.000000075e-02</vec.z>
-			</value>
-		</item>
-		<item object_id="_34">
-			<MaterialProperty>
 				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
 			<value>
@@ -354,7 +324,7 @@
 				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
-		<item object_id="_35">
+		<item object_id="_33">
 			<MaterialProperty>
 				<propertyName>specular</propertyName>
 			</MaterialProperty>
@@ -364,7 +334,7 @@
 				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
-		<item object_id="_36">
+		<item object_id="_34">
 			<MaterialProperty>
 				<propertyName>color</propertyName>
 			</MaterialProperty>
@@ -374,7 +344,7 @@
 				<vec.z>1.000000000e+00</vec.z>
 			</value>
 		</item>
-		<item object_id="_37">
+		<item object_id="_35">
 			<MaterialProperty>
 				<propertyName>ambient</propertyName>
 			</MaterialProperty>
@@ -384,7 +354,7 @@
 				<vec.z>5.000000075e-02</vec.z>
 			</value>
 		</item>
-		<item object_id="_38">
+		<item object_id="_36">
 			<MaterialProperty>
 				<propertyName>diffuse</propertyName>
 			</MaterialProperty>
@@ -394,7 +364,127 @@
 				<vec.z>8.000000119e-01</vec.z>
 			</value>
 		</item>
+		<item object_id="_37">
+			<MaterialProperty>
+				<propertyName>specular</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+			</value>
+		</item>
+		<item object_id="_38">
+			<MaterialProperty>
+				<propertyName>color</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+			</value>
+		</item>
 		<item object_id="_39">
+			<MaterialProperty>
+				<propertyName>ambient</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
+			</value>
+		</item>
+		<item object_id="_40">
+			<MaterialProperty>
+				<propertyName>diffuse</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
+			</value>
+		</item>
+		<item object_id="_41">
+			<MaterialProperty>
+				<propertyName>specular</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+			</value>
+		</item>
+		<item object_id="_42">
+			<MaterialProperty>
+				<propertyName>color</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+			</value>
+		</item>
+		<item object_id="_43">
+			<MaterialProperty>
+				<propertyName>ambient</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
+			</value>
+		</item>
+		<item object_id="_44">
+			<MaterialProperty>
+				<propertyName>diffuse</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
+			</value>
+		</item>
+		<item object_id="_45">
+			<MaterialProperty>
+				<propertyName>specular</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+			</value>
+		</item>
+		<item object_id="_46">
+			<MaterialProperty>
+				<propertyName>color</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+			</value>
+		</item>
+		<item object_id="_47">
+			<MaterialProperty>
+				<propertyName>ambient</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>5.000000075e-02</vec.x>
+				<vec.y>5.000000075e-02</vec.y>
+				<vec.z>5.000000075e-02</vec.z>
+			</value>
+		</item>
+		<item object_id="_48">
+			<MaterialProperty>
+				<propertyName>diffuse</propertyName>
+			</MaterialProperty>
+			<value>
+				<vec.x>8.000000119e-01</vec.x>
+				<vec.y>8.000000119e-01</vec.y>
+				<vec.z>8.000000119e-01</vec.z>
+			</value>
+		</item>
+		<item object_id="_49">
 			<MaterialProperty>
 				<propertyName>specular</propertyName>
 			</MaterialProperty>

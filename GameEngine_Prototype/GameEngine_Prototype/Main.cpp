@@ -10,6 +10,15 @@
 
 namespace XEngine
 {
+	EngineEvent OnEngineInit = nullptr;
+	EngineEvent OnEngineUpdate = nullptr;
+	EngineEvent OnEnginePreRender = nullptr;
+	EngineEvent OnEnginePostRender = nullptr;
+	EngineEvent OnApplicationClose = nullptr;
+
+	bool useDefaultSceneInitialization = true;
+
+	// Used for .DLL implementation.
 	extern "C" {
 		int Engine_Main()
 		{
@@ -22,10 +31,6 @@ namespace XEngine
 	{
 		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
 
-		// TEST CALLBACKS
-		//std::cout << *XEngine::OnEngineInit << std::endl;
-		//XEngine::OnEngineInit();
-
 		// Init Managers
 		ApplicationManager::CreateManager();
 		Time::CreateManager();
@@ -36,20 +41,23 @@ namespace XEngine
 		AudioManager::CreateManager();
 		PhysicsManager::CreateManager();
 
-		#ifdef X_EDIT_MODE
-		SceneEditor::CreateManager();
-		#endif
+		//ifdef X_EDIT_MODE
+		//SceneEditor::CreateManager();
+		//endif
 
-		//if(OnEngineInit != nullptr) 
-		//XEngine::OnEngineInit();
+		if (OnEngineInit != nullptr) XEngine::OnEngineInit();
+
+		//ifdef X_EDIT_MODE
+		//SceneEditor::getInstance().StartEditMode();
+		//else
+		//endif
 
 		// Create & Load Scene
-		#ifdef X_EDIT_MODE
-		SceneEditor::getInstance().StartEditMode();
-		#else
-		// TODO: Configure Build Config to load first scene based on a file.
-		SceneManager::getInstance().LoadAndActivateSceneFromFile("../Assets/Scenes/Physics_Test_2.scene");
-		#endif
+		if (useDefaultSceneInitialization)
+		{
+			// TODO: Configure Build Config to load first scene based on a file.
+			SceneManager::getInstance().LoadAndActivateSceneFromFile("../Assets/Scenes/Physics_Test_2.scene");
+		}
 
 		// FRAME LOOP
 		while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
@@ -59,9 +67,10 @@ namespace XEngine
 			Input::getInstance().UpdateInput();
 
 			// Editor Update
-			#ifdef X_EDIT_MODE
-			SceneEditor::getInstance().UpdateEditor();
-			#endif
+			if (OnEngineUpdate != nullptr) OnEngineUpdate();
+			//ifdef X_EDIT_MODE
+			//SceneEditor::getInstance().UpdateEditor();
+			//endif
 
 			// Do Game Logic here
 			SceneManager::getInstance().UpdateActiveScene();
@@ -69,23 +78,26 @@ namespace XEngine
 
 			PhysicsManager::getInstance().PhysicsUpdate();
 
-			#ifdef X_EDIT_MODE
-			SceneEditor::getInstance().EditorPreRender();
-			#endif
+			if (OnEnginePreRender != nullptr) OnEnginePreRender();
+			//ifdef X_EDIT_MODE
+			//SceneEditor::getInstance().EditorPreRender();
+			//endif
 
 			RenderManager::getInstance().Render();
 
-			#ifdef X_EDIT_MODE
-			SceneEditor::getInstance().EditorPostRender();
-			#endif
+			if (OnEnginePostRender != nullptr) OnEnginePostRender();
+			//ifdef X_EDIT_MODE
+			//SceneEditor::getInstance().EditorPostRender();
+			//endif
 
 			Input::getInstance().EndUpdateFrame();
 			ApplicationManager::getInstance().ApplicationEndUpdate();
 		}
 
-		#ifdef X_EDIT_MODE
-		SceneEditor::getInstance().ShutDown();
-		#endif
+		if (OnApplicationClose != nullptr) OnApplicationClose();
+		//ifdef X_EDIT_MODE
+		//SceneEditor::getInstance().ShutDown();
+		//endif
 
 		ApplicationManager::getInstance().CloseApplication();
 		return 0;
