@@ -114,7 +114,19 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 //	// save textures in material
 //>>>>>>> develop
 	MatforMesh->textures = textures;
-	
+
+	// adding to texture Properties
+	for (int i = 0; i < MatforMesh->textures.size(); i++)
+	{
+		TextureProperty textureProp;
+		Texture* textureP = &MatforMesh->textures[i];
+		
+		textureProp.propertyName = "Texture" + i;
+		textureProp.setValue(textureP);
+		
+		MatforMesh->textureProperties.push_back(textureProp);
+	}
+
 	return MatforMesh;
 }
 
