@@ -45,7 +45,7 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma): g
 {
 	// filepath for .obj file.
 	this->pathToObjModel = "../Assets/" + std::string(path);
-	material = m; //TODO: get rid of material in meshrender, there is no need for it now that meshes have their own material
+	
 	Setup();
 }
 
@@ -67,10 +67,6 @@ void MeshRenderer::Setup()
 	render_enabled = true;
 	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
 
-	if (material == nullptr)
-	{
-		material = RenderManager::defaultMaterial;
-	}
 	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;
 	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
@@ -482,8 +478,6 @@ void MeshRenderer::OnDrawGizmos()
 void MeshRenderer::DrawInspector()
 {
 	ImGui::InputText("ModelPath", &this->pathToObjModel[0], 48);
-	if(this->material != nullptr)
-		this->material->DrawInspector();
 	if (!model->meshes.empty())
 	{
 		for (size_t i = 0; i < model->meshes.size(); i++)
