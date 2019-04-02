@@ -17,7 +17,7 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 	useLight = _useLight;
 
-	filePath = "../Assets/Materials/MultiLightModel.material";
+	//filePath = "../Assets/Materials/MultiLightModel.material";
 
 	Init();
 

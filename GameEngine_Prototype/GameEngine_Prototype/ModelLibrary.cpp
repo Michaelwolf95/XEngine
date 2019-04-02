@@ -51,6 +51,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		Mesh* mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, ai_mesh->mName.C_Str(), ai_mesh);
 		
 		// add material to material library
+
 		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
 
 		// put one to one relationship for mesh to material
@@ -77,6 +78,8 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	
 	// only used name of the material to get it
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
+
+	
 
 	// process materials
 	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
@@ -115,16 +118,19 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 //>>>>>>> develop
 	MatforMesh->textures = textures;
 
-	// adding to texture Properties
-	for (int i = 0; i < MatforMesh->textures.size(); i++)
+	if (MatforMesh->textureProperties.empty())
 	{
-		TextureProperty textureProp;
-		Texture* textureP = &MatforMesh->textures[i];
-		
-		textureProp.propertyName = "Texture" + i;
-		textureProp.setValue(textureP);
-		
-		MatforMesh->textureProperties.push_back(textureProp);
+		// adding to texture Properties
+		for (int i = 0; i < MatforMesh->textures.size(); i++)
+		{
+			TextureProperty textureProp;
+			Texture* textureP = &MatforMesh->textures[i];
+
+			textureProp.propertyName = "Texture " + MatforMesh->name;
+			textureProp.setValue(textureP);
+
+			MatforMesh->textureProperties.push_back(textureProp);
+		}
 	}
 
 	return MatforMesh;
@@ -161,10 +167,13 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 		}
 		if (!skip)
 		{
-			Texture texture;
+			// using AssetManager TextureLibrary
+			Texture texture = AssetManager::getInstance().textureLib.GetAsset(str.C_Str());
+			//if(texture.id )
+			//Texture texture;
 			texture.id = TextureFromFile(str.C_Str(), directory);
 			texture.type = typeName;
-			texture.path = str.C_Str();
+			//texture.path = str.C_Str();
 			textures.push_back(texture);
 
 			// store as texture loaded for entire model
