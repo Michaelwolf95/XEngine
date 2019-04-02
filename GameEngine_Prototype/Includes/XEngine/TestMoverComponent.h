@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-class TestMoverComponent : public Component
+class DLLExport TestMoverComponent : public Component
 {
 public:
 	static Registrar<TestMoverComponent> registrar;

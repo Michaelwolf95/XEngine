@@ -12,8 +12,7 @@
 #include "MeshRenderer.h"
 #include "AssetManager.h"
 
-//#include "PointLightComponent.h"
-class PointLightComponent;
+#include "PointLightComponent.h"
 
 // ImGui
 #include "imgui.h"
@@ -667,6 +666,14 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
+			}
+			if (ImGui::MenuItem("New Point Light"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New GameObject");
+				selectedGameObject = go;
+				/*std::shared_ptr<PointLightComponent> pLight(new PointLightComponent());
+				go->AddComponent(pLight);*/
 			}
 			if (ImGui::MenuItem("New Simple Box"))
 			{

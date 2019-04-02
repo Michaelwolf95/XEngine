@@ -6,7 +6,7 @@
 
 #define VAR_NAME(Var) (#Var)
 
-class GlobalLightComponent : public LightComponent
+class DLLExport GlobalLightComponent : public LightComponent
 {
 public:
 	static Registrar<GlobalLightComponent> registrar;
