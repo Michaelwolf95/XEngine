@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Light.h"
 #include "Serialization.h"
+#include <boost/serialization/vector.hpp>
 #include <vector>
 #include "Texture.h"
 #include "MaterialProperty.h"
@@ -83,10 +84,11 @@ private:
 	{
 		std::cout << "save " << textureFilePath << std::endl;
 
-
+		ar & BOOST_SERIALIZATION_NVP(textureProperties);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
+		ar & BOOST_SERIALIZATION_NVP(filePath);
 		ar & BOOST_SERIALIZATION_NVP(Color);
 		ar & BOOST_SERIALIZATION_NVP(useLight);
 		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
@@ -101,17 +103,17 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
-		ar & BOOST_SERIALIZATION_NVP(name);
-		ar & BOOST_SERIALIZATION_NVP(filePath);
-		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		
 		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version) // file_version
 	{
+		ar & BOOST_SERIALIZATION_NVP(textureProperties);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
+		ar & BOOST_SERIALIZATION_NVP(filePath);
 		ar & BOOST_SERIALIZATION_NVP(Color);
 		ar & BOOST_SERIALIZATION_NVP(useLight);
 		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
@@ -126,9 +128,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
-		ar & BOOST_SERIALIZATION_NVP(name);
-		ar & BOOST_SERIALIZATION_NVP(filePath);
-		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		
 		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 
 		isInitialized = false;

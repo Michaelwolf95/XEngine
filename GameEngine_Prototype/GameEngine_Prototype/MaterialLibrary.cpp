@@ -43,7 +43,13 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 // Overriden LoadAsset method
 Material *& MaterialLibrary::LoadAsset(std::string filePath)
 {
-	Material* loadedMaterial =  new Material("DefaultMat", "multilights.vs", "multilights.fs");
+	// get material name from filepath
+	std::string fileName = filePath.substr(filePath.find_last_of("/") + 1);
+	size_t lastindex = fileName.find_last_of(".");
+	std::string materialName = fileName.substr( 0, lastindex );
+
+	Material* loadedMaterial =  new Material(materialName, "multilights.vs", "multilights.fs");
+	loadedMaterial->filePath = filePath;
 
 	// load from file in directory
 	if (LoadMaterialFromFile(*loadedMaterial, filePath.c_str()) )
@@ -65,12 +71,12 @@ Material *& MaterialLibrary::LoadAsset(std::string filePath)
 	return library[filePath];
 }
 
-// Saving material to file
-void MaterialLibrary::SaveMaterialToFile(const Material &m) {
-	std::string filename = "../Assets/Materials/";	// material filepath
-	filename += m.name + ".material";				// material file
-	SaveMaterialToFile(m, filename.c_str());
-}
+//// Saving material to file
+//void MaterialLibrary::SaveMaterialToFile(const Material &m) {
+//	std::string filename = "../Assets/Materials/";	// material filepath
+//	filename += m.name + ".material";				// material file
+//	SaveMaterialToFile(m, filename.c_str());
+//}
 
 // Saving material to file
 void MaterialLibrary::SaveMaterialToFile(const Material &m, const char * filePath)
@@ -94,12 +100,12 @@ void MaterialLibrary::SaveMaterialToFile(const Material &m, const char * filePat
 }
 
 // Loading material from file by name
-bool MaterialLibrary::LoadMaterialFromFileByName(Material &m, const char * materialName)
-{
-	std::string filename("../Assets/Materials/");
-	filename += std::string(materialName) + ".material";
-	return LoadMaterialFromFile(m, filename.c_str());
-}
+//bool MaterialLibrary::LoadMaterialFromFileByName(Material &m, const char * materialName)
+//{
+//	std::string filename("../Assets/Materials/");
+//	filename += std::string(materialName) + ".material";
+//	return LoadMaterialFromFile(m, filename.c_str());
+//}
 
 // Loading material from file
 bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * filePath)

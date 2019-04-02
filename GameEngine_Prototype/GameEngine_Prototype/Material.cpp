@@ -11,12 +11,13 @@
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
+	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
 	useLight = _useLight;
 
-	filePath = "../Assets/Materials/MultiLightModel.material";
+	//filePath = "../Assets/Materials/MultiLightModel.material";
 
 	Init();
 
@@ -174,6 +175,8 @@ void Material::DrawInspector()
 {
 	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
+		ImGui::InputText("Name", &name);
+
 		ImGui::InputText("VertPath", &vertexShaderPath);
 
 		ImGui::InputText("FragPath", &fragmentShaderPath);
@@ -230,6 +233,36 @@ void Material::DrawInspector()
 					textureProperties[i].setValue(value);*/
 			}
 			ImGui::TreePop();
+		}
+
+		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+		{
+			ImGui::Text("<----- CHANGE MATERIAL ----->");
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == 128);
+					const char* payload_n = (const char*)payload->Data;
+
+					std::string fileName(payload_n);
+					if (fileName.substr(fileName.find_last_of(".")) == ".material")
+					{
+						std::cout << "Dropping Material!" << std::endl;
+						//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+						//size_t lastindex = fileName.find_last_of(".");
+						//fileName = fileName.substr(0, lastindex);
+						Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+						if (mat != nullptr)
+						{
+							*this = *mat;
+							std::cout << "Dropping Material!" << std::endl;
+						}
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
 		}
 		
 
