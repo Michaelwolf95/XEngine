@@ -135,8 +135,11 @@ std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat,
 		if (!skip)
 		{
 			// get Texture
-			Texture* texture = &(AssetManager::getInstance().textureLib.GetAsset(str.C_Str()));
-			texture->id = TextureFromFile(str.C_Str(), directory);
+			std::string filename = str.C_Str();
+			filename = directory + '/' + filename;
+
+			Texture* texture = &(AssetManager::getInstance().textureLib.GetAsset(filename));
+			texture->id = TextureFromFile(filename.c_str(), directory);
 			texture->type = typeName;
 
 			// turn into textureProperty
@@ -149,25 +152,21 @@ std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat,
 			// so we dont load duplicate textures
 			textures_loaded.push_back(textureProp);
 		}
-		return textures;
 	}
-	
+	return textures;
 }
 
 // Get the texture from the file
 unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
 {
-	std::string filename = std::string(path);
-	filename = directory + '/' + filename;
-
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
 
-	std::cout << "3. filename == " << filename << std::endl;
+	std::cout << "3. filename == " << path << std::endl;
 
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
 
 	if (data)
 	{
