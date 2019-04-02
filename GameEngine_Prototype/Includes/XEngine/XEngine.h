@@ -26,6 +26,9 @@
 #include "PhysicsManager.h"
 #include "AudioManager.h"
 
+// Core Components?
+//#include "PointLightComponent.h"
+
 namespace XEngine
 {
 	typedef void (*EngineEvent)(void);

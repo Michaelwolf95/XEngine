@@ -1,4 +1,5 @@
 #include "SceneEditor.h"
+#include "XEngine.h"
 #include "Input.h"
 #include "GameTime.h"
 #include "SceneManager.h"
@@ -10,6 +11,10 @@
 #include "RenderManager.h"
 #include "MeshRenderer.h"
 #include "AssetManager.h"
+
+//#include "PointLightComponent.h"
+class PointLightComponent;
+
 // ImGui
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -882,7 +887,6 @@ void SceneEditor::InspectorUpdate()
 				//std::cout << element.first.name() << ": " << element.second.name << std::endl;
 				componentTypes.push_back(element.second); // TODO: fix bug that causes engine to crash when simple model component is chosen
 			}
-
 			ImGui::Text("Add Component:");
 			ImGui::Separator();
 			int menuSelectIndex = -1;
