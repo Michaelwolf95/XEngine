@@ -292,10 +292,10 @@ void Material::DrawInspector()
 		{
 			for (size_t i = 0; i < textureProperties.size(); i++)
 			{
-				Texture* value = textureProperties[i]->getValue();
+				Texture* value = textureProperties[i].getValue();
 				std::string path = value->path;
 
-				ImGui::InputText(textureProperties[i]->propertyName.c_str(), &path);
+				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
 
 				if (path != value->path)
 				{
@@ -370,7 +370,7 @@ std::string Material::to_string()
 											  
 	}
 	for (auto tp : textureProperties) {
-		str += '\n' + tp->propertyName + ": " + tp->getValue()->type;
+		str += '\n' + tp.propertyName + ": " + tp.getValue()->type;
 	}
 
 	str += "\nfilePath: " + this->filePath;

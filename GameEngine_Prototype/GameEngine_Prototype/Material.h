@@ -37,7 +37,7 @@ public:
 	std::vector<Vec2Property> vec2Properties;
 	std::vector<Vec3Property> vec3Properties;
 	std::vector<Vec4Property> vec4Properties;
-	std::vector<TextureProperty*> textureProperties;
+	std::vector<TextureProperty> textureProperties;
 
 	//std::vector<MaterialPropertyBase*>properties;
 
