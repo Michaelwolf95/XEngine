@@ -167,13 +167,13 @@ void MeshRenderer::Draw()
 		unsigned int heightNr = 1;
 		
 		// binding textures
-		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
+		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties.size(); j++)
 		{
 			// get texture before binding
 			glActiveTexture(GL_TEXTURE0 + j);
 
 			std::string number;
-			std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].type;
+			std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->type;
 
 			// transfer unsigned to stream
 			if (name == "texture_diffuse")
@@ -188,7 +188,7 @@ void MeshRenderer::Draw()
 			// set texture unit
 			glUniform1i(glGetUniformLocation(model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID, (name + number).c_str()), j);
 			// bind texture
-			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
+			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->id);
 		}
 
 		model->MeshToMaterial.at(model->meshes[i]->name)->Draw(RenderManager::getInstance().lights);
