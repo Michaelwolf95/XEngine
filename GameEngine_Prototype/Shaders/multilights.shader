@@ -92,7 +92,7 @@ void main()
 		texel = texture(Texture, TexCoord);
 	}
 	else {
-		texel = vec4(1.0, 1.0, 1.0, 1.0);
+		texel = vec4(1.0, 0.0, 0.0, 1.0);
 	}
 
 	// diffuse 

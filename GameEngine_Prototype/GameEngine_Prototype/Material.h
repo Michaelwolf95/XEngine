@@ -24,7 +24,7 @@ class Material
 {
 public:
 	// Shader attributes
-
+	//glm::vec4 Color = glm::vec4(1.0f);
 	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
@@ -55,7 +55,7 @@ public:
 	~Material();
 	void Init();
 	void Load(); // Load for openGL to draw.
-	void Draw(std::vector<Light*> lights);
+	void Draw();
 
 	void LoadTexture(const char* _textureFilePath);
 

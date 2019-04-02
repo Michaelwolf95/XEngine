@@ -147,8 +147,8 @@ bool MeshRenderer::LoadModel()
 
 void MeshRenderer::Draw()
 {
-	material->shader->use();
-	RenderManager::getInstance().currentShaderID = material->shader->ID;
+	//material->shader->use(); // moved to material::Load
+	//RenderManager::getInstance().currentShaderID = material->shader->ID; // moved to material::Load
 
 	material->Load();
 
@@ -203,7 +203,7 @@ void MeshRenderer::Draw()
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
-		material->Draw(RenderManager::getInstance().lights);
+		material->Draw();
 
 		// Try to delegate to Material class????
 		// draw mesh

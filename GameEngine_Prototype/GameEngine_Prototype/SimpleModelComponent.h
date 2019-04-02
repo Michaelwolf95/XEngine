@@ -44,15 +44,16 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
-		ar & BOOST_SERIALIZATION_NVP(VBO);
-		ar & BOOST_SERIALIZATION_NVP(VAO);
-		ar & BOOST_SERIALIZATION_NVP(EBO);
+		//ar & BOOST_SERIALIZATION_NVP(VBO);
+		//ar & BOOST_SERIALIZATION_NVP(VAO);
+		//ar & BOOST_SERIALIZATION_NVP(EBO);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
 		std::cout << "\tmaterialFilePath serializing: " << material->filePath << std::endl;
-		// save the material using the material file path
+		// serializes file path to existing material
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
+		// dereferences pointer to material to serialize
 		AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
 
 	}
@@ -65,12 +66,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
-		ar & BOOST_SERIALIZATION_NVP(VBO);
-		ar & BOOST_SERIALIZATION_NVP(VAO);
-		ar & BOOST_SERIALIZATION_NVP(EBO);
+		//ar & BOOST_SERIALIZATION_NVP(VBO);
+		//ar & BOOST_SERIALIZATION_NVP(VAO);
+		//ar & BOOST_SERIALIZATION_NVP(EBO);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
-
 
 		// load the material using the material file path
 		std::string materialFilePath;

@@ -675,7 +675,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
 				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
-					DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
+					DiffusedMappedCubeIndices, 6, modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
 

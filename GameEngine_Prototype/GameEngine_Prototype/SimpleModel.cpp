@@ -37,6 +37,8 @@ void SimpleModel::Setup()
 
 void SimpleModel::Draw()
 {
+	//material->shader->use(); // moved to material::Load
+	material->Load();
 	std::cout << "SimpleModel.Draw()" << std::endl; // path not taken
 	if (render_enabled == false) return;
 	// ToDo: Get view & projection from active camera.

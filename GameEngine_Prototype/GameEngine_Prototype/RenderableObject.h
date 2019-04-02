@@ -5,9 +5,11 @@
 #include "Material.h"
 
 class RenderableObject
-{
-	
+{	
 public:
+	bool render_enabled = false;
+	virtual void Draw() = 0;
+	virtual void Setup() = 0;
 	//float* vertices;
 	//unsigned int numVerts;
 	//unsigned int vertexDataSize;
@@ -17,13 +19,10 @@ public:
 	//unsigned int VAO;
 	//unsigned int EBO;
 	//Material* material = nullptr;
-	bool render_enabled = false;
 	//RenderableObject();
 	//RenderableObject(Material* _material);
 	//RenderableObject(
 	//	float* verts, unsigned int numV, unsigned int vertDataSize,
 	//	unsigned int* ind, unsigned int numInd, Material* _material = nullptr);
 	//~RenderableObject();
-	virtual void Draw() = 0;
-	virtual void Setup() = 0;
 };

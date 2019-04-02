@@ -115,7 +115,10 @@ void Material::Init()
 
 void Material::Load()
 {
-	//shader->setColor("MainColor", Color.x, Color.y, Color.z, Color.w); // this should be done with vec4 properties
+	//shader->setColor("color", Color.x, Color.y, Color.z, Color.w); // this should be done with vec4 properties
+	shader->use();
+	RenderManager::getInstance().currentShaderID = shader->ID;
+
 
 	if (textureID > 0)
 	{
@@ -128,8 +131,10 @@ void Material::Load()
 	}
 }
 
-void Material::Draw(std::vector<Light*> lights)
+void Material::Draw()
 {
+	shader->use();
+
 	if (useLight) {
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;
@@ -141,9 +146,11 @@ void Material::Draw(std::vector<Light*> lights)
 
 		shader->setInt("numLights", RenderManager::getInstance().lights.size());
 
+		//shader->setInt("Texture", textureID); // would this be compatible with meshes?
+
 		//std::cout << to_string() << std::endl;
 
-		for (Light* light : lights) {
+		for (Light* light : RenderManager::getInstance().lights) {
 			
 			if (light->getTypeID() == Light::LightType::PointLight) {
 				counter = &pointLightCount;
@@ -157,32 +164,26 @@ void Material::Draw(std::vector<Light*> lights)
 			// Add light properties to shader.
 			light->draw(shader, *counter);
 
-			for (auto fp : floatProperties) {
-				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
-			}
-
-			for (auto ip : intProperties) {
-				shader->setInt(uniformString + ip.propertyName, ip.getValue());
-			}
-
-			for (auto v2p : vec2Properties) {
-				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
-			}
-
-			for (auto v3p : vec3Properties) {
-				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
-				//std::cout << "uniformString + v3p.propertyName == " << uniformString + v3p.propertyName << std::endl;
-			}
-
-			for (auto v4p : vec4Properties) {
-				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
-			}
-
 			counter ? (*counter)++ : printf("ERROR: counter is NULL! (Materials->Draw)\n");
 		}
-
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
+	}
+	// Non-light uniforms
+	for (auto fp : floatProperties) {
+		shader->setFloat(fp.propertyName, fp.getValue());
+	}
+	for (auto ip : intProperties) {
+		shader->setInt(ip.propertyName, ip.getValue());
+	}
+	for (auto v2p : vec2Properties) {
+		shader->setVec2(v2p.propertyName, v2p.getValue());
+	}
+	for (auto v3p : vec3Properties) {
+		shader->setVec3(v3p.propertyName, v3p.getValue());
+	}
+	for (auto v4p : vec4Properties) {
+		shader->setVec4(v4p.propertyName, v4p.getValue());
 	}
 }
 
@@ -190,7 +191,7 @@ void Material::LoadTexture(const char * _textureFilePath)
 {
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
-
+	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
 
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
@@ -292,10 +293,10 @@ void Material::DrawInspector()
 		{
 			for (size_t i = 0; i < textureProperties.size(); i++)
 			{
-				Texture* value = textureProperties[i].getValue();
+				Texture* value = textureProperties[i]->getValue();
 				std::string path = value->path;
 
-				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
+				ImGui::InputText(textureProperties[i]->propertyName.c_str(), &path);
 
 				if (path != value->path)
 				{
@@ -340,7 +341,7 @@ std::string Material::to_string()
 											  
 	}
 	for (auto tp : textureProperties) {
-		str += '\n' + tp.propertyName + ": " + tp.getValue()->type;
+		str += '\n' + tp->propertyName + ": " + tp->getValue()->type;
 	}
 
 	str += "\nfilePath: " + this->filePath;

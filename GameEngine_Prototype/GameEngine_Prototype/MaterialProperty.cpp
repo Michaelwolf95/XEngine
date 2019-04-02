@@ -103,6 +103,15 @@ void TextureProperty::setValue(Texture* val)
 	value = val;
 }
 
+// TODO: Given that a texture has an enum type this method will return a property name that will connect with texture uniforms in shaders
+//std::string TextureProperty::getPropertyName()
+//{
+//	switch (value->type)
+//	{
+//		case 
+//	}
+//}
+
 void TextureProperty::LoadTextureFromPath(std::string filePath)
 {
 	value = &AssetManager::getInstance().textureLib.GetAsset(filePath);
