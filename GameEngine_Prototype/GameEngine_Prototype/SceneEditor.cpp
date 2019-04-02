@@ -671,8 +671,6 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
 				Material* modelMaterial = new Material("MultiLight SimpleModel", "multilights.shader", "");
 
-				
-
 				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
 
 				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager

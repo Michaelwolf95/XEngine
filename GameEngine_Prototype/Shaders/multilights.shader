@@ -65,7 +65,7 @@ uniform vec3 viewPos;
 uniform vec3 lightColor;
 //uniform vec3 objectColor
 
-uniform vec4 MainColor;
+uniform vec4 color;
 uniform sampler2D Texture;
 uniform sampler2D texture_diffuse1;
 
@@ -116,7 +116,7 @@ void main()
 											  //result += calculateSpotLight();
 	}
 
-	FragColor = vec4(result, 1.0f) * MainColor;
+	FragColor = vec4(result, 1.0f) * color;
 }
 
 vec3 calculateAmbientLighting(const vec4 texel) {

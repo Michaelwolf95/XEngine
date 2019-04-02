@@ -30,6 +30,7 @@ public:
 	void Init();
 
 	static void LoadTextureAsset(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
+	// Loads texture into memory using file path, assigns texture ID
 	static void LoadTexture(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
 };
 
