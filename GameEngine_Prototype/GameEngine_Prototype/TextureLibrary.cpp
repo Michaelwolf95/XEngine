@@ -11,6 +11,7 @@ TextureLibrary::~TextureLibrary() {}
 Texture & TextureLibrary::LoadAsset(std::string filePath)
 {
 	Texture* text = new Texture();
+	text->path = filePath;
 
 	library.insert({ filePath, *text });
 	std::string fullPath = ASSET_FILE_PATH + std::string(filePath);

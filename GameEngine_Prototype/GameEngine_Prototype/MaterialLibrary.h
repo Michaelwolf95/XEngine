@@ -35,9 +35,9 @@ public:
 	Material*& GetAsset(std::string fileName);
 	Material*& LoadAsset(std::string fileName) override;
 
-	void SaveMaterialToFile(const Material & s);
+	//void SaveMaterialToFile(const Material & s);
 	void SaveMaterialToFile(const Material & s, const char * filePath);
-	bool LoadMaterialFromFileByName(Material &m, const char * materialName);
+	//bool LoadMaterialFromFileByName(Material &m, const char * materialName);
 	bool LoadMaterialFromFile(Material &m, const char * filePath);
 
 protected:

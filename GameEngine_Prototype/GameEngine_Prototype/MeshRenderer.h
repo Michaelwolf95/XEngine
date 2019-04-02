@@ -6,6 +6,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <boost/serialization/unordered_map.hpp>
 
 #include "Mesh.h"
 #include "Shader.h"
@@ -92,6 +93,15 @@ class MeshRenderer: public RenderableObject, public Component
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
 			
+			std::vector<std::string> vecMaterials;
+			for (size_t i = 0; i < model->meshes.size(); i++)
+			{
+				std::cout << model->meshes[i]->name << std::endl;
+				AssetManager::getInstance().materialLib.SaveMaterialToFile(*model->MeshToMaterial.at(model->meshes[i]->name), model->MeshToMaterial.at(model->meshes[i]->name)->filePath.c_str());
+				vecMaterials.push_back(model->MeshToMaterial.at(model->meshes[i]->name)->filePath);
+			}
+			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
+
 			// save material using the material filepath
 			ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
 			AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
@@ -102,6 +112,13 @@ class MeshRenderer: public RenderableObject, public Component
 			// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
+
+			std::vector<std::string> vecMaterials;
+			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
+			for (size_t i = 0; i < vecMaterials.size(); i++)
+			{
+				AssetManager::getInstance().materialLib.GetAsset(vecMaterials[i]); // load into library
+			}
 
 			// load material using the material filepath
 			std::string materialFilePath;
