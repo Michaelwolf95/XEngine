@@ -428,8 +428,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\diffuse.vs" />
     <None Include="..\Shaders\model.fs" />
     <None Include="..\Shaders\model.vs" />
-    <None Include="..\Shaders\multi.fs" />
-    <None Include="..\Shaders\multi.vs" />
     <None Include="..\Shaders\multilights.fs" />
     <None Include="..\Shaders\multilights.shader" />
     <None Include="..\Shaders\multilights.vs" />
