@@ -348,6 +348,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\CameraSwapper.h" />
     <ClInclude Include="..\Includes\XEngine\Component.h" />
     <ClInclude Include="..\Includes\XEngine\ConsoleThread.h" />
+    <ClInclude Include="..\Includes\XEngine\CoreComponents.h" />
     <ClInclude Include="..\Includes\XEngine\DebugUtility.h" />
     <ClInclude Include="..\Includes\XEngine\Drawer.h" />
     <ClInclude Include="..\Includes\XEngine\ExampleRotator_James.h" />

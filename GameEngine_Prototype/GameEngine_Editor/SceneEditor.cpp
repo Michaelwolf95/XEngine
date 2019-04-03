@@ -1,21 +1,6 @@
 #include "SceneEditor.h"
 #include "XEngine.h"
-#include "Input.h"
-#include "GameTime.h"
-#include "SceneManager.h"
-#include "Shader.h"
-#include "SimpleModelComponent.h"
-#include "PrimitiveModels.h"
-#include "TestMoverComponent.h"
-#include "ApplicationManager.h"
-#include "RenderManager.h"
-#include "MeshRenderer.h"
-#include "AssetManager.h"
-
-#include "PointLightComponent.h"
-#include "AudioComponent.h"
-#include "AudioListener.h"
-#include "FreeLookCameraController.h"
+#include "CoreComponents.h"
 
 // ImGui
 #include "imgui.h"

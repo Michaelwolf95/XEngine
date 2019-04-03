@@ -26,8 +26,7 @@
 #include "PhysicsManager.h"
 #include "AudioManager.h"
 
-// Core Components?
-//#include "PointLightComponent.h"
+#include "CoreComponents.h"
 
 namespace XEngine
 {
