@@ -3,7 +3,7 @@
 #include "AudioManager.h"
 #include <vector>
 
-class AudioComponent : public Component
+class DLLExport AudioComponent : public Component
 {
 public:
 	static Registrar<AudioComponent> registrar;
