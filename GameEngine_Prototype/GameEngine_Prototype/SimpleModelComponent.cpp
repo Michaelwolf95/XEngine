@@ -9,8 +9,6 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "Input.h"
-#include "PointLightComponent.h"
-#include "GlobalLightComponent.h"
 
 REGISTER_COMPONENT(SimpleModelComponent, "SimpleModelComponent")
 

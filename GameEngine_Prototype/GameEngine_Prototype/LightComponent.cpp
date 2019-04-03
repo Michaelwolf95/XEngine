@@ -4,7 +4,7 @@
 
 //REGISTER_COMPONENT(LightComponent, "LightComponent")
 
-LightComponent::LightComponent(glm::vec3 _color, float _intensity, int typeID) : Light::Light()
+LightComponent::LightComponent(glm::vec3 _color, float _intensity) : Light::Light()
 {
 	color = _color;
 	intensity = _intensity;
@@ -17,19 +17,19 @@ LightComponent::~LightComponent() {
 void LightComponent::Start() {}
 void LightComponent::Update() {}
 
-glm::vec3 LightComponent::getLightColor()
-{
-	return color;
-}
-
+//glm::vec3 LightComponent::getLightColor()
+//{
+//	return color;
+//}
+//
 glm::vec3 LightComponent::getLightPos()
 {
-	return gameObject->transform->getPosition();
+	return this->gameObject->transform->getPosition();
 }
-
-float LightComponent::getIntensity() {
-	return intensity;
-}
+//
+//float LightComponent::getIntensity() {
+//	return intensity;
+//}
 
 //glm::vec3 LightComponent::getAmbient()
 //{
@@ -45,25 +45,30 @@ float LightComponent::getIntensity() {
 //{
 //	return specular;
 //}
-
-float LightComponent::getConstant()
-{
-	return 0.0f; // does nothing
-}
-
-float LightComponent::getLinear()
-{
-	return 0.0f; // does nothing
-}
-
-float LightComponent::getQuadratic()
-{
-	return 0.0f; // does nothing
-}
-
+//
+//float LightComponent::getConstant()
+//{
+//	return 0.0f; // does nothing
+//}
+//
+//float LightComponent::getLinear()
+//{
+//	return 0.0f; // does nothing
+//}
+//
+//float LightComponent::getQuadratic()
+//{
+//	return 0.0f; // does nothing
+//}
+//
 glm::vec3 LightComponent::getDirection()
 {
-	return glm::vec3(); // does nothing
+	return this->gameObject->transform->getForwardDirection();
+}
+
+int LightComponent::getTypeID()
+{
+	return TYPE;
 }
 
 void LightComponent::DrawInspector()
@@ -79,7 +84,7 @@ void LightComponent::OnDrawGizmos()
 	gizmoDrawer->Draw(this->gameObject->transform->getPosition());
 }
 
-void LightComponent::draw(Shader * shader, int &counter)
+void LightComponent::Draw(Shader * shader, int &counter)
 {
 	std::string uniformString = UNIFORM_NAME + '[' + std::to_string(counter) + "].";
 	shader->setVec3(uniformString + VAR_NAME(color), color);
@@ -94,7 +99,7 @@ const std::string* LightComponent::getUniformName()
 	return &UNIFORM_NAME;
 }
 
-void LightComponentDraw(Shader* shader) {
-
-}
+//void LightComponentDraw(Shader* shader) {
+//
+//}
 

@@ -49,7 +49,6 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	specularProperty.setValue(specular);
 	shinyProperty.propertyName = "material.";
 	shinyProperty.propertyName += VAR_NAME(shininess);
-	std::cout << "****************" << shinyProperty.propertyName << std::endl;
 	shinyProperty.setValue(shininess);
 	
 	floatProperties.push_back(shinyProperty);
@@ -163,7 +162,7 @@ void Material::Draw()
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
 
 			// Add light properties to shader.
-			light->draw(shader, *counter);
+			light->Draw(shader, *counter);
 
 			counter ? (*counter)++ : printf("ERROR: counter is NULL! (Materials->Draw)\n");
 		}
