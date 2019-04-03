@@ -41,27 +41,19 @@ public:
 
 	//std::vector<MaterialPropertyBase*>properties;
 
-
 	bool useLight = false;
 	std::vector<Texture> textures;
-
 	std::string textureFilePath;
-
 	unsigned int textureID = 0;
-	
-	//float ambientStrength = 1.0f;
-	//float specularStrength = 0.5f;
+
 	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = true);
 	Material();
 	~Material();
 	void Init();
 	void Load(); // Load for openGL to draw.
 	void Draw();
-
 	void LoadTexture(const char* _textureFilePath);
-
 	void DrawInspector();
-
 	std::string to_string();
 
 private:

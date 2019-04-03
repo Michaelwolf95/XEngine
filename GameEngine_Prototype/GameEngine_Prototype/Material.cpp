@@ -28,7 +28,7 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 
 	// Temporary until system put in place to add values to individual properties
-	float shininess = 32.0f;
+	float shininess = 18.0f;
 	FloatProperty shinyProperty;
 	glm::vec3 ambient = glm::vec3(0.05f);
 	Vec3Property ambientProperty;
@@ -47,7 +47,9 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	diffuseProperty.setValue(diffuse);
 	specularProperty.propertyName = VAR_NAME(specular);
 	specularProperty.setValue(specular);
-	shinyProperty.propertyName = VAR_NAME(shininess);
+	shinyProperty.propertyName = "material.";
+	shinyProperty.propertyName += VAR_NAME(shininess);
+	std::cout << "****************" << shinyProperty.propertyName << std::endl;
 	shinyProperty.setValue(shininess);
 	
 	floatProperties.push_back(shinyProperty);
