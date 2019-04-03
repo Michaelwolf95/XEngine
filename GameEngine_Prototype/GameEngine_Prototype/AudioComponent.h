@@ -17,8 +17,8 @@ public:
 	void Load3D(string, bool, bool, bool);
 	void Play(string, glm::vec3, float);
 	vector<string> soundList;
-	
-	//void Distance(Vector3);
+	int mChannel;
+	glm::vec3 getListener();
 
 private:
 	friend class boost::serialization::access;
