@@ -29,6 +29,7 @@ void AudioListener::Update()
 	up.x = u.x;
 	up.y = u.y;
 	up.z = u.z;
+	AudioManager::getInstance().sound.Set3dListenerAndOrientation(pos, velocity, forward, up);
 }
 
 AudioListener::AudioListener()
