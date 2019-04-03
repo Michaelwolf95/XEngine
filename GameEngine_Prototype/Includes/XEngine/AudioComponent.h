@@ -9,16 +9,22 @@ public:
 	static Registrar<AudioComponent> registrar;
 	void Start() override;
 	void Update() override;
-	float range, distance;
+	//float range, distance;
+	bool is3D = false;
+	int mChannel;
 
+	std::string soundPath;
 	AudioComponent();
 	~AudioComponent();
 	void Load2D(string, bool, bool);
 	void Load3D(string, bool, bool, bool);
 	void Play(string, glm::vec3, float);
-	vector<string> soundList;
-	int mChannel;
+	void Play();
+	//vector<string> soundList;
+
 	glm::vec3 getListener();
+
+	void DrawInspector() override;
 
 private:
 	friend class boost::serialization::access;
@@ -28,15 +34,15 @@ private:
 	{
 		//// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-		//ar & BOOST_SERIALIZATION_NVP(range);
-		//ar & BOOST_SERIALIZATION_NVP(distance);
+		ar & BOOST_SERIALIZATION_NVP(soundPath);
+		ar & BOOST_SERIALIZATION_NVP(is3D);
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
 	{
 		// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-		//ar & BOOST_SERIALIZATION_NVP(range);
-		//ar & BOOST_SERIALIZATION_NVP(distance);
+		ar & BOOST_SERIALIZATION_NVP(soundPath);
+		ar & BOOST_SERIALIZATION_NVP(is3D);
 	}
 };

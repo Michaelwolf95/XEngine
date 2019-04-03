@@ -13,6 +13,9 @@
 #include "AssetManager.h"
 
 #include "PointLightComponent.h"
+#include "AudioComponent.h"
+#include "AudioListener.h"
+#include "FreeLookCameraController.h"
 
 // ImGui
 #include "imgui.h"
