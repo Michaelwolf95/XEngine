@@ -147,9 +147,6 @@ bool MeshRenderer::LoadModel()
 
 void MeshRenderer::Draw()
 {
-	material->shader->use();
-	RenderManager::getInstance().currentShaderID = material->shader->ID;
-
 	material->Load();
 
 	//if (gameObject == nullptr) return;
@@ -158,23 +155,27 @@ void MeshRenderer::Draw()
 
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
-	material->shader->setMat4("view", view);
-	material->shader->setMat4("projection", projection);
-	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-
-	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
-	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
-	material->shader->setVec3("viewPos", viewPos);
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->use();
+		RenderManager::getInstance().currentShaderID = model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID;
+		model->MeshToMaterial.at(model->meshes[i]->name)->Load();
+
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("view", view);
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("projection", projection);
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
+
+		//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
+		glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setVec3("viewPos", viewPos);
 
 		// texture variables
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
-		
+
 		// binding textures
 		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
 		{
@@ -195,12 +196,12 @@ void MeshRenderer::Draw()
 				number = std::to_string(heightNr++);
 
 			// set texture unit
-			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+			glUniform1i(glGetUniformLocation(model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID, (name + number).c_str()), j);
 			// bind texture
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
-		material->Draw(RenderManager::getInstance().lights);
+		model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
 
 		// Try to delegate to Material class????
 		// draw mesh
@@ -210,7 +211,6 @@ void MeshRenderer::Draw()
 
 		// default once configured
 		glActiveTexture(GL_TEXTURE0);
-
 	}
 }
 //
