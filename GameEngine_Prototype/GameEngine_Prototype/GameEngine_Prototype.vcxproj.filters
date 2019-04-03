@@ -467,9 +467,6 @@
     <ClInclude Include="..\Includes\XEngine\XEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\LibraryExport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Includes\XEngine\Camera.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
@@ -526,6 +523,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\LibraryExport.h">
+      <Filter>Header Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

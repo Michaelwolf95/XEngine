@@ -2,13 +2,13 @@
 #include "CppUnitTest.h"
 //
 #include "XEngine.h"
+#include "Transform.h"
 using namespace XEngine;
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace XEngine_UnitTest
 {
-
 	TEST_CLASS(Transform_Test)
 	{
 	public:
