@@ -123,6 +123,11 @@ void CAudioEngine::Set3dListenerAndOrientation(const glm::vec3 & vPosition, cons
 	sgpImplementation->mpSystem->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
 }
 
+void CAudioEngine::Set3dListenerAndOrientation(const FMOD_VECTOR & vPosition, const FMOD_VECTOR & vVel, const FMOD_VECTOR & vLook, const FMOD_VECTOR & vUp)
+{
+	sgpImplementation->mpSystem->set3DListenerAttributes(0, &vPosition, &vVel, &vLook, &vUp);
+}
+
 int CAudioEngine::PlaySounds(const string& strSoundName, const glm::vec3& vPosition, float fVolumedB)
 {
 	int nChannelId = sgpImplementation->mnNextChannelId++;
