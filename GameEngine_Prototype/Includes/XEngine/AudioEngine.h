@@ -61,6 +61,8 @@ public:
 	void LoadSound(const string &strSoundName, bool b3d = true, bool bLooping = false, bool bStream = false);
 	void UnLoadSound(const string &strSoundName);
 	void Set3dListenerAndOrientation(const glm::vec3& vPosition, const glm::vec3& vLook, const glm::vec3& vUp);
+	void Set3dListenerAndOrientation(const FMOD_VECTOR& vPosition, const FMOD_VECTOR & vVel, const FMOD_VECTOR& vLook, const FMOD_VECTOR& vUp);
+	//void UpdateListenerOrientation()
 	//void Set3dListenerAndOrientation();
 	int PlaySounds(const string &strSoundName, const glm::vec3& vPos = glm::vec3{ 0, 0, 0 }, float fVolumedB = 0.0f);
 	void PlayEvent(const string &strEventName);
@@ -76,6 +78,7 @@ public:
 	float dbToVolume(float dB);
 	float VolumeTodB(float volume);
 	FMOD_VECTOR VectorToFmod(const glm::vec3& vPosition);
+
 };
 
 #endif
