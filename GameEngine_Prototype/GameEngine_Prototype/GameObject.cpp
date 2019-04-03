@@ -18,6 +18,7 @@ GameObject::GameObject(const char* _name)
 
 GameObject::~GameObject()
 {
+	HandleDisable();
 	std::cout << "\tDeconstructing " << name << "..." << std::endl;
 	components.clear();
 }
@@ -39,6 +40,34 @@ GameObject* GameObject::GetChild(int index)
 		return this->transform->children[index]->gameObject;
 	}
 	return nullptr;
+}
+
+bool GameObject::IsActive()
+{
+	if (!isActive) return false;
+	if (this->transform->parent != nullptr)
+	{
+		return this->transform->parent->gameObject->IsActive();
+	}
+	return true;
+}
+
+void GameObject::SetActive(bool active)
+{
+	if (isActive != active)
+	{
+		isActive = active;
+
+		// TODO: Check against parents being disabled.
+
+		if (isActive)
+			HandleEnable();
+		else
+			HandleDisable();
+
+		// TODO: Disable children.
+
+	}
 }
 
 void GameObject::AddComponent(Component_ptr comp)
@@ -142,4 +171,22 @@ bool GameObject::FindComponent(const std::type_info& typeInfo, void** object)
 GameObject_ptr GameObject::GetSelfPtr()
 {
 	return shared_from_this();
+}
+
+void GameObject::HandleEnable()
+{
+	std::cout << "Enabling Components" << std::endl;
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		components[i]->OnEnable();
+	}
+}
+
+void GameObject::HandleDisable()
+{
+	std::cout << "Disabling Components" << std::endl;
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		components[i]->OnDisable();
+	}
 }
