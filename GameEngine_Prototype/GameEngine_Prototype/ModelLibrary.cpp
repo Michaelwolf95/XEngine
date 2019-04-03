@@ -182,8 +182,8 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 			// so we dont load duplicate textures
 			textures_loaded.push_back(texture);
 		}
-		return textures;
 	}
+	return textures;
 }
 
 // Get the texture from the file
