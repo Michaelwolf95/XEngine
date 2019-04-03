@@ -8,6 +8,7 @@ PointLightComponent::PointLightComponent(glm::vec3 _color, float _intensity,
 	float _constant, float _linear, float _quadratic) : LightComponent::LightComponent(_color, _intensity)
 {
 	UNIFORM_NAME = "pointLights";
+	TYPE = LightType::PointLight;
 	constant = _constant;
 	linear = _linear;
 	quadratic = _quadratic;

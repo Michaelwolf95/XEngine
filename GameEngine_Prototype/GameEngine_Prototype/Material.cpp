@@ -158,6 +158,9 @@ void Material::Draw()
 			else if (light->getTypeID() == Light::LightType::GlobalLight) {
 				counter = &globalLightCount;
 			}
+			else if (light->getTypeID() == Light::LightType::SpotLight) {
+				counter = &spotLightCount;
+			}
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
 
@@ -168,6 +171,7 @@ void Material::Draw()
 		}
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
+		shader->setInt("numSpotLights", spotLightCount);
 	}
 	// Non-light uniforms
 	for (auto fp : floatProperties) {

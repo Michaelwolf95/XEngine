@@ -7,6 +7,7 @@ GlobalLightComponent::GlobalLightComponent(glm::vec3 _color, float _intensity/*,
 	: LightComponent(_color, _intensity)
 {
 	UNIFORM_NAME = "globalLights";
+	TYPE = LightType::GlobalLight;
 	//direction = _initial_direction;
 	//direction = this->gameObject->transform->getForwardDirection();
 }
