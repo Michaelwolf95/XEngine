@@ -38,41 +38,44 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
+		std::cout << "SimpleModelComponent::save\n";
 		//// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
-		ar & BOOST_SERIALIZATION_NVP(VBO);
-		ar & BOOST_SERIALIZATION_NVP(VAO);
-		ar & BOOST_SERIALIZATION_NVP(EBO);
+		//ar & BOOST_SERIALIZATION_NVP(VBO);
+		//ar & BOOST_SERIALIZATION_NVP(VAO);
+		//ar & BOOST_SERIALIZATION_NVP(EBO);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
 
-		// save the material using the material file path
+		std::cout << "\tmaterialFilePath serializing: " << material->filePath << std::endl;
+		// serializes file path to existing material
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
+		// dereferences pointer to material to serialize
 		AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
 
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
 	{
+		std::cout << "SimpleModelComponent::load\n";
 		// invoke serialization of the base class 
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(numVerts);
 		ar & BOOST_SERIALIZATION_NVP(vertexDataSize);// = vertDataSize;
 		ar & BOOST_SERIALIZATION_NVP(numIndices);// = numInd;
-		ar & BOOST_SERIALIZATION_NVP(VBO);
-		ar & BOOST_SERIALIZATION_NVP(VAO);
-		ar & BOOST_SERIALIZATION_NVP(EBO);
+		//ar & BOOST_SERIALIZATION_NVP(VBO);
+		//ar & BOOST_SERIALIZATION_NVP(VAO);
+		//ar & BOOST_SERIALIZATION_NVP(EBO);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(gameObject);
-
 
 		// load the material using the material file path
 		std::string materialFilePath;
 		ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
-		std::cout << "materialFilePath == " << materialFilePath << std::endl;
+		std::cout << "\tmaterialFilePath deserialized: " << materialFilePath << std::endl;
 		material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
 
 		vertices = DiffusedMappedCube;

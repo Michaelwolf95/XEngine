@@ -12,6 +12,10 @@ ShaderLibrary::~ShaderLibrary()
 // Overloading method: pass filepaths create a query to load asset
 Shader * ShaderLibrary::GetAsset(std::string vs, std::string fs)
 {
+	std::cout << "ShaderLibrary::GetAsset called with arguments\n";
+	std::cout << "\tvs: " << vs << std::endl;
+	std::cout << "\tfs: " << fs << std::endl;
+
 	// create query based on arguments
 	ShaderQuery shaderQ{ vs, fs };
 
@@ -36,7 +40,11 @@ Shader * ShaderLibrary::GetAsset(std::string vs, std::string fs)
 Shader *& ShaderLibrary::LoadAsset(ShaderQuery query)
 {
 	// make new shader
-	Shader* loadedShader = new Shader( query.vs.c_str(), query.fs.c_str() );
+	Shader* loadedShader;
+
+	loadedShader = query.fs.empty() ? 
+		new Shader( query.vs.c_str() ) :
+		new Shader( query.vs.c_str(), query.fs.c_str() );
 
 	// save shader into shader library
 	library.insert({ query, loadedShader });

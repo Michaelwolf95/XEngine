@@ -138,6 +138,8 @@ bool SceneManager::LoadSceneFromFileByName(Scene &s, const char * sceneName)
 
 bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 {
+	std::cout << "SceneManager::LoadSceneFromFile with arguments\n";
+	std::cout << "\tfileName: " << fileName << std::endl;
 	// Open the archive 
 	std::ifstream ifs(fileName);
 	if (!ifs.good()) //Doesn't exist 
@@ -150,6 +152,7 @@ bool SceneManager::LoadSceneFromFile(Scene &s, const char * fileName)
 	{
 		ia >> BOOST_SERIALIZATION_NVP(s);		// Restore from the archive
 		s.filePath = fileName;
+		std::cout << "\tscene's filePath: " << s.filePath << std::endl;
 	}
 	catch (const std::exception& e)
 	{

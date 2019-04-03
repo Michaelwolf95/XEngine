@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+//#include <glad/glad.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -26,11 +26,11 @@
 class MeshRenderer: public RenderableObject, public Component
 {
 	public:
-		float* vertices;
-		unsigned int numVerts;
-		unsigned int vertexDataSize;
-		unsigned int* indices;
-		unsigned int numIndices;
+		//float* vertices;
+		//unsigned int numVerts;
+		//unsigned int vertexDataSize;
+		//unsigned int* indices;
+		//unsigned int numIndices;
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;

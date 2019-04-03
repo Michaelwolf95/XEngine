@@ -16,11 +16,13 @@ AssetManager* AssetManager::CreateManager()
 	instance->Init();
 	return instance;
 }
+
 void AssetManager::Init()
 {
 	stbi_set_flip_vertically_on_load(1);
 }
 
+// Loads texture into memory using file path, assigns texture ID by calling LoadTexture procedure
 void AssetManager::LoadTextureAsset(const char* textureFilePath, unsigned int* textureID, unsigned int loadMode)
 {
 	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
@@ -35,6 +37,7 @@ void AssetManager::LoadTextureAsset(const char* textureFilePath, unsigned int* t
 	AssetManager::LoadTexture(path.c_str(), textureID, loadMode);
 }
 
+// Loads texture into memory using file path, assigns texture ID
 void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textureID, unsigned int loadMode)
 {
 	// load and create a texture 
@@ -65,5 +68,5 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 		std::cout << "Texture failed to load at path: " << textureFilePath << std::endl;
 	}
 	stbi_image_free(data);
-	glBindTexture(GL_TEXTURE_2D, 0); //?
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

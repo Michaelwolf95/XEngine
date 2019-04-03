@@ -143,6 +143,12 @@ bool MeshRenderer::LoadModel()
 
 void MeshRenderer::Draw()
 {
+	material->Load();
+
+	//if (gameObject == nullptr) return;
+	
+	// This was the error
+
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 
@@ -165,7 +171,7 @@ void MeshRenderer::Draw()
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
-		
+
 		// binding textures
 		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties.size(); j++)
 		{
@@ -191,7 +197,7 @@ void MeshRenderer::Draw()
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->id);
 		}
 
-		model->MeshToMaterial.at(model->meshes[i]->name)->Draw(RenderManager::getInstance().lights);
+		model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
 
 		// Try to delegate to Material class????
 		// draw mesh

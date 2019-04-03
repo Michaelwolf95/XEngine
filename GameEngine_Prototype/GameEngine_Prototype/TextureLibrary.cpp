@@ -6,6 +6,8 @@ TextureLibrary::TextureLibrary() {}
 
 TextureLibrary::~TextureLibrary() {}
 
+// Checks texture library for existing texture, if exists, no new texture is created, if not, stores a new texture.
+// Calls AssetManager::LoadTextureAsset to load texture into memory and assign texture ID.
 Texture & TextureLibrary::LoadAsset(std::string filePath)
 {
 	Texture* text = new Texture();

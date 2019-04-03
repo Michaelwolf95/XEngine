@@ -297,7 +297,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="LineDrawer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -408,6 +407,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\multi.fs" />
     <None Include="..\Shaders\multi.vs" />
     <None Include="..\Shaders\multilights.fs" />
+    <None Include="..\Shaders\multilights.shader" />
     <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />
     <None Include="..\Shaders\sprite.vs" />

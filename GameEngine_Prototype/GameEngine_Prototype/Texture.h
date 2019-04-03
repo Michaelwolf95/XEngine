@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+
+enum TEXTURE_TYPE { DIFFUSE, SPECULAR, NORMALS, HEIGHT };
+
 struct Texture {
 	// texture id
 	unsigned int id;

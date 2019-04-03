@@ -25,17 +25,7 @@ class Material
 {
 public:
 	// Shader attributes
-	glm::vec4 Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vec3Property colorProperty;
-	glm::vec3 ambient = glm::vec3(0.05f);
-	Vec3Property ambientProperty;
-	glm::vec3 diffuse = glm::vec3(0.8f);
-	Vec3Property diffuseProperty;
-	glm::vec3 specular = glm::vec3(1.0f);
-	Vec3Property specularProperty;
-	float shininess = 32.0f;
-	FloatProperty shinyProperty;
-
+	//glm::vec4 Color = glm::vec4(1.0f);
 	std::string name; // name of mesh, used to mapped to material in MeshRenderer
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
@@ -51,26 +41,19 @@ public:
 
 	//std::vector<MaterialPropertyBase*>properties;
 
-
 	bool useLight = false;
 	std::vector<Texture> textures;
-
 	std::string textureFilePath;
 	unsigned int textureID = 0;
-	
-	//float ambientStrength = 1.0f;
-	//float specularStrength = 0.5f;
+
 	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = true);
 	Material();
 	~Material();
 	void Init();
 	void Load(); // Load for openGL to draw.
-	void Draw(std::vector<Light*> lights);
-
+	void Draw();
 	void LoadTexture(const char* _textureFilePath);
-
 	void DrawInspector();
-
 	std::string to_string();
 
 private:
@@ -88,16 +71,16 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
+		//ar & BOOST_SERIALIZATION_NVP(Color);
 		ar & BOOST_SERIALIZATION_NVP(filePath);
-		ar & BOOST_SERIALIZATION_NVP(Color);
 		ar & BOOST_SERIALIZATION_NVP(useLight);
 		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
 		//ar & BOOST_SERIALIZATION_NVP(specularStrength);
 		//ar & BOOST_SERIALIZATION_NVP(ambientStrength);
-		ar & BOOST_SERIALIZATION_NVP(ambient);
-		ar & BOOST_SERIALIZATION_NVP(diffuse);
-		ar & BOOST_SERIALIZATION_NVP(specular);
-		ar & BOOST_SERIALIZATION_NVP(shininess);
+		//ar & BOOST_SERIALIZATION_NVP(ambient);
+		//ar & BOOST_SERIALIZATION_NVP(diffuse);
+		//ar & BOOST_SERIALIZATION_NVP(specular);
+		//ar & BOOST_SERIALIZATION_NVP(shininess);
 		ar & BOOST_SERIALIZATION_NVP(floatProperties);
 		ar & BOOST_SERIALIZATION_NVP(intProperties);
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
@@ -113,16 +96,16 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
+		//ar & BOOST_SERIALIZATION_NVP(Color);
 		ar & BOOST_SERIALIZATION_NVP(filePath);
-		ar & BOOST_SERIALIZATION_NVP(Color);
 		ar & BOOST_SERIALIZATION_NVP(useLight);
 		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
 		//ar & BOOST_SERIALIZATION_NVP(specularStrength);
 		//ar & BOOST_SERIALIZATION_NVP(ambientStrength);
-		ar & BOOST_SERIALIZATION_NVP(ambient);
-		ar & BOOST_SERIALIZATION_NVP(diffuse);
-		ar & BOOST_SERIALIZATION_NVP(specular);
-		ar & BOOST_SERIALIZATION_NVP(shininess);
+		//ar & BOOST_SERIALIZATION_NVP(ambient);
+		//ar & BOOST_SERIALIZATION_NVP(diffuse);
+		//ar & BOOST_SERIALIZATION_NVP(specular);
+		//ar & BOOST_SERIALIZATION_NVP(shininess);
 		ar & BOOST_SERIALIZATION_NVP(floatProperties);
 		ar & BOOST_SERIALIZATION_NVP(intProperties);
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);

@@ -108,9 +108,6 @@
     <ClCompile Include="ApplicationManager.cpp">
       <Filter>Source Files\Application</Filter>
     </ClCompile>
-    <ClCompile Include="RenderableObject.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
@@ -520,7 +517,7 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Common</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -592,6 +589,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\text.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\multilights.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
