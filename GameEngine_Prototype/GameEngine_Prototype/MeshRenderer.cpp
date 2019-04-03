@@ -143,7 +143,7 @@ bool MeshRenderer::LoadModel()
 
 void MeshRenderer::Draw()
 {
-	material->Load();
+	//material->Load();
 
 	//if (gameObject == nullptr) return;
 	
