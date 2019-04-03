@@ -147,6 +147,7 @@ bool MeshRenderer::LoadModel()
 
 void MeshRenderer::Draw()
 {
+//<<<<<<< HEAD
 	//material->shader->use(); // moved to material::Load
 	//RenderManager::getInstance().currentShaderID = material->shader->ID; // moved to material::Load
 
@@ -156,20 +157,30 @@ void MeshRenderer::Draw()
 	
 	// This was the error
 
+//=======
+//>>>>>>> e6937d2f75e9fe0b401b29cb688e6af5704bafad
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
-	material->shader->setMat4("view", view);
-	material->shader->setMat4("projection", projection);
-	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-
-	//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
-	glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
-	material->shader->setVec3("viewPos", viewPos);
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
-		//std::cout << "mesh name: " << model->meshes[i]->name << std::endl;
-		//std::cout << "i: " << i << std::endl;
+//<<<<<<< HEAD
+//		//std::cout << "mesh name: " << model->meshes[i]->name << std::endl;
+//		//std::cout << "i: " << i << std::endl;
+//=======
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->use();
+		RenderManager::getInstance().currentShaderID = model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID;
+		model->MeshToMaterial.at(model->meshes[i]->name)->Load();
+
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("view", view);
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("projection", projection);
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
+
+		//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
+		glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
+		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setVec3("viewPos", viewPos);
+
+//>>>>>>> e6937d2f75e9fe0b401b29cb688e6af5704bafad
 		// texture variables
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
@@ -198,12 +209,16 @@ void MeshRenderer::Draw()
 				number = std::to_string(heightNr++);
 
 			// set texture unit
-			glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+			glUniform1i(glGetUniformLocation(model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID, (name + number).c_str()), j);
 			// bind texture
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
-		material->Draw();
+//<<<<<<< HEAD
+//		material->Draw();
+//=======
+		model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
+//>>>>>>> e6937d2f75e9fe0b401b29cb688e6af5704bafad
 
 		// Try to delegate to Material class????
 		// draw mesh
@@ -213,7 +228,6 @@ void MeshRenderer::Draw()
 
 		// default once configured
 		glActiveTexture(GL_TEXTURE0);
-
 	}
 }
 //
