@@ -160,11 +160,12 @@ void SimpleModelComponent::Draw()
 
 	material->Draw();
 
-	// Move to Material class????
+	// draw model
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 	glBindVertexArray(0);
 
+	// default texture position
 	glActiveTexture(GL_TEXTURE0);
 }
 

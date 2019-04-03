@@ -147,27 +147,17 @@ bool MeshRenderer::LoadModel()
 
 void MeshRenderer::Draw()
 {
-//<<<<<<< HEAD
-	//material->shader->use(); // moved to material::Load
-	//RenderManager::getInstance().currentShaderID = material->shader->ID; // moved to material::Load
-
 	material->Load();
 
 	//if (gameObject == nullptr) return;
 	
 	// This was the error
 
-//=======
-//>>>>>>> e6937d2f75e9fe0b401b29cb688e6af5704bafad
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 
 	for (unsigned int i = 0; i < model->meshes.size(); i++)
 	{
-//<<<<<<< HEAD
-//		//std::cout << "mesh name: " << model->meshes[i]->name << std::endl;
-//		//std::cout << "i: " << i << std::endl;
-//=======
 		model->MeshToMaterial.at(model->meshes[i]->name)->shader->use();
 		RenderManager::getInstance().currentShaderID = model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID;
 		model->MeshToMaterial.at(model->meshes[i]->name)->Load();
@@ -180,14 +170,11 @@ void MeshRenderer::Draw()
 		glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setVec3("viewPos", viewPos);
 
-//>>>>>>> e6937d2f75e9fe0b401b29cb688e6af5704bafad
 		// texture variables
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
-		
-
 
 		// binding textures
 		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textures.size(); j++)
@@ -214,11 +201,7 @@ void MeshRenderer::Draw()
 			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textures[j].id);
 		}
 
-//<<<<<<< HEAD
-//		material->Draw();
-//=======
 		model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
-//>>>>>>> e6937d2f75e9fe0b401b29cb688e6af5704bafad
 
 		// Try to delegate to Material class????
 		// draw mesh
