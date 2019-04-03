@@ -14,9 +14,7 @@ ModelLibrary::~ModelLibrary() {}
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
-	std::cout << "ModelLibrary::LoadAsset with arguments\n";
-	std::cout << "\tfilePath: " << filePath << std::endl;
-
+	std::cout << "ModelLibrary.LoadAsset filePath == " << filePath << std::endl;
 	Model* model = new Model();
 	std::string pathToObjModel = filePath;
 
@@ -72,9 +70,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 // Process the material for the mesh
 Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
 {
-	std::cout << "ModelLibrary::processMeshMaterial with arguments\n";
-	std::cout << "\tfilePath: " << filePath << std::endl;
-
+	std::cout << "ModelLibrary.processMeshMaterial: filePath == " << filePath << std::endl;
 	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
@@ -88,67 +84,36 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	// process materials
 	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
-	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
-	std::vector<Texture> textures;
-
 	// 1.diffuse maps
-	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
-	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+	std::vector<TextureProperty> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
+	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 	// 2.specular maps
-	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
-	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	std::vector<TextureProperty> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
+	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), specularMaps.begin(), specularMaps.end());
 
 	// 3.normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
-	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	std::vector<TextureProperty> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
+	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), normalMaps.begin(), normalMaps.end());
 
 	// 4.height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
-	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-
-//	// TODO: Load Material from Library instead. Use a struct of name and shader files as a key.
-
-//	// mapped name of mesh to the material
-//	std::string meshMatName = mesh->mName.C_Str();
-//	meshMatName += "_mat";
-//	//Material* MatforMesh = new Material(meshMatName, "3Dmodel.vs", "3Dmodel.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-//	Material* MatforMesh = new Material(meshMatName, "multilights.vs", "multilights.fs");//material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-		
-	// save textures in material
-	MatforMesh->textures = textures;
-
-	if (MatforMesh->textureProperties.empty())
-	{
-		// adding to texture Properties
-		for (int i = 0; i < MatforMesh->textures.size(); i++)
-		{
-			TextureProperty textureProp;
-			Texture* textureP = &MatforMesh->textures[i];
-
-			textureProp.propertyName = "Texture " + MatforMesh->name;
-			textureProp.setValue(textureP);
-
-			MatforMesh->textureProperties.push_back(textureProp);
-		}
-	}
+	std::vector<TextureProperty> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
+	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
 
 	return MatforMesh;
 }
 
 
 // Check material textures of a given type and loads texture if not loaded yet
-std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
+std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
-	std::cout << "ModelLibrary::loadMaterialTextures with arguments\n";
-	std::cout << "\ttypeName: " << typeName << std::endl;
-	std::cout << "\tfilePath: " << filePath << std::endl;
+	std::cout << "ModelLibrary.loadMaterialTextures: filePath == " << filePath << std::endl;
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 
-	std::vector<Texture> textures;
+	std::vector<TextureProperty> textures;
 
-	std::vector<Texture> textures_loaded;
+	std::vector<TextureProperty> textures_loaded;
 
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
@@ -160,7 +125,7 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 		bool skip = false;
 		for (unsigned int j = 0; j < textures_loaded.size(); j++)
 		{
-			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(textures_loaded[j].getValue()->path.data(), str.C_Str()) == 0)
 			{
 				textures.push_back(textures_loaded[j]);
 				skip = true; // texture with same filepath already loaded, continue to next
@@ -169,18 +134,23 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 		}
 		if (!skip)
 		{
-			// using AssetManager TextureLibrary
-			Texture texture = AssetManager::getInstance().textureLib.GetAsset(str.C_Str());
-			//if(texture.id )
-			//Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), directory);
-			texture.type = typeName;
-			//texture.path = str.C_Str();
-			textures.push_back(texture);
+			// get Texture
+			std::string filename = str.C_Str();
+			filename = directory + '/' + filename;
+
+			Texture* texture = &(AssetManager::getInstance().textureLib.GetAsset(filename));
+			texture->id = TextureFromFile(filename.c_str(), directory);
+			texture->type = typeName;
+
+			// turn into textureProperty
+			TextureProperty textureProp;
+			textureProp.setValue(texture);
+
+			textures.push_back(textureProp);
 
 			// store as texture loaded for entire model
 			// so we dont load duplicate textures
-			textures_loaded.push_back(texture);
+			textures_loaded.push_back(textureProp);
 		}
 	}
 	return textures;
@@ -189,22 +159,14 @@ std::vector<Texture> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextu
 // Get the texture from the file
 unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
 {
-	std::cout << "ModelLibrary::TextureFromFile with arguments\n";
-	std::cout << "\tpath: " << path << std::endl;
-	std::cout << "\tdirectory: " << directory << std::endl;
-	std::cout << "\tgamma: " << gamma << std::endl;
-
-	std::string filename = std::string(path);
-	filename = directory + '/' + filename;
-
-	std::cout << "\tderived filename: " << filename << std::endl;
-
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
 	int width, height, nrComponents;
 
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	std::cout << "3. filename == " << path << std::endl;
+
+	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
 
 	if (data)
 	{

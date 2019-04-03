@@ -58,6 +58,17 @@ struct PointLight {
 	float quadratic;
 };
 
+struct SpotLight {
+	// shares attributes with PointLight
+	PointLight source;
+
+	// unique attributes
+	vec3 direction;
+	float cutOff;
+};
+
+
+
 //uniform float constant; // found in PointLight struct
 //uniform float linear;
 //uniform float quadratic;
@@ -74,6 +85,7 @@ uniform sampler2D texture_specular1;
 
 uniform GlobalLight globalLights[NUM_LIGHTS];
 uniform PointLight pointLights[NUM_LIGHTS];
+uniform SpotLight spotLights[NUM_LIGHTS];
 
 uniform int numLights; // inside simple model component to limit for loop iterations
 uniform int numGlobalLights; // each num variable is determined within SimpleModelComponent's Draw
@@ -87,26 +99,13 @@ vec3 getDiffuseTexel();
 vec3 getSpecularTexel();
 vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 viewDir);
 vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec3 viewDir);
+vec3 calculateSpotLight(const SpotLight light, const vec3 norm, const vec3 viewDir);
 
 void main()
 {
-	//vec4 texel;// = texture(Texture, TexCoord);
-	//if (float(textureSize(texture_diffuse1, 0).x) > 1) {
-	//	texel = texture(texture_diffuse1, TexCoord);
-	//}
-	//else if (float(textureSize(Texture, 0).x) > 1) {
-	//	texel = texture(Texture, TexCoord);
-	//}
-	//else {
-	//	texel = vec4(1.0, 0.0, 0.0, 1.0);
-	//}
-
 	// diffuse 
 	vec3 norm = normalize(Normal);
-
-	//vec3 viewPos = vec3(
 	vec3 viewDir = normalize(viewPos - FragPos); // TODO: assign viewPos. Currently nothing inputted
-
 	vec3 result = vec3(0.0f);
 
 
@@ -118,8 +117,8 @@ void main()
 		result += calculatePointLight(pointLights[i], norm, viewDir);
 	}
 
-	for (int i = 0; i < numSpotLights; i++) { // TODO: spotLight
-											  //result += calculateSpotLight();
+	for (int i = 0; i < numSpotLights; i++) { // TODO: Test spotlight
+		result += calculateSpotLight(spotLights[i], norm, viewDir);
 	}
 
 	FragColor = vec4(result, 1.0f) * color;
@@ -167,4 +166,16 @@ vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec
 	vec3 diffuse = diff * light.color * getDiffuseTexel();
 	vec3 specular = specularStrength * spec * light.color * getSpecularTexel();
 	return (calculateAmbientLighting() + diffuse + specular) * light.intensity;
+}
+
+vec3 calculateSpotLight(const SpotLight light, const vec3 norm, const vec3 viewDir) {
+	vec3 lightDir = normalize(light.source.position - FragPos);
+	float theta = dot(lightDir, normalize(-light.direction));
+	if (theta > light.cutOff)
+	{
+		// do lighting calculations
+		return calculatePointLight(light.source, norm, viewDir);
+	}
+	else  // else, use ambient light so scene isn't completely dark outside the spotlight.
+		return light.source.ambient * getDiffuseTexel() * light.source.intensity;
 }

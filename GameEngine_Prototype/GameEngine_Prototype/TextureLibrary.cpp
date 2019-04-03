@@ -14,7 +14,14 @@ Texture & TextureLibrary::LoadAsset(std::string filePath)
 	text->path = filePath;
 
 	library.insert({ filePath, *text });
-	std::string fullPath = ASSET_FILE_PATH + std::string(filePath);
+
+	// if does not contain the directory 'Assets'
+	std::string fullPath;
+	if (filePath.find("Assets") == std::string::npos)
+		fullPath = ASSET_FILE_PATH + std::string(filePath);
+	else
+		fullPath = std::string(filePath);
+
 	AssetManager::LoadTextureAsset(fullPath.c_str(), &library[filePath].id); // <-- Maybe this should be in this class too, instead of just in asset manager.
 	return library[filePath];
 }

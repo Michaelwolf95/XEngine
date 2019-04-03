@@ -18,6 +18,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 	std::cout << "\tfragmentPath: " << fragmentPath << std::endl;
 	std::cout << "\tgeometryPath: " << (geometryPath == nullptr) ? "" : geometryPath;
 	std::cout << std::endl;
+
 	std::string vShaderPath = SHADER_FILE_PATH + std::string(vertexPath);
 	std::string fShaderPath = SHADER_FILE_PATH + std::string(fragmentPath);
 	std::string gShaderPath = SHADER_FILE_PATH + std::string((geometryPath==nullptr)? "" : geometryPath);

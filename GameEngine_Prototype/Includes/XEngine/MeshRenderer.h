@@ -34,7 +34,6 @@ class MeshRenderer: public RenderableObject, public Component
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
-		Material* material = nullptr;
 
 
 		static Registrar<MeshRenderer> registrar;
@@ -101,10 +100,6 @@ class MeshRenderer: public RenderableObject, public Component
 				vecMaterials.push_back(model->MeshToMaterial.at(model->meshes[i]->name)->filePath);
 			}
 			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
-
-			// save material using the material filepath
-			ar & boost::serialization::make_nvp<std::string>("materialFilePath", material->filePath);
-			AssetManager::getInstance().materialLib.SaveMaterialToFile(*material, material->filePath.c_str());
 		}
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version)
@@ -119,12 +114,6 @@ class MeshRenderer: public RenderableObject, public Component
 			{
 				AssetManager::getInstance().materialLib.GetAsset(vecMaterials[i]); // load into library
 			}
-
-			// load material using the material filepath
-			std::string materialFilePath;
-			ar & boost::serialization::make_nvp<std::string>("materialFilePath", materialFilePath);
-			std::cout << "materialFilePath == " << materialFilePath << std::endl;
-			material = AssetManager::getInstance().materialLib.GetAsset(materialFilePath);
 
 			Setup();
 		}

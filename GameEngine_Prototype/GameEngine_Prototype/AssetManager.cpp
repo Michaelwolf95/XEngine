@@ -26,7 +26,14 @@ void AssetManager::Init()
 void AssetManager::LoadTextureAsset(const char* textureFilePath, unsigned int* textureID, unsigned int loadMode)
 {
 	// The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-	std::string path = ASSET_FILE_PATH + std::string(textureFilePath);
+	
+	// if does not contain the directory 'Assets'
+	std::string path;
+	if (std::string(textureFilePath).find("Assets") == std::string::npos)
+		path = ASSET_FILE_PATH + std::string(textureFilePath);
+	else
+		path = std::string(textureFilePath);
+	
 	AssetManager::LoadTexture(path.c_str(), textureID, loadMode);
 }
 
@@ -58,7 +65,7 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		std::cout << "Texture failed to load at path: " << textureFilePath << std::endl;
 	}
 	stbi_image_free(data);
 	glBindTexture(GL_TEXTURE_2D, 0);
