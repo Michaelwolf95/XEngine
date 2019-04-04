@@ -73,8 +73,11 @@ void MeshRenderer::Setup()
 		return;
 	}
 	
-	//render_enabled = true;
-	//RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+	//if (this->gameObject->IsActiveInHierarchy())
+	//{
+	//	render_enabled = true;
+	//	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+	//}
 
 	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;

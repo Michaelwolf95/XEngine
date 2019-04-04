@@ -42,12 +42,12 @@ GameObject* GameObject::GetChild(int index)
 	return nullptr;
 }
 
-bool GameObject::IsActive()
+bool GameObject::IsActiveInHierarchy()
 {
 	if (!isActive) return false;
 	if (this->transform->parent != nullptr)
 	{
-		return this->transform->parent->gameObject->IsActive();
+		return this->transform->parent->gameObject->IsActiveInHierarchy();
 	}
 	return true;
 }
@@ -57,16 +57,45 @@ void GameObject::SetActive(bool active)
 	if (isActive != active)
 	{
 		isActive = active;
+		parentHierarchyActive = (this->transform->parent != nullptr)?
+			this->transform->parent->gameObject->IsActiveInHierarchy() : true;
+		// Enabling/Disabling only matters if the objects activation is not overriden by its parents.
+		if (parentHierarchyActive)
+		{
+			if (isActive)
+				HandleEnable();
+			else
+				HandleDisable();
+			// Update children with hierarchy change.
+			HandleHierarchyChanged();
+		}
+	}
+}
 
-		// TODO: Check against parents being disabled.
-
-		if (isActive)
+void GameObject::HandleHierarchyChanged()
+{
+	bool newParentHierarchyActive = (this->transform->parent != nullptr) ?
+		this->transform->parent->gameObject->IsActiveInHierarchy() : true;
+	// If previous parent was inactive, and new parent is active -> Update as enable.
+	// If previous parent was active, and new parent is inactive -> Update as disable.
+	if (isActive)
+	{
+		if (newParentHierarchyActive && !parentHierarchyActive)
+		{
 			HandleEnable();
-		else
+		}
+		else if (!newParentHierarchyActive && parentHierarchyActive)
+		{
 			HandleDisable();
+		}
+	}
+	
+	parentHierarchyActive = newParentHierarchyActive;
 
-		// TODO: Disable children.
-
+	// Recursively update children.
+	for (size_t i = 0; i < this->transform->children.size(); i++)
+	{
+		this->transform->children[i]->gameObject->HandleHierarchyChanged();
 	}
 }
 
@@ -74,6 +103,11 @@ void GameObject::AddComponent(Component_ptr comp)
 {
 	components.push_back(comp);
 	comp->gameObject = this;// shared_from_this();
+
+	if (this->IsActiveInHierarchy())
+	{
+		comp->OnEnable();
+	}
 }
 
 void GameObject::RemoveComponent(Component_ptr comp)
@@ -175,7 +209,6 @@ GameObject_ptr GameObject::GetSelfPtr()
 
 void GameObject::HandleEnable()
 {
-	std::cout << "Enabling Components" << std::endl;
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->OnEnable();
@@ -184,7 +217,6 @@ void GameObject::HandleEnable()
 
 void GameObject::HandleDisable()
 {
-	std::cout << "Disabling Components" << std::endl;
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		components[i]->OnDisable();

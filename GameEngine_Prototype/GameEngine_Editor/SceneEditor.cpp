@@ -819,9 +819,9 @@ void SceneEditor::InspectorUpdate()
 	// Inspect Selected GameObject
 	if (selectedGameObject != nullptr)
 	{
-		bool active = selectedGameObject->IsActive();
+		bool active = selectedGameObject->IsActiveInHierarchy();
 		ImGui::Checkbox("Active", &active);
-		if (active != selectedGameObject->IsActive())
+		if (active != selectedGameObject->IsActiveInHierarchy())
 		{
 			selectedGameObject->SetActive(active);
 		}
@@ -1016,7 +1016,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 
 	// Node
 	//ImGui::color
-	if (!go->IsActive())
+	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 0.5f));
 	}
@@ -1025,7 +1025,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	{
 		selectedGameObject = go->GetSelfPtr();
 	}
-	if (!go->IsActive())
+	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PopStyleColor(1);
 	}

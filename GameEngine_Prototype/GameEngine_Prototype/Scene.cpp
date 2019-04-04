@@ -95,7 +95,7 @@ void Scene::Start()
 
 void Scene::StartGameObject(GameObject_ptr go)
 {
-	if (go->IsActive())
+	if (go->IsActiveInHierarchy())
 	{
 		go->StartComponents();
 		auto children = go->GetChildren();
@@ -116,7 +116,7 @@ void Scene::Update()
 
 void Scene::UpdateGameObject(GameObject_ptr go)
 {
-	if (go->IsActive())
+	if (go->IsActiveInHierarchy())
 	{
 		go->UpdateComponents();
 		auto children = go->GetChildren();
@@ -137,7 +137,7 @@ void Scene::FixedUpdate()
 
 void Scene::FixedUpdateGameObject(GameObject_ptr go)
 {
-	if (go->IsActive())
+	if (go->IsActiveInHierarchy())
 	{
 		go->FixedUpdateComponents();
 		auto children = go->GetChildren();

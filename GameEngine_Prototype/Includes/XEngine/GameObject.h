@@ -20,8 +20,9 @@ public:
 	std::vector<GameObject*> GetChildren();
 	GameObject* GetChild(int index);
 
-	bool IsActive();
+	bool IsActiveInHierarchy();
 	void SetActive(bool active);
+	void HandleHierarchyChanged();
 
 	void AddComponent(Component_ptr comp);
 	void RemoveComponent(Component_ptr comp);
@@ -38,7 +39,9 @@ public:
 
 	GameObject_ptr GetSelfPtr();
 private:
+	friend class Transform;
 	bool isActive = true;
+	bool parentHierarchyActive = true;
 	void HandleEnable();
 	void HandleDisable();
 
@@ -66,7 +69,7 @@ private:
 		{
 			c->gameObject = this;
 		}
-		if (this->IsActive())
+		if (this->IsActiveInHierarchy())
 		{
 			HandleEnable();
 		}

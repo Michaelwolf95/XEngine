@@ -75,6 +75,9 @@ void Transform::SetParent(Transform * _parent)
 	// Recalculate localSpace vars on re-parent.
 	setLocalMatrix4x4(newModel);
 
+	// Update gameobject to handle hierarchy activations.
+	this->gameObject->HandleHierarchyChanged();
+
 	// TEMP WORK AROUND.
 	// TODO: Resolve dependency on SceneManager
 	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
