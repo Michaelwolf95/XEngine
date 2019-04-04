@@ -11,6 +11,7 @@
 // Lights
 #include "PointLightComponent.h"
 #include "GlobalLightComponent.h"
+#include "SpotLightComponent.h"
 
 // Audio
 #include "AudioComponent.h"

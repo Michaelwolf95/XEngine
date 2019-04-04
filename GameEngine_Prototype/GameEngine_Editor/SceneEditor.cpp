@@ -730,6 +730,16 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
+			}		
+			if (ImGui::MenuItem("New Nanosuit (Single Shader)"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
+				selectedGameObject = go;
+				Material* modelMaterial = new Material("MultiLight Model");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
+				go->AddComponent(modelNano);
 			}			
 
 			ImGui::EndMenu();

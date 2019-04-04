@@ -291,23 +291,11 @@
     <ClCompile Include="AudioListener.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="SpotLightComponent.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestScenes_Tam.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScenes_James.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScenes_Donato.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScenes_Dennis.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScenes.h">
-      <Filter>Test Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
@@ -532,6 +520,24 @@
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\CoreComponents.h">
       <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\SpotLightComponent.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\TestScenes.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\TestScenes_Dennis.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\TestScenes_Donato.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\TestScenes_James.h">
+      <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\TestScenes_Tam.h">
+      <Filter>Test Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

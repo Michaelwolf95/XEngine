@@ -3,13 +3,11 @@
 
 REGISTER_COMPONENT(GlobalLightComponent, "GlobalLightComponent")
 
-GlobalLightComponent::GlobalLightComponent(glm::vec3 _color, float _intensity/*, glm::vec3 _initial_direction*/)
+GlobalLightComponent::GlobalLightComponent(glm::vec4 _color, float _intensity)
 	: LightComponent(_color, _intensity)
 {
 	UNIFORM_NAME = "globalLights";
 	TYPE = LightType::GlobalLight;
-	//direction = _initial_direction;
-	//direction = this->gameObject->transform->getForwardDirection();
 }
 
 void GlobalLightComponent::Start() {}

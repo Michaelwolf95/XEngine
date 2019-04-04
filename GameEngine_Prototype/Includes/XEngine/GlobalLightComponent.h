@@ -14,8 +14,7 @@ public:
 
 	// direction is a function of transform
 	//glm::vec3 direction = glm::vec3(0.0f, -1.0f, 0.0f);
-	GlobalLightComponent(glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f), 
-		float _intensity = 1.0f/*, glm::vec3 _direction = glm::vec3(0.0f, -1.0f, 0.0f)*/);
+	GlobalLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f);
 
 	void Start() override;
 	void Update() override;

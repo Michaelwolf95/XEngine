@@ -4,7 +4,7 @@
 
 //REGISTER_COMPONENT(LightComponent, "LightComponent")
 
-LightComponent::LightComponent(glm::vec3 _color, float _intensity) : Light::Light()
+LightComponent::LightComponent(glm::vec4 _color, float _intensity) : Light::Light()
 {
 	color = _color;
 	intensity = _intensity;
@@ -87,11 +87,8 @@ void LightComponent::OnDrawGizmos()
 void LightComponent::Draw(Shader * shader, int &counter)
 {
 	std::string uniformString = UNIFORM_NAME + '[' + std::to_string(counter) + "].";
-	shader->setVec3(uniformString + VAR_NAME(color), color);
+	shader->setVec4(uniformString + VAR_NAME(color), color);
 	shader->setFloat(uniformString + VAR_NAME(intensity), intensity);
-	//std::cout << uniformString + VAR_NAME(color) << " ==  " << color.x << " " << color.y << " " << color.z << std::endl;
-	//std::cout << uniformString + VAR_NAME(intensity) << " == " << intensity << std::endl;
-	////counter++;
 }
 
 const std::string* LightComponent::getUniformName()

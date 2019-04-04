@@ -46,7 +46,7 @@ public:
 	std::string textureFilePath;
 	unsigned int textureID = 0;
 
-	Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight = true);
+	Material(std::string _name, std::string vertPath = "", std::string fragPath = "", bool _useLight = true);
 	Material();
 	~Material();
 	void Init();

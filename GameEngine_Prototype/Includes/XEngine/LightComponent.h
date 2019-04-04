@@ -10,11 +10,11 @@ class LightComponent : public Component, public Light
 public:
 	static Registrar<LightComponent> registrar;
 	
-	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
-	float intensity = 1.0f;
+	glm::vec4 color;
+	float intensity;
 
 	//GameObject *gameObject;
-	LightComponent(glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f), float _intensity = 20.0f);
+	LightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f);
 	~LightComponent();
 	virtual void Start() override;
 	virtual void Update() override;

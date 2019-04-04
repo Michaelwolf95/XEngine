@@ -27,35 +27,25 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	filePath = "../Assets/Materials/" + this->name + ".material";
 
 
-	// Temporary until system put in place to add values to individual properties
-	float shininess = 18.0f;
-	FloatProperty shinyProperty;
-	glm::vec3 ambient = glm::vec3(0.05f);
-	Vec3Property ambientProperty;
-	glm::vec3 diffuse = glm::vec3(0.8f);
-	Vec3Property diffuseProperty;
-	glm::vec3 specular = glm::vec3(1.0f);
-	Vec3Property specularProperty;
-	glm::vec4 color = glm::vec4(1.0f);
+	// Temporary until parsing properties from shaders complete
 	Vec4Property colorProperty;
+	FloatProperty shinyProperty;
+	FloatProperty ambienceProperty; // TODO: Change to ambienceProperty
+	glm::vec4 color = glm::vec4(1.0f);
+	float shininess = 18.0f;
+	float ambience = 0.5f;
 
-	colorProperty.propertyName = VAR_NAME(color);
+	std::string matName = "material.";
 	colorProperty.setValue(color);
-	ambientProperty.propertyName = VAR_NAME(ambient);
-	ambientProperty.setValue(ambient);
-	diffuseProperty.propertyName = VAR_NAME(diffuse);
-	diffuseProperty.setValue(diffuse);
-	specularProperty.propertyName = VAR_NAME(specular);
-	specularProperty.setValue(specular);
-	shinyProperty.propertyName = "material.";
-	shinyProperty.propertyName += VAR_NAME(shininess);
 	shinyProperty.setValue(shininess);
+	ambienceProperty.setValue(ambience);
+	colorProperty.propertyName = matName + VAR_NAME(color);
+	shinyProperty.propertyName = matName + VAR_NAME(shininess);
+	ambienceProperty.propertyName = matName + VAR_NAME(ambience);
 	
-	floatProperties.push_back(shinyProperty);
-	vec3Properties.push_back(ambientProperty);
-	vec3Properties.push_back(diffuseProperty);
-	vec3Properties.push_back(specularProperty);
 	vec4Properties.push_back(colorProperty);
+	floatProperties.push_back(shinyProperty);
+	floatProperties.push_back(ambienceProperty);
 
 	Init();
 
@@ -87,7 +77,7 @@ void Material::Init()
 		return;
 	}
 	std::cout << "Initializing Material: " << name << std::endl;
-	if ((vertexShaderPath.empty() /*|| fragmentShaderPath.empty()*/) == false)
+	if (vertexShaderPath.empty() == false)
 	{
 
 		std::cout << "Loading Shaders for Material" << std::endl

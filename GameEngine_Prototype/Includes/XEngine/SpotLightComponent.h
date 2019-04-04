@@ -7,29 +7,28 @@
 
 #define VAR_NAME(Var) (#Var)
 
-class DLLExport PointLightComponent : public LightComponent
+class DLLExport SpotLightComponent : public LightComponent
 {
 public:
-	static Registrar<PointLightComponent> registrar;
-	static const LightType TYPE_ID = LightType::PointLight;
+	static Registrar<SpotLightComponent> registrar;
+	static const LightType TYPE_ID = LightType::SpotLight;
 
 	// position is a function of transform component
+	glm::vec3 direction = glm::vec3(0.0f, -1.0f, 0.0f);
+
 	float constant;
 	float linear;
 	float quadratic;
+	float cutOff;
 
-	PointLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f, 
-		float _constant = 1.0f, float _linear = 0.09f, float _quadratic = 0.032f);
-	~PointLightComponent();
+	SpotLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f, 
+		float _constant = 1.0f, float _linear = 0.09f, float _quadratic = 0.032f,
+		float cutOff = glm::cos(glm::radians(12.5f)));
+	~SpotLightComponent();
 
 	void Start() override;
 	void Update() override;
 
-	//float getConstant() override;
-	//float getLinear() override;
-	//float getQuadratic() override;
-	//glm::vec3 getDirection() override;
-	//int getTypeID() override;
 	void Draw(Shader* shader, int &counter) override;
 
 
