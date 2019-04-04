@@ -40,7 +40,7 @@ const std::string* LightComponent::getUniformName()
 void LightComponent::DrawInspector()
 {
 	ImGui::ColorEdit4("Color", (float*)&color);
-	ImGui::SliderFloat("Intensity", &intensity, 0.0f, 2.0f);
+	ImGui::SliderFloat("Intensity", &intensity, 0.0f, 100.0f);
 	ImGui::SliderFloat("Ambience", &ambience, 0.0f, 2.0f);
 	if (intensity < 0) intensity = 0;
 }
