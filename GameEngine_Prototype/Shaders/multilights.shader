@@ -35,23 +35,15 @@ struct Material {
 	sampler2D texture_height1;
 	vec4 color;
 	float shininess;
-	float ambience;
-};
-
-struct GlobalLight { // AKA DirLight
-	vec4 color;
-	float intensity;
-	vec3 direction; // function of transform
-	//vec3 ambience; // ambience should depend on the material not light source
-	//vec3 diffuse;
-	//vec3 specular;
+	//float ambience;
+	float specularity;
 };
 
 struct PointLight {
 	vec4 color;
 	float intensity;
 	vec3 position;
-	//float ambience; // ambience should be restricted to global light source for now
+	float ambience; // strength
 	//vec3 diffuse;
 	//vec3 specular;
 
@@ -67,18 +59,25 @@ struct SpotLight {
 	// unique attributes
 	vec3 direction;
 	float cutOff;
+	float outerCutOff;
 };
 
+struct GlobalLight { // AKA DirLight
+	vec4 color;
+	float intensity;
+	vec3 direction; // function of transform
+	float ambience; // strength
+	//vec3 diffuse;
+	//vec3 specular;
+};
 
-
-//uniform float constant; // found in PointLight struct
-//uniform float linear;
-//uniform float quadratic;
 const int NUM_LIGHTS = 10;
 
 //#MATERIAL_PROPERTIES
 
 uniform vec3 viewPos;
+uniform vec4 sceneAmbience; // get from camera
+uniform float sceneAmbienceStrength;
 
 //uniform vec4 color;
 uniform sampler2D Texture;
@@ -103,16 +102,28 @@ vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 vie
 vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec3 viewDir);
 vec3 calculateSpotLight(const SpotLight light, const vec3 norm, const vec3 viewDir);
 
+vec3 calculateAmbience(const float ambience);
+vec3 calculateDiffuse(const vec3 lightDir, const vec3 lightColor, const vec3 norm);
+vec3 calculateSpecular(const vec3 lightDir, const vec3 norm, const vec3 viewDir, const vec4 lightColor);
+float calculateAttenuation(const PointLight light);
+float calculateDistance(const vec3 position);
+
 void main()
 {
-	// diffuse 
+	// general ambience
+	vec4 ambience = sceneAmbience == vec4(0.0f) ? sceneAmbience : vec4(0.5f);
+	ambience *= sceneAmbienceStrength > 0 ? sceneAmbienceStrength : 0.5f;
+
 	vec3 norm = normalize(Normal);
+
 	vec3 viewDir = normalize(viewPos - FragPos); // TODO: assign viewPos. Currently nothing inputted
+
 	vec3 result = vec3(0.0f);
 
 
 	for (int i = 0; i < numGlobalLights; i++) {
 		result += calculateGlobalLighting(globalLights[i], norm, viewDir);
+
 	}
 
 	for (int i = 0; i < numPointLights; i++) {
@@ -123,68 +134,109 @@ void main()
 		result += calculateSpotLight(spotLights[i], norm, viewDir);
 	}
 
-	FragColor = vec4(result, 1.0f) * material.color;
+	FragColor = vec4(result, 1.0f) * material.color 
+		+ ambience * vec4(getDiffuseTexel(), 1.0f);
 }
 
-//vec3 calculateAmbientLighting() {
-//	float ambientStrength = 0.11f;
-//	return ambientStrength * getDiffuseTexel();
-//}
-
-vec3 getDiffuseTexel() {
+vec3 getDiffuseTexel() 
+{
 	return (float(textureSize(texture_diffuse1, 0).x) > 1)
 		? texture(texture_diffuse1, TexCoord).rgb : material.color.rgb;
 }
 
-vec3 getSpecularTexel() {
+vec3 getSpecularTexel() 
+{
 	return (float(textureSize(texture_specular1, 0).x) > 1) 
 		? texture(texture_specular1, TexCoord).rgb : material.color.rgb;
 }
 
-vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 viewDir) {
-	float distance = length(light.position - FragPos);
-	float attenuation = 1.0 / (light.constant + light.linear * distance
-		+ light.quadratic * (distance * distance));
-
+vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 viewDir) 
+{
 	vec3 lightDir = normalize(light.position - FragPos);
-	float diff = max(dot(norm, lightDir), 0.0f);
-	vec3 diffuse = diff * light.color.rgb * getDiffuseTexel();
+
+	// ambient
+	vec3 ambience = calculateAmbience(light.ambience);
+
+	// diffuse
+	vec3 diffuse = calculateDiffuse(lightDir, light.color.rgb, norm);
 
 	// specular
-	float specularStrength = 0.3f; // hardcoded specular strength for now
-	vec3 reflectDir = reflect(-lightDir, norm);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess); //32 = shininess property of Material
-	vec3 specular = specularStrength * spec * light.color.rgb * getSpecularTexel();
-	//return (calculateAmbientLighting() + diffuse + specular) * attenuation * light.intensity;
-	return (material.ambience * getDiffuseTexel() + diffuse + specular) * attenuation * light.intensity;
+	vec3 specular = calculateSpecular(lightDir, norm, viewDir, light.color);
+
+	// attenuation
+	float attenuation = calculateAttenuation(light);
+
+	return (ambience + diffuse + specular) * light.intensity * attenuation;
 }
 
-vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec3 viewDir) {
+vec3 calculateGlobalLighting(const GlobalLight light, const vec3 norm, const vec3 viewDir) 
+{
 	vec3 lightDir = normalize(-light.direction);
-	float diff = max(dot(norm, lightDir), 0.0f);
-	vec3 reflectDir = reflect(-lightDir, norm);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess); //32 = shininess property of Material
-	float specularStrength = 0.3f;
+	
+	// ambient
+	vec3 ambience = calculateAmbience(light.ambience);
+	
+	// diffuse
+	vec3 diffuse = calculateDiffuse(lightDir, light.color.rgb, norm);
 
-	vec3 diffuse = diff * light.color.rgb * getDiffuseTexel();
-	vec3 specular = specularStrength * spec * light.color.rgb * getSpecularTexel();
+	// specular
+	vec3 specular = calculateSpecular(lightDir, norm, viewDir, light.color);
 
-	return (material.ambience * getDiffuseTexel() + diffuse + specular) * light.intensity;
+	return (ambience + diffuse + specular) * light.intensity;
 }
 
 // TODO: specularity for spotlight?
-vec3 calculateSpotLight(const SpotLight light, const vec3 norm, const vec3 viewDir) {
-	float distance = length(light.source.position - FragPos);
+vec3 calculateSpotLight(const SpotLight light, const vec3 norm, const vec3 viewDir) 
+{
 	vec3 lightDir = normalize(light.source.position - FragPos);
+	
+	// ambient
+	vec3 ambience = calculateAmbience(light.source.ambience);
+
+	// attenuation
+	float attenuation = calculateAttenuation(light.source);
+
+	// diffuse
+	vec3 diffuse = calculateDiffuse(lightDir, light.source.color.rgb, norm);
+	
+	// specular
+	vec3 specular = calculateSpecular(lightDir, norm, viewDir, light.source.color);
+
+	// spotlight (soft edges)
 	float theta = dot(lightDir, normalize(-light.direction));
-	if (theta > light.cutOff)
-	{
-		// do lighting calculations
-		return calculatePointLight(light.source, norm, viewDir);
-	}
-	// else, use ambient light so scene isn't completely dark outside the spotlight.
-	float attenuation = 1.0 / (light.source.constant + light.source.linear * distance
-		+ light.source.quadratic * (distance * distance));
-	attenuation = attenuation > 1.0f ? 0.0f : attenuation;
-	return material.ambience * getDiffuseTexel() * attenuation * light.source.intensity;
+	float epsilon = (light.cutOff - light.outerCutOff);
+	float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+	
+	return (ambience + (diffuse + specular) * intensity) *  attenuation * light.source.intensity;
+}
+
+vec3 calculateAmbience(const float ambience)
+{
+	return ambience * getDiffuseTexel();
+}
+
+vec3 calculateDiffuse(const vec3 lightDir, const vec3 lightColor, const vec3 norm)
+{
+	float diff = max(dot(norm, lightDir), 0.0f);
+	return diff * lightColor * getDiffuseTexel();
+}
+
+vec3 calculateSpecular(const vec3 lightDir, const vec3 norm, const vec3 viewDir, const vec4 lightColor)
+{
+	vec3 reflectDir = reflect(-lightDir, norm);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess); //32 = shininess property of Material
+	return material.specularity * spec * lightColor.rgb * getSpecularTexel();
+}
+
+// light intensity determined by distance
+float calculateAttenuation(const PointLight source)
+{
+	float distance = calculateDistance(source.position);
+	return 1.0 / (source.constant + source.linear * distance
+		+ source.quadratic * (distance * distance));
+}
+
+float calculateDistance(const vec3 position)
+{
+	return length(position - FragPos);
 }

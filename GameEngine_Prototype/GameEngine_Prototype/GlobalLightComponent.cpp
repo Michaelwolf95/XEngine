@@ -3,8 +3,8 @@
 
 REGISTER_COMPONENT(GlobalLightComponent, "GlobalLightComponent")
 
-GlobalLightComponent::GlobalLightComponent(glm::vec4 _color, float _intensity)
-	: LightComponent(_color, _intensity)
+GlobalLightComponent::GlobalLightComponent(glm::vec4 _color, float _intensity, float _ambience)
+	: LightComponent(_color, _intensity, _ambience)
 {
 	UNIFORM_NAME = "globalLights";
 	TYPE = LightType::GlobalLight;
@@ -13,30 +13,10 @@ GlobalLightComponent::GlobalLightComponent(glm::vec4 _color, float _intensity)
 void GlobalLightComponent::Start() {}
 void GlobalLightComponent::Update() {}
 
-//float GlobalLightComponent::getConstant()
-//{
-//	return 0.0f; // not used
-//}
-//
-//float GlobalLightComponent::getLinear()
-//{
-//	return 0.0f; // not used
-//}
-//
-//float GlobalLightComponent::getQuadratic()
-//{
-//	return 0.0f; // not used
-//}
-//
-//glm::vec3 GlobalLightComponent::getDirection()
-//{
-//	return direction;
-//}
-//
-//int GlobalLightComponent::getTypeID()
-//{
-//	return TYPE_ID;
-//}
+void GlobalLightComponent::DrawInspector()
+{
+	LightComponent::DrawInspector();
+}
 
 void GlobalLightComponent::Draw(Shader * shader, int &counter)
 {

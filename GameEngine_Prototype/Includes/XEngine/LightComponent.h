@@ -12,17 +12,14 @@ public:
 	
 	glm::vec4 color;
 	float intensity;
+	float ambience;
 
-	//GameObject *gameObject;
-	LightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f);
+	LightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f, float _ambience = 0.1f);
 	~LightComponent();
+
 	virtual void Start() override;
 	virtual void Update() override;
-	//glm::vec3 getLightColor() override;
-	//float getIntensity() override;
-	//virtual float getConstant() override;
-	//virtual float getLinear() override;
-	//virtual float getQuadratic() override;
+
 	glm::vec3 getLightPos() override;
 	glm::vec3 getDirection() override;
 	int getTypeID() override;
@@ -42,6 +39,7 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(intensity);
 		ar & BOOST_SERIALIZATION_NVP(color);
+		ar & BOOST_SERIALIZATION_NVP(ambience);
 	}
 };
 

@@ -18,20 +18,15 @@ public:
 	float linear;
 	float quadratic;
 
-	PointLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f, 
+	PointLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f, float _ambience = 0.1f, 
 		float _constant = 1.0f, float _linear = 0.09f, float _quadratic = 0.032f);
 	~PointLightComponent();
 
 	void Start() override;
 	void Update() override;
 
-	//float getConstant() override;
-	//float getLinear() override;
-	//float getQuadratic() override;
-	//glm::vec3 getDirection() override;
-	//int getTypeID() override;
+	void DrawInspector() override;
 	void Draw(Shader* shader, int &counter) override;
-
 
 private:
 	friend class boost::serialization::access;
@@ -40,5 +35,10 @@ private:
 	{
 		// save/load base class information
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(LightComponent);
+		ar & BOOST_SERIALIZATION_NVP(constant);
+		ar & BOOST_SERIALIZATION_NVP(linear);
+		ar & BOOST_SERIALIZATION_NVP(quadratic);
+
+
 	}
 };
