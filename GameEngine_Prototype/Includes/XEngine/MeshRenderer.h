@@ -61,6 +61,8 @@ class MeshRenderer: public RenderableObject, public Component
 		// Component functions
 		void Start() override;
 		void Update() override;
+		void OnEnable() override;
+		void OnDisable() override;
 		void OnDrawGizmos() override;
 
 		void DrawInspector() override;

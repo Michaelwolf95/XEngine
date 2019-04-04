@@ -829,6 +829,12 @@ void SceneEditor::InspectorUpdate()
 	// Inspect Selected GameObject
 	if (selectedGameObject != nullptr)
 	{
+		bool active = selectedGameObject->IsActiveInHierarchy();
+		ImGui::Checkbox("Active", &active);
+		if (active != selectedGameObject->IsActiveInHierarchy())
+		{
+			selectedGameObject->SetActive(active);
+		}
 		// Edit Name of Selected GameObject
 		char buf[64];
 		sprintf(buf, "GameObject: %s###Button", selectedGameObject->name.c_str()); // ### operator override ID ignoring the preceding label
@@ -1019,10 +1025,19 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
 
 	// Node
+	//ImGui::color
+	if (!go->IsActiveInHierarchy())
+	{
+		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 0.5f));
+	}
 	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags);
 	if (ImGui::IsItemClicked())
 	{
 		selectedGameObject = go->GetSelfPtr();
+	}
+	if (!go->IsActiveInHierarchy())
+	{
+		ImGui::PopStyleColor(1);
 	}
 	// Our buttons are both drag sources and drag targets here!
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
