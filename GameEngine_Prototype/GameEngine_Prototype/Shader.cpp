@@ -212,22 +212,25 @@ int Shader::parseShaderFile(const std::string & path)
 		std::string str;
 		shaderFile.open(path, std::ifstream::out);
 		bool writeToVertex = false;
+		bool writeToFragment = false;
 		while (!shaderFile.eof())
 		{
 			getline(shaderFile, str, '\n');
 			if (str == "#VERTEX_SHADER") // use vertexCode
 			{
 				writeToVertex = true;
+				writeToFragment = false;
 				getline(shaderFile, str, '\n');
 			}
 			if (str == "#FRAGMENT_SHADER") // use fragmentCode
 			{
 				writeToVertex = false;
+				writeToFragment = true;
 				getline(shaderFile, str, '\n');
 			}
 
 			if (writeToVertex) vertexCode += str + '\n';
-			else fragmentCode += str + '\n';
+			else if (writeToFragment) fragmentCode += str + '\n';
 		}
 		shaderFile.close();
 	}

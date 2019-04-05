@@ -53,6 +53,7 @@ public:
 	void Load(); // Load for openGL to draw.
 	void Draw();
 	void LoadTexture(const char* _textureFilePath);
+	void parseFileForProperties(std::string path);
 	void DrawInspector();
 	std::string to_string();
 

@@ -18,6 +18,7 @@ FloatProperty::FloatProperty()
 	value = 0.0f;
 }
 
+
 float FloatProperty::getValue()
 {
 	return value;

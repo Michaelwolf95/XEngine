@@ -1,3 +1,9 @@
+#MATERIAL_PROPERTIES
+vec4 color 1.0f
+float shininess 32
+float specularity 0.75f
+#!MATERIAL_PROPERTIES
+
 #VERTEX_SHADER
 #version 330 core
 layout(location = 0) in vec3 aPos;
@@ -35,7 +41,6 @@ struct Material {
 	sampler2D texture_height1;
 	vec4 color;
 	float shininess;
-	//float ambience;
 	float specularity;
 };
 
@@ -73,16 +78,14 @@ struct GlobalLight { // AKA DirLight
 
 const int NUM_LIGHTS = 10;
 
-//#MATERIAL_PROPERTIES
-
-uniform vec3 viewPos;
-uniform vec4 sceneAmbience; // get from camera
-uniform float sceneAmbienceStrength;
-
-//uniform vec4 color;
 uniform sampler2D Texture;
 uniform sampler2D texture_diffuse1;
 uniform sampler2D texture_specular1;
+
+uniform vec3 viewPos;
+uniform vec4 sceneAmbience; // get from camera
+uniform float sceneAmbienceStrength; // currrently hardcoded in material::draw
+
 
 uniform GlobalLight globalLights[NUM_LIGHTS];
 uniform PointLight pointLights[NUM_LIGHTS];
@@ -94,7 +97,6 @@ uniform int numPointLights;
 uniform int numSpotLights;
 uniform Material material;
 
-//#!MATERIAL_PROPERTIES
 //vec3 calculateAmbientLighting(); // NOTE: cannot pass by reference / use inline, 
 vec3 getDiffuseTexel();
 vec3 getSpecularTexel();

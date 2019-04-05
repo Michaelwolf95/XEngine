@@ -4,16 +4,9 @@
 #include "Serialization.h"
 #include "GLM_Serialize.h"
 #include "Texture.h"
-//#include "AssetManager.h"
-
-
-//class MaterialPropertyBase
-//{
-//	virtual void getValue(void* &val) = 0;
-//};
 
 template<typename T>
-class MaterialProperty //: public MaterialPropertyBase
+class MaterialProperty
 {
 public:
 	MaterialProperty() {};

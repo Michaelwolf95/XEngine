@@ -6,6 +6,7 @@
 //#include "SceneEditor.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
+#include "..\Includes\XEngine\Material.h"
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
 
@@ -28,30 +29,30 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 
 	// Temporary until parsing properties from shaders complete
-	Vec4Property colorProperty;
-	FloatProperty shinyProperty;
-	//FloatProperty ambienceProperty; // TODO: move to lighting
-	FloatProperty specularityProperty; // TODO: maybe to lighting also
-	glm::vec4 color = glm::vec4(1.0f);
-	float shininess = 32.0f;
-	//float ambience = 0.5f;
-	float specularity = 0.8f;
+	//Vec4Property colorProperty;
+	//FloatProperty shinyProperty;
+	////FloatProperty ambienceProperty; // TODO: move to lighting
+	//FloatProperty specularityProperty; // TODO: maybe to lighting also
+	//glm::vec4 color = glm::vec4(1.0f);
+	//float shininess = 32.0f;
+	////float ambience = 0.5f;
+	//float specularity = 0.8f;
 
-	std::string matName = "material.";
-	colorProperty.setValue(color);
-	shinyProperty.setValue(shininess);
-	//ambienceProperty.setValue(ambience);
-	specularityProperty.setValue(specularity);
+	//std::string matName = "material.";
+	//colorProperty.setValue(color);
+	//shinyProperty.setValue(shininess);
+	////ambienceProperty.setValue(ambience);
+	//specularityProperty.setValue(specularity);
 
-	colorProperty.propertyName = matName + VAR_NAME(color);
-	shinyProperty.propertyName = matName + VAR_NAME(shininess);
-	//ambienceProperty.propertyName = matName + VAR_NAME(ambience);
-	specularityProperty.propertyName = matName + VAR_NAME(specularity);
+	//colorProperty.propertyName = matName + VAR_NAME(color);
+	//shinyProperty.propertyName = matName + VAR_NAME(shininess);
+	////ambienceProperty.propertyName = matName + VAR_NAME(ambience);
+	//specularityProperty.propertyName = matName + VAR_NAME(specularity);
 
-	vec4Properties.push_back(colorProperty);
-	floatProperties.push_back(shinyProperty);
-	//floatProperties.push_back(ambienceProperty);
-	floatProperties.push_back(specularityProperty);
+	//vec4Properties.push_back(colorProperty);
+	//floatProperties.push_back(shinyProperty);
+	////floatProperties.push_back(ambienceProperty);
+	//floatProperties.push_back(specularityProperty);
 
 	Init();
 
@@ -92,6 +93,8 @@ void Material::Init()
 			<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
 		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
+		if (vertexShaderPath == "multilights.shader")
+			parseFileForProperties("../Shaders/" + vertexShaderPath); // TODO: path
 	}
 	else
 	{
@@ -198,6 +201,98 @@ void Material::LoadTexture(const char * _textureFilePath)
 	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
 
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
+}
+
+void Material::parseFileForProperties(std::string path)
+{
+	std::cout << "Material::parseFileForProperties with arguments\n";
+	std::cout << "\tpath: " << path << std::endl;
+
+	// clear properties
+	//std::vector<FloatProperty> floatProperties;
+	//std::vector<IntProperty> intProperties;
+	//std::vector<Vec2Property> vec2Properties;
+	//std::vector<Vec3Property> vec3Properties;
+	//std::vector<Vec4Property> vec4Properties;
+	//std::vector<TextureProperty> textureProperties;
+	floatProperties.clear();
+	intProperties.clear();
+	vec2Properties.clear();
+	vec3Properties.clear();
+	vec4Properties.clear();
+	textureProperties.clear();
+
+	try {
+		std::string line;
+		std::ifstream file;
+		file.open(path, std::ifstream::out);
+		bool readToProps = false;
+
+		while (!file.eof())
+		{
+			getline(file, line, '\n');
+
+			if (line == "#MATERIAL_PROPERTIES")
+			{
+				readToProps = true;
+				getline(file, line, '\n');
+			}
+			if (line == "#!MATERIAL_PROPERTIES")
+			{
+				file.close();
+				break;
+			}
+
+			std::vector<std::string> strings;
+
+			auto tokens = [](std::string line, char delimiter = ' ')
+			{
+				std::vector<std::string> tokens;
+				std::stringstream ss(line);
+				std::string token;
+				while (getline(ss, token, delimiter))
+					tokens.push_back(token);
+				return tokens;
+			};
+
+			strings = tokens(line);
+
+			if (strings.at(0) == "float")
+			{
+				FloatProperty p;
+				p.setValue(std::stof(strings.at(2)));
+				p.propertyName = "material." + strings.at(1);
+				floatProperties.push_back(p);
+			}
+			if (strings.at(0) == "vec4")
+			{
+				Vec4Property p;
+				p.setValue(glm::vec4(std::stof(strings.at(2))));
+				p.propertyName = "material." + strings.at(1);
+				vec4Properties.push_back(p);
+			}
+			if (strings.at(0) == "vec3")
+			{
+				Vec3Property p;
+				p.setValue(glm::vec3(std::stof(strings.at(2))));
+				p.propertyName = "material." + strings.at(1);
+				vec3Properties.push_back(p);
+			}
+			//if (strings.at(0) == "sampler2D")
+			//{
+			//	TextureProperty p;
+			//	//p.setValue(glm::vec3(std::stof(strings.at(2))));
+			//	p.propertyName = "material." + strings.at(1);
+			//	textureProperties.push_back(p);
+			//}
+			// TODO: more property types
+		}
+		file.close();
+	}
+	catch (std::exception e)
+	{
+		std::cout << "ERROR::MATERIAL::PARSE" << std::endl;
+	}
 }
 
 void Material::DrawInspector()

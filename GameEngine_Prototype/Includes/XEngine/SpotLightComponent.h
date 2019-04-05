@@ -41,5 +41,6 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(linear);
 		ar & BOOST_SERIALIZATION_NVP(quadratic);
 		ar & BOOST_SERIALIZATION_NVP(cutOff);
+		ar & BOOST_SERIALIZATION_NVP(outerCutOff);		
 	}
 };
