@@ -95,7 +95,7 @@ void Material::Init()
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
 		{
-			shader->vFilePath = "../Shader/" + vertexShaderPath;
+			shader->vFilePath = "../Shaders/" + vertexShaderPath;
 			parseFileForProperties(shader->vFilePath);
 		}
 	}
