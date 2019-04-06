@@ -113,7 +113,7 @@ void Material::Draw()
 	if (useLight) {
 
 		shader->setVec4("sceneAmbience", RenderManager::getInstance().getCurrentCamera()->clearColor);
-		shader->setFloat("sceneAmbienceStrength", 0.4f); // hard coded for now
+		shader->setFloat("sceneAmbienceStrength", 0.6f); // hard coded for now
 
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;
