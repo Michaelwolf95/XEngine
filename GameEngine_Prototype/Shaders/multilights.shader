@@ -1,7 +1,8 @@
 #MATERIAL_PROPERTIES
-vec4 color 1.0f
-float shininess 32
-float specularity 0.75f
+// defaults
+vec4 material.color 1.0f
+float material.shininess 32
+float material.specularity 0.75f
 #!MATERIAL_PROPERTIES
 
 #VERTEX_SHADER

@@ -93,8 +93,11 @@ void Material::Init()
 			<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
 		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
-		if (vertexShaderPath == "multilights.shader")
-			parseFileForProperties("../Shaders/" + vertexShaderPath); // TODO: path
+		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
+		{
+			shader->vFilePath = "../Shader/" + vertexShaderPath;
+			parseFileForProperties(shader->vFilePath);
+		}
 	}
 	else
 	{
@@ -209,12 +212,6 @@ void Material::parseFileForProperties(std::string path)
 	std::cout << "\tpath: " << path << std::endl;
 
 	// clear properties
-	//std::vector<FloatProperty> floatProperties;
-	//std::vector<IntProperty> intProperties;
-	//std::vector<Vec2Property> vec2Properties;
-	//std::vector<Vec3Property> vec3Properties;
-	//std::vector<Vec4Property> vec4Properties;
-	//std::vector<TextureProperty> textureProperties;
 	floatProperties.clear();
 	intProperties.clear();
 	vec2Properties.clear();
@@ -222,11 +219,12 @@ void Material::parseFileForProperties(std::string path)
 	vec4Properties.clear();
 	textureProperties.clear();
 
-	try {
+	try 
+	{
 		std::string line;
 		std::ifstream file;
-		file.open(path, std::ifstream::out);
 		bool readToProps = false;
+		file.open(path, std::ifstream::out);
 
 		while (!file.eof())
 		{
@@ -243,46 +241,52 @@ void Material::parseFileForProperties(std::string path)
 				break;
 			}
 
-			std::vector<std::string> strings;
+			std::vector<std::string> prop;
+			std::stringstream ss(line);
+			std::string token;
+			while (getline(ss, token, ' '))
+				prop.push_back(token);
 
-			auto tokens = [](std::string line, char delimiter = ' ')
-			{
-				std::vector<std::string> tokens;
-				std::stringstream ss(line);
-				std::string token;
-				while (getline(ss, token, delimiter))
-					tokens.push_back(token);
-				return tokens;
-			};
-
-			strings = tokens(line);
-
-			if (strings.at(0) == "float")
+			if (prop.at(0) == "float")
 			{
 				FloatProperty p;
-				p.setValue(std::stof(strings.at(2)));
-				p.propertyName = "material." + strings.at(1);
+				p.setValue(std::stof(prop.at(2)));
+				p.propertyName = prop.at(1);
 				floatProperties.push_back(p);
 			}
-			if (strings.at(0) == "vec4")
+			if (prop.at(0) == "int")
+			{
+				IntProperty p;
+				p.setValue(std::stoi(prop.at(2)));
+				p.propertyName = prop.at(1);
+				intProperties.push_back(p);
+			}
+			if (prop.at(0) == "vec4")
 			{
 				Vec4Property p;
-				p.setValue(glm::vec4(std::stof(strings.at(2))));
-				p.propertyName = "material." + strings.at(1);
+				p.setValue(glm::vec4(std::stof(prop.at(2))));
+				p.propertyName = prop.at(1);
 				vec4Properties.push_back(p);
 			}
-			if (strings.at(0) == "vec3")
+			if (prop.at(0) == "vec3")
 			{
 				Vec3Property p;
-				p.setValue(glm::vec3(std::stof(strings.at(2))));
-				p.propertyName = "material." + strings.at(1);
+				p.setValue(glm::vec3(std::stof(prop.at(2))));
+				p.propertyName = prop.at(1);
 				vec3Properties.push_back(p);
 			}
-			//if (strings.at(0) == "sampler2D")
+			if (prop.at(0) == "vec2")
+			{
+				Vec2Property p;
+				p.setValue(glm::vec2(std::stof(prop.at(2))));
+				p.propertyName = prop.at(1);
+				vec2Properties.push_back(p);
+			}
+			//if (prop.at(0) == "sampler2D")
 			//{
 			//	TextureProperty p;
-			//	//p.setValue(glm::vec3(std::stof(strings.at(2))));
-			//	p.propertyName = "material." + strings.at(1);
+			//	//p.setValue(glm::vec3(std::stof(prop.at(2))));
+			//	p.propertyName = prop.at(1);
 			//	textureProperties.push_back(p);
 			//}
 			// TODO: more property types
@@ -293,6 +297,13 @@ void Material::parseFileForProperties(std::string path)
 	{
 		std::cout << "ERROR::MATERIAL::PARSE" << std::endl;
 	}
+}
+
+void Material::getDefaultProperties()
+{
+	std::cout << "Retrieving default properties for shaders stored at " 
+		<< shader->vFilePath << std::endl;
+	parseFileForProperties(shader->vFilePath);
 }
 
 void Material::DrawInspector()
