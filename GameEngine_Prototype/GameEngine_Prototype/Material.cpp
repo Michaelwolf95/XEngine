@@ -27,33 +27,6 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	//filePath = "../Assets/Materials/MultiLightModel.material";
 	filePath = "../Assets/Materials/" + this->name + ".material";
 
-
-	// Temporary until parsing properties from shaders complete
-	//Vec4Property colorProperty;
-	//FloatProperty shinyProperty;
-	////FloatProperty ambienceProperty; // TODO: move to lighting
-	//FloatProperty specularityProperty; // TODO: maybe to lighting also
-	//glm::vec4 color = glm::vec4(1.0f);
-	//float shininess = 32.0f;
-	////float ambience = 0.5f;
-	//float specularity = 0.8f;
-
-	//std::string matName = "material.";
-	//colorProperty.setValue(color);
-	//shinyProperty.setValue(shininess);
-	////ambienceProperty.setValue(ambience);
-	//specularityProperty.setValue(specularity);
-
-	//colorProperty.propertyName = matName + VAR_NAME(color);
-	//shinyProperty.propertyName = matName + VAR_NAME(shininess);
-	////ambienceProperty.propertyName = matName + VAR_NAME(ambience);
-	//specularityProperty.propertyName = matName + VAR_NAME(specularity);
-
-	//vec4Properties.push_back(colorProperty);
-	//floatProperties.push_back(shinyProperty);
-	////floatProperties.push_back(ambienceProperty);
-	//floatProperties.push_back(specularityProperty);
-
 	Init();
 
 	//std::cout << to_string() << std::endl;
