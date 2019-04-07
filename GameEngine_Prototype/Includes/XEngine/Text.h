@@ -20,7 +20,7 @@
 #include "Component.h"
 #include "Material.h"
 
-class Text : public RenderableObject, public Component
+class DLLExport Text : public RenderableObject, public Component
 {
 	struct Character {
 		GLuint TextureID;   // ID handle of the glyph texture
