@@ -10,7 +10,6 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "Scene.h"
-#include "SceneEditor.h"
 #include "PrimitiveModels.h"
 
 Shader* RenderManager::defaultShader = nullptr;
@@ -54,10 +53,11 @@ int RenderManager::Init()
 
 void RenderManager::CompileShaders()
 {
+	std::cout << "RENDERMANAGER::CompileShaders\n";
 	defaultShader = new Shader("model.vs", "model.fs");
 	defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
 	//defaultMaterial = new Material(defaultShader);
-	defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
+	//defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	//defaultMaterial->LoadTexture("textures/container.jpg");
 
 	colorDrawShader = new Shader("color.vs", "color.fs");

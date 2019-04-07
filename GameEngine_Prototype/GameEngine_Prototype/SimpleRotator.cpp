@@ -7,10 +7,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Time.h"
+#include "GameTime.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
-
+using namespace XEngine;
 
 SimpleRotator::SimpleRotator() {}
 SimpleRotator::~SimpleRotator() {}
@@ -33,8 +33,8 @@ void SimpleRotator::Update()
 		horz -= 1;
 
 	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
-	rot.x += xRotSpeed * Time::deltaTime * vert;
-	rot.y += yRotSpeed * Time::deltaTime * horz;
+	rot.x += xRotSpeed * GameTime::deltaTime * vert;
+	rot.y += yRotSpeed * GameTime::deltaTime * horz;
 	gameObject->transform->setLocalRotationEuler(rot);
 	//rot = gameObject->transform->getLocalRotationEuler();
 	//std::cout << "Rot:(" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;

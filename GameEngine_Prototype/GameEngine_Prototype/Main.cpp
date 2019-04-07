@@ -1,100 +1,85 @@
-//define X_EDIT_MODE // DEFINED IN PROJECT SETTINGS
+//==================================================
+// MAIN ENTRY POINT FOR ENGINE
+//==================================================
 
-#define GLM_FORCE_RADIANS
-
-//#ifdef X_EDIT_MODE
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-#include "imgui_inspector_extensions.h"
-#include "imgui_stdlib.h"
-//#endif
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+// Defining this here to prevent duplicate definitions
+// when the XEngine header is used.
+#ifndef STB_DEFINE
 #define STB_DEFINE  
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-#include <iostream>
-#include "DebugUtility.h" // Define only once
-#include "Serialization.h"
-#include "ApplicationManager.h"
-#include "Time.h"
-#include "Input.h"
-#include "AssetManager.h"
-#include "RenderManager.h"
-#include "SceneManager.h"
-#include "PhysicsManager.h"
-#include "AudioManager.h"
-#ifdef X_EDIT_MODE
-#include "SceneEditor.h"
-#else
-//#include "TestScenes.h"
 #endif
 
-// ENTRY POINT
-int main()
+#include "XEngine.h"
+
+namespace XEngine
 {
-	std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
+	EngineEvent OnEngineInit = nullptr;
+	EngineEvent OnEngineUpdate = nullptr;
+	EngineEvent OnEnginePreRender = nullptr;
+	EngineEvent OnEnginePostRender = nullptr;
+	EngineEvent OnApplicationClose = nullptr;
 
-	// Init Managers
-	ApplicationManager::CreateManager();
-	Time::CreateManager();
-	Input::CreateManager();
-	AssetManager::CreateManager();
-	RenderManager::CreateManager();
-	SceneManager::CreateManager();
-	AudioManager::CreateManager();
-	PhysicsManager::CreateManager();
+	bool useDefaultSceneInitialization = true;
 
-	#ifdef X_EDIT_MODE
-	SceneEditor::CreateManager();
-	#endif
-
-	// Create & Load Scene
-	#ifdef X_EDIT_MODE
-	SceneEditor::getInstance().StartEditMode();
-	#else
-	// TODO: Configure Build Config to load first scene based on a file.
-	SceneManager::getInstance().LoadAndActivateSceneFromFile("../Assets/Scenes/Physics_Test_2.scene");
-	#endif
-
-	// FRAME LOOP
-	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
+	// Main Game Function.
+	int ENGINE_MAIN()
 	{
-		ApplicationManager::getInstance().ApplicationStartUpdate();
-		Time::getInstance().UpdateTime();
-		Input::getInstance().UpdateInput();
+		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
 
-		// Editor Update
-		#ifdef X_EDIT_MODE
-		SceneEditor::getInstance().UpdateEditor();
-		#endif
+		// Init Managers
+		ApplicationManager::CreateManager();
+		GameTime::CreateManager();
+		Input::CreateManager();
+		AssetManager::CreateManager();
+		RenderManager::CreateManager();
+		SceneManager::CreateManager();
+		AudioManager::CreateManager();
+		PhysicsManager::CreateManager();
 
-		// Do Game Logic here
-		SceneManager::getInstance().UpdateActiveScene();
-		AudioManager::getInstance().UpdateAudio();
+		if (OnEngineInit != nullptr) XEngine::OnEngineInit();
 
-		PhysicsManager::getInstance().PhysicsUpdate();
+		// Create & Load Scene
+		if (useDefaultSceneInitialization)
+		{
+			// TODO: Configure Build Config to load first scene based on a file.
+			SceneManager::getInstance().LoadAndActivateSceneFromFile("../Assets/Scenes/Physics_Test_2.scene");
+		}
 
-		#ifdef X_EDIT_MODE
-		SceneEditor::getInstance().EditorPreRender();
-		#endif
+		// FRAME LOOP
+		while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
+		{
+			ApplicationManager::getInstance().ApplicationStartUpdate();
+			GameTime::getInstance().UpdateTime();
+			Input::getInstance().UpdateInput();
 
-		RenderManager::getInstance().Render();
+			// MAIN UPDATE
+			if (OnEngineUpdate != nullptr) OnEngineUpdate();
+			SceneManager::getInstance().UpdateActiveScene();
+			AudioManager::getInstance().UpdateAudio();
 
-		#ifdef X_EDIT_MODE
-		SceneEditor::getInstance().EditorPostRender();
-		#endif
+			PhysicsManager::getInstance().PhysicsUpdate();
 
-		Input::getInstance().EndUpdateFrame();
-		ApplicationManager::getInstance().ApplicationEndUpdate();
+			if (OnEnginePreRender != nullptr) OnEnginePreRender();
+
+			RenderManager::getInstance().Render();
+
+			if (OnEnginePostRender != nullptr) OnEnginePostRender();
+
+			Input::getInstance().EndUpdateFrame();
+			ApplicationManager::getInstance().ApplicationEndUpdate();
+		}
+
+		if (OnApplicationClose != nullptr) OnApplicationClose();
+
+		ApplicationManager::getInstance().CloseApplication();
+		return 0;
 	}
-
-	#ifdef X_EDIT_MODE
-	SceneEditor::getInstance().ShutDown();
-	#endif
-
-	ApplicationManager::getInstance().CloseApplication();
-	return 0;
 }
+
+// ENTRY POINT
+// Used when the application is run as an executable.
+//int main()
+//{
+//	XEngine::ENGINE_MAIN();
+//}

@@ -6,18 +6,26 @@
 //#include "SceneEditor.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
+#include "..\Includes\XEngine\Material.h"
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
+	std::cout << "Material constructor called with arguments\n";
+	std::cout << "\t_name: " << _name			<< std::endl;
+	std::cout << "\tvertPath: "	<< vertPath		<< std::endl;
+	std::cout << "\tfragPath " << fragPath 		<< std::endl;
+	std::cout << "\t_useLight: " << _useLight	<< std::endl;
+
 	name = _name;
 	vertexShaderPath = vertPath;
 	fragmentShaderPath = fragPath;
 
 	useLight = _useLight;
 
-	filePath = "../Assets/Materials/MultiLightModel.material";
+	//filePath = "../Assets/Materials/MultiLightModel.material";
+	filePath = "../Assets/Materials/" + this->name + ".material";
 
 	Init();
 
@@ -25,10 +33,9 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 }
 
-
-
 Material::Material()
 {
+	std::cout << "Material default constructor with defaultShader call\n";
 	if (shader == nullptr)
 	{
 		shader = RenderManager::defaultShader;
@@ -45,37 +52,29 @@ Material::~Material()
 
 void Material::Init()
 {
-	colorProperty.propertyName = "color";
-	colorProperty.setValue(glm::vec3(Color.x, Color.y, Color.z));
-	vec3Properties.push_back(colorProperty);
-	ambientProperty.propertyName = VAR_NAME(ambient);
-	ambientProperty.setValue(ambient);
-	vec3Properties.push_back(ambientProperty);
-	diffuseProperty.propertyName = VAR_NAME(diffuse);
-	diffuseProperty.setValue(diffuse);
-	vec3Properties.push_back(diffuseProperty);
-	specularProperty.propertyName = VAR_NAME(specular);
-	specularProperty.setValue(specular);
-	vec3Properties.push_back(specularProperty);
-	shinyProperty.propertyName = VAR_NAME(shininess);
-	shinyProperty.setValue(shininess);
-	floatProperties.push_back(shinyProperty);
-
-	
-
 	if (isInitialized)
 	{
 		return;
 	}
 	std::cout << "Initializing Material: " << name << std::endl;
-	if ((vertexShaderPath.empty() || fragmentShaderPath.empty()) == false)
+	if (vertexShaderPath.empty() == false)
 	{
-		std::cout << "Loading Shaders for Material.." << vertexShaderPath << ", " <<fragmentShaderPath << std::endl;
+
+		std::cout << "Loading Shaders for Material" << std::endl
+			<< "\tname: " << this->name << std::endl
+			<< "\tvertexShaderPath: " << vertexShaderPath << std::endl
+			<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
 		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
+		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
+		{
+			shader->vFilePath = "../Shaders/" + vertexShaderPath;
+			parseFileForProperties(shader->vFilePath);
+		}
 	}
 	else
 	{
+		std::cout << "Loading default Shaders..." << std::endl;
 		shader = RenderManager::defaultShader;
 	}
 
@@ -91,7 +90,10 @@ void Material::Init()
 
 void Material::Load()
 {
-	shader->setColor("MainColor", Color.x, Color.y, Color.z, Color.w);
+	//shader->setColor("color", Color.x, Color.y, Color.z, Color.w); // this should be done with vec4 properties
+	shader->use();
+	RenderManager::getInstance().currentShaderID = shader->ID;
+
 
 	if (textureID > 0)
 	{
@@ -104,9 +106,15 @@ void Material::Load()
 	}
 }
 
-void Material::Draw(std::vector<Light*> lights)
+void Material::Draw()
 {
+	shader->use();
+
 	if (useLight) {
+
+		shader->setVec4("sceneAmbience", RenderManager::getInstance().getCurrentCamera()->clearColor);
+		shader->setFloat("sceneAmbienceStrength", 0.6f); // hard coded for now
+
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;
 		std::string uniformString;
@@ -117,9 +125,11 @@ void Material::Draw(std::vector<Light*> lights)
 
 		shader->setInt("numLights", RenderManager::getInstance().lights.size());
 
+		//shader->setInt("Texture", textureID); // would this be compatible with meshes?
+
 		//std::cout << to_string() << std::endl;
 
-		for (Light* light : lights) {
+		for (Light* light : RenderManager::getInstance().lights) {
 			
 			if (light->getTypeID() == Light::LightType::PointLight) {
 				counter = &pointLightCount;
@@ -127,38 +137,36 @@ void Material::Draw(std::vector<Light*> lights)
 			else if (light->getTypeID() == Light::LightType::GlobalLight) {
 				counter = &globalLightCount;
 			}
+			else if (light->getTypeID() == Light::LightType::SpotLight) {
+				counter = &spotLightCount;
+			}
 			
 			uniformString = *light->getUniformName() + '[' + std::to_string(*counter) + "].";
 
 			// Add light properties to shader.
-			light->draw(shader, *counter);
-
-			for (auto fp : floatProperties) {
-				shader->setFloat(uniformString + fp.propertyName, fp.getValue());
-			}
-
-			for (auto ip : intProperties) {
-				shader->setInt(uniformString + ip.propertyName, ip.getValue());
-			}
-
-			for (auto v2p : vec2Properties) {
-				shader->setVec2(uniformString + v2p.propertyName, v2p.getValue());
-			}
-
-			for (auto v3p : vec3Properties) {
-				shader->setVec3(uniformString + v3p.propertyName, v3p.getValue());
-				//std::cout << "uniformString + v3p.propertyName == " << uniformString + v3p.propertyName << std::endl;
-			}
-
-			for (auto v4p : vec4Properties) {
-				shader->setVec3(uniformString + v4p.propertyName, v4p.getValue());
-			}
+			light->Draw(shader, *counter);
 
 			counter ? (*counter)++ : printf("ERROR: counter is NULL! (Materials->Draw)\n");
 		}
-
 		shader->setInt("numPointLights", pointLightCount);
 		shader->setInt("numGlobalLights", globalLightCount);
+		shader->setInt("numSpotLights", spotLightCount);
+	}
+	// Non-light uniforms
+	for (auto fp : floatProperties) {
+		shader->setFloat(fp.propertyName, fp.getValue());
+	}
+	for (auto ip : intProperties) {
+		shader->setInt(ip.propertyName, ip.getValue());
+	}
+	for (auto v2p : vec2Properties) {
+		shader->setVec2(v2p.propertyName, v2p.getValue());
+	}
+	for (auto v3p : vec3Properties) {
+		shader->setVec3(v3p.propertyName, v3p.getValue());
+	}
+	for (auto v4p : vec4Properties) {
+		shader->setVec4(v4p.propertyName, v4p.getValue());
 	}
 }
 
@@ -166,9 +174,109 @@ void Material::LoadTexture(const char * _textureFilePath)
 {
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
-
+	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
 
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
+}
+
+void Material::parseFileForProperties(std::string path)
+{
+	std::cout << "Material::parseFileForProperties with arguments\n";
+	std::cout << "\tpath: " << path << std::endl;
+
+	// clear properties
+	floatProperties.clear();
+	intProperties.clear();
+	vec2Properties.clear();
+	vec3Properties.clear();
+	vec4Properties.clear();
+	textureProperties.clear();
+
+	try 
+	{
+		std::string line;
+		std::ifstream file;
+		bool readToProps = false;
+		file.open(path, std::ifstream::out);
+
+		while (!file.eof())
+		{
+			getline(file, line, '\n');
+
+			if (line == "#MATERIAL_PROPERTIES")
+			{
+				readToProps = true;
+				getline(file, line, '\n');
+			}
+			if (line == "#!MATERIAL_PROPERTIES")
+			{
+				file.close();
+				break;
+			}
+
+			std::vector<std::string> prop;
+			std::stringstream ss(line);
+			std::string token;
+			while (getline(ss, token, ' '))
+				prop.push_back(token);
+
+			if (prop.at(0) == "float")
+			{
+				FloatProperty p;
+				p.setValue(std::stof(prop.at(2)));
+				p.propertyName = prop.at(1);
+				floatProperties.push_back(p);
+			}
+			if (prop.at(0) == "int")
+			{
+				IntProperty p;
+				p.setValue(std::stoi(prop.at(2)));
+				p.propertyName = prop.at(1);
+				intProperties.push_back(p);
+			}
+			if (prop.at(0) == "vec4")
+			{
+				Vec4Property p;
+				p.setValue(glm::vec4(std::stof(prop.at(2))));
+				p.propertyName = prop.at(1);
+				vec4Properties.push_back(p);
+			}
+			if (prop.at(0) == "vec3")
+			{
+				Vec3Property p;
+				p.setValue(glm::vec3(std::stof(prop.at(2))));
+				p.propertyName = prop.at(1);
+				vec3Properties.push_back(p);
+			}
+			if (prop.at(0) == "vec2")
+			{
+				Vec2Property p;
+				p.setValue(glm::vec2(std::stof(prop.at(2))));
+				p.propertyName = prop.at(1);
+				vec2Properties.push_back(p);
+			}
+			//if (prop.at(0) == "sampler2D")
+			//{
+			//	TextureProperty p;
+			//	//p.setValue(glm::vec3(std::stof(prop.at(2))));
+			//	p.propertyName = prop.at(1);
+			//	textureProperties.push_back(p);
+			//}
+			// TODO: more property types
+		}
+		file.close();
+	}
+	catch (std::exception e)
+	{
+		std::cout << "ERROR::MATERIAL::PARSE" << std::endl;
+	}
+}
+
+void Material::getDefaultProperties()
+{
+	std::cout << "Retrieving default properties for shaders stored at " 
+		<< shader->vFilePath << std::endl;
+	parseFileForProperties(shader->vFilePath);
 }
 
 void Material::DrawInspector()
@@ -193,25 +301,74 @@ void Material::DrawInspector()
 			ImGui::EndDragDropTarget();
 		}
 
-		//ImGuiInputTextFlags flags = 0;
-		//	flags |= ImGuiInputTextFlags_CharsScientific;// | ~ImGuiInputTextFlags_CharsNoBlank;
-		//ImGui::InputText("VertPath", &vertexShaderPath[0], 32, flags);
-		//ImGui::InputText("FragPath", &fragmentShaderPath[0], 32, flags);
-		//ImGui::InputText("TexturePath", &textureFilePath[0], 32, flags);
-
 		ImGui::Checkbox("Use Light", &useLight);
-		ImGui::ColorEdit4("Color", (float*)&Color);
+		//ImGui::ColorEdit4("Color", (float*)&Color); // vec4 property
 
 		if (ImGui::TreeNode(this, "Float Properties", "%s_Floats", this->name.c_str()))
 		{
 			for (size_t i = 0; i < floatProperties.size(); i++)
 			{
-				ImGui::Text(floatProperties[i].propertyName.c_str());
-				ImGui::SameLine();
 				float value = floatProperties[i].getValue();
+
 				ImGui::InputFloat(floatProperties[i].propertyName.c_str(), &value);
+
 				if (value != floatProperties[i].getValue())
 					floatProperties[i].setValue(value);
+			}
+
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode(this, "Int Properties", "%s_Ints", this->name.c_str()))
+		{
+			for (size_t i = 0; i < intProperties.size(); i++)
+			{
+				int value = intProperties[i].getValue();
+
+				ImGui::InputInt(intProperties[i].propertyName.c_str(), &value);
+
+				if (value != intProperties[i].getValue())
+					intProperties[i].setValue(value);
+			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode(this, "Vec2 Properties", "%s_Vec2s", this->name.c_str()))
+		{
+			for (size_t i = 0; i < vec2Properties.size(); i++)
+			{
+				glm::vec2 value = vec2Properties[i].getValue();
+
+				ImGui::InputFloat2(vec2Properties[i].propertyName.c_str(), (float*)&value);
+
+				if (value != vec2Properties[i].getValue())
+					vec2Properties[i].setValue(value);
+			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode(this, "Vec3 Properties", "%s_Vec3s", this->name.c_str()))
+		{
+			for (size_t i = 0; i < vec3Properties.size(); i++)
+			{
+				glm::vec3 value = vec3Properties[i].getValue();
+
+				ImGui::ColorEdit3(vec3Properties[i].propertyName.c_str(), (float *)&value);
+
+				if (value != vec3Properties[i].getValue())
+					vec3Properties[i].setValue(value);
+			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode(this, "Vec4 Properties", "%s_Vec4", this->name.c_str()))
+		{
+			for (size_t i = 0; i < vec4Properties.size(); i++)
+			{			
+				glm::vec4 value = vec4Properties[i].getValue();
+
+				vec4Properties[i].propertyName == "color" ? 
+					ImGui::ColorEdit4(vec4Properties[i].propertyName.c_str(), (float *)&value) :
+					ImGui::InputFloat3(vec4Properties[i].propertyName.c_str(), (float *)&value);
+
+				if (value != vec4Properties[i].getValue())
+					vec4Properties[i].setValue(value);
 			}
 			ImGui::TreePop();
 		}
@@ -219,20 +376,47 @@ void Material::DrawInspector()
 		{
 			for (size_t i = 0; i < textureProperties.size(); i++)
 			{
-				ImGui::Text(textureProperties[i].propertyName.c_str());
-				ImGui::SameLine();
 				Texture* value = textureProperties[i].getValue();
 				std::string path = value->path;
+
 				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
+
 				if (path != value->path)
 				{
 					value->path = path;
 				}
-				//ImGui::InputFloat(textureProperties[i].propertyName.c_str(), &value);
-				/*if (value != textureProperties[i].getValue())
-					textureProperties[i].setValue(value);*/
 			}
 			ImGui::TreePop();
+		}
+
+		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+		{
+			ImGui::Text("<----- CHANGE MATERIAL ----->");
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == 128);
+					const char* payload_n = (const char*)payload->Data;
+
+					std::string fileName(payload_n);
+					if (fileName.substr(fileName.find_last_of(".")) == ".material")
+					{
+						std::cout << "Dropping Material!" << std::endl;
+						//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+						//size_t lastindex = fileName.find_last_of(".");
+						//fileName = fileName.substr(0, lastindex);
+						Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+						if (mat != nullptr)
+						{
+							*this = *mat;
+							std::cout << "Dropping Material!" << std::endl;
+						}
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
 		}
 		
 

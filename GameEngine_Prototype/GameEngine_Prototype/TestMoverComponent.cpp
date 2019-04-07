@@ -7,11 +7,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Time.h"
+#include "GameTime.h"
 #include "Input.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 using namespace glm;
+using namespace XEngine;
 
 // "'boost::serialization::guid': function must return a value" error if these macros don't have the string value.
 REGISTER_COMPONENT(TestMoverComponent, "TestMoverComponent")
@@ -32,7 +33,7 @@ void TestMoverComponent::Update()
 	glm::vec3 forward = glm::vec3(0.0f, 0.0f, 1.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	float deltaMove = moveSpeed * Time::deltaTime;
+	float deltaMove = moveSpeed * GameTime::deltaTime;
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
 		gameObject->transform->Translate(deltaMove * forward);
 	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_S) == GLFW_PRESS)

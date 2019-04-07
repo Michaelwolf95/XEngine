@@ -7,10 +7,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Time.h"
+#include "GameTime.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 using namespace glm;
+using namespace XEngine;
 
 AutoMover::AutoMover() {}
 AutoMover::AutoMover(float modDirIn) {
@@ -39,8 +40,8 @@ void AutoMover::Update()
 {
 	//glm::vec3 forward = gameObject->transform->getForwardDirection();
 	//glm::vec3 up = gameObject->transform->getUpDirection
-	float time = Time::getInstance().currentTime * moveSpeed;
-	float delta = Time::getInstance().deltaTime * modDir;
+	float time = GameTime::getInstance().currentTime * moveSpeed;
+	float delta = GameTime::getInstance().deltaTime * modDir;
 	glm::vec3 pos = gameObject->transform->getPosition();
 	gameObject->transform->Translate(glm::vec3(glm::sin(time*xMod) * delta, 
 									glm::sin(time*yMod) * delta, 

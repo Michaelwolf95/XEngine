@@ -9,8 +9,6 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "Input.h"
-#include "PointLightComponent.h"
-#include "GlobalLightComponent.h"
 
 REGISTER_COMPONENT(SimpleModelComponent, "SimpleModelComponent")
 
@@ -54,9 +52,19 @@ void SimpleModelComponent::Setup()
 	{
 		//material = RenderManager::defaultMaterial;
 		
-		std::cout << "Warning: material was NULL!\n";
-		material = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightModel.material");
-		
+		try
+		{
+			std::cout << "Warning: material was NULL!\n";
+			std::string pathToMaterial = "../Assets/Materials/" + name + ".material";
+			material = AssetManager::getInstance().materialLib.GetAsset(pathToMaterial);
+		}
+		catch (std::exception e)
+		{
+			// not tested yet
+			std::cout << "ERROR: SimpleModelComponent::Setup: " << e.what() << std::endl;
+			std::cout << "Loading defaultMaterial...\n";
+			material = RenderManager::defaultMaterial;
+		}
 		//material = new Material("MuliLight Model", "multilights.vs", "multilights.fs");
 		//std::cout << "Material set to default." << std::endl;
 	}
@@ -67,26 +75,33 @@ void SimpleModelComponent::Setup()
 		//std::cout << this->material->shader->ID << std::endl;
 	}
 
+	// generates buffer names which points to data lists
 	glGenVertexArrays(1, &VAO);
+	// geerates buffer manager to store and access main object data
 	glGenBuffers(1, &VBO);
+	// generates buffer manager to store and access compression data
 	glGenBuffers(1, &EBO);
 
+	// 1. bind Vertex Array Object
 	glBindVertexArray(VAO);
 
+	// 2. copy our vertices array in a vertex buffer for OpenGL to use
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertexDataSize * numVerts * sizeof(float), vertices, GL_STATIC_DRAW);
-
+	// assigning vertex array to buffer assigned to VBO
+	glBufferData(GL_ARRAY_BUFFER, vertexDataSize * numVerts * sizeof(float), vertices, GL_STATIC_DRAW); 
+	
+	// 3. copy our index array in a element buffer for OpenGL to use
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	// assigning indices array to buffer assigned to EBO
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
+	// 4. then set the vertex attributes pointers
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexDataSize * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
 	// normals attribute
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexDataSize * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
 	// texture coord attribute
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexDataSize * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
@@ -112,9 +127,11 @@ void SimpleModelComponent::Draw()
 		return;
 	}
 
-	material->shader->use();
-	RenderManager::getInstance().currentShaderID = material->shader->ID;
+	//material->shader->use(); // moved to material::Load
+
+	//RenderManager::getInstance().currentShaderID = material->shader->ID; // moved to material::Load
 	material->Load();
+	
 	// create transformations
 	// View & projection from RenderManager, which uses active camera.
 	glm::mat4 view = RenderManager::getInstance().getView();
@@ -127,35 +144,26 @@ void SimpleModelComponent::Draw()
 	// Model uses GameObject transform.
 	glm::mat4 model = (gameObject->transform->getMatrix4x4());
 
-	// retrieve the matrix uniform locations
-	//unsigned int modelLoc = glGetUniformLocation(material->shader->ID, "model");
-	//unsigned int viewLoc = glGetUniformLocation(material->shader->ID, "view");
-	
-	// pass them to the shaders (3 different ways)
-	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-	
-	// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-	//material->shader->setMat4("projection", projection);
-
-
 	glm::vec3 viewPos  = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);
 	
-
 	//glUniformli
 	material->shader->setInt("Texture", material->textureID);
 
-	//glBindTexture
+	// TODO:: place this into material (with texture properties?)
+	// bind textures on corresponding texture unit
+	glActiveTexture(GL_TEXTURE0);
+	// put the texture with this ID into texture location 0
 	glBindTexture(GL_TEXTURE_2D, material->textureID);
 
-	material->Draw(RenderManager::getInstance().lights); // THIS IS WHERE MATERIAL DRAWS******
+	material->Draw();
 
-	// Move to Material class????
+	// draw model
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, numVerts);
 	glBindVertexArray(0);
 
+	// default texture position
 	glActiveTexture(GL_TEXTURE0);
 }
 
