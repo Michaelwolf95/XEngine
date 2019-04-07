@@ -170,8 +170,10 @@ void Material::Draw()
 	}
 }
 
-void Material::LoadTexture(const char * _textureFilePath)
+void Material::LoadTexture(const char * _textureFilePath) // used in test scenes and game object analytics
 {
+	std::cout << "Material::LoadTexture called with arguments\n";
+	std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
 	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
@@ -190,7 +192,7 @@ void Material::parseFileForProperties(std::string path)
 	vec2Properties.clear();
 	vec3Properties.clear();
 	vec4Properties.clear();
-	textureProperties.clear();
+	//textureProperties.clear();
 
 	try 
 	{
@@ -423,7 +425,7 @@ void Material::DrawInspector()
 		if (ImGui::Button("Update"))
 		{
 			isInitialized = false;
-			Init();
+			Init(); // TODO: How does this update?
 
 			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}
