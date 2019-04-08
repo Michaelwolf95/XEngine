@@ -17,6 +17,9 @@
 #include "AudioComponent.h"
 #include "AudioListener.h"
 
+//Text
+#include "Text.h"
+
 // Other
 
 // Testers (Remove later?)

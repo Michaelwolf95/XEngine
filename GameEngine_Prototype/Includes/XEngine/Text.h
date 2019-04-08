@@ -20,7 +20,7 @@
 #include "Component.h"
 #include "Material.h"
 
-class Text : public RenderableObject, public Component
+class DLLExport Text : public RenderableObject, public Component
 {
 	struct Character {
 		GLuint TextureID;   // ID handle of the glyph texture
@@ -30,26 +30,34 @@ class Text : public RenderableObject, public Component
 	};
 
 public:
-	Text(const char*, FT_UInt, Material* m = nullptr);
+	static Registrar<Text> registrar;
+	//Text();
+	Text(const char* filePath = "arial.ttf", FT_UInt size = 20);
 	~Text();
-	void Setup() override;
-	void Draw() override;
 	void Start() override;
 	void Update() override;
+	void Setup() override;
+	void Draw() override;
+	void DrawInspector() override;
+	void Load();
+	void setFontSize(FT_UInt size);
 	void setText(std::string);
 	void setColor(glm::vec3);
-	void setPosandScale(GLfloat, GLfloat, GLfloat);
-	void RenderText(std::string, GLfloat, GLfloat, GLfloat, glm::vec3);
+	void setPos(GLfloat, GLfloat);
+	void setScale(GLfloat);
+	FT_UInt getFontSize();
+	std::string getText();
+	glm::vec3 getColor();
+	glm::vec2 getPos();
+	GLfloat getScale();
 
 private:
-	FT_Library ft;
-	FT_Face face;
-	FT_UInt fontSize;
 	std::map<GLchar, Character> Characters;
 	std::string fontPath;
-	GLuint VAO;
-	GLuint VBO;
 	std::string text;
-	GLfloat x, y, scale;
+	FT_UInt fontSize;
 	glm::vec3 color;
+	GLfloat xPos, yPos, scale;
+	GLuint VAO, VBO;
+	Shader* shader;
 };

@@ -30,6 +30,7 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
+		std::cout << "\tfileName: " << fileName << std::endl;
 		return LoadAsset(fileName);
 	}
 	else

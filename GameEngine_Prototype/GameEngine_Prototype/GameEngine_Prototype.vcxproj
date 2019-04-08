@@ -331,7 +331,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="SimpleSprite.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="TestMoverComponent.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>

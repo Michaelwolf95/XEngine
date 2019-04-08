@@ -27,33 +27,6 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	//filePath = "../Assets/Materials/MultiLightModel.material";
 	filePath = "../Assets/Materials/" + this->name + ".material";
 
-
-	// Temporary until parsing properties from shaders complete
-	//Vec4Property colorProperty;
-	//FloatProperty shinyProperty;
-	////FloatProperty ambienceProperty; // TODO: move to lighting
-	//FloatProperty specularityProperty; // TODO: maybe to lighting also
-	//glm::vec4 color = glm::vec4(1.0f);
-	//float shininess = 32.0f;
-	////float ambience = 0.5f;
-	//float specularity = 0.8f;
-
-	//std::string matName = "material.";
-	//colorProperty.setValue(color);
-	//shinyProperty.setValue(shininess);
-	////ambienceProperty.setValue(ambience);
-	//specularityProperty.setValue(specularity);
-
-	//colorProperty.propertyName = matName + VAR_NAME(color);
-	//shinyProperty.propertyName = matName + VAR_NAME(shininess);
-	////ambienceProperty.propertyName = matName + VAR_NAME(ambience);
-	//specularityProperty.propertyName = matName + VAR_NAME(specularity);
-
-	//vec4Properties.push_back(colorProperty);
-	//floatProperties.push_back(shinyProperty);
-	////floatProperties.push_back(ambienceProperty);
-	//floatProperties.push_back(specularityProperty);
-
 	Init();
 
 	//std::cout << to_string() << std::endl;
@@ -140,7 +113,7 @@ void Material::Draw()
 	if (useLight) {
 
 		shader->setVec4("sceneAmbience", RenderManager::getInstance().getCurrentCamera()->clearColor);
-		shader->setFloat("sceneAmbienceStrength", 0.4f); // hard coded for now
+		shader->setFloat("sceneAmbienceStrength", 0.6f); // hard coded for now
 
 		//std::cout << "Rendering lights in Draw material\n";
 		int *counter = nullptr;
@@ -197,8 +170,10 @@ void Material::Draw()
 	}
 }
 
-void Material::LoadTexture(const char * _textureFilePath)
+void Material::LoadTexture(const char * _textureFilePath) // used in test scenes and game object analytics
 {
+	std::cout << "Material::LoadTexture called with arguments\n";
+	std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
 	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
@@ -217,7 +192,7 @@ void Material::parseFileForProperties(std::string path)
 	vec2Properties.clear();
 	vec3Properties.clear();
 	vec4Properties.clear();
-	textureProperties.clear();
+	//textureProperties.clear();
 
 	try 
 	{
@@ -450,7 +425,7 @@ void Material::DrawInspector()
 		if (ImGui::Button("Update"))
 		{
 			isInitialized = false;
-			Init();
+			Init(); // TODO: How does this update?
 
 			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}
