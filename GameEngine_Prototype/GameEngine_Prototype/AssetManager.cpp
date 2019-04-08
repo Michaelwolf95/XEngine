@@ -70,3 +70,13 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 	stbi_image_free(data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+std::string AssetManager::getProjectFilePath()
+{
+	return projectFilePath;
+}
+
+void AssetManager::setProjectFilePath(std::string path)
+{
+	projectFilePath = path;
+}

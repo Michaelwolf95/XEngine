@@ -1121,11 +1121,8 @@ void SceneEditor::AssetFolderMenuUpdate()
 static std::string GetFileNameFromPath(const char* path)
 {
 	char sep = '/';
-#ifdef _WIN32
-	sep = '\\';
-#endif
 	std::string s(path);
-	//std::string fileName;
+	std::replace(s.begin(), s.end(), '\\', '/');
 	size_t i = s.rfind(sep, s.length());
 	if (i != std::string::npos) {
 		return s.substr(i + 1, s.length() - i);
