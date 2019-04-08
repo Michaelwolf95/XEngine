@@ -82,26 +82,28 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	std::cout << "\nmatFilePath (fileName): " << matFilePath << std::endl;
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
 
-	
+	// if the loaded material does not have the texture properties then add it
+	if (MatforMesh->textureProperties.empty())
+	{
+		// process materials
+		aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
-	// process materials
-	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
+		// 1.diffuse maps
+		std::vector<TextureProperty> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-	// 1.diffuse maps
-	std::vector<TextureProperty> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), diffuseMaps.begin(), diffuseMaps.end());
+		// 2.specular maps
+		std::vector<TextureProperty> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), specularMaps.begin(), specularMaps.end());
 
-	// 2.specular maps
-	std::vector<TextureProperty> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), specularMaps.begin(), specularMaps.end());
+		// 3.normal maps
+		std::vector<TextureProperty> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), normalMaps.begin(), normalMaps.end());
 
-	// 3.normal maps
-	std::vector<TextureProperty> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), normalMaps.begin(), normalMaps.end());
-
-	// 4.height maps
-	std::vector<TextureProperty> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
+		// 4.height maps
+		std::vector<TextureProperty> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
+	}
 
 	return MatforMesh;
 }
