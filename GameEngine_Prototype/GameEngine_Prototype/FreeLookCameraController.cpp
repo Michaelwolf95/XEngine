@@ -66,8 +66,8 @@ void FreeLookCameraController::Update()
 			glm::vec2 currentDragPos = Input::GetMousePos();
 			glm::vec2 deltaPos = currentDragPos - lastDragPos;
 			lastDragPos = currentDragPos;
-			float deltaYRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
-			float deltaXRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
+			float deltaXRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
+			float deltaYRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
 
 			glm::vec3 localRot = gameObject->transform->getLocalRotationEuler();
 
@@ -110,4 +110,12 @@ void FreeLookCameraController::Update()
 
 		break;
 	}
+}
+
+void FreeLookCameraController::DrawInspector()
+{
+	ImGui::InputFloat("zoomSpeed", &zoomSpeed);
+	ImGui::InputFloat("panSpeed", &panSpeed);
+	ImGui::InputFloat("X RotSpeed", &xRotSpeed);
+	ImGui::InputFloat("Y RotSpeed", &yRotSpeed);
 }
