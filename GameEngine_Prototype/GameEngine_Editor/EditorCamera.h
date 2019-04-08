@@ -37,9 +37,9 @@ namespace XEngine::Editor
 		GLFWwindow* menuWindow = nullptr;
 		bool isBeingUsed = false;
 		float zoomSpeed = 15.0f;
-		float xRotSpeed = 1.0f;
-		float yRotSpeed = 1.0f;
-		float panSpeed = 0.1f;
+		float xRotSpeed = 5.0f;
+		float yRotSpeed = 5.0f;
+		float panSpeed = 1.0f;
 
 		friend class ::boost::serialization::access;
 		template<class Archive>

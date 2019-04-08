@@ -7,8 +7,8 @@ public:
 	static Registrar<FreeLookCameraController> registrar;
 	float zoomSpeed = 15.0f;
 	float panSpeed = 0.1f;
-	float xRotSpeed = 0.05f;
-	float yRotSpeed = 0.05f;
+	float xRotSpeed = 5.0f;
+	float yRotSpeed = 5.0f;
 	//float fov = 45.0f;
 	FreeLookCameraController();
 	~FreeLookCameraController();
