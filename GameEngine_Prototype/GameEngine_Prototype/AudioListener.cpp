@@ -17,11 +17,11 @@ void AudioListener::Update()
 	//AudioManager::getInstance().sound.Set3dListenerAndOrientation(camLocation, camLocation, camLocation);
 
 	glm::vec3 p = this->gameObject->transform->getPosition();
-	pos.x = -(p.x);//currently opposite for right now, i think it has to do with correctly forward and if not then with up, it could have to both with either
+	pos.x = p.x;//currently opposite for right now, i think it has to do with correctly forward and if not then with up, it could have to both with either
 					//has to do with if they are opposite
 	pos.y = p.y;
 	pos.z = p.z;
-	glm::vec3 f = this->gameObject->transform->getForwardDirection();
+	glm::vec3 f = - (this->gameObject->transform->getForwardDirection()); // Flips the facing of the forward.
 	forward.x = f.x;
 	forward.y = f.y;
 	forward.z = f.z;

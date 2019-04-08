@@ -14,7 +14,8 @@ ModelLibrary::~ModelLibrary() {}
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
-	std::cout << "ModelLibrary.LoadAsset filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::LoadAsset called with argument\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
 	Model* model = new Model();
 	std::string pathToObjModel = filePath;
 
@@ -68,15 +69,17 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 }
 
 // Process the material for the mesh
-Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
+Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath) // path to obj file.
 {
-	std::cout << "ModelLibrary.processMeshMaterial: filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary.processMeshMaterial called with arguments\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
 	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
 	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 	
-	// only used name of the material to get it
+	// only used name of the material to get it (not anymore)
+	std::cout << "\nmatFilePath (fileName): " << matFilePath << std::endl;
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
 
 	
@@ -107,7 +110,10 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 // Check material textures of a given type and loads texture if not loaded yet
 std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
-	std::cout << "ModelLibrary.loadMaterialTextures: filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::loadMaterialTextures called with arguments\n";
+	std::cout << "\ttypeName: " << typeName << std::endl;
+	std::cout << "\tfilePath: " << filePath << std::endl;
+
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 

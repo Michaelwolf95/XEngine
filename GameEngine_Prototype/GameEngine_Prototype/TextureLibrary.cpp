@@ -10,6 +10,8 @@ TextureLibrary::~TextureLibrary() {}
 // Calls AssetManager::LoadTextureAsset to load texture into memory and assign texture ID.
 Texture & TextureLibrary::LoadAsset(std::string filePath)
 {
+	std::cout << "TextureLibrary::LoadAsset with arguments\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
 	Texture* text = new Texture();
 	text->path = filePath;
 

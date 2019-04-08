@@ -34,6 +34,9 @@ public:
 	virtual void FixedUpdate() {};
 	virtual void OnDestroy() {};
 
+	virtual void OnEnable() {};
+	virtual void OnDisable() {};
+
 	virtual void OnDrawGizmos() {};
 	virtual void OnDrawGizmosSelected() {};
 

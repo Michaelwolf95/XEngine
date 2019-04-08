@@ -50,5 +50,6 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(soundPath);
 		ar & BOOST_SERIALIZATION_NVP(is3D);
+		ar & BOOST_SERIALIZATION_NVP(repeat);
 	}
 };

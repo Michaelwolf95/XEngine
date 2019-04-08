@@ -9,8 +9,6 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "Input.h"
-#include "PointLightComponent.h"
-#include "GlobalLightComponent.h"
 
 REGISTER_COMPONENT(SimpleModelComponent, "SimpleModelComponent")
 
@@ -152,7 +150,7 @@ void SimpleModelComponent::Draw()
 	//glUniformli
 	material->shader->setInt("Texture", material->textureID);
 
-	// TODO:: place this into material
+	// TODO:: place this into material (with texture properties?)
 	// bind textures on corresponding texture unit
 	glActiveTexture(GL_TEXTURE0);
 	// put the texture with this ID into texture location 0

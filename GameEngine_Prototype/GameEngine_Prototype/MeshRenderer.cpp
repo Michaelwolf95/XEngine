@@ -29,9 +29,6 @@
 #include "MeshRenderer.h"
 #include "AssetManager.h"
 
-
-
-
 #include "CameraComponent.h"
 
 
@@ -51,11 +48,23 @@ MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma): g
 
 MeshRenderer::~MeshRenderer() 
 {
-	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+	OnDisable();
 }
 
 void MeshRenderer::Start() {}
 void MeshRenderer::Update() {}
+
+void MeshRenderer::OnEnable()
+{
+	this->render_enabled = true;
+	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+}
+
+void MeshRenderer::OnDisable()
+{
+	this->render_enabled = false;
+	RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+}
 
 void MeshRenderer::Setup()
 {
@@ -63,9 +72,12 @@ void MeshRenderer::Setup()
 	{
 		return;
 	}
-
-	render_enabled = true;
-	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+	
+	//if (this->gameObject->IsActiveInHierarchy())
+	//{
+	//	render_enabled = true;
+	//	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+	//}
 
 	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;

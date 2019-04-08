@@ -4,25 +4,19 @@
 #include "Serialization.h"
 #include "GLM_Serialize.h"
 #include "Texture.h"
-//#include "AssetManager.h"
 
-
-//class MaterialPropertyBase
-//{
-//	virtual void getValue(void* &val) = 0;
-//};
-
-template<typename T>
-class MaterialProperty //: public MaterialPropertyBase
+template<class T>
+class MaterialProperty
 {
 public:
-	MaterialProperty() {};
+	MaterialProperty() { value = T(); };
 
 	std::string propertyName = "";
 
-	//virtual void getValue(void* &val);
-	virtual T getValue() = 0;
-	virtual void setValue(T val) = 0;
+	virtual T getValue() { return value; };
+	virtual void setValue(T val) {
+		value = val;
+	};
 protected:
 	T value;
 
@@ -38,25 +32,18 @@ BOOST_SERIALIZATION_ASSUME_ABSTRACT(MaterialProperty)
 
 class FloatProperty : public MaterialProperty<float>
 {
-public:
-	FloatProperty();
-	virtual float getValue() override;
-	virtual void setValue(float val) override;
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
 	void serialize(Archive &ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
+		ar & BOOST_SERIALIZATION_NVP(value);
 	}
 };
 
 class IntProperty : public MaterialProperty<int>
 {
-public:
-	IntProperty();
-	virtual int getValue() override;
-	virtual void setValue(int val) override;
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
@@ -69,10 +56,6 @@ private:
 
 class Vec2Property : public MaterialProperty<glm::vec2>
 {
-public:
-	Vec2Property();
-	virtual glm::vec2 getValue() override;
-	virtual void setValue(glm::vec2 val) override;
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
@@ -85,10 +68,6 @@ private:
 
 class Vec3Property : public MaterialProperty<glm::vec3>
 {
-public:
-	Vec3Property();
-	virtual glm::vec3 getValue() override;
-	virtual void setValue(glm::vec3 val) override;
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
@@ -101,10 +80,6 @@ private:
 
 class Vec4Property : public MaterialProperty<glm::vec4>
 {
-public:
-	Vec4Property();
-	virtual glm::vec4 getValue() override;
-	virtual void setValue(glm::vec4 val) override;
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
@@ -119,10 +94,7 @@ private:
 class TextureProperty : public MaterialProperty<Texture*>
 {
 public:
-	TextureProperty();
-
-	virtual Texture* getValue() override;
-	virtual void setValue(Texture* val) override;
+	TextureProperty() : MaterialProperty<Texture*>() { value = nullptr; };
 private:
 	void LoadTextureFromPath(std::string filePath);
 	friend class boost::serialization::access;
@@ -143,20 +115,3 @@ private:
 		LoadTextureFromPath(filePath);
 	}
 };
-//
-//template<typename T>
-//inline MaterialProperty<T>::MaterialProperty()
-//{
-//}
-
-//template<typename T>
-//inline void * MaterialProperty<T>::getValue0(void* &val)
-//{
-//	val = value;
-//}
-
-//template<typename T>
-//inline T MaterialProperty<T>::getValue()
-//{
-//	return (T)getValue0();
-//}

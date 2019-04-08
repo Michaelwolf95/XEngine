@@ -11,6 +11,7 @@ class Shader
 public:
 	// the program ID
 	unsigned int ID;
+	std::string vFilePath; // TODO: used by material retrieve file for parsing defaults
 
 	// constructor reads and builds the shader
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);

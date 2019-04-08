@@ -12,7 +12,6 @@ class GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
 	Transform* transform;
-	bool isActive = true;
 	std::string name;
 	std::vector<Component_ptr> components;
 	GameObject(const char* _name = nullptr);
@@ -20,6 +19,10 @@ public:
 
 	std::vector<GameObject*> GetChildren();
 	GameObject* GetChild(int index);
+
+	bool IsActiveInHierarchy();
+	void SetActive(bool active);
+	void HandleHierarchyChanged();
 
 	void AddComponent(Component_ptr comp);
 	void RemoveComponent(Component_ptr comp);
@@ -36,6 +39,11 @@ public:
 
 	GameObject_ptr GetSelfPtr();
 private:
+	friend class Transform;
+	bool isActive = true;
+	bool parentHierarchyActive = true;
+	void HandleEnable();
+	void HandleDisable();
 
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -43,6 +51,7 @@ private:
 	void save(Archive & ar, const unsigned int version) const
 	{
 		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(isActive);
 		ar & BOOST_SERIALIZATION_NVP(transform);
 		ar & BOOST_SERIALIZATION_NVP(components);
 	}
@@ -50,6 +59,7 @@ private:
 	void load(Archive & ar, const unsigned int version) // file_version
 	{
 		ar & BOOST_SERIALIZATION_NVP(name);
+		ar & BOOST_SERIALIZATION_NVP(isActive);
 		ar & BOOST_SERIALIZATION_NVP(transform);
 		transform->gameObject = this;
 		
@@ -58,6 +68,10 @@ private:
 		for (Component_ptr c : components)
 		{
 			c->gameObject = this;
+		}
+		if (this->IsActiveInHierarchy())
+		{
+			HandleEnable();
 		}
 	}
 

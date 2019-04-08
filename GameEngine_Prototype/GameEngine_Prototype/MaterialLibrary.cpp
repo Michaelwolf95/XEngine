@@ -30,6 +30,7 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 	{
 		// Not found in library.
 		std::cout << "Material not found in Library" << std::endl;
+		std::cout << "\tfileName: " << fileName << std::endl;
 		return LoadAsset(fileName);
 	}
 	else
@@ -48,7 +49,8 @@ Material *& MaterialLibrary::LoadAsset(std::string filePath)
 	size_t lastindex = fileName.find_last_of(".");
 	std::string materialName = fileName.substr( 0, lastindex );
 
-	Material* loadedMaterial =  new Material(materialName, "multilights.vs", "multilights.fs");
+	//Material* loadedMaterial =  new Material(materialName, "multilights.vs", "multilights.fs");
+	Material* loadedMaterial =  new Material(materialName, "multilights.shader", "");
 	loadedMaterial->filePath = filePath;
 
 	// load from file in directory

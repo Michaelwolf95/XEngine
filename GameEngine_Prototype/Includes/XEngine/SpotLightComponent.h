@@ -7,20 +7,22 @@
 
 #define VAR_NAME(Var) (#Var)
 
-class DLLExport PointLightComponent : public LightComponent
+class DLLExport SpotLightComponent : public LightComponent
 {
 public:
-	static Registrar<PointLightComponent> registrar;
-	static const LightType TYPE_ID = LightType::PointLight;
+	static Registrar<SpotLightComponent> registrar;
+	static const LightType TYPE_ID = LightType::SpotLight;
 
-	// position is a function of transform component
 	float constant;
 	float linear;
 	float quadratic;
+	float cutOff;
+	float outerCutOff;
 
-	PointLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 1.0f, float _ambience = 0.1f, 
-		float _constant = 1.0f, float _linear = 0.09f, float _quadratic = 0.032f);
-	~PointLightComponent();
+	SpotLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 30.0f, float _ambience = 0.1f,
+		float _constant = 1.0f, float _linear = 0.09f, float _quadratic = 0.032f,
+		float _cutOff = glm::cos(glm::radians(12.5f)), float _outerCutOff = glm::cos(glm::radians(17.5f)));
+	~SpotLightComponent();
 
 	void Start() override;
 	void Update() override;
@@ -38,7 +40,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(constant);
 		ar & BOOST_SERIALIZATION_NVP(linear);
 		ar & BOOST_SERIALIZATION_NVP(quadratic);
-
-
+		ar & BOOST_SERIALIZATION_NVP(cutOff);
+		ar & BOOST_SERIALIZATION_NVP(outerCutOff);		
 	}
 };
