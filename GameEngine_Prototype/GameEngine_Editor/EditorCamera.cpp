@@ -120,8 +120,8 @@ namespace XEngine::Editor
 					glm::vec2 currentDragPos = Input::GetMousePos();
 					glm::vec2 deltaPos = currentDragPos - lastDragPos;
 					lastDragPos = currentDragPos;
-					float deltaYRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
-					float deltaXRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
+					float deltaXRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
+					float deltaYRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
 
 					glm::vec3 localRot = gameObject->transform->getLocalRotationEuler();
 
@@ -131,7 +131,7 @@ namespace XEngine::Editor
 					//direction.y -= deltaXRot;
 					//gameObject->transform->LookAt(gameObject->transform->getPosition() - direction);
 
-					localRot = glm::vec3(localRot.x + deltaXRot, localRot.y - deltaYRot, localRot.z);
+					localRot = glm::vec3(localRot.x + deltaYRot, localRot.y - deltaXRot, localRot.z);
 					gameObject->transform->setLocalRotationEuler(localRot);
 				}
 				else
