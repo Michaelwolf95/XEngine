@@ -514,8 +514,8 @@ void MeshRenderer::DrawInspector()
 		//model->MeshToMaterial.clear();
 		//model->meshes.clear();
 		model = nullptr;
-
-		LoadModel();
+		isSetup = false;
+		Setup();
 	}
 
 	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
@@ -533,16 +533,10 @@ void MeshRenderer::DrawInspector()
 				if (fileName.substr(fileName.find_last_of(".")) == ".obj")
 				{
 					std::cout << "Dropping MODEL!" << std::endl;
-					//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
-					//size_t lastindex = fileName.find_last_of(".");
-					//fileName = fileName.substr(0, lastindex);
-					/*
-					Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
-					if (mat != nullptr)
-					{
-						*this = *mat;
-						std::cout << "Dropping MODEL!" << std::endl;
-					}*/
+				
+					// temporary fix, replace any backward slash with a forward slash
+					std::replace(fileName.begin(), fileName.end(), '\\', '/' );
+
 					pathToObjModel = fileName;
 				}
 			}
