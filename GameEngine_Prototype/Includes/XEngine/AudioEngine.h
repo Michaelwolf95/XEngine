@@ -55,6 +55,7 @@ public:
 	static void Update();
 	static void Shutdown();
 	static int ErrorCheck(FMOD_RESULT result);
+	FMOD::Channel* aChannel;// for pausing channel
 
 	void LoadBank(const std::string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
 	void LoadEvent(const std::string& strEventName);
@@ -73,6 +74,8 @@ public:
 	void StopAllChannels();
 	void SetChannel3dPosition(int nChannelId, const glm::vec3& vPosition);
 	void SetChannelVolume(int nChannelId, float fVolumedB);
+	void Pause();
+	void UnPause();
 	bool IsPlaying(int nChannelId) const;
 	bool IsEventPlaying(const string &strEventName) const;
 	float dbToVolume(float dB);
