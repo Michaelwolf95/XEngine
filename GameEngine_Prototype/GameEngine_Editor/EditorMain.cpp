@@ -76,7 +76,7 @@ namespace XEngine::Editor
 
 		if (Input::GetKeyDown(GLFW_KEY_SPACE))
 		{
-			std::cout << "Editor: " << XEngine::number << std::endl;
+			//std::cout << "Editor: " << XEngine::number << std::endl;
 		}
 
 	}

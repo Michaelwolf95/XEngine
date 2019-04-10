@@ -22,7 +22,7 @@ namespace XEngine
 
 	bool useDefaultSceneInitialization = true;
 
-	int number = 1;
+	//int number = 1;
 
 	// Main Game Function.
 	int ENGINE_MAIN()

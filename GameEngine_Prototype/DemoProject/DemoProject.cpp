@@ -6,5 +6,5 @@
 
 void print_some_number()
 {
-	std::cout << XEngine::number << std::endl;
+	//std::cout << XEngine::number << std::endl;
 }
