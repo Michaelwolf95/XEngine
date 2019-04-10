@@ -407,14 +407,14 @@ void Material::DrawInspector()
 					IM_ASSERT(payload->DataSize == 128);
 					const char* payload_n = (const char*)payload->Data;
 
-					std::string fileName(payload_n);
-					if (fileName.substr(fileName.find_last_of(".")) == ".material")
+					std::string filePath(payload_n);
+					if (filePath.substr(filePath.find_last_of(".")) == ".material")
 					{
 						std::cout << "Dropping Material!" << std::endl;
 						//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
 						//size_t lastindex = fileName.find_last_of(".");
 						//fileName = fileName.substr(0, lastindex);
-						Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+						Material* mat = AssetManager::getInstance().materialLib.GetAsset(filePath);
 						if (mat != nullptr)
 						{
 							*this = *mat;

@@ -688,7 +688,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				selectedGameObject = go;
 				// Create Box Material
 				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
-				Material* modelMaterial = new Material("MultiLight SimpleModel");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_SimpleModel.material");
 
 				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
 
@@ -705,7 +705,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("3D Model Crate");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Model_Crate.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
 				go->AddComponent(modelNano);
 			}
@@ -715,7 +715,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("3D Model Wooden Crate");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
 				go->AddComponent(modelNano);
 			}
@@ -729,7 +729,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 					selectedGameObject = go;
 
 					// Create Box Material
-					Material* modelMaterial = new Material("MultiLight Model");
+					Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
 					modelMaterial->LoadTexture("textures/container.jpg");
 					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
 						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
@@ -742,7 +742,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("MultiLight Model");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
