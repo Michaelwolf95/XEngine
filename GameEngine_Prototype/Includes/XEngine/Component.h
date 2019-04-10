@@ -8,14 +8,14 @@
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
 
-struct ComponentTypeInfo;
-typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;
-
 // Defining the components for DLL export bypasses issues where 
 // the static library wont compile unused classes.
 // We need them to compile for registration.
 // https://stackoverflow.com/questions/873731/object-registration-in-static-library
 #define DLLExport __declspec(dllexport)
+
+struct ComponentTypeInfo;
+typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;
 
 class DLLExport Component
 {

@@ -37,6 +37,8 @@ namespace XEngine
 	extern EngineEvent OnEnginePostRender;
 	extern EngineEvent OnApplicationClose;
 
+	extern int number;
+
 	// Flag to load scenes normally. (Used by editor.)
 	// Set to false if you are replacing the scene loading functionality.
 	extern bool useDefaultSceneInitialization;
