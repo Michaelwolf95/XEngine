@@ -280,6 +280,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
@@ -348,6 +349,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\Camera.h" />
     <ClInclude Include="..\Includes\XEngine\CameraComponent.h" />
     <ClInclude Include="..\Includes\XEngine\CameraSwapper.h" />
+    <ClInclude Include="..\Includes\XEngine\Collider.h" />
     <ClInclude Include="..\Includes\XEngine\Component.h" />
     <ClInclude Include="..\Includes\XEngine\ConsoleThread.h" />
     <ClInclude Include="..\Includes\XEngine\CoreComponents.h" />

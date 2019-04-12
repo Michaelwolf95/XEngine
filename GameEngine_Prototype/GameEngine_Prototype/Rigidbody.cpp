@@ -45,12 +45,14 @@ namespace XEngine
 	void Rigidbody::Init()
 	{
 		std::cout << "\t\tInitializing Rigidbody..." << std::endl;
+
+		// Collider
 		glm::vec3 scale = this->gameObject->transform->getScale() * 0.5f;
 		boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
 		colShape = new btBoxShape(*boxColliderHalfExtents);
 		PhysicsManager::getInstance().AddCollisionShape(colShape);
 
-		/// Create Dynamic Objects
+		// Create Dynamic Objects
 		physTransformModel = new btTransform();
 		physTransformModel->setIdentity();
 		SyncPhysicsModelWithTransform();
