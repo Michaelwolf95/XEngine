@@ -11,6 +11,7 @@ public:
 	//float range, distance;
 	bool is3D = false;
 	bool repeat = false;
+	bool pauseToggle = true;
 
 	std::string soundPath;
 	AudioComponent();
