@@ -19,7 +19,7 @@ public:
 	float cutOff;
 	float outerCutOff;
 
-	SpotLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 30.0f, float _ambience = 0.1f,
+	SpotLightComponent(glm::vec4 _color = glm::vec4(1.0f), float _intensity = 15.0f, float _ambience = 0.1f,
 		float _constant = 1.0f, float _linear = 0.09f, float _quadratic = 0.032f,
 		float _cutOff = glm::cos(glm::radians(12.5f)), float _outerCutOff = glm::cos(glm::radians(17.5f)));
 	~SpotLightComponent();
