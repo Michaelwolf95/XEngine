@@ -176,7 +176,6 @@ void Material::LoadTexture(const char * _textureFilePath) // used in test scenes
 	std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
-	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
 
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }

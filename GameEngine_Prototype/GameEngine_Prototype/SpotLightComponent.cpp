@@ -43,7 +43,6 @@ void SpotLightComponent::Draw(Shader * shader, int &counter)
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "]." + VAR_NAME(outerCutOff), outerCutOff);
 	
 	// color and intensity done here for spotlight since different structure
-	//LightComponent::Draw(shader, counter);
 	shader->setVec4(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(color), color);
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(intensity), intensity);
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(ambience), ambience);
