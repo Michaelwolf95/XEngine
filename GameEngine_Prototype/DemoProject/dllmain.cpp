@@ -11,14 +11,14 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
 		std::cout << "ATTACH" << std::endl;
-		XEngine::number = 2;
+		//XEngine::number = 2;
 
 
 
 		break;
     case DLL_THREAD_ATTACH:
 		std::cout << "THREAD ATTACH" << std::endl;
-		std::cout << "DLL: " << XEngine::number << std::endl;
+		//std::cout << "DLL: " << XEngine::number << std::endl;
 		break;
     case DLL_THREAD_DETACH:
 		std::cout << "THREAD DETACH" << std::endl;

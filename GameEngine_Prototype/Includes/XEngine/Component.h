@@ -1,5 +1,6 @@
 #pragma once
 //#include "XEngine.h"
+#include "LibraryExport.h"
 #include "Serialization.h"
 #include <typeindex>
 #include <unordered_map>
@@ -7,12 +8,6 @@
 #include "imgui.h"
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
-
-// Defining the components for DLL export bypasses issues where 
-// the static library wont compile unused classes.
-// We need them to compile for registration.
-// https://stackoverflow.com/questions/873731/object-registration-in-static-library
-#define DLLExport __declspec(dllexport)
 
 struct ComponentTypeInfo;
 typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;

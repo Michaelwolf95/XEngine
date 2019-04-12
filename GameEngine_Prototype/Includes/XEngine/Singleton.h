@@ -1,4 +1,5 @@
 #pragma once
+#include "LibraryExport.h"
 // Singleton Base Class
 // Based on the following StackOverflow discussions:
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/1008289#1008289
