@@ -26,17 +26,20 @@ void AudioComponent::Update()
 	if (Input::GetKeyDown(GLFW_KEY_SPACE))
 	{
 		Play();
-		//std::cout << "PLAY!" << std::endl;
+		std::cout << "PLAY!" << std::endl;
 	}
-	if (Input::GetKeyDown(GLFW_KEY_ENTER))
+	if (Input::GetKeyDown(GLFW_KEY_P))
 	{
-		Pause();
-		std::cout << "Pause!" << std::endl;
-	}
-	if (Input::GetKeyDown(GLFW_KEY_B))
-	{
-		UnPause();
-		std::cout << "UnPause!" << std::endl;
+		if (pauseToggle) {
+			pauseToggle = false;
+			Pause();
+			std::cout << "Pause!" << std::endl;
+		}
+		else {
+			pauseToggle = true;
+			UnPause();
+			std::cout << "UnPause!" << std::endl;
+		}
 	}
 }
 
