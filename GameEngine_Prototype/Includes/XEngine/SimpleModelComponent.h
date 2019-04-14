@@ -3,7 +3,7 @@
 #include "Component.h"
 #include "PrimitiveModels.h"
 //#include "std/vector"
-class SimpleModelComponent : public RenderableObject, public Component
+class ENGINE_API SimpleModelComponent : public RenderableObject, public Component
 {
 public:
 	static Registrar<SimpleModelComponent> registrar;

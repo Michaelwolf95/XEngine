@@ -6,7 +6,7 @@
 #include "Serialization.h"
 #include "GLM_Serialize.h"
 //class Component;
-class Transform : public Component
+class ENGINE_API Transform : public Component
 {
 public:
 	static Registrar<Transform> registrar;

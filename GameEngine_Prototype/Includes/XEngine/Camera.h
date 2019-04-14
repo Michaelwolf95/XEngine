@@ -1,4 +1,5 @@
 #pragma once
+#include "LibraryExport.h"
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -6,7 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 //using namespace glm;
 
-class Camera
+class ENGINE_API Camera
 {
 public:
 	Camera();

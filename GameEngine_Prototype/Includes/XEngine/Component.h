@@ -1,5 +1,6 @@
 #pragma once
 //#include "XEngine.h"
+#include "LibraryExport.h"
 #include "Serialization.h"
 #include <typeindex>
 #include <unordered_map>
@@ -15,9 +16,9 @@ typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;
 // the static library wont compile unused classes.
 // We need them to compile for registration.
 // https://stackoverflow.com/questions/873731/object-registration-in-static-library
-#define DLLExport __declspec(dllexport)
+//define ENGINE_API __declspec(dllexport)
 
-class DLLExport Component
+class ENGINE_API Component
 {
 public:
 	static typemap & registry();
@@ -61,7 +62,7 @@ typedef std::shared_ptr<Component> Component_ptr;
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(Component)
 
-struct ComponentTypeInfo
+struct ENGINE_API ComponentTypeInfo
 {
 public:
 	std::string name;
@@ -90,7 +91,7 @@ Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Compon
 // Potential shortcut for component class declarations.
 // Probably annoying because of the brace.
 #define COMPONENT_CLASS(className)				\
-class DLLExport className : public Component {	\
+class ENGINE_API className : public Component {	\
 public:											\
 static Registrar<className> registrar;			\
 /**/

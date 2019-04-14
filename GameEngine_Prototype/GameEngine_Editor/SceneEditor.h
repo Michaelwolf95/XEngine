@@ -1,5 +1,6 @@
 #pragma once
 //#include "Component.h"
+#include "XEngine.h"
 #include "Serialization.h"
 #include "Singleton.h"
 #include "Scene.h"

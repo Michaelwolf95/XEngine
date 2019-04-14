@@ -10,7 +10,7 @@
 #include "GizmoSpriteDrawer.h"
 //using namespace glm;
 
-class DLLExport CameraComponent : public Component, public Camera
+class ENGINE_API CameraComponent : public Component, public Camera
 {
 public:
 	static Registrar<CameraComponent> registrar;

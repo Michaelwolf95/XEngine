@@ -1,9 +1,10 @@
 #pragma once
+#include "LibraryExport.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Material.h"
 
-class RenderableObject
+class ENGINE_API RenderableObject
 {	
 public:
 	bool render_enabled = false;

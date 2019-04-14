@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <glm/glm.hpp>
-class DLLExport FreeLookCameraController : public Component
+class ENGINE_API FreeLookCameraController : public Component
 {
 public:
 	static Registrar<FreeLookCameraController> registrar;

@@ -9,7 +9,7 @@
 //include <stb/stb_image.h> 
 #endif
 
-#include "XEngine.h"
+#include "XEngineEditor.h"
 
 #include "SceneEditor.h"
 

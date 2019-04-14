@@ -101,7 +101,8 @@ namespace XEngine::Editor
 				{
 					clickPos = Input::GetMousePos();
 					lastDragPos = clickPos;
-					glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+					//TODO: Replace this with an Input call.
+					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 					camMode = EditorCameraMode::Rotate;
 					break;
 				}
@@ -109,7 +110,7 @@ namespace XEngine::Editor
 				{
 					clickPos = Input::GetMousePos();
 					lastDragPos = clickPos;
-					glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 					camMode = EditorCameraMode::Pan;
 					break;
 				}
@@ -136,7 +137,7 @@ namespace XEngine::Editor
 				}
 				else
 				{
-					glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					camMode = EditorCameraMode::None;
 				}
 				break;
@@ -158,7 +159,7 @@ namespace XEngine::Editor
 				}
 				else
 				{
-					glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					camMode = EditorCameraMode::None;
 				}
 
@@ -167,52 +168,52 @@ namespace XEngine::Editor
 				break;
 			}
 
-			// Popup Window Experiment.
-			if (menuWindow != nullptr)
-			{
-				glfwMakeContextCurrent(menuWindow);
-				glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-				glClear(GL_COLOR_BUFFER_BIT);
-			}
+			//// Popup Window Experiment.
+			//if (menuWindow != nullptr)
+			//{
+			//	glfwMakeContextCurrent(menuWindow);
+			//	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			//	glClear(GL_COLOR_BUFFER_BIT);
+			//}
 
-			//std::cout << "Read Input: " << Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) << std::endl;
-			if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) && Input::GetKey(GLFW_KEY_LEFT_SHIFT))
-			{
-				if (menuWindow != nullptr)
-				{
-					glfwDestroyWindow(menuWindow);
-					menuWindow = nullptr;
-					glfwSwapBuffers(ApplicationManager::APP_WINDOW);
-					glfwMakeContextCurrent(ApplicationManager::APP_WINDOW);
-					return;
-				}
-				std::cout << "Opening 'Context Menu'" << std::endl;
-				//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-				//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-				//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-				glfwWindowHint(GLFW_FLOATING, true);
-				glfwWindowHint(GLFW_DECORATED, false);
-				glfwWindowHint(GLFW_VISIBLE, true);
-				////glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-				//glfwWindowHint(GLFW_RESIZABLE, false);
+			////std::cout << "Read Input: " << Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) << std::endl;
+			//if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT) && Input::GetKey(GLFW_KEY_LEFT_SHIFT))
+			//{
+			//	if (menuWindow != nullptr)
+			//	{
+			//		glfwDestroyWindow(menuWindow);
+			//		menuWindow = nullptr;
+			//		glfwSwapBuffers(ApplicationManager::APP_WINDOW);
+			//		glfwMakeContextCurrent(ApplicationManager::APP_WINDOW);
+			//		return;
+			//	}
+			//	std::cout << "Opening 'Context Menu'" << std::endl;
+			//	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+			//	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+			//	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			//	glfwWindowHint(GLFW_FLOATING, true);
+			//	glfwWindowHint(GLFW_DECORATED, false);
+			//	glfwWindowHint(GLFW_VISIBLE, true);
+			//	////glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+			//	//glfwWindowHint(GLFW_RESIZABLE, false);
 
-				menuWindow = glfwCreateWindow(120, 220, "Second Window", NULL, ApplicationManager::APP_WINDOW);
-				//GLFWwindow* second_window = glfwCreateWindow(100, 200, "Second Window", 0, 0);
-				//GLFWwindow* window = glfwCreateWindow(250, 500, "My Title", NULL, NULL);
-				//glfwSetWindowAttrib(second_window, GLFW_DECORATED);
-				//glfwSetWindowparam
+			//	menuWindow = glfwCreateWindow(120, 220, "Second Window", NULL, ApplicationManager::APP_WINDOW);
+			//	//GLFWwindow* second_window = glfwCreateWindow(100, 200, "Second Window", 0, 0);
+			//	//GLFWwindow* window = glfwCreateWindow(250, 500, "My Title", NULL, NULL);
+			//	//glfwSetWindowAttrib(second_window, GLFW_DECORATED);
+			//	//glfwSetWindowparam
 
-				int xPos, yPos;
-				double xPosCursor, yPosCursor;
-				//getting cursor position
-				glfwGetWindowPos(ApplicationManager::APP_WINDOW, &xPos, &yPos);
-				glfwGetCursorPos(ApplicationManager::APP_WINDOW, &xPosCursor, &yPosCursor);
-				glfwSetWindowPos(menuWindow, xPos + xPosCursor, yPos + yPosCursor);
+			//	int xPos, yPos;
+			//	double xPosCursor, yPosCursor;
+			//	//getting cursor position
+			//	glfwGetWindowPos(ApplicationManager::APP_WINDOW, &xPos, &yPos);
+			//	glfwGetCursorPos(ApplicationManager::APP_WINDOW, &xPosCursor, &yPosCursor);
+			//	glfwSetWindowPos(menuWindow, xPos + xPosCursor, yPos + yPosCursor);
 
-				glfwShowWindow(menuWindow);
-				glfwSwapBuffers(menuWindow);
-				//glfwMakeContextCurrent(second_window);
-			}
+			//	glfwShowWindow(menuWindow);
+			//	glfwSwapBuffers(menuWindow);
+			//	//glfwMakeContextCurrent(second_window);
+			//}
 
 
 		}

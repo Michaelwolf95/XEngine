@@ -2,7 +2,7 @@
 #include <vector>
 #include "GameObject.h"
 #include "Serialization.h"
-class Scene
+class ENGINE_API Scene
 {
 public:
 	std::string name;
