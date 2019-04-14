@@ -10,6 +10,10 @@
 #define PROJECT_API __declspec(dllimport)
 #endif
 
+#include "XEngine.h"
+
+
+
 // This class is exported from the dll
 class PROJECT_API CDemoProject {
 public:

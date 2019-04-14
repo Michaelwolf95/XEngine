@@ -11,6 +11,7 @@
 
 #include "XEngineEditor.h"
 
+#include "ProjectCompiler.h"
 #include "SceneEditor.h"
 
 #include <Windows.h>
@@ -31,7 +32,9 @@ namespace XEngine::Editor
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
 		std::cout << "API Mode: " << API_MODE << std::endl;
 
-		LoadUserProject();
+		ProjectCompiler* compiler = ProjectCompiler::CreateManager();
+		
+		compiler->LoadProjectLibrary();
 
 		XEngine::OnEngineInit = &Editor_Init;
 		XEngine::OnEngineUpdate = &Editor_Update;
@@ -66,30 +69,6 @@ namespace XEngine::Editor
 	void Editor_ApplicationClose()
 	{
 		XEngine::Editor::SceneEditor::getInstance().ShutDown();
-	}
-	void LoadUserProject()
-	{
-		HINSTANCE hinstLib;
-		BOOL fFreeResult, fRunTimeLinkSuccess = FALSE;
-
-
-		//Component::PrintRegistry();
-
-		// Get a handle to the DLL module.
-		Component::PrintRegistry();
-
-		std::cout << "Loading UserProject:\n";
-		hinstLib = LoadLibrary(TEXT("DEMOPROJECT.dll"));
-
-		Component::PrintRegistry();
-
-		//std::cout << "Generating Objects from Registry:\n";
-		/*for (size_t i = 0; i < Component::ComponentRegistry().size(); i++)
-		{
-			std::cout << "\t" << Component::ComponentRegistry()[i].name << std::endl;
-			Component* c = Component::ComponentRegistry()[i].Constructor();
-			c->Init();
-		}*/
 	}
 }
 

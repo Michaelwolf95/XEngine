@@ -1,6 +1,5 @@
 #pragma once
-#include "XEngine.h"
-#include "DemoProject.h"
+#include "XEngineProject.h"
 #include "Component.h"
 
 class PROJECT_API UserComponent : public Component

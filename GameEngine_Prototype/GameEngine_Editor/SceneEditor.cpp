@@ -15,6 +15,8 @@
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
 #include <filesystem> // C++ 17 Filesystem
 
+#include "ProjectCompiler.h"
+
 namespace XEngine::Editor {
 
 
@@ -646,6 +648,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			ImGui::EndMenu();
 		}
+		// CREATE MENU =============================================================
 		if (ImGui::BeginMenu("Create"))
 		{
 			// TODO: Create a way to add to this menu from another file.
@@ -750,7 +753,31 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 			ImGui::EndMenu();
 		}
-
+		if (ImGui::BeginMenu("Code"))
+		{
+			if (ImGui::Button("Recompile"))
+			{
+				// TODO: Finish this...?
+				std::cout << "Recompile" << std::endl;
+				//std::string buildCommand;
+				ProjectCompiler::getInstance().CompileProject();
+			}
+			if (ImGui::Button("Reload"))
+			{
+				// TODO: Finish this...?
+				std::cout << "Reload" << std::endl;
+				//std::string buildCommand;
+				ProjectCompiler::getInstance().LoadProject();
+			}
+			if (ImGui::Button("Unload"))
+			{
+				// TODO: Finish this...?
+				std::cout << "Unloading User PRoject" << std::endl;
+				//std::string buildCommand;
+				ProjectCompiler::getInstance().UnloadProjectLibrary();
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Build"))
 		{
 			if (ImGui::Button("Build Project"))
@@ -761,7 +788,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("ImGUI Demo"))
+		if (ImGui::BeginMenu("Misc"))
 		{
 			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
 			ImGui::EndMenu();

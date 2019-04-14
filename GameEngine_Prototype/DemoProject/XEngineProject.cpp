@@ -1,9 +1,6 @@
 // DemoProject.cpp : Defines the exported functions for the DLL application.
 //
-
-#include "stdafx.h"
-#include "DemoProject.h"
-
+#include "XEngineProject.h"
 
 // This is an example of an exported variable
 PROJECT_API int nDemoProject=0;
