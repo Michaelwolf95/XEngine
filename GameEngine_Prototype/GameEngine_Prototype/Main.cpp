@@ -26,7 +26,7 @@ namespace XEngine
 	int ENGINE_API ENGINE_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
-
+		std::cout << "API Mode: " << API_MODE << std::endl;
 		// Init Managers
 		ApplicationManager::CreateManager();
 		GameTime::CreateManager();

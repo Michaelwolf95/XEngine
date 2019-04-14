@@ -26,6 +26,7 @@ namespace XEngine::Editor
 	int EDITOR_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
+		std::cout << "API Mode: " << API_MODE << std::endl;
 
 		XEngine::OnEngineInit = &Editor_Init;
 		XEngine::OnEngineUpdate = &Editor_Update;
