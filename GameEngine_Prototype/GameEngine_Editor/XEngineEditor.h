@@ -5,3 +5,8 @@
 #define EDITOR_API __declspec(dllimport)
 #endif
 #include "XEngine.h"
+
+namespace XEngine::Editor
+{
+	extern void LoadUserProject();
+}

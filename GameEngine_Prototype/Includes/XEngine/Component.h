@@ -23,6 +23,8 @@ class ENGINE_API Component
 public:
 	static typemap & registry();
 
+	static void PrintRegistry();
+
 	// The owner of the component.
 	// Cannot use shared_ptr here due to the way we want things to unload.
 	GameObject* gameObject;
@@ -85,7 +87,7 @@ template <typename T> struct Registrar
 // Note: keep this outside of namespace.
 #define REGISTER_COMPONENT(T, K)                                \
 BOOST_CLASS_EXPORT_GUID(T, K)                                   \
-Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); }));    \
+Registrar<T> T::registrar(*(new ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); })));    \
 /**/
 
 // Potential shortcut for component class declarations.
