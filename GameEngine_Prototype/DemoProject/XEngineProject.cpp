@@ -1,18 +1,22 @@
 // DemoProject.cpp : Defines the exported functions for the DLL application.
 //
 #include "XEngineProject.h"
+#include <SDKDDKVer.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN	
+#endif //!WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
-// This is an example of an exported variable
-PROJECT_API int nDemoProject=0;
-
-// This is an example of an exported function.
-PROJECT_API int fnDemoProject(void)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-    return 42;
-}
-
-// This is the constructor of a class that has been exported.
-CDemoProject::CDemoProject()
-{
-    return;
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		//ToDo: Refresh / clean component registry.
+		break;
+	}
+	return TRUE;
 }
