@@ -79,6 +79,13 @@ template <typename T> struct Registrar
 {
 	Registrar(ComponentTypeInfo & s)
 	{
+		//ComponentTypeInfo* r = &Component::registry()[typeid(T)];
+		auto got = Component::registry().find(typeid(T));
+		if (got != Component::registry().end())
+		{
+			std::cout << "Registrar already exists.\n";
+		}
+
 		Component::registry()[typeid(T)] = s;
 	}
 };
