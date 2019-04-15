@@ -33,14 +33,12 @@ bool ProjectCompiler::LoadProject()
 
 bool ProjectCompiler::CompileProject()
 {
-	std::cout << "Unloading Library..." << std::endl;
 	UnloadProjectLibrary();
 	std::cout << "Rebuilding Library..." << std::endl;
 	std::string command = "Recompile.bat";
 	char buffer[2048];
-	int n, a = 5, b = 3;
 	std::sprintf(buffer, "%s \"%s\" \"%s\" \"%s\"", batchFileName.c_str(), devEnvPath.c_str(), solutionPath.c_str(), projectPath.c_str());
-	std::cout << buffer << "||" << std::endl;
+	//std::cout << buffer << "||" << std::endl;
 	int result = system(buffer);
 	std::cout << "Build Finished with exit code " << result << std::endl << std::endl;
 
@@ -50,6 +48,7 @@ bool ProjectCompiler::CompileProject()
 bool ProjectCompiler::LoadProjectLibrary()
 {
 	//UnloadProjectLibrary();
+	std::cout << "Loading Library..." << std::endl;
 	if (projectLibraryInstance != NULL)
 	{
 		std::cout << "Project Library already loaded." << std::endl;
@@ -88,6 +87,7 @@ bool ProjectCompiler::LoadProjectLibrary()
 
 bool ProjectCompiler::UnloadProjectLibrary()
 {
+	std::cout << "Unloading Library..." << std::endl;
 	if (projectLibraryInstance == NULL)
 	{
 		std::cout << "No library to unload." << std::endl;

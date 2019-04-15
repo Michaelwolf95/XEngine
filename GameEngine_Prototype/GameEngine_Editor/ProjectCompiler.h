@@ -15,7 +15,7 @@ public:
 	std::string batchFileName = "Recompile.bat";
 	std::string libraryName = "XEngineProject.dll";
 	std::string devEnvPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\";
-	std::string solutionPath = "..\\GameEngine_Prototype.sln";
+	std::string solutionPath = "..\\..\\DemoProject\\DemoProject.sln";
 	std::string projectPath = "DemoProject\\DemoProject.vcxproj";
 
 	bool LoadProject();			// Load library and compile if necessary.

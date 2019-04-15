@@ -16,5 +16,5 @@ void UserComponent::Update()
 
 void UserComponent::DrawInspector()
 {
-	//ImGui::Text("Here's some Text!");
+	ImGui::Text("Here's some Text!");
 }
