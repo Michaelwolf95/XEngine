@@ -33,6 +33,7 @@ bool ProjectCompiler::LoadProject()
 
 bool ProjectCompiler::CompileProject()
 {
+	std::cout << "Unloading Library..." << std::endl;
 	UnloadProjectLibrary();
 	std::cout << "Rebuilding Library..." << std::endl;
 	std::string command = "Recompile.bat";

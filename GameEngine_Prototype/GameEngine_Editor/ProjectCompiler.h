@@ -10,9 +10,10 @@ public:
 	static ProjectCompiler* CreateManager();	// Create static instance and configure manager
 	int Init();									// Init instance.
 
-	// Defaults
-	std::string libraryName = "XEngineProject.dll";
+	// Default names and paths.
+	// TODO: Save these to a preferences file.
 	std::string batchFileName = "Recompile.bat";
+	std::string libraryName = "XEngineProject.dll";
 	std::string devEnvPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\";
 	std::string solutionPath = "..\\GameEngine_Prototype.sln";
 	std::string projectPath = "DemoProject\\DemoProject.vcxproj";

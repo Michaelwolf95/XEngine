@@ -13,3 +13,8 @@ void UserComponent::Start()
 void UserComponent::Update()
 {
 }
+
+void UserComponent::DrawInspector()
+{
+	//ImGui::Text("Here's some Text!");
+}

@@ -10,7 +10,7 @@ public:
 	~UserComponent();
 	void Start() override;
 	void Update() override;
-
+	void DrawInspector() override;
 private:
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

@@ -755,26 +755,12 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		}
 		if (ImGui::BeginMenu("Code"))
 		{
-			if (ImGui::Button("Recompile"))
-			{
-				// TODO: Finish this...?
-				std::cout << "Recompile" << std::endl;
-				//std::string buildCommand;
-				ProjectCompiler::getInstance().CompileProject();
-			}
 			if (ImGui::Button("Reload"))
 			{
 				// TODO: Finish this...?
 				std::cout << "Reload" << std::endl;
 				//std::string buildCommand;
 				ProjectCompiler::getInstance().LoadProject();
-			}
-			if (ImGui::Button("Unload"))
-			{
-				// TODO: Finish this...?
-				std::cout << "Unloading User PRoject" << std::endl;
-				//std::string buildCommand;
-				ProjectCompiler::getInstance().UnloadProjectLibrary();
 			}
 			ImGui::EndMenu();
 		}
@@ -890,6 +876,15 @@ void SceneEditor::InspectorUpdate()
 		// Draw Component Inspectors
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
+			try
+			{
+				typeid(*selectedGameObject->components[i]);
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+
 			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
 			bool isOpen = ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 			
