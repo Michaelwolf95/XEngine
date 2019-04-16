@@ -30,14 +30,18 @@ namespace XEngine::Editor {
 		/*std::string devEnvPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\";
 		std::string solutionPath = "..\\..\\DemoProject\\DemoProject.sln";
 		std::string projectPath = "DemoProject\\DemoProject.vcxproj";*/
+		std::string projectDir = PROJECT_FILE_PATH;
+		ConvertPathToBackslash(projectDir);
 		ProjectSettingsManager* settings = &ProjectSettingsManager::getInstance();
-		return (PROJECT_FILE_PATH + settings->getProjectName() + ".sln");
+		return (projectDir + settings->getProjectName() + ".sln");
 	}
 
 	std::string ProjectCompiler::getProjectPath()
 	{
+		std::string projectDir = PROJECT_FILE_PATH;
+		ConvertPathToBackslash(projectDir);
 		ProjectSettingsManager* settings = &ProjectSettingsManager::getInstance();
-		return (PROJECT_FILE_PATH + settings->getProjectName()+ "\\" + settings->getProjectName() + ".vcxproj");
+		return (projectDir + settings->getProjectName()+ "\\" + settings->getProjectName() + ".vcxproj");
 	}
 
 	std::string ProjectCompiler::getDevEnvPath()
@@ -135,7 +139,13 @@ namespace XEngine::Editor {
 
 	bool ProjectCompiler::CheckIfProjectDirty()
 	{
+		// TODO: Implement dirty check.
 		return true;
 	}
 
+	void ProjectCompiler::ConvertPathToBackslash(std::string &path)
+	{
+		char sep = '/';
+		std::replace(path.begin(), path.end(), '/', '\\');
+	}
 }

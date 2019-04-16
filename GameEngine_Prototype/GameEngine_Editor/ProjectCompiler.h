@@ -32,6 +32,7 @@ namespace XEngine::Editor {
 		//https://stackoverflow.com/questions/50881272/how-can-i-get-vs-to-consider-my-project-dirty-when-only-an-exe-content-item-i
 		bool CheckIfProjectDirty();
 
+		static void ConvertPathToBackslash(std::string &path);
 	protected:
 		ProjectCompiler();
 
