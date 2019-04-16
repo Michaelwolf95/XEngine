@@ -18,12 +18,13 @@ public:
 	//glm::vec4 clearColor = glm::vec4(1.0f);
 	CameraComponent();
 	~CameraComponent();
-	glm::mat4 getProjection() override;
-	glm::mat4 __stdcall getView() override;
-	void Start() override;
-	void Update() override;
+	virtual glm::mat4 getProjection() override;
+	virtual glm::mat4 __stdcall getView() override;
+	virtual void Start() override;
+	virtual void Update() override;
 	void OnDrawGizmos() override;
-	void DrawInspector() override;
+	virtual void DrawInspector() override;
+
 private:
 	// Render state
 	std::shared_ptr<GizmoSpriteDrawer> gizmoDrawer;

@@ -294,7 +294,7 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Source Files\Application</Filter>
     </ClCompile>
-    <ClCompile Include="FPCamera.cpp">
+    <ClCompile Include="CameraControllerComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -542,7 +542,7 @@
     <ClInclude Include="..\Includes\XEngine\TestScenes_Tam.h">
       <Filter>Test Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="FPCamera.h">
+    <ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>

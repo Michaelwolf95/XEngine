@@ -41,7 +41,9 @@ glm::mat4 __stdcall CameraComponent::getView()
 	//OutputDebugStringW(L"Getting CameraComponent View...\n");
 	//std::cout << "Getting CameraComponent View..." << std::endl;
 	glm::vec3 cameraPos = gameObject->transform->getPosition();
-	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + gameObject->transform->getForwardDirection(), gameObject->transform->getUpDirection());
+	glm::mat4 view = glm::lookAt(cameraPos, 
+		cameraPos + glm::normalize(gameObject->transform->getForwardDirection()), 
+		gameObject->transform->getUpDirection());
 
 	return view;
 }
@@ -57,6 +59,6 @@ void CameraComponent::OnDrawGizmos()
 
 void CameraComponent::DrawInspector()
 {
-	ImGui::ColorEdit4("Color", (float*)&clearColor);
-
+	ImGui::ColorEdit4(LABEL("Color "), (float*)&clearColor);
 }
+

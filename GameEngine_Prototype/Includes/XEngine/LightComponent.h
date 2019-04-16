@@ -40,6 +40,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(intensity);
 		ar & BOOST_SERIALIZATION_NVP(color);
 		ar & BOOST_SERIALIZATION_NVP(ambience);
+		ar & BOOST_SERIALIZATION_NVP(UNIFORM_NAME);
 	}
 };
 

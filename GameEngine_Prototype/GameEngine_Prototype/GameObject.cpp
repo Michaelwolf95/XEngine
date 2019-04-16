@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "ApplicationManager.h"
 
+unsigned int GameObject::nextGameObjectID = 0;
+
 GameObject::GameObject(const char* _name)
 {
 	if (_name == nullptr)
@@ -12,6 +14,8 @@ GameObject::GameObject(const char* _name)
 	{
 		name = _name;
 	}
+
+	gameObjectID = GameObject::nextGameObjectID++;
 	transform = new Transform();
 	transform->gameObject = this;// shared_from_this();
 }

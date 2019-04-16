@@ -86,6 +86,10 @@ private:
 	glm::quat _calcLocalRotationFromMatrix();
 	glm::vec3 _calcLocalScaleFromMatrix();
 
+	bool isScaleSlider = true;
+	bool scaleRatioLock = false;
+	glm::vec3 scaleRatio = glm::vec3(1.0f);
+
 	// SERIALIZATION
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

@@ -17,8 +17,8 @@ public:
 	void DrawInspector() override;
 private:
 	unsigned int camMode;
-	glm::vec2 clickPos;
-	glm::vec2 lastDragPos;
+	//glm::vec2 clickPos;
+	//glm::vec2 lastDragPos;
 
 	friend class boost::serialization::access;
 	template<class Archive>

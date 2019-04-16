@@ -2,7 +2,12 @@
 
 typemap & Component::registry() { static typemap impl; return impl; }
 
-Component::Component() {}
+unsigned int Component::nextComponentID = 0;
+
+Component::Component() 
+{
+	componentID = Component::nextComponentID++;
+}
 Component::~Component() {}
 
 // Engine callbacks locking mechanism to assure Start gets called on first update.

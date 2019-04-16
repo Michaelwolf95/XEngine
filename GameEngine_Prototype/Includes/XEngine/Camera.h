@@ -4,6 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "ApplicationManager.h"
+#define SCREEN_RATIO (float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight
 //using namespace glm;
 
 class Camera

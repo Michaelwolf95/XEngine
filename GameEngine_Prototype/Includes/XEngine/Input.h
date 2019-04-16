@@ -47,8 +47,8 @@ private:
 	double yPosLast;
 	double xPos; // TODO: Discuss why we should use 64bit double over 32bit float
 	double yPos;
-	double xScrollOffset;
-	double yScrollOffset;
+	float xScrollOffset;
+	float yScrollOffset;
 	InputState mouse[m_arr_sz];
 	InputState keys[k_arr_sz]; // tracks which keys are pressed
 	Input();
@@ -70,6 +70,7 @@ private:
 	void showCursor(bool enable);
 	void checkKeyInputs();
 	bool toggleCursor();
+	bool isMouseIdle();
 
 protected:
 	// Init instance and setup GLFW, etc.
@@ -90,14 +91,15 @@ public:
 	static bool GetMouseButtonDown(int glfw_mouse_button); 
 	static bool GetMouseButton(int glfw_mouse_button); 
 	static bool GetMouseButtonUp(int glfw_mouse_button); 
-	static double GetScrollOffsetX();
-	static double GetScrollOffsetY();
+	static float GetScrollOffsetX();
+	static float GetScrollOffsetY();
 	static double GetMousePosX();
 	static double GetMousePosY();
 	static double GetDeltaPosX();
 	static double GetDeltaPosY();
 	static void ShowCursor(bool enable);
 	static void ToggleCursor();
+	static bool IsMouseIdle();
 
 	/// Keyboard inputs
 	static bool GetKeyDown(int glfw_key); 
@@ -110,7 +112,7 @@ public:
 	
 	/// Callback functions
 	void _mouse_callback(double xpos, double ypos);
-	void _scroll_callback(double xoffset, double yoffset);
+	void _scroll_callback(float xoffset, float yoffset);
 	void _mouse_button_callback(int button, int action, int mods);
 	
 	// TODO: Maybe return a container with values for each key pressed?

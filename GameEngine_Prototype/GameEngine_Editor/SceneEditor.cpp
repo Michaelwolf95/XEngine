@@ -219,6 +219,8 @@ void SceneEditor::StartEditMode()
 			}
 		}
 		RenderManager::getInstance().setCurrentCamera(editorCamera);
+
+		Input::ShowCursor(true);
 	}
 }
 
