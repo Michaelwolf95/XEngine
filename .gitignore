@@ -39,6 +39,12 @@
 /GameEngine_Prototype/GameEngine_UnitTest/x64/
 /GameEngine_Prototype/GameEngine_UnitTest/x86/
 
+/GameEngine_Prototype/DemoProject/Debug/
+/GameEngine_Prototype/DemoProject/Release/
+/GameEngine_Prototype/DemoProject/Build_Debug/
+/GameEngine_Prototype/DemoProject/x64/
+/GameEngine_Prototype/DemoProject/x86/
+
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/

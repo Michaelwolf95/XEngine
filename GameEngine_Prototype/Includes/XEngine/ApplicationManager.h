@@ -1,4 +1,5 @@
 #pragma once
+#include "LibraryExport.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -28,7 +29,7 @@ struct AppConfig
 	unsigned int screenHeight = 600;
 };
 
-class ApplicationManager : public Singleton<ApplicationManager>
+class ENGINE_API ApplicationManager : public Singleton<ApplicationManager>
 {
 	friend class Singleton<ApplicationManager>;
 public:

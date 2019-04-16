@@ -1,5 +1,6 @@
+#include "LibraryExport.h"
 // Create Cube Model
-float* CUBE_VERTS = new float[180] {
+ENGINE_API float* CUBE_VERTS = new float[180] {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, // 0 L Bottom Back
 	0.5f, -0.5f, -0.5f,   1.0f, 0.0f, // 1 R Bottom Back
 	0.5f,  0.5f, -0.5f,   1.0f, 1.0f, // 2 R Top Back
@@ -42,7 +43,7 @@ float* CUBE_VERTS = new float[180] {
 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
-unsigned int* CUBE_INDICES = new unsigned int[36]{
+ENGINE_API unsigned int* CUBE_INDICES = new unsigned int[36]{
 	0, 1, 2,	0, 2, 3,      // front
 	4, 5, 6,	4, 6, 7,      // back
 	8, 9, 10,	8, 10, 11,    // top
@@ -52,7 +53,7 @@ unsigned int* CUBE_INDICES = new unsigned int[36]{
 };
 
 
-float* DiffusedMappedCube = new float[288]{
+ENGINE_API float* DiffusedMappedCube = new float[288]{
 	// positions          // normals           // texture coords
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,	// lbf // front ---
 	0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,	// rbf			+--
@@ -97,7 +98,7 @@ float* DiffusedMappedCube = new float[288]{
 	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f	// ltf			-+-
 };
 
-unsigned int* DiffusedMappedCubeIndices = new unsigned int[36] {
+ENGINE_API unsigned int* DiffusedMappedCubeIndices = new unsigned int[36] {
 	0, 1, 2,	3, 4, 5,      // front
 	6, 7, 8,	9, 10, 11,      // back
 	12, 13, 14,	15, 16, 17,    // top

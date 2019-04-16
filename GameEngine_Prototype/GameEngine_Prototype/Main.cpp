@@ -14,19 +14,19 @@
 
 namespace XEngine
 {
-	EngineEvent OnEngineInit = nullptr;
-	EngineEvent OnEngineUpdate = nullptr;
-	EngineEvent OnEnginePreRender = nullptr;
-	EngineEvent OnEnginePostRender = nullptr;
-	EngineEvent OnApplicationClose = nullptr;
+	ENGINE_API EngineEvent OnEngineInit = nullptr;
+	ENGINE_API EngineEvent OnEngineUpdate = nullptr;
+	ENGINE_API EngineEvent OnEnginePreRender = nullptr;
+	ENGINE_API EngineEvent OnEnginePostRender = nullptr;
+	ENGINE_API EngineEvent OnApplicationClose = nullptr;
 
-	bool useDefaultSceneInitialization = true;
+	ENGINE_API bool useDefaultSceneInitialization = true;
 
 	// Main Game Function.
-	int ENGINE_MAIN()
+	int ENGINE_API ENGINE_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
-
+		std::cout << "API Mode: " << API_MODE << std::endl;
 		// Init Managers
 		ApplicationManager::CreateManager();
 		GameTime::CreateManager();
@@ -75,6 +75,24 @@ namespace XEngine
 		ApplicationManager::getInstance().CloseApplication();
 		return 0;
 	}
+}
+
+#include <Windows.h>
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+)
+{
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	//std::cout << "DLL_MAIN" << std::endl;
+	return TRUE;
 }
 
 // ENTRY POINT

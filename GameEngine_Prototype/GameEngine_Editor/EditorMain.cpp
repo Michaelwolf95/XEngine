@@ -9,9 +9,13 @@
 //include <stb/stb_image.h> 
 #endif
 
-#include "XEngine.h"
+#include "XEngineEditor.h"
 
+#include "ProjectCompiler.h"
 #include "SceneEditor.h"
+
+#include <Windows.h>
+#include <stdio.h>
 
 namespace XEngine::Editor
 {
@@ -26,6 +30,11 @@ namespace XEngine::Editor
 	int EDITOR_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
+		std::cout << "API Mode: " << API_MODE << std::endl;
+
+		ProjectCompiler* compiler = ProjectCompiler::CreateManager();
+		
+		compiler->LoadProjectLibrary();
 
 		XEngine::OnEngineInit = &Editor_Init;
 		XEngine::OnEngineUpdate = &Editor_Update;

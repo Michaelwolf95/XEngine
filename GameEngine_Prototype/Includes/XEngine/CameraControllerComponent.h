@@ -5,7 +5,7 @@
 #include "GameTime.h"
 #include "GameObject.h"
 
-class DLLExport CameraControllerComponent : public Component
+class ENGINE_API CameraControllerComponent : public Component
 {
 public:
 	static Registrar<CameraControllerComponent> registrar;

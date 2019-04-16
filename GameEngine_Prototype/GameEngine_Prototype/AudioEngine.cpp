@@ -40,18 +40,6 @@ void CAudioEngine::Init() {
 }
 
 void CAudioEngine::Update() {
-	//might need to add the update for the 3d sound
-	//UpdateGame();       // here the game is updated and the sources would be moved with channel->set3DAttibutes.
-	//system->set3DListenerAttributes(0, &listener_pos, &listener_vel, &listener_forward, &listener_up);     // update 'ears'
-	//system->update();   // needed to update 3d engine, once per frame.
-	//FMOD_System_Set3DListenerAttributes(0, 0, )
-	
-	//system->set3DListenerAttributes(0, &listenerpos, &vel, &forward, &up);
-
-	//glm::mat4 camView = RenderManager::getInstance().getCurrentCamera()->getView();
-	//glm::vec3 camLocation(camView[3].x, camView[3].y, camView[3].z);
-	//AudioManager::getInstance().sound.Set3dListenerAndOrientation(camLocation, camLocation, camLocation);
-
 	sgpImplementation->Update();
 }
 
@@ -74,12 +62,6 @@ void CAudioEngine::LoadSound(const std::string& strSoundName, bool b3d, bool bLo
 
 }
 
-//------------pausing for future menu
-// Pause the sound
-//channel->setPaused(true);
-// Resume the sound
-//channel->setPaused(false);
-
 void CAudioEngine::UnLoadSound(const std::string& strSoundName)
 {
 	auto tFoundIt = sgpImplementation->mSounds.find(strSoundName);
@@ -91,36 +73,14 @@ void CAudioEngine::UnLoadSound(const std::string& strSoundName)
 }
 
 
-//this needs to work with the camera or get it working with the camera
+//Now used By AudioListner Component
 void CAudioEngine::Set3dListenerAndOrientation(const glm::vec3 & vPosition, const glm::vec3 & vLook, const glm::vec3 & vUp)
-//void CAudioEngine::Set3dListenerAndOrientation()
 {
-	/*FMOD_VECTOR pos = { 3.0f, 4.0f, 2.0f };
-	FMOD_VECTOR vel = { 1.0f, 0.0f, 0.0f };
-	FMOD_VECTOR forward = { 1.0f, 0.0f, 0.0f };
-	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };*/
-
-
-
-	FMOD_VECTOR pos = { 0.0f, 0.0f, 4.0f }; //cam on the left
-	//FMOD_VECTOR pos = { 0.0f, 0.0f, -4.0f }; //cam on the right
-	//FMOD_VECTOR pos = { -10.0f, -10.0f, 0.0f }; //cam on the right
-
-	//FMOD_VECTOR pos = { 3.0f, 0.0f, 0.0f }; //left
-	//FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
-	//FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
-	//FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
-
-	//FMOD_VECTOR pos = { vPosition.x, vPosition.y, vPosition.z };
-	FMOD_VECTOR vel = { 1.0f, 0.0f, 0.0f };
-	FMOD_VECTOR forward = { 1.0f, 0.0f, 0.0f };
-	FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
-
-	//FMOD::System::set3DListenerAttributes(0, &pos, &vel, &forward, &up);
-	//sgpImplementation->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
-	//SetChannel3dPosition
-	//SetChannelVolume
-	sgpImplementation->mpSystem->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
+	//FMOD_VECTOR pos = { 0.0f, 0.0f, 4.0f }; //cam on the left
+	//FMOD_VECTOR vel = { 1.0f, 0.0f, 0.0f };
+	//FMOD_VECTOR forward = { 1.0f, 0.0f, 0.0f };
+	//FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
+	//sgpImplementation->mpSystem->set3DListenerAttributes(0, &pos, &vel, &forward, &up);
 }
 
 void CAudioEngine::Set3dListenerAndOrientation(const FMOD_VECTOR & vPosition, const FMOD_VECTOR & vVel, const FMOD_VECTOR & vLook, const FMOD_VECTOR & vUp)
@@ -154,8 +114,19 @@ int CAudioEngine::PlaySounds(const string& strSoundName, const glm::vec3& vPosit
 		CAudioEngine::ErrorCheck(pChannel->setVolume(dbToVolume(fVolumedB)));
 		CAudioEngine::ErrorCheck(pChannel->setPaused(false));
 		sgpImplementation->mChannels[nChannelId] = pChannel;
+		aChannel = pChannel; //saving exact channel to pause audio
 	}
 	return nChannelId;
+}
+
+void CAudioEngine::Pause()
+{
+	aChannel->setPaused(true);
+}
+
+void CAudioEngine::UnPause()
+{
+	aChannel->setPaused(false);
 }
 
 void CAudioEngine::SetChannel3dPosition(int nChannelId, const glm::vec3& vPosition)

@@ -1,4 +1,5 @@
 #pragma once
+#include "LibraryExport.h"
 #include "Singleton.h"
 #include "TextureLibrary.h"
 #include "ModelLibrary.h"
@@ -6,7 +7,7 @@
 #include "MeshLibrary.h"
 #include "ShaderLibrary.h"
 
-class AssetManager : public Singleton<AssetManager>
+class ENGINE_API AssetManager : public Singleton<AssetManager>
 {
 	friend class Singleton<AssetManager>;
 public:

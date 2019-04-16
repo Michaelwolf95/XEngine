@@ -8,7 +8,7 @@
 
 typedef std::shared_ptr<GameObject> GameObject_ptr;
 
-class GameObject : public std::enable_shared_from_this<GameObject>
+class ENGINE_API GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
 	static unsigned int nextGameObjectID;

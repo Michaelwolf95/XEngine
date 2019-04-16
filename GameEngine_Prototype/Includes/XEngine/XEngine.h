@@ -1,4 +1,9 @@
 #pragma once
+
+#if !defined(_CRT_SECURE_NO_WARNINGS)
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 // Used for .DLL implementation.
 #include "LibraryExport.h"
 
@@ -31,15 +36,15 @@
 namespace XEngine
 {
 	typedef void (*EngineEvent)(void);
-	extern EngineEvent OnEngineInit;
-	extern EngineEvent OnEngineUpdate;
-	extern EngineEvent OnEnginePreRender;
-	extern EngineEvent OnEnginePostRender;
-	extern EngineEvent OnApplicationClose;
+	extern ENGINE_API EngineEvent OnEngineInit;
+	extern ENGINE_API EngineEvent OnEngineUpdate;
+	extern ENGINE_API EngineEvent OnEnginePreRender;
+	extern ENGINE_API EngineEvent OnEnginePostRender;
+	extern ENGINE_API EngineEvent OnApplicationClose;
 
 	// Flag to load scenes normally. (Used by editor.)
 	// Set to false if you are replacing the scene loading functionality.
-	extern bool useDefaultSceneInitialization;
+	extern ENGINE_API bool useDefaultSceneInitialization;
 
-	int ENGINE_MAIN();
+	int ENGINE_API ENGINE_MAIN();
 }

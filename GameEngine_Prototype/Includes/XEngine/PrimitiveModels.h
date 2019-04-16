@@ -1,8 +1,9 @@
 #pragma once
+#include "LibraryExport.h"
 // Create Cube Model
-extern float* CUBE_VERTS;
-extern unsigned int* CUBE_INDICES;
+extern ENGINE_API float* CUBE_VERTS;
+extern ENGINE_API  unsigned int* CUBE_INDICES;
 
-extern float* DiffusedMappedCube;
-extern unsigned int* DiffusedMappedCubeIndices;
+extern ENGINE_API float* DiffusedMappedCube;
+extern ENGINE_API unsigned int* DiffusedMappedCubeIndices;
 

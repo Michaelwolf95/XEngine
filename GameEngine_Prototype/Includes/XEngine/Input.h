@@ -1,4 +1,5 @@
 #pragma once
+#include "LibraryExport.h"
 #include "Singleton.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> 
@@ -27,7 +28,7 @@ void INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset);
 void INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow* window, int button, int action, int mods);
 
 // TODO: descriptions of class and members
-class Input : public Singleton<Input>
+class ENGINE_API Input : public Singleton<Input>
 {
 private:
 	struct InputState

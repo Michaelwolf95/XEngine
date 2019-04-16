@@ -4,9 +4,18 @@ typemap & Component::registry() { static typemap impl; return impl; }
 
 unsigned int Component::nextComponentID = 0;
 
+void Component::PrintRegistry()
+{
+	std::cout << "Printing Registry [" << Component::registry().size() <<"]:\n";
+	for (auto const& pair: Component::registry())
+	{
+		std::cout << "\t" << pair.second.name << std::endl;
+	}
+}
+
 Component::Component() 
 {
-	componentID = Component::nextComponentID++;
+	componentID = nextComponentID++;
 }
 Component::~Component() {}
 

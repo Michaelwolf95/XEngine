@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
+#include "LibraryExport.h"
 #include "RenderableObject.h"
 #include "Shader.h"
 #include "Material.h"
@@ -18,7 +19,7 @@
 - Handling switching between shaders
 - Drawing all rendered objects optimally
 */
-class RenderManager : public Singleton<RenderManager>
+class ENGINE_API RenderManager : public Singleton<RenderManager>
 {
 	friend class Singleton<RenderManager>;
 public:

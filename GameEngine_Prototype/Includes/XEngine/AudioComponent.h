@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "AudioManager.h"
 
-class DLLExport AudioComponent : public Component
+class ENGINE_API AudioComponent : public Component
 {
 public:
 	static Registrar<AudioComponent> registrar;
@@ -11,18 +11,16 @@ public:
 	//float range, distance;
 	bool is3D = false;
 	bool repeat = false;
-	int mChannel;//not using right now, for changing sounds future volume or something if wanted
+	bool pauseToggle = true;
 
 	std::string soundPath;
 	AudioComponent();
 	~AudioComponent();
-	void Load2D(string, bool, bool);
 	void Load3D(string, bool, bool, bool);
 	void Play(string, glm::vec3, float);
 	void Play();
-
-	//glm::vec3 getListener();
-
+	void Pause();
+	void UnPause();
 	void DrawInspector() override;
 
 private:
@@ -39,9 +37,6 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(soundPath);
 		ar & BOOST_SERIALIZATION_NVP(is3D);
 		ar & BOOST_SERIALIZATION_NVP(repeat);
-		//make check box for loop
-		//ask micheal where to make the box forgot
-		//also ask if i should keep it on spacebar for now and or make that the pause and unpause
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
