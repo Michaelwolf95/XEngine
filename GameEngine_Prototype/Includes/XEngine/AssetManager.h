@@ -37,5 +37,5 @@ AssetManager::getInstance().getProjectFilePath()	\
 /**/
 
 #define ASSET_FILE_PATH								\
-PROJECT_FILE_PATH + "Assets/"						\
+(PROJECT_FILE_PATH + std::string("Assets/"))						\
 /**/

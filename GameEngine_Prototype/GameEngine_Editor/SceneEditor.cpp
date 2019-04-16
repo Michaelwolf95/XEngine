@@ -1141,8 +1141,8 @@ void SceneEditor::AssetFolderMenuUpdate()
 		}
 		ImGui::EndMenuBar();
 	}
-
-	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH))
+	//std::cout << ASSET_FILE_PATH << std::endl;
+	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH.c_str()))
 	{
 		//std::cout << entry.path() << std::endl;
 		if (entry.is_directory())

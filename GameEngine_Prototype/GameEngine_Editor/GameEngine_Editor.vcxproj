@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="EditorMain.cpp" />
+    <ClCompile Include="ProjectSettingsManager.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="ProjectCompiler.cpp" />
     <ClCompile Include="SceneEditor.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCamera.h" />
+    <ClInclude Include="ProjectSettingsManager.h" />
     <ClInclude Include="ProjectCompiler.h" />
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="XEngineEditor.h" />

@@ -11,11 +11,13 @@
 
 #include "XEngineEditor.h"
 
-#include "ProjectCompiler.h"
 #include "SceneEditor.h"
+#include "ProjectSettingsManager.h"
+#include "ProjectCompiler.h"
 
 #include <Windows.h>
 #include <stdio.h>
+#include <string>
 
 namespace XEngine::Editor
 {
@@ -32,16 +34,27 @@ namespace XEngine::Editor
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
 		std::cout << "API Mode: " << API_MODE << std::endl;
 
-		ProjectCompiler* compiler = ProjectCompiler::CreateManager();
-		
-		compiler->LoadProjectLibrary();
-
 		XEngine::OnEngineInit = &Editor_Init;
 		XEngine::OnEngineUpdate = &Editor_Update;
 		XEngine::OnEnginePreRender = &Editor_PreRender;
 		XEngine::OnEnginePostRender = &Editor_PostRender;
 		XEngine::OnApplicationClose = &Editor_ApplicationClose;
 
+		XEngine::ENGINE_INITIALIZE();
+
+		ProjectSettingsManager* settings = ProjectSettingsManager::CreateManager();
+		settings->LoadProjectSettings();
+
+		// TODO: Get project path as input, or load from file.
+		//AssetManager::getInstance().setProjectFilePath(std::string("D:/VisualStudio/CECS_491_Prototype/DemoProject/"));
+		AssetManager::getInstance().setProjectFilePath(settings->getProjectDirectory());
+		
+
+		//TODO: Set compiler params based on Project path.
+		ProjectCompiler* compiler = ProjectCompiler::CreateManager();
+		compiler->LoadProjectLibrary();
+
+		// False for editor mode.
 		XEngine::useDefaultSceneInitialization = false;
 
 		return XEngine::ENGINE_MAIN();
@@ -73,7 +86,9 @@ namespace XEngine::Editor
 }
 
 // ENTRY POINT
-int main()
+int main(int argc, char *argv[])
 {
+	//TODO: Set project path based on launch params.
+
 	return XEngine::Editor::EDITOR_MAIN();
 }
