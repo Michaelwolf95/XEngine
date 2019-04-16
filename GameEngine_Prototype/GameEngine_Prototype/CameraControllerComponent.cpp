@@ -64,41 +64,54 @@ inline void CameraControllerComponent::zoomCamera()
 
 inline void CameraControllerComponent::moveCamera()
 {
+	if (Input::GetKey(GLFW_KEY_LEFT_SHIFT))
+	{
+		moveSpeedModified = true;
+	}
+	else if (moveSpeedModified)
+	{
+		moveSpeedModified = false;
+	}
 	if (Input::GetKey(GLFW_KEY_W))
 	{
 		gameObject->transform->Translate(moveFowardSpeed * isInverted(inversionMoveZ) 
-			* GameTime::deltaTime * FORWARD);
+			* isMoveSpeedModified(moveSpeedModified, moveSpeedModifierZ) * GameTime::deltaTime * FORWARD);
 	}
 	if (Input::GetKey(GLFW_KEY_S))
 	{
 		gameObject->transform->Translate(moveBackwardSpeed * isInverted(inversionMoveZ)
-			* GameTime::deltaTime * -FORWARD);
+			* isMoveSpeedModified(moveSpeedModified, moveSpeedModifierZ) * GameTime::deltaTime * -FORWARD);
 	}
 	if (Input::GetKey(GLFW_KEY_A))
 	{
 		gameObject->transform->Translate(moveLeftSpeed * isInverted(inversionMoveX)
-			* GameTime::deltaTime * glm::cross(UP, FORWARD));
+			* isMoveSpeedModified(moveSpeedModified, moveSpeedModifierX) * GameTime::deltaTime * glm::cross(UP, FORWARD));
 	}
 	if (Input::GetKey(GLFW_KEY_D))
 	{
 		gameObject->transform->Translate(moveRightSpeed * isInverted(inversionMoveX)
-			* GameTime::deltaTime * glm::cross(UP, -FORWARD));
+			* isMoveSpeedModified(moveSpeedModified, moveSpeedModifierX) * GameTime::deltaTime * glm::cross(UP, -FORWARD));
 	}
 	if (Input::GetKey(GLFW_KEY_SPACE))
 	{
 		gameObject->transform->Translate(moveRightSpeed * isInverted(inversionMoveX)
-			* GameTime::deltaTime * UP);
+			* isMoveSpeedModified(moveSpeedModified, moveSpeedModifierY) * GameTime::deltaTime * UP);
 	}
 	if (Input::GetKey(GLFW_KEY_LEFT_CONTROL))
 	{
 		gameObject->transform->Translate(moveRightSpeed * isInverted(inversionMoveX)
-			* GameTime::deltaTime * -UP);
+			* isMoveSpeedModified(moveSpeedModified, moveSpeedModifierY) * GameTime::deltaTime * -UP);
 	}
 }
 
 int CameraControllerComponent::isInverted(bool _isAxisInverted)
 {
 	return _isAxisInverted ? -1 : 1;
+}
+
+float CameraControllerComponent::isMoveSpeedModified(bool _moveSpeedModified, float _moveSpeedModifier) // using parameter to use with any axis
+{
+	return _moveSpeedModified ? _moveSpeedModifier : 1.0f;
 }
 
 //void initializeView()
@@ -173,7 +186,9 @@ void CameraControllerComponent::DrawInspector()
 	ImGui::SliderFloat(LABEL("Z RotSpeed "), &zRotSpeed, 0.1f, 20.0f, "%.1f");
 	ImGui::SameLine();
 	ImGui::Checkbox(LABEL("Invert Z Axis "), &inversionZ);
-
+	ImGui::SliderFloat(LABEL("Move Speed Mod X "), &moveSpeedModifierX, 0.1f, 20.0f, "%.1f");
+	ImGui::SliderFloat(LABEL("Move Speed Mod Y "), &moveSpeedModifierY, 0.1f, 20.0f, "%.1f");
+	ImGui::SliderFloat(LABEL("Move Speed Mod Z "), &moveSpeedModifierZ, 0.1f, 20.0f, "%.1f");
 }
 
 //void CameraControllerComponent::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)

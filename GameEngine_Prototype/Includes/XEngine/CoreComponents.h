@@ -21,7 +21,8 @@
 #include "Text.h"
 
 // Other
-//#include "CameraControllerComponent.h"
+#include "CameraControllerComponent.h"
+#include "CameraComponent.h"
 
 // Testers (Remove later?)
 #include "FreeLookCameraController.h"

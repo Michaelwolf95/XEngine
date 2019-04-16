@@ -223,6 +223,7 @@ void SceneEditor::StartEditMode()
 		RenderManager::getInstance().setCurrentCamera(editorCamera);
 
 		Input::ShowCursor(true);
+		Input::ResetMouseInput();
 	}
 }
 
@@ -238,6 +239,8 @@ void SceneEditor::ExitEditMode()
 		ApplicationManager::getInstance().SetEditMode(false);
 		SceneManager::getInstance().ReloadSceneFromFile();
 	}
+
+	Input::ResetMouseInput();
 }
 
 void SceneEditor::UpdateEditor()
@@ -659,6 +662,16 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
+			}
+			if (ImGui::MenuItem("New First-Person Camera Example"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New First-Person Camera Example");
+				selectedGameObject = go;
+				std::shared_ptr<CameraComponent> cameraComponent(new CameraComponent());
+				go->AddComponent(cameraComponent);
+				std::shared_ptr<CameraControllerComponent> cameraControllerComponent(new CameraControllerComponent());
+				go->AddComponent(cameraControllerComponent);
 			}
 			if (ImGui::MenuItem("New Point Light"))
 			{

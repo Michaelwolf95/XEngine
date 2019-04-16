@@ -18,15 +18,15 @@ public:
 	inline void zoomCamera();
 	inline void moveCamera();
 	inline int isInverted(bool _isAxisInverted);
+	inline float isMoveSpeedModified(bool _moveSpeedModified, float _moveSpeedModifier);
+
 
 	void DrawInspector();
-	//void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	CameraComponent* findObjectCameraComponent();
 
 private:
 	// Camera Rotation
 	float fieldOfView = 45.0f;
-	//float panSpeed = 0.1f;
 	float xRotSpeed = 5.0f;
 	float yRotSpeed = 5.0f;
 	float zRotSpeed = 2.5f;
@@ -34,17 +34,21 @@ private:
 	bool inversionY = false;
 	bool inversionZ = false;
 	bool inversionZoom = false;
+	bool moveSpeedModified = false;
 
 	// Camera Translation
-	float moveFowardSpeed = 1.0f;
-	float moveBackwardSpeed = 1.0f;
-	float moveLeftSpeed = 1.0f;
-	float moveRightSpeed = 1.0f;
-	float moveUpSpeed = 1.0f;
-	float moveDownSpeed = 1.0f;
+	float moveFowardSpeed = 2.0f;
+	float moveBackwardSpeed = 2.0f;
+	float moveLeftSpeed = 2.0f;
+	float moveRightSpeed = 2.0f;
+	float moveUpSpeed = 2.0f;
+	float moveDownSpeed = 2.0f;
 	bool inversionMoveX = false;
 	bool inversionMoveY = false;
 	bool inversionMoveZ = false;
+	float moveSpeedModifierX = 5.0f; // run, walk, etc.
+	float moveSpeedModifierY = 5.0f;
+	float moveSpeedModifierZ = 5.0f;
 
 	// Camera features
 	float zoomSpeed = 0.0001f;
@@ -58,7 +62,6 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(fieldOfView);
 		ar & BOOST_SERIALIZATION_NVP(zoomSpeed);
-		//ar & BOOST_SERIALIZATION_NVP(panSpeed);
 		ar & BOOST_SERIALIZATION_NVP(xRotSpeed);
 		ar & BOOST_SERIALIZATION_NVP(yRotSpeed);
 		ar & BOOST_SERIALIZATION_NVP(zRotSpeed);
@@ -66,6 +69,18 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(inversionY);
 		ar & BOOST_SERIALIZATION_NVP(inversionZ);
 		ar & BOOST_SERIALIZATION_NVP(inversionZoom);
+		ar & BOOST_SERIALIZATION_NVP(moveFowardSpeed);
+		ar & BOOST_SERIALIZATION_NVP(moveBackwardSpeed);
+		ar & BOOST_SERIALIZATION_NVP(moveLeftSpeed);
+		ar & BOOST_SERIALIZATION_NVP(moveRightSpeed);
+		ar & BOOST_SERIALIZATION_NVP(moveUpSpeed);
+		ar & BOOST_SERIALIZATION_NVP(moveDownSpeed);
+		ar & BOOST_SERIALIZATION_NVP(inversionMoveX);
+		ar & BOOST_SERIALIZATION_NVP(inversionMoveY);
+		ar & BOOST_SERIALIZATION_NVP(inversionMoveZ);
+		ar & BOOST_SERIALIZATION_NVP(moveSpeedModifierX);
+		ar & BOOST_SERIALIZATION_NVP(moveSpeedModifierY);
+		ar & BOOST_SERIALIZATION_NVP(moveSpeedModifierZ);
 	}
 };
 

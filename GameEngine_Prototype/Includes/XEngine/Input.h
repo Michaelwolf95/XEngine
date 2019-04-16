@@ -72,6 +72,7 @@ private:
 	void checkKeyInputs();
 	bool toggleCursor();
 	bool isMouseIdle();
+	void resetMouseInput();
 
 protected:
 	// Init instance and setup GLFW, etc.
@@ -101,6 +102,7 @@ public:
 	static void ShowCursor(bool enable);
 	static void ToggleCursor();
 	static bool IsMouseIdle();
+	static void ResetMouseInput();
 
 	/// Keyboard inputs
 	static bool GetKeyDown(int glfw_key); 

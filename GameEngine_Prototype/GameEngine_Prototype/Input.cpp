@@ -212,6 +212,11 @@ bool Input::IsMouseIdle()
 	return Input::getInstance().isMouseIdle();
 }
 
+void Input::ResetMouseInput()
+{
+	Input::getInstance().resetMouseInput();
+}
+
 bool Input::GetKeyDown(int glfw_key)
 {
 	return Input::getInstance().getKeyDown(glfw_key);
@@ -359,6 +364,11 @@ bool Input::toggleCursor()
 bool Input::isMouseIdle()
 {
 	return mouseIdle;
+}
+
+void Input::resetMouseInput()
+{
+	firstMouse = true;
 }
 
 void Input::validateMouseInputValue(int glfw_mouse_button)
