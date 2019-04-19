@@ -11,9 +11,10 @@
 
 #include "XEngineEditor.h"
 
-#include "SceneEditor.h"
+#include "EditorSettingsManager.h"
 #include "ProjectSettingsManager.h"
 #include "ProjectCompiler.h"
+#include "SceneEditor.h"
 
 #include <Windows.h>
 #include <stdio.h>
@@ -42,12 +43,14 @@ namespace XEngine::Editor
 
 		XEngine::ENGINE_INITIALIZE();
 
-		ProjectSettingsManager* settings = ProjectSettingsManager::CreateManager();
-		settings->LoadProjectSettings();
+		EditorSettingsManager* editorSettings = EditorSettingsManager::CreateManager();
+
+		ProjectSettingsManager* projectSettings = ProjectSettingsManager::CreateManager();
+		projectSettings->LoadProjectSettings();
 
 		// TODO: Get project path as input, or load from file.
 		//AssetManager::getInstance().setProjectFilePath(std::string("D:/VisualStudio/CECS_491_Prototype/DemoProject/"));
-		AssetManager::getInstance().setProjectFilePath(settings->getProjectDirectory());
+		AssetManager::getInstance().setProjectFilePath(projectSettings->getProjectDirectory());
 		
 
 		//TODO: Set compiler params based on Project path.

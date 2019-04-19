@@ -95,7 +95,7 @@ void SceneEditor::EditorPostRender()
 
 void SceneEditor::LoadEditorConfig()
 {
-	editorConfig = new EditorConfig();
+	editorConfig = new SceneEditorConfig();
 	std::string configPath = std::string(EDITOR_CONFIG_FILE_PATH);
 
 	JSON configJSON;
@@ -174,6 +174,7 @@ void SceneEditor::LoadInitialEditorScene()
 		std::cout << "Creating new Empty Scene" << std::endl;
 		scene = SceneManager::getInstance().CreateNewScene();
 		editorConfig->firstSceneFilepath = scene->filePath;
+
 		SaveEditorConfig();
 
 		// SAVE SCENE

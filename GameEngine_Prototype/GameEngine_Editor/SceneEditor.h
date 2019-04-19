@@ -12,9 +12,10 @@
 namespace XEngine::Editor
 {
 
-	static const char* EDITOR_CONFIG_FILE_PATH = "../Settings/Editor/EditorConfig.json";
+	static const char* EDITOR_CONFIG_FILE_PATH = "../Settings/Editor/SceneEditorConfig.json";
 
-	struct EditorConfig
+	//ToDo: Replace with EditorSettingsManager.
+	struct SceneEditorConfig
 	{
 		std::string firstSceneFilepath = "";
 	};
@@ -31,7 +32,7 @@ namespace XEngine::Editor
 		friend class Singleton<SceneEditor>;
 	public:
 		bool isInitialized = false;
-		EditorConfig* editorConfig;
+		SceneEditorConfig* editorConfig;
 
 		GameObject* editorCameraGameObject;
 		EditorCamera* editorCamera;

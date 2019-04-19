@@ -10,6 +10,7 @@ namespace XEngine::Editor {
 	{
 		char* projectName = (char*)"DemoProject";
 		char* projectDirectory = (char*)"../../DemoProject/"; // Should be absolute path. This is temp.
+		//std::string firstSceneFilepath = "";
 	};
 
 	class ProjectSettingsManager : public Singleton<ProjectSettingsManager>

@@ -1,4 +1,5 @@
 ## X-Engine ignores
+**/SceneEditorConfig.json
 **/EditorConfig.json
 
 
