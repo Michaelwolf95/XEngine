@@ -278,6 +278,8 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AutoMover.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="btRefRigidbody.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
@@ -347,9 +349,11 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\AudioListener.h" />
     <ClInclude Include="..\Includes\XEngine\AudioManager.h" />
     <ClInclude Include="..\Includes\XEngine\AutoMover.h" />
+    <ClInclude Include="..\Includes\XEngine\BoxCollider.h" />
+    <ClInclude Include="..\Includes\XEngine\btRefRigidbody.h" />
     <ClInclude Include="..\Includes\XEngine\Camera.h" />
     <ClInclude Include="..\Includes\XEngine\CameraComponent.h" />
-	<ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h" />
     <ClInclude Include="..\Includes\XEngine\CameraSwapper.h" />
     <ClInclude Include="..\Includes\XEngine\Collider.h" />
     <ClInclude Include="..\Includes\XEngine\Component.h" />
@@ -420,6 +424,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\TransformTester.h" />
     <ClInclude Include="..\Includes\XEngine\Vertex.h" />
     <ClInclude Include="..\Includes\XEngine\XEngine.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

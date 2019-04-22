@@ -3,6 +3,7 @@
 #include <BulletPhysics/btBulletDynamicsCommon.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include "btRefRigidbody.h"
 //#include "Serialization.h"
 //#include <BulletPhysics/LinearMath/btAlignedAllocator.h>
 //ATTRIBUTE_ALIGNED16(class)
@@ -17,13 +18,13 @@ namespace XEngine
 	public:
 		static Registrar<Rigidbody> registrar;
 
-		btBoxShape* colShape = nullptr;
+		btRefRigidbody* body = nullptr;
 		btDefaultMotionState* motionState = nullptr;
-		btRigidBody* body = nullptr;
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo;
 		float mass = 1.0f;
 		bool isKinematic = false;
 
+		btBoxShape* colShape = nullptr;
 		btVector3* boxColliderHalfExtents = nullptr;
 
 		Rigidbody();
@@ -34,6 +35,8 @@ namespace XEngine
 		void DrawInspector() override;
 		void OnDrawGizmosSelected() override;
 	private:
+		friend class btRefRigidbody;
+
 		btTransform* physTransformModel = nullptr;
 		//btScalar* _convertTransformArray[16];
 		bool isInitialized = false;
@@ -41,6 +44,11 @@ namespace XEngine
 		void SyncTransformWithPhysicsModel();
 		void SyncPhysicsModelWithTransform();
 		glm::mat4 btScalar2glmMat4(btScalar* matrix);
+
+		// Internal callbacks
+		void _internal_CollisionEnterCallback(btRefRigidbody* other);
+		void _internal_CollisionStayCallback(btRefRigidbody* other);
+		void _internal_CollisionExitCallback(btRefRigidbody* other);
 
 		friend class ::boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()

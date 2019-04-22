@@ -53,6 +53,33 @@ namespace XEngine
 
 	void PhysicsManager::PhysicsTick()
 	{
+		//https://stackoverflow.com/questions/11175694/bullet-physics-simplest-collision-example
+		int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+		for (int i = 0; i < numManifolds; i++)
+		{
+			btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+			btCollisionObject* obA = const_cast<btCollisionObject*>(contactManifold->getBody0());
+			btCollisionObject* obB = const_cast<btCollisionObject*>(contactManifold->getBody1());
+
+			if (typeid(*obA) == typeid(btRefRigidbody))
+			{
+				btRefRigidbody* refRbA = (btRefRigidbody*)obA;
+				refRbA->HandleCollision(obB);
+			}
+			int numContacts = contactManifold->getNumContacts();
+			for (int j = 0; j < numContacts; j++)
+			{
+				btManifoldPoint& pt = contactManifold->getContactPoint(j);
+				if (pt.getDistance() < 0.f)
+				{
+					const btVector3& ptA = pt.getPositionWorldOnA();
+					const btVector3& ptB = pt.getPositionWorldOnB();
+					const btVector3& normalOnB = pt.m_normalWorldOnB;
+				}
+			}
+		}
+		// TODO: UpdateCollisionState of Rigidbodies.
+
 		SceneManager::getInstance().FixedUpdateActiveScene();
 	}
 

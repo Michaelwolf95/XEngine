@@ -70,7 +70,8 @@ namespace XEngine
 		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 		motionState = new btDefaultMotionState(*physTransformModel);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-		body = new btRigidBody(rbInfo);
+		body = new btRefRigidbody(rbInfo);
+		body->owner = this; // L337 HACKS
 
 		if (isKinematic)
 		{
@@ -83,6 +84,8 @@ namespace XEngine
 		body->setWorldTransform(*physTransformModel);
 
 		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+
+		//body.
 
 		//body->serialize() // Might be useful?
 		isInitialized = true;
@@ -104,12 +107,13 @@ namespace XEngine
 
 	void Rigidbody::FixedUpdate()
 	{
+		this->body->UpdateCollisionState();
+
 		//std::cout << "Tick." << std::endl;
 		//https://stackoverflow.com/questions/22002077/getting-bullet-physics-transform-matrix-for-opengl
 		if (body && body->getMotionState())
 		{
 			SyncTransformWithPhysicsModel();
-
 		}
 	}
 
@@ -142,6 +146,20 @@ namespace XEngine
 			matrix[4], matrix[5], matrix[6], matrix[7],
 			matrix[8], matrix[9], matrix[10], matrix[11],
 			matrix[12], matrix[13], matrix[14], matrix[15]);
+	}
+
+	void Rigidbody::_internal_CollisionEnterCallback(btRefRigidbody * other)
+	{
+		std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+	}
+
+	void Rigidbody::_internal_CollisionStayCallback(btRefRigidbody * other)
+	{
+	}
+
+	void Rigidbody::_internal_CollisionExitCallback(btRefRigidbody * other)
+	{
+		std::cout << "CollisionExit " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
 	}
 
 	void Rigidbody::DrawInspector()
