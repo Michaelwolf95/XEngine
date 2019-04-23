@@ -27,6 +27,15 @@ GameObject::~GameObject()
 	components.clear();
 }
 
+GameObject * GameObject::GetParent()
+{
+	GameObject* parent = nullptr;
+	Transform* transParent = this->transform->GetParent();
+	if (transParent != nullptr)
+		parent = transParent->gameObject;
+	return parent;
+}
+
 std::vector<GameObject*> GameObject::GetChildren()
 {
 	std::vector<GameObject*> children;

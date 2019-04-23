@@ -158,18 +158,20 @@ namespace XEngine
 
 	void Rigidbody::_internal_CollisionEnterCallback(btRefRigidbody * other)
 	{
-		std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
 		OnCollisionEnterEvent();
 	}
 
 	void Rigidbody::_internal_CollisionStayCallback(btRefRigidbody * other)
 	{
 		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		OnCollisionStayEvent();
 	}
 
 	void Rigidbody::_internal_CollisionExitCallback(btRefRigidbody * other)
 	{
-		std::cout << "CollisionExit " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		//std::cout << "CollisionExit " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		OnCollisionExitEvent();
 	}
 
 	void Rigidbody::DrawInspector()
@@ -226,5 +228,19 @@ namespace XEngine
 	{
 		this->body->activate(true);
 		this->body->applyCentralImpulse(btVector3(force.x, force.y, force.z));
+	}
+	Rigidbody * Rigidbody::GetAttachedRigidbody(GameObject* go)
+	{
+		Rigidbody* rb = nullptr;
+		while (go != nullptr)
+		{
+			go->FindComponent(typeid(XEngine::Rigidbody), (void**)&rb);
+			if (rb == nullptr)
+			{
+				go = go->GetParent();
+			}
+			else break;
+		}
+		return rb;
 	}
 }

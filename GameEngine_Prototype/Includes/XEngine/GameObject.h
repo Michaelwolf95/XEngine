@@ -19,6 +19,7 @@ public:
 	GameObject(const char* _name = nullptr);
 	~GameObject();
 
+	GameObject* GetParent();
 	std::vector<GameObject*> GetChildren();
 	GameObject* GetChild(int index);
 

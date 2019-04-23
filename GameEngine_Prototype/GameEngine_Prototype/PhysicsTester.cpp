@@ -14,7 +14,9 @@ PhysicsTester::~PhysicsTester()
 
 void PhysicsTester::Start()
 {
-	gameObject->FindComponent(typeid(XEngine::Rigidbody), (void**)&rb);
+	//RB_SUBSCRIBE_COLLISION_ENTER(PhysicsTester)
+
+	rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);
 	if (rb != nullptr)
 	{
 		std::cout << "Subscribe" << std::endl;

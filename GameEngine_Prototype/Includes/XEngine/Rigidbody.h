@@ -16,6 +16,7 @@ class boost::serialization::access;
 
 namespace XEngine
 {
+
 	class ENGINE_API Rigidbody : public Component
 	{
 	public:
@@ -31,6 +32,8 @@ namespace XEngine
 		btVector3* boxColliderHalfExtents = nullptr;
 
 		boost::signals2::signal<void()> OnCollisionEnterEvent;
+		boost::signals2::signal<void()> OnCollisionStayEvent;
+		boost::signals2::signal<void()> OnCollisionExitEvent;
 
 		Rigidbody();
 		~Rigidbody();
@@ -41,6 +44,8 @@ namespace XEngine
 		void OnDrawGizmosSelected() override;
 
 		void AddForce(glm::vec3 force);
+
+		static Rigidbody* GetAttachedRigidbody(GameObject* go);
 
 	private:
 		friend class btRefRigidbody;
@@ -78,3 +83,16 @@ namespace XEngine
 	};
 
 }
+
+#define RB_SUBSCRIBE_COLLISION_ENTER(ClassType)								\
+XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
+if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionEnter, this));	\
+/**/
+//#define RB_SUBSCRIBE_COLLISION_STAY(ClassType)								\
+//XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
+//if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionStay, this));	\
+///**/
+//#define RB_SUBSCRIBE_COLLISION_EXIT(ClassType)								\
+//XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
+//if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionExit, this));	\
+///**/

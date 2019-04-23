@@ -7,6 +7,11 @@
 #include <BulletPhysics/btBulletDynamicsCommon.h>
 namespace XEngine
 {
+	//struct CollisionInfo
+	//{
+
+	//};
+
 	class PhysicsManager : public Singleton<PhysicsManager>
 	{
 		friend class Singleton<PhysicsManager>;
