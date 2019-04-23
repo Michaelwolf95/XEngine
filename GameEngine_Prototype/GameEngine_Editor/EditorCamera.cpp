@@ -102,6 +102,7 @@ namespace XEngine::Editor
 					clickPos = Input::GetMousePos();
 					lastDragPos = clickPos;
 					//TODO: Replace this with an Input call.
+					Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 					camMode = EditorCameraMode::Rotate;
 					break;
@@ -110,6 +111,7 @@ namespace XEngine::Editor
 				{
 					clickPos = Input::GetMousePos();
 					lastDragPos = clickPos;
+					Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 					camMode = EditorCameraMode::Pan;
 					break;
@@ -137,6 +139,7 @@ namespace XEngine::Editor
 				}
 				else
 				{
+					Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					camMode = EditorCameraMode::None;
 				}
@@ -159,6 +162,7 @@ namespace XEngine::Editor
 				}
 				else
 				{
+					Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					camMode = EditorCameraMode::None;
 				}

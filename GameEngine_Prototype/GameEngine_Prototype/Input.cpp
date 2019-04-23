@@ -388,3 +388,8 @@ void Input::validateKeyInputValue(int glfw_key)
 		// TODO: Error handling code. Error handling class?
 	}
 }
+
+void Input::SetInputMode(int mode, int value)
+{
+	glfwSetInputMode(ApplicationManager::APP_WINDOW, mode, value);
+}
