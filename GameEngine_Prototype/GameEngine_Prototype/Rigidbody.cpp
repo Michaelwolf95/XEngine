@@ -11,6 +11,8 @@
 #include <BulletPhysics/LinearMath/btAlignedAllocator.h>
 #include "Serialization.h"
 
+#include "Input.h"
+
 REGISTER_COMPONENT(XEngine::Rigidbody, "Rigidbody")
 namespace XEngine
 {
@@ -47,7 +49,7 @@ namespace XEngine
 		std::cout << "\t\tInitializing Rigidbody..." << std::endl;
 
 		// Collider
-		glm::vec3 scale = this->gameObject->transform->getScale() * 0.5f;
+		glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
 		boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
 		colShape = new btBoxShape(*boxColliderHalfExtents);
 		PhysicsManager::getInstance().AddCollisionShape(colShape);
@@ -97,12 +99,18 @@ namespace XEngine
 	}
 	void Rigidbody::Update()
 	{
-		glm::vec3 scale = this->gameObject->transform->getScale() * 0.5f;
+		glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
 		boxColliderHalfExtents->setX(scale.x);
 		boxColliderHalfExtents->setY(scale.y);
 		boxColliderHalfExtents->setZ(scale.z);
 		SyncPhysicsModelWithTransform();
 		//SyncTransformWithPhysicsModel();
+
+		// TEMP
+		if (Input::GetKeyDown(GLFW_KEY_SPACE))
+		{
+			AddForce(glm::vec3(0, 10, 0));
+		}
 	}
 
 	void Rigidbody::FixedUpdate()
@@ -155,6 +163,7 @@ namespace XEngine
 
 	void Rigidbody::_internal_CollisionStayCallback(btRefRigidbody * other)
 	{
+		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
 	}
 
 	void Rigidbody::_internal_CollisionExitCallback(btRefRigidbody * other)
@@ -176,7 +185,7 @@ namespace XEngine
 
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
-		glm::vec3 halfExt = this->gameObject->transform->getScale() * 0.5f;
+		glm::vec3 halfExt = this->gameObject->transform->getScale();// *0.5f;
 		//colShape->getHalfExtentsWithMargin()
 		//RenderManager::DrawWorldSpaceBox(pos, halfExt, glm::vec4(0, 0, 1, 1), 2);
 
@@ -210,5 +219,11 @@ namespace XEngine
 		RenderManager::DrawWorldSpaceLine(corners[4], corners[6], color, size);
 		RenderManager::DrawWorldSpaceLine(corners[7], corners[5], color, size);
 		RenderManager::DrawWorldSpaceLine(corners[7], corners[6], color, size);
+	}
+
+	void Rigidbody::AddForce(glm::vec3 force)
+	{
+		this->body->activate(true);
+		this->body->applyCentralImpulse(btVector3(force.x, force.y, force.z));
 	}
 }

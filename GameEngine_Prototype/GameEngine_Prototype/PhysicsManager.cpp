@@ -42,6 +42,8 @@ namespace XEngine
 		// Callback for physics ticks.
 		dynamicsWorld->setInternalTickCallback(&PhysicsManager::PhysicsTickCallback);
 
+		//dynamicsWorld.
+
 		isInitialized = true;
 		return 0;
 	}
@@ -53,6 +55,7 @@ namespace XEngine
 
 	void PhysicsManager::PhysicsTick()
 	{
+		// CHECK COLLISIONS
 		//https://stackoverflow.com/questions/11175694/bullet-physics-simplest-collision-example
 		int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
 		for (int i = 0; i < numManifolds; i++)
@@ -61,10 +64,17 @@ namespace XEngine
 			btCollisionObject* obA = const_cast<btCollisionObject*>(contactManifold->getBody0());
 			btCollisionObject* obB = const_cast<btCollisionObject*>(contactManifold->getBody1());
 
-			if (typeid(*obA) == typeid(btRefRigidbody))
+			btRefRigidbody* refRbA = btRefRigidbody::upcast(obA);
+			if (refRbA != 0)
 			{
-				btRefRigidbody* refRbA = (btRefRigidbody*)obA;
-				refRbA->HandleCollision(obB);
+				refRbA->HandleCollision(obB, contactManifold);
+			}
+			btRefRigidbody* refRbB = btRefRigidbody::upcast(obB);
+			if (refRbB != 0)
+			{
+				// Note that the manifold might be different depending on the body being 0 or 1.
+				// We might need to create our own Collision object.
+				refRbB->HandleCollision(obA, contactManifold);
 			}
 			int numContacts = contactManifold->getNumContacts();
 			for (int j = 0; j < numContacts; j++)
@@ -78,7 +88,6 @@ namespace XEngine
 				}
 			}
 		}
-		// TODO: UpdateCollisionState of Rigidbodies.
 
 		SceneManager::getInstance().FixedUpdateActiveScene();
 	}

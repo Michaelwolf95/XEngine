@@ -16,7 +16,7 @@ public:
 
  	XEngine::Rigidbody* owner; // XEngine Rigidbody component
 
-	void HandleCollision(btCollisionObject* other);
+	void HandleCollision(btCollisionObject* other, btPersistentManifold* contactManifold);
 	void UpdateCollisionState();
 
 	static btRefRigidbody* upcast(btCollisionObject* colObj)
@@ -27,6 +27,7 @@ public:
 	}
 private:
 	//friend class XEngine::Rigidbody;
+	std::vector<btCollisionObject*> collisionObjsThisFrame;
 	std::vector<btCollisionObject*> currentCollisionObjs;
 
 	void EmitCollisionEnter(btCollisionObject* other);

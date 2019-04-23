@@ -5,6 +5,7 @@
 #include <nlohmann\json.hpp>
 #include "ApplicationManager.h"
 #include "AssetManager.h"
+#include "SceneManager.h"
 
 /* The ApplicationManager is responsible for:
    - Managing system events
@@ -114,6 +115,9 @@ void ApplicationManager::CloseApplication()
 {
 	// Saves application configuration before window is closed
 	SaveAppConfig();
+
+	// Unload current scene to safely close.
+	SceneManager::getInstance().UnloadActiveScene();
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

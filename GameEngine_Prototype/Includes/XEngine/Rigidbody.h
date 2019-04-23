@@ -34,6 +34,9 @@ namespace XEngine
 		void FixedUpdate() override;
 		void DrawInspector() override;
 		void OnDrawGizmosSelected() override;
+
+		void AddForce(glm::vec3 force);
+
 	private:
 		friend class btRefRigidbody;
 

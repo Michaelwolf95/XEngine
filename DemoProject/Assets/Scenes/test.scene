@@ -70,7 +70,7 @@
 		<item>
 			<px class_id_reference="3" object_id="_4">
 				<gameObjectID>2</gameObjectID>
-				<name>Box</name>
+				<name>Box 1</name>
 				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_5">
 					<Component>
@@ -187,7 +187,7 @@
 			<px class_id_reference="3" object_id="_11">
 				<gameObjectID>4</gameObjectID>
 				<name>Box 2</name>
-				<isActive>1</isActive>
+				<isActive>0</isActive>
 				<transform class_id_reference="4" object_id="_12">
 					<Component>
 						<enabled>1</enabled>

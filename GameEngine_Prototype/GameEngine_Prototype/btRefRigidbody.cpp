@@ -12,40 +12,47 @@ btRefRigidbody::~btRefRigidbody()
 {
 }
 
-void btRefRigidbody::HandleCollision(btCollisionObject * other)
+void btRefRigidbody::HandleCollision(btCollisionObject * other, btPersistentManifold* contactManifold)
 {
-	if (std::find(currentCollisionObjs.begin(), currentCollisionObjs.end(), other) != currentCollisionObjs.end()) {
-		/* v contains x */
-		//EmitCollisionStay(other);
-	}
-	else {
+	collisionObjsThisFrame.push_back(other);
+	if (std::find(currentCollisionObjs.begin(), currentCollisionObjs.end(), other) == currentCollisionObjs.end()) {
 		/* v does not contain x */
 		currentCollisionObjs.push_back(other);
 		EmitCollisionEnter(other);
+	}
+	// Collision Objects this frame.
+	if (std::find(collisionObjsThisFrame.begin(), collisionObjsThisFrame.end(), other) == collisionObjsThisFrame.end()) {
+		/* v does not contain x */
+		collisionObjsThisFrame.push_back(other);
 	}
 }
 
 void btRefRigidbody::UpdateCollisionState()
 {
+	//std::cout << "Num Collisions: " << currentCollisionObjs.size() << std::endl;
 	std::vector<btCollisionObject*>::iterator it = currentCollisionObjs.begin();
-	while (it != currentCollisionObjs.end()) {
-
-		if (this->checkCollideWith(*it))
+	while (it != currentCollisionObjs.end()) 
+	{
+		if (std::find(collisionObjsThisFrame.begin(), collisionObjsThisFrame.end(), *it) == collisionObjsThisFrame.end())
+		{
+			// is not in vector
+			EmitCollisionExit(*it);
+			it = currentCollisionObjs.erase(it);
+		}
+		else
 		{
 			EmitCollisionStay(*it);
 			it++;
 		}
-		else
-		{
-			EmitCollisionExit(*it);
-			it = currentCollisionObjs.erase(it);
-		}
+
 	}
+
+	collisionObjsThisFrame.clear();
 }
 
 void btRefRigidbody::EmitCollisionEnter(btCollisionObject * other)
 {
-	std::cout << "Collision Enter with " << other << std::endl;
+	//std::cout << "Collision Enter with " << other << std::endl;
 	btRefRigidbody* otherRB = btRefRigidbody::upcast(other);
 	if (otherRB != 0)
 	{
@@ -59,7 +66,7 @@ void btRefRigidbody::EmitCollisionStay(btCollisionObject * other)
 	btRefRigidbody* otherRB = btRefRigidbody::upcast(other);
 	if (otherRB != 0)
 	{
-		
+		this->owner->_internal_CollisionStayCallback(otherRB);
 	}
 }
 
