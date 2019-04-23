@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Rigidbody.h"
-class PhysicsTester : public Component
+class ENGINE_API PhysicsTester : public Component
 {
 public:
 	static Registrar<PhysicsTester> registrar;

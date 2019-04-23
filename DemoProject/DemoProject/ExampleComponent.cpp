@@ -16,5 +16,5 @@ void ExampleComponent::Update()
 
 void ExampleComponent::DrawInspector()
 {
-	ImGui::Text("Hi Rob!");
+	ImGui::Text("Hi Gabe!");
 }

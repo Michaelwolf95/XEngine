@@ -3,7 +3,7 @@
 #include <BulletPhysics/LinearMath/btAlignedAllocator.h>
 #include <BulletPhysics/btBulletDynamicsCommon.h>
 
-class Collider : public Component
+class ENGINE_API Collider : public Component
 {
 public:
 	//static Registrar<Collider> registrar;

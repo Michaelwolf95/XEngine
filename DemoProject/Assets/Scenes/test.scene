@@ -4,143 +4,21 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>test</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>7</count>
+		<count>9</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
-				<gameObjectID>1</gameObjectID>
-				<name>Floor</name>
+				<gameObjectID>3</gameObjectID>
+				<name>Global Light</name>
 				<isActive>1</isActive>
 				<transform class_id="4" tracking_level="1" version="0" object_id="_1">
 					<Component class_id="5" tracking_level="0" version="0">
 						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
-						<componentID>2</componentID>
-					</Component>
-					<parent class_id="-1"></parent>
-					<localPosition class_id="6" tracking_level="0" version="0">
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>-1.556334496e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+01</vec.x>
-						<vec.y>5.000000000e-01</vec.y>
-						<vec.z>1.000000000e+01</vec.z>
-					</localScale>
-					<localRotation class_id="7" tracking_level="0" version="0">
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components class_id="8" tracking_level="0" version="0">
-					<count>2</count>
-					<item_version>1</item_version>
-					<item class_id="9" tracking_level="0" version="1">
-						<px class_id="10" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_2">
-							<Component>
-								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>3</componentID>
-							</Component>
-							<pathToObjModel>../Assets/3Dmodel/Crate/Crate1.obj</pathToObjModel>
-							<meshMaterialFilePaths class_id="11" tracking_level="0" version="0">
-								<count>1</count>
-								<item_version>0</item_version>
-								<item>../Assets/Materials/defaultobject.material</item>
-							</meshMaterialFilePaths>
-						</px>
-					</item>
-					<item>
-						<px class_id="12" class_name="Rigidbody" tracking_level="1" version="0" object_id="_3">
-							<Component>
-								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>4</componentID>
-							</Component>
-							<isKinematic>1</isKinematic>
-							<mass>1.000000000e+00</mass>
-						</px>
-					</item>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_4">
-				<gameObjectID>2</gameObjectID>
-				<name>Box 1</name>
-				<isActive>0</isActive>
-				<transform class_id_reference="4" object_id="_5">
-					<Component>
-						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
-						<componentID>5</componentID>
-					</Component>
-					<parent class_id="-1"></parent>
-					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>5.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.819000006e+00</vec.x>
-						<vec.y>1.274000049e+00</vec.y>
-						<vec.z>3.394000053e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>1.440801620e-01</q.x>
-						<q.y>3.721562624e-01</q.y>
-						<q.z>-3.430417040e-03</q.z>
-						<q.w>9.169126749e-01</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>2</count>
-					<item_version>1</item_version>
-					<item>
-						<px class_id_reference="10" object_id="_6">
-							<Component>
-								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>6</componentID>
-							</Component>
-							<pathToObjModel>../Assets/3Dmodel/Crate/Crate1.obj</pathToObjModel>
-							<meshMaterialFilePaths>
-								<count>1</count>
-								<item_version>0</item_version>
-								<item>../Assets/Materials/defaultobject.material</item>
-							</meshMaterialFilePaths>
-						</px>
-					</item>
-					<item>
-						<px class_id_reference="12" object_id="_7">
-							<Component>
-								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>9</componentID>
-							</Component>
-							<isKinematic>0</isKinematic>
-							<mass>1.000000000e+00</mass>
-						</px>
-					</item>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_8">
-				<gameObjectID>3</gameObjectID>
-				<name>Global Light</name>
-				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_9">
-					<Component>
-						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
+						<nextComponentID>42</nextComponentID>
 						<componentID>7</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
-					<localPosition>
+					<localPosition class_id="6" tracking_level="0" version="0">
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
 						<vec.z>0.000000000e+00</vec.z>
@@ -150,109 +28,28 @@
 						<vec.y>1.000000000e+00</vec.y>
 						<vec.z>1.000000000e+00</vec.z>
 					</localScale>
-					<localRotation>
+					<localRotation class_id="7" tracking_level="0" version="0">
 						<q.x>3.826834261e-01</q.x>
 						<q.y>0.000000000e+00</q.y>
 						<q.z>0.000000000e+00</q.z>
 						<q.w>9.238795638e-01</q.w>
 					</localRotation>
 				</transform>
-				<components>
-					<count>1</count>
+				<components class_id="8" tracking_level="0" version="0">
+					<count>0</count>
 					<item_version>1</item_version>
-					<item>
-						<px class_id="13" class_name="GlobalLightComponent" tracking_level="1" version="0" object_id="_10">
-							<LightComponent class_id="14" tracking_level="0" version="0">
-								<Component>
-									<enabled>1</enabled>
-									<nextComponentID>21</nextComponentID>
-									<componentID>8</componentID>
-								</Component>
-								<intensity>1.000000000e+00</intensity>
-								<color class_id="15" tracking_level="0" version="0">
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</color>
-								<ambience>1.000000015e-01</ambience>
-								<UNIFORM_NAME>globalLights</UNIFORM_NAME>
-							</LightComponent>
-						</px>
-					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_11">
-				<gameObjectID>4</gameObjectID>
-				<name>Box 2</name>
-				<isActive>0</isActive>
-				<transform class_id_reference="4" object_id="_12">
-					<Component>
-						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
-						<componentID>10</componentID>
-					</Component>
-					<parent class_id="-1"></parent>
-					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>2.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>2</count>
-					<item_version>1</item_version>
-					<item>
-						<px class_id_reference="10" object_id="_13">
-							<Component>
-								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>11</componentID>
-							</Component>
-							<pathToObjModel>../Assets/3Dmodel/Crate/Crate1.obj</pathToObjModel>
-							<meshMaterialFilePaths>
-								<count>1</count>
-								<item_version>0</item_version>
-								<item>../Assets/Materials/defaultobject.material</item>
-							</meshMaterialFilePaths>
-						</px>
-					</item>
-					<item>
-						<px class_id_reference="12" object_id="_14">
-							<Component>
-								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>12</componentID>
-							</Component>
-							<isKinematic>0</isKinematic>
-							<mass>1.000000000e+00</mass>
-						</px>
-					</item>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_15">
+			<px class_id_reference="3" object_id="_2">
 				<gameObjectID>5</gameObjectID>
 				<name>RawCollider</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_16">
+				<transform class_id_reference="4" object_id="_3">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
+						<nextComponentID>42</nextComponentID>
 						<componentID>13</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -276,11 +73,11 @@
 				<components>
 					<count>1</count>
 					<item_version>1</item_version>
-					<item>
-						<px class_id="16" class_name="BoxCollider" tracking_level="1" version="0" object_id="_17">
+					<item class_id="9" tracking_level="0" version="1">
+						<px class_id="10" class_name="BoxCollider" tracking_level="1" version="0" object_id="_4">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
+								<nextComponentID>42</nextComponentID>
 								<componentID>14</componentID>
 							</Component>
 							<boxSize>
@@ -294,21 +91,139 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_18">
+			<px class_id_reference="3" object_id="_5">
 				<gameObjectID>16</gameObjectID>
-				<name>New GameObject</name>
+				<name>Camera</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_19">
+				<transform class_id_reference="4" object_id="_6">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
+						<nextComponentID>42</nextComponentID>
 						<componentID>15</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>1.422500610e-01</vec.x>
-						<vec.y>4.519309998e+00</vec.y>
-						<vec.z>-7.154064178e+00</vec.z>
+						<vec.x>-1.341423988e+00</vec.x>
+						<vec.y>5.768351555e+00</vec.y>
+						<vec.z>-9.535465240e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>1.305261850e-01</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>9.914448857e-01</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>2</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="11" class_name="CameraComponent" tracking_level="1" version="0" object_id="_7">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>42</nextComponentID>
+								<componentID>37</componentID>
+							</Component>
+							<clearColor class_id="12" tracking_level="0" version="0">
+								<vec.x>2.598013580e-01</vec.x>
+								<vec.y>2.598019242e-01</vec.y>
+								<vec.z>2.598039508e-01</vec.z>
+								<vec.w>1.000000000e+00</vec.w>
+							</clearColor>
+						</px>
+					</item>
+					<item>
+						<px class_id="13" class_name="AudioComponent" tracking_level="1" version="0" object_id="_8">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>42</nextComponentID>
+								<componentID>38</componentID>
+							</Component>
+							<soundPath></soundPath>
+							<is3D>0</is3D>
+							<repeat>0</repeat>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_9">
+				<gameObjectID>36</gameObjectID>
+				<name>Guy</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_10">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>42</nextComponentID>
+						<componentID>23</componentID>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>-3.906173706e+00</vec.x>
+						<vec.y>-1.203689575e+00</vec.y>
+						<vec.z>5.144195557e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>3.650000095e-01</vec.x>
+						<vec.y>3.650000095e-01</vec.y>
+						<vec.z>3.650000095e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>1.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>4.371138829e-08</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="14" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_11">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>42</nextComponentID>
+								<componentID>24</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/nanosuit/nanosuit.obj</pathToObjModel>
+							<meshMaterialFilePaths class_id="15" tracking_level="0" version="0">
+								<count>7</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Visor.material</item>
+								<item>../Assets/Materials/Legs.material</item>
+								<item>../Assets/Materials/hands.material</item>
+								<item>../Assets/Materials/Lights.material</item>
+								<item>../Assets/Materials/Arms.material</item>
+								<item>../Assets/Materials/Helmet.material</item>
+								<item>../Assets/Materials/Body.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_12">
+				<gameObjectID>9</gameObjectID>
+				<name>Box</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_13">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>42</nextComponentID>
+						<componentID>25</componentID>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>4.237937927e-01</vec.x>
+						<vec.y>5.561466217e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -323,118 +238,280 @@
 					</localRotation>
 				</transform>
 				<components>
-					<count>2</count>
+					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="17" class_name="CameraComponent" tracking_level="1" version="0" object_id="_20">
+						<px class_id_reference="14" object_id="_14">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>16</componentID>
+								<nextComponentID>42</nextComponentID>
+								<componentID>26</componentID>
 							</Component>
-							<clearColor>
-								<vec.x>6.911764741e-01</vec.x>
-								<vec.y>6.911695600e-01</vec.y>
-								<vec.z>6.911695600e-01</vec.z>
-								<vec.w>1.000000000e+00</vec.w>
-							</clearColor>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
 						</px>
 					</item>
 					<item>
-						<px class_id="18" class_name="CameraControllerComponent" tracking_level="1" version="0" object_id="_21">
+						<px class_id="16" class_name="Rigidbody" tracking_level="1" version="0" object_id="_15">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>17</componentID>
+								<nextComponentID>42</nextComponentID>
+								<componentID>32</componentID>
 							</Component>
-							<fieldOfView>4.500000000e+01</fieldOfView>
-							<zoomSpeed>1.000000000e+00</zoomSpeed>
-							<xRotSpeed>5.000000000e+00</xRotSpeed>
-							<yRotSpeed>5.000000000e+00</yRotSpeed>
-							<zRotSpeed>2.500000000e+00</zRotSpeed>
-							<inversionX>0</inversionX>
-							<inversionY>0</inversionY>
-							<inversionZ>0</inversionZ>
-							<inversionZoom>0</inversionZoom>
-							<moveFowardSpeed>2.000000000e+00</moveFowardSpeed>
-							<moveBackwardSpeed>2.000000000e+00</moveBackwardSpeed>
-							<moveLeftSpeed>2.000000000e+00</moveLeftSpeed>
-							<moveRightSpeed>2.000000000e+00</moveRightSpeed>
-							<moveUpSpeed>2.000000000e+00</moveUpSpeed>
-							<moveDownSpeed>2.000000000e+00</moveDownSpeed>
-							<inversionMoveX>0</inversionMoveX>
-							<inversionMoveY>0</inversionMoveY>
-							<inversionMoveZ>0</inversionMoveZ>
-							<moveSpeedModifierX>5.000000000e+00</moveSpeedModifierX>
-							<moveSpeedModifierY>5.000000000e+00</moveSpeedModifierY>
-							<moveSpeedModifierZ>5.000000000e+00</moveSpeedModifierZ>
+							<isKinematic>0</isKinematic>
+							<mass>1.000000000e+00</mass>
+						</px>
+					</item>
+					<item>
+						<px class_id="17" class_name="PhysicsTester" tracking_level="1" version="0" object_id="_16">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>42</nextComponentID>
+								<componentID>41</componentID>
+							</Component>
 						</px>
 					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_22">
-				<gameObjectID>7</gameObjectID>
-				<name>New Nanosuit</name>
+			<px class_id_reference="3" object_id="_17">
+				<gameObjectID>29</gameObjectID>
+				<name>Floor</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_23">
+				<transform class_id_reference="4" object_id="_18">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>21</nextComponentID>
-						<componentID>18</componentID>
+						<nextComponentID>42</nextComponentID>
+						<componentID>29</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>2.135314941e+00</vec.y>
+						<vec.y>-1.000000000e+00</vec.y>
 						<vec.z>0.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
-						<vec.x>7.279999852e-01</vec.x>
-						<vec.y>7.279999852e-01</vec.y>
-						<vec.z>7.279999852e-01</vec.z>
+						<vec.x>1.000000000e+01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>1.000000000e+01</vec.z>
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
-						<q.y>9.578570724e-01</q.y>
+						<q.y>0.000000000e+00</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>-2.872461677e-01</q.w>
+						<q.w>1.000000000e+00</q.w>
 					</localRotation>
 				</transform>
 				<components>
 					<count>2</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_24">
+						<px class_id_reference="14" object_id="_19">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>19</componentID>
+								<nextComponentID>42</nextComponentID>
+								<componentID>30</componentID>
 							</Component>
-							<pathToObjModel>../Assets/3Dmodel/nanosuit/nanosuit.obj</pathToObjModel>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>7</count>
+								<count>2</count>
 								<item_version>0</item_version>
-								<item>../Assets/Materials/Visor.material</item>
-								<item>../Assets/Materials/Legs.material</item>
-								<item>../Assets/Materials/hands.material</item>
-								<item>../Assets/Materials/Lights.material</item>
-								<item>../Assets/Materials/Arms.material</item>
-								<item>../Assets/Materials/Helmet.material</item>
-								<item>../Assets/Materials/Body.material</item>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_25">
+						<px class_id_reference="16" object_id="_20">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>21</nextComponentID>
-								<componentID>20</componentID>
+								<nextComponentID>42</nextComponentID>
+								<componentID>31</componentID>
 							</Component>
-							<isKinematic>0</isKinematic>
+							<isKinematic>1</isKinematic>
 							<mass>1.000000000e+00</mass>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_21">
+				<gameObjectID>30</gameObjectID>
+				<name>Blue Light</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_22">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>42</nextComponentID>
+						<componentID>33</componentID>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>-4.262237549e+00</vec.x>
+						<vec.y>1.873359680e+00</vec.y>
+						<vec.z>1.394958496e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="18" class_name="PointLightComponent" tracking_level="1" version="0" object_id="_23">
+							<LightComponent class_id="19" tracking_level="0" version="0">
+								<Component>
+									<enabled>1</enabled>
+									<nextComponentID>42</nextComponentID>
+									<componentID>34</componentID>
+								</Component>
+								<intensity>1.485000014e+00</intensity>
+								<color>
+									<vec.x>2.970886230e-02</vec.x>
+									<vec.y>0.000000000e+00</vec.y>
+									<vec.z>1.000000000e+00</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</color>
+								<ambience>1.000000015e-01</ambience>
+								<UNIFORM_NAME>pointLights</UNIFORM_NAME>
+							</LightComponent>
+							<constant>1.000000000e+00</constant>
+							<linear>9.000000358e-02</linear>
+							<quadratic>3.200000152e-02</quadratic>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_24">
+				<gameObjectID>31</gameObjectID>
+				<name>Red Light</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_25">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>42</nextComponentID>
+						<componentID>35</componentID>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>3.640289307e+00</vec.x>
+						<vec.y>2.334594727e+00</vec.y>
+						<vec.z>-1.899223328e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="18" object_id="_26">
+							<LightComponent>
+								<Component>
+									<enabled>1</enabled>
+									<nextComponentID>42</nextComponentID>
+									<componentID>36</componentID>
+								</Component>
+								<intensity>1.485000014e+00</intensity>
+								<color>
+									<vec.x>1.000000000e+00</vec.x>
+									<vec.y>0.000000000e+00</vec.y>
+									<vec.z>0.000000000e+00</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</color>
+								<ambience>1.000000015e-01</ambience>
+								<UNIFORM_NAME>pointLights</UNIFORM_NAME>
+							</LightComponent>
+							<constant>1.000000000e+00</constant>
+							<linear>9.000000358e-02</linear>
+							<quadratic>3.200000152e-02</quadratic>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_27">
+				<gameObjectID>58</gameObjectID>
+				<name>New Spot Light</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_28">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>42</nextComponentID>
+						<componentID>39</componentID>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>-4.083099365e+00</vec.x>
+						<vec.y>8.219470978e+00</vec.y>
+						<vec.z>4.690475464e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>7.637000084e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>7.009092569e-01</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>7.132504582e-01</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="20" class_name="SpotLightComponent" tracking_level="1" version="0" object_id="_29">
+							<LightComponent>
+								<Component>
+									<enabled>1</enabled>
+									<nextComponentID>42</nextComponentID>
+									<componentID>40</componentID>
+								</Component>
+								<intensity>5.940999985e+00</intensity>
+								<color>
+									<vec.x>1.000000000e+00</vec.x>
+									<vec.y>1.000000000e+00</vec.y>
+									<vec.z>1.000000000e+00</vec.z>
+									<vec.w>1.000000000e+00</vec.w>
+								</color>
+								<ambience>1.000000015e-01</ambience>
+								<UNIFORM_NAME>spotLights</UNIFORM_NAME>
+							</LightComponent>
+							<constant>1.000000000e+00</constant>
+							<linear>9.000000358e-02</linear>
+							<quadratic>3.200000152e-02</quadratic>
+							<cutOff>9.762960076e-01</cutOff>
+							<outerCutOff>9.537169337e-01</outerCutOff>
 						</px>
 					</item>
 				</components>

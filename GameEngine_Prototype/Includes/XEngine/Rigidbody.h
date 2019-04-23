@@ -16,7 +16,7 @@ class boost::serialization::access;
 
 namespace XEngine
 {
-	class Rigidbody : public Component
+	class ENGINE_API Rigidbody : public Component
 	{
 	public:
 		static Registrar<Rigidbody> registrar;

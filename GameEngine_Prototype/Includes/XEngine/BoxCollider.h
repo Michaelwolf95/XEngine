@@ -6,7 +6,7 @@
 
 namespace XEngine
 {
-	class BoxCollider : public Collider
+	class ENGINE_API BoxCollider : public Collider
 	{
 	public:
 		static Registrar<BoxCollider> registrar;
