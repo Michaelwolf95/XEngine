@@ -62,3 +62,7 @@ void CameraComponent::DrawInspector()
 	ImGui::ColorEdit4(LABEL("Color "), (float*)&clearColor);
 }
 
+CameraComponent * CameraComponent::DeepCopy()
+{
+	return new CameraComponent(*this);
+}

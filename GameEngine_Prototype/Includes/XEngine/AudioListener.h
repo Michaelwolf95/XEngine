@@ -10,6 +10,7 @@ public:
 	void Update() override;
 	AudioListener();
 	~AudioListener();
+	AudioListener * DeepCopy() override;
 	FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
 	FMOD_VECTOR velocity = { 0.0f, 0.0f, 0.0f };
 	FMOD_VECTOR forward = { 0.0f, 0.0f, 1.0f };

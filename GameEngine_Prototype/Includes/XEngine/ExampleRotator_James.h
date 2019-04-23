@@ -9,5 +9,6 @@ public:
 	~ExampleRotator_James();
 	void Start() override;
 	void Update() override;
+	ExampleRotator_James * DeepCopy() override;
 };
 

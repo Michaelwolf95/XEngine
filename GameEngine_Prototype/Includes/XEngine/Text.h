@@ -40,6 +40,7 @@ public:
 	void Draw() override;
 	void DrawInspector() override;
 	void Load();
+	Text * DeepCopy() override;
 	void setFontSize(FT_UInt size);
 	void setText(std::string);
 	void setColor(glm::vec3);

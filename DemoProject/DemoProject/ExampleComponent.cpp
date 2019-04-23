@@ -18,3 +18,8 @@ void ExampleComponent::DrawInspector()
 {
 	ImGui::Text("Hi Gabe!");
 }
+
+ExampleComponent * ExampleComponent::DeepCopy()
+{
+	return new ExampleComponent(*this);
+}

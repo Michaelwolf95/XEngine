@@ -76,4 +76,10 @@ namespace XEngine
 		RenderManager::DrawWorldSpaceLine(corners[7], corners[5], color, size);
 		RenderManager::DrawWorldSpaceLine(corners[7], corners[6], color, size);
 	}
+
+	BoxCollider * BoxCollider::DeepCopy()
+	{
+		return new BoxCollider(*this);
+	}
 }
+

@@ -51,6 +51,7 @@ namespace XEngine
 		boost::signals2::signal<void(CollisionInfo&)> OnCollisionExitEvent;
 
 		Rigidbody();
+		Rigidbody (const Rigidbody& other); // explicit copy construtor, needed for DeepCopy() method
 		~Rigidbody();
 		void Start() override;
 		void Update() override;
@@ -61,6 +62,8 @@ namespace XEngine
 		void AddForce(glm::vec3 force);
 
 		static Rigidbody* GetAttachedRigidbody(GameObject* go);
+
+		XEngine::Rigidbody * DeepCopy() override;
 
 	private:
 		friend class btRefRigidbody;

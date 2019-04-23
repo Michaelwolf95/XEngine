@@ -36,3 +36,8 @@ void PointLightComponent::DrawInspector()
 	ImGui::InputFloat(LABEL("Linear "), &linear);
 	ImGui::InputFloat(LABEL("Quadratic "), &quadratic);
 }
+
+PointLightComponent * PointLightComponent::DeepCopy()
+{
+	return new PointLightComponent(*this);
+}

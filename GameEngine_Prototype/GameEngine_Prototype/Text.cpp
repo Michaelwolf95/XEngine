@@ -257,3 +257,8 @@ void Text::Load()
 	FT_Done_Face(face);
 	FT_Done_FreeType(ft);
 }
+
+Text * Text::DeepCopy()
+{
+	return new Text(*this);
+}

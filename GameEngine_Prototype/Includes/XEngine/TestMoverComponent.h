@@ -9,6 +9,7 @@ public:
 	~TestMoverComponent();
 	void Start() override;
 	void Update() override;
+	TestMoverComponent* DeepCopy() override;
 private:
 	friend class boost::serialization::access;
 	template<class Archive>

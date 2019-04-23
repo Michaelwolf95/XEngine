@@ -129,3 +129,8 @@ void FreeLookCameraController::DrawInspector()
 	ImGui::InputFloat("X RotSpeed", &xRotSpeed);
 	ImGui::InputFloat("Y RotSpeed", &yRotSpeed);
 }
+
+FreeLookCameraController * FreeLookCameraController::DeepCopy()
+{
+	return new FreeLookCameraController(*this);
+}

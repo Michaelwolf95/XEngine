@@ -9,5 +9,6 @@ public:
 	~SimpleRotator();
 	void Start() override;
 	void Update() override;
+	SimpleRotator * DeepCopy() override;
 };
 

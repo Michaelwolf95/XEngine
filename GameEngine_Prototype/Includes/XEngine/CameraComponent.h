@@ -25,6 +25,8 @@ public:
 	void OnDrawGizmos() override;
 	virtual void DrawInspector() override;
 
+	CameraComponent * DeepCopy() override;
+
 private:
 	// Render state
 	std::shared_ptr<GizmoSpriteDrawer> gizmoDrawer;

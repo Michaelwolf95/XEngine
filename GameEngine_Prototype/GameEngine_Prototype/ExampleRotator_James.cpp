@@ -23,3 +23,8 @@ void ExampleRotator_James::Update()
 	//Rotate using glm Totate. this one doesnt break
 	gameObject->transform->Rotate(glm::vec3(0, deltaY, 0));
 }
+
+ExampleRotator_James * ExampleRotator_James::DeepCopy()
+{
+	return new ExampleRotator_James(*this);
+}

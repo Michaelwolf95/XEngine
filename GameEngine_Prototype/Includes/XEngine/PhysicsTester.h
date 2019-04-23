@@ -17,6 +17,7 @@ public:
 	void OnDisable() override;
 
 	void OnCollisionEnter(XEngine::CollisionInfo);
+	PhysicsTester * DeepCopy() override;
 private:
 	friend class ::boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

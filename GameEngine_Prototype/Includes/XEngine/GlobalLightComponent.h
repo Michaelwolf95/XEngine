@@ -22,6 +22,8 @@ public:
 	void DrawInspector() override;
 	void Draw(Shader* shader, int &counter) override;
 
+	GlobalLightComponent * DeepCopy() override;
+
 
 private:
 	friend class boost::serialization::access;

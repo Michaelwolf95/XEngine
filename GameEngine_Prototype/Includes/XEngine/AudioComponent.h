@@ -22,6 +22,7 @@ public:
 	void Pause();
 	void UnPause();
 	void DrawInspector() override;
+	AudioComponent* DeepCopy() override;
 
 private:
 	friend class boost::serialization::access;

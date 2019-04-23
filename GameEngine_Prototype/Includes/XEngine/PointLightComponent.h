@@ -26,6 +26,7 @@ public:
 	void Update() override;
 
 	void DrawInspector() override;
+	PointLightComponent * DeepCopy() override;
 	void Draw(Shader* shader, int &counter) override;
 
 private:

@@ -48,11 +48,16 @@ public:
 	virtual void OnDrawGizmosSelected() {};
 
 	virtual void DrawInspector() {};
+	
+	virtual Component* DeepCopy() = 0;
+
 
 	// Engine Callbacks
 	bool isStarted = false;
 	void callback_PerformStart();
 	void callback_PerformUpdate();
+
+	
 	//void callback_PerformFixedUpdate()
 private:
 

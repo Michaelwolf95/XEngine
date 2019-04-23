@@ -30,6 +30,8 @@ public:
 	void DrawInspector() override;
 	void Draw(Shader* shader, int &counter) override;
 
+	SpotLightComponent * DeepCopy() override;
+
 private:
 	friend class boost::serialization::access;
 	template<class Archive>

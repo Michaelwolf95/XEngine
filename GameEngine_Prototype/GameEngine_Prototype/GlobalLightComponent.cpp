@@ -23,3 +23,8 @@ void GlobalLightComponent::Draw(Shader * shader, int &counter)
 	shader->setVec3(UNIFORM_NAME + '[' + std::to_string(counter) + "].direction", getDirection()); // TODO: Only update when necessary (static techique)
 	LightComponent::Draw(shader, counter);
 }
+
+GlobalLightComponent * GlobalLightComponent::DeepCopy()
+{
+	return new GlobalLightComponent(*this);
+}

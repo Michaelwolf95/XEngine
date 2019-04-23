@@ -1079,6 +1079,37 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	{
 		selectedGameObject = go->GetSelfPtr();
 	}
+
+	// Right Click Selected Object
+	if (ImGui::BeginPopupContextItem("Game Object Context", 1))
+	{
+		// Duplicate Object
+		if (ImGui::Button("Duplicate")) 
+		{
+			// add game object to scene
+			// change name to differentiate
+			GameObject_ptr dupli = SceneManager::getInstance().GetActiveScene()->CreateGameObject( (go->name+"_1").c_str());
+
+			// add copy components of selectedObject 
+			if (go->components.size() != 0)
+			{
+				for (int i = 0; i < go->components.size(); i++)
+				{
+					dupli->AddComponent(std::shared_ptr<Component>(go->components[i]->DeepCopy() ) );
+				}
+			}
+
+			// get transform of the selected object
+			dupli->transform->setPosition(go->transform->getPosition());
+			dupli->transform->setRotation(go->transform->getRotation());
+			dupli->transform->setLocalScale(go->transform->getLocalScale());
+
+			// change selectedObject to newly duplicate object
+			selectedGameObject = dupli;
+		}
+
+		ImGui::EndPopup();
+	}
 	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PopStyleColor(1);

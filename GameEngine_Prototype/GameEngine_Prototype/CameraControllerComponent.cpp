@@ -223,3 +223,9 @@ CameraComponent * CameraControllerComponent::findObjectCameraComponent()
 
 	return cameraComponent;;
 }
+
+
+CameraControllerComponent * CameraControllerComponent::DeepCopy()
+{
+	return new CameraControllerComponent(*this);
+}
