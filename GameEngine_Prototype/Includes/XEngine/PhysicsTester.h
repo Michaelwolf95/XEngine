@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Rigidbody.h"
+//using namespace XEngine;
 class ENGINE_API PhysicsTester : public Component
 {
 public:
@@ -15,7 +16,7 @@ public:
 	void OnEnable() override;
 	void OnDisable() override;
 
-	void OnCollisionEnter();
+	void OnCollisionEnter(XEngine::CollisionInfo);
 private:
 	friend class ::boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

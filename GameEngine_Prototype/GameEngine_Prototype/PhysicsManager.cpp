@@ -60,6 +60,7 @@ namespace XEngine
 		int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
 		for (int i = 0; i < numManifolds; i++)
 		{
+			//std::cout << "Manifold " << i << std::endl;
 			btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
 			btCollisionObject* obA = const_cast<btCollisionObject*>(contactManifold->getBody0());
 			btCollisionObject* obB = const_cast<btCollisionObject*>(contactManifold->getBody1());
@@ -76,17 +77,18 @@ namespace XEngine
 				// We might need to create our own Collision object.
 				refRbB->HandleCollision(obA, contactManifold);
 			}
-			int numContacts = contactManifold->getNumContacts();
-			for (int j = 0; j < numContacts; j++)
-			{
-				btManifoldPoint& pt = contactManifold->getContactPoint(j);
-				if (pt.getDistance() < 0.f)
-				{
-					const btVector3& ptA = pt.getPositionWorldOnA();
-					const btVector3& ptB = pt.getPositionWorldOnB();
-					const btVector3& normalOnB = pt.m_normalWorldOnB;
-				}
-			}
+			
+			//int numContacts = contactManifold->getNumContacts();
+			//for (int j = 0; j < numContacts; j++)
+			//{
+			//	btManifoldPoint& pt = contactManifold->getContactPoint(j);
+			//	if (pt.getDistance() < 0.f)
+			//	{
+			//		const btVector3& ptA = pt.getPositionWorldOnA();
+			//		const btVector3& ptB = pt.getPositionWorldOnB();
+			//		const btVector3& normalOnB = pt.m_normalWorldOnB;
+			//	}
+			//}
 		}
 
 		SceneManager::getInstance().FixedUpdateActiveScene();

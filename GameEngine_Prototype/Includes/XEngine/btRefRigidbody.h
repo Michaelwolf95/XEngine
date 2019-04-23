@@ -6,14 +6,14 @@
 namespace XEngine
 {
 	class Rigidbody;
-
-	struct CollisionInfo
-	{
-	public:
-		btCollisionObject* other;
-		btPersistentManifold* contactManifold;
-		CollisionInfo(btCollisionObject* o, btPersistentManifold* contact);
-	};
+	struct CollisionInfo;
+	//struct CollisionInfo
+	//{
+	//public:
+	//	btCollisionObject* other;
+	//	btPersistentManifold* contactManifold;
+	//	CollisionInfo(btCollisionObject* o, btPersistentManifold* contact);
+	//};
 	class btRefRigidbody : public btRigidBody
 	{
 	public:
@@ -36,11 +36,11 @@ namespace XEngine
 		std::vector<btCollisionObject*> collisionObjsThisFrame;
 		std::vector<btCollisionObject*> currentCollisionObjs;
 
-		void EmitCollisionEnter(CollisionInfo info);
-		void EmitCollisionStay(CollisionInfo info);
-		void EmitCollisionExit(CollisionInfo info);
+		void EmitCollisionEnter(btCollisionObject* other, btPersistentManifold* contactManifold);
+		void EmitCollisionStay(btCollisionObject* other, btPersistentManifold* contactManifold);
+		void EmitCollisionExit(btCollisionObject* other, btPersistentManifold* contactManifold);
 
-
+		CollisionInfo GenerateCollisionInfo(btRefRigidbody* otherRB, btPersistentManifold* contactManifold);
 	};
 
 }

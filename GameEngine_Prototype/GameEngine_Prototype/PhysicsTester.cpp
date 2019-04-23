@@ -14,14 +14,13 @@ PhysicsTester::~PhysicsTester()
 
 void PhysicsTester::Start()
 {
-	//RB_SUBSCRIBE_COLLISION_ENTER(PhysicsTester)
-
-	rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);
+	RB_SUBSCRIBE_COLLISION_ENTER(PhysicsTester)
+	//RB_SUBSCRIBE_COLLISION_EXIT(PhysicsTester)
+	/*rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);
 	if (rb != nullptr)
 	{
-		std::cout << "Subscribe" << std::endl;
-		rb->OnCollisionEnterEvent.connect(boost::bind(&PhysicsTester::OnCollisionEnter, this));
-	}
+		rb->OnCollisionEnterEvent.connect(boost::bind(&PhysicsTester::OnCollisionEnter, this, _1));
+	}*/
 }
 
 void PhysicsTester::Update()
@@ -36,7 +35,7 @@ void PhysicsTester::OnDisable()
 {
 }
 
-void PhysicsTester::OnCollisionEnter()
+void PhysicsTester::OnCollisionEnter(XEngine::CollisionInfo info)
 {
-	std::cout << "ON COLLISION ENTER!!!" << std::endl;
+	std::cout << "ON COLLISION ENTER!!! - " << info.otherRigidbody->gameObject->name << std::endl;
 }

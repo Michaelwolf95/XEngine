@@ -156,22 +156,23 @@ namespace XEngine
 			matrix[12], matrix[13], matrix[14], matrix[15]);
 	}
 
-	void Rigidbody::_internal_CollisionEnterCallback(btRefRigidbody * other)
+	void Rigidbody::_internal_CollisionEnterCallback(CollisionInfo& info)
 	{
 		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
-		OnCollisionEnterEvent();
+		OnCollisionEnterEvent(info);
+		//std::cout << "CollisionEnter " << gameObject->name << " with " << info.otherRigidbody->gameObject->name << std::endl;
 	}
 
-	void Rigidbody::_internal_CollisionStayCallback(btRefRigidbody * other)
+	void Rigidbody::_internal_CollisionStayCallback(CollisionInfo& info)
 	{
 		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
-		OnCollisionStayEvent();
+		OnCollisionStayEvent(info);
 	}
 
-	void Rigidbody::_internal_CollisionExitCallback(btRefRigidbody * other)
+	void Rigidbody::_internal_CollisionExitCallback(CollisionInfo& info)
 	{
 		//std::cout << "CollisionExit " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
-		OnCollisionExitEvent();
+		OnCollisionExitEvent(info);
 	}
 
 	void Rigidbody::DrawInspector()
@@ -242,5 +243,12 @@ namespace XEngine
 			else break;
 		}
 		return rb;
+	}
+	CollisionInfo::CollisionInfo(Rigidbody * _other, Collider * _otherCollider, glm::vec3 _contactPoint, glm::vec3 _contactNormal)
+	{
+		otherRigidbody = _other;
+		otherCollider = _otherCollider;
+		contactPoint = _contactPoint;
+		contactNormal = _contactNormal;
 	}
 }

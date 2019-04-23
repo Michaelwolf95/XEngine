@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include "btRefRigidbody.h"
+#include "Collider.h"
 //#include "Serialization.h"
 //#include <BulletPhysics/LinearMath/btAlignedAllocator.h>
 //ATTRIBUTE_ALIGNED16(class)
@@ -16,6 +17,20 @@ class boost::serialization::access;
 
 namespace XEngine
 {
+	class Rigidbody;
+	struct CollisionInfo
+	{
+	public:
+		Rigidbody* otherRigidbody;
+		Collider* otherCollider;
+		glm::vec3 contactPoint;
+		glm::vec3 contactNormal;
+		CollisionInfo(Rigidbody* _other,
+			Collider* _otherCollider = nullptr,
+			glm::vec3 _contactPoint = glm::vec3(0, 0, 0),
+			glm::vec3 _contactNormal = glm::vec3(0, 0, 0)
+		);
+	};
 
 	class ENGINE_API Rigidbody : public Component
 	{
@@ -31,9 +46,9 @@ namespace XEngine
 		btBoxShape* colShape = nullptr;
 		btVector3* boxColliderHalfExtents = nullptr;
 
-		boost::signals2::signal<void()> OnCollisionEnterEvent;
-		boost::signals2::signal<void()> OnCollisionStayEvent;
-		boost::signals2::signal<void()> OnCollisionExitEvent;
+		boost::signals2::signal<void(CollisionInfo&)> OnCollisionEnterEvent;
+		boost::signals2::signal<void(CollisionInfo&)> OnCollisionStayEvent;
+		boost::signals2::signal<void(CollisionInfo&)> OnCollisionExitEvent;
 
 		Rigidbody();
 		~Rigidbody();
@@ -60,9 +75,9 @@ namespace XEngine
 		glm::mat4 btScalar2glmMat4(btScalar* matrix);
 
 		// Internal callbacks
-		void _internal_CollisionEnterCallback(btRefRigidbody* other);
-		void _internal_CollisionStayCallback(btRefRigidbody* other);
-		void _internal_CollisionExitCallback(btRefRigidbody* other);
+		void _internal_CollisionEnterCallback(CollisionInfo& info);
+		void _internal_CollisionStayCallback(CollisionInfo& info);
+		void _internal_CollisionExitCallback(CollisionInfo& info);
 
 		friend class ::boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -86,13 +101,13 @@ namespace XEngine
 
 #define RB_SUBSCRIBE_COLLISION_ENTER(ClassType)								\
 XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
-if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionEnter, this));	\
+if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionEnter, this, _1));	\
 /**/
-//#define RB_SUBSCRIBE_COLLISION_STAY(ClassType)								\
-//XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
-//if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionStay, this));	\
-///**/
-//#define RB_SUBSCRIBE_COLLISION_EXIT(ClassType)								\
-//XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
-//if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionExit, this));	\
-///**/
+#define RB_SUBSCRIBE_COLLISION_STAY(ClassType)								\
+XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
+if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionStay, this, _1));	\
+/**/
+#define RB_SUBSCRIBE_COLLISION_EXIT(ClassType)								\
+XEngine::Rigidbody* _rb = XEngine::Rigidbody::GetAttachedRigidbody(this->gameObject);	\
+if (_rb != nullptr) _rb->OnCollisionEnterEvent.connect(boost::bind(&ClassType::OnCollisionExit, this, _1));	\
+/**/
