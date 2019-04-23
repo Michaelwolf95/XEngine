@@ -308,6 +308,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLibrary.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="PhysicsTester.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="PrimitiveModels.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -394,6 +395,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\Model.h" />
     <ClInclude Include="..\Includes\XEngine\ModelLibrary.h" />
     <ClInclude Include="..\Includes\XEngine\PhysicsManager.h" />
+    <ClInclude Include="..\Includes\XEngine\PhysicsTester.h" />
     <ClInclude Include="..\Includes\XEngine\PointLightComponent.h" />
     <ClInclude Include="..\Includes\XEngine\PrimitiveModels.h" />
     <ClInclude Include="..\Includes\XEngine\RenderableObject.h" />

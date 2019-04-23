@@ -159,6 +159,7 @@ namespace XEngine
 	void Rigidbody::_internal_CollisionEnterCallback(btRefRigidbody * other)
 	{
 		std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		OnCollisionEnterEvent();
 	}
 
 	void Rigidbody::_internal_CollisionStayCallback(btRefRigidbody * other)

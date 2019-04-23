@@ -7,6 +7,9 @@
 //#include "Serialization.h"
 //#include <BulletPhysics/LinearMath/btAlignedAllocator.h>
 //ATTRIBUTE_ALIGNED16(class)
+#include "boost/signals2.hpp"
+#include "boost/function.hpp"
+#include <boost/bind.hpp>
 
 // Forward declare for friend access.
 class boost::serialization::access;
@@ -27,6 +30,8 @@ namespace XEngine
 		btBoxShape* colShape = nullptr;
 		btVector3* boxColliderHalfExtents = nullptr;
 
+		boost::signals2::signal<void()> OnCollisionEnterEvent;
+
 		Rigidbody();
 		~Rigidbody();
 		void Start() override;
@@ -39,6 +44,7 @@ namespace XEngine
 
 	private:
 		friend class btRefRigidbody;
+
 
 		btTransform* physTransformModel = nullptr;
 		//btScalar* _convertTransformArray[16];

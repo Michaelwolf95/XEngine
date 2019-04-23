@@ -7,7 +7,11 @@
 REGISTER_COMPONENT(XEngine::BoxCollider, "BoxCollider")
 namespace XEngine
 {
-	BoxCollider::BoxCollider() {}
+	BoxCollider::BoxCollider()
+	{
+		//glm::vec3 scale = this->gameObject->transform->getScale();
+		halfExtents = new btVector3(1,1,1);
+	}
 	BoxCollider::~BoxCollider() {}
 
 	void BoxCollider::Start()
@@ -26,6 +30,7 @@ namespace XEngine
 	}
 	void BoxCollider::DrawInspector()
 	{
+		ImGui::InputFloat3("Size", (float*)&boxSize);
 	}
 	void BoxCollider::OnDrawGizmosSelected()
 	{
@@ -33,7 +38,9 @@ namespace XEngine
 
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
-		glm::vec3 halfExt(halfExtents->getX(), halfExtents->getY(), halfExtents->getZ());
+
+		glm::vec3 scale = this->gameObject->transform->getScale();
+		glm::vec3 halfExt(scale.x * boxSize.x, scale.y * boxSize.y, scale.z * boxSize.z);
 		// this->gameObject->transform->getScale();// *0.5f;
 		//colShape->getHalfExtentsWithMargin()
 		//RenderManager::DrawWorldSpaceBox(pos, halfExt, glm::vec4(0, 0, 1, 1), 2);
