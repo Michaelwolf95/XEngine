@@ -117,23 +117,25 @@ float CameraControllerComponent::isMoveSpeedModified(bool _moveSpeedModified, fl
 void CameraControllerComponent::DrawInspector()
 {
 	
-	//ImGui::InputFloat(LABEL("fieldOfView "), &fieldOfView);
-	ImGui::SliderFloat(LABEL("fieldOfView "), &fieldOfView, 10.0f, 180.0f);
-	ImGui::SliderFloat(LABEL("zoomSpeed "), &zoomSpeed, 0.001f, 179.999f);
+	//ImGui::InputFloat("fieldOfView "), &fieldOfView);
+	ImGui::PushID(this);
+	ImGui::SliderFloat("fieldOfView", &fieldOfView, 10.0f, 180.0f);
+	ImGui::SliderFloat("zoomSpeed", &zoomSpeed, 0.001f, 179.999f);
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert Zoom "), &inversionZoom);
-	ImGui::SliderFloat(LABEL("X RotSpeed "), &xRotSpeed, 0.1f, 20.0f, "%.1f"); //TODO: allow min-max values to be modified
+	ImGui::Checkbox("Invert Zoom", &inversionZoom);
+	ImGui::SliderFloat("X RotSpeed", &xRotSpeed, 0.1f, 20.0f, "%.1f"); //TODO: allow min-max values to be modified
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert X Axis "), &inversionX);
-	ImGui::SliderFloat(LABEL("Y RotSpeed "), &yRotSpeed, 0.1f, 20.0f, "%.1f");
+	ImGui::Checkbox("Invert X Axis", &inversionX);
+	ImGui::SliderFloat("Y RotSpeed", &yRotSpeed, 0.1f, 20.0f, "%.1f");
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert Y Axis "), &inversionY);
-	ImGui::SliderFloat(LABEL("Z RotSpeed "), &zRotSpeed, 0.1f, 20.0f, "%.1f");
+	ImGui::Checkbox("Invert Y Axis", &inversionY);
+	ImGui::SliderFloat("Z RotSpeed", &zRotSpeed, 0.1f, 20.0f, "%.1f");
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert Z Axis "), &inversionZ);
-	ImGui::SliderFloat(LABEL("Move Speed Mod X "), &moveSpeedModifierX, 0.1f, 20.0f, "%.1f");
-	ImGui::SliderFloat(LABEL("Move Speed Mod Y "), &moveSpeedModifierY, 0.1f, 20.0f, "%.1f");
-	ImGui::SliderFloat(LABEL("Move Speed Mod Z "), &moveSpeedModifierZ, 0.1f, 20.0f, "%.1f");
+	ImGui::Checkbox("Invert Z Axis", &inversionZ);
+	ImGui::SliderFloat("Move Speed Mod X", &moveSpeedModifierX, 0.1f, 20.0f, "%.1f");
+	ImGui::SliderFloat("Move Speed Mod Y", &moveSpeedModifierY, 0.1f, 20.0f, "%.1f");
+	ImGui::SliderFloat("Move Speed Mod Z", &moveSpeedModifierZ, 0.1f, 20.0f, "%.1f");
+	ImGui::PopID();
 }
 
 CameraComponent * CameraControllerComponent::findObjectCameraComponent()

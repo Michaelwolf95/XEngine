@@ -59,6 +59,8 @@ void CameraComponent::OnDrawGizmos()
 
 void CameraComponent::DrawInspector()
 {
-	ImGui::ColorEdit4(LABEL("Color "), (float*)&clearColor);
+	ImGui::PushID(this);
+	ImGui::ColorEdit4("Color", (float*)&clearColor);
+	ImGui::PopID();
 }
 

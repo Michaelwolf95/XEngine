@@ -285,6 +285,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="CameraControllerComponent.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
@@ -349,7 +350,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\AutoMover.h" />
     <ClInclude Include="..\Includes\XEngine\Camera.h" />
     <ClInclude Include="..\Includes\XEngine\CameraComponent.h" />
-	<ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h" />
     <ClInclude Include="..\Includes\XEngine\CameraSwapper.h" />
     <ClInclude Include="..\Includes\XEngine\Collider.h" />
     <ClInclude Include="..\Includes\XEngine\Component.h" />
@@ -357,6 +358,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\CoreComponents.h" />
     <ClInclude Include="..\Includes\XEngine\DebugUtility.h" />
     <ClInclude Include="..\Includes\XEngine\Drawer.h" />
+    <ClInclude Include="..\Includes\XEngine\Emitter.h" />
     <ClInclude Include="..\Includes\XEngine\ExampleRotator_James.h" />
     <ClInclude Include="..\Includes\XEngine\FreeLookCameraController.h" />
     <ClInclude Include="..\Includes\XEngine\GameComponentAnalytic.h" />
