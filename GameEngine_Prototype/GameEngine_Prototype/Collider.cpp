@@ -2,12 +2,24 @@
 
 
 //REGISTER_COMPONENT(AudioComponent, "AudioComponent")
-
-Collider::Collider()
+namespace XEngine
 {
-}
+	Collider::Collider()
+	{
+	}
 
 
-Collider::~Collider()
-{
+	Collider::~Collider()
+	{
+	}
+
+	btPolyhedralConvexShape * Collider::GetColShape()
+	{
+		return colShape;
+	}
+
+	void Collider::Start()
+	{
+		Init();
+	}
 }

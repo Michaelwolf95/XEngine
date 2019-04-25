@@ -18,6 +18,7 @@ class boost::serialization::access;
 namespace XEngine
 {
 	class Rigidbody;
+	class Collider;
 	struct CollisionInfo
 	{
 	public:
@@ -43,8 +44,10 @@ namespace XEngine
 		float mass = 1.0f;
 		bool isKinematic = false;
 
-		btBoxShape* colShape = nullptr;
-		btVector3* boxColliderHalfExtents = nullptr;
+		//btVector3* localInertia = nullptr;
+
+		//btBoxShape* colShape = nullptr;
+		//btVector3* boxColliderHalfExtents = nullptr;
 
 		boost::signals2::signal<void(CollisionInfo&)> OnCollisionEnterEvent;
 		boost::signals2::signal<void(CollisionInfo&)> OnCollisionStayEvent;
@@ -62,6 +65,9 @@ namespace XEngine
 
 		static Rigidbody* GetAttachedRigidbody(GameObject* go);
 
+		void AttachCollider(Collider* col);
+		void DetachCollider(Collider* col);
+		bool isDynamic();
 	private:
 		friend class btRefRigidbody;
 

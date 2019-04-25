@@ -16,14 +16,19 @@
 REGISTER_COMPONENT(XEngine::Rigidbody, "Rigidbody")
 namespace XEngine
 {
-	Rigidbody::Rigidbody() {}
+	Rigidbody::Rigidbody() 
+	{
+		if (isKinematic)
+			mass = 0.0f;
+		//localInertia = new btVector3(0, 0, 0);
+	}
 	Rigidbody::~Rigidbody()
 	{
 		std::cout << "\t\tDeconstructing Rigidbody..." << std::endl;
 		// TODO: Remove from physics manager.
 		if (isInitialized)
 		{
-			PhysicsManager::getInstance().RemoveCollisionShape(colShape);
+			//PhysicsManager::getInstance().RemoveCollisionShape(colShape);
 
 			if (body != nullptr && PhysicsManager::getInstance().dynamicsWorld != nullptr)
 			{
@@ -32,14 +37,17 @@ namespace XEngine
 				delete body;
 				body = nullptr;
 			}
-			delete boxColliderHalfExtents;
-			boxColliderHalfExtents = nullptr;
+			//delete boxColliderHalfExtents;
+			//boxColliderHalfExtents = nullptr;
 			delete physTransformModel;
 			physTransformModel = nullptr;
-			delete colShape;
-			colShape = nullptr;
+			//delete colShape;
+			//colShape = nullptr;
 			delete motionState;
 			motionState = nullptr;
+
+			//delete localInertia;
+			//localInertia = nullptr;
 
 			std::cout << "\t\t\tFinished Deconstructing Rigidbody" << std::endl;
 		}
@@ -49,10 +57,10 @@ namespace XEngine
 		std::cout << "\t\tInitializing Rigidbody..." << std::endl;
 
 		// Collider
-		glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
-		boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
-		colShape = new btBoxShape(*boxColliderHalfExtents);
-		PhysicsManager::getInstance().AddCollisionShape(colShape);
+		//glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
+		//boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
+		//colShape = new btBoxShape(*boxColliderHalfExtents);
+		//PhysicsManager::getInstance().AddCollisionShape(colShape);
 
 		// Create Dynamic Objects
 		physTransformModel = new btTransform();
@@ -62,16 +70,17 @@ namespace XEngine
 		//rigidbody is dynamic if and only if mass is non zero, otherwise static
 		if (isKinematic)
 			mass = 0.0f;
-		bool isDynamic = (mass != 0.f);
-		btVector3 localInertia(0, 0, 0);
-		if (isDynamic)
-		{
-			colShape->calculateLocalInertia(mass, localInertia);
-		}
+		//bool isDynamic = (mass != 0.f);
+		//localInertia = new btVector3(0, 0, 0);
+		//if (isDynamic)
+		//{
+		//	//colShape->calculateLocalInertia(mass, localInertia);
+		//}
 
 		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 		motionState = new btDefaultMotionState(*physTransformModel);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
+		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, nullptr);
 		body = new btRefRigidbody(rbInfo);
 		body->owner = this; // L337 HACKS
 
@@ -99,10 +108,10 @@ namespace XEngine
 	}
 	void Rigidbody::Update()
 	{
-		glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
-		boxColliderHalfExtents->setX(scale.x);
-		boxColliderHalfExtents->setY(scale.y);
-		boxColliderHalfExtents->setZ(scale.z);
+		//glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
+		//boxColliderHalfExtents->setX(scale.x);
+		//boxColliderHalfExtents->setY(scale.y);
+		//boxColliderHalfExtents->setZ(scale.z);
 		SyncPhysicsModelWithTransform();
 		//SyncTransformWithPhysicsModel();
 
@@ -185,44 +194,44 @@ namespace XEngine
 	}
 	void Rigidbody::OnDrawGizmosSelected()
 	{
-		//TODO: Replace this with a "DrawWorldSpaceBox" Method.
+		////TODO: Replace this with a "DrawWorldSpaceBox" Method.
 
-		glm::vec3 pos = this->gameObject->transform->getPosition();
-		//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
-		glm::vec3 halfExt = this->gameObject->transform->getScale();// *0.5f;
-		//colShape->getHalfExtentsWithMargin()
-		//RenderManager::DrawWorldSpaceBox(pos, halfExt, glm::vec4(0, 0, 1, 1), 2);
+		//glm::vec3 pos = this->gameObject->transform->getPosition();
+		////glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
+		//glm::vec3 halfExt = this->gameObject->transform->getScale();// *0.5f;
+		////colShape->getHalfExtentsWithMargin()
+		////RenderManager::DrawWorldSpaceBox(pos, halfExt, glm::vec4(0, 0, 1, 1), 2);
 
-		glm::vec3 right = glm::normalize(this->gameObject->transform->getRightDirection());
-		glm::vec3 up = glm::normalize(this->gameObject->transform->getUpDirection());
-		glm::vec3 forward = glm::normalize(this->gameObject->transform->getForwardDirection());
-		glm::vec3 corners[8] = {
-			pos + (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 0
-			pos + (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 1
-			pos + (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 2
-			pos + (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 3
-			pos - (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 4
-			pos - (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 5
-			pos - (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 6
-			pos - (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 7
-		};
-		glm::vec4 color(0, 1, 0, 0.5f);
-		int size = 1;
-		//RenderManager::DrawWorldSpacePoint(pos + right * L, glm::vec4(1, 0, 0, 1), 5); // Center
-		RenderManager::DrawWorldSpaceLine(corners[0], corners[1], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[0], corners[2], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[3], corners[1], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[3], corners[2], color, size);
+		//glm::vec3 right = glm::normalize(this->gameObject->transform->getRightDirection());
+		//glm::vec3 up = glm::normalize(this->gameObject->transform->getUpDirection());
+		//glm::vec3 forward = glm::normalize(this->gameObject->transform->getForwardDirection());
+		//glm::vec3 corners[8] = {
+		//	pos + (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 0
+		//	pos + (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 1
+		//	pos + (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 2
+		//	pos + (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 3
+		//	pos - (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 4
+		//	pos - (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 5
+		//	pos - (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 6
+		//	pos - (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 7
+		//};
+		//glm::vec4 color(0, 1, 0, 0.5f);
+		//int size = 1;
+		////RenderManager::DrawWorldSpacePoint(pos + right * L, glm::vec4(1, 0, 0, 1), 5); // Center
+		//RenderManager::DrawWorldSpaceLine(corners[0], corners[1], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[0], corners[2], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[3], corners[1], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[3], corners[2], color, size);
 
-		RenderManager::DrawWorldSpaceLine(corners[0], corners[4], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[1], corners[5], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[2], corners[6], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[3], corners[7], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[0], corners[4], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[1], corners[5], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[2], corners[6], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[3], corners[7], color, size);
 
-		RenderManager::DrawWorldSpaceLine(corners[4], corners[5], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[4], corners[6], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[7], corners[5], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[7], corners[6], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[4], corners[5], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[4], corners[6], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[7], corners[5], color, size);
+		//RenderManager::DrawWorldSpaceLine(corners[7], corners[6], color, size);
 	}
 
 	void Rigidbody::AddForce(glm::vec3 force)
@@ -243,6 +252,25 @@ namespace XEngine
 			else break;
 		}
 		return rb;
+	}
+	void Rigidbody::AttachCollider(Collider * col)
+	{
+	}
+	void Rigidbody::DetachCollider(Collider * col)
+	{
+	}
+	bool Rigidbody::isDynamic()
+	{
+		//rigidbody is dynamic if and only if mass is non zero, otherwise static
+		if (isKinematic)
+			mass = 0.0f;
+		bool isDynamic = (mass != 0.f);
+		btVector3 localInertia(0, 0, 0);
+		if (isDynamic)
+		{
+			//colShape->calculateLocalInertia(mass, localInertia);
+		}
+		return false;
 	}
 	CollisionInfo::CollisionInfo(Rigidbody * _other, Collider * _otherCollider, glm::vec3 _contactPoint, glm::vec3 _contactNormal)
 	{

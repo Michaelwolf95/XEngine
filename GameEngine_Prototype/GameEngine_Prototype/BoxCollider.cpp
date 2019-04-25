@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include "RenderManager.h"
 #include "GameObject.h"
+#include "PhysicsManager.h"
 
 REGISTER_COMPONENT(XEngine::BoxCollider, "BoxCollider")
 namespace XEngine
@@ -12,10 +13,54 @@ namespace XEngine
 		//glm::vec3 scale = this->gameObject->transform->getScale();
 		halfExtents = new btVector3(1,1,1);
 	}
-	BoxCollider::~BoxCollider() {}
+	BoxCollider::~BoxCollider() 
+	{
+		if (isInitialized)
+		{
+			PhysicsManager::getInstance().RemoveCollisionShape(colShape);
+
+			delete halfExtents;
+			halfExtents = nullptr;
+			delete colShape;
+			colShape = nullptr;
+		}
+	}
+
+	void BoxCollider::Init()
+	{
+		if (!isInitialized)
+		{
+			//TODO: Figure out adding RBs dynamically at runtime?
+			if (this->attachedRigidbody == nullptr)
+			{
+
+			}
+
+			colShape = new btBoxShape(*halfExtents);
+			PhysicsManager::getInstance().AddCollisionShape(colShape);
+
+			if (this->attachedRigidbody != nullptr)
+			{
+
+				btVector3 localInertia(0, 0, 0);
+				colShape->calculateLocalInertia(attachedRigidbody->mass, localInertia);
+
+				this->attachedRigidbody->body->setCollisionShape(this->colShape);
+
+			}
+			else
+			{
+
+			}
+			
+
+			isInitialized = true;
+		}
+	}
 
 	void BoxCollider::Start()
 	{
+
 	}
 
 	void BoxCollider::Update()
