@@ -1,7 +1,10 @@
 #include <vector>
 #include "GameObject.h"
+#include "Transform.h"
 #include "ApplicationManager.h"
-
+#include "SceneManager.h"
+#include "Serialization.h"
+#include <sstream>
 unsigned int GameObject::nextGameObjectID = 0;
 
 GameObject::GameObject(const char* _name)
@@ -218,6 +221,152 @@ bool GameObject::FindComponent(const std::type_info& typeInfo, void** object)
 GameObject_ptr GameObject::GetSelfPtr()
 {
 	return shared_from_this();
+}
+
+GameObject* GameObject::Duplicate(GameObject& ref)
+{
+	GameObject_ptr go = SceneManager::getInstance().GetActiveScene()->CreateGameObject("TEMP");
+
+	// make an archive
+	std::string fileName = "../Temp/DUPLICATE_GAMEOBJECT.TEMP";
+
+	// SCOPE REQUIRED FOR ARCHIVE.
+	{
+		std::ofstream ofs(fileName);
+		//std::stringstream();
+		if (!ofs)
+		{
+			std::cout << "Cannot open outfile" << std::endl;
+			return nullptr;
+		}
+		if (ofs.bad())
+		{
+			std::cout << "Out File Stream BAD" << std::endl;
+			return nullptr;
+		}
+		boost::archive::xml_oarchive oa(ofs);
+		//boost::archive::xml_oarchive* oa = new boost::archive::xml_oarchive(ofs);
+		oa << boost::serialization::make_nvp(ref.name.c_str(), ref);// BOOST_SERIALIZATION_NVP(&this);
+		//ofs.clear();
+		ofs.flush();
+		//ofs.close();
+		//delete oa;
+	}
+	std::cout << "SAVED TO FILE" << std::endl;
+
+	// SCOPE REQUIRED FOR ARCHIVE.
+	{
+		std::ifstream ifs(fileName);
+		if (!ifs.good()) //Doesn't exist 
+		{
+			std::cout << "File doesnt exist" << std::endl;
+			return nullptr;
+		}
+		boost::archive::xml_iarchive ia(ifs);
+		//boost::archive::xml_iarchive* ia = new boost::archive::xml_iarchive(ifs);
+		try
+		{
+			std::cout << "Attempting Load" << std::endl;
+			ia >> boost::serialization::make_nvp(ref.name.c_str(), *go);//BOOST_SERIALIZATION_NVP(go);		// Restore from the archive
+			//s.filePath = fileName;
+			//std::cout << "\tscene's filePath: " << s.filePath << std::endl;
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << "==================================================" << std::endl;
+			std::cout << "ERROR: FAILED TO DUPLICATE.\nProbably due to outdated serialization." << std::endl;
+			std::cout << e.what() << std::endl;
+			std::cout << "==================================================" << std::endl;
+			return nullptr;// false;
+		}
+		//ifs.clear();
+		//ifs.close();
+		//delete ia;
+	}
+	std::cout << "LOADED FROM FILE" << std::endl;
+	go->name = ref.name + "_Copy";
+	go->transform->SetParent(ref.transform->GetParent());
+	std::cout << "FINISHED DUPLICATE" << std::endl;
+
+	return go.get();
+}
+
+GameObject_ptr GameObject::Duplicate2(GameObject_ptr ref)
+{
+	GameObject_ptr dupli = SceneManager::getInstance().GetActiveScene()->CreateGameObject("TEMP");
+
+	std::string fileName = "../Temp/DUPLICATE_GAMEOBJECT.TEMP";
+
+	
+	// SCOPE REQUIRED FOR ARCHIVE.
+	{
+		std::ofstream ofs(fileName);
+		//std::stringstream();
+		if (!ofs)
+		{
+			std::cout << "Cannot open outfile" << std::endl;
+			return nullptr;
+		}
+		if (ofs.bad())
+		{
+			std::cout << "Out File Stream BAD" << std::endl;
+			return nullptr;
+		}
+		boost::archive::xml_oarchive oa(ofs);
+		//oa << boost::serialization::make_nvp("Hierarchy", allObjsInHierarchy);
+		std::cout << "Writing " << ref->name.c_str() << std::endl;
+		oa << boost::serialization::make_nvp("go", *ref);// BOOST_SERIALIZATION_NVP(&this);
+		ofs.flush();
+	}
+	std::cout << "SAVED TO FILE" << std::endl;
+
+	// SCOPE REQUIRED FOR ARCHIVE.
+	{
+		std::ifstream ifs(fileName);
+		if (!ifs.good()) //Doesn't exist 
+		{
+			std::cout << "File doesnt exist" << std::endl;
+			return nullptr;
+		}
+		boost::archive::xml_iarchive ia(ifs);
+		//boost::archive::xml_iarchive* ia = new boost::archive::xml_iarchive(ifs);
+		try
+		{
+			std::cout << "Attempting Load" << std::endl;
+			ia >> boost::serialization::make_nvp("go", *dupli);//BOOST_SERIALIZATION_NVP(go);		// Restore from the archive
+			//ia >> boost::serialization::make_nvp("Hierarchy", clonedHierarchy);
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << "==================================================" << std::endl;
+			std::cout << "ERROR: FAILED TO DUPLICATE.\nProbably due to outdated serialization." << std::endl;
+			std::cout << e.what() << std::endl;
+			std::cout << "==================================================" << std::endl;
+			return nullptr;// false;
+		}
+	}
+	//dupli = clonedHierarchy[0];
+
+	std::cout << "LOADED FROM FILE" << std::endl;
+	dupli->name = ref->name + "_Copy";
+	dupli->transform->SetParent(ref->transform->GetParent());
+	std::cout << "FINISHED DUPLICATE" << std::endl;
+	return dupli;
+}
+
+GameObject_ptr GameObject::DuplicateHierarchy(GameObject & ref)
+{
+	return GameObject_ptr();
+}
+
+void GameObject::GetFlattenedHierarchy(GameObject* current, std::vector<GameObject*>& vec)
+{
+	vec.push_back(current);
+	std::vector<GameObject*> children = current->GetChildren();
+	for (size_t i = 0; i < children.size(); i++)
+	{
+		GetFlattenedHierarchy(children[i], vec);
+	}
 }
 
 void GameObject::HandleEnable()

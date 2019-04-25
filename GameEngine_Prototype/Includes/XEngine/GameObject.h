@@ -41,6 +41,10 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, void** object);
 
 	GameObject_ptr GetSelfPtr();
+	static GameObject* Duplicate(GameObject& ref);
+	static GameObject_ptr Duplicate2(GameObject_ptr ref);
+	static GameObject_ptr DuplicateHierarchy(GameObject& ref);
+	static void GetFlattenedHierarchy(GameObject* current, std::vector<GameObject*>& vec);
 private:
 	friend class Transform;
 	bool isActive = true;

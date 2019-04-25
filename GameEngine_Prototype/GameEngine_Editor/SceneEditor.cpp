@@ -1088,24 +1088,42 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		{
 			// add game object to scene
 			// change name to differentiate
-			GameObject_ptr dupli = SceneManager::getInstance().GetActiveScene()->CreateGameObject( (go->name+"_1").c_str());
+			//GameObject_ptr dupli = SceneManager::getInstance().GetActiveScene()->CreateGameObject("TEMP");
+			//GameObject::Duplicate(*go, *dupli);
 
-			// add copy components of selectedObject 
-			if (go->components.size() != 0)
+			//GameObject* dupli = GameObject::Duplicate(*go);
+
+			GameObject_ptr dupli = GameObject::Duplicate2(go->GetSelfPtr());
+			std::cout << "EXITED DUPLICATE" << std::endl;
+			//GameObject_ptr dupli(new GameObject("TEMP_NAME"));
+			//GameObject* dupli = new GameObject("TEMP_NAME");
+			try
 			{
-				for (int i = 0; i < go->components.size(); i++)
-				{
-					dupli->AddComponent(std::shared_ptr<Component>(go->components[i]->DeepCopy() ) );
-				}
+				//GameObject_ptr go = GameObject::Duplicate2(*go);
+				//go->Duplicate(*dupli);
 			}
+			catch (const std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+			
+			//// add copy components of selectedObject 
+			//if (go->components.size() != 0)
+			//{
+			//	for (int i = 0; i < go->components.size(); i++)
+			//	{
+			//		dupli->AddComponent(std::shared_ptr<Component>(go->components[i]->DeepCopy() ) );
+			//	}
+			//}
 
-			// get transform of the selected object
-			dupli->transform->setPosition(go->transform->getPosition());
-			dupli->transform->setRotation(go->transform->getRotation());
-			dupli->transform->setLocalScale(go->transform->getLocalScale());
+			//// get transform of the selected object
+			//dupli->transform->setPosition(go->transform->getPosition());
+			//dupli->transform->setRotation(go->transform->getRotation());
+			//dupli->transform->setLocalScale(go->transform->getLocalScale());
 
 			// change selectedObject to newly duplicate object
-			selectedGameObject = dupli;
+			
+			//selectedGameObject = dupli;
 		}
 
 		ImGui::EndPopup();
