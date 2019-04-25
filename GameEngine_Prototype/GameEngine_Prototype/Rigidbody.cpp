@@ -24,7 +24,7 @@ namespace XEngine
 	}
 	Rigidbody::~Rigidbody()
 	{
-		std::cout << "\t\tDeconstructing Rigidbody..." << std::endl;
+		std::cout << "Deconstructing Rigidbody..." << std::endl;
 		if (isInitialized)
 		{
 			//PhysicsManager::getInstance().RemoveCollisionShape(colShape);
@@ -51,14 +51,12 @@ namespace XEngine
 	}
 	void Rigidbody::Init()
 	{
+		if (isInitialized)
+			return;
+
 		std::cout << "Initializing Rigidbody..." << std::endl;
 
-		// Collider
-		//glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
-		//boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
-		//colShape = new btBoxShape(*boxColliderHalfExtents);
-		//PhysicsManager::getInstance().AddCollisionShape(colShape);
-
+		// Empty Collision Shape
 		// Create "Empty shape" when no collision shape exists.
 		// Needed for physics to simulate.
 		//https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=147
@@ -69,18 +67,6 @@ namespace XEngine
 		physTransformModel = new btTransform();
 		physTransformModel->setIdentity();
 		SyncPhysicsModelWithTransform();
-
-
-		//rigidbody is dynamic if and only if mass is non zero, otherwise static
-		//if (isKinematic)
-		//	mass = 0.0f;
-		//bool isDynamic = (mass != 0.f);
-		////localInertia = new btVector3(0, 0, 0);
-		//if (isDynamic)
-		//{
-		//	//std::cout << localInertia << std::endl;
-		//	//colShape->calculateLocalInertia(mass, *localInertia);
-		//}
 
 		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 		motionState = new btDefaultMotionState(*physTransformModel);
@@ -234,8 +220,11 @@ namespace XEngine
 
 		// 3) Recompute the inertia tensor for dynamic objects (mass>0) using newShape->calcLocalInertia(...) and use body->setMassProps
 		btVector3 localInertia(0, 0, 0);
-		shape->calculateLocalInertia(this->mass, localInertia);
-		body->setMassProps(this->mass, localInertia);
+		if (isDynamic())
+		{
+			shape->calculateLocalInertia(this->mass, localInertia);
+			body->setMassProps(this->mass, localInertia);
+		}
 		
 		// 4) add the body to the world
 		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);

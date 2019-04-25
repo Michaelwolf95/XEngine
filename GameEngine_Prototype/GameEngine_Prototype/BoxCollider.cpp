@@ -17,12 +17,10 @@ namespace XEngine
 	{
 		if (isInitialized)
 		{
-			PhysicsManager::getInstance().RemoveCollisionShape(colShape);
-
+			std::cout << "\tDeleting/removing BoxCollider..." << std::endl;
 			delete halfExtents;
 			halfExtents = nullptr;
-			delete colShape;
-			colShape = nullptr;
+			Collider::~Collider();
 		}
 	}
 
@@ -43,7 +41,7 @@ namespace XEngine
 
 	void BoxCollider::Update()
 	{
-		//TODO: Sync using shape setLocalScale. Also move to base class.
+		//TODO: Sync using shape setLocalScale instead. Also move to base class.
 		glm::vec3 scale = this->gameObject->transform->getScale();
 		halfExtents->setX(scale.x * boxSize.x);
 		halfExtents->setY(scale.y * boxSize.y);
@@ -58,7 +56,7 @@ namespace XEngine
 	}
 	void BoxCollider::OnDrawGizmosSelected()
 	{
-		//TODO: Replace this with a "DrawWorldSpaceBox" Method.
+		// TODO: Replace this with a "DrawWorldSpaceBox" Method.
 
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();

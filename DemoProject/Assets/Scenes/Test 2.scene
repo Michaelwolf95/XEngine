@@ -14,7 +14,7 @@
 				<transform class_id="4" tracking_level="1" version="0" object_id="_1">
 					<Component class_id="5" tracking_level="0" version="0">
 						<enabled>1</enabled>
-						<nextComponentID>16</nextComponentID>
+						<nextComponentID>17</nextComponentID>
 						<componentID>2</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -49,7 +49,7 @@
 				<transform class_id_reference="4" object_id="_3">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>16</nextComponentID>
+						<nextComponentID>17</nextComponentID>
 						<componentID>8</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -77,7 +77,7 @@
 						<px class_id="10" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_4">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>16</nextComponentID>
+								<nextComponentID>17</nextComponentID>
 								<componentID>9</componentID>
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
@@ -93,7 +93,7 @@
 						<px class_id="12" class_name="BoxCollider" tracking_level="1" version="0" object_id="_5">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>16</nextComponentID>
+								<nextComponentID>17</nextComponentID>
 								<componentID>10</componentID>
 							</Component>
 							<boxSize>
@@ -107,8 +107,8 @@
 						<px class_id="13" class_name="Rigidbody" tracking_level="1" version="0" object_id="_6">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>16</nextComponentID>
-								<componentID>15</componentID>
+								<nextComponentID>17</nextComponentID>
+								<componentID>16</componentID>
 							</Component>
 							<isKinematic>1</isKinematic>
 							<mass>1.000000000e+00</mass>
@@ -125,7 +125,7 @@
 				<transform class_id_reference="4" object_id="_8">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>16</nextComponentID>
+						<nextComponentID>17</nextComponentID>
 						<componentID>11</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -153,7 +153,7 @@
 						<px class_id_reference="10" object_id="_9">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>16</nextComponentID>
+								<nextComponentID>17</nextComponentID>
 								<componentID>12</componentID>
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
@@ -169,7 +169,7 @@
 						<px class_id_reference="13" object_id="_10">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>16</nextComponentID>
+								<nextComponentID>17</nextComponentID>
 								<componentID>13</componentID>
 							</Component>
 							<isKinematic>0</isKinematic>
@@ -180,7 +180,7 @@
 						<px class_id_reference="12" object_id="_11">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>16</nextComponentID>
+								<nextComponentID>17</nextComponentID>
 								<componentID>14</componentID>
 							</Component>
 							<boxSize>

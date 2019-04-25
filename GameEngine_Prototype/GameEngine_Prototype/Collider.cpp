@@ -11,6 +11,13 @@ namespace XEngine
 
 	Collider::~Collider()
 	{
+		if (isInitialized)
+		{
+			//std::cout << "\tDeleting/removing Collider..." << std::endl;
+			PhysicsManager::getInstance().RemoveCollisionShape(colShape);
+			delete colShape;
+			colShape = nullptr;
+		}
 	}
 
 	btPolyhedralConvexShape * Collider::GetColShape()
@@ -27,14 +34,14 @@ namespace XEngine
 	{
 		if (!isInitialized)
 		{
-			std::cout << "INITIALIZING COLLIDER\n";
+			//std::cout << "INITIALIZING COLLIDER\n";
 			//TODO: Figure out adding RBs dynamically at runtime?
 			if (this->attachedRigidbody == nullptr)
 			{
 				gameObject->FindComponent(typeid(Rigidbody), (void**)&attachedRigidbody);
-
 			}
 
+			// Create collision shape.
 			colShape = CreateCollisionShape();
 			PhysicsManager::getInstance().AddCollisionShape(colShape);
 
@@ -46,7 +53,7 @@ namespace XEngine
 					attachedRigidbody->Init();
 				}
 
-				std::cout << "Attaching Collider...\n";
+				//std::cout << "Attaching Collider...\n";
 				attachedRigidbody->AttachCollider(this);
 
 			}
