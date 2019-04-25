@@ -55,6 +55,7 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
+		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(isActive);
 		ar & BOOST_SERIALIZATION_NVP(transform);
 		ar & BOOST_SERIALIZATION_NVP(components);
