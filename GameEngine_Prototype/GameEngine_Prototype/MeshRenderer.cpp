@@ -546,8 +546,3 @@ void MeshRenderer::DrawInspector()
 
 	
 }
-
-MeshRenderer * MeshRenderer::DeepCopy()
-{
-	return new MeshRenderer(*this);
-}

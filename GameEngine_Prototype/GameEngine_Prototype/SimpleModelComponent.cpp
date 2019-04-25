@@ -220,8 +220,3 @@ void SimpleModelComponent::DrawInspector()
 	}
 
 }
-
-SimpleModelComponent * SimpleModelComponent::DeepCopy()
-{
-	return new SimpleModelComponent(*this);
-}

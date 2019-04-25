@@ -40,8 +40,3 @@ void SimpleRotator::Update()
 	//std::cout << "Rot:(" << rot.x << ", " << rot.y << ", " << rot.z << ")" << std::endl;
 
 }
-
-SimpleRotator * SimpleRotator::DeepCopy()
-{
-	return new SimpleRotator(*this);
-}

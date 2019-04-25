@@ -67,8 +67,6 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 
 		void DrawInspector() override;
 
-		MeshRenderer * DeepCopy() override;
-
 		void FreeObjectResources();
 		//void FreeAllResources()
 

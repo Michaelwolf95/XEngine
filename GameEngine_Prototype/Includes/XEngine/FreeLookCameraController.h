@@ -15,7 +15,6 @@ public:
 	void Start() override;
 	void Update() override;
 	void DrawInspector() override;
-	FreeLookCameraController * DeepCopy() override;
 private:
 	unsigned int camMode;
 	//glm::vec2 clickPos;

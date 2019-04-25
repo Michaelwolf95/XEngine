@@ -10,6 +10,5 @@ public:
 	~GameObjectAnalytic();
 	void Start() override;
 	void Update() override;
-	GameObjectAnalytic * DeepCopy() override;
 };
 

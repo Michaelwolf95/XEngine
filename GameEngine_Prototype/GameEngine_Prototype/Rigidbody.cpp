@@ -17,7 +17,6 @@ REGISTER_COMPONENT(XEngine::Rigidbody, "Rigidbody")
 namespace XEngine
 {
 	Rigidbody::Rigidbody() {}
-	Rigidbody::Rigidbody(const Rigidbody & other){}
 	Rigidbody::~Rigidbody()
 	{
 		std::cout << "\t\tDeconstructing Rigidbody..." << std::endl;
@@ -251,10 +250,5 @@ namespace XEngine
 		otherCollider = _otherCollider;
 		contactPoint = _contactPoint;
 		contactNormal = _contactNormal;
-	}
-
-	Rigidbody * Rigidbody::DeepCopy()
-	{
-		return new Rigidbody(*this);
 	}
 }

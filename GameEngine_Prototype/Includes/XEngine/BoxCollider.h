@@ -18,8 +18,6 @@ namespace XEngine
 		void DrawInspector() override;
 		void OnDrawGizmosSelected() override;
 
-		BoxCollider * DeepCopy() override;
-
 		//btBoxShape* colShape = nullptr;
 		// Convert to glm vec for serialization
 		glm::vec3 boxSize = glm::vec3(1, 1, 1);

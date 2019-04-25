@@ -18,7 +18,6 @@ public:
 	void Update() override;
 	void OnDrawGizmos() override;	
 	void DrawInspector() override;
-	SimpleModelComponent * DeepCopy() override;
 private:
 	std::string name;
 	// taken from RenderableObject

@@ -47,8 +47,3 @@ void SpotLightComponent::Draw(Shader * shader, int &counter)
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(intensity), intensity);
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(ambience), ambience);
 }
-
-SpotLightComponent * SpotLightComponent::DeepCopy()
-{
-	return new SpotLightComponent(*this);
-}

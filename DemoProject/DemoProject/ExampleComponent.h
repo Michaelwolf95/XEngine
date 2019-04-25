@@ -11,7 +11,6 @@ public:
 	void Start() override;
 	void Update() override;
 	void DrawInspector() override;
-	ExampleComponent * DeepCopy() override;
 private:
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

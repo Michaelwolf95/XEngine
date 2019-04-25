@@ -54,8 +54,3 @@ void TestMoverComponent::Update()
 	//	std::cout << "Pos: (" << pos.x << ", " << pos.y << ", " << pos.z << ")" << std::endl;
 	//}
 }
-
-TestMoverComponent * TestMoverComponent::DeepCopy()
-{
-	return new TestMoverComponent(*this);
-}

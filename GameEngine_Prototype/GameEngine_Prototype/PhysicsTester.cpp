@@ -39,8 +39,3 @@ void PhysicsTester::OnCollisionEnter(XEngine::CollisionInfo info)
 {
 	std::cout << "ON COLLISION ENTER!!! - " << info.otherRigidbody->gameObject->name << std::endl;
 }
-
-PhysicsTester * PhysicsTester::DeepCopy()
-{
-	return new PhysicsTester(*this);
-}

@@ -49,8 +49,3 @@ void GameObjectAnalytic::Update()
 {
 	// Code that happens every frame. 
 }
-
-GameObjectAnalytic * GameObjectAnalytic::DeepCopy()
-{
-	return new GameObjectAnalytic(*this);
-}

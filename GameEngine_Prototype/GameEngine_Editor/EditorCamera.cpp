@@ -222,9 +222,4 @@ namespace XEngine::Editor
 
 		}
 	}
-
-	EditorCamera * EditorCamera::DeepCopy()
-	{
-		return new EditorCamera(*this);
-	}
 }

@@ -623,8 +623,3 @@ void Transform::TestEulerRotation(float x, float y, float z)
 	std::cout << "conjRotDeg:(" << glm::degrees(conjRotEuler.x) << ", " << glm::degrees(conjRotEuler.y) << ", " << glm::degrees(conjRotEuler.z) << ")" << std::endl;
 	*/
 }
-
-Transform * Transform::DeepCopy()
-{
-	return new Transform(*this);
-}

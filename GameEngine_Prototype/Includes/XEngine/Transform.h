@@ -65,8 +65,6 @@ public:
 
 	void TestEulerRotation(float x, float y, float z);
 
-	Transform * DeepCopy() override;
-
 private:
 	friend class GameObject;
 	//friend class XEngine::Rigidbody;

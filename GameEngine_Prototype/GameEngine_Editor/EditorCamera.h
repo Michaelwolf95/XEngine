@@ -31,8 +31,6 @@ namespace XEngine::Editor
 		void Start() override;
 		void Update() override;
 
-		EditorCamera * DeepCopy() override;
-
 	private:
 		EditorCameraMode camMode;
 		glm::vec2 clickPos;

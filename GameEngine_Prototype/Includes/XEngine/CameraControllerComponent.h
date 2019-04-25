@@ -24,8 +24,6 @@ public:
 	void DrawInspector();
 	CameraComponent* findObjectCameraComponent();
 
-	CameraControllerComponent * DeepCopy() override;
-
 private:
 	// Camera Rotation
 	float fieldOfView = 45.0f;

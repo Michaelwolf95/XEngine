@@ -114,8 +114,3 @@ void AudioComponent::DrawInspector()
 	//add loop
 	ImGui::Checkbox("Loop", &repeat);
 }
-
-AudioComponent * AudioComponent::DeepCopy()
-{
-	return new AudioComponent(*this);
-}

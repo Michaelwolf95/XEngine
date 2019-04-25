@@ -35,8 +35,3 @@ AudioListener::AudioListener()
 AudioListener::~AudioListener()
 {
 }
-
-AudioListener* AudioListener::DeepCopy()
-{
-	return new AudioListener(*this);
-}
