@@ -12,7 +12,7 @@ namespace XEngine
 		static Registrar<BoxCollider> registrar;
 		BoxCollider();
 		~BoxCollider();
-		void Init() override;
+		btPolyhedralConvexShape* CreateCollisionShape() override;
 		void Start() override;
 		void Update() override;
 		void FixedUpdate() override;

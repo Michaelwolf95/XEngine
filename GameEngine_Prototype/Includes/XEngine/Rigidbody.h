@@ -44,7 +44,7 @@ namespace XEngine
 		float mass = 1.0f;
 		bool isKinematic = false;
 
-		btVector3* localInertia = nullptr;
+		//btVector3* localInertia = nullptr;
 		//btVector3 localInertia;// (1, 1, 1);
 
 		//btBoxShape* colShape = nullptr;
@@ -60,7 +60,7 @@ namespace XEngine
 		void Update() override;
 		void FixedUpdate() override;
 		void DrawInspector() override;
-		void OnDrawGizmosSelected() override;
+		//void OnDrawGizmosSelected() override;
 
 		void AddForce(glm::vec3 force);
 
@@ -71,9 +71,14 @@ namespace XEngine
 		bool isDynamic();
 	private:
 		friend class btRefRigidbody;
-
+		friend class Collider;
+		//friend class BoxCollider; //temp
 
 		btTransform* physTransformModel = nullptr;
+
+		// TODO: Convert to array once compound collider support is implemented.
+		Collider* attachedCollider = nullptr;
+
 		//btScalar* _convertTransformArray[16];
 		bool isInitialized = false;
 		void Init();

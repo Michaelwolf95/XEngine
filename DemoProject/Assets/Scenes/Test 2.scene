@@ -14,7 +14,7 @@
 				<transform class_id="4" tracking_level="1" version="0" object_id="_1">
 					<Component class_id="5" tracking_level="0" version="0">
 						<enabled>1</enabled>
-						<nextComponentID>14</nextComponentID>
+						<nextComponentID>16</nextComponentID>
 						<componentID>2</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -49,7 +49,7 @@
 				<transform class_id_reference="4" object_id="_3">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>14</nextComponentID>
+						<nextComponentID>16</nextComponentID>
 						<componentID>8</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -71,13 +71,13 @@
 					</localRotation>
 				</transform>
 				<components>
-					<count>2</count>
+					<count>3</count>
 					<item_version>1</item_version>
 					<item class_id="9" tracking_level="0" version="1">
 						<px class_id="10" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_4">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>14</nextComponentID>
+								<nextComponentID>16</nextComponentID>
 								<componentID>9</componentID>
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
@@ -93,7 +93,7 @@
 						<px class_id="12" class_name="BoxCollider" tracking_level="1" version="0" object_id="_5">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>14</nextComponentID>
+								<nextComponentID>16</nextComponentID>
 								<componentID>10</componentID>
 							</Component>
 							<boxSize>
@@ -103,18 +103,29 @@
 							</boxSize>
 						</px>
 					</item>
+					<item>
+						<px class_id="13" class_name="Rigidbody" tracking_level="1" version="0" object_id="_6">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>16</nextComponentID>
+								<componentID>15</componentID>
+							</Component>
+							<isKinematic>1</isKinematic>
+							<mass>1.000000000e+00</mass>
+						</px>
+					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_6">
+			<px class_id_reference="3" object_id="_7">
 				<gameObjectID>20</gameObjectID>
 				<name>Box</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_7">
+				<transform class_id_reference="4" object_id="_8">
 					<Component>
 						<enabled>1</enabled>
-						<nextComponentID>14</nextComponentID>
+						<nextComponentID>16</nextComponentID>
 						<componentID>11</componentID>
 					</Component>
 					<parent class_id="-1"></parent>
@@ -136,13 +147,13 @@
 					</localRotation>
 				</transform>
 				<components>
-					<count>2</count>
+					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_8">
+						<px class_id_reference="10" object_id="_9">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>14</nextComponentID>
+								<nextComponentID>16</nextComponentID>
 								<componentID>12</componentID>
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
@@ -155,14 +166,28 @@
 						</px>
 					</item>
 					<item>
-						<px class_id="13" class_name="Rigidbody" tracking_level="1" version="0" object_id="_9">
+						<px class_id_reference="13" object_id="_10">
 							<Component>
 								<enabled>1</enabled>
-								<nextComponentID>14</nextComponentID>
+								<nextComponentID>16</nextComponentID>
 								<componentID>13</componentID>
 							</Component>
 							<isKinematic>0</isKinematic>
 							<mass>1.000000000e+00</mass>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="12" object_id="_11">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>16</nextComponentID>
+								<componentID>14</componentID>
+							</Component>
+							<boxSize>
+								<vec.x>1.000000000e+00</vec.x>
+								<vec.y>1.000000000e+00</vec.y>
+								<vec.z>1.000000000e+00</vec.z>
+							</boxSize>
 						</px>
 					</item>
 				</components>

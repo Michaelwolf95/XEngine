@@ -14,11 +14,11 @@ namespace XEngine
 		//void Update() override;
 		Collider();
 		~Collider();
-
 		btPolyhedralConvexShape* GetColShape();
 	protected:
 		bool isInitialized = false;
-		virtual void Init() = 0;
+		virtual btPolyhedralConvexShape* CreateCollisionShape() = 0;
+		virtual void Init();
 		btPolyhedralConvexShape* colShape = nullptr;
 		Rigidbody* attachedRigidbody = nullptr;
 	};

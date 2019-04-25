@@ -26,45 +26,24 @@ namespace XEngine
 		}
 	}
 
-	void BoxCollider::Init()
+	btPolyhedralConvexShape * BoxCollider::CreateCollisionShape()
 	{
 		if (!isInitialized)
 		{
-			//TODO: Figure out adding RBs dynamically at runtime?
-			if (this->attachedRigidbody == nullptr)
-			{
-
-			}
-
 			colShape = new btBoxShape(*halfExtents);
-			PhysicsManager::getInstance().AddCollisionShape(colShape);
-
-			if (this->attachedRigidbody != nullptr)
-			{
-
-				btVector3 localInertia(0, 0, 0);
-				colShape->calculateLocalInertia(attachedRigidbody->mass, localInertia);
-
-				this->attachedRigidbody->body->setCollisionShape(this->colShape);
-
-			}
-			else
-			{
-
-			}
-			
-
-			isInitialized = true;
 		}
+		return colShape;
 	}
+
 
 	void BoxCollider::Start()
 	{
-
+		Collider::Start();
 	}
 
 	void BoxCollider::Update()
 	{
+		//TODO: Sync using shape setLocalScale. Also move to base class.
 		glm::vec3 scale = this->gameObject->transform->getScale();
 		halfExtents->setX(scale.x * boxSize.x);
 		halfExtents->setY(scale.y * boxSize.y);
