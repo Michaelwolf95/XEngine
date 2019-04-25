@@ -24,7 +24,7 @@ namespace XEngine
 		}
 	}
 
-	btPolyhedralConvexShape * BoxCollider::CreateCollisionShape()
+	btConvexInternalShape * BoxCollider::CreateCollisionShape()
 	{
 		if (!isInitialized)
 		{

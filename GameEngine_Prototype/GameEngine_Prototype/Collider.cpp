@@ -20,7 +20,7 @@ namespace XEngine
 		}
 	}
 
-	btPolyhedralConvexShape * Collider::GetColShape()
+	btConvexInternalShape * Collider::GetColShape()
 	{
 		return colShape;
 	}

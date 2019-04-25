@@ -427,20 +427,63 @@ void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::
 	// Drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	//glLineWidth(size);
+	glLineWidth(size);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	//glDrawArrays(GL_LINES, 0, sizeof(CUBE_VERTS)/(5*sizeof(float)));
-	//glDrawArrays(GL_TRIANGLES, 0, 36);// sizeof(CUBE_VERTS) / (5 * sizeof(float)));
-	//glDrawArrays(GL_LINES, 0, sizeof(CUBE_VERTS) / (5 * sizeof(float)));
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//
 
-	//glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 
+}
 
+void RenderManager::DrawWorldSpaceSphere(glm::vec3 center, glm::vec3 scale, float radius, glm::vec4 color, int lineSize)
+{
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	glm::mat4 model(1.0);
+	model = glm::translate(model, center);
+	model = glm::scale(model, scale);
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	unsigned int VAO;
+	unsigned int VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * NUM_SPHERE_VERTS, SPHERE_VERTS, GL_STATIC_DRAW);
+
+	glBindVertexArray(VAO);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// Drawing
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glLineWidth(lineSize);
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, (NUM_SPHERE_VERTS)/3);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//
+
+	glBindVertexArray(0);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
 }

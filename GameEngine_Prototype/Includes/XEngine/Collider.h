@@ -14,12 +14,12 @@ namespace XEngine
 		//void Update() override;
 		Collider();
 		~Collider();
-		btPolyhedralConvexShape* GetColShape();
+		btConvexInternalShape* GetColShape();
 	protected:
 		bool isInitialized = false;
-		virtual btPolyhedralConvexShape* CreateCollisionShape() = 0;
+		virtual btConvexInternalShape* CreateCollisionShape() = 0;
 		virtual void Init();
-		btPolyhedralConvexShape* colShape = nullptr;
+		btConvexInternalShape* colShape = nullptr;
 		Rigidbody* attachedRigidbody = nullptr;
 	};
 
