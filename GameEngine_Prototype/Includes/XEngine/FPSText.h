@@ -7,7 +7,7 @@
 #include "Text.h"
 #include "serialization.h"
 
-class DLLExport FPSText : public Component
+class ENGINE_API FPSText : public Component
 {
 public:
 	static Registrar<FPSText> registrar;

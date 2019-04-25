@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "AudioManager.h"
 
-class DLLExport AudioListener : public Component
+class ENGINE_API AudioListener : public Component
 {
 public:
 	static Registrar<AudioListener> registrar;

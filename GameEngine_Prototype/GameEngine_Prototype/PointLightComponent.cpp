@@ -32,7 +32,7 @@ void PointLightComponent::Draw(Shader * shader, int &counter)
 void PointLightComponent::DrawInspector()
 {
 	LightComponent::DrawInspector();
-	ImGui::InputFloat("Constant", &constant);
-	ImGui::InputFloat("Linear", &linear);
-	ImGui::InputFloat("Quadratic", &quadratic);
+	ImGui::InputFloat(LABEL("Constant "), &constant);
+	ImGui::InputFloat(LABEL("Linear "), &linear);
+	ImGui::InputFloat(LABEL("Quadratic "), &quadratic);
 }

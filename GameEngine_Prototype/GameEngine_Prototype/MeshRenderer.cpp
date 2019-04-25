@@ -81,7 +81,8 @@ void MeshRenderer::Setup()
 
 	std::cout << "Begin Loading Model" << std::endl;
 	//model->material = material;
-	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+	if(!pathToObjModel.empty())
+		model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
 
 	std::cout << "End Loading Model" << std::endl;
 
@@ -161,64 +162,67 @@ void MeshRenderer::Draw()
 	
 	// This was the error
 
-	glm::mat4 view = RenderManager::getInstance().getView();
-	glm::mat4 projection = RenderManager::getInstance().getProjection();
-
-	for (unsigned int i = 0; i < model->meshes.size(); i++)
+	if(model != nullptr)
 	{
-		model->MeshToMaterial.at(model->meshes[i]->name)->shader->use();
-		RenderManager::getInstance().currentShaderID = model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID;
-		model->MeshToMaterial.at(model->meshes[i]->name)->Load();
+		glm::mat4 view = RenderManager::getInstance().getView();
+		glm::mat4 projection = RenderManager::getInstance().getProjection();
 
-		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("view", view);
-		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("projection", projection);
-		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-
-		//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
-		glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
-		model->MeshToMaterial.at(model->meshes[i]->name)->shader->setVec3("viewPos", viewPos);
-
-		// texture variables
-		unsigned int diffuseNr = 1;
-		unsigned int specularNr = 1;
-		unsigned int normalNr = 1;
-		unsigned int heightNr = 1;
-
-		// binding textures
-		for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties.size(); j++)
+		for (unsigned int i = 0; i < model->meshes.size(); i++)
 		{
-			// get texture before binding
-			glActiveTexture(GL_TEXTURE0 + j);
+			model->MeshToMaterial.at(model->meshes[i]->name)->shader->use();
+			RenderManager::getInstance().currentShaderID = model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID;
+			model->MeshToMaterial.at(model->meshes[i]->name)->Load();
 
-			std::string number;
-			std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->type;
+			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("view", view);
+			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("projection", projection);
+			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 
-			// transfer unsigned to stream
-			if (name == "texture_diffuse")
-				number = std::to_string(diffuseNr++);
-			else if (name == "texture_specular")
-				number = std::to_string(specularNr++);
-			else if (name == "texture_normal")
-				number = std::to_string(normalNr++);
-			else if (name == "texture_height")
-				number = std::to_string(heightNr++);
+			//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
+			glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
+			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setVec3("viewPos", viewPos);
 
-			// set texture unit
-			glUniform1i(glGetUniformLocation(model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID, (name + number).c_str()), j);
-			// bind texture
-			glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->id);
+			// texture variables
+			unsigned int diffuseNr = 1;
+			unsigned int specularNr = 1;
+			unsigned int normalNr = 1;
+			unsigned int heightNr = 1;
+
+			// binding textures
+			for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties.size(); j++)
+			{
+				// get texture before binding
+				glActiveTexture(GL_TEXTURE0 + j);
+
+				std::string number;
+				std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->type;
+
+				// transfer unsigned to stream
+				if (name == "texture_diffuse")
+					number = std::to_string(diffuseNr++);
+				else if (name == "texture_specular")
+					number = std::to_string(specularNr++);
+				else if (name == "texture_normal")
+					number = std::to_string(normalNr++);
+				else if (name == "texture_height")
+					number = std::to_string(heightNr++);
+
+				// set texture unit
+				glUniform1i(glGetUniformLocation(model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID, (name + number).c_str()), j);
+				// bind texture
+				glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->id);
+			}
+
+			model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
+
+			// Try to delegate to Material class????
+			// draw mesh
+			glBindVertexArray(model->meshes[i]->VAO);
+			glDrawElements(GL_TRIANGLES, model->meshes[i]->indices.size(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+
+			// default once configured
+			glActiveTexture(GL_TEXTURE0);
 		}
-
-		model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
-
-		// Try to delegate to Material class????
-		// draw mesh
-		glBindVertexArray(model->meshes[i]->VAO);
-		glDrawElements(GL_TRIANGLES, model->meshes[i]->indices.size(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-
-		// default once configured
-		glActiveTexture(GL_TEXTURE0);
 	}
 }
 //
@@ -496,7 +500,7 @@ void MeshRenderer::OnDrawGizmos()
 void MeshRenderer::DrawInspector()
 {
 	ImGui::InputText("ModelPath", &this->pathToObjModel[0], 48);
-	if (!model->meshes.empty())
+	if (model && !model->meshes.empty()) // first conditional check if model is not a nullptr
 	{
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
@@ -507,11 +511,37 @@ void MeshRenderer::DrawInspector()
 
 	if (ImGui::Button("Change Model"))
 	{
-		model->MeshToMaterial.clear();
-		model->meshes.clear();
+		//model->MeshToMaterial.clear();
+		//model->meshes.clear();
 		model = nullptr;
+		isSetup = false;
+		Setup();
+	}
 
-		LoadModel();
+	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+	if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+	{
+		ImGui::Text("<----- CHANGE MODEL ----->");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			{
+				IM_ASSERT(payload->DataSize == 128);
+				const char* payload_n = (const char*)payload->Data;
+
+				std::string fileName(payload_n);
+				if (fileName.substr(fileName.find_last_of(".")) == ".obj")
+				{
+					std::cout << "Dropping MODEL!" << std::endl;
+				
+					// temporary fix, replace any backward slash with a forward slash
+					std::replace(fileName.begin(), fileName.end(), '\\', '/' );
+
+					pathToObjModel = fileName;
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
 	}
 
 	

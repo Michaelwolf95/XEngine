@@ -4,6 +4,7 @@
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/1008289#1008289
 //https://stackoverflow.com/questions/41328038/singleton-template-as-base-class-in-c
 // 
+#include "LibraryExport.h"
 template<typename T>
 class Singleton
 {

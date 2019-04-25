@@ -14,7 +14,8 @@ ModelLibrary::~ModelLibrary() {}
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
-	std::cout << "ModelLibrary.LoadAsset filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::LoadAsset called with argument\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
 	Model* model = new Model();
 	std::string pathToObjModel = filePath;
 
@@ -68,37 +69,41 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 }
 
 // Process the material for the mesh
-Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath)
+Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath) // path to obj file.
 {
-	std::cout << "ModelLibrary.processMeshMaterial: filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary.processMeshMaterial called with arguments\n";
+	std::cout << "\tfilePath: " << filePath << std::endl;
 	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
 	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 	
-	// only used name of the material to get it
+	// only used name of the material to get it (not anymore)
+	std::cout << "\nmatFilePath (fileName): " << matFilePath << std::endl;
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
 
-	
+	// if the loaded material does not have the texture properties then add it
+	if (MatforMesh->textureProperties.empty())
+	{
+		// process materials
+		aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
-	// process materials
-	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
+		// 1.diffuse maps
+		std::vector<TextureProperty> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-	// 1.diffuse maps
-	std::vector<TextureProperty> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), diffuseMaps.begin(), diffuseMaps.end());
+		// 2.specular maps
+		std::vector<TextureProperty> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), specularMaps.begin(), specularMaps.end());
 
-	// 2.specular maps
-	std::vector<TextureProperty> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), specularMaps.begin(), specularMaps.end());
+		// 3.normal maps
+		std::vector<TextureProperty> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), normalMaps.begin(), normalMaps.end());
 
-	// 3.normal maps
-	std::vector<TextureProperty> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_NORMALS, "texture_normal", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), normalMaps.begin(), normalMaps.end());
-
-	// 4.height maps
-	std::vector<TextureProperty> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
-	MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
+		// 4.height maps
+		std::vector<TextureProperty> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
+		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
+	}
 
 	return MatforMesh;
 }
@@ -107,7 +112,10 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 // Check material textures of a given type and loads texture if not loaded yet
 std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
-	std::cout << "ModelLibrary.loadMaterialTextures: filePath == " << filePath << std::endl;
+	std::cout << "ModelLibrary::loadMaterialTextures called with arguments\n";
+	std::cout << "\ttypeName: " << typeName << std::endl;
+	std::cout << "\tfilePath: " << filePath << std::endl;
+
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 

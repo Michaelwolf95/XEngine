@@ -8,15 +8,18 @@
 
 typedef std::shared_ptr<GameObject> GameObject_ptr;
 
-class GameObject : public std::enable_shared_from_this<GameObject>
+class ENGINE_API GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
+	static unsigned int nextGameObjectID;
+	int gameObjectID; // assigned by scene
 	Transform* transform;
 	std::string name;
 	std::vector<Component_ptr> components;
 	GameObject(const char* _name = nullptr);
 	~GameObject();
 
+	GameObject* GetParent();
 	std::vector<GameObject*> GetChildren();
 	GameObject* GetChild(int index);
 
@@ -38,6 +41,10 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, void** object);
 
 	GameObject_ptr GetSelfPtr();
+	//static GameObject* Duplicate(GameObject& ref);
+	static GameObject_ptr DuplicateSingle(GameObject_ptr ref);
+	static GameObject_ptr Duplicate(GameObject_ptr ref);
+	static void GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameObject_ptr>& vec);
 private:
 	friend class Transform;
 	bool isActive = true;
@@ -50,6 +57,7 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
+		ar & BOOST_SERIALIZATION_NVP(gameObjectID);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(isActive);
 		ar & BOOST_SERIALIZATION_NVP(transform);
@@ -58,6 +66,7 @@ private:
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version) // file_version
 	{
+		ar & BOOST_SERIALIZATION_NVP(gameObjectID);
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(isActive);
 		ar & BOOST_SERIALIZATION_NVP(transform);
@@ -76,4 +85,6 @@ private:
 	}
 
 };
+
+
 

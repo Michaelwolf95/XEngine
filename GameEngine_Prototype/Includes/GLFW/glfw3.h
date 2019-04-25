@@ -25,6 +25,11 @@
  *    distribution.
  *
  *************************************************************************/
+#ifdef ENGINE_EXPORTS
+#	define _GLFW_BUILD_DLL
+#else
+#	define GLFW_DLL
+#endif
 
 #ifndef _glfw3_h_
 #define _glfw3_h_

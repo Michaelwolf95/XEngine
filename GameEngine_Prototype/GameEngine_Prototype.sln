@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine_Prototype", "GameEngine_Prototype\GameEngine_Prototype.vcxproj", "{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine_UnitTest", "GameEngine_UnitTest\GameEngine_UnitTest.vcxproj", "{0CF7E1AF-A1C7-4C87-857F-95EAE261E3EC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine_Editor", "GameEngine_Editor\GameEngine_Editor.vcxproj", "{CE077C43-D89E-4717-8961-3CEF19B36F15}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DemoProject", "..\DemoProject\DemoProject\DemoProject.vcxproj", "{EA9E8948-4670-45DF-A1A1-1E79CEB32190}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,11 +57,23 @@ Global
 		{CE077C43-D89E-4717-8961-3CEF19B36F15}.Release|x64.Build.0 = Release|x64
 		{CE077C43-D89E-4717-8961-3CEF19B36F15}.Release|x86.ActiveCfg = Release|Win32
 		{CE077C43-D89E-4717-8961-3CEF19B36F15}.Release|x86.Build.0 = Release|Win32
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Build_Debug|x64.ActiveCfg = Debug|x64
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Build_Debug|x64.Build.0 = Debug|x64
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Build_Debug|x86.ActiveCfg = Debug|Win32
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Build_Debug|x86.Build.0 = Debug|Win32
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Debug|x64.ActiveCfg = Debug|x64
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Debug|x64.Build.0 = Debug|x64
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Debug|x86.ActiveCfg = Debug|Win32
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Debug|x86.Build.0 = Debug|Win32
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Release|x64.ActiveCfg = Release|x64
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Release|x64.Build.0 = Release|x64
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Release|x86.ActiveCfg = Release|Win32
+		{EA9E8948-4670-45DF-A1A1-1E79CEB32190}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {85098A0B-2CE5-4EAE-B782-816F12EDF9FA}
+		SolutionGuid = {240A7036-CE85-4E58-BD75-2F86E92F08A3}
 	EndGlobalSection
 EndGlobal

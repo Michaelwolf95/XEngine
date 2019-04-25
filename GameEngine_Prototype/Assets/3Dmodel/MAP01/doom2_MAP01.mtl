@@ -1,0 +1,271 @@
+# MTL for doom2.wad, map MAP01
+# Created by GZDoom Builder 2.3.0.2787
+
+newmtl ASHWALL3
+Kd 1.0 1.0 1.0
+map_Kd ASHWALL3.PNG
+
+newmtl BIGDOOR1
+Kd 1.0 1.0 1.0
+map_Kd BIGDOOR1.PNG
+
+newmtl BRNSMAL1
+Kd 1.0 1.0 1.0
+map_Kd BRNSMAL1.PNG
+
+newmtl BRONZE1
+Kd 1.0 1.0 1.0
+map_Kd BRONZE1.PNG
+
+newmtl BRONZE2
+Kd 1.0 1.0 1.0
+map_Kd BRONZE2.PNG
+
+newmtl BROVINE2
+Kd 1.0 1.0 1.0
+map_Kd BROVINE2.PNG
+
+newmtl BROWN1
+Kd 1.0 1.0 1.0
+map_Kd BROWN1.PNG
+
+newmtl BROWN96
+Kd 1.0 1.0 1.0
+map_Kd BROWN96.PNG
+
+newmtl BROWNGRN
+Kd 1.0 1.0 1.0
+map_Kd BROWNGRN.PNG
+
+newmtl BROWNHUG
+Kd 1.0 1.0 1.0
+map_Kd BROWNHUG.PNG
+
+newmtl CEMENT9
+Kd 1.0 1.0 1.0
+map_Kd CEMENT9.PNG
+
+newmtl COMPSPAN
+Kd 1.0 1.0 1.0
+map_Kd COMPSPAN.PNG
+
+newmtl COMPWERD
+Kd 1.0 1.0 1.0
+map_Kd COMPWERD.PNG
+
+newmtl EXITDOOR
+Kd 1.0 1.0 1.0
+map_Kd EXITDOOR.PNG
+
+newmtl EXITSIGN
+Kd 1.0 1.0 1.0
+map_Kd EXITSIGN.PNG
+
+newmtl LITE5
+Kd 1.0 1.0 1.0
+map_Kd LITE5.PNG
+
+newmtl MIDBARS3
+Kd 1.0 1.0 1.0
+map_Kd MIDBARS3.PNG
+
+newmtl MODWALL2
+Kd 1.0 1.0 1.0
+map_Kd MODWALL2.PNG
+
+newmtl MODWALL3
+Kd 1.0 1.0 1.0
+map_Kd MODWALL3.PNG
+
+newmtl PIPE2
+Kd 1.0 1.0 1.0
+map_Kd PIPE2.PNG
+
+newmtl PIPE4
+Kd 1.0 1.0 1.0
+map_Kd PIPE4.PNG
+
+newmtl SPACEW3
+Kd 1.0 1.0 1.0
+map_Kd SPACEW3.PNG
+
+newmtl SPACEW4
+Kd 1.0 1.0 1.0
+map_Kd SPACEW4.PNG
+
+newmtl STEP2
+Kd 1.0 1.0 1.0
+map_Kd STEP2.PNG
+
+newmtl STEP6
+Kd 1.0 1.0 1.0
+map_Kd STEP6.PNG
+
+newmtl SUPPORT2
+Kd 1.0 1.0 1.0
+map_Kd SUPPORT2.PNG
+
+newmtl SW1BRCOM
+Kd 1.0 1.0 1.0
+map_Kd SW1BRCOM.PNG
+
+newmtl SW1BRNGN
+Kd 1.0 1.0 1.0
+map_Kd SW1BRNGN.PNG
+
+newmtl SW1COMP
+Kd 1.0 1.0 1.0
+map_Kd SW1COMP.PNG
+
+newmtl SW2BRCOM
+Kd 1.0 1.0 1.0
+map_Kd SW2BRCOM.PNG
+
+newmtl TEKGREN1
+Kd 1.0 1.0 1.0
+map_Kd TEKGREN1.PNG
+
+newmtl TEKGREN2
+Kd 1.0 1.0 1.0
+map_Kd TEKGREN2.PNG
+
+newmtl TEKGREN3
+Kd 1.0 1.0 1.0
+map_Kd TEKGREN3.PNG
+
+newmtl TEKGREN4
+Kd 1.0 1.0 1.0
+map_Kd TEKGREN4.PNG
+
+newmtl TEKGREN5
+Kd 1.0 1.0 1.0
+map_Kd TEKGREN5.PNG
+
+newmtl TEKWALL6
+Kd 1.0 1.0 1.0
+map_Kd TEKWALL6.PNG
+
+newmtl CEIL1_2
+Kd 1.0 1.0 1.0
+map_Kd CEIL1_2.PNG
+
+newmtl CEIL1_3
+Kd 1.0 1.0 1.0
+map_Kd CEIL1_3.PNG
+
+newmtl CEIL3_1
+Kd 1.0 1.0 1.0
+map_Kd CEIL3_1.PNG
+
+newmtl CEIL3_3
+Kd 1.0 1.0 1.0
+map_Kd CEIL3_3.PNG
+
+newmtl CEIL5_1
+Kd 1.0 1.0 1.0
+map_Kd CEIL5_1.PNG
+
+newmtl CEIL5_2
+Kd 1.0 1.0 1.0
+map_Kd CEIL5_2.PNG
+
+newmtl F_SKY1
+Kd 1.0 1.0 1.0
+map_Kd F_SKY1.PNG
+
+newmtl FLAT1_1
+Kd 1.0 1.0 1.0
+map_Kd FLAT1_1.PNG
+
+newmtl FLAT1_2
+Kd 1.0 1.0 1.0
+map_Kd FLAT1_2.PNG
+
+newmtl FLAT10
+Kd 1.0 1.0 1.0
+map_Kd FLAT10.PNG
+
+newmtl FLAT18
+Kd 1.0 1.0 1.0
+map_Kd FLAT18.PNG
+
+newmtl FLAT2
+Kd 1.0 1.0 1.0
+map_Kd FLAT2.PNG
+
+newmtl FLAT20
+Kd 1.0 1.0 1.0
+map_Kd FLAT20.PNG
+
+newmtl FLAT23
+Kd 1.0 1.0 1.0
+map_Kd FLAT23.PNG
+
+newmtl FLAT4
+Kd 1.0 1.0 1.0
+map_Kd FLAT4.PNG
+
+newmtl FLAT5
+Kd 1.0 1.0 1.0
+map_Kd FLAT5.PNG
+
+newmtl FLAT5_5
+Kd 1.0 1.0 1.0
+map_Kd FLAT5_5.PNG
+
+newmtl FLOOR0_1
+Kd 1.0 1.0 1.0
+map_Kd FLOOR0_1.PNG
+
+newmtl FLOOR0_2
+Kd 1.0 1.0 1.0
+map_Kd FLOOR0_2.PNG
+
+newmtl FLOOR1_1
+Kd 1.0 1.0 1.0
+map_Kd FLOOR1_1.PNG
+
+newmtl FLOOR3_3
+Kd 1.0 1.0 1.0
+map_Kd FLOOR3_3.PNG
+
+newmtl FLOOR4_1
+Kd 1.0 1.0 1.0
+map_Kd FLOOR4_1.PNG
+
+newmtl FLOOR5_3
+Kd 1.0 1.0 1.0
+map_Kd FLOOR5_3.PNG
+
+newmtl FLOOR5_4
+Kd 1.0 1.0 1.0
+map_Kd FLOOR5_4.PNG
+
+newmtl FLOOR7_1
+Kd 1.0 1.0 1.0
+map_Kd FLOOR7_1.PNG
+
+newmtl FWATER4
+Kd 1.0 1.0 1.0
+map_Kd FWATER4.PNG
+
+newmtl GRASS1
+Kd 1.0 1.0 1.0
+map_Kd GRASS1.PNG
+
+newmtl GRNLITE1
+Kd 1.0 1.0 1.0
+map_Kd GRNLITE1.PNG
+
+newmtl MFLR8_3
+Kd 1.0 1.0 1.0
+map_Kd MFLR8_3.PNG
+
+newmtl RROCK09
+Kd 1.0 1.0 1.0
+map_Kd RROCK09.PNG
+
+newmtl TLITE6_4
+Kd 1.0 1.0 1.0
+map_Kd TLITE6_4.PNG
+

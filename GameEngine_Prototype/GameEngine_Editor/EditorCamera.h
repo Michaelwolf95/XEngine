@@ -1,4 +1,5 @@
 #pragma once
+#include "XEngineEditor.h"
 #include "Component.h"
 #include "Camera.h"
 #include <algorithm>
@@ -13,7 +14,7 @@
 namespace XEngine::Editor
 {
 	//https://embeddedartistry.com/blog/2016/10/18/embedded-c-sharedfromthis
-	class EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
+	class EDITOR_API EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
 	{
 	public:
 		enum EditorCameraMode
@@ -37,9 +38,9 @@ namespace XEngine::Editor
 		GLFWwindow* menuWindow = nullptr;
 		bool isBeingUsed = false;
 		float zoomSpeed = 15.0f;
-		float xRotSpeed = 1.0f;
-		float yRotSpeed = 1.0f;
-		float panSpeed = 0.1f;
+		float xRotSpeed = 5.0f;
+		float yRotSpeed = 5.0f;
+		float panSpeed = 1.0f;
 
 		friend class ::boost::serialization::access;
 		template<class Archive>

@@ -25,11 +25,11 @@ void SpotLightComponent::Update() {}
 void SpotLightComponent::DrawInspector()
 {
 	LightComponent::DrawInspector();
-	ImGui::SliderFloat("Constant", (float*)&constant, 0.0f, 2.0f);
-	ImGui::SliderFloat("Linear", (float*)&linear, 0.0f, 2.0f);
-	ImGui::SliderFloat("Quadratic", (float*)&quadratic, 0.0f, 2.0f);
-	ImGui::SliderAngle("CutOff", (float*)&cutOff);
-	ImGui::SliderAngle("Outer-CutOff", (float*)&outerCutOff);
+	ImGui::SliderFloat(LABEL("Constant "), (float*)&constant, 0.0f, 2.0f);
+	ImGui::SliderFloat(LABEL("Linear "), (float*)&linear, 0.0f, 2.0f);
+	ImGui::SliderFloat(LABEL("Quadratic "), (float*)&quadratic, 0.0f, 2.0f);
+	ImGui::SliderAngle(LABEL("CutOff "), (float*)&cutOff);
+	ImGui::SliderAngle(LABEL("Outer-CutOff "), (float*)&outerCutOff);
 }
 
 void SpotLightComponent::Draw(Shader * shader, int &counter)
@@ -43,7 +43,6 @@ void SpotLightComponent::Draw(Shader * shader, int &counter)
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "]." + VAR_NAME(outerCutOff), outerCutOff);
 	
 	// color and intensity done here for spotlight since different structure
-	//LightComponent::Draw(shader, counter);
 	shader->setVec4(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(color), color);
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(intensity), intensity);
 	shader->setFloat(UNIFORM_NAME + '[' + std::to_string(counter) + "].source." + VAR_NAME(ambience), ambience);

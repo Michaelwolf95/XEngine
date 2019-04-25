@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include "LibraryExport.h"
 #include "Shader.h"
 #include "Light.h"
 #include "Serialization.h"
@@ -21,7 +22,7 @@ For now, we can just use some flags to check if its lit or not.
 */
 
 
-class Material
+class ENGINE_API Material
 {
 public:
 	// Shader attributes

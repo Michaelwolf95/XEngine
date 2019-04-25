@@ -4,6 +4,8 @@
 #include <fstream>
 #include <nlohmann\json.hpp>
 #include "ApplicationManager.h"
+#include "AssetManager.h"
+#include "SceneManager.h"
 
 /* The ApplicationManager is responsible for:
    - Managing system events
@@ -12,8 +14,9 @@
 
 */
 
-static const char* APP_CONFIG_FILE_PATH = "../Settings/";
-static const char* APP_CONFIG_DATA_PATH = "../Data/";
+#define APP_CONFIG_FILE_PATH						\
+(PROJECT_FILE_PATH + std::string("Settings/"))		\
+/**/
 
 AppConfig* ApplicationManager::config = nullptr;
 GLFWwindow* ApplicationManager::APP_WINDOW;
@@ -51,6 +54,11 @@ int ApplicationManager::Init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_SCALE_TO_MONITOR); // macOS specific?
+
+	//for high dpi scaling
+	//glfwGetFramebufferSize();
+	//glfwSetFramebufferSizeCallback();
 
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
@@ -107,6 +115,9 @@ void ApplicationManager::CloseApplication()
 {
 	// Saves application configuration before window is closed
 	SaveAppConfig();
+
+	// Unload current scene to safely close.
+	SceneManager::getInstance().UnloadActiveScene();
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

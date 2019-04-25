@@ -2,7 +2,21 @@
 
 typemap & Component::registry() { static typemap impl; return impl; }
 
-Component::Component() {}
+unsigned int Component::nextComponentID = 0;
+
+void Component::PrintRegistry()
+{
+	std::cout << "Printing Registry [" << Component::registry().size() <<"]:\n";
+	for (auto const& pair: Component::registry())
+	{
+		std::cout << "\t" << pair.second.name << std::endl;
+	}
+}
+
+Component::Component() 
+{
+	componentID = nextComponentID++;
+}
 Component::~Component() {}
 
 // Engine callbacks locking mechanism to assure Start gets called on first update.

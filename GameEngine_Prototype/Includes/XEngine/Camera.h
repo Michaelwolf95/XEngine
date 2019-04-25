@@ -1,12 +1,15 @@
 #pragma once
+#include "LibraryExport.h"
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "ApplicationManager.h"
+#define SCREEN_RATIO (float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight
 //using namespace glm;
 
-class Camera
+class ENGINE_API Camera
 {
 public:
 	Camera();

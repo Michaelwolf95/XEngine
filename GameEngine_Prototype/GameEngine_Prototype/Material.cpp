@@ -170,11 +170,12 @@ void Material::Draw()
 	}
 }
 
-void Material::LoadTexture(const char * _textureFilePath)
+void Material::LoadTexture(const char * _textureFilePath) // used in test scenes and game object analytics
 {
+	std::cout << "Material::LoadTexture called with arguments\n";
+	std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
-	AssetManager::LoadTexture(textureFilePath.c_str(), &textureID);
 
 	AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 }
@@ -190,7 +191,7 @@ void Material::parseFileForProperties(std::string path)
 	vec2Properties.clear();
 	vec3Properties.clear();
 	vec4Properties.clear();
-	textureProperties.clear();
+	//textureProperties.clear();
 
 	try 
 	{
@@ -303,8 +304,8 @@ void Material::DrawInspector()
 
 		ImGui::Checkbox("Use Light", &useLight);
 		//ImGui::ColorEdit4("Color", (float*)&Color); // vec4 property
-
-		if (ImGui::TreeNode(this, "Float Properties", "%s_Floats", this->name.c_str()))
+		std::string propName = this->name + "_Floats";
+		if (ImGui::TreeNode(propName.c_str(), "Float Properties", "%s_Floats", this->name.c_str()))
 		{
 			for (size_t i = 0; i < floatProperties.size(); i++)
 			{
@@ -318,7 +319,8 @@ void Material::DrawInspector()
 
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode(this, "Int Properties", "%s_Ints", this->name.c_str()))
+		propName = this->name + "_Ints";
+		if (ImGui::TreeNode(propName.c_str(), "Int Properties", "%s_Ints", this->name.c_str()))
 		{
 			for (size_t i = 0; i < intProperties.size(); i++)
 			{
@@ -331,7 +333,8 @@ void Material::DrawInspector()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode(this, "Vec2 Properties", "%s_Vec2s", this->name.c_str()))
+		propName = this->name + "_Vec2";
+		if (ImGui::TreeNode(propName.c_str(), "Vec2 Properties", "%s_Vec2s", this->name.c_str()))
 		{
 			for (size_t i = 0; i < vec2Properties.size(); i++)
 			{
@@ -344,7 +347,8 @@ void Material::DrawInspector()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode(this, "Vec3 Properties", "%s_Vec3s", this->name.c_str()))
+		propName = this->name + "_Vec3";
+		if (ImGui::TreeNode(propName.c_str(), "Vec3 Properties", "%s_Vec3s", this->name.c_str()))
 		{
 			for (size_t i = 0; i < vec3Properties.size(); i++)
 			{
@@ -357,7 +361,8 @@ void Material::DrawInspector()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode(this, "Vec4 Properties", "%s_Vec4", this->name.c_str()))
+		propName = this->name + "_Vec4";
+		if (ImGui::TreeNode(propName.c_str(), "Vec4 Properties", "%s_Vec4", this->name.c_str()))
 		{
 			for (size_t i = 0; i < vec4Properties.size(); i++)
 			{			
@@ -372,7 +377,8 @@ void Material::DrawInspector()
 			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode(this, "Texture Properties", "%s_Textures", this->name.c_str()))
+		propName = this->name + "_Textures";
+		if (ImGui::TreeNode(propName.c_str(), "Texture Properties", "%s_Textures", this->name.c_str()))
 		{
 			for (size_t i = 0; i < textureProperties.size(); i++)
 			{
@@ -400,14 +406,14 @@ void Material::DrawInspector()
 					IM_ASSERT(payload->DataSize == 128);
 					const char* payload_n = (const char*)payload->Data;
 
-					std::string fileName(payload_n);
-					if (fileName.substr(fileName.find_last_of(".")) == ".material")
+					std::string filePath(payload_n);
+					if (filePath.substr(filePath.find_last_of(".")) == ".material")
 					{
 						std::cout << "Dropping Material!" << std::endl;
 						//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
 						//size_t lastindex = fileName.find_last_of(".");
 						//fileName = fileName.substr(0, lastindex);
-						Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+						Material* mat = AssetManager::getInstance().materialLib.GetAsset(filePath);
 						if (mat != nullptr)
 						{
 							*this = *mat;
@@ -423,7 +429,7 @@ void Material::DrawInspector()
 		if (ImGui::Button("Update"))
 		{
 			isInitialized = false;
-			Init();
+			Init(); // TODO: How does this update?
 
 			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}

@@ -1,8 +1,9 @@
 #pragma once
+#include "LibraryExport.h"
 #include <glm/glm.hpp>
 #include <vector>
 #include "Shader.h"
-class Light
+class ENGINE_API Light
 {
 public:
 	enum LightType { PointLight = 1, GlobalLight, SpotLight } TYPE;

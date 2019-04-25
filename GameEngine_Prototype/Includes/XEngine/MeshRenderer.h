@@ -23,7 +23,7 @@
 #include <vector>
 
 
-class MeshRenderer: public RenderableObject, public Component
+class ENGINE_API MeshRenderer: public RenderableObject, public Component
 {
 	public:
 		//float* vertices;
@@ -95,11 +95,15 @@ class MeshRenderer: public RenderableObject, public Component
 			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
 			
 			std::vector<std::string> vecMaterials;
-			for (size_t i = 0; i < model->meshes.size(); i++)
+			if (model)
 			{
-				std::cout << model->meshes[i]->name << std::endl;
-				AssetManager::getInstance().materialLib.SaveMaterialToFile(*model->MeshToMaterial.at(model->meshes[i]->name), model->MeshToMaterial.at(model->meshes[i]->name)->filePath.c_str());
-				vecMaterials.push_back(model->MeshToMaterial.at(model->meshes[i]->name)->filePath);
+				for (size_t i = 0; i < model->meshes.size(); i++)
+				{
+					std::cout << model->meshes[i]->name << std::endl;
+					AssetManager::getInstance().materialLib.SaveMaterialToFile(*model->MeshToMaterial.at(model->meshes[i]->name), model->MeshToMaterial.at(model->meshes[i]->name)->filePath.c_str());
+					vecMaterials.push_back(model->MeshToMaterial.at(model->meshes[i]->name)->filePath);
+				}
+				
 			}
 			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
 		}

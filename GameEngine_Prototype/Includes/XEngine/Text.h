@@ -21,7 +21,7 @@
 #include "Material.h"
 #include "serialization.h"
 
-class DLLExport Text : public RenderableObject, public Component
+class ENGINE_API Text : public RenderableObject, public Component
 {
 	struct Character {
 		GLuint TextureID;   // ID handle of the glyph texture

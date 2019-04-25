@@ -1,11 +1,12 @@
 #pragma once
+#include "LibraryExport.h"
 #include "Serialization.h"
 #include "Singleton.h"
 #include "Scene.h"
 
 //std::ostream & operator<<(std::ostream &os, const Scene &scene);
 //ToDo: Track scenes and be able to swap between them.
-class SceneManager : public Singleton<SceneManager>
+class ENGINE_API SceneManager : public Singleton<SceneManager>
 {
 	friend class Singleton<SceneManager>;
 public:

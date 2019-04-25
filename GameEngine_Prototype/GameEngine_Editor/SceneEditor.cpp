@@ -15,6 +15,8 @@
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
 #include <filesystem> // C++ 17 Filesystem
 
+#include "ProjectCompiler.h"
+
 namespace XEngine::Editor {
 
 
@@ -93,7 +95,7 @@ void SceneEditor::EditorPostRender()
 
 void SceneEditor::LoadEditorConfig()
 {
-	editorConfig = new EditorConfig();
+	editorConfig = new SceneEditorConfig();
 	std::string configPath = std::string(EDITOR_CONFIG_FILE_PATH);
 
 	JSON configJSON;
@@ -172,6 +174,7 @@ void SceneEditor::LoadInitialEditorScene()
 		std::cout << "Creating new Empty Scene" << std::endl;
 		scene = SceneManager::getInstance().CreateNewScene();
 		editorConfig->firstSceneFilepath = scene->filePath;
+
 		SaveEditorConfig();
 
 		// SAVE SCENE
@@ -219,6 +222,9 @@ void SceneEditor::StartEditMode()
 			}
 		}
 		RenderManager::getInstance().setCurrentCamera(editorCamera);
+
+		Input::ShowCursor(true);
+		Input::ResetMouseInput();
 	}
 }
 
@@ -234,6 +240,8 @@ void SceneEditor::ExitEditMode()
 		ApplicationManager::getInstance().SetEditMode(false);
 		SceneManager::getInstance().ReloadSceneFromFile();
 	}
+
+	Input::ResetMouseInput();
 }
 
 void SceneEditor::UpdateEditor()
@@ -646,6 +654,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			ImGui::EndMenu();
 		}
+		// CREATE MENU =============================================================
 		if (ImGui::BeginMenu("Create"))
 		{
 			// TODO: Create a way to add to this menu from another file.
@@ -655,13 +664,39 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
 			}
+			if (ImGui::MenuItem("New First-Person Camera Example"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New First-Person Camera Example");
+				selectedGameObject = go;
+				std::shared_ptr<CameraComponent> cameraComponent(new CameraComponent());
+				go->AddComponent(cameraComponent);
+				std::shared_ptr<CameraControllerComponent> cameraControllerComponent(new CameraControllerComponent());
+				go->AddComponent(cameraControllerComponent);
+			}
 			if (ImGui::MenuItem("New Point Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New GameObject");
+				GameObject_ptr go = scene->CreateGameObject("New Point Light");
 				selectedGameObject = go;
-				/*std::shared_ptr<PointLightComponent> pLight(new PointLightComponent());
-				go->AddComponent(pLight);*/
+				std::shared_ptr<LightComponent> pLight(new PointLightComponent());
+				go->AddComponent(pLight);
+			}
+			if (ImGui::MenuItem("New Global Light"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Global Light");
+				selectedGameObject = go;
+				std::shared_ptr<LightComponent> gLight(new GlobalLightComponent());
+				go->AddComponent(gLight);
+			}
+			if (ImGui::MenuItem("New Spot Light"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New Spot Light");
+				selectedGameObject = go;
+				std::shared_ptr<LightComponent> sLight(new SpotLightComponent());
+				go->AddComponent(sLight);
 			}
 			if (ImGui::MenuItem("New Simple Box"))
 			{
@@ -672,24 +707,24 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				selectedGameObject = go;
 				// Create Box Material
 				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
-				Material* modelMaterial = new Material("MultiLight SimpleModel", "multilights.shader", "");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_SimpleModel.material");
 
 				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
 
 				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
+
 				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
 					DiffusedMappedCubeIndices, 6, modelMaterial));
 				testModel->Setup();
 				go->AddComponent(testModel);
 
-				std::cout << "\nSceneEditor, modelMaterial->vertexShaderPath == " << modelMaterial->vertexShaderPath << std::endl;
 			}
 			if (ImGui::MenuItem("New Model Metal Crate"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("3D Model Crate", "multilights.vs", "multilights.fs");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Model_Crate.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
 				go->AddComponent(modelNano);
 			}
@@ -699,7 +734,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("3D Model Wooden Crate", "multilights.vs", "multilights.fs");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
 				go->AddComponent(modelNano);
 			}
@@ -713,7 +748,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 					selectedGameObject = go;
 
 					// Create Box Material
-					Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
+					Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
 					modelMaterial->LoadTexture("textures/container.jpg");
 					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
 						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
@@ -726,17 +761,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = new Material("MultiLight Model", "multilights.vs", "multilights.fs");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
-				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
-				go->AddComponent(modelNano);
-			}		
-			if (ImGui::MenuItem("New Nanosuit (Single Shader)"))
-			{
-				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
-				selectedGameObject = go;
-				Material* modelMaterial = new Material("MultiLight Model");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
@@ -744,7 +769,17 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 			ImGui::EndMenu();
 		}
-
+		if (ImGui::BeginMenu("Code"))
+		{
+			if (ImGui::Button("Reload"))
+			{
+				// TODO: Finish this...?
+				std::cout << "Reload" << std::endl;
+				//std::string buildCommand;
+				ProjectCompiler::getInstance().LoadProject();
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Build"))
 		{
 			if (ImGui::Button("Build Project"))
@@ -755,7 +790,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("ImGUI Demo"))
+		if (ImGui::BeginMenu("Misc"))
 		{
 			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
 			ImGui::EndMenu();
@@ -857,6 +892,15 @@ void SceneEditor::InspectorUpdate()
 		// Draw Component Inspectors
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
+			try
+			{
+				typeid(*selectedGameObject->components[i]);
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+
 			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
 			bool isOpen = ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 			
@@ -1035,6 +1079,24 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	{
 		selectedGameObject = go->GetSelfPtr();
 	}
+
+	// Right Click Selected Object
+	if (ImGui::BeginPopupContextItem("Game Object Context", 1))
+	{
+		// Duplicate Object
+		if (ImGui::Button("Duplicate")) 
+		{
+			// add game object to scene
+			// change name to differentiate
+			GameObject_ptr dupli = GameObject::Duplicate(go->GetSelfPtr());
+			std::cout << "EXITED DUPLICATE" << std::endl;
+			selectedGameObject = dupli;
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PopStyleColor(1);
@@ -1098,8 +1160,8 @@ void SceneEditor::AssetFolderMenuUpdate()
 		}
 		ImGui::EndMenuBar();
 	}
-
-	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH))
+	//std::cout << ASSET_FILE_PATH << std::endl;
+	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH.c_str()))
 	{
 		//std::cout << entry.path() << std::endl;
 		if (entry.is_directory())
@@ -1121,11 +1183,8 @@ void SceneEditor::AssetFolderMenuUpdate()
 static std::string GetFileNameFromPath(const char* path)
 {
 	char sep = '/';
-#ifdef _WIN32
-	sep = '\\';
-#endif
 	std::string s(path);
-	//std::string fileName;
+	std::replace(s.begin(), s.end(), '\\', '/');
 	size_t i = s.rfind(sep, s.length());
 	if (i != std::string::npos) {
 		return s.substr(i + 1, s.length() - i);

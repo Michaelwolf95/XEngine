@@ -83,12 +83,12 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EDITOR_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GameEngine_Prototype.lib;freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;Fmod_studio/fmodstudioL_vc.lib;Fmod_lowlevel/fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine_Prototype.lib.;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -99,12 +99,12 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EDITOR_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GameEngine_Prototype.lib;freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;Fmod_studio/fmodstudioL_vc.lib;Fmod_lowlevel/fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;GameEngine_Prototype.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine_Prototype.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,14 +117,14 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EDITOR_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>GameEngine_Prototype.lib;freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;Fmod_studio/fmodstudioL_vc.lib;Fmod_lowlevel/fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;GameEngine_Prototype.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine_Prototype.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,19 +137,23 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;$(SolutionDir)GameEngine_Prototype</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EDITOR_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>GameEngine_Prototype.lib;freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;Fmod_studio/fmodstudioL_vc.lib;Fmod_lowlevel/fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;GameEngine_Prototype.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameEngine_Prototype.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="EditorMain.cpp" />
+    <ClCompile Include="EditorSettingsManager.cpp" />
+    <ClCompile Include="ProjectSettingsManager.cpp" />
+    <ClCompile Include="glad.c" />
+    <ClCompile Include="ProjectCompiler.cpp" />
     <ClCompile Include="SceneEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +163,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCamera.h" />
+    <ClInclude Include="EditorSettingsManager.h" />
+    <ClInclude Include="ProjectSettingsManager.h" />
+    <ClInclude Include="ProjectCompiler.h" />
     <ClInclude Include="SceneEditor.h" />
+    <ClInclude Include="XEngineEditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

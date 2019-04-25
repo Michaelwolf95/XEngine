@@ -51,6 +51,12 @@ void Input::UpdateInput()
 		xScrollOffset = 0;
 	}
 	scrollUpdated = false;
+
+	if (firstMouse)
+	{
+		xPosLast = xPos;
+		yPosLast = yPos;
+	}
 }
 
 void Input::EndUpdateFrame()
@@ -81,7 +87,7 @@ void Input::_mouse_callback(double xpos, double ypos)
 	mouseIdle = false;
 }
 
-void Input::_scroll_callback(double xoffset, double yoffset)
+void Input::_scroll_callback(float xoffset, float yoffset)
 {
 	xScrollOffset = xoffset;
 	yScrollOffset = yoffset;
@@ -158,13 +164,13 @@ bool Input::GetMouseButtonUp(int glfw_mouse_button)
 	return Input::getInstance().getMouseButtonUp(glfw_mouse_button);
 }
 
-double Input::GetScrollOffsetX()
+float Input::GetScrollOffsetX()
 {
 	return Input::getInstance().xScrollOffset;
 	//return Input::getInstance().GetScrollOffsetX();// xScrollOffset;
 }
 
-double Input::GetScrollOffsetY()
+float Input::GetScrollOffsetY()
 {
 	return Input::getInstance().yScrollOffset;//yScrollOffset;
 }
@@ -181,6 +187,8 @@ double Input::GetMousePosY()
 
 double Input::GetDeltaPosX()
 {
+	//std::cout << "GetMousePosX(): " << GetMousePosX() << std::endl;
+	//std::cout << "GetMousePosY(): " << GetMousePosY() << std::endl;
 	return Input::getInstance().getDeltaPosX();
 }
 
@@ -197,6 +205,16 @@ void Input::ShowCursor(bool enable)
 void Input::ToggleCursor()
 {
 	Input::getInstance().toggleCursor();
+}
+
+bool Input::IsMouseIdle()
+{
+	return Input::getInstance().isMouseIdle();
+}
+
+void Input::ResetMouseInput()
+{
+	Input::getInstance().resetMouseInput();
 }
 
 bool Input::GetKeyDown(int glfw_key)
@@ -297,6 +315,7 @@ double Input::getDelta(double &pos, double &lastPos)
 	double delta = lastPos - pos;
 	mouseIdle = true;
 	lastPos = pos;
+	//std::cout << "delta: " << delta << std::flush << std::endl;
 	return delta;
 }
 
@@ -307,7 +326,24 @@ glm::vec2 Input::getMousePos()
 
 glm::vec2 Input::getMouseDelta()
 {
+	//std::cout << "x: " << getDeltaPosX() << std::endl;
+	//std::cout << "y: " << getDeltaPosY() << std::endl;
+	
 	return glm::vec2(getDeltaPosX(), getDeltaPosY());
+	//std::cout << "xPos: " << xPos << std::flush << std::endl;
+	//std::cout << "xPoslast: " << xPosLast << std::flush << std::endl;
+	//std::cout << "yPos: " << yPos << std::flush << std::endl;
+	//std::cout << "xPosLast: " << yPosLast << std::flush << std::endl;
+	//double deltaX = xPosLast - xPos;
+	//double deltaY = yPos - yPosLast;
+	//mouseIdle = true;
+	//xPosLast = xPos;
+	//yPosLast = yPos;
+
+
+
+	//return glm::vec2(getDelta(xPos, xPosLast), -getDelta(yPos, yPosLast));
+	//return glm::vec2(deltaX, deltaY);
 }
 
 void Input::showCursor(bool enable)
@@ -323,6 +359,16 @@ bool Input::toggleCursor()
 {
 	showCursor(!isCursorEnabled);
 	return isCursorEnabled;
+}
+
+bool Input::isMouseIdle()
+{
+	return mouseIdle;
+}
+
+void Input::resetMouseInput()
+{
+	firstMouse = true;
 }
 
 void Input::validateMouseInputValue(int glfw_mouse_button)
@@ -341,4 +387,9 @@ void Input::validateKeyInputValue(int glfw_key)
 		printf("Throw key input error here! glfw_key == %i", glfw_key);
 		// TODO: Error handling code. Error handling class?
 	}
+}
+
+void Input::SetInputMode(int mode, int value)
+{
+	glfwSetInputMode(ApplicationManager::APP_WINDOW, mode, value);
 }

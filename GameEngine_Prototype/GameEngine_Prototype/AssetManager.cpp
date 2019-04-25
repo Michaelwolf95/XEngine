@@ -29,9 +29,9 @@ void AssetManager::LoadTextureAsset(const char* textureFilePath, unsigned int* t
 	
 	// if does not contain the directory 'Assets'
 	std::string path;
-	if (std::string(textureFilePath).find("Assets") == std::string::npos)
-		path = ASSET_FILE_PATH + std::string(textureFilePath);
-	else
+	//if (std::string(textureFilePath).find("Assets") == std::string::npos)
+	//	path = ASSET_FILE_PATH + std::string(textureFilePath);
+	//else
 		path = std::string(textureFilePath);
 	
 	AssetManager::LoadTexture(path.c_str(), textureID, loadMode);
@@ -69,4 +69,14 @@ void AssetManager::LoadTexture(const char* textureFilePath, unsigned int* textur
 	}
 	stbi_image_free(data);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+std::string AssetManager::getProjectFilePath()
+{
+	return projectFilePath;
+}
+
+void AssetManager::setProjectFilePath(std::string path)
+{
+	projectFilePath = path;
 }

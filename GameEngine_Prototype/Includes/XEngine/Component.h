@@ -1,10 +1,13 @@
 #pragma once
 //#include "XEngine.h"
+#include "LibraryExport.h"
 #include "Serialization.h"
 #include <typeindex>
 #include <unordered_map>
 #include <string>
 #include "imgui.h"
+#define LABEL(label) std::string(label + std::to_string(this->componentID)).c_str()
+
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
 
@@ -15,15 +18,19 @@ typedef std::unordered_map<std::type_index, ComponentTypeInfo> typemap;
 // the static library wont compile unused classes.
 // We need them to compile for registration.
 // https://stackoverflow.com/questions/873731/object-registration-in-static-library
-#define DLLExport __declspec(dllexport)
+//define ENGINE_API __declspec(dllexport)
 
-class DLLExport Component
+class ENGINE_API Component
 {
 public:
 	static typemap & registry();
 
+	static void PrintRegistry();
+
 	// The owner of the component.
 	// Cannot use shared_ptr here due to the way we want things to unload.
+	static unsigned int nextComponentID;
+	unsigned int componentID;
 	GameObject* gameObject;
 	bool enabled = true;
 	bool executeInEditMode = false;
@@ -54,6 +61,8 @@ private:
 	void serialize(Archive &ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_NVP(enabled);
+		ar & BOOST_SERIALIZATION_NVP(nextComponentID);
+		ar & BOOST_SERIALIZATION_NVP(componentID);
 	}
 };
 
@@ -61,7 +70,7 @@ typedef std::shared_ptr<Component> Component_ptr;
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(Component)
 
-struct ComponentTypeInfo
+struct ENGINE_API ComponentTypeInfo
 {
 public:
 	std::string name;
@@ -76,6 +85,13 @@ template <typename T> struct Registrar
 {
 	Registrar(ComponentTypeInfo & s)
 	{
+		//ComponentTypeInfo* r = &Component::registry()[typeid(T)];
+		auto got = Component::registry().find(typeid(T));
+		if (got != Component::registry().end())
+		{
+			std::cout << "Registrar already exists.\n";
+		}
+
 		Component::registry()[typeid(T)] = s;
 	}
 };
@@ -84,13 +100,13 @@ template <typename T> struct Registrar
 // Note: keep this outside of namespace.
 #define REGISTER_COMPONENT(T, K)                                \
 BOOST_CLASS_EXPORT_GUID(T, K)                                   \
-Registrar<T> T::registrar(ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); }));    \
+Registrar<T> T::registrar(*(new ComponentTypeInfo(std::string(K), []() {return (Component_ptr)(new T()); })));    \
 /**/
 
 // Potential shortcut for component class declarations.
 // Probably annoying because of the brace.
 #define COMPONENT_CLASS(className)				\
-class DLLExport className : public Component {	\
+class ENGINE_API className : public Component {	\
 public:											\
 static Registrar<className> registrar;			\
 /**/

@@ -31,41 +31,42 @@
     <ProjectGuid>{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}</ProjectGuid>
     <RootNamespace>GameEngine_Prototype</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>GameEngine_Prototype</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -124,14 +125,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;_CRT_SECURE_NO_WARNINGS;X_EDIT_MODE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;Fmod_studio/fmodstudioL_vc.lib;Fmod_lowlevel/fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
@@ -151,7 +152,7 @@ xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -176,7 +177,7 @@ xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -198,7 +199,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -221,7 +222,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -249,7 +250,7 @@ xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -277,14 +278,17 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AutoMover.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="btRefRigidbody.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
-    <ClCompile Include="FontLibrary.cpp" />
+    <ClCompile Include="CameraControllerComponent.cpp" />
     <ClCompile Include="FPSText.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
@@ -305,10 +309,12 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLibrary.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="PhysicsTester.cpp" />
     <ClCompile Include="PointLightComponent.cpp" />
     <ClCompile Include="PrimitiveModels.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="ShaderLibrary.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLightComponent.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureLibrary.cpp" />
@@ -346,9 +352,13 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\AudioListener.h" />
     <ClInclude Include="..\Includes\XEngine\AudioManager.h" />
     <ClInclude Include="..\Includes\XEngine\AutoMover.h" />
+    <ClInclude Include="..\Includes\XEngine\BoxCollider.h" />
+    <ClInclude Include="..\Includes\XEngine\btRefRigidbody.h" />
     <ClInclude Include="..\Includes\XEngine\Camera.h" />
     <ClInclude Include="..\Includes\XEngine\CameraComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h" />
     <ClInclude Include="..\Includes\XEngine\CameraSwapper.h" />
+    <ClInclude Include="..\Includes\XEngine\Collider.h" />
     <ClInclude Include="..\Includes\XEngine\Component.h" />
     <ClInclude Include="..\Includes\XEngine\ConsoleThread.h" />
     <ClInclude Include="..\Includes\XEngine\CoreComponents.h" />
@@ -362,6 +372,16 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\GizmoSpriteDrawer.h" />
     <ClInclude Include="..\Includes\XEngine\GLM_Serialize.h" />
     <ClInclude Include="..\Includes\XEngine\GlobalLightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\imconfig.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_impl_glfw.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_inspector_extensions.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_internal.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_stdlib.h" />
+    <ClInclude Include="..\Includes\XEngine\imstb_rectpack.h" />
+    <ClInclude Include="..\Includes\XEngine\imstb_textedit.h" />
+    <ClInclude Include="..\Includes\XEngine\imstb_truetype.h" />
     <ClInclude Include="..\Includes\XEngine\Input.h" />
     <ClInclude Include="..\Includes\XEngine\InputTester.h" />
     <ClInclude Include="..\Includes\XEngine\LibraryExport.h" />
@@ -377,6 +397,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\Model.h" />
     <ClInclude Include="..\Includes\XEngine\ModelLibrary.h" />
     <ClInclude Include="..\Includes\XEngine\PhysicsManager.h" />
+    <ClInclude Include="..\Includes\XEngine\PhysicsTester.h" />
     <ClInclude Include="..\Includes\XEngine\PointLightComponent.h" />
     <ClInclude Include="..\Includes\XEngine\PrimitiveModels.h" />
     <ClInclude Include="..\Includes\XEngine\RenderableObject.h" />
@@ -392,6 +413,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\SimpleRotator.h" />
     <ClInclude Include="..\Includes\XEngine\SimpleSprite.h" />
     <ClInclude Include="..\Includes\XEngine\Singleton.h" />
+    <ClInclude Include="..\Includes\XEngine\SphereCollider.h" />
     <ClInclude Include="..\Includes\XEngine\SpotLightComponent.h" />
     <ClInclude Include="..\Includes\XEngine\TestMoverComponent.h" />
     <ClInclude Include="..\Includes\XEngine\TestScenes.h" />
@@ -407,17 +429,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\TransformTester.h" />
     <ClInclude Include="..\Includes\XEngine\Vertex.h" />
     <ClInclude Include="..\Includes\XEngine\XEngine.h" />
-    <ClInclude Include="FPSText.h" />
-    <ClInclude Include="imconfig.h" />
-    <ClInclude Include="imgui.h" />
-    <ClInclude Include="imgui_impl_glfw.h" />
-    <ClInclude Include="imgui_impl_opengl3.h" />
-    <ClInclude Include="imgui_inspector_extensions.h" />
-    <ClInclude Include="imgui_internal.h" />
-    <ClInclude Include="imgui_stdlib.h" />
-    <ClInclude Include="imstb_rectpack.h" />
-    <ClInclude Include="imstb_textedit.h" />
-    <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
