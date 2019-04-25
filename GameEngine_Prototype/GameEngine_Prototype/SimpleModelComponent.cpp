@@ -137,12 +137,13 @@ void SimpleModelComponent::Draw()
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 
-	material->shader->setMat4("view", view);
-	material->shader->setMat4("projection", projection);
-	material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-
 	// Model uses GameObject transform.
 	glm::mat4 model = (gameObject->transform->getMatrix4x4());
+
+	material->shader->setMat4("view", view);
+	material->shader->setMat4("projection", projection);
+	material->shader->setMat4("model", model);
+
 
 	glm::vec3 viewPos  = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 	material->shader->setVec3("viewPos", viewPos);

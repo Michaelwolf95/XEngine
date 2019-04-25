@@ -13,6 +13,7 @@
 #include "Light.h"
 #include "LineDrawer.h"
 #include "Scene.h"
+#include "Mesh.h"
 
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
@@ -28,6 +29,8 @@ public:
 	static Shader* colorDrawShader;
 	static Shader* defaultSpriteShader;
 	static Shader* defaultTextShader;
+
+	static Mesh* cubeMesh;
 
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
