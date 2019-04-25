@@ -6,6 +6,7 @@
 //class MaterialLibrary;
 #include "MeshLibrary.h"
 #include "ShaderLibrary.h"
+#include "FontLibrary.h"
 //#include <stb/stb_image.h>
 
 static const char* ASSET_FILE_PATH
@@ -24,6 +25,7 @@ public:
 	MaterialLibrary materialLib;
 	MeshLibrary meshLib;
 	ShaderLibrary shaderLib;
+	FontLibrary fontLib;
 	AssetManager();
 	~AssetManager();
 	static AssetManager* CreateManager();

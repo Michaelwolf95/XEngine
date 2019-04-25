@@ -284,6 +284,8 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
+    <ClCompile Include="FontLibrary.cpp" />
+    <ClCompile Include="FPSText.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
     <ClCompile Include="GizmoSpriteDrawer.cpp" />
@@ -405,6 +407,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\TransformTester.h" />
     <ClInclude Include="..\Includes\XEngine\Vertex.h" />
     <ClInclude Include="..\Includes\XEngine\XEngine.h" />
+    <ClInclude Include="FPSText.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_glfw.h" />

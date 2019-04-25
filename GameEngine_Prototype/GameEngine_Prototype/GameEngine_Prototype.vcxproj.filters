@@ -294,6 +294,12 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Source Files\Application</Filter>
     </ClCompile>
+    <ClCompile Include="FontLibrary.cpp">
+      <Filter>Source Files\AssetManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSText.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imconfig.h">
@@ -538,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\TestScenes_Tam.h">
       <Filter>Test Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSText.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -195,7 +195,7 @@ namespace XEngine::Editor
 				glfwWindowHint(GLFW_VISIBLE, true);
 				////glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 				//glfwWindowHint(GLFW_RESIZABLE, false);
-
+				
 				menuWindow = glfwCreateWindow(120, 220, "Second Window", NULL, ApplicationManager::APP_WINDOW);
 				//GLFWwindow* second_window = glfwCreateWindow(100, 200, "Second Window", 0, 0);
 				//GLFWwindow* window = glfwCreateWindow(250, 500, "My Title", NULL, NULL);
@@ -213,26 +213,6 @@ namespace XEngine::Editor
 				glfwSwapBuffers(menuWindow);
 				//glfwMakeContextCurrent(second_window);
 			}
-
-			// AUDIO TEST
-			if (Input::GetKeyDown(GLFW_KEY_P))
-			{
-				std::cout << "Playing sound...?" << std::endl;
-				//Audio
-				//string soundPath1 = "../Assets/sounds/old-car-engine_daniel_simion.mp3";
-				std::string soundPath1 = "../Assets/sounds/inception_sound.mp3";
-
-				//Implementation* sgpImplementation = new Implementation();
-				//sgpImplementation->~Implementation;
-				CAudioEngine test;
-				test.Init();
-
-				//LoadSound(const std::string& strSoundName, bool b3d, bool bLooping, bool bStream)
-				//parameters about streaming, looping, and whether or not it's a 3D sound
-				test.LoadSound(soundPath1, false, false, true);
-				test.PlaySounds(soundPath1);
-			}
-
 		}
 	}
 }
