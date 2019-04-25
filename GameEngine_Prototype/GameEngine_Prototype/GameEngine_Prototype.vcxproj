@@ -290,6 +290,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="CameraControllerComponent.cpp" />
+    <ClCompile Include="FPSText.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
     <ClCompile Include="GizmoSpriteDrawer.cpp" />
