@@ -367,6 +367,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\Drawer.h" />
     <ClInclude Include="..\Includes\XEngine\Emitter.h" />
     <ClInclude Include="..\Includes\XEngine\ExampleRotator_James.h" />
+    <ClInclude Include="..\Includes\XEngine\FPSText.h" />
     <ClInclude Include="..\Includes\XEngine\FreeLookCameraController.h" />
     <ClInclude Include="..\Includes\XEngine\GameComponentAnalytic.h" />
     <ClInclude Include="..\Includes\XEngine\GameObject.h" />

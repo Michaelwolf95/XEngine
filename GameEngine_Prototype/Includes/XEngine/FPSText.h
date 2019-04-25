@@ -18,7 +18,6 @@ public:
 	void OnEnable() override;
 	void ConnectToText();
 	Text* fpsText;
-	void setCurrentText(Text*);
 
 private:
 	friend class boost::serialization::access;
@@ -29,4 +28,3 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 	}
 };
-
