@@ -9,6 +9,7 @@
 #include <iostream>
 #include "RenderManager.h"
 #include <BulletPhysics/LinearMath/btAlignedAllocator.h>
+#include "BulletPhysics/BulletCollision/CollisionShapes/btEmptyShape.h"
 #include "Serialization.h"
 
 #include "Input.h"
@@ -18,9 +19,10 @@ namespace XEngine
 {
 	Rigidbody::Rigidbody() 
 	{
+		localInertia = new btVector3(0, 0, 0);
+		//localInertia = btVector3(0, 0, 0);
 		if (isKinematic)
 			mass = 0.0f;
-		//localInertia = new btVector3(0, 0, 0);
 	}
 	Rigidbody::~Rigidbody()
 	{
@@ -62,25 +64,33 @@ namespace XEngine
 		//colShape = new btBoxShape(*boxColliderHalfExtents);
 		//PhysicsManager::getInstance().AddCollisionShape(colShape);
 
+		// Create "Empty shape" when no collision shape exists.
+		//https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=147
+		btCollisionShape* colShape = new btEmptyShape();
+		PhysicsManager::getInstance().AddCollisionShape(colShape);
+
 		// Create Dynamic Objects
 		physTransformModel = new btTransform();
 		physTransformModel->setIdentity();
 		SyncPhysicsModelWithTransform();
 
+
 		//rigidbody is dynamic if and only if mass is non zero, otherwise static
 		if (isKinematic)
 			mass = 0.0f;
-		//bool isDynamic = (mass != 0.f);
+		bool isDynamic = (mass != 0.f);
 		//localInertia = new btVector3(0, 0, 0);
-		//if (isDynamic)
-		//{
-		//	//colShape->calculateLocalInertia(mass, localInertia);
-		//}
+		if (isDynamic)
+		{
+			//std::cout << localInertia << std::endl;
+			//colShape->calculateLocalInertia(mass, *localInertia);
+		}
 
 		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 		motionState = new btDefaultMotionState(*physTransformModel);
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, nullptr);
+		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, nullptr);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, *localInertia);
 		body = new btRefRigidbody(rbInfo);
 		body->owner = this; // L337 HACKS
 
@@ -148,6 +158,7 @@ namespace XEngine
 	{
 		//physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		//body->setWorldTransform(physTransformModel);
+		// Note: We can set collision shape local scaling.
 
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		glm::quat rot = this->gameObject->transform->getRotation();

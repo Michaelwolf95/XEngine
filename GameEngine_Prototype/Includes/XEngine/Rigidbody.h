@@ -39,12 +39,13 @@ namespace XEngine
 		static Registrar<Rigidbody> registrar;
 
 		btRefRigidbody* body = nullptr;
-		btDefaultMotionState* motionState = nullptr;
+		btMotionState* motionState = nullptr;
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo;
 		float mass = 1.0f;
 		bool isKinematic = false;
 
-		//btVector3* localInertia = nullptr;
+		btVector3* localInertia = nullptr;
+		//btVector3 localInertia;// (1, 1, 1);
 
 		//btBoxShape* colShape = nullptr;
 		//btVector3* boxColliderHalfExtents = nullptr;
