@@ -1,2 +1,17 @@
-# CECS_491_GameEngine_Prototype
-Prototype for unnamed Game Engine project for CECS 491A.
+# XEngine
+Custom Game Engine and Editor (C++)
+
+Included Libraries:
+- OpenGL
+- GLFW
+- Glad
+- GLM
+- Bullet Physics
+- Boost (1.68.0)
+- FMod
+- Assimp 
+- Misc
+  - KHR
+  - Nlohmann
+  - freetype
+  - stb
