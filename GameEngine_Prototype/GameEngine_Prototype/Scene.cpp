@@ -206,3 +206,12 @@ void Scene::OnHierarchyUpdate()
 		}
 	}
 }
+
+void Scene::AddExistingGameObject(GameObject_ptr go)
+{
+	allGameObjects.push_back(go);
+	if (go->transform->GetParent() == nullptr)
+	{
+		rootGameObjects.push_back(go);
+	}
+}

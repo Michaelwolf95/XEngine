@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Test 2</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>3</count>
+		<count>17</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -44,7 +44,7 @@
 		<item>
 			<px class_id_reference="3" object_id="_2">
 				<gameObjectID>2</gameObjectID>
-				<name>New Model Metal Crate</name>
+				<name>BOX</name>
 				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_3">
 					<Component>
@@ -54,9 +54,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
+						<vec.x>4.764556885e-01</vec.x>
+						<vec.y>4.599437714e+00</vec.y>
+						<vec.z>6.179618835e-01</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -64,10 +64,10 @@
 						<vec.z>1.000000000e+00</vec.z>
 					</localScale>
 					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
+						<q.x>-1.071641892e-01</q.x>
+						<q.y>6.177291647e-02</q.y>
+						<q.z>-2.447493747e-02</q.z>
+						<q.w>9.920184612e-01</q.w>
 					</localRotation>
 				</transform>
 				<components>
@@ -95,7 +95,7 @@
 		<item>
 			<px class_id_reference="3" object_id="_5">
 				<gameObjectID>2</gameObjectID>
-				<name>New Model Metal Crate_Copy</name>
+				<name>BOX_CHILD</name>
 				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_6">
 					<Component>
@@ -103,11 +103,62 @@
 						<nextComponentID>6</nextComponentID>
 						<componentID>3</componentID>
 					</Component>
-					<parent class_id="-1"></parent>
+					<parent class_id_reference="4" object_id_reference="_3"></parent>
 					<localPosition>
-						<vec.x>2.541854382e+00</vec.x>
+						<vec.x>8.777499199e-01</vec.x>
 						<vec.y>1.937239170e+00</vec.y>
-						<vec.z>1.210861206e+00</vec.z>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_7">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_8">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_9">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_3"></parent>
+					<localPosition>
+						<vec.x>2.496643066e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>-1.000862122e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -125,7 +176,670 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_7">
+						<px class_id_reference="10" object_id="_10">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_11">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_12">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_9"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_13">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_14">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_15">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_3"></parent>
+					<localPosition>
+						<vec.x>-4.944992065e-01</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>4.823989868e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_16">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_17">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_18">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_15"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_19">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_20">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_21">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_15"></parent>
+					<localPosition>
+						<vec.x>2.496643066e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>-1.000862122e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_22">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_23">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_24">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_21"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_25">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_26">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_27">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_28">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_29">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_30">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_27"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_31">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_32">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_33">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_27"></parent>
+					<localPosition>
+						<vec.x>2.496643066e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>-1.000862122e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_34">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_35">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_36">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_33"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_37">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_38">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_39">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_27"></parent>
+					<localPosition>
+						<vec.x>-4.944992065e-01</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>4.823989868e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_40">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_41">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_42">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_39"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_43">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_44">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_45">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_39"></parent>
+					<localPosition>
+						<vec.x>2.496643066e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>-1.000862122e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_46">
+							<Component>
+								<enabled>1</enabled>
+								<nextComponentID>6</nextComponentID>
+								<componentID>4</componentID>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_47">
+				<gameObjectID>2</gameObjectID>
+				<name>BOX_CHILD</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_48">
+					<Component>
+						<enabled>1</enabled>
+						<nextComponentID>6</nextComponentID>
+						<componentID>3</componentID>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_45"></parent>
+					<localPosition>
+						<vec.x>8.777499199e-01</vec.x>
+						<vec.y>1.937239170e+00</vec.y>
+						<vec.z>1.452293396e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_49">
 							<Component>
 								<enabled>1</enabled>
 								<nextComponentID>6</nextComponentID>

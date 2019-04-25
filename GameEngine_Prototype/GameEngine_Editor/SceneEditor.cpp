@@ -1088,42 +1088,11 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		{
 			// add game object to scene
 			// change name to differentiate
-			//GameObject_ptr dupli = SceneManager::getInstance().GetActiveScene()->CreateGameObject("TEMP");
-			//GameObject::Duplicate(*go, *dupli);
-
-			//GameObject* dupli = GameObject::Duplicate(*go);
-
-			GameObject_ptr dupli = GameObject::Duplicate2(go->GetSelfPtr());
+			GameObject_ptr dupli = GameObject::Duplicate(go->GetSelfPtr());
 			std::cout << "EXITED DUPLICATE" << std::endl;
-			//GameObject_ptr dupli(new GameObject("TEMP_NAME"));
-			//GameObject* dupli = new GameObject("TEMP_NAME");
-			try
-			{
-				//GameObject_ptr go = GameObject::Duplicate2(*go);
-				//go->Duplicate(*dupli);
-			}
-			catch (const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-			
-			//// add copy components of selectedObject 
-			//if (go->components.size() != 0)
-			//{
-			//	for (int i = 0; i < go->components.size(); i++)
-			//	{
-			//		dupli->AddComponent(std::shared_ptr<Component>(go->components[i]->DeepCopy() ) );
-			//	}
-			//}
+			selectedGameObject = dupli;
 
-			//// get transform of the selected object
-			//dupli->transform->setPosition(go->transform->getPosition());
-			//dupli->transform->setRotation(go->transform->getRotation());
-			//dupli->transform->setLocalScale(go->transform->getLocalScale());
-
-			// change selectedObject to newly duplicate object
-			
-			//selectedGameObject = dupli;
+			ImGui::CloseCurrentPopup();
 		}
 
 		ImGui::EndPopup();
