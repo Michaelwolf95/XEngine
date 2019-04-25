@@ -48,6 +48,7 @@ void FreeLookCameraController::Update()
 			//clickPos = Input::GetMousePos();
 			//lastDragPos = clickPos;
 			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			Input::ShowCursor(false);
 			camMode = 1;
 			break;
@@ -56,6 +57,7 @@ void FreeLookCameraController::Update()
 		{
 			//clickPos = Input::GetMousePos();
 			//lastDragPos = clickPos;
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			Input::ShowCursor(true);
 			camMode = 2;
@@ -85,6 +87,7 @@ void FreeLookCameraController::Update()
 		}
 		else
 		{
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			Input::ShowCursor(true);
 			camMode = 0;
@@ -109,6 +112,7 @@ void FreeLookCameraController::Update()
 		}
 		else
 		{
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			Input::ShowCursor(true);
 			camMode = 0;

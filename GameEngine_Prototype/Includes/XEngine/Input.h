@@ -104,6 +104,8 @@ public:
 	static bool IsMouseIdle();
 	static void ResetMouseInput();
 
+	static void SetInputMode(int mode, int value);
+
 	/// Keyboard inputs
 	static bool GetKeyDown(int glfw_key); 
 	static bool GetKey(int glfw_key); 

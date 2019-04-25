@@ -4,6 +4,8 @@
 #include <fstream>
 #include <nlohmann\json.hpp>
 #include "ApplicationManager.h"
+#include "AssetManager.h"
+#include "SceneManager.h"
 
 /* The ApplicationManager is responsible for:
    - Managing system events
@@ -12,8 +14,9 @@
 
 */
 
-static const char* APP_CONFIG_FILE_PATH = "../Settings/";
-static const char* APP_CONFIG_DATA_PATH = "../Data/";
+#define APP_CONFIG_FILE_PATH						\
+(PROJECT_FILE_PATH + std::string("Settings/"))		\
+/**/
 
 AppConfig* ApplicationManager::config = nullptr;
 GLFWwindow* ApplicationManager::APP_WINDOW;
@@ -112,6 +115,9 @@ void ApplicationManager::CloseApplication()
 {
 	// Saves application configuration before window is closed
 	SaveAppConfig();
+
+	// Unload current scene to safely close.
+	SceneManager::getInstance().UnloadActiveScene();
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

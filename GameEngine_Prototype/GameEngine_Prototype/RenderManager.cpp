@@ -43,6 +43,12 @@ int RenderManager::Init()
 		(float)ApplicationManager::config->screenWidth / (float)ApplicationManager::config->screenHeight,
 		0.1f, 100.0f);
 
+	// Create default primitive meshes.
+	// TODO: Finish this.
+	/*std::vector<float> cubeVerts(CUBE_VERTS, CUBE_VERTS + (sizeof(CUBE_VERTS) / (sizeof(float))));
+	std::vector<unsigned int> cubeInd(CUBE_INDICES, CUBE_INDICES + (sizeof(CUBE_INDICES) / (sizeof(unsigned int))));
+	boxMesh = new Mesh("Cube", cubeVerts, cubeInd);*/
+
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
@@ -405,38 +411,77 @@ void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::
 	colorDrawShader->setMat4("view", view);
 	colorDrawShader->setMat4("projection", projection);
 
-	//glm::vec3 diff = point2 - point1;
-	//std::cout << "Drawing box" << std::endl;
-	/*GLfloat p[]
-	{
-		1.0, 1.0, 1.0,
-		
-		diff.x, diff.y, diff.z
-	};*/
 	unsigned int VAO;
 	unsigned int VBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(CUBE_VERTS), CUBE_VERTS, GL_STATIC_DRAW);
-	unsigned int numIndices = sizeof(CUBE_INDICES) / (sizeof(unsigned int));
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), CUBE_INDICES, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * NUM_CUBE_VERTS, CUBE_VERTS, GL_STATIC_DRAW);
+
+	glBindVertexArray(VAO);
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glPolygonMode(GL_FRONT, GL_LINE);
-	glPolygonMode(GL_BACK, GL_LINE);
+	// Drawing
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glLineWidth(size);
 	glBindVertexArray(VAO);
-	//glDrawArrays(GL_LINES, 0, sizeof(CUBE_VERTS)/(5*sizeof(float)));
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(CUBE_VERTS) / (5 * sizeof(float)));
+	glDrawArrays(GL_TRIANGLES, 0, 36);
 
-	glPolygonMode(GL_FRONT, GL_FILL);
-	glPolygonMode(GL_BACK, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//
 
-	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+
+}
+
+void RenderManager::DrawWorldSpaceSphere(glm::vec3 center, glm::vec3 scale, float radius, glm::vec4 color, int lineSize)
+{
+	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
+	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
+
+	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
+	colorDrawShader->use();
+	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
+
+	glm::mat4 model(1.0);
+	model = glm::translate(model, center);
+	model = glm::scale(model, scale);
+	glm::mat4 view = RenderManager::getInstance().getView();
+	glm::mat4 projection = RenderManager::getInstance().getProjection();
+	colorDrawShader->setMat4("model", model);
+	colorDrawShader->setMat4("view", view);
+	colorDrawShader->setMat4("projection", projection);
+
+	unsigned int VAO;
+	unsigned int VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * NUM_SPHERE_VERTS, SPHERE_VERTS, GL_STATIC_DRAW);
+
+	glBindVertexArray(VAO);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// Drawing
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glLineWidth(lineSize);
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, (NUM_SPHERE_VERTS)/3);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//
+
 	glBindVertexArray(0);
 
 	glDeleteVertexArrays(1, &VAO);

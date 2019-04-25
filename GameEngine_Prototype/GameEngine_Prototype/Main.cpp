@@ -19,14 +19,14 @@ namespace XEngine
 	ENGINE_API EngineEvent OnEnginePreRender = nullptr;
 	ENGINE_API EngineEvent OnEnginePostRender = nullptr;
 	ENGINE_API EngineEvent OnApplicationClose = nullptr;
+	ENGINE_API bool engineInitialized = false;
 
 	ENGINE_API bool useDefaultSceneInitialization = true;
 
-	// Main Game Function.
-	int ENGINE_API ENGINE_MAIN()
+	int ENGINE_API ENGINE_INITIALIZE()
 	{
-		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
-		std::cout << "API Mode: " << API_MODE << std::endl;
+		if (engineInitialized)
+			return 0;
 		// Init Managers
 		ApplicationManager::CreateManager();
 		GameTime::CreateManager();
@@ -38,6 +38,18 @@ namespace XEngine
 		PhysicsManager::CreateManager();
 
 		if (OnEngineInit != nullptr) XEngine::OnEngineInit();
+
+		engineInitialized = true;
+		return 0;
+	}
+
+	// Main Game Function.
+	int ENGINE_API ENGINE_MAIN()
+	{
+		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
+		std::cout << "API Mode: " << API_MODE << std::endl;
+		
+		ENGINE_INITIALIZE();
 
 		// Create & Load Scene
 		if (useDefaultSceneInitialization)

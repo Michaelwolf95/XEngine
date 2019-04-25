@@ -17,6 +17,7 @@ public:
 	GameObject(const char* _name = nullptr);
 	~GameObject();
 
+	GameObject* GetParent();
 	std::vector<GameObject*> GetChildren();
 	GameObject* GetChild(int index);
 
@@ -38,6 +39,10 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, void** object);
 
 	GameObject_ptr GetSelfPtr();
+	//static GameObject* Duplicate(GameObject& ref);
+	static GameObject_ptr DuplicateSingle(GameObject_ptr ref);
+	static GameObject_ptr Duplicate(GameObject_ptr ref);
+	static void GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameObject_ptr>& vec);
 private:
 	friend class Transform;
 	bool isActive = true;

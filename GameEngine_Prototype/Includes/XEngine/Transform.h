@@ -5,6 +5,7 @@
 #include "Component.h"
 #include "Serialization.h"
 #include "GLM_Serialize.h"
+//#include "Rigidbody.h"
 //class Component;
 class ENGINE_API Transform : public Component
 {
@@ -66,7 +67,7 @@ public:
 
 private:
 	friend class GameObject;
-	friend class Rigidbody;
+	//friend class XEngine::Rigidbody;
 	
 	Transform* parent = nullptr;
 	std::vector<Transform*> children;

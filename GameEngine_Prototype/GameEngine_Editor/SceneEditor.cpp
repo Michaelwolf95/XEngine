@@ -95,7 +95,7 @@ void SceneEditor::EditorPostRender()
 
 void SceneEditor::LoadEditorConfig()
 {
-	editorConfig = new EditorConfig();
+	editorConfig = new SceneEditorConfig();
 	std::string configPath = std::string(EDITOR_CONFIG_FILE_PATH);
 
 	JSON configJSON;
@@ -174,6 +174,7 @@ void SceneEditor::LoadInitialEditorScene()
 		std::cout << "Creating new Empty Scene" << std::endl;
 		scene = SceneManager::getInstance().CreateNewScene();
 		editorConfig->firstSceneFilepath = scene->filePath;
+
 		SaveEditorConfig();
 
 		// SAVE SCENE
@@ -1078,6 +1079,24 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	{
 		selectedGameObject = go->GetSelfPtr();
 	}
+
+	// Right Click Selected Object
+	if (ImGui::BeginPopupContextItem("Game Object Context", 1))
+	{
+		// Duplicate Object
+		if (ImGui::Button("Duplicate")) 
+		{
+			// add game object to scene
+			// change name to differentiate
+			GameObject_ptr dupli = GameObject::Duplicate(go->GetSelfPtr());
+			std::cout << "EXITED DUPLICATE" << std::endl;
+			selectedGameObject = dupli;
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PopStyleColor(1);
@@ -1141,8 +1160,8 @@ void SceneEditor::AssetFolderMenuUpdate()
 		}
 		ImGui::EndMenuBar();
 	}
-
-	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH))
+	//std::cout << ASSET_FILE_PATH << std::endl;
+	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH.c_str()))
 	{
 		//std::cout << entry.path() << std::endl;
 		if (entry.is_directory())

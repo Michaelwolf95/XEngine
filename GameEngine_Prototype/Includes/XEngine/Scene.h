@@ -28,6 +28,7 @@ public:
 	void DeleteGameObject(GameObject_ptr go);
 	void OnHierarchyUpdate();
 	//GameObject_ptr FindSharedGameObjectPointer(GameObject* go);
+	void AddExistingGameObject(GameObject_ptr go);
 private:
 	std::vector<GameObject_ptr> allGameObjects;
 
