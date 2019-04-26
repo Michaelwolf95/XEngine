@@ -23,7 +23,7 @@
 #include <vector>
 
 
-class MeshRenderer: public RenderableObject, public Component
+class ENGINE_API MeshRenderer: public RenderableObject, public Component
 {
 	public:
 		//float* vertices;

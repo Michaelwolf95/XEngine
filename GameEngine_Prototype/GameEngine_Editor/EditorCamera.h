@@ -1,4 +1,5 @@
 #pragma once
+#include "XEngineEditor.h"
 #include "Component.h"
 #include "Camera.h"
 #include <algorithm>
@@ -13,7 +14,7 @@
 namespace XEngine::Editor
 {
 	//https://embeddedartistry.com/blog/2016/10/18/embedded-c-sharedfromthis
-	class EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
+	class EDITOR_API EditorCamera : public Component, public Camera, public std::enable_shared_from_this<Camera>
 	{
 	public:
 		enum EditorCameraMode

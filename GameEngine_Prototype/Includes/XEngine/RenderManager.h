@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
+#include "LibraryExport.h"
 #include "RenderableObject.h"
 #include "Shader.h"
 #include "Material.h"
@@ -12,13 +13,14 @@
 #include "Light.h"
 #include "LineDrawer.h"
 #include "Scene.h"
+#include "Mesh.h"
 
 /* The RenderManager is responsible for:
 - Tracking all renderable objects
 - Handling switching between shaders
 - Drawing all rendered objects optimally
 */
-class RenderManager : public Singleton<RenderManager>
+class ENGINE_API RenderManager : public Singleton<RenderManager>
 {
 	friend class Singleton<RenderManager>;
 public:
@@ -27,6 +29,8 @@ public:
 	static Shader* colorDrawShader;
 	static Shader* defaultSpriteShader;
 	static Shader* defaultTextShader;
+
+	static Mesh* cubeMesh;
 
 	unsigned int currentShaderID = 0;
 	bool isInitialized = false;
@@ -67,6 +71,8 @@ public:
 	static void DrawScreenSpaceLine(glm::vec2 point1, glm::vec2 point2, glm::vec4 color, int size);
 	static void DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::vec4 color, int size);
 	static void DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size);
+
+	static void DrawWorldSpaceSphere(glm::vec3 center, glm::vec3 scale, float radius, glm::vec4 color, int lineSize);
 
 private:
 	Camera* currentCamera;

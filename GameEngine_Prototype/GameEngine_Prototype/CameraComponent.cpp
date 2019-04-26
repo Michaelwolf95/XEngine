@@ -19,7 +19,7 @@ CameraComponent::CameraComponent()
 		0.1f, 100.0f);
 	//initGizmoRenderData();
 
-	gizmoDrawer = std::shared_ptr<GizmoSpriteDrawer>(new GizmoSpriteDrawer("Editor/Gizmos/CameraGizmo.png"));
+	gizmoDrawer = std::shared_ptr<GizmoSpriteDrawer>(new GizmoSpriteDrawer("../EditorAssets/Gizmos/CameraGizmo.png"));
 }
 
 CameraComponent::~CameraComponent() 
@@ -41,7 +41,9 @@ glm::mat4 __stdcall CameraComponent::getView()
 	//OutputDebugStringW(L"Getting CameraComponent View...\n");
 	//std::cout << "Getting CameraComponent View..." << std::endl;
 	glm::vec3 cameraPos = gameObject->transform->getPosition();
-	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + gameObject->transform->getForwardDirection(), gameObject->transform->getUpDirection());
+	glm::mat4 view = glm::lookAt(cameraPos, 
+		cameraPos + glm::normalize(gameObject->transform->getForwardDirection()), 
+		gameObject->transform->getUpDirection());
 
 	return view;
 }
@@ -57,6 +59,8 @@ void CameraComponent::OnDrawGizmos()
 
 void CameraComponent::DrawInspector()
 {
+	ImGui::PushID(this);
 	ImGui::ColorEdit4("Color", (float*)&clearColor);
-
+	ImGui::PopID();
 }
+

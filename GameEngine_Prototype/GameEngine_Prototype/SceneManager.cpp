@@ -1,13 +1,17 @@
 #include "SceneManager.h"
 #include <iostream>
 #include <typeinfo>
+#include "AssetManager.h"
 #include "CameraComponent.h"
 #include "RenderManager.h"
 #include "ApplicationManager.h"
 #include "Serialization.h"
 #include <string>
 
-static const char* DEFAULT_SCENE_FILE_PATH = "../Assets/Scenes/";
+#define DEFAULT_SCENE_FILE_PATH					\
+(ASSET_FILE_PATH + std::string("Scenes/"))		\
+/**/
+//static const char* DEFAULT_SCENE_FILE_PATH = "../Assets/Scenes/";
 static const char* SCENE_FILE_EXT = ".scene";
 
 SceneManager::SceneManager() {}
@@ -112,6 +116,13 @@ void SceneManager::SaveSceneToFile(const Scene &s)
 void SceneManager::SaveSceneToFile(const Scene &s, const char * fileName) 
 {
 	std::cout << "Saving Scene: " << fileName << std::endl;
+
+	if (CreateDirectory(DEFAULT_SCENE_FILE_PATH.c_str(), NULL) ||
+		ERROR_ALREADY_EXISTS == GetLastError())
+	{
+		// CopyFile(...)
+	}
+
 	// make an archive
 	std::ofstream ofs(fileName);
 	if (!ofs)

@@ -29,9 +29,9 @@ void AssetManager::LoadTextureAsset(const char* textureFilePath, unsigned int* t
 	
 	// if does not contain the directory 'Assets'
 	std::string path;
-	if (std::string(textureFilePath).find("Assets") == std::string::npos)
-		path = ASSET_FILE_PATH + std::string(textureFilePath);
-	else
+	//if (std::string(textureFilePath).find("Assets") == std::string::npos)
+	//	path = ASSET_FILE_PATH + std::string(textureFilePath);
+	//else
 		path = std::string(textureFilePath);
 	
 	AssetManager::LoadTexture(path.c_str(), textureID, loadMode);

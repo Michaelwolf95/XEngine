@@ -15,6 +15,8 @@
 #include <direct.h> // Alternative to boost filesystem. This limits us to Windows/Linux
 #include <filesystem> // C++ 17 Filesystem
 
+#include "ProjectCompiler.h"
+
 namespace XEngine::Editor {
 
 
@@ -93,7 +95,7 @@ void SceneEditor::EditorPostRender()
 
 void SceneEditor::LoadEditorConfig()
 {
-	editorConfig = new EditorConfig();
+	editorConfig = new SceneEditorConfig();
 	std::string configPath = std::string(EDITOR_CONFIG_FILE_PATH);
 
 	JSON configJSON;
@@ -172,6 +174,7 @@ void SceneEditor::LoadInitialEditorScene()
 		std::cout << "Creating new Empty Scene" << std::endl;
 		scene = SceneManager::getInstance().CreateNewScene();
 		editorConfig->firstSceneFilepath = scene->filePath;
+
 		SaveEditorConfig();
 
 		// SAVE SCENE
@@ -219,6 +222,9 @@ void SceneEditor::StartEditMode()
 			}
 		}
 		RenderManager::getInstance().setCurrentCamera(editorCamera);
+
+		Input::ShowCursor(true);
+		Input::ResetMouseInput();
 	}
 }
 
@@ -234,6 +240,8 @@ void SceneEditor::ExitEditMode()
 		ApplicationManager::getInstance().SetEditMode(false);
 		SceneManager::getInstance().ReloadSceneFromFile();
 	}
+
+	Input::ResetMouseInput();
 }
 
 void SceneEditor::UpdateEditor()
@@ -646,6 +654,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			ImGui::EndMenu();
 		}
+		// CREATE MENU =============================================================
 		if (ImGui::BeginMenu("Create"))
 		{
 			// TODO: Create a way to add to this menu from another file.
@@ -654,6 +663,16 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
 				selectedGameObject = go;
+			}
+			if (ImGui::MenuItem("New First-Person Camera Example"))
+			{
+				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+				GameObject_ptr go = scene->CreateGameObject("New First-Person Camera Example");
+				selectedGameObject = go;
+				std::shared_ptr<CameraComponent> cameraComponent(new CameraComponent());
+				go->AddComponent(cameraComponent);
+				std::shared_ptr<CameraControllerComponent> cameraControllerComponent(new CameraControllerComponent());
+				go->AddComponent(cameraControllerComponent);
 			}
 			if (ImGui::MenuItem("New Point Light"))
 			{
@@ -750,7 +769,17 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 
 			ImGui::EndMenu();
 		}
-
+		if (ImGui::BeginMenu("Code"))
+		{
+			if (ImGui::Button("Reload"))
+			{
+				// TODO: Finish this...?
+				std::cout << "Reload" << std::endl;
+				//std::string buildCommand;
+				ProjectCompiler::getInstance().LoadProject();
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Build"))
 		{
 			if (ImGui::Button("Build Project"))
@@ -761,7 +790,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("ImGUI Demo"))
+		if (ImGui::BeginMenu("Misc"))
 		{
 			ImGui::Checkbox("Show Demo Menu", &show_demo_menu);
 			ImGui::EndMenu();
@@ -863,6 +892,15 @@ void SceneEditor::InspectorUpdate()
 		// Draw Component Inspectors
 		for (size_t i = 0; i < selectedGameObject->components.size(); i++)
 		{
+			try
+			{
+				typeid(*selectedGameObject->components[i]);
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+
 			std::string componentTypeName = Component::registry()[typeid(*selectedGameObject->components[i])].name;
 			bool isOpen = ImGui::CollapsingHeader(componentTypeName.c_str(), ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_DefaultOpen);
 			
@@ -1041,6 +1079,24 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	{
 		selectedGameObject = go->GetSelfPtr();
 	}
+
+	// Right Click Selected Object
+	if (ImGui::BeginPopupContextItem("Game Object Context", 1))
+	{
+		// Duplicate Object
+		if (ImGui::Button("Duplicate")) 
+		{
+			// add game object to scene
+			// change name to differentiate
+			GameObject_ptr dupli = GameObject::Duplicate(go->GetSelfPtr());
+			std::cout << "EXITED DUPLICATE" << std::endl;
+			selectedGameObject = dupli;
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PopStyleColor(1);
@@ -1104,8 +1160,8 @@ void SceneEditor::AssetFolderMenuUpdate()
 		}
 		ImGui::EndMenuBar();
 	}
-
-	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH))
+	//std::cout << ASSET_FILE_PATH << std::endl;
+	for (const auto & entry : std::filesystem::directory_iterator(ASSET_FILE_PATH.c_str()))
 	{
 		//std::cout << entry.path() << std::endl;
 		if (entry.is_directory())

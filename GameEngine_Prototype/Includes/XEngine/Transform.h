@@ -5,8 +5,9 @@
 #include "Component.h"
 #include "Serialization.h"
 #include "GLM_Serialize.h"
+//#include "Rigidbody.h"
 //class Component;
-class Transform : public Component
+class ENGINE_API Transform : public Component
 {
 public:
 	static Registrar<Transform> registrar;
@@ -66,7 +67,7 @@ public:
 
 private:
 	friend class GameObject;
-	friend class Rigidbody;
+	//friend class XEngine::Rigidbody;
 	
 	Transform* parent = nullptr;
 	std::vector<Transform*> children;
@@ -85,6 +86,10 @@ private:
 	glm::vec3 _calcLocalPositionFromMatrix();
 	glm::quat _calcLocalRotationFromMatrix();
 	glm::vec3 _calcLocalScaleFromMatrix();
+
+	bool isScaleSlider = false;
+	bool scaleRatioLock = false;
+	glm::vec3 scaleRatio = glm::vec3(1.0f);
 
 	// SERIALIZATION
 	friend class boost::serialization::access;

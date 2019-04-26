@@ -9,20 +9,27 @@
 #include <iostream>
 #include "RenderManager.h"
 #include <BulletPhysics/LinearMath/btAlignedAllocator.h>
+#include "BulletPhysics/BulletCollision/CollisionShapes/btEmptyShape.h"
 #include "Serialization.h"
+
+#include "Input.h"
 
 REGISTER_COMPONENT(XEngine::Rigidbody, "Rigidbody")
 namespace XEngine
 {
-	Rigidbody::Rigidbody() {}
+	Rigidbody::Rigidbody() 
+	{
+		if (isKinematic)
+			mass = 0.0f;
+	}
 	Rigidbody::~Rigidbody()
 	{
-		std::cout << "\t\tDeconstructing Rigidbody..." << std::endl;
-		// TODO: Remove from physics manager.
+		std::cout << "Deconstructing Rigidbody..." << std::endl;
 		if (isInitialized)
 		{
-			PhysicsManager::getInstance().RemoveCollisionShape(colShape);
+			//PhysicsManager::getInstance().RemoveCollisionShape(colShape);
 
+			// Remove from physics manager.
 			if (body != nullptr && PhysicsManager::getInstance().dynamicsWorld != nullptr)
 			{
 				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
@@ -30,45 +37,43 @@ namespace XEngine
 				delete body;
 				body = nullptr;
 			}
-			delete boxColliderHalfExtents;
-			boxColliderHalfExtents = nullptr;
+			//delete boxColliderHalfExtents;
+			//boxColliderHalfExtents = nullptr;
 			delete physTransformModel;
 			physTransformModel = nullptr;
-			delete colShape;
-			colShape = nullptr;
+			//delete colShape;
+			//colShape = nullptr;
 			delete motionState;
 			motionState = nullptr;
 
-			std::cout << "\t\t\tFinished Deconstructing Rigidbody" << std::endl;
+			std::cout << "Finished Deconstructing Rigidbody" << std::endl;
 		}
 	}
 	void Rigidbody::Init()
 	{
-		std::cout << "\t\tInitializing Rigidbody..." << std::endl;
-		glm::vec3 scale = this->gameObject->transform->getScale() * 0.5f;
-		boxColliderHalfExtents = new btVector3(scale.x, scale.y, scale.z);
-		colShape = new btBoxShape(*boxColliderHalfExtents);
+		if (isInitialized)
+			return;
+
+		std::cout << "Initializing Rigidbody..." << std::endl;
+
+		// Empty Collision Shape
+		// Create "Empty shape" when no collision shape exists.
+		// Needed for physics to simulate.
+		//https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=147
+		btCollisionShape* colShape = new btEmptyShape();
 		PhysicsManager::getInstance().AddCollisionShape(colShape);
 
-		/// Create Dynamic Objects
+		// Create Dynamic Objects
 		physTransformModel = new btTransform();
 		physTransformModel->setIdentity();
 		SyncPhysicsModelWithTransform();
 
-		//rigidbody is dynamic if and only if mass is non zero, otherwise static
-		if (isKinematic)
-			mass = 0.0f;
-		bool isDynamic = (mass != 0.f);
-		btVector3 localInertia(0, 0, 0);
-		if (isDynamic)
-		{
-			colShape->calculateLocalInertia(mass, localInertia);
-		}
-
 		//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 		motionState = new btDefaultMotionState(*physTransformModel);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-		body = new btRigidBody(rbInfo);
+		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape);
+		body = new btRefRigidbody(rbInfo);
+		body->owner = this; // L337 HACKS
 
 		if (isKinematic)
 		{
@@ -92,22 +97,29 @@ namespace XEngine
 	}
 	void Rigidbody::Update()
 	{
-		glm::vec3 scale = this->gameObject->transform->getScale() * 0.5f;
-		boxColliderHalfExtents->setX(scale.x);
-		boxColliderHalfExtents->setY(scale.y);
-		boxColliderHalfExtents->setZ(scale.z);
+		//glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
+		//boxColliderHalfExtents->setX(scale.x);
+		//boxColliderHalfExtents->setY(scale.y);
+		//boxColliderHalfExtents->setZ(scale.z);
 		SyncPhysicsModelWithTransform();
 		//SyncTransformWithPhysicsModel();
+
+		// TEMP
+		if (Input::GetKeyDown(GLFW_KEY_SPACE))
+		{
+			AddForce(glm::vec3(0, 10, 0));
+		}
 	}
 
 	void Rigidbody::FixedUpdate()
 	{
+		this->body->UpdateCollisionState();
+
 		//std::cout << "Tick." << std::endl;
 		//https://stackoverflow.com/questions/22002077/getting-bullet-physics-transform-matrix-for-opengl
 		if (body && body->getMotionState())
 		{
 			SyncTransformWithPhysicsModel();
-
 		}
 	}
 
@@ -125,6 +137,7 @@ namespace XEngine
 	{
 		//physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		//body->setWorldTransform(physTransformModel);
+		// Note: We can set collision shape local scaling.
 
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		glm::quat rot = this->gameObject->transform->getRotation();
@@ -142,6 +155,25 @@ namespace XEngine
 			matrix[12], matrix[13], matrix[14], matrix[15]);
 	}
 
+	void Rigidbody::_internal_CollisionEnterCallback(CollisionInfo& info)
+	{
+		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		OnCollisionEnterEvent(info);
+		//std::cout << "CollisionEnter " << gameObject->name << " with " << info.otherRigidbody->gameObject->name << std::endl;
+	}
+
+	void Rigidbody::_internal_CollisionStayCallback(CollisionInfo& info)
+	{
+		//std::cout << "CollisionEnter " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		OnCollisionStayEvent(info);
+	}
+
+	void Rigidbody::_internal_CollisionExitCallback(CollisionInfo& info)
+	{
+		//std::cout << "CollisionExit " << gameObject->name << " with " << other->owner->gameObject->name << std::endl;
+		OnCollisionExitEvent(info);
+	}
+
 	void Rigidbody::DrawInspector()
 	{
 		ImGui::Checkbox("IsKinematic", &isKinematic);
@@ -150,45 +182,72 @@ namespace XEngine
 			ImGui::InputFloat("Mass", &mass);
 		}
 	}
-	void Rigidbody::OnDrawGizmosSelected()
+
+	void Rigidbody::AddForce(glm::vec3 force)
 	{
-		//TODO: Replace this with a "DrawWorldSpaceBox" Method.
+		this->body->activate(true);
+		this->body->applyCentralImpulse(btVector3(force.x, force.y, force.z));
+	}
+	Rigidbody * Rigidbody::GetAttachedRigidbody(GameObject* go)
+	{
+		Rigidbody* rb = nullptr;
+		while (go != nullptr)
+		{
+			go->FindComponent(typeid(XEngine::Rigidbody), (void**)&rb);
+			if (rb == nullptr)
+			{
+				go = go->GetParent();
+			}
+			else break;
+		}
+		return rb;
+	}
 
-		glm::vec3 pos = this->gameObject->transform->getPosition();
-		//glm::vec3 halfExt = *(glm::vec3*)&colShape->getHalfExtentsWithMargin();
-		glm::vec3 halfExt = this->gameObject->transform->getScale() * 0.5f;
-		//colShape->getHalfExtentsWithMargin()
-		//RenderManager::DrawWorldSpaceBox(pos, halfExt, glm::vec4(0, 0, 1, 1), 2);
+	// https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=5194
+	void Rigidbody::AttachCollider(Collider * col)
+	{
+		// Check if collider is already attached. (Changing to vector later)
+		if (this->attachedCollider == col)
+			return;
 
-		glm::vec3 right = glm::normalize(this->gameObject->transform->getRightDirection());
-		glm::vec3 up = glm::normalize(this->gameObject->transform->getUpDirection());
-		glm::vec3 forward = glm::normalize(this->gameObject->transform->getForwardDirection());
-		glm::vec3 corners[8] = {
-			pos + (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 0
-			pos + (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 1
-			pos + (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 2
-			pos + (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 3
-			pos - (forward * halfExt.z) + (up * halfExt.y) + (right * halfExt.x), // 4
-			pos - (forward * halfExt.z) + (up * halfExt.y) - (right * halfExt.x), // 5
-			pos - (forward * halfExt.z) - (up * halfExt.y) + (right * halfExt.x), // 6
-			pos - (forward * halfExt.z) - (up * halfExt.y) - (right * halfExt.x), // 7
-		};
-		glm::vec4 color(0, 1, 0, 0.5f);
-		int size = 1;
-		//RenderManager::DrawWorldSpacePoint(pos + right * L, glm::vec4(1, 0, 0, 1), 5); // Center
-		RenderManager::DrawWorldSpaceLine(corners[0], corners[1], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[0], corners[2], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[3], corners[1], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[3], corners[2], color, size);
+		// 1) Remove rigidbody from world.
+		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
 
-		RenderManager::DrawWorldSpaceLine(corners[0], corners[4], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[1], corners[5], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[2], corners[6], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[3], corners[7], color, size);
+		// 2) Assign new shape.
 
-		RenderManager::DrawWorldSpaceLine(corners[4], corners[5], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[4], corners[6], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[7], corners[5], color, size);
-		RenderManager::DrawWorldSpaceLine(corners[7], corners[6], color, size);
+		auto shape = col->GetColShape();
+		this->body->setCollisionShape(shape);
+
+		// 3) Recompute the inertia tensor for dynamic objects (mass>0) using newShape->calcLocalInertia(...) and use body->setMassProps
+		btVector3 localInertia(0, 0, 0);
+		if (isDynamic())
+		{
+			shape->calculateLocalInertia(this->mass, localInertia);
+			body->setMassProps(this->mass, localInertia);
+		}
+		
+		// 4) add the body to the world
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+
+		this->attachedCollider = col;
+	}
+	void Rigidbody::DetachCollider(Collider * col)
+	{
+
+	}
+
+	bool Rigidbody::isDynamic()
+	{
+		//rigidbody is dynamic if and only if mass is non zero, otherwise static
+		if (isKinematic)
+			mass = 0.0f;
+		return (mass != 0.f);
+	}
+	CollisionInfo::CollisionInfo(Rigidbody * _other, Collider * _otherCollider, glm::vec3 _contactPoint, glm::vec3 _contactNormal)
+	{
+		otherRigidbody = _other;
+		otherCollider = _otherCollider;
+		contactPoint = _contactPoint;
+		contactNormal = _contactNormal;
 	}
 }

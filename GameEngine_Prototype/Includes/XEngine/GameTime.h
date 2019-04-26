@@ -1,9 +1,10 @@
 #pragma once
+#include "LibraryExport.h"
 #include "Singleton.h"
 namespace XEngine
 {
 	// TimeManager
-	class GameTime : public Singleton<GameTime> // TODO: Separate FPS into own class. 
+	class ENGINE_API GameTime : public Singleton<GameTime> // TODO: Separate FPS into own class. 
 	{
 		struct FPS { //TODO: forward declaration?
 			void(*getFPSCallback)(float fps) = nullptr;

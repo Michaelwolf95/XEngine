@@ -80,11 +80,12 @@ void AudioComponent::UnPause()
 
 void AudioComponent::DrawInspector()
 {
+	// File Path 
+	ImGui::InputText("AudioClip", &soundPath);
 	// File Path Drag and Drop
 	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
 	if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
 	{
-		ImGui::Text("<----- CHANGE SoundPath ----->");
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
@@ -107,8 +108,6 @@ void AudioComponent::DrawInspector()
 			ImGui::EndDragDropTarget();
 		}
 	}
-	// File Path 
-	ImGui::InputText(soundPath.c_str(), &soundPath);
 	// Flags
 	ImGui::Checkbox("Is 3D", &is3D);
 	ImGui::SameLine();

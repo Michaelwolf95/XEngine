@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <glm/glm.hpp>
-class DLLExport FreeLookCameraController : public Component
+class ENGINE_API FreeLookCameraController : public Component
 {
 public:
 	static Registrar<FreeLookCameraController> registrar;
@@ -17,8 +17,8 @@ public:
 	void DrawInspector() override;
 private:
 	unsigned int camMode;
-	glm::vec2 clickPos;
-	glm::vec2 lastDragPos;
+	//glm::vec2 clickPos;
+	//glm::vec2 lastDragPos;
 
 	friend class boost::serialization::access;
 	template<class Archive>

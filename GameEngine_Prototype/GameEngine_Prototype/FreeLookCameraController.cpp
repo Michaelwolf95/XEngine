@@ -45,17 +45,21 @@ void FreeLookCameraController::Update()
 	case 0:
 		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT))
 		{
-			clickPos = Input::GetMousePos();
-			lastDragPos = clickPos;
-			glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			//clickPos = Input::GetMousePos();
+			//lastDragPos = clickPos;
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::ShowCursor(false);
 			camMode = 1;
 			break;
 		}
 		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) || (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) && Input::GetKey(GLFW_KEY_LEFT_CONTROL)))
 		{
-			clickPos = Input::GetMousePos();
-			lastDragPos = clickPos;
-			glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			//clickPos = Input::GetMousePos();
+			//lastDragPos = clickPos;
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::ShowCursor(true);
 			camMode = 2;
 			break;
 		}
@@ -63,9 +67,10 @@ void FreeLookCameraController::Update()
 	case 1:
 		if (Input::GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT))
 		{
-			glm::vec2 currentDragPos = Input::GetMousePos();
-			glm::vec2 deltaPos = currentDragPos - lastDragPos;
-			lastDragPos = currentDragPos;
+			//glm::vec2 currentDragPos = Input::GetMousePos();
+			//glm::vec2 deltaPos = currentDragPos - lastDragPos;
+			glm::vec2 deltaPos = Input::GetMouseDelta();
+			//lastDragPos = currentDragPos;
 			float deltaXRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
 			float deltaYRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
 
@@ -77,21 +82,24 @@ void FreeLookCameraController::Update()
 			//direction.y -= deltaXRot;
 			//gameObject->transform->LookAt(gameObject->transform->getPosition() - direction);
 
-			localRot = glm::vec3(localRot.x + deltaYRot, localRot.y - deltaXRot, localRot.z);
+			localRot = glm::vec3(localRot.x + deltaYRot, localRot.y + deltaXRot, localRot.z);
 			gameObject->transform->setLocalRotationEuler(localRot);
 		}
 		else
 		{
-			glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::ShowCursor(true);
 			camMode = 0;
 		}
 		break;
 	case 2:
 		if (Input::GetMouseButton(GLFW_MOUSE_BUTTON_MIDDLE) || Input::GetMouseButton(GLFW_MOUSE_BUTTON_LEFT))
 		{
-			glm::vec2 currentDragPos = Input::GetMousePos();
-			glm::vec2 deltaPos = currentDragPos - lastDragPos;
-			lastDragPos = currentDragPos;
+			//glm::vec2 currentDragPos = Input::GetMousePos();
+			//glm::vec2 deltaPos = currentDragPos - lastDragPos;
+			glm::vec2 deltaPos = Input::GetMouseDelta();
+			//lastDragPos = currentDragPos;
 			float deltaXPan = panSpeed * GameTime::deltaTime * deltaPos.x;
 			float deltaYPan = panSpeed * GameTime::deltaTime * deltaPos.y;// Input::GetDeltaPosY();
 
@@ -104,7 +112,9 @@ void FreeLookCameraController::Update()
 		}
 		else
 		{
-			glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::ShowCursor(true);
 			camMode = 0;
 		}
 

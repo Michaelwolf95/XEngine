@@ -25,11 +25,13 @@ void SpotLightComponent::Update() {}
 void SpotLightComponent::DrawInspector()
 {
 	LightComponent::DrawInspector();
+	ImGui::PushID(this);
 	ImGui::SliderFloat("Constant", (float*)&constant, 0.0f, 2.0f);
 	ImGui::SliderFloat("Linear", (float*)&linear, 0.0f, 2.0f);
 	ImGui::SliderFloat("Quadratic", (float*)&quadratic, 0.0f, 2.0f);
 	ImGui::SliderAngle("CutOff", (float*)&cutOff);
 	ImGui::SliderAngle("Outer-CutOff", (float*)&outerCutOff);
+	ImGui::PopID();
 }
 
 void SpotLightComponent::Draw(Shader * shader, int &counter)

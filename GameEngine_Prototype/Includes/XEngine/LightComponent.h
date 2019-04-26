@@ -1,11 +1,12 @@
 #pragma once
+#include "LibraryExport.h"
 #include "Component.h"
 #include "Light.h"
 #include <glm/glm.hpp>
 #include "GizmoSpriteDrawer.h"
 #define VAR_NAME(Var) (#Var)
 
-class LightComponent : public Component, public Light
+class ENGINE_API LightComponent : public Component, public Light
 {
 public:
 	static Registrar<LightComponent> registrar;
@@ -40,6 +41,7 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(intensity);
 		ar & BOOST_SERIALIZATION_NVP(color);
 		ar & BOOST_SERIALIZATION_NVP(ambience);
+		ar & BOOST_SERIALIZATION_NVP(UNIFORM_NAME);
 	}
 };
 

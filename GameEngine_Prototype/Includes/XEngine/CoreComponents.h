@@ -19,8 +19,11 @@
 
 //Text
 #include "Text.h"
+#include "FPSText.h"
 
 // Other
+#include "CameraControllerComponent.h"
+#include "CameraComponent.h"
 
 // Testers (Remove later?)
 #include "FreeLookCameraController.h"

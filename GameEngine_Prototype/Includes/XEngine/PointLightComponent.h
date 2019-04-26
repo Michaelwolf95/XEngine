@@ -7,7 +7,7 @@
 
 #define VAR_NAME(Var) (#Var)
 
-class DLLExport PointLightComponent : public LightComponent
+class ENGINE_API PointLightComponent : public LightComponent
 {
 public:
 	static Registrar<PointLightComponent> registrar;
