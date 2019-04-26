@@ -46,6 +46,8 @@ namespace XEngine
 		halfExtents->setX(scale.x * boxSize.x);
 		halfExtents->setY(scale.y * boxSize.y);
 		halfExtents->setZ(scale.z * boxSize.z);
+
+		colShape->setLocalScaling(*halfExtents);
 	}
 	void BoxCollider::FixedUpdate()
 	{
