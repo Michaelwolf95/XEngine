@@ -309,6 +309,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="SpotLightComponent.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureLibrary.cpp" />
     <ClCompile Include="TransformTester.cpp" />
@@ -392,6 +393,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\SimpleSprite.h" />
     <ClInclude Include="..\Includes\XEngine\Singleton.h" />
     <ClInclude Include="..\Includes\XEngine\SpotLightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\SpriteRenderer.h" />
     <ClInclude Include="..\Includes\XEngine\TestMoverComponent.h" />
     <ClInclude Include="..\Includes\XEngine\TestScenes.h" />
     <ClInclude Include="..\Includes\XEngine\TestScenes_Dennis.h" />
