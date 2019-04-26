@@ -452,6 +452,7 @@ void RenderManager::DrawWorldSpaceSphere(glm::vec3 center, glm::vec3 scale, floa
 
 	glm::mat4 model(1.0);
 	model = glm::translate(model, center);
+	scale *= radius;
 	model = glm::scale(model, scale);
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();

@@ -32,9 +32,11 @@ namespace XEngine
 	}
 	void SphereCollider::Update()
 	{
+		((btSphereShape*)colShape)->setUnscaledRadius(radius);
 	}
 	void SphereCollider::DrawInspector()
 	{
+		ImGui::InputFloat("Radius", &radius);
 	}
 	void SphereCollider::OnDrawGizmosSelected()
 	{
