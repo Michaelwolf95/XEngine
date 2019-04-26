@@ -5,7 +5,6 @@
 #include "SceneManager.h"
 #include "Serialization.h"
 #include <sstream>
-unsigned int GameObject::nextGameObjectID = 0;
 
 GameObject::GameObject(const char* _name)
 {
@@ -18,7 +17,6 @@ GameObject::GameObject(const char* _name)
 		name = _name;
 	}
 
-	gameObjectID = GameObject::nextGameObjectID++;
 	transform = new Transform();
 	transform->gameObject = this;// shared_from_this();
 }

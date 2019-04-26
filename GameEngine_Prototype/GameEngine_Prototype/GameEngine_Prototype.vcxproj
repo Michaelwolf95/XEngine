@@ -287,8 +287,10 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="ExampleRotator_James.cpp" />
     <ClCompile Include="CameraControllerComponent.cpp" />
+    <ClCompile Include="FPSText.cpp" />
     <ClCompile Include="GameComponentAnalytic.cpp" />
     <ClCompile Include="GameObjectAnalytic.cpp" />
     <ClCompile Include="GizmoSpriteDrawer.cpp" />
@@ -363,7 +365,9 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\CoreComponents.h" />
     <ClInclude Include="..\Includes\XEngine\DebugUtility.h" />
     <ClInclude Include="..\Includes\XEngine\Drawer.h" />
+    <ClInclude Include="..\Includes\XEngine\Emitter.h" />
     <ClInclude Include="..\Includes\XEngine\ExampleRotator_James.h" />
+    <ClInclude Include="..\Includes\XEngine\FPSText.h" />
     <ClInclude Include="..\Includes\XEngine\FreeLookCameraController.h" />
     <ClInclude Include="..\Includes\XEngine\GameComponentAnalytic.h" />
     <ClInclude Include="..\Includes\XEngine\GameObject.h" />

@@ -19,6 +19,7 @@
 
 //Text
 #include "Text.h"
+#include "FPSText.h"
 
 // Other
 #include "CameraControllerComponent.h"

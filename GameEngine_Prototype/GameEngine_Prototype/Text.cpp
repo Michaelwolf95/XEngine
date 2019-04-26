@@ -4,14 +4,19 @@ const std::string FILE_PATH = "../Assets/Fonts/";
 
 REGISTER_COMPONENT(Text, "Text")
 
-//Text::Text() {}
-
-Text::Text(const char *filePath, FT_UInt size)
+Text::Text()
 {
-	this->fontPath = filePath;
-	this->fontSize = size;
+	this->fontPath = "arial.ttf";
+	this->fontSize = 20;
+	this->text = "Text";
+	this->color = glm::vec3(255.0, 255.0f, 255.0f);
+	this->xPos = 20.0f;
+	this->yPos = 20.0f;
+	this->scale = 1.0f;
 
-	Setup();
+	//*this = FontLibra
+
+	//Setup();
 }
 
 Text::~Text()
@@ -55,7 +60,7 @@ std::string Text::getText()
 	return this->text;
 }
 
-glm::vec3 Text::getColor()
+glm::vec3 Text::getColor() 
 {
 	return this->color;
 }
@@ -73,14 +78,23 @@ GLfloat Text::getScale()
 }
 
 void Text::Start() {}
-void Text::Update() {}
+
+void Text::Update() 
+{
+}
+
+void Text::OnEnable()
+{
+	Setup();
+}
 
 void Text::Setup()
 {
-	setText("Text");
-	setColor(glm::vec3(255.0, 255.0f, 255.0f));
-	setPos(20.0f, 20.0f);
-	setScale(1.0f);
+	std::size_t pathFound = this->fontPath.find("Fonts");
+	if (pathFound != std::string::npos)
+		std::cout << "Text font path found." << std::endl;
+	else
+		this->fontPath = FILE_PATH + this->fontPath;
 
 	render_enabled = true;
 	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
@@ -102,7 +116,7 @@ void Text::Setup()
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(800.0f), static_cast<GLfloat>(600.0f), 0.0f);
 	this->shader->setMat4("projection", projection);
 	this->shader->setInt("text", 0);
-	
+
 	this->Load();
 }
 
@@ -162,7 +176,7 @@ void Text::Draw()
 void Text::DrawInspector()
 {
 	glm::vec2 pos = this->getPos();
-	ImGui::InputFloat2("Position", (float*)&pos);
+	ImGui::InputFloat2("Text Position", (float*)&pos);
 	if (pos != this->getPos())
 	{
 		this->setPos(pos.x, pos.y);
@@ -193,11 +207,42 @@ void Text::DrawInspector()
 		this->setFontSize(size);
 		this->Load();
 	}
+	const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+	if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+	{
+		ImGui::Text("<----- CHANGE FONT ----->");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			{
+				IM_ASSERT(payload->DataSize == 128);
+				const char* payload_n = (const char*)payload->Data;
+
+				std::string fileName(payload_n);
+				if (fileName.substr(fileName.find_last_of(".")) == ".ttf" || fileName.substr(fileName.find_last_of(".")) == ".TTF")
+				{
+					std::cout << "Dropping Font! SKADOOSH!" << std::endl;
+					//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+					//size_t lastindex = fileName.find_last_of(".");
+					//fileName = fileName.substr(0, lastindex);
+					//Material* mat = AssetManager::getInstance().materialLib.GetAsset(fileName);
+					//if (mat != nullptr)
+					//{
+					//	*this = *mat;
+					//	std::cout << "Dropping Material!" << std::endl;
+					//}
+					this->fontPath = fileName;
+					this->Load();
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+	}
 }
 
 void Text::Load()
 {
-	std::string fullPath = FILE_PATH + this->fontPath;
+	//std::string fullPath = FILE_PATH + this->fontPath;
 
 	// First clear the previously loaded Characters
 	this->Characters.clear();
@@ -207,7 +252,7 @@ void Text::Load()
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
 	// Load font as face
 	FT_Face face;
-	if (FT_New_Face(ft, fullPath.c_str(), 0, &face))
+	if (FT_New_Face(ft, fontPath.c_str(), 0, &face))
 		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 	// Set size to load glyphs as
 	FT_Set_Pixel_Sizes(face, 0, this->fontSize);

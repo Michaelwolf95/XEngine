@@ -19,6 +19,7 @@
 #include "RenderableObject.h"
 #include "Component.h"
 #include "Material.h"
+#include "serialization.h"
 
 class ENGINE_API Text : public RenderableObject, public Component
 {
@@ -32,15 +33,16 @@ class ENGINE_API Text : public RenderableObject, public Component
 public:
 	static Registrar<Text> registrar;
 	//Text();
-	Text(const char* filePath = "arial.ttf", FT_UInt size = 20);
+	Text();
 	~Text();
 	void Start() override;
 	void Update() override;
 	void Setup() override;
+	void OnEnable() override;
 	void Draw() override;
 	void DrawInspector() override;
 	void Load();
-	void setFontSize(FT_UInt size);
+	void setFontSize(FT_UInt);
 	void setText(std::string);
 	void setColor(glm::vec3);
 	void setPos(GLfloat, GLfloat);
@@ -50,14 +52,29 @@ public:
 	glm::vec3 getColor();
 	glm::vec2 getPos();
 	GLfloat getScale();
+	std::string fontPath;
 
 private:
 	std::map<GLchar, Character> Characters;
-	std::string fontPath;
 	std::string text;
 	FT_UInt fontSize;
 	glm::vec3 color;
 	GLfloat xPos, yPos, scale;
 	GLuint VAO, VBO;
 	Shader* shader;
+
+	friend class boost::serialization::access;
+
+	template<class Archive>
+	void serialize(Archive &ar, const unsigned int version)
+	{
+		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
+		ar & BOOST_SERIALIZATION_NVP(fontPath);
+		ar & BOOST_SERIALIZATION_NVP(text);
+		ar & BOOST_SERIALIZATION_NVP(fontSize);
+		ar & BOOST_SERIALIZATION_NVP(color);
+		ar & BOOST_SERIALIZATION_NVP(xPos);
+		ar & BOOST_SERIALIZATION_NVP(yPos);
+		ar & BOOST_SERIALIZATION_NVP(scale);
+	}
 };

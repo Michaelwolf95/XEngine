@@ -87,7 +87,7 @@ private:
 	glm::quat _calcLocalRotationFromMatrix();
 	glm::vec3 _calcLocalScaleFromMatrix();
 
-	bool isScaleSlider = true;
+	bool isScaleSlider = false;
 	bool scaleRatioLock = false;
 	glm::vec3 scaleRatio = glm::vec3(1.0f);
 
