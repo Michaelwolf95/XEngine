@@ -83,9 +83,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>5.158939362e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
+						<vec.x>-2.096915245e-01</vec.x>
+						<vec.y>7.615928650e+00</vec.y>
+						<vec.z>-5.839276314e-01</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -151,7 +151,7 @@
 					<parent class_id="-1"></parent>
 					<localPosition>
 						<vec.x>5.149841309e-01</vec.x>
-						<vec.y>2.017412186e+00</vec.y>
+						<vec.y>3.978159428e+00</vec.y>
 						<vec.z>0.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
@@ -174,7 +174,7 @@
 							<Component>
 								<enabled>1</enabled>
 							</Component>
-							<radius>1.000000000e+00</radius>
+							<radius>1.200000048e+00</radius>
 						</px>
 					</item>
 					<item>
