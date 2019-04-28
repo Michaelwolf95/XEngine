@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Rigidbody.h"
+#include <shared_ptr.hpp>
 using namespace XEngine;
 
 class PROJECT_API ExampleComponent : public Component
@@ -19,6 +20,8 @@ public:
 	GameObject* target = nullptr;
 	Rigidbody* rigidbody = nullptr;
 
+	std::shared_ptr<Rigidbody> sRigidbody;
+
 private:
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -28,6 +31,7 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(target);
 		ar & BOOST_SERIALIZATION_NVP(rigidbody);
+		ar & BOOST_SERIALIZATION_NVP(sRigidbody);
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
@@ -35,5 +39,6 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		ar & BOOST_SERIALIZATION_NVP(target);
 		ar & BOOST_SERIALIZATION_NVP(rigidbody);
+		ar & BOOST_SERIALIZATION_NVP(sRigidbody);
 	}
 };

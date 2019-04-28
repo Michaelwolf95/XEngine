@@ -131,6 +131,8 @@ void GameObject::RemoveComponent(Component_ptr comp)
 	auto n = std::find(components.begin(), components.end(), comp);
 	if (n != components.end())
 	{
+		//delete comp.get();
+		comp.reset();
 		// swap the one to be removed with the last element and remove the item at the end of the container
 		// to prevent moving all items after it by one
 		std::swap(*n, components.back());

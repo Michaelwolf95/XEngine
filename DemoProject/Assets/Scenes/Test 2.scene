@@ -291,6 +291,9 @@
 							</Component>
 							<target class_id_reference="3" object_id_reference="_10"></target>
 							<rigidbody class_id_reference="13" object_id_reference="_14"></rigidbody>
+							<sRigidbody class_id="19" tracking_level="0" version="1">
+								<px class_id_reference="13" object_id_reference="_8"></px>
+							</sRigidbody>
 						</px>
 					</item>
 				</components>

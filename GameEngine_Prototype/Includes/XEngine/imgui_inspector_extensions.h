@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <type_traits>
+#include <shared_ptr.hpp>
 #include "Component.h"
 #include "GameObject.h"
 namespace XEngine
@@ -19,11 +20,19 @@ namespace XEngine
 
 		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component*& compRef, std::string label);
 
+		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component_ptr& compRef, std::string label);
+
 		template <typename T>
 		void ComponentReference(T*& compRef, std::string label)
 		{
 			static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
 			ComponentReference(typeid(T), ((Component*&)compRef), label);
+		}
+		template <typename T>
+		void ComponentReference(std::shared_ptr<T>& compRef, std::string label)
+		{
+			static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+			ComponentReference(typeid(T), ((Component_ptr&)compRef), label);
 		}
 	}
 }
