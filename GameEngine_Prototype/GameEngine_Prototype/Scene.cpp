@@ -173,6 +173,12 @@ void Scene::DeleteGameObject(GameObject_ptr go)
 		// Unparent
 		go->transform->SetParent(nullptr);
 
+		// delete components belonging to game object
+		for (size_t i = 0; i < allGameObjects.back()->components.size(); i++)
+		{
+			allGameObjects.back()->RemoveComponent(allGameObjects.back()->components[i]);
+		}
+
 		// Delete all children - leaf nodes will be deleted first.
 		std::vector<GameObject*> children = go->GetChildren();
 		for (size_t i = 0; i < children.size(); i++)

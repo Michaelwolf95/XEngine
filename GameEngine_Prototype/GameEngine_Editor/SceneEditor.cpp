@@ -1088,6 +1088,8 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	// Right Click Selected Object
 	if (ImGui::BeginPopupContextItem("Game Object Context", 1))
 	{
+		selectedGameObject = go->GetSelfPtr();
+
 		// Duplicate Object
 		if (ImGui::Button("Duplicate")) 
 		{
@@ -1097,6 +1099,18 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 			std::cout << "EXITED DUPLICATE" << std::endl;
 			selectedGameObject = dupli;
 
+			ImGui::CloseCurrentPopup();
+		}
+
+		// issues with right click delete
+		// 1) if u delete anything that is being used in GameObjectReference/ComponentReference,
+		//	  app will break
+		// 2) after deletion, gizmo (and sometimes collider) is there until another object is selected
+		if (ImGui::Button("**WIP** Delete"))
+		{
+			// delete game object from scene
+			SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
+			//selectedGameObject = nullptr;
 			ImGui::CloseCurrentPopup();
 		}
 
