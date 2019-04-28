@@ -26,5 +26,5 @@ void ExampleComponent::DrawInspector()
 	GUI::GameObjectReference(target, "Target");
 
 	//GUI::ComponentReference(typeid(XEngine::Rigidbody), ((Component*&)rigidbody), "Rigidbody");
-	GUI::ComponentReference<XEngine::Rigidbody>(rigidbody, "Rigidbody");
+	GUI::ComponentReference<Rigidbody>(rigidbody, "Rigidbody");
 }

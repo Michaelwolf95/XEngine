@@ -158,10 +158,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ComponentTemplate.h" />
     <ClInclude Include="ExampleComponent.h" />
     <ClInclude Include="XEngineProject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComponentTemplate.cpp" />
     <ClCompile Include="ExampleComponent.cpp" />
     <ClCompile Include="XEngineProject.cpp" />
   </ItemGroup>

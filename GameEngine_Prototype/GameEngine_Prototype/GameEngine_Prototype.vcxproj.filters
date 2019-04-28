@@ -590,9 +590,6 @@
     <ClInclude Include="..\Includes\XEngine\PhysicsTester.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">

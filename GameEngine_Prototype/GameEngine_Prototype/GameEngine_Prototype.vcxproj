@@ -434,7 +434,6 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\TransformTester.h" />
     <ClInclude Include="..\Includes\XEngine\Vertex.h" />
     <ClInclude Include="..\Includes\XEngine\XEngine.h" />
-    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

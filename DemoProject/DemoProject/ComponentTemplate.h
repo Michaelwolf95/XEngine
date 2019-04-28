@@ -1,23 +1,18 @@
 #pragma once
-#include "XEngineProject.h"
 #include "Component.h"
-#include "GameObject.h"
-#include "Rigidbody.h"
+#include "XEngineProject.h"
+#include "XEngine.h"
 using namespace XEngine;
 
-class PROJECT_API ExampleComponent : public Component
+class PROJECT_API ComponentTemplate : public Component
 {
 public:
-	static Registrar<ExampleComponent> registrar;
-	ExampleComponent();
-	~ExampleComponent();
+	static Registrar<ComponentTemplate> registrar;
+	ComponentTemplate();
+	~ComponentTemplate();
 	void Start() override;
 	void Update() override;
 	void DrawInspector() override;
-
-	// Note: We may want to use shared_ptrs for this sort of thing.
-	GameObject* target = nullptr;
-	Rigidbody* rigidbody = nullptr;
 
 private:
 	friend class boost::serialization::access;
@@ -26,14 +21,15 @@ private:
 	void save(Archive & ar, const unsigned int version) const
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-		ar & BOOST_SERIALIZATION_NVP(target);
-		ar & BOOST_SERIALIZATION_NVP(rigidbody);
+		// Add custom parameters here.
+
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-		ar & BOOST_SERIALIZATION_NVP(target);
-		ar & BOOST_SERIALIZATION_NVP(rigidbody);
+		// Add custom parameters here.
+
 	}
+
 };
