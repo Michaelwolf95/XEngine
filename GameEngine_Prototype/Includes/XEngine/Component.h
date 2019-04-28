@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <string>
 #include "imgui.h"
-
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
 

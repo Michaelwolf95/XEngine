@@ -1074,8 +1074,13 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	{
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 0.5f));
 	}
-	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags);
-	if (ImGui::IsItemClicked())
+
+	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags); // THE BUTTON
+
+
+	ImGuiContext& g = *ImGui::GetCurrentContext();
+	if(g.IO.MouseReleased[0] && ImGui::IsItemHovered(ImGuiHoveredFlags_None)) // Equivalent to IsItemClicked with release.
+	//if (ImGui::IsItemClicked())
 	{
 		selectedGameObject = go->GetSelfPtr();
 	}
@@ -1104,10 +1109,12 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 	// Our buttons are both drag sources and drag targets here!
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 	{
-		if (go->GetSelfPtr() != selectedGameObject)
-			return;
-		ImGui::SetDragDropPayload("GAMEOBJECT_DRAG", &selectedGameObject, sizeof(GameObject_ptr));        // Set payload to carry our item 
-		ImGui::Text("Moving %s", selectedGameObject->name.c_str());
+		//if (go->GetSelfPtr() == selectedGameObject)
+		{
+			GameObject_ptr goPtr = go->GetSelfPtr();
+			ImGui::SetDragDropPayload("GAMEOBJECT_DRAG", &goPtr, sizeof(GameObject_ptr));        // Set payload to carry our item 
+			ImGui::Text("Moving %s", goPtr->name.c_str());
+		}
 		ImGui::EndDragDropSource();
 	}
 	if (ImGui::BeginDragDropTarget())

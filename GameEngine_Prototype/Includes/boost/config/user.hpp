@@ -14,7 +14,7 @@
 //
 
 // define this to locate a compiler config file:
-// #define BOOST_COMPILER_CONFIG <myheader>
+//#define BOOST_COMPILER_CONFIG <LibraryExport.h>
 
 // define this to locate a stdlib config file:
 // #define BOOST_STDLIB_CONFIG   <myheader>
@@ -87,7 +87,7 @@
 // static library).  Note that there may be some libraries that can only 
 // be linked in one way (statically or dynamically), in these cases this 
 // macro has no effect.
-// #define BOOST_ALL_DYN_LINK
+//#define BOOST_ALL_DYN_LINK
  
 // BOOST_WHATEVER_DYN_LINK: Forces library "whatever" to be linked as a dll 
 // rather than a static library on Microsoft Windows: replace the WHATEVER 
@@ -100,6 +100,8 @@
 // be linked in one way (statically or dynamically), 
 // in these cases this macro is unsupported.
 // #define BOOST_WHATEVER_DYN_LINK
+#define BOOST_SERIALIZATION_DYN_LINK
+//#define BOOST_WHATEVER_DYN_LINK
  
 // BOOST_ALL_NO_LIB: Tells the config system not to automatically select 
 // which libraries to link against.  

@@ -1,45 +1,17 @@
 #pragma once
 #include "imgui.h"
+#include <iostream>
 #include <string>
+#include "Component.h"
+#include "GameObject.h"
+
 namespace ImGui
 {
 	//IMGUI_API void InputTextField(std::string& str, char* label = "##edit");
-	IMGUI_IMPL_API inline void InputTextField(std::string& str, const char* label = "##edit")
-	{
-		//ImGui::Text("Edit name:");
-		char buf[32];
-		strcpy_s(buf, &str[0]);
-		ImGui::InputText(label, buf, 32);
-		if (buf != str)
-		{
-			//std::cout << buf << std::endl;
-			str.clear();
-			str = std::string(buf);
-		}
-		//ImGui::InputText("##edit", &selectedGameObject->name[0], 32, 0, 
-		//ImGui::InputText("##edit", inName, 32, 0,
-		//	([](ImGuiInputTextCallbackData* data)->int{
-		//	if (data->EventFlag == ImGuiInputTextFlags_CallbackCompletion)
-		//	{
-		//		std::string bufStr(data->Buf);
-		//		//if(bufStr != selectedGameObject->name)
-		//		//data->b
-		//	}
-		//	return 0;
-		//}));
-	}
+	IMGUI_IMPL_API void InputTextField(std::string& str, const char* label = "##edit");
 	// Helper to display a little (?) mark which shows a tooltip when hovered.
-	IMGUI_IMPL_API inline void HelpMarker(const char* desc)
-	{
-		ImGui::TextDisabled("(?)");
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::BeginTooltip();
-			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-			ImGui::TextUnformatted(desc);
-			ImGui::PopTextWrapPos();
-			ImGui::EndTooltip();
-		}
-	}
+	IMGUI_IMPL_API void HelpMarker(const char* desc);
 
+
+	IMGUI_IMPL_API void GameObjectReference(GameObject*& go, std::string label);
 }

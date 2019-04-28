@@ -318,6 +318,9 @@
     <ClCompile Include="PhysicsTester.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="imgui_inspector_extensions.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Includes\XEngine\Analytics.h">
