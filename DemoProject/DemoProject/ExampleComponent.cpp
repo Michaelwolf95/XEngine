@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "imgui_inspector_extensions.h"
+using namespace XEngine;
+
 REGISTER_COMPONENT(ExampleComponent, "ExampleComponent")
 
 ExampleComponent::ExampleComponent() {}
@@ -21,8 +23,8 @@ void ExampleComponent::Update()
 
 void ExampleComponent::DrawInspector()
 {
-	ImGui::GameObjectReference(target, "Target");
+	GUI::GameObjectReference(target, "Target");
 
-	ImGui::ComponentReference(typeid(XEngine::Rigidbody), ((Component*&)rigidbody), "Rigidbody");
-	
+	//GUI::ComponentReference(typeid(XEngine::Rigidbody), ((Component*&)rigidbody), "Rigidbody");
+	GUI::ComponentReference<XEngine::Rigidbody>(rigidbody, "Rigidbody");
 }
