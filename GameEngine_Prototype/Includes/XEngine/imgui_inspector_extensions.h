@@ -14,4 +14,6 @@ namespace ImGui
 
 
 	IMGUI_IMPL_API void GameObjectReference(GameObject*& go, std::string label);
+
+	IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component*& compRef, std::string label);
 }

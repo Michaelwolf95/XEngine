@@ -22,5 +22,7 @@ void ExampleComponent::Update()
 void ExampleComponent::DrawInspector()
 {
 	ImGui::GameObjectReference(target, "Target");
+
+	ImGui::ComponentReference(typeid(XEngine::Rigidbody), ((Component*&)rigidbody), "Rigidbody");
 	
 }
