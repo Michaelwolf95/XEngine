@@ -9,7 +9,7 @@ LightComponent::LightComponent(glm::vec4 _color, float _intensity, float _ambien
 	color = _color;
 	intensity = _intensity;
 	ambience = _ambience;
-	gizmoDrawer = std::make_shared<GizmoSpriteDrawer>(GizmoSpriteDrawer("Editor/Gizmos/LightGizmo.png"));
+	gizmoDrawer = std::make_shared<GizmoSpriteDrawer>(GizmoSpriteDrawer("../EditorAssets/Gizmos/LightGizmo.png"));
 }
 
 LightComponent::~LightComponent() {}

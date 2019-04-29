@@ -21,12 +21,18 @@
     <ClInclude Include="ExampleComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="XEngineProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExampleComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

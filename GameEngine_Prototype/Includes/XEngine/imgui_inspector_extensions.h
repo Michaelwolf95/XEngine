@@ -1,45 +1,38 @@
 #pragma once
 #include "imgui.h"
+#include <iostream>
 #include <string>
-namespace ImGui
+#include <type_traits>
+#include <shared_ptr.hpp>
+#include "Component.h"
+#include "GameObject.h"
+namespace XEngine
 {
-	//IMGUI_API void InputTextField(std::string& str, char* label = "##edit");
-	IMGUI_IMPL_API inline void InputTextField(std::string& str, const char* label = "##edit")
+	namespace GUI
 	{
-		//ImGui::Text("Edit name:");
-		char buf[32];
-		strcpy_s(buf, &str[0]);
-		ImGui::InputText(label, buf, 32);
-		if (buf != str)
-		{
-			//std::cout << buf << std::endl;
-			str.clear();
-			str = std::string(buf);
-		}
-		//ImGui::InputText("##edit", &selectedGameObject->name[0], 32, 0, 
-		//ImGui::InputText("##edit", inName, 32, 0,
-		//	([](ImGuiInputTextCallbackData* data)->int{
-		//	if (data->EventFlag == ImGuiInputTextFlags_CallbackCompletion)
-		//	{
-		//		std::string bufStr(data->Buf);
-		//		//if(bufStr != selectedGameObject->name)
-		//		//data->b
-		//	}
-		//	return 0;
-		//}));
-	}
-	// Helper to display a little (?) mark which shows a tooltip when hovered.
-	IMGUI_IMPL_API inline void HelpMarker(const char* desc)
-	{
-		ImGui::TextDisabled("(?)");
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::BeginTooltip();
-			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-			ImGui::TextUnformatted(desc);
-			ImGui::PopTextWrapPos();
-			ImGui::EndTooltip();
-		}
-	}
+		//IMGUI_API void InputTextField(std::string& str, char* label = "##edit");
+		IMGUI_IMPL_API void InputTextField(std::string& str, const char* label = "##edit");
+		// Helper to display a little (?) mark which shows a tooltip when hovered.
+		IMGUI_IMPL_API void HelpMarker(const char* desc);
 
+
+		IMGUI_IMPL_API void GameObjectReference(GameObject*& go, std::string label);
+
+		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component*& compRef, std::string label);
+
+		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component_ptr& compRef, std::string label);
+
+		template <typename T>
+		void ComponentReference(T*& compRef, std::string label)
+		{
+			static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+			ComponentReference(typeid(T), ((Component*&)compRef), label);
+		}
+		template <typename T>
+		void ComponentReference(std::shared_ptr<T>& compRef, std::string label)
+		{
+			static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+			ComponentReference(typeid(T), ((Component_ptr&)compRef), label);
+		}
+	}
 }
