@@ -160,12 +160,25 @@
   <ItemGroup>
     <ClInclude Include="ComponentTemplate.h" />
     <ClInclude Include="ExampleComponent.h" />
+    <ClInclude Include="PhysicsMover.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="XEngineProject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentTemplate.cpp" />
     <ClCompile Include="ExampleComponent.cpp" />
+    <ClCompile Include="PhysicsMover.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="XEngineProject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GameEngine_Prototype\GameEngine_Prototype\GameEngine_Prototype.vcxproj">
+      <Project>{b91b3f6d-a712-4e36-b894-dbe4b1b8c579}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

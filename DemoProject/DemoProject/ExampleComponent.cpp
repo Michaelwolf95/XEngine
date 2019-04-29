@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "imgui_inspector_extensions.h"
+#include "Input.h"
 using namespace XEngine;
 
 REGISTER_COMPONENT(ExampleComponent, "ExampleComponent")
@@ -19,17 +20,25 @@ void ExampleComponent::Start()
 
 void ExampleComponent::Update()
 {
+	if (rigidbody != nullptr)
+	{
+		if (Input::GetKeyDown(GLFW_KEY_SPACE))
+		{
+			rigidbody->AddForce(glm::vec3(0, 15, 0));
+		}
+	}
 }
 
 void ExampleComponent::DrawInspector()
 {
 	GUI::GameObjectReference(target, "Target");
 
-	//GUI::ComponentReference(typeid(XEngine::Rigidbody), ((Component*&)rigidbody), "Rigidbody");
 	GUI::ComponentReference<Rigidbody>(rigidbody, "Rigidbody");
 
-	GUI::ComponentReference<Rigidbody>(sRigidbody, "sRigidbody");
 
+
+
+	GUI::ComponentReference<Rigidbody>(sRigidbody, "sRigidbody");
 
 	//std::cout << "Count: " << wRigidbody.use_count() << std::endl;
 	auto sp = wRigidbody.lock();

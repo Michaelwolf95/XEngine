@@ -69,10 +69,15 @@ namespace XEngine
 		void AttachCollider(Collider* col);
 		void DetachCollider(Collider* col);
 		bool isDynamic();
+		bool getIsInitialized();
+
+		void setIsTrigger(bool _isTrigger);
 	private:
 		friend class btRefRigidbody;
 		friend class Collider;
 		//friend class BoxCollider; //temp
+
+		bool isTrigger = false;
 
 		btTransform* physTransformModel = nullptr;
 
@@ -99,6 +104,7 @@ namespace XEngine
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(isKinematic);
 			ar & BOOST_SERIALIZATION_NVP(mass);
+			ar & BOOST_SERIALIZATION_NVP(isTrigger);
 		}
 		template<class Archive>
 		void load(Archive &ar, const unsigned int version)
@@ -106,6 +112,7 @@ namespace XEngine
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(isKinematic);
 			ar & BOOST_SERIALIZATION_NVP(mass);
+			ar & BOOST_SERIALIZATION_NVP(isTrigger);
 		}
 	};
 

@@ -75,6 +75,7 @@ namespace XEngine
 		body = new btRefRigidbody(rbInfo);
 		body->owner = this; // L337 HACKS
 
+
 		if (isKinematic)
 		{
 			// Kinematic static
@@ -89,8 +90,11 @@ namespace XEngine
 
 		//body->serialize() // Might be useful?
 		isInitialized = true;
-	}
 
+
+		// Set for Trigger.
+		setIsTrigger(isTrigger);
+	}
 	void Rigidbody::Start()
 	{
 		Init();
@@ -107,7 +111,7 @@ namespace XEngine
 		// TEMP
 		if (Input::GetKeyDown(GLFW_KEY_SPACE))
 		{
-			AddForce(glm::vec3(0, 10, 0));
+			//AddForce(glm::vec3(0, 10, 0));
 		}
 	}
 
@@ -181,12 +185,20 @@ namespace XEngine
 		{
 			ImGui::InputFloat("Mass", &mass);
 		}
+
+		bool trigger = isTrigger;
+		ImGui::Checkbox("IsTrigger", &trigger);
+		if (trigger != isTrigger)
+		{
+			setIsTrigger(trigger);
+		}
 	}
+
 
 	void Rigidbody::AddForce(glm::vec3 force)
 	{
 		this->body->activate(true);
-		this->body->applyCentralImpulse(btVector3(force.x, force.y, force.z));
+		this->body->applyCentralImpulse(btVector3(-force.x, force.y, -force.z));
 	}
 	Rigidbody * Rigidbody::GetAttachedRigidbody(GameObject* go)
 	{
@@ -242,6 +254,26 @@ namespace XEngine
 		if (isKinematic)
 			mass = 0.0f;
 		return (mass != 0.f);
+	}
+	bool Rigidbody::getIsInitialized()
+	{
+		return isInitialized;
+	}
+	void Rigidbody::setIsTrigger(bool _isTrigger)
+	{
+		isTrigger = _isTrigger;
+		if (isInitialized == false)
+			return;
+		if (isTrigger)
+		{
+			// Set
+			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
+		else
+		{
+			// Unset
+			body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
 	}
 	CollisionInfo::CollisionInfo(Rigidbody * _other, Collider * _otherCollider, glm::vec3 _contactPoint, glm::vec3 _contactNormal)
 	{
