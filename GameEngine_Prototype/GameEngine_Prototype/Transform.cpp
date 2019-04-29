@@ -400,6 +400,7 @@ void Transform::DrawInspector()
 		this->setLocalPosition(pos);
 	
 	glm::vec3 rot = this->getLocalRotationEuler();
+	ImGui::InputFloat3("Rotation", (float*)&rot);
 	if (rot != this->getLocalRotationEuler())
 		this->setLocalRotationEuler(rot);
 
