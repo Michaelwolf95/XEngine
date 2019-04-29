@@ -306,17 +306,23 @@
     <ClCompile Include="btRefRigidbody.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FPSText.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsTester.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_inspector_extensions.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -572,23 +578,23 @@
     <ClInclude Include="..\Includes\XEngine\Emitter.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Includes\XEngine\btRefRigidbody.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\BoxCollider.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\PhysicsTester.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Includes\XEngine\SphereCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Includes\XEngine\FPSText.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\SphereCollider.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\PhysicsTester.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\SpriteRenderer.h">
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -650,6 +656,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\multilights.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\sprite.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

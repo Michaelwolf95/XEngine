@@ -35,14 +35,6 @@ namespace XEngine::Editor
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
 		std::cout << "API Mode: " << API_MODE << std::endl;
 
-		XEngine::OnEngineInit = &Editor_Init;
-		XEngine::OnEngineUpdate = &Editor_Update;
-		XEngine::OnEnginePreRender = &Editor_PreRender;
-		XEngine::OnEnginePostRender = &Editor_PostRender;
-		XEngine::OnApplicationClose = &Editor_ApplicationClose;
-
-		XEngine::ENGINE_INITIALIZE();
-
 		EditorSettingsManager* editorSettings = EditorSettingsManager::CreateManager();
 
 		ProjectSettingsManager* projectSettings = ProjectSettingsManager::CreateManager();
@@ -51,11 +43,20 @@ namespace XEngine::Editor
 		// TODO: Get project path as input, or load from file.
 		//AssetManager::getInstance().setProjectFilePath(std::string("D:/VisualStudio/CECS_491_Prototype/DemoProject/"));
 		AssetManager::getInstance().setProjectFilePath(projectSettings->getProjectDirectory());
-		
 
 		//TODO: Set compiler params based on Project path.
 		ProjectCompiler* compiler = ProjectCompiler::CreateManager();
+		//compiler->CompileProject();
 		compiler->LoadProjectLibrary();
+
+
+		XEngine::OnEngineInit = &Editor_Init;
+		XEngine::OnEngineUpdate = &Editor_Update;
+		XEngine::OnEnginePreRender = &Editor_PreRender;
+		XEngine::OnEnginePostRender = &Editor_PostRender;
+		XEngine::OnApplicationClose = &Editor_ApplicationClose;
+
+		XEngine::ENGINE_INITIALIZE();
 
 		// False for editor mode.
 		XEngine::useDefaultSceneInitialization = false;

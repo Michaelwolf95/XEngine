@@ -42,6 +42,7 @@
 #include <boost/archive/archive_exception.hpp>
 //#include <boost_1_68_0/boost/shared_ptr.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/weak_ptr.hpp>
 
 // BOOST_1_68_0 =================================================
 /*
