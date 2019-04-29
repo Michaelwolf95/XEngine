@@ -1,4 +1,5 @@
 #include "SceneEditor.h"
+#include "EditorSettingsManager.h"
 #include "XEngine.h"
 #include "CoreComponents.h"
 
@@ -31,16 +32,25 @@ SceneEditor * SceneEditor::CreateManager()
 
 int SceneEditor::Init()
 {
-	LoadEditorConfig();
-	isInitialized = true;
+	
+	
 
 	editorCameraGameObject = new GameObject("EditorCamGo");
 
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
+
 	editorCameraGameObject->AddComponent(editCamPtr);
-	editorCameraGameObject->transform->setPosition(-5.0f, 4.0f, -7.0f);
-	editorCameraGameObject->transform->setLocalRotationEuler(15, 35, 0);
+
+	LoadEditorConfig();
+	isInitialized = true;
+
+	// get from editor settings
+	
+
+//	editorCameraGameObject->transform->setPosition(-5.0f, 4.0f, -7.0f);
+//	editorCameraGameObject->transform->setLocalRotationEuler(15, 35, 0);
+
 
 	GLFWwindow* window = ApplicationManager::APP_WINDOW;
 
@@ -112,6 +122,50 @@ void SceneEditor::LoadEditorConfig()
 
 		editorConfig->firstSceneFilepath = tempChar;
 
+		glm::vec3 camPos;
+		// if there is an camera position entry
+		if (configJSON.find("Editor_Camera_Position") != configJSON.end()) 
+		{
+			camPos = 
+			{
+				configJSON["Editor_Camera_Position"]["xPos"],
+				configJSON["Editor_Camera_Position"]["yPos"],
+				configJSON["Editor_Camera_Position"]["zPos"]
+			};
+		}
+		else  // is there is no camera position, put default
+		{
+			camPos =
+			{
+				-5.0f,
+				4.0f,
+				-7.0f
+			};
+		}
+
+		glm::vec3 camRot;
+		// if there is an camera rotation entry
+		if (configJSON.find("Editor_Camera_Rotation") != configJSON.end())
+		{
+			camRot = 
+			{
+				configJSON["Editor_Camera_Rotation"]["xRot"],
+				configJSON["Editor_Camera_Rotation"]["yRot"],
+				configJSON["Editor_Camera_Rotation"]["zRot"]
+			};
+		}
+		else // is there is no camera rotation, put default
+		{
+			camRot =
+			{
+				15.0f,
+				35.0f,
+				0.0f
+			};
+		}
+
+		editorCameraGameObject->transform->setPosition(camPos);
+		editorCameraGameObject->transform->setLocalRotationEuler(camRot);
 
 		file.close();
 		delete[] tempChar;
@@ -138,6 +192,29 @@ void SceneEditor::SaveEditorConfig()
 		std::ofstream file(configPath);
 
 		configJSON["First_Scene_Filepath"] = this->editorConfig->firstSceneFilepath.c_str();
+
+		// save camera
+		if (editorCameraGameObject != nullptr)
+		{
+			configJSON["Editor_Camera_Position"]["xPos"] = editorCameraGameObject->transform->getPosition().x;
+			configJSON["Editor_Camera_Position"]["yPos"] = editorCameraGameObject->transform->getPosition().y;
+			configJSON["Editor_Camera_Position"]["zPos"] = editorCameraGameObject->transform->getPosition().z;
+
+			configJSON["Editor_Camera_Rotation"]["xRot"] = editorCameraGameObject->transform->getLocalRotationEuler().x;
+			configJSON["Editor_Camera_Rotation"]["yRot"] = editorCameraGameObject->transform->getLocalRotationEuler().y;
+			configJSON["Editor_Camera_Rotation"]["zRot"] = editorCameraGameObject->transform->getLocalRotationEuler().z;
+		}
+		else //default editor camera positions
+		{
+			configJSON["Editor_Camera_Position"]["xPos"] = -5.0f;
+			configJSON["Editor_Camera_Position"]["yPos"] = 4.0f;
+			configJSON["Editor_Camera_Position"]["zPos"] = -7.0f;
+
+			configJSON["Editor_Camera_Rotation"]["xRot"] = 15.0f;
+			configJSON["Editor_Camera_Rotation"]["yRot"] = 35.0f;
+			configJSON["Editor_Camera_Rotation"]["zRot"] = 0.0f;
+		}
+
 
 		file << configJSON.dump(4) << std::endl;
 
