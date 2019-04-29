@@ -319,7 +319,7 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -594,7 +594,7 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\Includes\XEngine\SpriteRenderer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

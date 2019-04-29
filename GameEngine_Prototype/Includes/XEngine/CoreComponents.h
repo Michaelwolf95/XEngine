@@ -7,6 +7,7 @@
 // Renderers
 #include "SimpleModelComponent.h"
 #include "MeshRenderer.h"
+#include "SpriteRenderer.h"
 
 // Lights
 #include "PointLightComponent.h"
