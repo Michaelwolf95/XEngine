@@ -15,7 +15,7 @@
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
-Shader* RenderManager::defaultSpriteShader = nullptr;
+Shader* RenderManager::gizmoSpriteShader = nullptr;
 Shader* RenderManager::defaultTextShader = nullptr;
 
 //TODO: Store this on the Camera.
@@ -70,7 +70,7 @@ void RenderManager::CompileShaders()
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
 
-	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
+	gizmoSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
 	defaultTextShader = new Shader("text.vs", "text.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
@@ -452,6 +452,7 @@ void RenderManager::DrawWorldSpaceSphere(glm::vec3 center, glm::vec3 scale, floa
 
 	glm::mat4 model(1.0);
 	model = glm::translate(model, center);
+	scale *= radius;
 	model = glm::scale(model, scale);
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();

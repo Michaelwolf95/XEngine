@@ -37,6 +37,7 @@ public:
 
 	Component_ptr FilterComponent(std::function<bool(Component_ptr)> predicate);
 	bool FindComponent(const std::type_info& typeInfo, void** object);
+	bool FindComponent(const std::type_info& typeInfo, Component_ptr* object);
 
 	GameObject_ptr GetSelfPtr();
 	//static GameObject* Duplicate(GameObject& ref);

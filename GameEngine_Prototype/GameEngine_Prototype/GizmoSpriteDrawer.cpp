@@ -62,7 +62,7 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 		return;
 	}
 	//std::cout << "Drawing Sprite Gizmo" << std::endl;
-	Shader* shader = RenderManager::defaultSpriteShader;
+	Shader* shader = RenderManager::gizmoSpriteShader;
 
 	// Vertex shader
 	unsigned int programID = shader->ID;
