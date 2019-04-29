@@ -101,5 +101,42 @@ namespace XEngine
 			}
 
 		}
+		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component_ptr & compRef, std::string label)
+		{
+			ImGui::Text(label.c_str());
+			ImGui::SameLine();
+			if (compRef.get() != nullptr)
+			{
+				if (compRef->gameObject == nullptr)
+				{
+					compRef.reset();
+					return;
+				}
+				ImGui::Button((compRef)->gameObject->name.c_str());
+			}
+			else
+			{
+				//std::cout << compRef.get() << std::endl;
+				std::string emptyLabel = "(" + Component::registry()[typeInfo].name + ")";
+				ImGui::Button(emptyLabel.c_str());
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+					GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+
+					//go = payload_n.get();
+
+					payload_n.get()->FindComponent(typeInfo, (Component_ptr*)&compRef);
+
+					/*if (compRef.get() != nullptr)
+						std::cout << compRef->gameObject->name << std::endl;*/
+				}
+				ImGui::EndDragDropTarget();
+			}
+		}
 	}
 }
