@@ -41,6 +41,7 @@ namespace XEngine {
 		void Draw() override;
 		Shader* shader = nullptr;
 		GLuint quadVAO;
+		GLuint VBO;
 		std::string textureFilePath = "../../DemoProject/Assets/awesomeface.png";
 		//unsigned int textureID = 0;
 		Texture* texture;

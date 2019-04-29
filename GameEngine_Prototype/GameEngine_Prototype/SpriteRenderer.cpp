@@ -25,12 +25,14 @@ namespace XEngine {
 
 	void SpriteRenderer::OnEnable()
 	{
+		std::cout << "Adding SpriteRenderer to RenderManager.\n";
 		this->render_enabled = true;
 		RenderManager::getInstance().AddRenderable((RenderableObject*)this);
 	}
 
 	void SpriteRenderer::OnDisable()
 	{
+		std::cout << "Removing SpriteRenderer from RenderManager.\n";
 		this->render_enabled = false;
 		RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 	}
@@ -46,10 +48,10 @@ namespace XEngine {
 		isSetup = true;
 		std::cout << "Setting up SpriteShader.\n";
 		shader = AssetManager::getInstance().shaderLib.GetAsset("../Shaders/sprite.vs", "../Shaders/sprite.fs");
-		*texture = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
+		texture = &AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 		//AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 		// Configure VAO/VBO
-		GLuint VBO;
+		//GLuint VBO;
 		GLfloat vertices[] = {
 			// Pos      // Tex
 			0.0f, 1.0f, 0.0f, 1.0f,
@@ -76,27 +78,39 @@ namespace XEngine {
 	void SpriteRenderer::Draw()
 	{
 		if (!isSetup) return;
+		std::cout << "Drawing SpriteRenderer.\n";
 		// Prepare transformations
 		this->shader->use();
 
-		glm::mat4 model;
-		model = glm::translate(model, this->gameObject->transform->getPosition());  // First translate (transformations are: scale happens first, then rotation and then finall translation happens; reversed order)
-		glm::vec2 size(1, 1);
+		glm::vec3 position = glm::vec3(200, 200, 0);
+		glm::vec2 size = glm::vec2(300, 400);
 		float rotate = 45.0f;
+
+		glm::mat4 model;
+		model = glm::translate(model, position);  // First translate (transformations are: scale happens first, then rotation and then finall translation happens; reversed order)
 		model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); // Move origin of rotation to center of quad
-		model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f)); // Then rotate
+		//model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f)); // Then rotate
 		model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f)); // Move origin back
 
 		model = glm::scale(model, glm::vec3(size, 1.0f)); // Last scale
 
 		this->shader->setMat4("model", model);
 
+		//this->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 
+		//glm::mat4 view = RenderManager::getInstance().getView();
+		//model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("view", view);
 
-		this->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
+		glm::mat4 projection = RenderManager::getInstance().getProjection();
+
+		//glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(1000),static_cast<GLfloat>(1320), 0.0f, -1.0f, 1.0f);
+
+		this->shader->setMat4("projection", projection);
 
 		// Render textured quad
 		this->shader->setVec3("spriteColor", glm::vec3(1,0,0));
+
+		//this->shader->setInt("image", 0);
 
 		glActiveTexture(GL_TEXTURE0);
 
