@@ -29,4 +29,24 @@ void ExampleComponent::DrawInspector()
 	GUI::ComponentReference<Rigidbody>(rigidbody, "Rigidbody");
 
 	GUI::ComponentReference<Rigidbody>(sRigidbody, "sRigidbody");
+
+
+	//std::cout << "Count: " << wRigidbody.use_count() << std::endl;
+	auto sp = wRigidbody.lock();
+	if (sp.get() != nullptr)
+	{
+		//std::cout << "Before: " << sp->gameObject->name << std::endl;
+	}
+	GUI::ComponentReference<Rigidbody>(sp, "wRigidbody");
+
+	if (sp.get() != nullptr)
+	{
+		//std::cout << "After: " << sp->gameObject->name << std::endl;
+		//std::cout << "_Count: " << wRigidbody.use_count() << std::endl;
+	}
+	wRigidbody = sp;
+
+	//ImGui::Text("%i", wRigidbody.use_count());
+	/*if (wRigidbody.get() != nullptr)
+		std::cout << wRigidbody->gameObject->name << std::endl;*/
 }

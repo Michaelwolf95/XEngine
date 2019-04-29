@@ -107,6 +107,11 @@ namespace XEngine
 			ImGui::SameLine();
 			if (compRef.get() != nullptr)
 			{
+				if (compRef->gameObject == nullptr)
+				{
+					compRef.reset();
+					return;
+				}
 				ImGui::Button((compRef)->gameObject->name.c_str());
 			}
 			else
@@ -125,7 +130,10 @@ namespace XEngine
 
 					//go = payload_n.get();
 
-					payload_n.get()->FindComponent(typeInfo, (void**)&compRef);
+					payload_n.get()->FindComponent(typeInfo, (Component_ptr*)&compRef);
+
+					/*if (compRef.get() != nullptr)
+						std::cout << compRef->gameObject->name << std::endl;*/
 				}
 				ImGui::EndDragDropTarget();
 			}
