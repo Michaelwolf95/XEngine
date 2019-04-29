@@ -52,6 +52,7 @@ int RenderManager::Init()
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
 	isInitialized = true;
 	return 0;

@@ -368,9 +368,7 @@ void Material::DrawInspector()
 			{			
 				glm::vec4 value = vec4Properties[i].getValue();
 
-				vec4Properties[i].propertyName == "color" ? 
-					ImGui::ColorEdit4(vec4Properties[i].propertyName.c_str(), (float *)&value) :
-					ImGui::InputFloat3(vec4Properties[i].propertyName.c_str(), (float *)&value);
+				ImGui::ColorEdit4(vec4Properties[i].propertyName.c_str(), (float *)&value);
 
 				if (value != vec4Properties[i].getValue())
 					vec4Properties[i].setValue(value);
