@@ -9,6 +9,8 @@
 
 typedef std::shared_ptr<GameObject> GameObject_ptr;
 
+static const char* PREFAB_FILE_EXT = ".prefab";
+
 class ENGINE_API GameObject : public std::enable_shared_from_this<GameObject>
 {
 public:
@@ -47,6 +49,14 @@ public:
 
 	// Delete 
 	void Delete();
+
+	// Prefabs
+	static void CreatePrefab(GameObject_ptr ref);
+	//static void SavePrefabToFile(const GameObject &go);
+	//static void SavePrefabToFile(const GameObject &go, const char * fileName);
+	//static bool LoadPrefabFromFile(GameObject &go, const char * fileName);
+
+	static GameObject_ptr InstantiatePrefab(std::string fileName);
 
 private:
 	friend class Scene;
