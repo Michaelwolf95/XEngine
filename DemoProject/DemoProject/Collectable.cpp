@@ -3,6 +3,7 @@
 #include "GameObject.h" 
 #include "Component.h"
 using namespace XEngine;
+#include "Collector.h"
 
 // Register to be created and serialized.
 REGISTER_COMPONENT(Collectable, "Collectable")
@@ -41,6 +42,13 @@ void Collectable::OnCollisionEnter(XEngine::CollisionInfo info)
 
 		if(audioComponent != nullptr)
 			audioComponent->Play();
+
+
+		Collector* collector;
+		if(info.otherRigidbody->gameObject->FindComponent(typeid(Collector), (void**)&collector))
+		{
+			collector->CollectItem();
+		}
 
 		this->gameObject->Delete();
 		//SceneManager::getInstance().GetActiveScene()->DeleteGameObject(this->gameObject->GetSelfPtr());

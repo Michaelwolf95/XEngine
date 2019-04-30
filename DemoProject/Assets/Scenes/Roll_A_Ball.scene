@@ -2,7 +2,7 @@
 <!DOCTYPE boost_serialization>
 <boost_serialization signature="serialization::archive" version="17">
 <s class_id="0" tracking_level="0" version="0">
-	<name>Test 2</name>
+	<name>Roll_A_Ball</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
 		<count>17</count>
 		<item_version>1</item_version>
@@ -167,7 +167,7 @@
 					</localRotation>
 				</transform>
 				<components>
-					<count>4</count>
+					<count>5</count>
 					<item_version>1</item_version>
 					<item>
 						<px class_id="14" class_name="SphereCollider" tracking_level="1" version="0" object_id="_12">
@@ -209,14 +209,69 @@
 							<jumpForce>5.000000000e+00</jumpForce>
 						</px>
 					</item>
+					<item>
+						<px class_id="16" class_name="Collector" tracking_level="1" version="0" object_id="_16">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<textGameObject class_id_reference="3" object_id="_17">
+								<name>CollectText2</name>
+								<isActive>1</isActive>
+								<transform class_id_reference="4" object_id="_18">
+									<Component>
+										<enabled>1</enabled>
+									</Component>
+									<parent class_id="-1"></parent>
+									<localPosition>
+										<vec.x>0.000000000e+00</vec.x>
+										<vec.y>0.000000000e+00</vec.y>
+										<vec.z>0.000000000e+00</vec.z>
+									</localPosition>
+									<localScale>
+										<vec.x>1.000000000e+00</vec.x>
+										<vec.y>1.000000000e+00</vec.y>
+										<vec.z>1.000000000e+00</vec.z>
+									</localScale>
+									<localRotation>
+										<q.x>0.000000000e+00</q.x>
+										<q.y>0.000000000e+00</q.y>
+										<q.z>0.000000000e+00</q.z>
+										<q.w>1.000000000e+00</q.w>
+									</localRotation>
+								</transform>
+								<components>
+									<count>1</count>
+									<item_version>1</item_version>
+									<item>
+										<px class_id="17" class_name="Text" tracking_level="1" version="0" object_id="_19">
+											<Component>
+												<enabled>1</enabled>
+											</Component>
+											<fontPath>../Assets/Fonts/arial.ttf</fontPath>
+											<text>aaa</text>
+											<fontSize>20</fontSize>
+											<color>
+												<vec.x>1.000000000e+00</vec.x>
+												<vec.y>0.000000000e+00</vec.y>
+												<vec.z>0.000000000e+00</vec.z>
+											</color>
+											<xPos>2.000000000e+01</xPos>
+											<yPos>2.000000000e+01</yPos>
+											<scale>2.000000000e+00</scale>
+										</px>
+									</item>
+								</components>
+							</textGameObject>
+						</px>
+					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_16">
+			<px class_id_reference="3" object_id="_20">
 				<name>Point Light</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_17">
+				<transform class_id_reference="4" object_id="_21">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -242,13 +297,13 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="16" class_name="PointLightComponent" tracking_level="1" version="0" object_id="_18">
-							<LightComponent class_id="17" tracking_level="0" version="0">
+						<px class_id="18" class_name="PointLightComponent" tracking_level="1" version="0" object_id="_22">
+							<LightComponent class_id="19" tracking_level="0" version="0">
 								<Component>
 									<enabled>1</enabled>
 								</Component>
 								<intensity>1.000000000e+00</intensity>
-								<color class_id="18" tracking_level="0" version="0">
+								<color class_id="20" tracking_level="0" version="0">
 									<vec.x>1.000000000e+00</vec.x>
 									<vec.y>1.000000000e+00</vec.y>
 									<vec.z>1.000000000e+00</vec.z>
@@ -266,10 +321,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_19">
+			<px class_id_reference="3" object_id="_23">
 				<name>Example Referencer</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_20">
+				<transform class_id_reference="4" object_id="_24">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -295,12 +350,12 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="19" class_name="ExampleComponent" tracking_level="1" version="0" object_id="_21">
+						<px class_id="21" class_name="ExampleComponent" tracking_level="1" version="0" object_id="_25">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 							<target class_id_reference="3" object_id_reference="_0"></target>
-							<rigidbody class_id_reference="13" object_id="_22">
+							<rigidbody class_id_reference="13" object_id="_26">
 								<Component>
 									<enabled>1</enabled>
 								</Component>
@@ -308,10 +363,10 @@
 								<mass>1.000000000e+00</mass>
 								<isTrigger>0</isTrigger>
 							</rigidbody>
-							<sRigidbody class_id="20" tracking_level="0" version="1">
+							<sRigidbody class_id="22" tracking_level="0" version="1">
 								<px class_id_reference="13" object_id_reference="_9"></px>
 							</sRigidbody>
-							<wRigidbody class_id="21" tracking_level="0" version="0">
+							<wRigidbody class_id="23" tracking_level="0" version="0">
 								<weak_ptr>
 									<px class_id_reference="13" object_id_reference="_9"></px>
 								</weak_ptr>
@@ -322,10 +377,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_23">
+			<px class_id_reference="3" object_id="_27">
 				<name>Camera</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_24">
+				<transform class_id_reference="4" object_id="_28">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -351,7 +406,7 @@
 					<count>2</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="22" class_name="CameraComponent" tracking_level="1" version="0" object_id="_25">
+						<px class_id="24" class_name="CameraComponent" tracking_level="1" version="0" object_id="_29">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -364,7 +419,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id="23" class_name="AudioListener" tracking_level="1" version="0" object_id="_26">
+						<px class_id="25" class_name="AudioListener" tracking_level="1" version="0" object_id="_30">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -374,10 +429,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_27">
+			<px class_id_reference="3" object_id="_31">
 				<name>Border</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_28">
+				<transform class_id_reference="4" object_id="_32">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -403,7 +458,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_29">
+						<px class_id_reference="10" object_id="_33">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -416,7 +471,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_30">
+						<px class_id_reference="12" object_id="_34">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -428,16 +483,16 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id_reference="_22"></px>
+						<px class_id_reference="13" object_id_reference="_26"></px>
 					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_31">
+			<px class_id_reference="3" object_id="_35">
 				<name>Coin</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_32">
+				<transform class_id_reference="4" object_id="_36">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -463,7 +518,7 @@
 					<count>4</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_33">
+						<px class_id_reference="13" object_id="_37">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -473,7 +528,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="14" object_id="_34">
+						<px class_id_reference="14" object_id="_38">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -481,14 +536,14 @@
 						</px>
 					</item>
 					<item>
-						<px class_id="24" class_name="Collectable" tracking_level="1" version="0" object_id="_35">
+						<px class_id="26" class_name="Collectable" tracking_level="1" version="0" object_id="_39">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 						</px>
 					</item>
 					<item>
-						<px class_id="25" class_name="AudioComponent" tracking_level="1" version="0" object_id="_36">
+						<px class_id="27" class_name="AudioComponent" tracking_level="1" version="0" object_id="_40">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -501,14 +556,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_37">
+			<px class_id_reference="3" object_id="_41">
 				<name>Box</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_38">
+				<transform class_id_reference="4" object_id="_42">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_32"></parent>
+					<parent class_id_reference="4" object_id_reference="_36"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -530,7 +585,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_39">
+						<px class_id_reference="10" object_id="_43">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -546,10 +601,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_40">
+			<px class_id_reference="3" object_id="_44">
 				<name>Coin 1</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_41">
+				<transform class_id_reference="4" object_id="_45">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -575,7 +630,7 @@
 					<count>4</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_42">
+						<px class_id_reference="13" object_id="_46">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -585,7 +640,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="14" object_id="_43">
+						<px class_id_reference="14" object_id="_47">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -593,14 +648,14 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="24" object_id="_44">
+						<px class_id_reference="26" object_id="_48">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="25" object_id="_45">
+						<px class_id_reference="27" object_id="_49">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -613,14 +668,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_46">
+			<px class_id_reference="3" object_id="_50">
 				<name>Box</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_47">
+				<transform class_id_reference="4" object_id="_51">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_41"></parent>
+					<parent class_id_reference="4" object_id_reference="_45"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -642,7 +697,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_48">
+						<px class_id_reference="10" object_id="_52">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -658,10 +713,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_49">
+			<px class_id_reference="3" object_id="_53">
 				<name>Border</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_50">
+				<transform class_id_reference="4" object_id="_54">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -687,7 +742,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_51">
+						<px class_id_reference="10" object_id="_55">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -700,7 +755,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_52">
+						<px class_id_reference="12" object_id="_56">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -712,7 +767,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id="_53">
+						<px class_id_reference="13" object_id="_57">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -725,10 +780,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_54">
+			<px class_id_reference="3" object_id="_58">
 				<name>Border</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_55">
+				<transform class_id_reference="4" object_id="_59">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -754,7 +809,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_56">
+						<px class_id_reference="10" object_id="_60">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -767,7 +822,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_57">
+						<px class_id_reference="12" object_id="_61">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -779,7 +834,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id="_58">
+						<px class_id_reference="13" object_id="_62">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -792,10 +847,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_59">
+			<px class_id_reference="3" object_id="_63">
 				<name>Border</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_60">
+				<transform class_id_reference="4" object_id="_64">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -821,7 +876,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_61">
+						<px class_id_reference="10" object_id="_65">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -834,7 +889,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_62">
+						<px class_id_reference="12" object_id="_66">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -846,7 +901,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id="_63">
+						<px class_id_reference="13" object_id="_67">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -859,10 +914,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_64">
+			<px class_id_reference="3" object_id="_68">
 				<name>Coin 2</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_65">
+				<transform class_id_reference="4" object_id="_69">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -888,7 +943,7 @@
 					<count>4</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_66">
+						<px class_id_reference="13" object_id="_70">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -898,7 +953,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="14" object_id="_67">
+						<px class_id_reference="14" object_id="_71">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -906,14 +961,14 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="24" object_id="_68">
+						<px class_id_reference="26" object_id="_72">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="25" object_id="_69">
+						<px class_id_reference="27" object_id="_73">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -926,14 +981,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_70">
+			<px class_id_reference="3" object_id="_74">
 				<name>Box</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_71">
+				<transform class_id_reference="4" object_id="_75">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_65"></parent>
+					<parent class_id_reference="4" object_id_reference="_69"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -955,7 +1010,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_72">
+						<px class_id_reference="10" object_id="_76">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -971,54 +1026,7 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_73">
-				<name>CollectText</name>
-				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_74">
-					<Component>
-						<enabled>1</enabled>
-					</Component>
-					<parent class_id="-1"></parent>
-					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>0.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>1</count>
-					<item_version>1</item_version>
-					<item>
-						<px class_id="26" class_name="Text" tracking_level="1" version="0" object_id="_75">
-							<Component>
-								<enabled>1</enabled>
-							</Component>
-							<fontPath>../Assets/Fonts/arial.ttf</fontPath>
-							<text>Text</text>
-							<fontSize>20</fontSize>
-							<color>
-								<vec.x>1.000000000e+00</vec.x>
-								<vec.y>0.000000000e+00</vec.y>
-								<vec.z>0.000000000e+00</vec.z>
-							</color>
-							<xPos>2.000000000e+01</xPos>
-							<yPos>2.000000000e+01</yPos>
-							<scale>2.000000000e+00</scale>
-						</px>
-					</item>
-				</components>
-			</px>
+			<px class_id_reference="3" object_id_reference="_17"></px>
 		</item>
 	</allGameObjects>
 </s>

@@ -36,8 +36,6 @@ void ExampleComponent::DrawInspector()
 	GUI::ComponentReference<Rigidbody>(rigidbody, "Rigidbody");
 
 
-
-
 	GUI::ComponentReference<Rigidbody>(sRigidbody, "sRigidbody");
 
 	//std::cout << "Count: " << wRigidbody.use_count() << std::endl;
