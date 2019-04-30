@@ -2,6 +2,7 @@
 #include <vector>
 #include <functional>
 #include <typeinfo>
+#include <memory>
 #include "Component.h"
 #include "Transform.h"
 #include "Serialization.h"
@@ -48,6 +49,7 @@ public:
 	void Delete();
 
 private:
+	friend class Scene;
 	friend class Transform;
 	bool isActive = true;
 	bool parentHierarchyActive = true;
@@ -80,10 +82,10 @@ private:
 		{
 			c->gameObject = this;
 		}
-		if (this->IsActiveInHierarchy())
+		/*if (this->IsActiveInHierarchy())
 		{
 			HandleEnable();
-		}
+		}*/
 	}
 
 };
