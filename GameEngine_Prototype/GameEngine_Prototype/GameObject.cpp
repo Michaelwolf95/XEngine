@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "Serialization.h"
 #include <sstream>
+#include <memory>
 
 GameObject::GameObject(const char* _name)
 {
@@ -376,6 +377,13 @@ GameObject_ptr GameObject::Duplicate(GameObject_ptr ref)
 	//dupli->name = ref->name + "_Copy";
 	dupli->transform->SetParent(ref->transform->GetParent());
 	std::cout << "FINISHED DUPLICATE" << std::endl;
+
+	for (size_t i = 0; i < clonedHierarchy.size(); i++)
+	{
+		if (clonedHierarchy[i]->IsActiveInHierarchy())
+			clonedHierarchy[i]->HandleEnable();
+	}
+
 	return dupli;
 }
 
