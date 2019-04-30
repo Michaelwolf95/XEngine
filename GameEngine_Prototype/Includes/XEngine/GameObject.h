@@ -44,12 +44,17 @@ public:
 	static GameObject_ptr DuplicateSingle(GameObject_ptr ref);
 	static GameObject_ptr Duplicate(GameObject_ptr ref);
 	static void GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameObject_ptr>& vec);
+
+	void Delete();
+
 private:
 	friend class Transform;
 	bool isActive = true;
 	bool parentHierarchyActive = true;
 	void HandleEnable();
 	void HandleDisable();
+
+	bool isFlaggedForDeletion = false;
 
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()

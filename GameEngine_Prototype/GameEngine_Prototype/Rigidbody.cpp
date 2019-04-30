@@ -32,10 +32,10 @@ namespace XEngine
 			// Remove from physics manager.
 			if (body != nullptr && PhysicsManager::getInstance().dynamicsWorld != nullptr)
 			{
-				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
+				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body.get());
 
-				delete body;
-				body = nullptr;
+				//delete body;
+				//body = nullptr;
 			}
 			//delete boxColliderHalfExtents;
 			//boxColliderHalfExtents = nullptr;
@@ -72,7 +72,7 @@ namespace XEngine
 		motionState = new btDefaultMotionState(*physTransformModel);
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape);
-		body = new btRefRigidbody(rbInfo);
+		body = std::shared_ptr<btRefRigidbody>(new btRefRigidbody(rbInfo));
 		body->owner = this; // L337 HACKS
 
 
@@ -86,7 +86,7 @@ namespace XEngine
 		physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		body->setWorldTransform(*physTransformModel);
 
-		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
 
 		//body->serialize() // Might be useful?
 		isInitialized = true;
@@ -223,7 +223,7 @@ namespace XEngine
 			return;
 
 		// 1) Remove rigidbody from world.
-		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body.get());
 
 		// 2) Assign new shape.
 
@@ -239,7 +239,7 @@ namespace XEngine
 		}
 		
 		// 4) add the body to the world
-		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
 
 		this->attachedCollider = col;
 	}

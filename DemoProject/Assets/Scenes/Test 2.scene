@@ -144,7 +144,7 @@
 		</item>
 		<item>
 			<px class_id_reference="3" object_id="_10">
-				<name>Sphere</name>
+				<name>Player</name>
 				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_11">
 					<Component>
@@ -463,7 +463,7 @@
 					</localRotation>
 				</transform>
 				<components>
-					<count>2</count>
+					<count>3</count>
 					<item_version>1</item_version>
 					<item>
 						<px class_id_reference="13" object_id="_33">
@@ -483,14 +483,21 @@
 							<radius>1.000000000e+00</radius>
 						</px>
 					</item>
+					<item>
+						<px class_id="24" class_name="Collectable" tracking_level="1" version="0" object_id="_35">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+						</px>
+					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_35">
+			<px class_id_reference="3" object_id="_36">
 				<name>Box</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_36">
+				<transform class_id_reference="4" object_id="_37">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -516,7 +523,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_37">
+						<px class_id_reference="10" object_id="_38">
 							<Component>
 								<enabled>1</enabled>
 							</Component>

@@ -389,6 +389,12 @@ void GameObject::GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameO
 	}
 }
 
+void GameObject::Delete()
+{
+	SceneManager::getInstance().GetActiveScene()->ScheduleDelete(this->GetSelfPtr());
+	isFlaggedForDeletion = true;
+}
+
 void GameObject::HandleEnable()
 {
 	for (size_t i = 0; i < components.size(); i++)

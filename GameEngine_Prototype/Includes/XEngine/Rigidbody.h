@@ -38,7 +38,7 @@ namespace XEngine
 	public:
 		static Registrar<Rigidbody> registrar;
 
-		btRefRigidbody* body = nullptr;
+		std::shared_ptr<btRefRigidbody> body;// = nullptr;
 		btMotionState* motionState = nullptr;
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo;
 		float mass = 1.0f;
