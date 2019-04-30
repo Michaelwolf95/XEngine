@@ -31,14 +31,16 @@ public:
 	MeshLibrary();
 	~MeshLibrary();
 
+	Mesh*& GetAsset(std::string filepath, std::string name);
+
 protected:
-	Mesh*& GetAsset(std::string filepath, std::string name, aiMesh * mesh);
-	Mesh*& LoadAsset(MeshQuery meshQ, aiMesh * mesh); 
+	
+	//Mesh*& LoadAsset(MeshQuery meshQ, aiMesh * mesh); 
 	Mesh*& LoadAsset(MeshQuery meshQ) override;
 
 	friend class ModelLibrary;
 	
 private:
-	Mesh * processMesh(aiMesh * mesh);
+	Mesh * processMesh(MeshQuery meshQ);
 };
 

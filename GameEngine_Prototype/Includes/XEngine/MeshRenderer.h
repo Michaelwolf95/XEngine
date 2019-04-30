@@ -26,29 +26,25 @@
 class ENGINE_API MeshRenderer: public RenderableObject, public Component
 {
 	public:
-		//float* vertices;
-		//unsigned int numVerts;
-		//unsigned int vertexDataSize;
-		//unsigned int* indices;
-		//unsigned int numIndices;
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
 
+		//std::string pathToObjModel;
+		std::string meshPath; //ex:  ...nanosuit.obj|head
+		std::string materialPath;
+
+		Mesh* mesh;
+		Material* material;
 
 		static Registrar<MeshRenderer> registrar;
 
-		Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
+		//Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
 		bool gammaCorrection;
-		std::string pathToObjModel;
-
-		//std::string directory;
-		//std::vector<Texture> textures_loaded;
-
 		
-		
+
 		// Constructor
-		MeshRenderer(std::string const &path, Material* m = nullptr, bool gamma = false);
+		MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma = false);
 
 		MeshRenderer();
 		// Deconstructor
@@ -70,14 +66,14 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		void FreeObjectResources();
 		//void FreeAllResources()
 
-		void PrintVertices();
+		//void PrintVertices();
 
 	private:
 		//Material* _material;
 		bool isSetup = false;
 
-		bool LoadModel();
-
+		//bool LoadModel();
+		void Load();
 
 
 		//void processNode(aiNode *node, const aiScene *scene);
@@ -85,6 +81,7 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		//std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 		//unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
 
+		/*
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
 		template<class Archive>
@@ -124,4 +121,5 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 			Setup();
 		}
 		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
+		*/
 };

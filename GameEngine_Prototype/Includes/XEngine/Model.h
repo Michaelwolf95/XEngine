@@ -13,5 +13,8 @@ public:
 
 	Model();
 	~Model();
+
+	Mesh* GetMeshByName(std::string name);
+	//Mesh * processMesh(MeshQuery meshQ);
 };
 

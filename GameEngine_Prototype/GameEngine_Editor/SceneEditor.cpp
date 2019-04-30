@@ -804,7 +804,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
 				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Model_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube", "../Assets/Materials/Model_Crate.material", false));
 				go->AddComponent(modelNano);
 			}
 
@@ -813,8 +813,8 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
+				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj|Cube", "../Assets/Materials/Wooden_Crate.material", false));
 				go->AddComponent(modelNano);
 			}
 			if (ImGui::MenuItem("New Box (Child)"))
@@ -840,8 +840,8 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
+				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", "../Assets/Materials/MultiLight_Model.material"));
 				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
 			}			
