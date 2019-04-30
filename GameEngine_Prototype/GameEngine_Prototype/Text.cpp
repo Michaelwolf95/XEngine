@@ -1,11 +1,14 @@
 #include "Text.h"
 
 const std::string FILE_PATH = "../Assets/Fonts/";
+int tempWidth, tempHeight;
 
 REGISTER_COMPONENT(Text, "Text")
 
 Text::Text()
 {
+	glfwGetFramebufferSize(ApplicationManager::APP_WINDOW, &this->width, &this->height);
+
 	this->fontPath = "arial.ttf";
 	this->fontSize = 20;
 	this->text = "Text";
@@ -13,10 +16,9 @@ Text::Text()
 	this->xPos = 20.0f;
 	this->yPos = 20.0f;
 	this->scale = 1.0f;
+	this->executeInEditMode = true;
 
-	//*this = FontLibra
-
-	//Setup();
+	Setup();
 }
 
 Text::~Text()
@@ -81,11 +83,25 @@ void Text::Start() {}
 
 void Text::Update() 
 {
+	glfwGetFramebufferSize(ApplicationManager::APP_WINDOW, &tempWidth, &tempHeight);
+
+	if (width != tempWidth || height != tempHeight)
+	{
+		this->width = tempWidth;
+		this->height = tempHeight;
+
+		this->shader->use();
+		glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width), static_cast<GLfloat>(this->height), 0.0f);
+		this->shader->setMat4("projection", projection);
+		this->shader->setInt("text", 0);
+
+		this->Load();
+	}
 }
 
 void Text::OnEnable()
 {
-	Setup();
+	//Setup();
 }
 
 void Text::Setup()
@@ -113,7 +129,7 @@ void Text::Setup()
 	this->shader = RenderManager::defaultTextShader;
 
 	this->shader->use();
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(800.0f), static_cast<GLfloat>(600.0f), 0.0f);
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width), static_cast<GLfloat>(this->height), 0.0f);
 	this->shader->setMat4("projection", projection);
 	this->shader->setInt("text", 0);
 

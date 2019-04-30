@@ -57,6 +57,8 @@ public:
 private:
 	std::map<GLchar, Character> Characters;
 	std::string text;
+	int width;
+	int height;
 	FT_UInt fontSize;
 	glm::vec3 color;
 	GLfloat xPos, yPos, scale;

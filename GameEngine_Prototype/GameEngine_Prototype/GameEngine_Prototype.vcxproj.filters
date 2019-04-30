@@ -581,6 +581,9 @@
     <ClInclude Include="..\Includes\XEngine\SphereCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\FPSText.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">

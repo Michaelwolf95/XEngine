@@ -18,7 +18,6 @@ public:
 	void OnEnable() override;
 	void ConnectToText();
 	Text* fpsText;
-	void setCurrentText(Text*);
 
 private:
 	friend class boost::serialization::access;
