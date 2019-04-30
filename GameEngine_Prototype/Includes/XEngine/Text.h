@@ -54,8 +54,8 @@ namespace XEngine {
 		GLfloat getScale();
 		std::string fontPath;
 
-		std::string text = "";
 	private:
+		std::string text = "";
 		std::map<GLchar, Character> Characters;
 		FT_UInt fontSize = 0;
 		glm::vec3 color = glm::vec3(0,0,0);

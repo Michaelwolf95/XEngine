@@ -34,9 +34,6 @@ namespace XEngine {
 
 	void Text::setText(std::string newText)
 	{
-		std::cout << this << std::endl;
-		this->text = std::string("T E S T");
-		std::cout << this->text << std::endl;
 		this->text.assign(newText.c_str());
 		//this->text = newText;
 	}
@@ -212,7 +209,7 @@ namespace XEngine {
 		{
 			this->setText(newText);
 		}*/
-		GUI::InputTextField(text, "Text");
+		GUI::InputTextField(text, "Text Value");
 		//ImGui::InputText("Text", text);
 
 		FT_UInt size = this->getFontSize();

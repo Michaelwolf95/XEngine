@@ -4,7 +4,8 @@
 #include "XEngine.h"
 using namespace XEngine;
 #include "Text.h"
-#include <shared_ptr.hpp>
+//#include <shared_ptr.hpp>
+#include <memory>
 
 class PROJECT_API Collector : public Component
 {

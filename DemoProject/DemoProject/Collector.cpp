@@ -20,10 +20,12 @@ void Collector::Start()
 		std::cout << textGameObject << std::endl;
 		textGameObject->FindComponent(typeid(Text), (void**)&uiText);
 
+		// Absolutely insane. We only have to do this with the Text component.
+		uiText = (Text*)((char*)uiText - 8);
+
 		if (uiText != nullptr)
 		{
-			//uiText->text ="0";
-			uiText->setText("0");
+			uiText->setText(std::to_string(count));
 		}
 	}
 }
