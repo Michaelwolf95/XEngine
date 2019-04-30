@@ -41,11 +41,11 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, Component_ptr* object);
 
 	GameObject_ptr GetSelfPtr();
-	//static GameObject* Duplicate(GameObject& ref);
 	static GameObject_ptr DuplicateSingle(GameObject_ptr ref);
 	static GameObject_ptr Duplicate(GameObject_ptr ref);
 	static void GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameObject_ptr>& vec);
 
+	// Delete 
 	void Delete();
 
 private:

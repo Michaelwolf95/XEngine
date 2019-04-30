@@ -41,7 +41,7 @@ MeshRenderer::MeshRenderer() {}
 MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
 {
 	// filepath for .obj file.
-	this->pathToObjModel = "../Assets/" + std::string(path);
+	this->pathToObjModel = ASSET_FILE_PATH + std::string(path);
 	
 	Setup();
 }

@@ -737,7 +737,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		if (ImGui::BeginMenu("Create"))
 		{
 			// TODO: Create a way to add to this menu from another file.
-			if (ImGui::MenuItem("New Empty GameObject"))
+			if (ImGui::MenuItem("Empty GameObject"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
@@ -753,7 +753,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<CameraControllerComponent> cameraControllerComponent(new CameraControllerComponent());
 				go->AddComponent(cameraControllerComponent);
 			}
-			if (ImGui::MenuItem("New Point Light"))
+			if (ImGui::MenuItem("Point Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Point Light");
@@ -761,7 +761,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> pLight(new PointLightComponent());
 				go->AddComponent(pLight);
 			}
-			if (ImGui::MenuItem("New Global Light"))
+			if (ImGui::MenuItem("Global Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Global Light");
@@ -769,7 +769,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> gLight(new GlobalLightComponent());
 				go->AddComponent(gLight);
 			}
-			if (ImGui::MenuItem("New Spot Light"))
+			if (ImGui::MenuItem("Spot Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Spot Light");
@@ -777,70 +777,33 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> sLight(new SpotLightComponent());
 				go->AddComponent(sLight);
 			}
-			if (ImGui::MenuItem("New Simple Box"))
+			if (ImGui::MenuItem("Camera"))
 			{
-				std::cout << "SceneEditor::UpdateDockSpace creating New Simple Box\n";
-
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
+				GameObject_ptr go = scene->CreateGameObject("Camera");
 				selectedGameObject = go;
-				// Create Box Material
-				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_SimpleModel.material");
-
-				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
-
-				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
-
-				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
-					DiffusedMappedCubeIndices, 6, modelMaterial));
-				testModel->Setup();
-				go->AddComponent(testModel);
-
+				
+				std::shared_ptr<CameraComponent> cam(new CameraComponent());
+				go->AddComponent(cam);
+				std::shared_ptr<AudioListener> listener(new AudioListener());
+				go->AddComponent(listener);
 			}
 			if (ImGui::MenuItem("New Model Metal Crate"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Model_Crate.material");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset(EDITOR_ASSETS_DIRECTORY + "Materials/Model_Crate.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
 				go->AddComponent(modelNano);
 			}
 
-			if (ImGui::MenuItem("New Model Wooden Crate"))
-			{
-				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
-				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
-				go->AddComponent(modelNano);
-			}
-			if (ImGui::MenuItem("New Box (Child)"))
-			{
-				if (selectedGameObject != nullptr)
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Simple Box (Child)");
-					go->transform->SetParent(selectedGameObject->transform);
-					selectedGameObject = go;
-
-					// Create Box Material
-					Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
-					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
-						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
-					testModel->Setup();
-					go->AddComponent(testModel);
-				}
-			}
 			if (ImGui::MenuItem("New Nanosuit"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset(EDITOR_ASSETS_DIRECTORY + "/Materials/MultiLight_Model.material");
 				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
 				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
