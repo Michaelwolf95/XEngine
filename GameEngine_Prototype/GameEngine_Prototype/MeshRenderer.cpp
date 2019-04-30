@@ -88,15 +88,14 @@ void MeshRenderer::Setup()
 	else
 		mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, meshName);
 
-	// Get Materia FilePath
-	materialPath = "../Assets/Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
-
 	// Get Material
 	if (materialPath.empty())
 	{
 		std::cout << "No Mesh Path: Using Default Material" << std::endl;
-		// Use default material.
-		material = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+		// Get Default Materia FilePath of the Mesh from Obj file
+		materialPath = "../Assets/Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
+
+		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
 	}
 	else
 	{
