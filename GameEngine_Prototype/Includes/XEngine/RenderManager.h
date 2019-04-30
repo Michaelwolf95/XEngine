@@ -27,6 +27,7 @@ public:
 	static Shader* defaultShader;
 	static Material* defaultMaterial;
 	static Shader* colorDrawShader;
+	static Shader* gizmoSpriteShader;
 	static Shader* defaultSpriteShader;
 	static Shader* defaultTextShader;
 

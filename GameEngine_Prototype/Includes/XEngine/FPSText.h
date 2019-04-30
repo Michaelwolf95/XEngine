@@ -6,6 +6,7 @@
 #include "GameTime.h"
 #include "Text.h"
 #include "serialization.h"
+using namespace XEngine;
 
 class ENGINE_API FPSText : public Component
 {
@@ -28,4 +29,3 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 	}
 };
-

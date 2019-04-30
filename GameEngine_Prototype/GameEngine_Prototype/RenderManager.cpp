@@ -15,7 +15,7 @@
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
-Shader* RenderManager::defaultSpriteShader = nullptr;
+Shader* RenderManager::gizmoSpriteShader = nullptr;
 Shader* RenderManager::defaultTextShader = nullptr;
 
 //TODO: Store this on the Camera.
@@ -52,6 +52,7 @@ int RenderManager::Init()
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 
 	isInitialized = true;
 	return 0;
@@ -63,14 +64,16 @@ void RenderManager::CompileShaders()
 	defaultShader = new Shader("model.vs", "model.fs");
 	
 	//defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
-	defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+	//defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+	defaultMaterial = new Material("Default_Mat", "multilights.shader", "");
+
 	//defaultMaterial = new Material(defaultShader);
 	//defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	//defaultMaterial->LoadTexture("textures/container.jpg");
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
 
-	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
+	gizmoSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
 	defaultTextShader = new Shader("text.vs", "text.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
@@ -452,6 +455,7 @@ void RenderManager::DrawWorldSpaceSphere(glm::vec3 center, glm::vec3 scale, floa
 
 	glm::mat4 model(1.0);
 	model = glm::translate(model, center);
+	scale *= radius;
 	model = glm::scale(model, scale);
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();

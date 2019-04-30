@@ -32,9 +32,18 @@ namespace XEngine
 	}
 	void SphereCollider::Update()
 	{
+		((btSphereShape*)colShape)->setUnscaledRadius(radius);
+		glm::vec3 scale = this->gameObject->transform->getScale();
+		btVector3 halfExtents(
+			scale.x * radius,
+			scale.y * radius,
+			scale.z * radius);
+
+		colShape->setLocalScaling(halfExtents);
 	}
 	void SphereCollider::DrawInspector()
 	{
+		ImGui::InputFloat("Radius", &radius);
 	}
 	void SphereCollider::OnDrawGizmosSelected()
 	{

@@ -125,6 +125,9 @@ void Scene::UpdateGameObject(GameObject_ptr go)
 			UpdateGameObject(children[i]->GetSelfPtr());
 		}
 	}
+
+	// Cleanup step?
+	Cleanup();
 }
 
 void Scene::FixedUpdate()
@@ -173,6 +176,12 @@ void Scene::DeleteGameObject(GameObject_ptr go)
 		// Unparent
 		go->transform->SetParent(nullptr);
 
+		// delete components belonging to game object
+		for (size_t i = 0; i < allGameObjects.back()->components.size(); i++)
+		{
+			allGameObjects.back()->RemoveComponent(allGameObjects.back()->components[i]);
+		}
+
 		// Delete all children - leaf nodes will be deleted first.
 		std::vector<GameObject*> children = go->GetChildren();
 		for (size_t i = 0; i < children.size(); i++)
@@ -214,4 +223,18 @@ void Scene::AddExistingGameObject(GameObject_ptr go)
 	{
 		rootGameObjects.push_back(go);
 	}
+}
+
+void Scene::ScheduleDelete(GameObject_ptr go)
+{
+	gameObjectsToDelete.push_back(go);
+}
+
+void Scene::Cleanup()
+{
+	for (size_t i = 0; i < gameObjectsToDelete.size(); i++)
+	{
+		this->DeleteGameObject(gameObjectsToDelete[i]);
+	}
+	gameObjectsToDelete.clear();
 }

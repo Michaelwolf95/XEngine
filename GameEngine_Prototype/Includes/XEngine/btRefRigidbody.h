@@ -34,7 +34,7 @@ namespace XEngine
 	private:
 		//friend class XEngine::Rigidbody;
 		std::vector<btCollisionObject*> collisionObjsThisFrame;
-		std::vector<btCollisionObject*> currentCollisionObjs;
+		std::vector<std::weak_ptr<btCollisionObject>> currentCollisionObjs;
 
 		void EmitCollisionEnter(btCollisionObject* other, btPersistentManifold* contactManifold);
 		void EmitCollisionStay(btCollisionObject* other, btPersistentManifold* contactManifold);

@@ -21,11 +21,28 @@ namespace XEngine
 		// Use for creating custom CollisionInfo wrapper.
 		//bool isBody0 = (this == const_cast<btCollisionObject*>(contactManifold->getBody0()));
 
+		// Find other in set.
 		collisionObjsThisFrame.push_back(other);
-		if (std::find(currentCollisionObjs.begin(), currentCollisionObjs.end(), other) == currentCollisionObjs.end()) {
+		std::vector<std::weak_ptr<btCollisionObject>>::iterator isi =
+		std::find_if(currentCollisionObjs.begin(), currentCollisionObjs.end(),
+			[&other](std::weak_ptr<btCollisionObject> const& item)
+		{
+			auto sp = item.lock();
+			return sp.get() == other;
+		}); 
+		
+		if(isi == currentCollisionObjs.end())
+		//if (std::find(currentCollisionObjs.begin(), currentCollisionObjs.end(), other) == currentCollisionObjs.end())
+		{
 			/* v does not contain x */
-			currentCollisionObjs.push_back(other);
-			EmitCollisionEnter(other, contactManifold);
+			btRefRigidbody* otherRB = btRefRigidbody::upcast(other);
+			if (otherRB != 0)
+			{
+				currentCollisionObjs.push_back(otherRB->owner->body);
+				EmitCollisionEnter(other, contactManifold);
+			}
+			//currentCollisionObjs.push_back(other);
+			//EmitCollisionEnter(other, contactManifold);
 		}
 
 		// Collision Objects this frame.
@@ -40,18 +57,28 @@ namespace XEngine
 	{
 		//std::cout << "Updating Collision State.\n";
 		//std::cout << "Num Collisions: " << currentCollisionObjs.size() << std::endl;
-		std::vector<btCollisionObject*>::iterator it = currentCollisionObjs.begin();
+		std::vector<std::weak_ptr<btCollisionObject>>::iterator it = currentCollisionObjs.begin();
 		while (it != currentCollisionObjs.end())
 		{
-			if (std::find(collisionObjsThisFrame.begin(), collisionObjsThisFrame.end(), *it) == collisionObjsThisFrame.end())
+			if ((*it).expired())
+			{
+				it++;
+				continue;
+			}
+			auto sp = (*it).lock();
+			if (std::find(collisionObjsThisFrame.begin(), collisionObjsThisFrame.end(), sp.get()) == collisionObjsThisFrame.end())
 			{
 				// is not in vector
-				EmitCollisionExit(*it, nullptr);
+				if (!(*it).expired())
+				{
+					EmitCollisionExit(sp.get(), nullptr);
+				}
 				it = currentCollisionObjs.erase(it);
 			}
 			else
 			{
-				EmitCollisionStay(*it, nullptr);
+				EmitCollisionStay(sp.get(), nullptr);
+				//EmitCollisionStay(*it, nullptr);
 				it++;
 			}
 

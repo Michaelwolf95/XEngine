@@ -9,7 +9,7 @@ LightComponent::LightComponent(glm::vec4 _color, float _intensity, float _ambien
 	color = _color;
 	intensity = _intensity;
 	ambience = _ambience;
-	gizmoDrawer = std::make_shared<GizmoSpriteDrawer>(GizmoSpriteDrawer("Editor/Gizmos/LightGizmo.png"));
+	gizmoDrawer = std::make_shared<GizmoSpriteDrawer>(GizmoSpriteDrawer("../EditorAssets/Gizmos/LightGizmo.png"));
 }
 
 LightComponent::~LightComponent() {}
@@ -39,9 +39,11 @@ const std::string* LightComponent::getUniformName()
 
 void LightComponent::DrawInspector()
 {
-	ImGui::ColorEdit4(LABEL("Color "), (float*)&color);
-	ImGui::SliderFloat(LABEL("Intensity "), &intensity, 0.0f, 100.0f);
-	ImGui::SliderFloat(LABEL("Ambience "), &ambience, 0.0f, 2.0f);
+	ImGui::PushID(this);
+	ImGui::ColorEdit4("Color", (float*)&color);
+	ImGui::SliderFloat("Intensity", &intensity, 0.0f, 100.0f);
+	ImGui::SliderFloat("Ambience", &ambience, 0.0f, 2.0f);
+	ImGui::PopID();
 	//ImGui::ColorEdit4("Color", (float*)&color);
 	//ImGui::SliderFloat("Intensity", &intensity, 0.0f, 100.0f);
 	//ImGui::SliderFloat("Ambience", &ambience, 0.0f, 2.0f);

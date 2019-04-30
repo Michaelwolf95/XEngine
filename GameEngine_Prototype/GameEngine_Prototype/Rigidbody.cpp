@@ -32,10 +32,10 @@ namespace XEngine
 			// Remove from physics manager.
 			if (body != nullptr && PhysicsManager::getInstance().dynamicsWorld != nullptr)
 			{
-				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
+				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body.get());
 
-				delete body;
-				body = nullptr;
+				//delete body;
+				//body = nullptr;
 			}
 			//delete boxColliderHalfExtents;
 			//boxColliderHalfExtents = nullptr;
@@ -72,8 +72,9 @@ namespace XEngine
 		motionState = new btDefaultMotionState(*physTransformModel);
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape);
-		body = new btRefRigidbody(rbInfo);
+		body = std::shared_ptr<btRefRigidbody>(new btRefRigidbody(rbInfo));
 		body->owner = this; // L337 HACKS
+
 
 		if (isKinematic)
 		{
@@ -85,12 +86,15 @@ namespace XEngine
 		physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		body->setWorldTransform(*physTransformModel);
 
-		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
 
 		//body->serialize() // Might be useful?
 		isInitialized = true;
-	}
 
+
+		// Set for Trigger.
+		setIsTrigger(isTrigger);
+	}
 	void Rigidbody::Start()
 	{
 		Init();
@@ -107,7 +111,7 @@ namespace XEngine
 		// TEMP
 		if (Input::GetKeyDown(GLFW_KEY_SPACE))
 		{
-			AddForce(glm::vec3(0, 10, 0));
+			//AddForce(glm::vec3(0, 10, 0));
 		}
 	}
 
@@ -181,12 +185,20 @@ namespace XEngine
 		{
 			ImGui::InputFloat("Mass", &mass);
 		}
+
+		bool trigger = isTrigger;
+		ImGui::Checkbox("IsTrigger", &trigger);
+		if (trigger != isTrigger)
+		{
+			setIsTrigger(trigger);
+		}
 	}
+
 
 	void Rigidbody::AddForce(glm::vec3 force)
 	{
 		this->body->activate(true);
-		this->body->applyCentralImpulse(btVector3(force.x, force.y, force.z));
+		this->body->applyCentralImpulse(btVector3(-force.x, force.y, -force.z));
 	}
 	Rigidbody * Rigidbody::GetAttachedRigidbody(GameObject* go)
 	{
@@ -211,7 +223,7 @@ namespace XEngine
 			return;
 
 		// 1) Remove rigidbody from world.
-		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body.get());
 
 		// 2) Assign new shape.
 
@@ -227,7 +239,7 @@ namespace XEngine
 		}
 		
 		// 4) add the body to the world
-		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
 
 		this->attachedCollider = col;
 	}
@@ -242,6 +254,26 @@ namespace XEngine
 		if (isKinematic)
 			mass = 0.0f;
 		return (mass != 0.f);
+	}
+	bool Rigidbody::getIsInitialized()
+	{
+		return isInitialized;
+	}
+	void Rigidbody::setIsTrigger(bool _isTrigger)
+	{
+		isTrigger = _isTrigger;
+		if (isInitialized == false)
+			return;
+		if (isTrigger)
+		{
+			// Set
+			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
+		else
+		{
+			// Unset
+			body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
 	}
 	CollisionInfo::CollisionInfo(Rigidbody * _other, Collider * _otherCollider, glm::vec3 _contactPoint, glm::vec3 _contactNormal)
 	{

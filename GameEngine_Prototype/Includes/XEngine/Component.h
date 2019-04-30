@@ -6,8 +6,6 @@
 #include <unordered_map>
 #include <string>
 #include "imgui.h"
-#define LABEL(label) std::string(label + std::to_string(this->componentID)).c_str()
-
 //#include "GameObject.h" // Circular dependency - wont compile
 class GameObject; // Use a "forward declaration" instead.
 
@@ -29,8 +27,6 @@ public:
 
 	// The owner of the component.
 	// Cannot use shared_ptr here due to the way we want things to unload.
-	static unsigned int nextComponentID;
-	unsigned int componentID;
 	GameObject* gameObject;
 	bool enabled = true;
 	bool executeInEditMode = false;
@@ -61,8 +57,6 @@ private:
 	void serialize(Archive &ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_NVP(enabled);
-		ar & BOOST_SERIALIZATION_NVP(nextComponentID);
-		ar & BOOST_SERIALIZATION_NVP(componentID);
 	}
 };
 

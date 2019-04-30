@@ -47,7 +47,7 @@ inline void CameraControllerComponent::rotateCamera()
 	localRot = glm::vec3(localRot.x + deltaYRot, localRot.y + deltaXRot, localRot.z);
 
 	// set camera's location rotational position
-	cameraComponent->gameObject->transform->setLocalRotationEuler(localRot);
+	gameObject->transform->setLocalRotationEuler(localRot);
 }
 
 inline void CameraControllerComponent::zoomCamera()
@@ -114,112 +114,46 @@ float CameraControllerComponent::isMoveSpeedModified(bool _moveSpeedModified, fl
 	return _moveSpeedModified ? _moveSpeedModifier : 1.0f;
 }
 
-//void initializeView()
-//{
-//	if (firstMouse) // this bool variable is initially set to true
-//	{
-//		Controls::lastX = xpos;
-//		Controls::lastY = ypos;
-//		Controls::firstMouse = false;
-//		Controls::yaw = -90.0f;
-//	}
-//}
-
-//void CameraControllerComponent::moveCamera()
-//{
-//	glm::vec3 localPos = gameObject->transform->getLocalPosition();
-//	Transform* t = gameObject->transform;
-//
-//	if (Input::GetKey(GLFW_KEY_W) == GLFW_PRESS)
-//	{
-//		//CameraControl::cam.position += cameraSpeed * glm::normalize(glm::cross(CameraControl::cam.upDirection, glm::cross(CameraControl::cam.viewDirection, CameraControl::cam.upDirection)));
-//		//glm::vec3 localPos = gameObject->transform->getLocalPosition();
-//		localPos += moveSpeed * XEngine::GameTime::deltaTime * glm::normalize(glm::cross(t->getUpDirection(),
-//			glm::cross(t->getForwardDirection(), t->getUpDirection()))); // fly mode
-//	}
-//
-//	if (Input::GetKey(GLFW_KEY_S) == GLFW_PRESS)
-//	{
-//		//localPos.z = localPos.z * XEngine::GameTime::deltaTime;
-//		localPos -= moveSpeed * XEngine::GameTime::deltaTime * glm::normalize(glm::cross(t->getUpDirection(),
-//			glm::cross(t->getForwardDirection(), t->getUpDirection())));
-//	}
-//
-//	if (Input::GetKey(GLFW_KEY_A) == GLFW_PRESS)
-//	{
-//
-//	}
-//
-//	if (Input::GetKey(GLFW_KEY_D) == GLFW_PRESS)
-//	{
-//
-//	}
-//
-//	if (Input::GetKey(GLFW_KEY_Q) == GLFW_PRESS)
-//	{
-//
-//	}
-//
-//	if (Input::GetKey(GLFW_KEY_E) == GLFW_PRESS)
-//	{
-//
-//	}
-//
-//	t->setLocalPosition(localPos);
-//
-//}
-
 void CameraControllerComponent::DrawInspector()
 {
 	
-	//ImGui::InputFloat(LABEL("fieldOfView "), &fieldOfView);
-	ImGui::SliderFloat(LABEL("fieldOfView "), &fieldOfView, 10.0f, 180.0f);
-	ImGui::SliderFloat(LABEL("zoomSpeed "), &zoomSpeed, 0.001f, 179.999f);
+	//ImGui::InputFloat("fieldOfView "), &fieldOfView);
+	ImGui::PushID(this);
+	ImGui::SliderFloat("fieldOfView", &fieldOfView, 10.0f, 180.0f);
+	ImGui::SliderFloat("zoomSpeed", &zoomSpeed, 0.001f, 179.999f);
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert Zoom "), &inversionZoom);
-	ImGui::SliderFloat(LABEL("X RotSpeed "), &xRotSpeed, 0.1f, 20.0f, "%.1f"); //TODO: allow min-max values to be modified
+	ImGui::Checkbox("Invert Zoom", &inversionZoom);
+	ImGui::SliderFloat("X RotSpeed", &xRotSpeed, 0.1f, 20.0f, "%.1f"); //TODO: allow min-max values to be modified
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert X Axis "), &inversionX);
-	ImGui::SliderFloat(LABEL("Y RotSpeed "), &yRotSpeed, 0.1f, 20.0f, "%.1f");
+	ImGui::Checkbox("Invert X Axis", &inversionX);
+	ImGui::SliderFloat("Y RotSpeed", &yRotSpeed, 0.1f, 20.0f, "%.1f");
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert Y Axis "), &inversionY);
-	ImGui::SliderFloat(LABEL("Z RotSpeed "), &zRotSpeed, 0.1f, 20.0f, "%.1f");
+	ImGui::Checkbox("Invert Y Axis", &inversionY);
+	ImGui::SliderFloat("Z RotSpeed", &zRotSpeed, 0.1f, 20.0f, "%.1f");
 	ImGui::SameLine();
-	ImGui::Checkbox(LABEL("Invert Z Axis "), &inversionZ);
-	ImGui::SliderFloat(LABEL("Move Speed Mod X "), &moveSpeedModifierX, 0.1f, 20.0f, "%.1f");
-	ImGui::SliderFloat(LABEL("Move Speed Mod Y "), &moveSpeedModifierY, 0.1f, 20.0f, "%.1f");
-	ImGui::SliderFloat(LABEL("Move Speed Mod Z "), &moveSpeedModifierZ, 0.1f, 20.0f, "%.1f");
+	ImGui::Checkbox("Invert Z Axis", &inversionZ);
+	ImGui::SliderFloat("Move Speed Mod X", &moveSpeedModifierX, 0.1f, 20.0f, "%.1f");
+	ImGui::SliderFloat("Move Speed Mod Y", &moveSpeedModifierY, 0.1f, 20.0f, "%.1f");
+	ImGui::SliderFloat("Move Speed Mod Z", &moveSpeedModifierZ, 0.1f, 20.0f, "%.1f");
+	ImGui::PopID();
 }
-
-//void CameraControllerComponent::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
-//{
-//	if (fieldOfView >= 1.0f && fieldOfView <= 45.0f) // TODO: remove hardcodes
-//		fieldOfView -= yoffset;
-//	if (fieldOfView <= 1.0f)
-//		fieldOfView = 1.0f;
-//	if (fieldOfView >= 45.0f)
-//		fieldOfView = 45.0f;
-//}
 
 CameraComponent * CameraControllerComponent::findObjectCameraComponent()
 {
 	cameraComponent = nullptr;
 
-	for (auto component : this->gameObject->components)
-	{
-		// Finds the first component of the type CameraComponent
-		if (component->gameObject->FindComponent(typeid(CameraComponent), (void**)&cameraComponent)) // Pointer to a pointer!
-		{
-			std::cout << "Found Camera Component!\n";
-			break;
-		}
-		else
-		{
-			std::cout << "Searching for game object's Camera Component...\n";
-		}
-	}
+	// Finds the first component of the type CameraComponent
+	gameObject->FindComponent(typeid(CameraComponent), (void**)&cameraComponent); // Pointer to a pointer!
 
-	if (!cameraComponent) std::cout << "Camera Component not found...\n";
+	cameraComponent ? std::cout << "Camera Component found!\n" : std::cout << "Camera Component not found...\n";
+	
+	//if (!cameraComponent)
+	//{
+	//	std::cout << "Adding Camera Component to object!\n";
+	//	std::shared_ptr<CameraComponent> camComponent(new CameraComponent());
+	//	gameObject->AddComponent(camComponent);
+	//	cameraComponent = camComponent.get();
+	//} // doesn't work...
 
 	return cameraComponent;;
 }

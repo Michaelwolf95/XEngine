@@ -5,7 +5,6 @@
 #include "SceneManager.h"
 #include "Serialization.h"
 #include <sstream>
-unsigned int GameObject::nextGameObjectID = 0;
 
 GameObject::GameObject(const char* _name)
 {
@@ -18,7 +17,6 @@ GameObject::GameObject(const char* _name)
 		name = _name;
 	}
 
-	gameObjectID = GameObject::nextGameObjectID++;
 	transform = new Transform();
 	transform->gameObject = this;// shared_from_this();
 }
@@ -133,6 +131,10 @@ void GameObject::RemoveComponent(Component_ptr comp)
 	auto n = std::find(components.begin(), components.end(), comp);
 	if (n != components.end())
 	{
+		//delete comp.get();
+		//comp.reset();
+		comp->gameObject = nullptr;
+
 		// swap the one to be removed with the last element and remove the item at the end of the container
 		// to prevent moving all items after it by one
 		std::swap(*n, components.back());
@@ -214,6 +216,19 @@ bool GameObject::FindComponent(const std::type_info& typeInfo, void** object)
 		}
 		return false;
 	})!= NULL);
+}
+
+bool GameObject::FindComponent(const std::type_info& typeInfo, Component_ptr* object)
+{
+	return (this->FilterComponent([&](Component_ptr c)->bool {
+		if (typeid(*(c.get())) == typeInfo)
+		{
+			// Set the value of the pointer-pointer to the value of the pointer that we just found.
+			*object = c;// (c.get());
+			return true;
+		}
+		return false;
+	}) != NULL);
 }
 
 // WARNING: This can cause crashes if a shared_ptr to the object does not already exist.
@@ -372,6 +387,12 @@ void GameObject::GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameO
 	{
 		GetFlattenedHierarchy(children[i]->GetSelfPtr(), vec);
 	}
+}
+
+void GameObject::Delete()
+{
+	SceneManager::getInstance().GetActiveScene()->ScheduleDelete(this->GetSelfPtr());
+	isFlaggedForDeletion = true;
 }
 
 void GameObject::HandleEnable()

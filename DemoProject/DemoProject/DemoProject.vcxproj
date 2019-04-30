@@ -100,7 +100,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalDependencies>GameEngine_Prototype.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GameEngine_Prototype.lib;boost/boost_serialization-vc141-mt-gd-x32-1_68.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\GameEngine_Prototype\Debug;$(SolutionDir)..\GameEngine_Prototype\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -158,12 +158,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Collectable.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Collector.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ComponentTemplate.h" />
     <ClInclude Include="ExampleComponent.h" />
+    <ClInclude Include="PhysicsMover.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="XEngineProject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collectable.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Collector.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ComponentTemplate.cpp" />
     <ClCompile Include="ExampleComponent.cpp" />
+    <ClCompile Include="PhysicsMover.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="XEngineProject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GameEngine_Prototype\GameEngine_Prototype\GameEngine_Prototype.vcxproj">
+      <Project>{b91b3f6d-a712-4e36-b894-dbe4b1b8c579}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

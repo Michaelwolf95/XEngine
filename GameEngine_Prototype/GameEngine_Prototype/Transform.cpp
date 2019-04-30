@@ -15,9 +15,6 @@
 
 #include "SceneManager.h"
 
-#define LABEL(label) std::string(label + std::to_string(this->gameObject->gameObjectID))
-
-
 //using namespace glm;
 
 BOOST_CLASS_EXPORT_GUID(Transform, "Transform")
@@ -396,42 +393,35 @@ void Transform::DrawGizmo()
 // Draws the inspector for the editor.
 void Transform::DrawInspector()
 {
-	ImGui::Text(LABEL("Game Object ID: ").c_str()); // displays gameObject ID. Should move this to gameObject class
+	ImGui::PushID(this);
 	glm::vec3 pos = this->getLocalPosition();
 	ImGui::InputFloat3("Position", (float*)&pos);
 	if (pos != this->getLocalPosition())
-	{
 		this->setLocalPosition(pos);
-	}
+	
 	glm::vec3 rot = this->getLocalRotationEuler();
 	ImGui::InputFloat3("Rotation", (float*)&rot);
 	if (rot != this->getLocalRotationEuler())
-	{
 		this->setLocalRotationEuler(rot);
-	}
 
 	float minScale = 0.001f;
 	float maxScale = 10.0f;
 	glm::vec3 scale = this->getLocalScale();
 
-	if (isScaleSlider)
-	{
-		ImGui::SliderFloat3("Scale", (float*)&scale, minScale, maxScale);
-	}
-	else
-	{
-		ImGui::InputFloat3("Scale", (float*)&scale);
-	}
+	isScaleSlider ? ImGui::SliderFloat3("Scale", (float*)&scale, minScale, maxScale)
+		: ImGui::InputFloat3("Scale", (float*)&scale);
+
+	if (!scale.x) scale.x = 0.001f;
+	if (!scale.y) scale.y = 0.001f;
+	if (!scale.z) scale.z = 0.001f;
 	ImGui::Checkbox("Lock Ratio", &scaleRatioLock);
 	ImGui::SameLine();
 	ImGui::Checkbox("Use Scale Slider", &isScaleSlider);
-
 	float ratio;
 	if (scaleRatioLock)
 	{
 		if ((scaleRatio.x - scale.x) != 0)
 		{
-
 			ratio = scale.x / scaleRatio.x;
 			scale.y *= ratio;
 			scale.z *= ratio;
@@ -450,12 +440,12 @@ void Transform::DrawInspector()
 		}
 		else ratio = 1.0f;
 	}
-
 	if (scale != this->getLocalScale())
 	{
 		this->setLocalScale(scale);
 	}
 	scaleRatio = scale;
+	ImGui::PopID();
 }
 
 // Prints the Transform Matrix to the console.
