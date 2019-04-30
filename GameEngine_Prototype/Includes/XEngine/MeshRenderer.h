@@ -22,26 +22,35 @@
 #include <map>
 #include <vector>
 
+
 class ENGINE_API MeshRenderer: public RenderableObject, public Component
 {
 	public:
-		static Registrar<MeshRenderer> registrar;
-
+		//float* vertices;
+		//unsigned int numVerts;
+		//unsigned int vertexDataSize;
+		//unsigned int* indices;
+		//unsigned int numIndices;
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
 
+
+		static Registrar<MeshRenderer> registrar;
+
+		Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
 		bool gammaCorrection;
 		std::string pathToObjModel;
+
+		//std::string directory;
+		//std::vector<Texture> textures_loaded;
+
 		
-		Mesh* mesh;
-		Material* material;
-		//Model* model = nullptr;
 		
 		// Constructor
 		MeshRenderer(std::string const &path, Material* m = nullptr, bool gamma = false);
-		MeshRenderer();
 
+		MeshRenderer();
 		// Deconstructor
 		~MeshRenderer();
 
@@ -59,14 +68,23 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		void DrawInspector() override;
 
 		void FreeObjectResources();
+		//void FreeAllResources()
 
 		void PrintVertices();
 
 	private:
+		//Material* _material;
 		bool isSetup = false;
 
 		bool LoadModel();
-		/*
+
+
+
+		//void processNode(aiNode *node, const aiScene *scene);
+		//Mesh* processMesh(aiMesh *mesh, const aiScene *scene);
+		//std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
+		//unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
+
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
 		template<class Archive>
@@ -105,7 +123,5 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 
 			Setup();
 		}
-		*/
 		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
-
 };
