@@ -64,7 +64,9 @@ void RenderManager::CompileShaders()
 	defaultShader = new Shader("model.vs", "model.fs");
 	
 	//defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
-	defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+	//defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+	defaultMaterial = new Material("Default_Mat", "multilights.shader", "");
+
 	//defaultMaterial = new Material(defaultShader);
 	//defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	//defaultMaterial->LoadTexture("textures/container.jpg");

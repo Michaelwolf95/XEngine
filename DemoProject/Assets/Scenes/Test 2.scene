@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Test 2</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>14</count>
+		<count>16</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -42,10 +42,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths class_id="11" tracking_level="0" version="0">
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -84,9 +83,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>5.000000000e+00</vec.x>
+						<vec.x>6.423149109e+00</vec.x>
 						<vec.y>7.615928650e+00</vec.y>
-						<vec.z>1.778820038e+00</vec.z>
+						<vec.z>3.229053497e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -110,10 +109,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -411,10 +409,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -446,9 +443,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>-2.890186310e+00</vec.x>
+						<vec.x>-5.000000000e+00</vec.x>
 						<vec.y>2.000000000e+00</vec.y>
-						<vec.z>5.992507935e-01</vec.z>
+						<vec.z>0.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -539,10 +536,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -559,9 +555,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>1.604652405e-01</vec.x>
+						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>2.000000000e+00</vec.y>
-						<vec.z>4.174957275e+00</vec.z>
+						<vec.z>5.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -652,10 +648,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -698,10 +693,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -766,10 +760,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -834,10 +827,9 @@
 							</Component>
 							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
 							<meshMaterialFilePaths>
-								<count>2</count>
+								<count>1</count>
 								<item_version>0</item_version>
 								<item>../Assets/Materials/Cube.material</item>
-								<item>../Assets/Materials/Material_NONE.material</item>
 							</meshMaterialFilePaths>
 						</px>
 					</item>
@@ -861,6 +853,118 @@
 							<isKinematic>1</isKinematic>
 							<mass>1.000000000e+00</mass>
 							<isTrigger>0</isTrigger>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_64">
+				<name>Coin 2</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_65">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>5.000000000e+00</vec.x>
+						<vec.y>2.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>4</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="13" object_id="_66">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<isKinematic>1</isKinematic>
+							<mass>1.000000000e+00</mass>
+							<isTrigger>1</isTrigger>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="14" object_id="_67">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<radius>1.000000000e+00</radius>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="24" object_id="_68">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="25" object_id="_69">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<soundPath>../../DemoProject/Assets/Sounds/Coin_Collect.wav</soundPath>
+							<is3D>0</is3D>
+							<repeat>0</repeat>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_70">
+				<name>Box</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_71">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_65"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>5.000000000e-01</vec.x>
+						<vec.y>5.000000000e-01</vec.y>
+						<vec.z>5.000000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>3.535533547e-01</q.x>
+						<q.y>3.535533547e-01</q.y>
+						<q.z>-1.464465857e-01</q.z>
+						<q.w>8.535534143e-01</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_72">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths>
+								<count>1</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+							</meshMaterialFilePaths>
 						</px>
 					</item>
 				</components>

@@ -17,6 +17,8 @@
 #include <filesystem> // C++ 17 Filesystem
 
 #include "ProjectCompiler.h"
+#include "AssetManager.h"
+#include "MaterialLibrary.h"
 
 namespace XEngine::Editor {
 
@@ -1320,9 +1322,14 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 	}
 	if (ImGui::BeginPopup(createMenuPopupName.c_str()))
 	{
+		static std::string materialName = "New Material";
+		ImGui::InputText("Name", &materialName);
 		if (ImGui::Button("Create Material"))
 		{
-			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT");
+			//std::cout << materialName << std::endl;
+			Material* mat = AssetManager::getInstance().materialLib.GetAsset(ASSET_FILE_PATH + fileName + "/" + materialName + ".material");
+			ImGui::CloseCurrentPopup();
+			//ImGui::OpenPopup((createMenuPopupName + "MATERIAL").c_str());
 		}
 		ImGui::EndPopup();
 	}
