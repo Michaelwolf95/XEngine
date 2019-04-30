@@ -22,6 +22,8 @@ namespace XEngine
 
 		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component_ptr& compRef, std::string label);
 
+		IMGUI_IMPL_API bool FileReference(std::string& pathRef, std::string extension, const char* label = "##edit");
+
 		template <typename T>
 		void ComponentReference(T*& compRef, std::string label)
 		{
