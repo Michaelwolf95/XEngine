@@ -3,7 +3,8 @@
 #include "XEngineProject.h"
 #include "XEngine.h"
 using namespace XEngine;
-#include "Rigidbody.h"`
+#include "Rigidbody.h"
+#include "AudioComponent.h"
 
 class PROJECT_API Collectable : public Component
 {
@@ -16,6 +17,8 @@ public:
 	void DrawInspector() override;
 
 	void OnCollisionEnter(XEngine::CollisionInfo info);
+
+	AudioComponent* audioComponent = nullptr;
 
 private:
 	friend class boost::serialization::access;

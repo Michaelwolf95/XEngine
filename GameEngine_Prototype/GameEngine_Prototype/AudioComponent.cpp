@@ -48,7 +48,7 @@ AudioComponent::AudioComponent()
 }
 AudioComponent::~AudioComponent()
 {
-	AudioManager::getInstance().sound.UnLoadSound(soundPath);
+	//AudioManager::getInstance().sound.UnLoadSound(soundPath);
 }
 
 void AudioComponent::Load3D(string path, bool location, bool loop, bool stream)
