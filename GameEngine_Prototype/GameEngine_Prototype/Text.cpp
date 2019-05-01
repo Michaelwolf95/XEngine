@@ -1,7 +1,7 @@
 #include "Text.h"
 #include "imgui_inspector_extensions.h"
 #include <iostream>
-const std::string FILE_PATH = "../Assets/Fonts/";
+#include "AssetManager.h"
 
 REGISTER_COMPONENT(XEngine::Text, "Text")
 
@@ -9,18 +9,17 @@ namespace XEngine {
 
 	Text::Text()
 	{
-		glfwGetFramebufferSize(ApplicationManager::APP_WINDOW, &this->width, &this->height);
-
-		this->fontPath = "arial.ttf";
+		this->fontPath = ASSET_FILE_PATH + "Fonts/arial.ttf";
 		this->fontSize = 20;
 		this->text = "Text";
 		this->color = glm::vec3(255.0, 255.0f, 255.0f);
 		this->xPos = 20.0f;
 		this->yPos = 20.0f;
 		this->scale = 1.0f;
-		this->executeInEditMode = true;
 
-		Setup();
+		//*this = FontLibra
+
+		//Setup();
 	}
 
 	Text::~Text()
@@ -35,9 +34,6 @@ namespace XEngine {
 
 	void Text::setText(std::string newText)
 	{
-		std::cout << this << std::endl;
-		this->text = std::string("T E S T");
-		std::cout << this->text << std::endl;
 		this->text.assign(newText.c_str());
 		//this->text = newText;
 	}
@@ -92,34 +88,20 @@ namespace XEngine {
 
 	void Text::Update()
 	{
-		glfwGetFramebufferSize(ApplicationManager::APP_WINDOW, &tempWidth, &tempHeight);
-
-		if (width != tempWidth || height != tempHeight)
-		{
-			this->width = tempWidth;
-			this->height = tempHeight;
-
-			this->shader->use();
-			glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width), static_cast<GLfloat>(this->height), 0.0f);
-			this->shader->setMat4("projection", projection);
-			this->shader->setInt("text", 0);
-
-			this->Load();
-		}
 	}
 
 	void Text::OnEnable()
 	{
-		//Setup();
+		Setup();
 	}
 
 	void Text::Setup()
 	{
-		std::size_t pathFound = this->fontPath.find("Fonts");
+		/*std::size_t pathFound = this->fontPath.find("Fonts");
 		if (pathFound != std::string::npos)
 			std::cout << "Text font path found." << std::endl;
 		else
-			this->fontPath = FILE_PATH + this->fontPath;
+			this->fontPath = (FONT_DIRECTORY + this->fontPath);*/
 
 		render_enabled = true;
 		RenderManager::getInstance().AddRenderable((RenderableObject*)this);
@@ -138,7 +120,7 @@ namespace XEngine {
 		this->shader = RenderManager::defaultTextShader;
 
 		this->shader->use();
-		glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width), static_cast<GLfloat>(this->height), 0.0f);
+		glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(800.0f), static_cast<GLfloat>(600.0f), 0.0f);
 		this->shader->setMat4("projection", projection);
 		this->shader->setInt("text", 0);
 
@@ -227,7 +209,7 @@ namespace XEngine {
 		{
 			this->setText(newText);
 		}*/
-		GUI::InputTextField(text, "Text");
+		GUI::InputTextField(text, "Text Value");
 		//ImGui::InputText("Text", text);
 
 		FT_UInt size = this->getFontSize();
@@ -285,7 +267,7 @@ namespace XEngine {
 		if (FT_New_Face(ft, fontPath.c_str(), 0, &face))
 			std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 		// Set size to load glyphs as
-		FT_Set_Pixel_Sizes(face, 0, this->fontSize);
+		FT_Set_Pixel_Sizes(face, 0, fontSize);
 		// Disable byte-alignment restriction
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		// Then for the first 128 ASCII characters, pre-load/compile their characters and store them

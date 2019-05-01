@@ -58,13 +58,9 @@ namespace XEngine
 	}
 	void BoxCollider::OnDrawGizmosSelected()
 	{
-		glm::vec3 pos = this->gameObject->transform->getPosition();
-		glm::vec3 scale = this->gameObject->transform->getScale();
-		glm::vec3 fullExtents(scale.x * boxSize.x, scale.y * boxSize.y, scale.z * boxSize.z);
-		fullExtents *= 2;
-
 		glm::vec4 color(0, 1, 0, 0.5f);
-
-		RenderManager::DrawWorldSpaceBox(pos, fullExtents, color, 1);
+		glm::mat4 model = this->gameObject->transform->getMatrix4x4();
+		model = glm::scale(model, boxSize*2.0f);
+		RenderManager::DrawWorldSpaceBox(model, color, 1);
 	}
 }

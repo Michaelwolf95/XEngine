@@ -11,8 +11,19 @@
 
 namespace XEngine::Editor
 {
-
-	static const char* EDITOR_CONFIG_FILE_PATH = "../Settings/Editor/SceneEditorConfig.json";
+	#define EDITOR_DIRECTORY					\
+	(std::string("../"))						\
+	/**/
+	#define EDITOR_ASSETS_DIRECTORY						\
+	(EDITOR_DIRECTORY + std::string("EditorAssets/"))		\
+	/**/
+	#define EDITOR_SETTINGS_FILE_PATH										\
+	(PROJECT_FILE_PATH + std::string("Settings/Editor/"))					\
+	/**/
+	#define EDITOR_CONFIG_FILE_PATH											\
+	(EDITOR_SETTINGS_FILE_PATH + std::string("SceneEditorConfig.json"))		\
+	/**/
+	//static const char* EDITOR_CONFIG_FILE_PATH = "../Settings/Editor/SceneEditorConfig.json";
 
 	//ToDo: Replace with EditorSettingsManager.
 	struct SceneEditorConfig

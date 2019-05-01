@@ -3,25 +3,18 @@
 #include "XEngineProject.h"
 #include "XEngine.h"
 using namespace XEngine;
-#include "Text.h"
-//#include <shared_ptr.hpp>
-#include <memory>
 
-class PROJECT_API Collector : public Component
+class PROJECT_API Spawner : public Component
 {
 public:
-	static Registrar<Collector> registrar;
-	Collector();
-	~Collector();
+	static Registrar<Spawner> registrar;
+	Spawner();
+	~Spawner();
 	void Start() override;
 	void Update() override;
 	void DrawInspector() override;
 
-	GameObject* textGameObject = nullptr;
-	Text* uiText = nullptr;
-	//std::shared_ptr<Text> uiText = nullptr;
-	int count = 0;
-	void CollectItem();
+	std::string prefabPath;
 
 private:
 	friend class boost::serialization::access;
@@ -31,17 +24,14 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		// Add custom parameters here.
-		ar & BOOST_SERIALIZATION_NVP(textGameObject);
-		//ar & BOOST_SERIALIZATION_NVP(uiText);
+		ar & BOOST_SERIALIZATION_NVP(prefabPath);
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		// Add custom parameters here.
-		ar & BOOST_SERIALIZATION_NVP(textGameObject);
-		//ar & BOOST_SERIALIZATION_NVP(uiText);
-
+		ar & BOOST_SERIALIZATION_NVP(prefabPath);
 	}
 
 };

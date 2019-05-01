@@ -172,6 +172,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Spawner.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="XEngineProject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +190,10 @@
     <ClCompile Include="ComponentTemplate.cpp" />
     <ClCompile Include="ExampleComponent.cpp" />
     <ClCompile Include="PhysicsMover.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Spawner.cpp">
       <SubType>
       </SubType>
     </ClCompile>

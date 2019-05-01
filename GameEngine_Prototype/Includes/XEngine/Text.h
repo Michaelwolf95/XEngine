@@ -19,10 +19,19 @@
 #include "RenderableObject.h"
 #include "Component.h"
 #include "Material.h"
-#include "serialization.h"
+#include "Serialization.h"
+#include "AssetManager.h"
+
 namespace XEngine {
+
+	#define FONT_DIRECTORY			\
+	(ASSET_FILE_PATH + std::string("Fonts/"))			\
+	/**/
+
 	class ENGINE_API Text : public RenderableObject, public Component
 	{
+
+
 		struct Character {
 			GLuint TextureID;   // ID handle of the glyph texture
 			glm::ivec2 Size;    // Size of glyph
@@ -53,8 +62,8 @@ namespace XEngine {
 		GLfloat getScale();
 		std::string fontPath;
 
-		std::string text = "";
 	private:
+		std::string text = "";
 		std::map<GLchar, Character> Characters;
 		FT_UInt fontSize = 0;
 		glm::vec3 color = glm::vec3(0,0,0);

@@ -396,7 +396,14 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	glDeleteBuffers(1, &VBO);
 }
 
-void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size)
+void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int lineSize)
+{
+	glm::mat4 model(1.0);
+	model = glm::translate(model, center);
+	model = glm::scale(model, extents);
+	DrawWorldSpaceBox(model, color, lineSize);
+}
+void RenderManager::DrawWorldSpaceBox(glm::mat4 model, glm::vec4 color, int lineSize)
 {
 	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
@@ -404,10 +411,6 @@ void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::
 	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
-
-	glm::mat4 model(1.0);
-	model = glm::translate(model, center);
-	model = glm::scale(model, extents);
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	colorDrawShader->setMat4("model", model);
@@ -430,7 +433,7 @@ void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::
 	// Drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glLineWidth(size);
+	glLineWidth(lineSize);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 

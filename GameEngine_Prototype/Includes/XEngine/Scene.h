@@ -34,6 +34,7 @@ public:
 	void Cleanup();
 
 private:
+
 	std::vector<GameObject_ptr> allGameObjects;
 
 	std::vector<GameObject_ptr> gameObjectsToDelete;
@@ -67,6 +68,11 @@ private:
 			{
 				// Reconstruct Transforms
 
+			}
+
+			if (allGameObjects[i]->IsActiveInHierarchy())
+			{
+				allGameObjects[i]->HandleEnable();
 			}
 		}
 	}
