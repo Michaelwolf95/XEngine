@@ -27,6 +27,10 @@ namespace XEngine
 
 	void Collider::Start()
 	{
+		//Init();
+	}
+	void Collider::OnEnable()
+	{
 		Init();
 	}
 

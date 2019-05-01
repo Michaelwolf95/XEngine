@@ -59,6 +59,7 @@ namespace XEngine
 		void Start() override;
 		void Update() override;
 		void FixedUpdate() override;
+		void OnEnable() override;
 		void DrawInspector() override;
 		//void OnDrawGizmosSelected() override;
 

@@ -88,6 +88,8 @@ namespace XEngine
 
 		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
 
+		body->setUserPointer((void*)this);
+
 		//body->serialize() // Might be useful?
 		isInitialized = true;
 
@@ -125,6 +127,11 @@ namespace XEngine
 		{
 			SyncTransformWithPhysicsModel();
 		}
+	}
+
+	void Rigidbody::OnEnable()
+	{
+		Init();
 	}
 
 	void Rigidbody::SyncTransformWithPhysicsModel()
