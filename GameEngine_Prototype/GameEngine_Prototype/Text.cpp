@@ -1,7 +1,7 @@
 #include "Text.h"
 #include "imgui_inspector_extensions.h"
 #include <iostream>
-const std::string FILE_PATH = "../Assets/Fonts/";
+#include "AssetManager.h"
 
 REGISTER_COMPONENT(XEngine::Text, "Text")
 
@@ -9,7 +9,7 @@ namespace XEngine {
 
 	Text::Text()
 	{
-		this->fontPath = "arial.ttf";
+		this->fontPath = ASSET_FILE_PATH + "Fonts/arial.ttf";
 		this->fontSize = 20;
 		this->text = "Text";
 		this->color = glm::vec3(255.0, 255.0f, 255.0f);
@@ -97,11 +97,11 @@ namespace XEngine {
 
 	void Text::Setup()
 	{
-		std::size_t pathFound = this->fontPath.find("Fonts");
+		/*std::size_t pathFound = this->fontPath.find("Fonts");
 		if (pathFound != std::string::npos)
 			std::cout << "Text font path found." << std::endl;
 		else
-			this->fontPath = FILE_PATH + this->fontPath;
+			this->fontPath = (FONT_DIRECTORY + this->fontPath);*/
 
 		render_enabled = true;
 		RenderManager::getInstance().AddRenderable((RenderableObject*)this);
@@ -267,7 +267,7 @@ namespace XEngine {
 		if (FT_New_Face(ft, fontPath.c_str(), 0, &face))
 			std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 		// Set size to load glyphs as
-		FT_Set_Pixel_Sizes(face, 0, this->fontSize);
+		FT_Set_Pixel_Sizes(face, 0, fontSize);
 		// Disable byte-alignment restriction
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		// Then for the first 128 ASCII characters, pre-load/compile their characters and store them

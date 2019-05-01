@@ -48,6 +48,7 @@ MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPat
 
 	// filepath for .obj file.
 	this->meshPath = "../Assets/" + std::string(modelPath);
+	this->meshPath = ASSET_FILE_PATH + std::string(modelPath);
 	//this->materialPath = materialPath;
 	
 	Setup();

@@ -6,6 +6,11 @@
 #include "Serialization.h"
 #include <sstream>
 #include <memory>
+#include "AssetManager.h"
+
+
+#define DEFAULT_PREFAB_DIRECTORY (ASSET_FILE_PATH + std::string("Prefabs/"))	
+
 
 GameObject::GameObject(const char* _name)
 {
@@ -310,7 +315,7 @@ GameObject_ptr GameObject::Duplicate(GameObject_ptr ref)
 
 	std::vector<GameObject_ptr> hierarchy;
 	GameObject::GetFlattenedHierarchy(ref, hierarchy);
-	std::vector<GameObject_ptr> clonedHierarchy;
+
 	for (size_t i = 0; i < hierarchy.size(); i++)
 	{
 		//clonedHierarchy.push_back(SceneManager::getInstance().GetActiveScene()->CreateGameObject((hierarchy[i]->name +"_Copy").c_str() ));
@@ -339,6 +344,7 @@ GameObject_ptr GameObject::Duplicate(GameObject_ptr ref)
 	}
 	std::cout << "SAVED TO FILE" << std::endl;
 
+	std::vector<GameObject_ptr> clonedHierarchy;
 	// SCOPE REQUIRED FOR ARCHIVE.
 	{
 		std::ifstream ifs(fileName);
@@ -402,6 +408,85 @@ void GameObject::Delete()
 	SceneManager::getInstance().GetActiveScene()->ScheduleDelete(this->GetSelfPtr());
 	isFlaggedForDeletion = true;
 }
+
+
+// PREFABS
+void GameObject::CreatePrefab(GameObject_ptr ref)
+{
+	if (CreateDirectory((DEFAULT_PREFAB_DIRECTORY).c_str(), NULL) ||
+		ERROR_ALREADY_EXISTS == GetLastError())
+	{
+		// CopyFile(...)
+	}
+	std::string fileName = DEFAULT_PREFAB_DIRECTORY + ref->name + std::string(PREFAB_FILE_EXT);
+
+	std::vector<GameObject_ptr> hierarchy;
+	GameObject::GetFlattenedHierarchy(ref, hierarchy);
+
+	// SCOPE REQUIRED FOR ARCHIVE.
+	{
+		std::ofstream ofs(fileName);
+		//std::stringstream();
+		if (!ofs)
+		{
+			std::cout << "Cannot open outfile" << std::endl;
+			return;
+		}
+		if (ofs.bad())
+		{
+			std::cout << "Out File Stream BAD" << std::endl;
+			return;
+		}
+		boost::archive::xml_oarchive oa(ofs);
+		oa << boost::serialization::make_nvp("gameObjects", hierarchy);
+		ofs.flush();
+	}
+}
+
+GameObject_ptr GameObject::InstantiatePrefab(std::string fileName)
+{
+
+	std::vector<GameObject_ptr> clonedHierarchy;
+	// SCOPE REQUIRED FOR ARCHIVE.
+	{
+		std::ifstream ifs(fileName);
+		if (!ifs.good()) //Doesn't exist 
+		{
+			std::cout << "File doesnt exist" << std::endl;
+			return nullptr;
+		}
+		boost::archive::xml_iarchive ia(ifs);
+		try
+		{
+			ia >> boost::serialization::make_nvp("gameObjects", clonedHierarchy);
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << "==================================================" << std::endl;
+			std::cout << "ERROR: FAILED TO DUPLICATE.\nProbably due to outdated serialization." << std::endl;
+			std::cout << e.what() << std::endl;
+			std::cout << "==================================================" << std::endl;
+			return nullptr;// false;
+		}
+	}
+	for (size_t i = 0; i < clonedHierarchy.size(); i++)
+	{
+		SceneManager::getInstance().GetActiveScene()->AddExistingGameObject(clonedHierarchy[i]);
+	}
+
+	GameObject_ptr dupli = clonedHierarchy[0];
+
+	dupli->transform->SetParent(nullptr);
+
+	for (size_t i = 0; i < clonedHierarchy.size(); i++)
+	{
+		if (clonedHierarchy[i]->IsActiveInHierarchy())
+			clonedHierarchy[i]->HandleEnable();
+	}
+	return dupli;
+}
+
+//
 
 void GameObject::HandleEnable()
 {

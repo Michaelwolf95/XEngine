@@ -737,7 +737,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		if (ImGui::BeginMenu("Create"))
 		{
 			// TODO: Create a way to add to this menu from another file.
-			if (ImGui::MenuItem("New Empty GameObject"))
+			if (ImGui::MenuItem("Empty GameObject"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
@@ -753,7 +753,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<CameraControllerComponent> cameraControllerComponent(new CameraControllerComponent());
 				go->AddComponent(cameraControllerComponent);
 			}
-			if (ImGui::MenuItem("New Point Light"))
+			if (ImGui::MenuItem("Point Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Point Light");
@@ -761,7 +761,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> pLight(new PointLightComponent());
 				go->AddComponent(pLight);
 			}
-			if (ImGui::MenuItem("New Global Light"))
+			if (ImGui::MenuItem("Global Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Global Light");
@@ -769,7 +769,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> gLight(new GlobalLightComponent());
 				go->AddComponent(gLight);
 			}
-			if (ImGui::MenuItem("New Spot Light"))
+			if (ImGui::MenuItem("Spot Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Spot Light");
@@ -777,71 +777,34 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> sLight(new SpotLightComponent());
 				go->AddComponent(sLight);
 			}
-			if (ImGui::MenuItem("New Simple Box"))
+			if (ImGui::MenuItem("Camera"))
 			{
-				std::cout << "SceneEditor::UpdateDockSpace creating New Simple Box\n";
-
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
+				GameObject_ptr go = scene->CreateGameObject("Camera");
 				selectedGameObject = go;
-				// Create Box Material
-				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_SimpleModel.material");
-
-				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
-
-				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
-
-				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
-					DiffusedMappedCubeIndices, 6, modelMaterial));
-				testModel->Setup();
-				go->AddComponent(testModel);
-
+				
+				std::shared_ptr<CameraComponent> cam(new CameraComponent());
+				go->AddComponent(cam);
+				std::shared_ptr<AudioListener> listener(new AudioListener());
+				go->AddComponent(listener);
 			}
 			if (ImGui::MenuItem("New Model Metal Crate"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Model_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube", "../Assets/Materials/Model_Crate.material", false));
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset(EDITOR_ASSETS_DIRECTORY + "Materials/Model_Crate.material");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube", EDITOR_ASSETS_DIRECTORY + "Materials/Model_Crate.material", false));
 				go->AddComponent(modelNano);
 			}
 
-			if (ImGui::MenuItem("New Model Wooden Crate"))
-			{
-				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
-				selectedGameObject = go;
-				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj|Cube", "../Assets/Materials/Wooden_Crate.material", false));
-				go->AddComponent(modelNano);
-			}
-			if (ImGui::MenuItem("New Box (Child)"))
-			{
-				if (selectedGameObject != nullptr)
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Simple Box (Child)");
-					go->transform->SetParent(selectedGameObject->transform);
-					selectedGameObject = go;
-
-					// Create Box Material
-					Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
-					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
-						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
-					testModel->Setup();
-					go->AddComponent(testModel);
-				}
-			}
 			if (ImGui::MenuItem("New Nanosuit"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
 				selectedGameObject = go;
-				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", "../Assets/Materials/MultiLight_Model.material"));
+				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset(EDITOR_ASSETS_DIRECTORY + "/Materials/MultiLight_Model.material");
+				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", EDITOR_ASSETS_DIRECTORY + "/Materials/MultiLight_Model.material"));
 				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
 				go->AddComponent(modelNano);
 			}			
@@ -928,6 +891,15 @@ void SceneEditor::InspectorUpdate()
 				{
 					SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 					selectedGameObject = nullptr;
+				}
+			}
+			if (ImGui::MenuItem("Create Prefab", "CTRL+D", false, (selectedGameObject != nullptr)))
+			{
+				if (selectedGameObject != nullptr)
+				{
+					GameObject::CreatePrefab(selectedGameObject);
+					//SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
+					//selectedGameObject = nullptr;
 				}
 			}
 			ImGui::EndMenu();
@@ -1082,6 +1054,7 @@ void SceneEditor::HierarchyUpdate()
 		ImGui::EndMenuBar();
 	}
 
+	// Scene Hierarchy.
 	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 	if (scene != nullptr)
 	{
@@ -1094,6 +1067,7 @@ void SceneEditor::HierarchyUpdate()
 			ImGui::InputText("##edit", &scene->name);
 			ImGui::EndPopup();
 		}
+		// Draw Tree structure.
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
 		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
@@ -1107,9 +1081,11 @@ void SceneEditor::HierarchyUpdate()
 		ImGui::Text("No Scene Loaded.");
 	}
 
+	// Hovering over empty part of hierarchy.
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
 	{
 		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		// Dragging GameObject
 		if (payload != nullptr && payload->IsDataType("GAMEOBJECT_DRAG"))
 		{
 			ImGui::Spacing();
@@ -1124,6 +1100,42 @@ void SceneEditor::HierarchyUpdate()
 					std::cout << "Dropping " << payload_n->name << " on empty." << std::endl;
 
 					payload_n->transform->SetParent(nullptr);
+				}
+				ImGui::EndDragDropTarget();
+			}
+			ImGui::Unindent();
+		}
+
+		// Dragging File.
+		if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+		{
+			ImGui::Spacing();
+			ImGui::Indent();
+			ImGui::Text("<----- CREATE ----->");
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == 128);		// Note: This data size might be too small.
+					const char* payload_n = (const char*)payload->Data;
+					std::string filePath(payload_n);
+
+					// Drop .prefab.
+					if (filePath.substr(filePath.find_last_of(".")) == ".prefab")
+					{
+						auto instance = GameObject::InstantiatePrefab(filePath);
+						selectedGameObject = instance;
+					}
+
+					// Drop .obj
+					if (filePath.substr(filePath.find_last_of(".")) == ".obj")
+					{
+						// =========================================================================== TAM!
+						//TODO: Generate Obj Model Hierarchy. 
+
+
+					}
+
 				}
 				ImGui::EndDragDropTarget();
 			}
@@ -1147,8 +1159,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		| ((go == selectedGameObject.get()) ? ImGuiTreeNodeFlags_Selected : 0);
 		//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
 
-	// Node
-	//ImGui::color
+	// Gray out the object if its inactive.
 	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 0.5f));
@@ -1185,7 +1196,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		// 1) if u delete anything that is being used in GameObjectReference/ComponentReference,
 		//	  app will break
 		// 2) after deletion, gizmo (and sometimes collider) is there until another object is selected
-		if (ImGui::Button("**WIP** Delete"))
+		if (ImGui::Button("Delete"))
 		{
 			// delete game object from scene
 			SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
@@ -1219,6 +1230,20 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 			std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
 
 			payload_n->transform->SetParent(go->transform);
+		}
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+		{
+
+			IM_ASSERT(payload->DataSize == 128);
+			const char* payload_n = (const char*)payload->Data;
+			std::string filePath(payload_n);
+
+			if (filePath.substr(filePath.find_last_of(".")) == ".prefab")
+			{
+				auto instance = GameObject::InstantiatePrefab(filePath);
+				instance->transform->SetParent(go->transform);
+				selectedGameObject = instance;
+			}
 		}
 		ImGui::EndDragDropTarget();
 	}

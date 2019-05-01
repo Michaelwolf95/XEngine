@@ -73,7 +73,7 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 {
 	std::cout << "ModelLibrary.processMeshMaterial called with arguments\n";
 	std::cout << "\tfilePath: " << filePath << std::endl;
-	std::string matFilePath = "../Assets/Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
+	std::string matFilePath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
 	//std::string meshMatName = ;
 	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
