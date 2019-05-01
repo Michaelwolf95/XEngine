@@ -44,7 +44,7 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		
 
 		// Constructor
-		MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma = false);
+		MeshRenderer(std::string const &modelPath, std::string materialPath = "", bool gamma = false);
 
 		MeshRenderer();
 		// Deconstructor

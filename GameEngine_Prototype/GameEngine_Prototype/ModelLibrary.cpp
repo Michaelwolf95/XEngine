@@ -6,10 +6,65 @@
 #include <assimp/postprocess.h>
 #include <stb/stb_image.h>
 #include "MeshRenderer.h"
+#include "GameObject.h"
 
 ModelLibrary::ModelLibrary() {}
 
 ModelLibrary::~ModelLibrary() {}
+
+// Get model with multiple MeshRenderer in GameObject tree form
+GameObject* ModelLibrary::getModelGameObject(std::string filePath)
+{
+	// read file using ASSIMP
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+	// check for errors
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+		return nullptr;
+	}
+
+	// process ASSIMP's root node recursively
+	GameObject* rootGameObj = processNodeMeshRenderer(scene->mRootNode, scene, filePath);
+
+	return rootGameObj;
+}
+
+// recursive function to get the node with meshrenderer
+GameObject* ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath)
+{
+	// make node game obj 
+	GameObject* nodeGameObj(new GameObject(node->mName.C_Str()));
+
+	// process each MeshRenderer at current node
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+		// set file paths
+		std::string meshPath = filePath + "|" + ai_mesh->mName.C_Str();
+		std::string materialPath = "Materials/" + (std::string)ai_mesh->mName.C_Str() + ".material";
+
+		// make MeshRenderer
+		std::shared_ptr<MeshRenderer> nodeMeshRenderer(new MeshRenderer(meshPath, materialPath));
+
+		// attach MeshRenderer to node game obj
+		nodeGameObj->AddComponent(nodeMeshRenderer);
+	}
+
+	// recursively call the children nodes
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		// set child node game obj
+		GameObject* childGameObj = processNodeMeshRenderer(node->mChildren[i], scene, filePath);
+		childGameObj->transform->SetParent(nodeGameObj->transform);
+	}
+
+	return nodeGameObj;
+}
+
 
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
@@ -66,6 +121,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 	{
 		processNode(model, node->mChildren[i], scene, filePath);
 	}
+
 }
 
 // Process the material for the mesh

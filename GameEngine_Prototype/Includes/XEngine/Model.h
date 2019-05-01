@@ -1,7 +1,11 @@
 #pragma once
-#include<vector>
-#include"Mesh.h"
-#include"Material.h"
+#include <vector>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "Mesh.h"
+#include "Material.h"
+#include "GameObject.h"
 
 class Model
 {
@@ -15,6 +19,5 @@ public:
 	~Model();
 
 	Mesh* GetMeshByName(std::string name);
-	//Mesh * processMesh(MeshQuery meshQ);
 };
 

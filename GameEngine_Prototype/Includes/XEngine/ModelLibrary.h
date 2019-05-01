@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "MaterialLibrary.h"
+#include "GameObject.h"
 #include <string>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -15,6 +16,9 @@ class ModelLibrary : public AssetLibrary<std::string, Model*>
 public:
 	ModelLibrary();
 	~ModelLibrary();
+
+	GameObject* getModelGameObject(std::string filePath);
+	GameObject* processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath);
 
 protected:
 	Model*& LoadAsset(std::string filePath) override;
