@@ -19,6 +19,10 @@
 #include "ProjectCompiler.h"
 #include "AssetManager.h"
 #include "MaterialLibrary.h"
+#include "Singleton.h"
+#include "PhysicsManager.h"
+#include "Rigidbody.h"
+#include <BulletPhysics/btBulletDynamicsCommon.h>
 
 namespace XEngine::Editor {
 
@@ -345,6 +349,9 @@ void SceneEditor::UpdateEditor()
 	{
 		editorCameraGameObject->UpdateComponents();
 
+		// Cursor Selection ======
+		UpdateCursorSelection();
+
 		// GUI ======
 		UpdateGUI();
 
@@ -537,6 +544,114 @@ bool layoutInitialized = false;
 //bool  currentLayout_m = true;
 //ImGuiID dockSpaceId_m;
 
+
+void SceneEditor::UpdateCursorSelection()
+{
+	return;
+
+	// PICKING IS DONE HERE
+		// (Instead of picking each frame if the mouse button is down, 
+		// you should probably only check if the mouse button was just released)
+	if (PhysicsManager::getInstance().isInitialized == true) 
+	{
+		if (Input::GetMouseButtonUp(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			glm::mat4 view = editorCamera->getView();
+			//TODO: Rotate relative to the cameras facing.
+			//glm::vec3 camForward = editorCamera->gameObject->transform->getForwardDirection();
+			view = glm::rotate(view, 180.0f, glm::vec3(1, 0, 0));
+			glm::vec2 mousePos = Input::GetMousePos();
+			glm::vec3 out_origin;
+			glm::vec3 out_direction;
+			ScreenPosToWorldRay(
+				mousePos.x, mousePos.y,
+				//1024 / 2, 768 / 2,
+				SCREEN_WIDTH, SCREEN_HEIGHT,
+				//1024, 768,
+				view,
+				editorCamera->getProjection(),
+				out_origin,
+				out_direction
+			);
+
+			glm::vec3 out_end = out_origin + out_direction * 1000.0f;
+			std::cout << "NumObjs: " << PhysicsManager::getInstance().dynamicsWorld->getNumCollisionObjects() << std::endl;
+			btCollisionWorld::ClosestRayResultCallback RayCallback(btVector3(out_origin.x, out_origin.y, out_origin.z), btVector3(out_end.x, out_end.y, out_end.z));
+			PhysicsManager::getInstance().dynamicsWorld->rayTest(btVector3(out_origin.x, out_origin.y, out_origin.z), btVector3(out_end.x, out_end.y, out_end.z), RayCallback);
+			if (RayCallback.hasHit()) {
+				//std::ostringstream oss;
+				//RayCallback.m_collisionObject->getUserPointer();
+				std::cout << "SELECTED: " << ((Rigidbody*)RayCallback.m_collisionObject->getUserPointer())->gameObject->name << std::endl;
+				//oss << "mesh " << (size_t)RayCallback.m_collisionObject->getUserPointer();
+				//message = oss.str();
+			}
+			else {
+				//message = "background";
+				std::cout << "Origin:\t" << out_origin.x << ", " << out_origin.y << ", " << out_origin.z << std::endl;
+				std::cout << "End:\t" << out_end.x << ", " << out_end.y << ", " << out_end.z << std::endl;
+				std::cout << "Dir:\t" << out_direction.x << ", " << out_direction.y << ", " << out_direction.z << std::endl;
+				std::cout << "SELECTED: (background)" << std::endl;
+			}
+		}
+	}
+}
+
+
+//https://github.com/opengl-tutorials/ogl/blob/master/misc05_picking/misc05_picking_BulletPhysics.cpp
+void SceneEditor::ScreenPosToWorldRay(
+	int mouseX, int mouseY,             // Mouse position, in pixels, from bottom-left corner of the window
+	int screenWidth, int screenHeight,  // Window size, in pixels
+	glm::mat4 ViewMatrix,               // Camera position and orientation
+	glm::mat4 ProjectionMatrix,         // Camera parameters (ratio, field of view, near and far planes)
+	glm::vec3& out_origin,              // Ouput : Origin of the ray. /!\ Starts at the near plane, so if you want the ray to start at the camera's position instead, ignore this.
+	glm::vec3& out_direction            // Ouput : Direction, in world space, of the ray that goes "through" the mouse.
+) {
+
+	// The ray Start and End positions, in Normalized Device Coordinates (Have you read Tutorial 4 ?)
+	glm::vec4 lRayStart_NDC(
+		((float)mouseX / (float)screenWidth - 0.5f) * 2.0f, // [0,1024] -> [-1,1]
+		((float)mouseY / (float)screenHeight - 0.5f) * 2.0f, // [0, 768] -> [-1,1]
+		-1.0, // The near plane maps to Z=-1 in Normalized Device Coordinates
+		1.0f
+	);
+	glm::vec4 lRayEnd_NDC(
+		((float)mouseX / (float)screenWidth - 0.5f) * 2.0f,
+		((float)mouseY / (float)screenHeight - 0.5f) * 2.0f,
+		0.0,
+		1.0f
+	);
+
+	//ViewMatrix = glm::rotate(ViewMatrix, 90.0f, glm::vec3(0, 1, 0));
+
+	// The Projection matrix goes from Camera Space to NDC.
+	// So inverse(ProjectionMatrix) goes from NDC to Camera Space.
+	glm::mat4 InverseProjectionMatrix = glm::inverse(ProjectionMatrix);
+
+	// The View Matrix goes from World Space to Camera Space.
+	// So inverse(ViewMatrix) goes from Camera Space to World Space.
+	glm::mat4 InverseViewMatrix = glm::inverse(ViewMatrix);
+
+	glm::vec4 lRayStart_camera = InverseProjectionMatrix * lRayStart_NDC;    lRayStart_camera /= lRayStart_camera.w;
+	glm::vec4 lRayStart_world = InverseViewMatrix * lRayStart_camera; lRayStart_world /= lRayStart_world.w;
+	glm::vec4 lRayEnd_camera = InverseProjectionMatrix * lRayEnd_NDC;      lRayEnd_camera /= lRayEnd_camera.w;
+	glm::vec4 lRayEnd_world = InverseViewMatrix * lRayEnd_camera;   lRayEnd_world /= lRayEnd_world.w;
+
+
+	// Faster way (just one inverse)
+	//glm::mat4 M = glm::inverse(ProjectionMatrix * ViewMatrix);
+	//glm::vec4 lRayStart_world = M * lRayStart_NDC; lRayStart_world/=lRayStart_world.w;
+	//glm::vec4 lRayEnd_world   = M * lRayEnd_NDC  ; lRayEnd_world  /=lRayEnd_world.w;
+
+
+	glm::vec3 lRayDir_world(lRayEnd_world - lRayStart_world);
+	lRayDir_world = glm::normalize(lRayDir_world);
+
+
+	out_origin = glm::vec3(lRayStart_world);
+	//out_origin.x *= -1;
+	//out_origin.z *= -1;
+	out_direction = glm::normalize(lRayDir_world);
+}
 
 void SceneEditor::UpdateGUI()
 {
@@ -1443,4 +1558,7 @@ void SceneEditor::ConfigureWindowLayout()
 }
 
 #pragma endregion
+
+
+
 }

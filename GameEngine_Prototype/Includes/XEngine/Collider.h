@@ -11,6 +11,7 @@ namespace XEngine
 	public:
 		//static Registrar<Collider> registrar;
 		void Start() override;
+		void OnEnable() override;
 		//void Update() override;
 		Collider();
 		~Collider();
