@@ -41,6 +41,7 @@ void FPSText::ConnectToText()
 	{
 		std::cout << "FPS Text has connected." << std::endl;
 		tempFPS = (Text*)((char*)fpsText - 8);
+		tempFPS->Load();
 	}
 	else
 	{
