@@ -32,7 +32,6 @@ namespace XEngine {
 
 	public:
 		static Registrar<Text> registrar;
-		//Text();
 		Text();
 		~Text();
 		void Start() override;
@@ -60,6 +59,7 @@ namespace XEngine {
 		FT_UInt fontSize = 0;
 		glm::vec3 color = glm::vec3(0,0,0);
 		GLfloat xPos, yPos, scale = 1;
+		int width = 800, height = 600, tempWidth = 0, tempHeight = 0;
 
 		GLuint VAO, VBO;
 		Shader* shader;
