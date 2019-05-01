@@ -81,6 +81,7 @@ namespace XEngine
 			// Kinematic static
 			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 			body->setActivationState(DISABLE_DEACTIVATION);
+			body->setLinearFactor(btVector3(0, 0, 0));
 		}
 
 		physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));

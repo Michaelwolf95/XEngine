@@ -22,25 +22,25 @@ void AudioComponent::Start() {
 
 void AudioComponent::Update()
 {
-	// TESTING ONLY - REMOVE LATER
-	if (Input::GetKeyDown(GLFW_KEY_SPACE))
-	{
-		Play();
-		std::cout << "PLAY!" << std::endl;
-	}
-	if (Input::GetKeyDown(GLFW_KEY_P))
-	{
-		if (pauseToggle) {
-			pauseToggle = false;
-			Pause();
-			std::cout << "Pause!" << std::endl;
-		}
-		else {
-			pauseToggle = true;
-			UnPause();
-			std::cout << "UnPause!" << std::endl;
-		}
-	}
+	//// TESTING ONLY - REMOVE LATER
+	//if (Input::GetKeyDown(GLFW_KEY_SPACE))
+	//{
+	//	Play();
+	//	std::cout << "PLAY!" << std::endl;
+	//}
+	//if (Input::GetKeyDown(GLFW_KEY_P))
+	//{
+	//	if (pauseToggle) {
+	//		pauseToggle = false;
+	//		Pause();
+	//		std::cout << "Pause!" << std::endl;
+	//	}
+	//	else {
+	//		pauseToggle = true;
+	//		UnPause();
+	//		std::cout << "UnPause!" << std::endl;
+	//	}
+	//}
 }
 
 AudioComponent::AudioComponent()
