@@ -81,7 +81,7 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		//std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 		//unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
 
-		/*
+		
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
 		template<class Archive>
@@ -89,37 +89,18 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		{
 			//// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-			
-			std::vector<std::string> vecMaterials;
-			if (model)
-			{
-				for (size_t i = 0; i < model->meshes.size(); i++)
-				{
-					std::cout << model->meshes[i]->name << std::endl;
-					AssetManager::getInstance().materialLib.SaveMaterialToFile(*model->MeshToMaterial.at(model->meshes[i]->name), model->MeshToMaterial.at(model->meshes[i]->name)->filePath.c_str());
-					vecMaterials.push_back(model->MeshToMaterial.at(model->meshes[i]->name)->filePath);
-				}
-				
-			}
-			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
+			ar & BOOST_SERIALIZATION_NVP(meshPath);
+			ar & BOOST_SERIALIZATION_NVP(materialPath);
 		}
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version)
 		{
 			// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-
-			std::vector<std::string> vecMaterials;
-			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
-			for (size_t i = 0; i < vecMaterials.size(); i++)
-			{
-				AssetManager::getInstance().materialLib.GetAsset(vecMaterials[i]); // load into library
-			}
+			ar & BOOST_SERIALIZATION_NVP(meshPath);
+			ar & BOOST_SERIALIZATION_NVP(materialPath);
 
 			Setup();
 		}
 		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
-		*/
 };
