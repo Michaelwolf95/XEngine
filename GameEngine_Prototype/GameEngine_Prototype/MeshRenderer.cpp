@@ -42,7 +42,8 @@ MeshRenderer::MeshRenderer() {}
 // Constructor
 MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
 {
-	this->meshPath = ASSET_FILE_PATH + std::string(modelPath);
+	if(meshPath.find(ASSET_FILE_PATH) == meshPath.npos)
+		this->meshPath = ASSET_FILE_PATH + std::string(modelPath);
 
 	if(!materialPath.empty())
 		this->materialPath = ASSET_FILE_PATH + std::string(materialPath);

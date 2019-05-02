@@ -22,7 +22,11 @@ GameObject_ptr ModelLibrary::getModelGameObject(std::string filePath)
 {
 	// read file using ASSIMP
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(ASSET_FILE_PATH + filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+	if (filePath.find(ASSET_FILE_PATH) == filePath.npos)
+		filePath = ASSET_FILE_PATH + std::string(filePath);
+
+	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	// check for errors
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
