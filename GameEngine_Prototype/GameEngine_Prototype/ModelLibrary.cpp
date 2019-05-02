@@ -12,6 +12,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Serialization.h"
+using namespace XEngine;
 
 ModelLibrary::ModelLibrary() {}
 
@@ -60,7 +61,7 @@ GameObject_ptr ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene
 		std::string materialPath = "Materials/" + (std::string)ai_mesh->mName.C_Str() + ".material";
 
 		// make MeshRenderer
-		std::shared_ptr<MeshRenderer> nodeMeshRenderer(new MeshRenderer(meshPath, materialPath));
+		std::shared_ptr<XEngine::MeshRenderer> nodeMeshRenderer(new XEngine::MeshRenderer(meshPath, materialPath));
 
 		// attach MeshRenderer to node game obj
 		nodeGameObj->AddComponent(nodeMeshRenderer);

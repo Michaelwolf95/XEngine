@@ -33,10 +33,11 @@
 #include "CameraComponent.h"
 
 #include "imgui_stdlib.h"
+#include "imgui_inspector_extensions.h"
 
+REGISTER_COMPONENT(XEngine::MeshRenderer, "MeshRenderer")
 
-REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
-
+namespace XEngine {
 MeshRenderer::MeshRenderer() {}
 
 // Constructor
@@ -245,13 +246,10 @@ void MeshRenderer::OnDrawGizmos()
 void MeshRenderer::DrawInspector()
 {
 	std::string* imguiMeshPath = &meshPath;
-	std::string* imguiMaterialPath = &materialPath;
-
 	ImGui::InputText("MeshPath", imguiMeshPath);
-	ImGui::InputText("MaterialPath", imguiMaterialPath);
+	//std::string* imguiMaterialPath = &materialPath;
 
-	material->DrawInspector();
-
+	//ImGui::InputText("MaterialPath", imguiMaterialPath);
 	
 	if (ImGui::Button("Change Model"))
 	{
@@ -285,5 +283,7 @@ void MeshRenderer::DrawInspector()
 		}
 	}
 
+	GUI::MaterialReference(this->material, this->materialPath, "Material");
 	
+}
 }

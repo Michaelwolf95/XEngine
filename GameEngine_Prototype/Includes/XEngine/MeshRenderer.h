@@ -22,8 +22,8 @@
 #include <map>
 #include <vector>
 
-
-class ENGINE_API MeshRenderer: public RenderableObject, public Component
+namespace XEngine  {
+class ENGINE_API MeshRenderer : public RenderableObject, public Component
 {
 	public:
 		unsigned int VBO;
@@ -41,7 +41,7 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 
 		//Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
 		bool gammaCorrection;
-		
+
 
 		// Constructor
 		MeshRenderer(std::string const &modelPath, std::string materialPath = "", bool gamma = false);
@@ -51,7 +51,7 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		~MeshRenderer();
 
 		// Renderable Object functions
-		void Setup() override; 
+		void Setup() override;
 		void Draw() override;
 
 		// Component functions
@@ -81,7 +81,7 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		//std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 		//unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
 
-		
+
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
 		template<class Archive>
@@ -104,3 +104,4 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		}
 		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
 };
+}
