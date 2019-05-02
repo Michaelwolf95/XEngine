@@ -1,4 +1,11 @@
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "Model.h"
+#include "AssetManager.h"
+#include "ModelLibrary.h"
+#include "MeshRenderer.h"
 
 Model::Model()
 {

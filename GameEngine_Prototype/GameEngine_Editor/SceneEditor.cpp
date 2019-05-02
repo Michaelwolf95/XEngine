@@ -18,7 +18,9 @@
 
 #include "ProjectCompiler.h"
 #include "AssetManager.h"
+#include "ModelLibrary.h"
 #include "MaterialLibrary.h"
+
 
 namespace XEngine::Editor {
 
@@ -793,20 +795,24 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset(EDITOR_ASSETS_DIRECTORY + "Materials/Model_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube", EDITOR_ASSETS_DIRECTORY + "Materials/Model_Crate.material", false));
-				go->AddComponent(modelNano);
+				std::shared_ptr<MeshRenderer> crate(new MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube"));
+				go->AddComponent(crate);
+				
 			}
-
 			if (ImGui::MenuItem("New Nanosuit"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
+				std::string objPath = "3Dmodel/nanosuit/nanosuit.obj";
+				
+				GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
+				//AssetManager::getInstance().modelLib.getModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
+				//                  AssetManager::getInstance().materialLib.GetAsset(ASSET_FILE_PATH + fileName + "/" + materialName + ".material");
+				//scene->AddExistingGameObject(go);
+				
+				//scene->FixedUpdate();
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset(EDITOR_ASSETS_DIRECTORY + "/Materials/MultiLight_Model.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", EDITOR_ASSETS_DIRECTORY + "/Materials/MultiLight_Model.material"));
-				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
-				go->AddComponent(modelNano);
+
+				std::cout << "THEEEEE" << std::endl;
 			}			
 
 			ImGui::EndMenu();

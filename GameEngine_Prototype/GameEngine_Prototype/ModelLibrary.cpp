@@ -7,17 +7,22 @@
 #include <stb/stb_image.h>
 #include "MeshRenderer.h"
 #include "GameObject.h"
+#include <string>
+
+#include "Scene.h"
+#include "SceneManager.h"
+#include "Serialization.h"
 
 ModelLibrary::ModelLibrary() {}
 
 ModelLibrary::~ModelLibrary() {}
 
 // Get model with multiple MeshRenderer in GameObject tree form
-GameObject* ModelLibrary::getModelGameObject(std::string filePath)
+GameObject_ptr ModelLibrary::getModelGameObject(std::string filePath)
 {
 	// read file using ASSIMP
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* scene = importer.ReadFile(ASSET_FILE_PATH + filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	// check for errors
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -27,16 +32,19 @@ GameObject* ModelLibrary::getModelGameObject(std::string filePath)
 	}
 
 	// process ASSIMP's root node recursively
-	GameObject* rootGameObj = processNodeMeshRenderer(scene->mRootNode, scene, filePath);
+	GameObject_ptr rootGameObj = processNodeMeshRenderer(scene->mRootNode, scene, filePath);
 
 	return rootGameObj;
 }
 
 // recursive function to get the node with meshrenderer
-GameObject* ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath)
+GameObject_ptr ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath)
 {
+	// get active scene
+	Scene_ptr gameScene = SceneManager::getInstance().GetActiveScene();
+
 	// make node game obj 
-	GameObject* nodeGameObj(new GameObject(node->mName.C_Str()));
+	GameObject_ptr nodeGameObj = gameScene->CreateGameObject(node->mName.C_Str());
 
 	// process each MeshRenderer at current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -58,7 +66,7 @@ GameObject* ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene *s
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		// set child node game obj
-		GameObject* childGameObj = processNodeMeshRenderer(node->mChildren[i], scene, filePath);
+		GameObject_ptr childGameObj = processNodeMeshRenderer(node->mChildren[i], scene, filePath);
 		childGameObj->transform->SetParent(nodeGameObj->transform);
 	}
 

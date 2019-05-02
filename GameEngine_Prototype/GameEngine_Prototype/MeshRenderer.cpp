@@ -32,24 +32,20 @@
 
 #include "CameraComponent.h"
 
-#include "imgui_stdlib.h""
+#include "imgui_stdlib.h"
+
 
 REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
 
-MeshRenderer::MeshRenderer() 
-{
-	this->meshPath.resize(75);
-	this->materialPath.resize(75);
-}
+MeshRenderer::MeshRenderer() {}
 
 // Constructor
 MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
 {
-
-	// filepath for .obj file.
-	this->meshPath = "../Assets/" + std::string(modelPath);
 	this->meshPath = ASSET_FILE_PATH + std::string(modelPath);
-	//this->materialPath = materialPath;
+
+	if(!materialPath.empty())
+		this->materialPath = ASSET_FILE_PATH + std::string(materialPath);
 	
 	Setup();
 }
@@ -94,7 +90,7 @@ void MeshRenderer::Setup()
 	{
 		std::cout << "No Mesh Path: Using Default Material" << std::endl;
 		// Get Default Materia FilePath of the Mesh from Obj file
-		materialPath = "../Assets/Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
+		materialPath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
 
 		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
 	}

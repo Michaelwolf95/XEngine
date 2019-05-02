@@ -10,15 +10,16 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "Scene.h"
 
-class ModelLibrary : public AssetLibrary<std::string, Model*>
+class ENGINE_API ModelLibrary : public AssetLibrary<std::string, Model*>
 {
 public:
 	ModelLibrary();
 	~ModelLibrary();
 
-	GameObject* getModelGameObject(std::string filePath);
-	GameObject* processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath);
+	GameObject_ptr getModelGameObject(std::string filePath);
+	GameObject_ptr processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath);
 
 protected:
 	Model*& LoadAsset(std::string filePath) override;
@@ -30,4 +31,3 @@ private:
 	std::vector<TextureProperty> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName, std::string filePath);
 	unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
 };
-
