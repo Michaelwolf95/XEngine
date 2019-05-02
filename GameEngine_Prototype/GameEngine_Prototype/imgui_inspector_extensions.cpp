@@ -156,6 +156,7 @@ namespace XEngine
 						std::string filePath(payload_n);
 						if (filePath.substr(filePath.find_last_of(".")) == extension.c_str())
 						{
+							std::replace(filePath.begin(), filePath.end(), '\\', '/');
 							pathRef.assign(filePath);
 						}
 						assigned = true;
