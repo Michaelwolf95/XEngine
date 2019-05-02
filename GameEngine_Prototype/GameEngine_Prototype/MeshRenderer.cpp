@@ -76,6 +76,12 @@ void MeshRenderer::Setup()
 	std::string filePath = meshPath.substr(0, delimiter);
 	std::string meshName = meshPath.substr(delimiter+1);
 
+	// if no mesh name after demiliter, make meshName emtpy
+	if (meshName == filePath)
+	{
+		meshName = "";
+	}
+
 	std::cout << "MESH FILEPATH: " + filePath << std::endl;
 	std::cout << "MESH Name: " + meshName << std::endl;
 
@@ -243,13 +249,12 @@ void MeshRenderer::DrawInspector()
 	ImGui::InputText("MeshPath", imguiMeshPath);
 	ImGui::InputText("MaterialPath", imguiMaterialPath);
 
+	material->DrawInspector();
 
+	
 	if (ImGui::Button("Change Model"))
 	{
-		//model->MeshToMaterial.clear();
-		//model->meshes.clear();
-		//model = nullptr;
-		//isSetup = false;
+		materialPath = "";
 		Setup();
 	}
 

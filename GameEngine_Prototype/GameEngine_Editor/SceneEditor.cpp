@@ -918,16 +918,8 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				std::string objPath = "3Dmodel/nanosuit/nanosuit.obj";
-				
 				GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
-				//AssetManager::getInstance().modelLib.getModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
-				//                  AssetManager::getInstance().materialLib.GetAsset(ASSET_FILE_PATH + fileName + "/" + materialName + ".material");
-				//scene->AddExistingGameObject(go);
-				
-				//scene->FixedUpdate();
 				selectedGameObject = go;
-
-				std::cout << "THEEEEE" << std::endl;
 			}			
 
 			ImGui::EndMenu();
@@ -1251,10 +1243,10 @@ void SceneEditor::HierarchyUpdate()
 					// Drop .obj
 					if (filePath.substr(filePath.find_last_of(".")) == ".obj")
 					{
-						// =========================================================================== TAM!
-						//TODO: Generate Obj Model Hierarchy. 
-
-
+						std::cout << "Drag and Drop: " +  filePath << std::endl;
+						Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+						GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject(filePath);
+						selectedGameObject = go;
 					}
 
 				}
