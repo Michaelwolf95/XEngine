@@ -25,6 +25,8 @@ void Spawner::Update()
 	{
 		auto go = GameObject::InstantiatePrefab(prefabPath);
 		go->transform->setPosition(this->gameObject->transform->getPosition());
+
+		
 	}
 }
 

@@ -119,6 +119,8 @@ void ApplicationManager::CloseApplication()
 	// Unload current scene to safely close.
 	SceneManager::getInstance().UnloadActiveScene();
 
+	// TODO: shutdown physics?
+
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();
