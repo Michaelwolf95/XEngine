@@ -1244,6 +1244,9 @@ void SceneEditor::HierarchyUpdate()
 					if (filePath.substr(filePath.find_last_of(".")) == ".obj")
 					{
 						std::cout << "Drag and Drop: " +  filePath << std::endl;
+
+						std::replace(filePath.begin(), filePath.end(), '\\', '/');
+
 						Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 						GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject(filePath);
 						selectedGameObject = go;

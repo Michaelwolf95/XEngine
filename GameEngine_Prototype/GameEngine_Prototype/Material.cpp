@@ -7,6 +7,7 @@
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
 #include "Material.h"
+#include "AssetManager.h"
 using namespace XEngine;
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
@@ -26,7 +27,8 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	useLight = _useLight;
 
 	//filePath = "../Assets/Materials/MultiLightModel.material";
-	filePath = ASSET_FILE_PATH + std::string("Materials/") + this->name + ".material";
+	filePath = ASSET_FILE_PATH +  std::string("Materials/") + this->name + ".material";
+
 
 	Init();
 
