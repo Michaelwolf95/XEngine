@@ -6,7 +6,9 @@
 //#include "SceneEditor.h"
 #include "imgui_inspector_extensions.h"
 #include "imgui_stdlib.h"
-#include "..\Includes\XEngine\Material.h"
+#include "Material.h"
+#include "AssetManager.h"
+using namespace XEngine;
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
 
@@ -25,7 +27,8 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 	useLight = _useLight;
 
 	//filePath = "../Assets/Materials/MultiLightModel.material";
-	filePath = "../Assets/Materials/" + this->name + ".material";
+	filePath = ASSET_FILE_PATH +  std::string("Materials/") + this->name + ".material";
+
 
 	Init();
 
@@ -393,41 +396,43 @@ void Material::DrawInspector()
 			ImGui::TreePop();
 		}
 
-		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
-		if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
-		{
-			ImGui::Text("<----- CHANGE MATERIAL ----->");
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
-				{
-					IM_ASSERT(payload->DataSize == 128);
-					const char* payload_n = (const char*)payload->Data;
+		//const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		//if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+		//{
+		//	ImGui::Text("<----- CHANGE MATERIAL ----->");
+		//	if (ImGui::BeginDragDropTarget())
+		//	{
+		//		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+		//		{
+		//			IM_ASSERT(payload->DataSize == 128);
+		//			const char* payload_n = (const char*)payload->Data;
 
-					std::string filePath(payload_n);
-					if (filePath.substr(filePath.find_last_of(".")) == ".material")
-					{
-						std::cout << "Dropping Material!" << std::endl;
-						//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
-						//size_t lastindex = fileName.find_last_of(".");
-						//fileName = fileName.substr(0, lastindex);
-						Material* mat = AssetManager::getInstance().materialLib.GetAsset(filePath);
-						if (mat != nullptr)
-						{
-							*this = *mat;
-							std::cout << "Dropping Material!" << std::endl;
-						}
-					}
-				}
-				ImGui::EndDragDropTarget();
-			}
-		}
+		//			std::string filePath(payload_n);
+		//			if (filePath.substr(filePath.find_last_of(".")) == ".material")
+		//			{
+		//				std::cout << "Dropping Material!" << std::endl;
+		//				//fileName = fileName.substr(fileName.find_last_of("\\") + 1); // NOTE: MAKE SURE THIS WORKS ON ALL SYSTEMS!!!
+		//				//size_t lastindex = fileName.find_last_of(".");
+		//				//fileName = fileName.substr(0, lastindex);
+		//				Material* mat = AssetManager::getInstance().materialLib.GetAsset(filePath);
+		//				if (mat != nullptr)
+		//				{
+
+		//					
+		//					*this = *mat;
+		//					std::cout << "Dropping Material!" << std::endl;
+		//				}
+		//			}
+		//		}
+		//		ImGui::EndDragDropTarget();
+		//	}
+		//}
 		
 
-		if (ImGui::Button("Update"))
+		if (ImGui::Button("Save Material"))
 		{
-			isInitialized = false;
-			Init(); // TODO: How does this update?
+			//isInitialized = false;
+			//Init(); // TODO: How does this update?
 
 			AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 		}

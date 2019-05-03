@@ -42,6 +42,19 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, void** object);
 	bool FindComponent(const std::type_info& typeInfo, Component_ptr* object);
 
+	template <typename T>
+	void FindComponent(T*& compRef)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+		FindComponent(typeid(T), ((Component*&)compRef));
+	}
+	template <typename T>
+	void FindComponent(std::shared_ptr<T>& compRef)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+		FindComponent(typeid(T), ((Component_ptr&)compRef));
+	}
+
 	GameObject_ptr GetSelfPtr();
 	static GameObject_ptr DuplicateSingle(GameObject_ptr ref);
 	static GameObject_ptr Duplicate(GameObject_ptr ref);

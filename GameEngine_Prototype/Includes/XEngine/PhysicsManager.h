@@ -7,7 +7,7 @@
 #include <BulletPhysics/btBulletDynamicsCommon.h>
 namespace XEngine
 {
-	class PhysicsManager : public Singleton<PhysicsManager>
+	class ENGINE_API PhysicsManager : public Singleton<PhysicsManager>
 	{
 		friend class Singleton<PhysicsManager>;
 	private:
@@ -33,6 +33,11 @@ namespace XEngine
 	protected:
 		PhysicsManager();
 		~PhysicsManager();
+		//PhysicsManager() {}
+		//~PhysicsManager()
+		//{
+		//	CleanUp();
+		//}
 	public:
 		// Create static instance and configure manager
 		static PhysicsManager* CreateManager();

@@ -81,12 +81,15 @@ namespace XEngine
 			// Kinematic static
 			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 			body->setActivationState(DISABLE_DEACTIVATION);
+			body->setLinearFactor(btVector3(0, 0, 0));
 		}
 
 		physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		body->setWorldTransform(*physTransformModel);
 
 		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
+
+		body->setUserPointer((void*)this);
 
 		//body->serialize() // Might be useful?
 		isInitialized = true;
@@ -125,6 +128,11 @@ namespace XEngine
 		{
 			SyncTransformWithPhysicsModel();
 		}
+	}
+
+	void Rigidbody::OnEnable()
+	{
+		Init();
 	}
 
 	void Rigidbody::SyncTransformWithPhysicsModel()

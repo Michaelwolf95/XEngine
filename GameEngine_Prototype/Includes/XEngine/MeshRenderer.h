@@ -22,40 +22,36 @@
 #include <map>
 #include <vector>
 
-
-class ENGINE_API MeshRenderer: public RenderableObject, public Component
+namespace XEngine  {
+class ENGINE_API MeshRenderer : public RenderableObject, public Component
 {
 	public:
-		//float* vertices;
-		//unsigned int numVerts;
-		//unsigned int vertexDataSize;
-		//unsigned int* indices;
-		//unsigned int numIndices;
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
 
+		//std::string pathToObjModel;
+		std::string meshPath; //ex:  ...nanosuit.obj|head
+		std::string materialPath;
+
+		Mesh* mesh;
+		Material* material;
 
 		static Registrar<MeshRenderer> registrar;
 
-		Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
+		//Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
 		bool gammaCorrection;
-		std::string pathToObjModel;
 
-		//std::string directory;
-		//std::vector<Texture> textures_loaded;
 
-		
-		
 		// Constructor
-		MeshRenderer(std::string const &path, Material* m = nullptr, bool gamma = false);
+		MeshRenderer(std::string const &modelPath, std::string materialPath = "", bool gamma = false);
 
 		MeshRenderer();
 		// Deconstructor
 		~MeshRenderer();
 
 		// Renderable Object functions
-		void Setup() override; 
+		void Setup() override;
 		void Draw() override;
 
 		// Component functions
@@ -70,20 +66,21 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		void FreeObjectResources();
 		//void FreeAllResources()
 
-		void PrintVertices();
+		//void PrintVertices();
 
 	private:
 		//Material* _material;
 		bool isSetup = false;
 
-		bool LoadModel();
-
+		//bool LoadModel();
+		void Load();
 
 
 		//void processNode(aiNode *node, const aiScene *scene);
 		//Mesh* processMesh(aiMesh *mesh, const aiScene *scene);
 		//std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 		//unsigned int TextureFromFile(const char * path, const std::string &directory, bool gamma = false);
+
 
 		friend class boost::serialization::access;
 		BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -92,36 +89,19 @@ class ENGINE_API MeshRenderer: public RenderableObject, public Component
 		{
 			//// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-			
-			std::vector<std::string> vecMaterials;
-			if (model)
-			{
-				for (size_t i = 0; i < model->meshes.size(); i++)
-				{
-					std::cout << model->meshes[i]->name << std::endl;
-					AssetManager::getInstance().materialLib.SaveMaterialToFile(*model->MeshToMaterial.at(model->meshes[i]->name), model->MeshToMaterial.at(model->meshes[i]->name)->filePath.c_str());
-					vecMaterials.push_back(model->MeshToMaterial.at(model->meshes[i]->name)->filePath);
-				}
-				
-			}
-			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
+			ar & BOOST_SERIALIZATION_NVP(meshPath);
+			ar & BOOST_SERIALIZATION_NVP(materialPath);
 		}
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version)
 		{
 			// invoke serialization of the base class 
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
-			ar & BOOST_SERIALIZATION_NVP(pathToObjModel);
-
-			std::vector<std::string> vecMaterials;
-			ar & boost::serialization::make_nvp<std::vector<std::string>>("meshMaterialFilePaths", vecMaterials);
-			for (size_t i = 0; i < vecMaterials.size(); i++)
-			{
-				AssetManager::getInstance().materialLib.GetAsset(vecMaterials[i]); // load into library
-			}
+			ar & BOOST_SERIALIZATION_NVP(meshPath);
+			ar & BOOST_SERIALIZATION_NVP(materialPath);
 
 			Setup();
 		}
 		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
 };
+}

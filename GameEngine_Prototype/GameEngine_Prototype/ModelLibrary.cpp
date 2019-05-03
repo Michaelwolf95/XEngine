@@ -6,10 +6,82 @@
 #include <assimp/postprocess.h>
 #include <stb/stb_image.h>
 #include "MeshRenderer.h"
+#include "GameObject.h"
+#include <string>
+
+#include "Scene.h"
+#include "SceneManager.h"
+#include "Serialization.h"
+using namespace XEngine;
 
 ModelLibrary::ModelLibrary() {}
 
 ModelLibrary::~ModelLibrary() {}
+
+// Get model with multiple MeshRenderer in GameObject tree form
+GameObject_ptr ModelLibrary::getModelGameObject(std::string filePath)
+{
+	// read file using ASSIMP
+	Assimp::Importer importer;
+
+	if (filePath.find(ASSET_FILE_PATH) == std::string::npos)
+	{
+		filePath = ASSET_FILE_PATH + filePath;
+	}
+
+	std::cout << "WHHHHHHHHHHHHHHHHHHHHHEEEEEEEEEERRRRRREEEEEEEEEEEEEEE" + filePath << std::endl;
+
+	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+	// check for errors
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+		return nullptr;
+	}
+
+	// process ASSIMP's root node recursively
+	GameObject_ptr rootGameObj = processNodeMeshRenderer(scene->mRootNode, scene, filePath);
+
+	return rootGameObj;
+}
+
+// recursive function to get the node with meshrenderer
+GameObject_ptr ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath)
+{
+	// get active scene
+	Scene_ptr gameScene = SceneManager::getInstance().GetActiveScene();
+
+	// make node game obj 
+	GameObject_ptr nodeGameObj = gameScene->CreateGameObject(node->mName.C_Str());
+
+	// process each MeshRenderer at current node
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+		// set file paths
+		std::string meshPath = filePath + "|" + ai_mesh->mName.C_Str();
+		std::string materialPath = "Materials/" + (std::string)ai_mesh->mName.C_Str() + ".material";
+
+		// make MeshRenderer
+		std::shared_ptr<XEngine::MeshRenderer> nodeMeshRenderer(new XEngine::MeshRenderer(meshPath, materialPath));
+
+		// attach MeshRenderer to node game obj
+		nodeGameObj->AddComponent(nodeMeshRenderer);
+	}
+
+	// recursively call the children nodes
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		// set child node game obj
+		GameObject_ptr childGameObj = processNodeMeshRenderer(node->mChildren[i], scene, filePath);
+		childGameObj->transform->SetParent(nodeGameObj->transform);
+	}
+
+	return nodeGameObj;
+}
+
 
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
@@ -49,7 +121,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
 		
 		// create mesh and save or load mesh GetAsset(MeshQuery meshQ, aiMesh * mesh)
-		Mesh* mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, ai_mesh->mName.C_Str(), ai_mesh);
+		Mesh* mesh = processMesh(ai_mesh);
 		
 		// add material to material library
 
@@ -66,6 +138,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 	{
 		processNode(model, node->mChildren[i], scene, filePath);
 	}
+
 }
 
 // Process the material for the mesh
@@ -106,6 +179,83 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	}
 
 	return MatforMesh;
+}
+
+// Process mesh from aiMesh
+Mesh* ModelLibrary::processMesh(aiMesh * mesh)
+{
+	// data of the meshes
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+
+	// Walk through each of the mesh's vertices
+	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+	{
+		Vertex vertex;
+
+		// placeholder vector because assimp's vector class does not directly translate to glm's vector class
+		glm::vec3 vector;
+
+		// position of vector
+		vector.x = mesh->mVertices[i].x;
+		vector.y = mesh->mVertices[i].y;
+		vector.z = mesh->mVertices[i].z;
+		vertex.Position = vector;
+
+		// normal of vector
+		if (mesh->HasNormals())
+		{
+			vector.x = mesh->mNormals[i].x;
+			vector.y = mesh->mNormals[i].y;
+			vector.z = mesh->mNormals[i].z;
+			vertex.Normal = vector;
+		}
+
+		// texture coordinates
+		if (mesh->mTextureCoords[0])
+		{
+			glm::vec2 vec;
+
+			// vertex can hold up to 8 texture coordinates
+			// under assumption, we won't use models where the vertex can have multiple texture coordinates
+			vec.x = mesh->mTextureCoords[0][i].x;
+			vec.y = mesh->mTextureCoords[0][i].y;
+			vertex.TexCoords = vec;
+		}
+		else
+			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+
+
+		// tangent of vector
+		if (mesh->HasTangentsAndBitangents())
+		{
+			vector.x = mesh->mTangents[i].x;
+			vector.y = mesh->mTangents[i].y;
+			vector.z = mesh->mTangents[i].z;
+			vertex.Tangent = vector;
+
+			// bitangent of vector
+			vector.x = mesh->mBitangents[i].x;
+			vector.y = mesh->mBitangents[i].y;
+			vector.z = mesh->mBitangents[i].z;
+			vertex.Bitangent = vector;
+		}
+
+		vertices.push_back(vertex);
+	}
+
+	// walk through mesh' face(mesh's trangles) and get corresponding vertex indices
+	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+	{
+		aiFace face = mesh->mFaces[i];
+
+		// get all indices of face and store in indices vector
+		for (unsigned int j = 0; j < face.mNumIndices; j++)
+			indices.push_back(face.mIndices[j]);
+	}
+
+	// return mesh object from extracted mesh data
+	return new Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
 }
 
 

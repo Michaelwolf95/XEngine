@@ -156,6 +156,7 @@ namespace XEngine
 						std::string filePath(payload_n);
 						if (filePath.substr(filePath.find_last_of(".")) == extension.c_str())
 						{
+							std::replace(filePath.begin(), filePath.end(), '\\', '/');
 							pathRef.assign(filePath);
 						}
 						assigned = true;
@@ -164,6 +165,20 @@ namespace XEngine
 				}
 			}
 			return assigned;
+		}
+
+		IMGUI_IMPL_API void MaterialReference(Material *& matRef, std::string & pathRef, std::string label)
+		{
+			bool changed = FileReference(pathRef, ".material", "Material Path");
+			if (changed)
+			{
+				Material* mat = AssetManager::getInstance().materialLib.GetAsset(pathRef);
+				if (mat != nullptr)
+				{
+					matRef = mat;
+				}
+			}
+			matRef->DrawInspector();
 		}
 	}
 }

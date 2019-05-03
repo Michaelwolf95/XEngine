@@ -29,6 +29,12 @@ namespace XEngine
 		if (!isInitialized)
 		{
 			colShape = new btBoxShape(*halfExtents);
+			glm::vec3 scale = this->gameObject->transform->getScale();
+			halfExtents->setX(scale.x * boxSize.x);
+			halfExtents->setY(scale.y * boxSize.y);
+			halfExtents->setZ(scale.z * boxSize.z);
+
+			colShape->setLocalScaling(*halfExtents);
 		}
 		return colShape;
 	}

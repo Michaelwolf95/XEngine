@@ -1,4 +1,5 @@
 #include "MeshLibrary.h"
+#include "AssetManager.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -7,7 +8,7 @@ MeshLibrary::MeshLibrary() {}
 MeshLibrary::~MeshLibrary() {}
 
 // Overloading method: pass filepath and name to create a query to load asset, requires aiMesh to create mesh if not loaded from library
-Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * mesh)
+Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name)
 {
 	MeshQuery meshQ{ filepath, name };
 	auto search = this->library.find(meshQ);
@@ -15,7 +16,7 @@ Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * m
 	{
 		// Not found.
 		std::cout << "Mesh not found in Library" << std::endl;
-		return LoadAsset(meshQ, mesh);
+		return LoadAsset(meshQ);
 	}
 	else
 	{
@@ -26,24 +27,31 @@ Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name, aiMesh * m
 }
 
 // Overloading method for LoadAsset. requires aiMesh
-Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ, aiMesh * mesh)
+Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ)
 {
-	Mesh* loadedMesh = processMesh(mesh);
+	Mesh* loadedMesh = processMesh(meshQ);
 
 	library.insert( {meshQ, loadedMesh} );
 	std::cout << "Mesh saved into Library" << std::endl;
 	return library[meshQ];
 }
 
-// Overrided method( not commonly used )
-Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ)
-{
-	return library[meshQ];
-}
+//// Overrided method( not commonly used )
+//Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ)
+//{
+//	return library[meshQ];
+//}
 
 // Process mesh from aiMesh
-Mesh* MeshLibrary::processMesh(aiMesh *mesh)
+Mesh* MeshLibrary::processMesh(MeshQuery meshQ)
 {
+	// load model
+	Model* model = AssetManager::getInstance().modelLib.GetAsset(meshQ.filePath);
+	
+	// get mesh by name from model
+	return model->GetMeshByName(meshQ.name);
+
+	/*
 	// data of the meshes
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -116,4 +124,5 @@ Mesh* MeshLibrary::processMesh(aiMesh *mesh)
 
 	// return mesh object from extracted mesh data
 	return new Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
+	*/
 }

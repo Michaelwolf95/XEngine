@@ -2,7 +2,6 @@
 #include "AssetLibrary.h"
 #include "Material.h"
 #include "Scene.h"
-
 /*
 // Query used as a key for mapping the mesh library
 struct MaterialQuery
