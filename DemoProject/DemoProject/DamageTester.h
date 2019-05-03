@@ -3,6 +3,7 @@
 #include "HealthManager.h"
 #include "XEngineProject.h"
 #include "XEngine.h"
+#include "Rigidbody.h"
 using namespace XEngine;
 
 class PROJECT_API DamageTester : public Component
@@ -16,6 +17,8 @@ public:
 	void DrawInspector() override;
 	GameObject* target;
 	HealthManager* health;
+
+	void OnCollisionStay(XEngine::CollisionInfo info);
 
 private:
 	friend class boost::serialization::access;
