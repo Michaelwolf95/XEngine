@@ -18,6 +18,7 @@ namespace XEngine {
 		this->xPos = 20.0f;
 		this->yPos = 20.0f;
 		this->scale = 1.0f;
+		this->executeInEditMode = true;
 	}
 
 	Text::~Text()
