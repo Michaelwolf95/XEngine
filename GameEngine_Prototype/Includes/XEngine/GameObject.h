@@ -43,16 +43,17 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, Component_ptr* object);
 
 	template <typename T>
-	void FindComponent(T*& compRef)
+	bool FindComponent(T*& compRef)
 	{
 		static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
-		FindComponent(typeid(T), ((Component*&)compRef));
+		//return FindComponent(typeid(T), ((Component*&)compRef));
+		return FindComponent(typeid(T), ((void**)&compRef));
 	}
 	template <typename T>
-	void FindComponent(std::shared_ptr<T>& compRef)
+	bool FindComponent_Ptr(std::shared_ptr<T>& compRef)
 	{
 		static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
-		FindComponent(typeid(T), ((Component_ptr&)compRef));
+		return FindComponent(typeid(T), ((Component_ptr&)compRef));
 	}
 
 	GameObject_ptr GetSelfPtr();

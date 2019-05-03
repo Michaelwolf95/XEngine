@@ -73,6 +73,11 @@ namespace XEngine
 		bool getIsInitialized();
 
 		void setIsTrigger(bool _isTrigger);
+
+		// These should be private, ideally, but we need to be able 
+		// to resync when setting transform values.
+		void SyncTransformWithPhysicsModel();
+		void SyncPhysicsModelWithTransform();
 	private:
 		friend class btRefRigidbody;
 		friend class Collider;
@@ -88,8 +93,7 @@ namespace XEngine
 		//btScalar* _convertTransformArray[16];
 		bool isInitialized = false;
 		void Init();
-		void SyncTransformWithPhysicsModel();
-		void SyncPhysicsModelWithTransform();
+		
 		glm::mat4 btScalar2glmMat4(btScalar* matrix);
 
 		// Internal callbacks

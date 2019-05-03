@@ -24,7 +24,7 @@ namespace XEngine
 	}
 	Rigidbody::~Rigidbody()
 	{
-		std::cout << "Deconstructing Rigidbody..." << std::endl;
+		//std::cout << "Deconstructing Rigidbody..." << std::endl;
 		if (isInitialized)
 		{
 			//PhysicsManager::getInstance().RemoveCollisionShape(colShape);
@@ -46,7 +46,7 @@ namespace XEngine
 			delete motionState;
 			motionState = nullptr;
 
-			std::cout << "Finished Deconstructing Rigidbody" << std::endl;
+			//std::cout << "Finished Deconstructing Rigidbody" << std::endl;
 		}
 	}
 	void Rigidbody::Init()
@@ -54,7 +54,7 @@ namespace XEngine
 		if (isInitialized)
 			return;
 
-		std::cout << "Initializing Rigidbody..." << std::endl;
+		//std::cout << "Initializing Rigidbody..." << std::endl;
 
 		// Empty Collision Shape
 		// Create "Empty shape" when no collision shape exists.
@@ -74,7 +74,7 @@ namespace XEngine
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape);
 		body = std::shared_ptr<btRefRigidbody>(new btRefRigidbody(rbInfo));
 		body->owner = this; // L337 HACKS
-
+		// Wait.. there was just body->setUserPointer((void*)this);
 
 		if (isKinematic)
 		{
@@ -104,25 +104,14 @@ namespace XEngine
 	}
 	void Rigidbody::Update()
 	{
-		//glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
-		//boxColliderHalfExtents->setX(scale.x);
-		//boxColliderHalfExtents->setY(scale.y);
-		//boxColliderHalfExtents->setZ(scale.z);
 		SyncPhysicsModelWithTransform();
 		//SyncTransformWithPhysicsModel();
-
-		// TEMP
-		if (Input::GetKeyDown(GLFW_KEY_SPACE))
-		{
-			//AddForce(glm::vec3(0, 10, 0));
-		}
 	}
 
 	void Rigidbody::FixedUpdate()
 	{
 		this->body->UpdateCollisionState();
 
-		//std::cout << "Tick." << std::endl;
 		//https://stackoverflow.com/questions/22002077/getting-bullet-physics-transform-matrix-for-opengl
 		if (body && body->getMotionState())
 		{
@@ -144,17 +133,28 @@ namespace XEngine
 
 		this->gameObject->transform->setPosition(newPos);
 		this->gameObject->transform->setRotation(newRot); // TODO: MAKE WORLD SPACE
+
+		//physTransformModel = body->getWorldTransform();
+		//physTransformModel->getOpenGLMatrix();
 	}
 	void Rigidbody::SyncPhysicsModelWithTransform()
 	{
 		//physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		//body->setWorldTransform(physTransformModel);
+
 		// Note: We can set collision shape local scaling.
 
+		// OLD METHOD.
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		glm::quat rot = this->gameObject->transform->getRotation();
 		physTransformModel->setOrigin(btVector3(pos.x, pos.y, pos.z));
 		physTransformModel->setRotation(btQuaternion(rot.x, rot.y, rot.z, rot.w));
+
+		//physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
+		if (body != nullptr)
+		{
+			body->setWorldTransform(*physTransformModel);
+		}
 	}
 
 	// Temp utility - move elsewhere later
