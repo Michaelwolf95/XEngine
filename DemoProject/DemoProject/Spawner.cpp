@@ -5,6 +5,7 @@
 using namespace XEngine;
 #include "Input.h"
 #include "imgui_inspector_extensions.h"
+#include "Rigidbody.h"
 
 // Register to be created and serialized.
 REGISTER_COMPONENT(Spawner, "Spawner")
@@ -25,7 +26,19 @@ void Spawner::Update()
 	{
 		auto go = GameObject::InstantiatePrefab(prefabPath);
 		go->transform->setPosition(this->gameObject->transform->getPosition());
+		go->transform->setRotation(this->gameObject->transform->getRotation());
 
+		Rigidbody* rb;
+		if (go->FindComponent<Rigidbody>(rb))
+		{
+			// Sync physics model with object position.
+			rb->SyncPhysicsModelWithTransform();
+
+			glm::vec3 dir = this->gameObject->transform->getForwardDirection();
+			dir.x *= -1;
+			dir.z *= -1;
+			rb->AddForce(dir*15.0f);
+		}
 		
 	}
 }

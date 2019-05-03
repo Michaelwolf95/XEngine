@@ -6,10 +6,10 @@
 		<count>0</count>
 		<item_version>0</item_version>
 	</textureProperties>
-	<name>Blue</name>
+	<name>Black</name>
 	<vertexShaderPath>multilights.shader</vertexShaderPath>
 	<fragmentShaderPath></fragmentShaderPath>
-	<filePath>../../DemoProject/Assets/Materials/Blue.material</filePath>
+	<filePath>../../DemoProject/Assets/Materials/Black.material</filePath>
 	<useLight>1</useLight>
 	<textureFilePath></textureFilePath>
 	<floatProperties class_id="2" tracking_level="0" version="0">
@@ -48,9 +48,9 @@
 				<propertyName>material.color</propertyName>
 			</MaterialProperty>
 			<value class_id="11" tracking_level="0" version="0">
-				<vec.x>0.000000000e+00</vec.x>
-				<vec.y>1.190624237e-01</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>9.999999975e-07</vec.x>
+				<vec.y>9.999899930e-07</vec.y>
+				<vec.z>9.999899930e-07</vec.z>
 				<vec.w>1.000000000e+00</vec.w>
 			</value>
 		</item>
