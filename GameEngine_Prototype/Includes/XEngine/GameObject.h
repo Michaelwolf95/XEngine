@@ -2,11 +2,14 @@
 #include <vector>
 #include <functional>
 #include <typeinfo>
+#include <memory>
 #include "Component.h"
 #include "Transform.h"
 #include "Serialization.h"
 
 typedef std::shared_ptr<GameObject> GameObject_ptr;
+
+static const char* PREFAB_FILE_EXT = ".prefab";
 
 class ENGINE_API GameObject : public std::enable_shared_from_this<GameObject>
 {
@@ -39,17 +42,45 @@ public:
 	bool FindComponent(const std::type_info& typeInfo, void** object);
 	bool FindComponent(const std::type_info& typeInfo, Component_ptr* object);
 
+	template <typename T>
+	bool FindComponent(T*& compRef)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+		//return FindComponent(typeid(T), ((Component*&)compRef));
+		return FindComponent(typeid(T), ((void**)&compRef));
+	}
+	template <typename T>
+	bool FindComponent_Ptr(std::shared_ptr<T>& compRef)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+		return FindComponent(typeid(T), ((Component_ptr&)compRef));
+	}
+
 	GameObject_ptr GetSelfPtr();
-	//static GameObject* Duplicate(GameObject& ref);
 	static GameObject_ptr DuplicateSingle(GameObject_ptr ref);
 	static GameObject_ptr Duplicate(GameObject_ptr ref);
 	static void GetFlattenedHierarchy(GameObject_ptr current, std::vector<GameObject_ptr>& vec);
+
+	// Delete 
+	void Delete();
+
+	// Prefabs
+	static void CreatePrefab(GameObject_ptr ref);
+	//static void SavePrefabToFile(const GameObject &go);
+	//static void SavePrefabToFile(const GameObject &go, const char * fileName);
+	//static bool LoadPrefabFromFile(GameObject &go, const char * fileName);
+
+	static GameObject_ptr InstantiatePrefab(std::string fileName);
+
 private:
+	friend class Scene;
 	friend class Transform;
 	bool isActive = true;
 	bool parentHierarchyActive = true;
 	void HandleEnable();
 	void HandleDisable();
+
+	bool isFlaggedForDeletion = false;
 
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -75,10 +106,10 @@ private:
 		{
 			c->gameObject = this;
 		}
-		if (this->IsActiveInHierarchy())
+		/*if (this->IsActiveInHierarchy())
 		{
 			HandleEnable();
-		}
+		}*/
 	}
 
 };

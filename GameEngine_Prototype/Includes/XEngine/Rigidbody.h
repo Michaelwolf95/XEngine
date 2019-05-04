@@ -38,7 +38,7 @@ namespace XEngine
 	public:
 		static Registrar<Rigidbody> registrar;
 
-		btRefRigidbody* body = nullptr;
+		std::shared_ptr<btRefRigidbody> body;// = nullptr;
 		btMotionState* motionState = nullptr;
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo;
 		float mass = 1.0f;
@@ -59,6 +59,7 @@ namespace XEngine
 		void Start() override;
 		void Update() override;
 		void FixedUpdate() override;
+		void OnEnable() override;
 		void DrawInspector() override;
 		//void OnDrawGizmosSelected() override;
 
@@ -69,10 +70,20 @@ namespace XEngine
 		void AttachCollider(Collider* col);
 		void DetachCollider(Collider* col);
 		bool isDynamic();
+		bool getIsInitialized();
+
+		void setIsTrigger(bool _isTrigger);
+
+		// These should be private, ideally, but we need to be able 
+		// to resync when setting transform values.
+		void SyncTransformWithPhysicsModel();
+		void SyncPhysicsModelWithTransform();
 	private:
 		friend class btRefRigidbody;
 		friend class Collider;
 		//friend class BoxCollider; //temp
+
+		bool isTrigger = false;
 
 		btTransform* physTransformModel = nullptr;
 
@@ -82,8 +93,7 @@ namespace XEngine
 		//btScalar* _convertTransformArray[16];
 		bool isInitialized = false;
 		void Init();
-		void SyncTransformWithPhysicsModel();
-		void SyncPhysicsModelWithTransform();
+		
 		glm::mat4 btScalar2glmMat4(btScalar* matrix);
 
 		// Internal callbacks
@@ -99,6 +109,7 @@ namespace XEngine
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(isKinematic);
 			ar & BOOST_SERIALIZATION_NVP(mass);
+			ar & BOOST_SERIALIZATION_NVP(isTrigger);
 		}
 		template<class Archive>
 		void load(Archive &ar, const unsigned int version)
@@ -106,6 +117,7 @@ namespace XEngine
 			ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 			ar & BOOST_SERIALIZATION_NVP(isKinematic);
 			ar & BOOST_SERIALIZATION_NVP(mass);
+			ar & BOOST_SERIALIZATION_NVP(isTrigger);
 		}
 	};
 

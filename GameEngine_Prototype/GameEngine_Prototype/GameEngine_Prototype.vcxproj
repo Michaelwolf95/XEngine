@@ -319,6 +319,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="ShaderLibrary.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="SpotLightComponent.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureLibrary.cpp" />
     <ClCompile Include="TransformTester.cpp" />
@@ -420,6 +421,7 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Includes\XEngine\Singleton.h" />
     <ClInclude Include="..\Includes\XEngine\SphereCollider.h" />
     <ClInclude Include="..\Includes\XEngine\SpotLightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\SpriteRenderer.h" />
     <ClInclude Include="..\Includes\XEngine\TestMoverComponent.h" />
     <ClInclude Include="..\Includes\XEngine\TestScenes.h" />
     <ClInclude Include="..\Includes\XEngine\TestScenes_Dennis.h" />
@@ -454,9 +456,11 @@ xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
     <None Include="..\Shaders\multilights.shader" />
     <None Include="..\Shaders\multilights.vs" />
     <None Include="..\Shaders\sprite.fs" />
+    <None Include="..\Shaders\sprite.shader" />
     <None Include="..\Shaders\sprite.vs" />
     <None Include="..\Shaders\text.fs" />
     <None Include="..\Shaders\text.vs" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine_Prototype.rc">

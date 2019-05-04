@@ -24,7 +24,7 @@ namespace XEngine
 	}
 	Rigidbody::~Rigidbody()
 	{
-		std::cout << "Deconstructing Rigidbody..." << std::endl;
+		//std::cout << "Deconstructing Rigidbody..." << std::endl;
 		if (isInitialized)
 		{
 			//PhysicsManager::getInstance().RemoveCollisionShape(colShape);
@@ -32,10 +32,10 @@ namespace XEngine
 			// Remove from physics manager.
 			if (body != nullptr && PhysicsManager::getInstance().dynamicsWorld != nullptr)
 			{
-				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
+				PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body.get());
 
-				delete body;
-				body = nullptr;
+				//delete body;
+				//body = nullptr;
 			}
 			//delete boxColliderHalfExtents;
 			//boxColliderHalfExtents = nullptr;
@@ -46,7 +46,7 @@ namespace XEngine
 			delete motionState;
 			motionState = nullptr;
 
-			std::cout << "Finished Deconstructing Rigidbody" << std::endl;
+			//std::cout << "Finished Deconstructing Rigidbody" << std::endl;
 		}
 	}
 	void Rigidbody::Init()
@@ -54,7 +54,7 @@ namespace XEngine
 		if (isInitialized)
 			return;
 
-		std::cout << "Initializing Rigidbody..." << std::endl;
+		//std::cout << "Initializing Rigidbody..." << std::endl;
 
 		// Empty Collision Shape
 		// Create "Empty shape" when no collision shape exists.
@@ -72,55 +72,56 @@ namespace XEngine
 		motionState = new btDefaultMotionState(*physTransformModel);
 		//btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape);
-		body = new btRefRigidbody(rbInfo);
+		body = std::shared_ptr<btRefRigidbody>(new btRefRigidbody(rbInfo));
 		body->owner = this; // L337 HACKS
+		// Wait.. there was just body->setUserPointer((void*)this);
 
 		if (isKinematic)
 		{
 			// Kinematic static
 			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 			body->setActivationState(DISABLE_DEACTIVATION);
+			body->setLinearFactor(btVector3(0, 0, 0));
 		}
 
 		physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		body->setWorldTransform(*physTransformModel);
 
-		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
+
+		body->setUserPointer((void*)this);
 
 		//body->serialize() // Might be useful?
 		isInitialized = true;
-	}
 
+
+		// Set for Trigger.
+		setIsTrigger(isTrigger);
+	}
 	void Rigidbody::Start()
 	{
 		Init();
 	}
 	void Rigidbody::Update()
 	{
-		//glm::vec3 scale = this->gameObject->transform->getScale();// *0.5f;
-		//boxColliderHalfExtents->setX(scale.x);
-		//boxColliderHalfExtents->setY(scale.y);
-		//boxColliderHalfExtents->setZ(scale.z);
 		SyncPhysicsModelWithTransform();
 		//SyncTransformWithPhysicsModel();
-
-		// TEMP
-		if (Input::GetKeyDown(GLFW_KEY_SPACE))
-		{
-			AddForce(glm::vec3(0, 10, 0));
-		}
 	}
 
 	void Rigidbody::FixedUpdate()
 	{
 		this->body->UpdateCollisionState();
 
-		//std::cout << "Tick." << std::endl;
 		//https://stackoverflow.com/questions/22002077/getting-bullet-physics-transform-matrix-for-opengl
 		if (body && body->getMotionState())
 		{
 			SyncTransformWithPhysicsModel();
 		}
+	}
+
+	void Rigidbody::OnEnable()
+	{
+		Init();
 	}
 
 	void Rigidbody::SyncTransformWithPhysicsModel()
@@ -132,17 +133,28 @@ namespace XEngine
 
 		this->gameObject->transform->setPosition(newPos);
 		this->gameObject->transform->setRotation(newRot); // TODO: MAKE WORLD SPACE
+
+		//physTransformModel = body->getWorldTransform();
+		//physTransformModel->getOpenGLMatrix();
 	}
 	void Rigidbody::SyncPhysicsModelWithTransform()
 	{
 		//physTransformModel.setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
 		//body->setWorldTransform(physTransformModel);
+
 		// Note: We can set collision shape local scaling.
 
+		// OLD METHOD.
 		glm::vec3 pos = this->gameObject->transform->getPosition();
 		glm::quat rot = this->gameObject->transform->getRotation();
 		physTransformModel->setOrigin(btVector3(pos.x, pos.y, pos.z));
 		physTransformModel->setRotation(btQuaternion(rot.x, rot.y, rot.z, rot.w));
+
+		//physTransformModel->setFromOpenGLMatrix(glm::value_ptr(this->gameObject->transform->getModelRef()));
+		if (body != nullptr)
+		{
+			body->setWorldTransform(*physTransformModel);
+		}
 	}
 
 	// Temp utility - move elsewhere later
@@ -181,12 +193,20 @@ namespace XEngine
 		{
 			ImGui::InputFloat("Mass", &mass);
 		}
+
+		bool trigger = isTrigger;
+		ImGui::Checkbox("IsTrigger", &trigger);
+		if (trigger != isTrigger)
+		{
+			setIsTrigger(trigger);
+		}
 	}
+
 
 	void Rigidbody::AddForce(glm::vec3 force)
 	{
 		this->body->activate(true);
-		this->body->applyCentralImpulse(btVector3(force.x, force.y, force.z));
+		this->body->applyCentralImpulse(btVector3(-force.x, force.y, -force.z));
 	}
 	Rigidbody * Rigidbody::GetAttachedRigidbody(GameObject* go)
 	{
@@ -211,7 +231,7 @@ namespace XEngine
 			return;
 
 		// 1) Remove rigidbody from world.
-		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->removeRigidBody(body.get());
 
 		// 2) Assign new shape.
 
@@ -227,7 +247,7 @@ namespace XEngine
 		}
 		
 		// 4) add the body to the world
-		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body);
+		PhysicsManager::getInstance().dynamicsWorld->addRigidBody(body.get());
 
 		this->attachedCollider = col;
 	}
@@ -242,6 +262,26 @@ namespace XEngine
 		if (isKinematic)
 			mass = 0.0f;
 		return (mass != 0.f);
+	}
+	bool Rigidbody::getIsInitialized()
+	{
+		return isInitialized;
+	}
+	void Rigidbody::setIsTrigger(bool _isTrigger)
+	{
+		isTrigger = _isTrigger;
+		if (isInitialized == false)
+			return;
+		if (isTrigger)
+		{
+			// Set
+			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
+		else
+		{
+			// Unset
+			body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		}
 	}
 	CollisionInfo::CollisionInfo(Rigidbody * _other, Collider * _otherCollider, glm::vec3 _contactPoint, glm::vec3 _contactNormal)
 	{

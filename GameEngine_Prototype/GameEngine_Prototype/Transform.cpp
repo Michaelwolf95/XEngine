@@ -166,12 +166,16 @@ glm::vec3 Transform::getPosition()
 {
 	if (this->parent != nullptr)
 	{
+		glm::mat4 pMat = this->parent->getMatrix4x4();
+		glm::vec4 locPos(this->localPosition.x, this->localPosition.y, this->localPosition.z, 0);
+		glm::vec3 offset = (glm::vec3)(pMat * locPos);
 		glm::vec3 parentPos = this->parent->getPosition();
-		glm::vec3 parentScale = this->parent->getScale();
+		return parentPos + offset;
+		/*glm::vec3 parentScale = this->parent->getScale();
 		return glm::vec3(
 			parentPos.x + (this->localPosition.x * parentScale.x),
 			parentPos.y + (this->localPosition.y* parentScale.y),
-			parentPos.z + (this->localPosition.z* parentScale.z));
+			parentPos.z + (this->localPosition.z* parentScale.z));*/
 	}
 	else
 		return getLocalPosition();
@@ -345,19 +349,19 @@ void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
 
 glm::vec3 Transform::getRightDirection()
 {
-	glm::mat4 mat = glm::inverse(rotateMatrix);
+	glm::mat4 mat = glm::inverse(glm::toMat4(getRotation()));
 	return glm::vec3(mat[0][0], mat[1][0], mat[2][0]);
 }
 glm::vec3 Transform::getUpDirection()
 {
-	glm::mat4 mat = glm::inverse(rotateMatrix);
+	glm::mat4 mat = glm::inverse(glm::toMat4(getRotation()));
 	return glm::vec3(mat[0][1], mat[1][1], mat[2][1]);
 
 }
 glm::vec3 Transform::getForwardDirection()
 {
-	glm::mat4 mat = glm::inverse(rotateMatrix);
-	return glm::vec3(mat[0][2], mat[1][2], mat[2][2]);
+	glm::mat4 rMat = glm::inverse(glm::toMat4(getRotation()));
+	return glm::vec3(rMat[0][2], rMat[1][2], rMat[2][2]);
 }
 
 #pragma endregion
@@ -400,6 +404,7 @@ void Transform::DrawInspector()
 		this->setLocalPosition(pos);
 	
 	glm::vec3 rot = this->getLocalRotationEuler();
+	ImGui::InputFloat3("Rotation", (float*)&rot);
 	if (rot != this->getLocalRotationEuler())
 		this->setLocalRotationEuler(rot);
 

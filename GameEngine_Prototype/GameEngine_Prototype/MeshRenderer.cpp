@@ -19,6 +19,8 @@
 #include "RenderManager.h"
 #include "Model.h"
 #include "AssetManager.h"
+#include "AssetLibrary.h"
+#include "MeshLibrary.h"
 
 #include <string>
 #include <fstream>
@@ -27,21 +29,31 @@
 #include <map>
 #include <vector>
 #include "MeshRenderer.h"
-#include "AssetManager.h"
 
 #include "CameraComponent.h"
 
+#include "imgui_stdlib.h"
+#include "imgui_inspector_extensions.h"
 
+REGISTER_COMPONENT(XEngine::MeshRenderer, "MeshRenderer")
 
-REGISTER_COMPONENT(MeshRenderer, "MeshRenderer")
-
+namespace XEngine {
 MeshRenderer::MeshRenderer() {}
 
 // Constructor
-MeshRenderer::MeshRenderer(std::string const &path, Material* m , bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
+MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
 {
-	// filepath for .obj file.
-	this->pathToObjModel = "../Assets/" + std::string(path);
+	this->meshPath =  std::string(modelPath);
+
+	if (meshPath.find(ASSET_FILE_PATH) == std::string::npos)
+	{
+		this->meshPath = ASSET_FILE_PATH + this->meshPath;
+	}
+
+	
+
+	if(!materialPath.empty())
+		this->materialPath = ASSET_FILE_PATH + std::string(materialPath);
 	
 	Setup();
 }
@@ -68,19 +80,41 @@ void MeshRenderer::OnDisable()
 
 void MeshRenderer::Setup()
 {
-	if (isSetup)
-	{
-		return;
-	}
-	
-	//if (this->gameObject->IsActiveInHierarchy())
-	//{
-	//	render_enabled = true;
-	//	RenderManager::getInstance().AddRenderable((RenderableObject*)this);
-	//}
+	size_t delimiter = meshPath.find('|');
+	std::string filePath = meshPath.substr(0, delimiter);
+	std::string meshName = meshPath.substr(delimiter+1);
 
-	std::cout << "Begin Loading Model" << std::endl;
-	//model->material = material;
+	// if no mesh name after demiliter, make meshName emtpy
+	if (meshName == filePath)
+	{
+		meshName = "";
+	}
+
+	std::cout << "MESH FILEPATH: " + filePath << std::endl;
+	std::cout << "MESH Name: " + meshName << std::endl;
+
+	// Get Mesh
+	if (meshPath.empty())
+		std::cout << "No Mesh Path" << std::endl;
+	else
+		mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, meshName);
+
+	// Get Material
+	if (materialPath.empty())
+	{
+		std::cout << "No Mesh Path: Using Default Material" << std::endl;
+		// Get Default Materia FilePath of the Mesh from Obj file
+		materialPath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
+
+		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
+	}
+	else
+	{
+		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
+	}
+		
+
+	/*
 	if(!pathToObjModel.empty())
 		model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
 
@@ -91,28 +125,9 @@ void MeshRenderer::Setup()
 		std::cout << "ERROR LOADING MESH" << std::endl;
 		return;
 	}
-	
-	//// set up each mesh here??? - DM
-	//for (auto m : model->meshes) {
-	//	std::cout << "setting up mesh: " << m->name << std::endl;
-	//	m->Setup();
-	//}
-
-	/*
-	if (!model->meshes.empty())
-	{
-		for (size_t i = 0; i < model->meshes.size(); i++)
-		{
-			model->MeshToMaterial[model->meshes[i]->name] = material;
-		}
-	}
+	// Get MAterial or get default
 	*/
-
-	
-
 	isSetup = true;
-
-	//PrintVertices();
 }
 
 //void MeshRenderer::FreeAllResources()
@@ -133,6 +148,7 @@ void MeshRenderer::FreeObjectResources()
 	glDeleteBuffers(1, &(EBO));
 }
 
+/*
 void MeshRenderer::PrintVertices()
 {
 	for (int i = 0; i < model->meshes.size(); i++)
@@ -146,12 +162,14 @@ void MeshRenderer::PrintVertices()
 			std::cout << "\t" << model->meshes[i]->vertices[j].TexCoords.x << " " << model->meshes[i]->vertices[j].TexCoords.y << std::endl;
 		}
 	}
-}
+}*/
 
-bool MeshRenderer::LoadModel()
+//bool MeshRenderer::LoadModel()
+void MeshRenderer::Load()
 {
-	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	return (model == nullptr);
+	//model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
+	//return (model == nullptr
+	Setup();
 }
 
 void MeshRenderer::Draw()
@@ -162,24 +180,24 @@ void MeshRenderer::Draw()
 	
 	// This was the error
 
-	if(model != nullptr)
+	if(mesh != nullptr)
 	{
 		glm::mat4 view = RenderManager::getInstance().getView();
 		glm::mat4 projection = RenderManager::getInstance().getProjection();
 
-		for (unsigned int i = 0; i < model->meshes.size(); i++)
-		{
-			model->MeshToMaterial.at(model->meshes[i]->name)->shader->use();
-			RenderManager::getInstance().currentShaderID = model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID;
-			model->MeshToMaterial.at(model->meshes[i]->name)->Load();
+		//for (unsigned int i = 0; i < meshes.size(); i++)
+		//{
+			material->shader->use();
+			RenderManager::getInstance().currentShaderID = material->shader->ID;
+			material->Load();
 
-			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("view", view);
-			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("projection", projection);
-			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
+			material->shader->setMat4("view", view);
+			material->shader->setMat4("projection", projection);
+			material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
 
 			//TODO: Calculate this inside the SHADER using the VIEW MATRIX. (3rd column)
 			glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
-			model->MeshToMaterial.at(model->meshes[i]->name)->shader->setVec3("viewPos", viewPos);
+			material->shader->setVec3("viewPos", viewPos);
 
 			// texture variables
 			unsigned int diffuseNr = 1;
@@ -188,13 +206,13 @@ void MeshRenderer::Draw()
 			unsigned int heightNr = 1;
 
 			// binding textures
-			for (unsigned int j = 0; j < model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties.size(); j++)
+			for (unsigned int j = 0; j < material->textureProperties.size(); j++)
 			{
 				// get texture before binding
 				glActiveTexture(GL_TEXTURE0 + j);
 
 				std::string number;
-				std::string name = model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->type;
+				std::string name = material->textureProperties[j].getValue()->type;
 
 				// transfer unsigned to stream
 				if (name == "texture_diffuse")
@@ -207,290 +225,24 @@ void MeshRenderer::Draw()
 					number = std::to_string(heightNr++);
 
 				// set texture unit
-				glUniform1i(glGetUniformLocation(model->MeshToMaterial.at(model->meshes[i]->name)->shader->ID, (name + number).c_str()), j);
+				glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 				// bind texture
-				glBindTexture(GL_TEXTURE_2D, model->MeshToMaterial.at(model->meshes[i]->name)->textureProperties[j].getValue()->id);
+				glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
 			}
 
-			model->MeshToMaterial.at(model->meshes[i]->name)->Draw();
+			material->Draw();
 
 			// Try to delegate to Material class????
 			// draw mesh
-			glBindVertexArray(model->meshes[i]->VAO);
-			glDrawElements(GL_TRIANGLES, model->meshes[i]->indices.size(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(mesh->VAO);
+			glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 
 			// default once configured
 			glActiveTexture(GL_TEXTURE0);
-		}
+		//}
 	}
 }
-//
-//bool MeshRenderer::LoadModel()
-//{
-//	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-//	return (model == nullptr);
-//}
-
-//bool MeshRenderer::LoadModel()
-//{
-//	model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-//
-//	// if model is not found in model library.
-//	if (AssetManager::getInstance().modelLib.library.find(pathToObjModel) == AssetManager::getInstance().modelLib.library.end())
-//	{
-//		std::cout << "Model not found in Model Library" << std::endl;
-//
-//		// read file using ASSIMP
-//		Assimp::Importer importer;
-//		const aiScene* scene = importer.ReadFile(pathToObjModel, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-//
-//		// Save model into model library
-//		AssetManager::getInstance().modelLib.SaveAsset(pathToObjModel, model);
-//
-//		// check for errors
-//		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-//		{
-//			std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-//			return false;
-//		}
-//		// retrieve the directory path of the filepath
-//		directory = pathToObjModel.substr(0, pathToObjModel.find_last_of('/'));
-//
-//		// process ASSIMP's root node recursively
-//		processNode(scene->mRootNode, scene);
-//
-//	}
-//	else // if model is found
-//	{
-//		std::cout << "Model is found in Model Library" << std::endl;
-//
-//		model = AssetManager::getInstance().modelLib.LoadAsset(pathToObjModel);
-//
-//		// get material for the meshes
-//		for (int i = 0; i < model->meshes.size(); i++)
-//		{
-//			// load material from lib
-//			Material* materialInLib = AssetManager::getInstance().materialLib.LoadAsset(pathToObjModel + model->meshes[i]->name);
-//
-//			// save material in MeshRenderer
-//			MeshToMaterial.emplace(model->meshes[i]->name, materialInLib);
-//		}
-//	}
-//
-//	//std::cout << "Model Library Size:" << AssetManager::getInstance().modelLib.library.size() << std::endl;
-//	//std::cout << "Material Model Library Size:" << AssetManager::getInstance().materialLib.library.size() << std::endl;
-//	//std::cout << "Mesh Model Library Size:" << AssetManager::getInstance().meshLib.library.size() << std::endl;
-//
-//	return true;
-//}
-//
-//// process each node and its children node recursively
-//void MeshRenderer::processNode(aiNode *node, const aiScene *scene)
-//{
-//	// process each mesh at current node
-//	for (unsigned int i = 0; i < node->mNumMeshes; i++)
-//	{
-//		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-//
-//		//mesh->mName
-//		model->meshes.push_back(processMesh(mesh, scene));
-//
-//		// save mesh to mesh library
-//		AssetManager::getInstance().meshLib.SaveAsset( pathToObjModel + model->meshes.back()->name, model->meshes.back());
-//	}
-//
-//	// recursively call the children nodes
-//	for (unsigned int i = 0; i < node->mNumChildren; i++)
-//	{
-//		processNode(node->mChildren[i], scene);
-//	}
-//
-//}
-//
-//Mesh* MeshRenderer::processMesh(aiMesh *mesh, const aiScene *scene)
-//{
-//	// data of the meshes
-//	std::vector<Vertex> vertices;
-//	std::vector<unsigned int> indices;
-//	std::vector<Texture> textures;
-//
-//	// Walk through each of the mesh's vertices
-//	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
-//	{
-//		Vertex vertex;
-//
-//		// placeholder vector because assimp's vector class does not directly translate to glm's vector class
-//		glm::vec3 vector;
-//
-//		// position of vector
-//		vector.x = mesh->mVertices[i].x;
-//		vector.y = mesh->mVertices[i].y;
-//		vector.z = mesh->mVertices[i].z;
-//		vertex.Position = vector;
-//
-//		// normal of vector
-//		if (mesh->HasNormals())
-//		{
-//			vector.x = mesh->mNormals[i].x;
-//			vector.y = mesh->mNormals[i].y;
-//			vector.z = mesh->mNormals[i].z;
-//			vertex.Normal = vector;
-//		}
-//
-//		// texture coordinates
-//		if (mesh->mTextureCoords[0])
-//		{
-//			glm::vec2 vec;
-//
-//			// vertex can hold up to 8 texture coordinates
-//			// under assumption, we won't use models where the vertex can have multiple texture coordinates
-//			vec.x = mesh->mTextureCoords[0][i].x;
-//			vec.y = mesh->mTextureCoords[0][i].y;
-//			vertex.TexCoords = vec;
-//		}
-//		else
-//			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-//
-//
-//		// tangent of vector
-//		if (mesh->HasTangentsAndBitangents())
-//		{
-//			vector.x = mesh->mTangents[i].x;
-//			vector.y = mesh->mTangents[i].y;
-//			vector.z = mesh->mTangents[i].z;
-//			vertex.Tangent = vector;
-//
-//			// bitangent of vector
-//			vector.x = mesh->mBitangents[i].x;
-//			vector.y = mesh->mBitangents[i].y;
-//			vector.z = mesh->mBitangents[i].z;
-//			vertex.Bitangent = vector;
-//		}
-//
-//		vertices.push_back(vertex);
-//	}
-//		
-//	// walk through mesh' face(mesh's trangles) and get corresponding vertex indices
-//	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
-//	{
-//		aiFace face = mesh->mFaces[i];
-//
-//		// get all indices of face and store in indices vector
-//		for (unsigned int j = 0; j < face.mNumIndices; j++)
-//			indices.push_back(face.mIndices[j]);
-//	}
-//
-//	// process materials
-//	aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
-//
-//	// assume sampler names in shaders 
-//	// such as 'texture_diffuseN' where N is ranging from 1 to MAX_SAMPLER_NUMBER
-//
-//	// 1.diffuse maps
-//	std::vector<Texture> diffuseMaps = loadMaterialTextures(aMaterial, aiTextureType_DIFFUSE, "texture_diffuse");
-//	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-//		
-//	// 2.specular maps
-//	std::vector<Texture> specularMaps = loadMaterialTextures(aMaterial, aiTextureType_SPECULAR, "texture_specular");
-//	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-//
-//	// 3.normal maps
-//	std::vector<Texture> normalMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_normal");
-//	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-//
-//	// 4.height maps
-//	std::vector<Texture> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_AMBIENT, "texture_height");
-//	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-//
-//	// mapped name of mesh to the material
-//	Material* MatforMesh = material;// AssetManager::getInstance().materialLib.GetAsset(material->name);// , material->vertexShaderPath, material->fragmentShaderPath);
-//	MatforMesh->textures = textures;
-//	MeshToMaterial.emplace(mesh->mName.C_Str(), MatforMesh);
-//	// add material to material library
-//	AssetManager::getInstance().materialLib.SaveAsset( pathToObjModel + mesh->mName.C_Str(), MatforMesh);
-//
-//	// return mesh object from extracted mesh data
-//	return new Mesh(mesh->mName.C_Str(), vertices, indices);// :RenderableObject();
-//}
-//
-//// check material textures of a given type and loads texture if not loaded yet
-//std::vector<Texture> MeshRenderer::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
-//{
-//	std::vector<Texture> textures;
-//	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
-//	{
-//		aiString str;
-//		
-//		mat->GetTexture(type, i, &str);
-//
-//		// check if texture was loaded, if so skip
-//		bool skip = false;
-//		for (unsigned int j = 0; j < textures_loaded.size(); j++)
-//		{
-//			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
-//			{
-//				textures.push_back(textures_loaded[j]);
-//				skip = true; // texture with same filepath already loaded, continue to next
-//				break;
-//			}
-//		}
-//		if (!skip)
-//		{
-//			Texture texture;
-//			texture.id = TextureFromFile(str.C_Str(), this->directory);
-//			texture.type = typeName;
-//			texture.path = str.C_Str();
-//			textures.push_back(texture);
-//
-//			// store as texture loaded for entire model
-//			// so we dont load duplicate textures
-//			textures_loaded.push_back(texture);
-//		}
-//		return textures;
-//	}
-//}
-//
-//unsigned int MeshRenderer::TextureFromFile(const char * path, const std::string &directory, bool gamma)
-//{
-//	std::string filename = std::string(path);
-//	filename = directory + '/' + filename;
-//
-//	unsigned int textureID;
-//	glGenTextures(1, &textureID);
-//
-//	int width, height, nrComponents;
-//	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-//
-//	if (data)
-//	{
-//		GLenum format;
-//
-//		if (nrComponents == 1)
-//			format = GL_RED;
-//		else if (nrComponents == 3)
-//			format = GL_RGB;
-//		else if (nrComponents == 4)
-//			format = GL_RGBA;
-//
-//		glBindTexture(GL_TEXTURE_2D, textureID);
-//		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-//		glGenerateMipmap(GL_TEXTURE_2D);
-//
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//
-//		stbi_image_free(data);
-//	}
-//	else
-//	{
-//		std::cout << "Texture failed to load at path: " << path << std::endl;
-//		stbi_image_free(data);
-//	}
-//	return textureID;
-//}
 
 void MeshRenderer::OnDrawGizmos()
 {
@@ -499,22 +251,15 @@ void MeshRenderer::OnDrawGizmos()
 
 void MeshRenderer::DrawInspector()
 {
-	ImGui::InputText("ModelPath", &this->pathToObjModel[0], 48);
-	if (model && !model->meshes.empty()) // first conditional check if model is not a nullptr
-	{
-		for (size_t i = 0; i < model->meshes.size(); i++)
-		{
-			ImGui::Text(model->meshes[i]->name.c_str());
-			model->MeshToMaterial.at(model->meshes[i]->name)->DrawInspector();
-		}
-	}
+	std::string* imguiMeshPath = &meshPath;
+	ImGui::InputText("MeshPath", imguiMeshPath);
+	//std::string* imguiMaterialPath = &materialPath;
 
+	//ImGui::InputText("MaterialPath", imguiMaterialPath);
+	
 	if (ImGui::Button("Change Model"))
 	{
-		//model->MeshToMaterial.clear();
-		//model->meshes.clear();
-		model = nullptr;
-		isSetup = false;
+		materialPath = "";
 		Setup();
 	}
 
@@ -537,12 +282,14 @@ void MeshRenderer::DrawInspector()
 					// temporary fix, replace any backward slash with a forward slash
 					std::replace(fileName.begin(), fileName.end(), '\\', '/' );
 
-					pathToObjModel = fileName;
+					meshPath = fileName;
 				}
 			}
 			ImGui::EndDragDropTarget();
 		}
 	}
 
+	GUI::MaterialReference(this->material, this->materialPath, "Material");
 	
+}
 }

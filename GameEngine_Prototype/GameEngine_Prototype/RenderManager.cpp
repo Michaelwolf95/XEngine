@@ -15,7 +15,7 @@
 Shader* RenderManager::defaultShader = nullptr;
 Material* RenderManager::defaultMaterial = nullptr;
 Shader* RenderManager::colorDrawShader = nullptr;
-Shader* RenderManager::defaultSpriteShader = nullptr;
+Shader* RenderManager::gizmoSpriteShader = nullptr;
 Shader* RenderManager::defaultTextShader = nullptr;
 
 //TODO: Store this on the Camera.
@@ -52,6 +52,7 @@ int RenderManager::Init()
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 
 	isInitialized = true;
 	return 0;
@@ -63,14 +64,16 @@ void RenderManager::CompileShaders()
 	defaultShader = new Shader("model.vs", "model.fs");
 	
 	//defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
-	defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+	//defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
+	defaultMaterial = new Material("Default_Mat", "multilights.shader", "");
+
 	//defaultMaterial = new Material(defaultShader);
 	//defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
 	//defaultMaterial->LoadTexture("textures/container.jpg");
 
 	colorDrawShader = new Shader("color.vs", "color.fs");
 
-	defaultSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
+	gizmoSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
 	defaultTextShader = new Shader("text.vs", "text.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
@@ -393,7 +396,14 @@ void RenderManager::DrawWorldSpaceLine(glm::vec3 point1, glm::vec3 point2, glm::
 	glDeleteBuffers(1, &VBO);
 }
 
-void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int size)
+void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::vec4 color, int lineSize)
+{
+	glm::mat4 model(1.0);
+	model = glm::translate(model, center);
+	model = glm::scale(model, extents);
+	DrawWorldSpaceBox(model, color, lineSize);
+}
+void RenderManager::DrawWorldSpaceBox(glm::mat4 model, glm::vec4 color, int lineSize)
 {
 	RenderManager::getInstance().currentShaderID = colorDrawShader->ID;
 	glClear(GL_DEPTH_BUFFER_BIT); // Clears the depth buffer so we can draw on top.
@@ -401,10 +411,6 @@ void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::
 	glUseProgram(0); // Reset the current shader. Makes sure that the data from previous call isn't reused.
 	colorDrawShader->use();
 	colorDrawShader->setColor("MainColor", color.r, color.g, color.b, color.a);
-
-	glm::mat4 model(1.0);
-	model = glm::translate(model, center);
-	model = glm::scale(model, extents);
 	glm::mat4 view = RenderManager::getInstance().getView();
 	glm::mat4 projection = RenderManager::getInstance().getProjection();
 	colorDrawShader->setMat4("model", model);
@@ -427,7 +433,7 @@ void RenderManager::DrawWorldSpaceBox(glm::vec3 center, glm::vec3 extents, glm::
 	// Drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glLineWidth(size);
+	glLineWidth(lineSize);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 

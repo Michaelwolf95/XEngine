@@ -17,6 +17,14 @@
 #include <filesystem> // C++ 17 Filesystem
 
 #include "ProjectCompiler.h"
+#include "AssetManager.h"
+#include "ModelLibrary.h"
+#include "MaterialLibrary.h"
+#include "Singleton.h"
+#include "PhysicsManager.h"
+#include "Rigidbody.h"
+#include <BulletPhysics/btBulletDynamicsCommon.h>
+
 
 namespace XEngine::Editor {
 
@@ -343,6 +351,9 @@ void SceneEditor::UpdateEditor()
 	{
 		editorCameraGameObject->UpdateComponents();
 
+		// Cursor Selection ======
+		UpdateCursorSelection();
+
 		// GUI ======
 		UpdateGUI();
 
@@ -535,6 +546,114 @@ bool layoutInitialized = false;
 //bool  currentLayout_m = true;
 //ImGuiID dockSpaceId_m;
 
+
+void SceneEditor::UpdateCursorSelection()
+{
+	return;
+
+	// PICKING IS DONE HERE
+		// (Instead of picking each frame if the mouse button is down, 
+		// you should probably only check if the mouse button was just released)
+	if (PhysicsManager::getInstance().isInitialized == true) 
+	{
+		if (Input::GetMouseButtonUp(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			glm::mat4 view = editorCamera->getView();
+			//TODO: Rotate relative to the cameras facing.
+			//glm::vec3 camForward = editorCamera->gameObject->transform->getForwardDirection();
+			view = glm::rotate(view, 180.0f, glm::vec3(1, 0, 0));
+			glm::vec2 mousePos = Input::GetMousePos();
+			glm::vec3 out_origin;
+			glm::vec3 out_direction;
+			ScreenPosToWorldRay(
+				mousePos.x, mousePos.y,
+				//1024 / 2, 768 / 2,
+				SCREEN_WIDTH, SCREEN_HEIGHT,
+				//1024, 768,
+				view,
+				editorCamera->getProjection(),
+				out_origin,
+				out_direction
+			);
+
+			glm::vec3 out_end = out_origin + out_direction * 1000.0f;
+			std::cout << "NumObjs: " << PhysicsManager::getInstance().dynamicsWorld->getNumCollisionObjects() << std::endl;
+			btCollisionWorld::ClosestRayResultCallback RayCallback(btVector3(out_origin.x, out_origin.y, out_origin.z), btVector3(out_end.x, out_end.y, out_end.z));
+			PhysicsManager::getInstance().dynamicsWorld->rayTest(btVector3(out_origin.x, out_origin.y, out_origin.z), btVector3(out_end.x, out_end.y, out_end.z), RayCallback);
+			if (RayCallback.hasHit()) {
+				//std::ostringstream oss;
+				//RayCallback.m_collisionObject->getUserPointer();
+				std::cout << "SELECTED: " << ((Rigidbody*)RayCallback.m_collisionObject->getUserPointer())->gameObject->name << std::endl;
+				//oss << "mesh " << (size_t)RayCallback.m_collisionObject->getUserPointer();
+				//message = oss.str();
+			}
+			else {
+				//message = "background";
+				std::cout << "Origin:\t" << out_origin.x << ", " << out_origin.y << ", " << out_origin.z << std::endl;
+				std::cout << "End:\t" << out_end.x << ", " << out_end.y << ", " << out_end.z << std::endl;
+				std::cout << "Dir:\t" << out_direction.x << ", " << out_direction.y << ", " << out_direction.z << std::endl;
+				std::cout << "SELECTED: (background)" << std::endl;
+			}
+		}
+	}
+}
+
+
+//https://github.com/opengl-tutorials/ogl/blob/master/misc05_picking/misc05_picking_BulletPhysics.cpp
+void SceneEditor::ScreenPosToWorldRay(
+	int mouseX, int mouseY,             // Mouse position, in pixels, from bottom-left corner of the window
+	int screenWidth, int screenHeight,  // Window size, in pixels
+	glm::mat4 ViewMatrix,               // Camera position and orientation
+	glm::mat4 ProjectionMatrix,         // Camera parameters (ratio, field of view, near and far planes)
+	glm::vec3& out_origin,              // Ouput : Origin of the ray. /!\ Starts at the near plane, so if you want the ray to start at the camera's position instead, ignore this.
+	glm::vec3& out_direction            // Ouput : Direction, in world space, of the ray that goes "through" the mouse.
+) {
+
+	// The ray Start and End positions, in Normalized Device Coordinates (Have you read Tutorial 4 ?)
+	glm::vec4 lRayStart_NDC(
+		((float)mouseX / (float)screenWidth - 0.5f) * 2.0f, // [0,1024] -> [-1,1]
+		((float)mouseY / (float)screenHeight - 0.5f) * 2.0f, // [0, 768] -> [-1,1]
+		-1.0, // The near plane maps to Z=-1 in Normalized Device Coordinates
+		1.0f
+	);
+	glm::vec4 lRayEnd_NDC(
+		((float)mouseX / (float)screenWidth - 0.5f) * 2.0f,
+		((float)mouseY / (float)screenHeight - 0.5f) * 2.0f,
+		0.0,
+		1.0f
+	);
+
+	//ViewMatrix = glm::rotate(ViewMatrix, 90.0f, glm::vec3(0, 1, 0));
+
+	// The Projection matrix goes from Camera Space to NDC.
+	// So inverse(ProjectionMatrix) goes from NDC to Camera Space.
+	glm::mat4 InverseProjectionMatrix = glm::inverse(ProjectionMatrix);
+
+	// The View Matrix goes from World Space to Camera Space.
+	// So inverse(ViewMatrix) goes from Camera Space to World Space.
+	glm::mat4 InverseViewMatrix = glm::inverse(ViewMatrix);
+
+	glm::vec4 lRayStart_camera = InverseProjectionMatrix * lRayStart_NDC;    lRayStart_camera /= lRayStart_camera.w;
+	glm::vec4 lRayStart_world = InverseViewMatrix * lRayStart_camera; lRayStart_world /= lRayStart_world.w;
+	glm::vec4 lRayEnd_camera = InverseProjectionMatrix * lRayEnd_NDC;      lRayEnd_camera /= lRayEnd_camera.w;
+	glm::vec4 lRayEnd_world = InverseViewMatrix * lRayEnd_camera;   lRayEnd_world /= lRayEnd_world.w;
+
+
+	// Faster way (just one inverse)
+	//glm::mat4 M = glm::inverse(ProjectionMatrix * ViewMatrix);
+	//glm::vec4 lRayStart_world = M * lRayStart_NDC; lRayStart_world/=lRayStart_world.w;
+	//glm::vec4 lRayEnd_world   = M * lRayEnd_NDC  ; lRayEnd_world  /=lRayEnd_world.w;
+
+
+	glm::vec3 lRayDir_world(lRayEnd_world - lRayStart_world);
+	lRayDir_world = glm::normalize(lRayDir_world);
+
+
+	out_origin = glm::vec3(lRayStart_world);
+	//out_origin.x *= -1;
+	//out_origin.z *= -1;
+	out_direction = glm::normalize(lRayDir_world);
+}
 
 void SceneEditor::UpdateGUI()
 {
@@ -735,7 +854,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 		if (ImGui::BeginMenu("Create"))
 		{
 			// TODO: Create a way to add to this menu from another file.
-			if (ImGui::MenuItem("New Empty GameObject"))
+			if (ImGui::MenuItem("Empty GameObject"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New GameObject");
@@ -751,7 +870,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<CameraControllerComponent> cameraControllerComponent(new CameraControllerComponent());
 				go->AddComponent(cameraControllerComponent);
 			}
-			if (ImGui::MenuItem("New Point Light"))
+			if (ImGui::MenuItem("Point Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Point Light");
@@ -759,7 +878,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> pLight(new PointLightComponent());
 				go->AddComponent(pLight);
 			}
-			if (ImGui::MenuItem("New Global Light"))
+			if (ImGui::MenuItem("Global Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Global Light");
@@ -767,7 +886,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> gLight(new GlobalLightComponent());
 				go->AddComponent(gLight);
 			}
-			if (ImGui::MenuItem("New Spot Light"))
+			if (ImGui::MenuItem("Spot Light"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Spot Light");
@@ -775,73 +894,32 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				std::shared_ptr<LightComponent> sLight(new SpotLightComponent());
 				go->AddComponent(sLight);
 			}
-			if (ImGui::MenuItem("New Simple Box"))
+			if (ImGui::MenuItem("Camera"))
 			{
-				std::cout << "SceneEditor::UpdateDockSpace creating New Simple Box\n";
-
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Simple Box");
+				GameObject_ptr go = scene->CreateGameObject("Camera");
 				selectedGameObject = go;
-				// Create Box Material
-				//Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLightSimpleBox.material");
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_SimpleModel.material");
-
-				//modelMaterial->vertexShaderPath = "multilights.shader"; // Single shader file
-
-				modelMaterial->LoadTexture("textures/container.jpg"); // TODO: use assetmanager
-
-				std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box", DiffusedMappedCube, 36, 8,
-					DiffusedMappedCubeIndices, 6, modelMaterial));
-				testModel->Setup();
-				go->AddComponent(testModel);
-
+				
+				std::shared_ptr<CameraComponent> cam(new CameraComponent());
+				go->AddComponent(cam);
+				std::shared_ptr<AudioListener> listener(new AudioListener());
+				go->AddComponent(listener);
 			}
 			if (ImGui::MenuItem("New Model Metal Crate"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				GameObject_ptr go = scene->CreateGameObject("New Model Metal Crate");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Model_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/MetalCrate/cube.obj", modelMaterial, false));
-				go->AddComponent(modelNano);
-			}
-
-			if (ImGui::MenuItem("New Model Wooden Crate"))
-			{
-				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Model Wooden Crate");
-				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Wooden_Crate.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/Crate/Crate1.obj", modelMaterial, false));
-				go->AddComponent(modelNano);
-			}
-			if (ImGui::MenuItem("New Box (Child)"))
-			{
-				if (selectedGameObject != nullptr)
-				{
-					Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-					GameObject_ptr go = scene->CreateGameObject("New Simple Box (Child)");
-					go->transform->SetParent(selectedGameObject->transform);
-					selectedGameObject = go;
-
-					// Create Box Material
-					Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
-					modelMaterial->LoadTexture("textures/container.jpg");
-					std::shared_ptr<SimpleModelComponent> testModel(new SimpleModelComponent("Simple Box (Child)", DiffusedMappedCube, 36, 8,
-						DiffusedMappedCubeIndices, sizeof(DiffusedMappedCubeIndices) / sizeof(unsigned int), modelMaterial));
-					testModel->Setup();
-					go->AddComponent(testModel);
-				}
+				std::shared_ptr<MeshRenderer> crate(new MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube"));
+				go->AddComponent(crate);
+				
 			}
 			if (ImGui::MenuItem("New Nanosuit"))
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-				GameObject_ptr go = scene->CreateGameObject("New Nanosuit");
+				std::string objPath = "3Dmodel/nanosuit/nanosuit.obj";
+				GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
 				selectedGameObject = go;
-				Material* modelMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/MultiLight_Model.material");
-				std::shared_ptr<MeshRenderer> modelNano(new MeshRenderer("3Dmodel/nanosuit/nanosuit.obj", modelMaterial));
-				//modelMaterial->LoadTexture("../Assets/textures/container2.png");
-				go->AddComponent(modelNano);
 			}			
 
 			ImGui::EndMenu();
@@ -926,6 +1004,15 @@ void SceneEditor::InspectorUpdate()
 				{
 					SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
 					selectedGameObject = nullptr;
+				}
+			}
+			if (ImGui::MenuItem("Create Prefab", "CTRL+D", false, (selectedGameObject != nullptr)))
+			{
+				if (selectedGameObject != nullptr)
+				{
+					GameObject::CreatePrefab(selectedGameObject);
+					//SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
+					//selectedGameObject = nullptr;
 				}
 			}
 			ImGui::EndMenu();
@@ -1080,6 +1167,7 @@ void SceneEditor::HierarchyUpdate()
 		ImGui::EndMenuBar();
 	}
 
+	// Scene Hierarchy.
 	Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 	if (scene != nullptr)
 	{
@@ -1092,6 +1180,7 @@ void SceneEditor::HierarchyUpdate()
 			ImGui::InputText("##edit", &scene->name);
 			ImGui::EndPopup();
 		}
+		// Draw Tree structure.
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
 		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
@@ -1105,9 +1194,11 @@ void SceneEditor::HierarchyUpdate()
 		ImGui::Text("No Scene Loaded.");
 	}
 
+	// Hovering over empty part of hierarchy.
 	if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
 	{
 		const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+		// Dragging GameObject
 		if (payload != nullptr && payload->IsDataType("GAMEOBJECT_DRAG"))
 		{
 			ImGui::Spacing();
@@ -1122,6 +1213,45 @@ void SceneEditor::HierarchyUpdate()
 					std::cout << "Dropping " << payload_n->name << " on empty." << std::endl;
 
 					payload_n->transform->SetParent(nullptr);
+				}
+				ImGui::EndDragDropTarget();
+			}
+			ImGui::Unindent();
+		}
+
+		// Dragging File.
+		if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+		{
+			ImGui::Spacing();
+			ImGui::Indent();
+			ImGui::Text("<----- CREATE ----->");
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == 128);		// Note: This data size might be too small.
+					const char* payload_n = (const char*)payload->Data;
+					std::string filePath(payload_n);
+
+					// Drop .prefab.
+					if (filePath.substr(filePath.find_last_of(".")) == ".prefab")
+					{
+						auto instance = GameObject::InstantiatePrefab(filePath);
+						selectedGameObject = instance;
+					}
+
+					// Drop .obj
+					if (filePath.substr(filePath.find_last_of(".")) == ".obj")
+					{
+						std::cout << "Drag and Drop: " +  filePath << std::endl;
+
+						std::replace(filePath.begin(), filePath.end(), '\\', '/');
+
+						Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
+						GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject(filePath);
+						selectedGameObject = go;
+					}
+
 				}
 				ImGui::EndDragDropTarget();
 			}
@@ -1145,8 +1275,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		| ((go == selectedGameObject.get()) ? ImGuiTreeNodeFlags_Selected : 0);
 		//| ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
 
-	// Node
-	//ImGui::color
+	// Gray out the object if its inactive.
 	if (!go->IsActiveInHierarchy())
 	{
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 0.5f));
@@ -1183,7 +1312,7 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		// 1) if u delete anything that is being used in GameObjectReference/ComponentReference,
 		//	  app will break
 		// 2) after deletion, gizmo (and sometimes collider) is there until another object is selected
-		if (ImGui::Button("**WIP** Delete"))
+		if (ImGui::Button("Delete"))
 		{
 			// delete game object from scene
 			SceneManager::getInstance().GetActiveScene()->DeleteGameObject(selectedGameObject);
@@ -1217,6 +1346,20 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 			std::cout << "Dropping " << payload_n->name << " on " << go->name << "." << std::endl;
 
 			payload_n->transform->SetParent(go->transform);
+		}
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+		{
+
+			IM_ASSERT(payload->DataSize == 128);
+			const char* payload_n = (const char*)payload->Data;
+			std::string filePath(payload_n);
+
+			if (filePath.substr(filePath.find_last_of(".")) == ".prefab")
+			{
+				auto instance = GameObject::InstantiatePrefab(filePath);
+				instance->transform->SetParent(go->transform);
+				selectedGameObject = instance;
+			}
 		}
 		ImGui::EndDragDropTarget();
 	}
@@ -1320,9 +1463,14 @@ void SceneEditor::DrawDirectoryTreeNode(const char * directory)
 	}
 	if (ImGui::BeginPopup(createMenuPopupName.c_str()))
 	{
+		static std::string materialName = "New Material";
+		ImGui::InputText("Name", &materialName);
 		if (ImGui::Button("Create Material"))
 		{
-			Material* mat = AssetManager::getInstance().materialLib.GetAsset("TEST_MAT");
+			//std::cout << materialName << std::endl;
+			Material* mat = AssetManager::getInstance().materialLib.GetAsset(ASSET_FILE_PATH + fileName + "/" + materialName + ".material");
+			ImGui::CloseCurrentPopup();
+			//ImGui::OpenPopup((createMenuPopupName + "MATERIAL").c_str());
 		}
 		ImGui::EndPopup();
 	}
@@ -1411,4 +1559,7 @@ void SceneEditor::ConfigureWindowLayout()
 }
 
 #pragma endregion
+
+
+
 }

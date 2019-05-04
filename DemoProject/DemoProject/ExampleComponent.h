@@ -20,8 +20,8 @@ public:
 	GameObject* target = nullptr;
 	Rigidbody* rigidbody = nullptr;
 
+	// Other types of component pointers.
 	std::shared_ptr<Rigidbody> sRigidbody;
-
 	std::weak_ptr<Rigidbody> wRigidbody;
 
 private:

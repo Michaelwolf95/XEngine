@@ -138,5 +138,47 @@ namespace XEngine
 				ImGui::EndDragDropTarget();
 			}
 		}
+		IMGUI_IMPL_API bool FileReference(std::string & pathRef, std::string extension, const char * label)
+		{
+			bool assigned = false;
+			//GUI::InputTextField(pathRef, label);
+			ImGui::InputText(label, &pathRef);
+			const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+			//if (payload != nullptr && payload->IsDataType("FILE_DRAG"))
+			{
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+					{
+						IM_ASSERT(payload->DataSize == 128);
+						const char* payload_n = (const char*)payload->Data;
+
+						std::string filePath(payload_n);
+						if (filePath.substr(filePath.find_last_of(".")) == extension.c_str())
+						{
+							std::replace(filePath.begin(), filePath.end(), '\\', '/');
+							pathRef.assign(filePath);
+						}
+						assigned = true;
+					}
+					ImGui::EndDragDropTarget();
+				}
+			}
+			return assigned;
+		}
+
+		IMGUI_IMPL_API void MaterialReference(Material *& matRef, std::string & pathRef, std::string label)
+		{
+			bool changed = FileReference(pathRef, ".material", "Material Path");
+			if (changed)
+			{
+				Material* mat = AssetManager::getInstance().materialLib.GetAsset(pathRef);
+				if (mat != nullptr)
+				{
+					matRef = mat;
+				}
+			}
+			matRef->DrawInspector();
+		}
 	}
 }

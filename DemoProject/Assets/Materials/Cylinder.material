@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="17">
+<m class_id="0" tracking_level="0" version="0">
+	<textureProperties class_id="1" tracking_level="0" version="0">
+		<count>0</count>
+		<item_version>0</item_version>
+	</textureProperties>
+	<name>Cylinder</name>
+	<vertexShaderPath>multilights.shader</vertexShaderPath>
+	<fragmentShaderPath></fragmentShaderPath>
+	<filePath>../../DemoProject/Assets/Materials/Cylinder.material</filePath>
+	<useLight>1</useLight>
+	<textureFilePath></textureFilePath>
+	<floatProperties class_id="2" tracking_level="0" version="0">
+		<count>2</count>
+		<item_version>0</item_version>
+		<item class_id="3" tracking_level="1" version="0" object_id="_0">
+			<MaterialProperty class_id="4" tracking_level="0" version="0">
+				<propertyName>material.shininess</propertyName>
+			</MaterialProperty>
+			<value>3.200000000e+01</value>
+		</item>
+		<item object_id="_1">
+			<MaterialProperty>
+				<propertyName>material.specularity</propertyName>
+			</MaterialProperty>
+			<value>7.500000000e-01</value>
+		</item>
+	</floatProperties>
+	<intProperties class_id="5" tracking_level="0" version="0">
+		<count>0</count>
+		<item_version>0</item_version>
+	</intProperties>
+	<vec2Properties class_id="6" tracking_level="0" version="0">
+		<count>0</count>
+		<item_version>0</item_version>
+	</vec2Properties>
+	<vec3Properties class_id="7" tracking_level="0" version="0">
+		<count>0</count>
+		<item_version>0</item_version>
+	</vec3Properties>
+	<vec4Properties class_id="8" tracking_level="0" version="0">
+		<count>1</count>
+		<item_version>0</item_version>
+		<item class_id="9" tracking_level="1" version="0" object_id="_2">
+			<MaterialProperty class_id="10" tracking_level="0" version="0">
+				<propertyName>material.color</propertyName>
+			</MaterialProperty>
+			<value class_id="11" tracking_level="0" version="0">
+				<vec.x>1.000000000e+00</vec.x>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
+				<vec.w>1.000000000e+00</vec.w>
+			</value>
+		</item>
+	</vec4Properties>
+</m>
+</boost_serialization>
+

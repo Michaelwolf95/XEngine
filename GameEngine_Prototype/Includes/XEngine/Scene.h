@@ -29,8 +29,15 @@ public:
 	void OnHierarchyUpdate();
 	//GameObject_ptr FindSharedGameObjectPointer(GameObject* go);
 	void AddExistingGameObject(GameObject_ptr go);
+
+	void ScheduleDelete(GameObject_ptr go);
+	void Cleanup();
+
 private:
+
 	std::vector<GameObject_ptr> allGameObjects;
+
+	std::vector<GameObject_ptr> gameObjectsToDelete;
 
 	void PrintGameObject(GameObject* go, std::string prefix);
 
@@ -61,6 +68,11 @@ private:
 			{
 				// Reconstruct Transforms
 
+			}
+
+			if (allGameObjects[i]->IsActiveInHierarchy())
+			{
+				allGameObjects[i]->HandleEnable();
 			}
 		}
 	}
