@@ -228,6 +228,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="1_CreateDestroyGameObj.cpp" />
+    <ClCompile Include="2_GameObjTransformation.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'">Create</PrecompiledHeader>
