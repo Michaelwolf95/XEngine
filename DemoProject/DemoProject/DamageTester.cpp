@@ -18,7 +18,7 @@ DamageTester::~DamageTester() {}
 // Start is called on the objects first update.
 void DamageTester::Start()
 {
-	RB_SUBSCRIBE_COLLISION_STAY(DamageTester)
+	RB_SUBSCRIBE_COLLISION_ENTER(DamageTester)
 
 	HealthManager* tempManager = nullptr;
 
@@ -51,10 +51,8 @@ void DamageTester::DrawInspector()
 	GUI::GameObjectReference(target, "Target");
 }
 
-void DamageTester::OnCollisionStay(XEngine::CollisionInfo info)
+void DamageTester::OnCollisionEnter(XEngine::CollisionInfo info)
 {
-	int i = 100;
-
 	if (info.otherRigidbody->gameObject->name == "Player")
 	{
 		//std::cout << "COLLIDED WITH PLAYER!\n";

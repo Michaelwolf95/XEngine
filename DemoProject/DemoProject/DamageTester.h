@@ -18,7 +18,7 @@ public:
 	GameObject* target;
 	HealthManager* health;
 
-	void OnCollisionStay(XEngine::CollisionInfo info);
+	void OnCollisionEnter(XEngine::CollisionInfo info);
 
 private:
 	friend class boost::serialization::access;
