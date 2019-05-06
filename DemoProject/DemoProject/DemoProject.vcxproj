@@ -167,7 +167,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ComponentTemplate.h" />
+    <ClInclude Include="DamageTester.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ExampleComponent.h" />
+    <ClInclude Include="Health.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HealthManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PhysicsMover.h">
       <SubType>
       </SubType>
@@ -188,7 +200,19 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ComponentTemplate.cpp" />
+    <ClCompile Include="DamageTester.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ExampleComponent.cpp" />
+    <ClCompile Include="Health.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HealthManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PhysicsMover.cpp">
       <SubType>
       </SubType>
