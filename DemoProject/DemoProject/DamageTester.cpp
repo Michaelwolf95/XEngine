@@ -39,10 +39,7 @@ void DamageTester::Start()
 // Update is called once per frame.
 void DamageTester::Update()
 {
-	if (Input::GetKeyDown(GLFW_KEY_U))
-	{
-		this->health->applyDamage(5.5f);
-	}
+
 }
 
 // Draw the inspector for your custom component.
@@ -53,10 +50,10 @@ void DamageTester::DrawInspector()
 
 void DamageTester::OnCollisionEnter(XEngine::CollisionInfo info)
 {
-	if (info.otherRigidbody->gameObject->name == "Player")
+	if (info.otherRigidbody->gameObject->name != "Floor")
 	{
 		//std::cout << "COLLIDED WITH PLAYER!\n";
-		this->health->applyDamage(0.10f);
+		this->health->applyDamage(10);
 		//this->gameObject->Delete();
 		//SceneManager::getInstance().GetActiveScene()->DeleteGameObject(this->gameObject->GetSelfPtr());
 	}

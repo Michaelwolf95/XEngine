@@ -9,8 +9,8 @@ REGISTER_COMPONENT(HealthManager, "HealthManager")
 
 HealthManager::HealthManager() 
 {
-	this->currentHealth = 100.0f;
-	this->maxHealth = 100.0f;
+	this->currentHealth = 100;
+	this->maxHealth = 100;
 }
 HealthManager::~HealthManager() {}
 
@@ -29,10 +29,15 @@ void HealthManager::Update()
 // Draw the inspector for your custom component.
 void HealthManager::DrawInspector()
 {
-
+	int size = this->maxHealth;
+	ImGui::InputInt("Max Health", (int*)&size);
+	if (size != this->maxHealth)
+	{
+		this->maxHealth = size;
+	}
 }
 
-void HealthManager::applyDamage(float damage)
+void HealthManager::applyDamage(int damage)
 {
 	this->currentHealth -= damage;
 }

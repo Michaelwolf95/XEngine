@@ -13,8 +13,8 @@ public:
 	void Start() override;
 	void Update() override;
 	void DrawInspector() override;
-	float currentHealth, maxHealth;
-	void applyDamage(float);
+	int currentHealth, maxHealth;
+	void applyDamage(int);
 
 private:
 	friend class boost::serialization::access;
@@ -24,6 +24,8 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		// Add custom parameters here.
+		//ar & BOOST_SERIALIZATION_NVP(currentHealth);
+		//ar & BOOST_SERIALIZATION_NVP(maxHealth);
 
 	}
 	template<class Archive>
@@ -31,6 +33,8 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		// Add custom parameters here.
+		//ar & BOOST_SERIALIZATION_NVP(currentHealth);
+		//ar & BOOST_SERIALIZATION_NVP(maxHealth);
 
 	}
 

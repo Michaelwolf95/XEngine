@@ -22,7 +22,8 @@ void Spawner::Start()
 // Update is called once per frame.
 void Spawner::Update()
 {
-	if (Input::GetKeyDown(GLFW_KEY_1))
+	//if (Input::GetKeyDown(GLFW_KEY_1))
+	if(Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_1))
 	{
 		auto go = GameObject::InstantiatePrefab(prefabPath);
 		go->transform->setPosition(this->gameObject->transform->getPosition());
