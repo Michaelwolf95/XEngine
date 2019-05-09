@@ -48,9 +48,9 @@
 				<propertyName>material.color</propertyName>
 			</MaterialProperty>
 			<value class_id="11" tracking_level="0" version="0">
-				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>1.000000000e+00</vec.y>
-				<vec.z>1.000000000e+00</vec.z>
+				<vec.x>9.950980544e-01</vec.x>
+				<vec.y>7.735821605e-01</vec.y>
+				<vec.z>5.365725979e-02</vec.z>
 				<vec.w>1.000000000e+00</vec.w>
 			</value>
 		</item>

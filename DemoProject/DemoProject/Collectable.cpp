@@ -41,7 +41,7 @@ void Collectable::OnCollisionEnter(XEngine::CollisionInfo info)
 		std::cout << "COLLIDED WITH PLAYER!\n";
 
 		if(audioComponent != nullptr)
-			audioComponent->Play();
+			audioComponent->PlayOneShot();
 
 
 		Collector* collector;
