@@ -25,7 +25,7 @@ public:
 	std::string takeDamageAudioPath;
 	std::string deathAudioPath;
 
-	GameObject* meshObject;
+	GameObject* meshObject = nullptr;
 
 private:
 	bool deathEffectRunning = false;

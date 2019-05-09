@@ -57,6 +57,7 @@ void EnemyDamageEffects::DrawInspector()
 	ImGui::InputFloat("Effect Time", &effectTime);
 	GUI::FileReference(takeDamageAudioPath, ".mp3", "TakeDmg Sound");
 	GUI::FileReference(deathAudioPath, ".mp3", "Death Sound");
+	GUI::GameObjectReference(meshObject, "MeshObj");
 }
 
 void EnemyDamageEffects::OnEnable()
@@ -86,7 +87,7 @@ void EnemyDamageEffects::DoOnTakeDamageEffect(float damage)
 		XEngine::MeshRenderer* mr;
 		if (meshObject->FindComponent<XEngine::MeshRenderer>(mr))
 		{
-			mr->material->vec4Properties[0].setValue(glm::vec4(1, 0, 0, 1));
+			//mr->material->vec4Properties[0].setValue(glm::vec4(1, 0, 0, 1));
 		}
 	
 	}

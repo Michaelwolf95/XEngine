@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Roll_Presentation</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>31</count>
+		<count>33</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -218,7 +218,7 @@
 								<enabled>1</enabled>
 							</Component>
 							<meshPath>../../DemoProject/Assets/Sphere/Sphere.obj|Sphere</meshPath>
-							<materialPath>../../DemoProject/Assets/Materials/Sphere.material</materialPath>
+							<materialPath>../../DemoProject/Assets/Materials/Red.material</materialPath>
 						</px>
 					</item>
 				</components>
@@ -353,10 +353,10 @@
 						<vec.z>1.000000000e+00</vec.z>
 					</localScale>
 					<localRotation>
-						<q.x>0.000000000e+00</q.x>
+						<q.x>4.226182997e-01</q.x>
 						<q.y>0.000000000e+00</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
+						<q.w>9.063077569e-01</q.w>
 					</localRotation>
 				</transform>
 				<components>
@@ -368,7 +368,7 @@
 								<Component>
 									<enabled>1</enabled>
 								</Component>
-								<intensity>1.000000000e+00</intensity>
+								<intensity>1.027999997e+00</intensity>
 								<color class_id="21" tracking_level="0" version="0">
 									<vec.x>1.000000000e+00</vec.x>
 									<vec.y>1.000000000e+00</vec.y>
@@ -1399,8 +1399,11 @@
 			</px>
 		</item>
 		<item>
+			<px class_id_reference="3" object_id_reference="_11"></px>
+		</item>
+		<item>
 			<px class_id_reference="3" object_id="_112">
-				<name>Light</name>
+				<name>Instructions</name>
 				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_113">
 					<Component>
@@ -1428,60 +1431,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="19" object_id="_114">
-							<LightComponent>
-								<Component>
-									<enabled>1</enabled>
-								</Component>
-								<intensity>1.000000000e+00</intensity>
-								<color>
-									<vec.x>1.000000000e+00</vec.x>
-									<vec.y>1.000000000e+00</vec.y>
-									<vec.z>1.000000000e+00</vec.z>
-									<vec.w>1.000000000e+00</vec.w>
-								</color>
-								<ambience>1.000000015e-01</ambience>
-								<UNIFORM_NAME>globalLights</UNIFORM_NAME>
-							</LightComponent>
-						</px>
-					</item>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id_reference="_11"></px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_115">
-				<name>Instructions</name>
-				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_116">
-					<Component>
-						<enabled>1</enabled>
-					</Component>
-					<parent class_id="-1"></parent>
-					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>1</count>
-					<item_version>1</item_version>
-					<item>
-						<px class_id_reference="16" object_id="_117">
+						<px class_id_reference="16" object_id="_114">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1502,10 +1452,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_118">
+			<px class_id_reference="3" object_id="_115">
 				<name>Crate</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_119">
+				<transform class_id_reference="4" object_id="_116">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -1531,7 +1481,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_120">
+						<px class_id_reference="10" object_id="_117">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1540,7 +1490,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_121">
+						<px class_id_reference="12" object_id="_118">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1550,7 +1500,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="11" object_id="_122">
+						<px class_id_reference="11" object_id="_119">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1565,10 +1515,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_123">
+			<px class_id_reference="3" object_id="_120">
 				<name>Crate</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_124">
+				<transform class_id_reference="4" object_id="_121">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -1594,7 +1544,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_125">
+						<px class_id_reference="10" object_id="_122">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1603,7 +1553,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_126">
+						<px class_id_reference="12" object_id="_123">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1613,7 +1563,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="11" object_id="_127">
+						<px class_id_reference="11" object_id="_124">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1628,10 +1578,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_128">
+			<px class_id_reference="3" object_id="_125">
 				<name>Crate</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_129">
+				<transform class_id_reference="4" object_id="_126">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -1657,7 +1607,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_130">
+						<px class_id_reference="10" object_id="_127">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1666,7 +1616,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_131">
+						<px class_id_reference="12" object_id="_128">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1676,7 +1626,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="11" object_id="_132">
+						<px class_id_reference="11" object_id="_129">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1691,10 +1641,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_133">
+			<px class_id_reference="3" object_id="_130">
 				<name>Crate</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_134">
+				<transform class_id_reference="4" object_id="_131">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -1720,7 +1670,7 @@
 					<count>3</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="10" object_id="_135">
+						<px class_id_reference="10" object_id="_132">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1729,7 +1679,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="12" object_id="_136">
+						<px class_id_reference="12" object_id="_133">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1739,7 +1689,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="11" object_id="_137">
+						<px class_id_reference="11" object_id="_134">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1748,6 +1698,150 @@
 								<vec.y>1.000000000e+00</vec.y>
 								<vec.z>1.000000000e+00</vec.z>
 							</boxSize>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_135">
+				<name>Camera</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_136">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>1.200000000e+01</vec.y>
+						<vec.z>-2.000000000e+01</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>3.007057905e-01</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>9.537169933e-01</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>2</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="22" class_name="CameraComponent" tracking_level="1" version="0" object_id="_137">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<clearColor>
+								<vec.x>7.107843161e-01</vec.x>
+								<vec.y>7.107772231e-01</vec.y>
+								<vec.z>7.107772231e-01</vec.z>
+								<vec.w>1.000000000e+00</vec.w>
+							</clearColor>
+						</px>
+					</item>
+					<item>
+						<px class_id="23" class_name="AudioListener" tracking_level="1" version="0" object_id="_138">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_139">
+				<name>Skybox</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_140">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="24" class_name="SkyboxRenderer" tracking_level="1" version="0" object_id="_141">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<cubemapFaces class_id="25" tracking_level="0" version="0">
+								<count>6</count>
+								<item_version>0</item_version>
+								<item>../../DemoProject/Assets/Textures/skybox/right.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/left.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/bottom.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/top.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/front.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/back.jpg</item>
+							</cubemapFaces>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_142">
+				<name>Music</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_143">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="18" object_id="_144">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<soundPath>../../DemoProject/Assets/Sounds/Eyes Wide Shut Theme.mp3</soundPath>
+							<is3D>0</is3D>
+							<repeat>1</repeat>
+							<playOnStart>1</playOnStart>
 						</px>
 					</item>
 				</components>
