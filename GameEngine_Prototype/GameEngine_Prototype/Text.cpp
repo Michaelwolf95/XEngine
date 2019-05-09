@@ -154,6 +154,7 @@ namespace XEngine {
 
 	void Text::Draw()
 	{
+		if (!isSetup) return;
 		GLfloat x = this->xPos;
 		GLfloat y = this->yPos;
 
