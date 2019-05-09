@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Shooter_Demo_Duplicate</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>27</count>
+		<count>32</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -21,7 +21,7 @@
 						<parent class_id="-1"></parent>
 						<localPosition class_id="6" tracking_level="0" version="0">
 							<vec.x>0.000000000e+00</vec.x>
-							<vec.y>2.881942749e+00</vec.y>
+							<vec.y>1.000000000e+00</vec.y>
 							<vec.z>0.000000000e+00</vec.z>
 						</localPosition>
 						<localScale>
@@ -341,7 +341,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
-						<q.y>2.763999999e-02</q.y>
+						<q.y>2.763994969e-02</q.y>
 						<q.z>0.000000000e+00</q.z>
 						<q.w>9.996179342e-01</q.w>
 					</localRotation>
@@ -413,7 +413,7 @@
 								<enabled>1</enabled>
 							</Component>
 							<fontPath>../../DemoProject/Assets/Fonts/arial.ttf</fontPath>
-							<text>91</text>
+							<text>46</text>
 							<fontSize>20</fontSize>
 							<color>
 								<vec.x>2.550000000e+02</vec.x>
@@ -443,7 +443,28 @@
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id="-1"></parent>
+					<parent class_id_reference="4" object_id="_33">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+						<parent class_id_reference="4" object_id_reference="_2"></parent>
+						<localPosition>
+							<vec.x>0.000000000e+00</vec.x>
+							<vec.y>0.000000000e+00</vec.y>
+							<vec.z>0.000000000e+00</vec.z>
+						</localPosition>
+						<localScale>
+							<vec.x>1.000000000e+00</vec.x>
+							<vec.y>1.000000000e+00</vec.y>
+							<vec.z>1.000000000e+00</vec.z>
+						</localScale>
+						<localRotation>
+							<q.x>0.000000000e+00</q.x>
+							<q.y>0.000000000e+00</q.y>
+							<q.z>0.000000000e+00</q.z>
+							<q.w>1.000000000e+00</q.w>
+						</localRotation>
+					</parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -465,7 +486,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="20" object_id="_33">
+						<px class_id_reference="20" object_id="_34">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -486,28 +507,28 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_34">
+			<px class_id_reference="3" object_id="_35">
 				<name>Player Health Text</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_35">
+				<transform class_id_reference="4" object_id="_36">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id="-1"></parent>
+					<parent class_id_reference="4" object_id_reference="_33"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
 						<vec.z>0.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
+						<vec.x>9.999999404e-01</vec.x>
 						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
+						<vec.z>9.999999404e-01</vec.z>
 					</localScale>
 					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>-2.481820248e-02</q.y>
-						<q.z>0.000000000e+00</q.z>
+						<q.x>-0.000000000e+00</q.x>
+						<q.y>2.481825650e-02</q.y>
+						<q.z>-0.000000000e+00</q.z>
 						<q.w>9.996919632e-01</q.w>
 					</localRotation>
 				</transform>
@@ -515,7 +536,7 @@
 					<count>2</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="20" object_id="_36">
+						<px class_id_reference="20" object_id="_37">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -533,11 +554,11 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="21" object_id="_37">
+						<px class_id_reference="21" object_id="_38">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
-							<target class_id_reference="3" object_id="_38">
+							<target class_id_reference="3" object_id="_39">
 								<name>Player</name>
 								<isActive>1</isActive>
 								<transform class_id_reference="4" object_id_reference="_2"></transform>
@@ -545,7 +566,7 @@
 									<count>4</count>
 									<item_version>1</item_version>
 									<item>
-										<px class_id="23" class_name="FirstPersonController" tracking_level="1" version="0" object_id="_39">
+										<px class_id="23" class_name="FirstPersonController" tracking_level="1" version="0" object_id="_40">
 											<Component>
 												<enabled>1</enabled>
 											</Component>
@@ -557,14 +578,14 @@
 										</px>
 									</item>
 									<item>
-										<px class_id_reference="16" object_id="_40">
+										<px class_id_reference="16" object_id="_41">
 											<Component>
 												<enabled>1</enabled>
 											</Component>
 										</px>
 									</item>
 									<item>
-										<px class_id_reference="14" object_id="_41">
+										<px class_id_reference="14" object_id="_42">
 											<Component>
 												<enabled>1</enabled>
 											</Component>
@@ -574,7 +595,7 @@
 										</px>
 									</item>
 									<item>
-										<px class_id="24" class_name="SphereCollider" tracking_level="1" version="0" object_id="_42">
+										<px class_id="24" class_name="SphereCollider" tracking_level="1" version="0" object_id="_43">
 											<Component>
 												<enabled>1</enabled>
 											</Component>
@@ -589,21 +610,21 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id_reference="_38"></px>
+			<px class_id_reference="3" object_id_reference="_39"></px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_43">
+			<px class_id_reference="3" object_id="_44">
 				<name>Shooter</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_44">
+				<transform class_id_reference="4" object_id="_45">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
 					<parent class_id_reference="4" object_id_reference="_1"></parent>
 					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
+						<vec.x>-2.500000000e-01</vec.x>
+						<vec.y>-5.000000000e-01</vec.y>
+						<vec.z>2.000000000e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -612,30 +633,30 @@
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
+						<q.y>8.726535365e-03</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
+						<q.w>9.999619126e-01</q.w>
 					</localRotation>
 				</transform>
 				<components>
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id="25" class_name="Spawner" tracking_level="1" version="0" object_id="_45">
+						<px class_id="25" class_name="Spawner" tracking_level="1" version="0" object_id="_46">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
-							<prefabPath>../../DemoProject/Assets/Prefabs/Red Box.prefab</prefabPath>
+							<prefabPath>../../DemoProject/Assets/Prefabs/Bullet.prefab</prefabPath>
 						</px>
 					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_46">
+			<px class_id_reference="3" object_id="_47">
 				<name>nanosuit.obj</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_47">
+				<transform class_id_reference="4" object_id="_48">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -664,14 +685,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_48">
+			<px class_id_reference="3" object_id="_49">
 				<name>Visor</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_49">
+				<transform class_id_reference="4" object_id="_50">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -693,7 +714,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_50">
+						<px class_id_reference="13" object_id="_51">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -705,14 +726,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_51">
+			<px class_id_reference="3" object_id="_52">
 				<name>Legs</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_52">
+				<transform class_id_reference="4" object_id="_53">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -734,7 +755,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_53">
+						<px class_id_reference="13" object_id="_54">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -746,14 +767,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_54">
+			<px class_id_reference="3" object_id="_55">
 				<name>hands</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_55">
+				<transform class_id_reference="4" object_id="_56">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -775,7 +796,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_56">
+						<px class_id_reference="13" object_id="_57">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -787,14 +808,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_57">
+			<px class_id_reference="3" object_id="_58">
 				<name>Lights</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_58">
+				<transform class_id_reference="4" object_id="_59">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -816,7 +837,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_59">
+						<px class_id_reference="13" object_id="_60">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -828,14 +849,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_60">
+			<px class_id_reference="3" object_id="_61">
 				<name>Arms</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_61">
+				<transform class_id_reference="4" object_id="_62">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -857,7 +878,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_62">
+						<px class_id_reference="13" object_id="_63">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -869,14 +890,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_63">
+			<px class_id_reference="3" object_id="_64">
 				<name>Helmet</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_64">
+				<transform class_id_reference="4" object_id="_65">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -898,7 +919,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_65">
+						<px class_id_reference="13" object_id="_66">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -910,14 +931,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_66">
+			<px class_id_reference="3" object_id="_67">
 				<name>Body</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_67">
+				<transform class_id_reference="4" object_id="_68">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -939,7 +960,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_68">
+						<px class_id_reference="13" object_id="_69">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -951,10 +972,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_69">
+			<px class_id_reference="3" object_id="_70">
 				<name>Enemy Box</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_70">
+				<transform class_id_reference="4" object_id="_71">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -980,7 +1001,7 @@
 					<count>5</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_71">
+						<px class_id_reference="13" object_id="_72">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -989,7 +1010,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="14" object_id="_72">
+						<px class_id_reference="14" object_id="_73">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -999,7 +1020,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="15" object_id="_73">
+						<px class_id_reference="15" object_id="_74">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1011,32 +1032,32 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="16" object_id="_74">
+						<px class_id_reference="16" object_id="_75">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="17" object_id="_75">
+						<px class_id_reference="17" object_id="_76">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
-							<target class_id_reference="3" object_id_reference="_69"></target>
+							<target class_id_reference="3" object_id_reference="_70"></target>
 						</px>
 					</item>
 				</components>
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_76">
+			<px class_id_reference="3" object_id="_77">
 				<name>Legs (RED)</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_77">
+				<transform class_id_reference="4" object_id="_78">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>-5.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -1058,7 +1079,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_78">
+						<px class_id_reference="13" object_id="_79">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1070,14 +1091,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_79">
+			<px class_id_reference="3" object_id="_80">
 				<name>Body (RED)</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_80">
+				<transform class_id_reference="4" object_id="_81">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_47"></parent>
+					<parent class_id_reference="4" object_id_reference="_48"></parent>
 					<localPosition>
 						<vec.x>-5.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -1099,7 +1120,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_81">
+						<px class_id_reference="13" object_id="_82">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1111,10 +1132,10 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_82">
+			<px class_id_reference="3" object_id="_83">
 				<name>Only_Spider_with_Animations_Export.obj</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_83">
+				<transform class_id_reference="4" object_id="_84">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
@@ -1143,14 +1164,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_84">
+			<px class_id_reference="3" object_id="_85">
 				<name>Spider_Eyes_Spider.006</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_85">
+				<transform class_id_reference="4" object_id="_86">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_83"></parent>
+					<parent class_id_reference="4" object_id_reference="_84"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -1172,7 +1193,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_86">
+						<px class_id_reference="13" object_id="_87">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1184,14 +1205,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_87">
+			<px class_id_reference="3" object_id="_88">
 				<name>Spider_Spider.005</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_88">
+				<transform class_id_reference="4" object_id="_89">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_83"></parent>
+					<parent class_id_reference="4" object_id_reference="_84"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -1213,7 +1234,7 @@
 					<count>2</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_89">
+						<px class_id_reference="13" object_id="_90">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1222,7 +1243,7 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id="_90">
+						<px class_id_reference="13" object_id="_91">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1234,14 +1255,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_91">
+			<px class_id_reference="3" object_id="_92">
 				<name>Spider_teeth_Spider.004</name>
 				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_92">
+				<transform class_id_reference="4" object_id="_93">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_83"></parent>
+					<parent class_id_reference="4" object_id_reference="_84"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -1263,7 +1284,7 @@
 					<count>1</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_93">
+						<px class_id_reference="13" object_id="_94">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1275,14 +1296,14 @@
 			</px>
 		</item>
 		<item>
-			<px class_id_reference="3" object_id="_94">
+			<px class_id_reference="3" object_id="_95">
 				<name>Spider_Fur_Spider</name>
 				<isActive>0</isActive>
-				<transform class_id_reference="4" object_id="_95">
+				<transform class_id_reference="4" object_id="_96">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_83"></parent>
+					<parent class_id_reference="4" object_id_reference="_84"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -1304,7 +1325,7 @@
 					<count>2</count>
 					<item_version>1</item_version>
 					<item>
-						<px class_id_reference="13" object_id="_96">
+						<px class_id_reference="13" object_id="_97">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
@@ -1313,12 +1334,218 @@
 						</px>
 					</item>
 					<item>
-						<px class_id_reference="13" object_id="_97">
+						<px class_id_reference="13" object_id="_98">
 							<Component>
 								<enabled>1</enabled>
 							</Component>
 							<meshPath>../../DemoProject/Assets/3Dmodel/Spider/obj/Only_Spider_with_Animations_Export.obj|Spider_Fur_NONE</meshPath>
 							<materialPath>../../DemoProject/Assets/Materials/Spider_Fur_NONE.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_99">
+				<name>Health Text</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id_reference="_33"></transform>
+				<components>
+					<count>0</count>
+					<item_version>1</item_version>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_100">
+				<name>Glock 3d.obj</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_101">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_45"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>-5.414962769e-01</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000015e-01</vec.x>
+						<vec.y>1.000000015e-01</vec.y>
+						<vec.z>1.000000015e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>1.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>-4.371138829e-08</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>0</count>
+					<item_version>1</item_version>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_102">
+				<name>Grip_Plane</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_103">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_101"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="13" object_id="_104">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/Glock/Glock 3d.obj|Grip_Plane</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Black.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_105">
+				<name>Red Box</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_106">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>9.223937988e-02</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>2.500000000e-01</vec.x>
+						<vec.y>2.500000000e-01</vec.y>
+						<vec.z>2.500000000e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>3</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="13" object_id="_107">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/MetalCrate/cube.obj|Cube</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Red.material</materialPath>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="14" object_id="_108">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<isKinematic>0</isKinematic>
+							<mass>1.000000000e+00</mass>
+							<isTrigger>0</isTrigger>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="15" object_id="_109">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<boxSize>
+								<vec.x>1.000000000e+00</vec.x>
+								<vec.y>1.000000000e+00</vec.y>
+								<vec.z>1.000000000e+00</vec.z>
+							</boxSize>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_110">
+				<name>Bullet</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_111">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>3.061771393e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.500000060e-01</vec.x>
+						<vec.y>1.500000060e-01</vec.y>
+						<vec.z>1.500000060e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>3</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="13" object_id="_112">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/Sphere/Sphere.obj|Sphere</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Red.material</materialPath>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="14" object_id="_113">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<isKinematic>0</isKinematic>
+							<mass>5.000000000e-01</mass>
+							<isTrigger>0</isTrigger>
+						</px>
+					</item>
+					<item>
+						<px class_id_reference="24" object_id="_114">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<radius>1.000000000e+00</radius>
 						</px>
 					</item>
 				</components>

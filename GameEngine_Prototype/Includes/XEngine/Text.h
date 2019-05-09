@@ -47,6 +47,7 @@ namespace XEngine {
 		void Update() override;
 		void Setup() override;
 		void OnEnable() override;
+		void OnDisable() override;
 		void Draw() override;
 		void DrawInspector() override;
 		void Load();
@@ -69,6 +70,7 @@ namespace XEngine {
 		glm::vec3 color = glm::vec3(0,0,0);
 		GLfloat xPos, yPos, scale = 1;
 		int width = 800, height = 600, tempWidth = 0, tempHeight = 0;
+		bool isSetup = false;
 
 		GLuint VAO, VBO;
 		Shader* shader;
@@ -98,7 +100,7 @@ namespace XEngine {
 			ar & BOOST_SERIALIZATION_NVP(yPos);
 			ar & BOOST_SERIALIZATION_NVP(scale);
 
-			//Setup();
+			Setup();
 		}
 	};
 }

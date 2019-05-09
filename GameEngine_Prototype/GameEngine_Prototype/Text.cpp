@@ -23,7 +23,8 @@ namespace XEngine {
 
 	Text::~Text()
 	{
-		RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+		//RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
+		OnDisable();
 	}
 
 	void Text::setFontSize(FT_UInt size)
@@ -33,6 +34,7 @@ namespace XEngine {
 
 	void Text::setText(std::string newText)
 	{
+		if (this == nullptr) return; // TEMPORARY HACK
 		this->text.assign(newText.c_str());
 	}
 
@@ -104,19 +106,28 @@ namespace XEngine {
 
 	void Text::OnEnable()
 	{
-		Setup();
+		render_enabled = true;
+		RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+		//Setup();
+	}
+
+	void Text::OnDisable()
+	{
+		this->render_enabled = false;
+		RenderManager::getInstance().RemoveRenderable((RenderableObject*)this);
 	}
 
 	void Text::Setup()
 	{
+		if (isSetup) return;
 		/*std::size_t pathFound = this->fontPath.find("Fonts");
 		if (pathFound != std::string::npos)
 			std::cout << "Text font path found." << std::endl;
 		else
 			this->fontPath = (FONT_DIRECTORY + this->fontPath);*/
 
-		render_enabled = true;
-		RenderManager::getInstance().AddRenderable((RenderableObject*)this);
+		//render_enabled = true;
+		//RenderManager::getInstance().AddRenderable((RenderableObject*)this);
 
 		// Configure VAO/VBO for texture quads
 		glGenVertexArrays(1, &this->VAO);
@@ -137,6 +148,8 @@ namespace XEngine {
 		this->shader->setInt("text", 0);
 
 		this->Load();
+
+		isSetup = true;
 	}
 
 	void Text::Draw()

@@ -78,6 +78,8 @@ void MeshRenderer::OnDisable()
 
 void MeshRenderer::Setup()
 {
+	if (isSetup) return;
+
 	size_t delimiter = meshPath.find('|');
 	std::string filePath = meshPath.substr(0, delimiter);
 	std::string meshName = meshPath.substr(delimiter+1);
