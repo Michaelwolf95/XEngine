@@ -172,6 +172,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ExampleComponent.h" />
+    <ClInclude Include="FirstPersonController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Health.h">
       <SubType>
       </SubType>
@@ -205,6 +209,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ExampleComponent.cpp" />
+    <ClCompile Include="FirstPersonController.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Health.cpp">
       <SubType>
       </SubType>

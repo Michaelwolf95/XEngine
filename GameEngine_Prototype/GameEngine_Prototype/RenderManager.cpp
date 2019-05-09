@@ -194,7 +194,7 @@ void RenderManager::FindCameraInScene(Scene* scene)
 {
 	// Init Camera for RenderManager
 	CameraComponent* camera = nullptr;
-	for (GameObject_ptr go : scene->rootGameObjects)
+	for (GameObject_ptr go : scene->allGameObjects)
 	{
 		// Finds the first object of the type CameraComponent
 		// Just checks roots for now. - change to search all later.

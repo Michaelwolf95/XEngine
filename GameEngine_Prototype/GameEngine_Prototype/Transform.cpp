@@ -350,7 +350,7 @@ void Transform::LookAt(glm::vec3 lookPos, glm::vec3 up)
 glm::vec3 Transform::getRightDirection()
 {
 	glm::mat4 mat = glm::inverse(glm::toMat4(getRotation()));
-	return glm::vec3(mat[0][0], mat[1][0], mat[2][0]);
+	return -glm::vec3(mat[0][0], mat[1][0], mat[2][0]);
 }
 glm::vec3 Transform::getUpDirection()
 {

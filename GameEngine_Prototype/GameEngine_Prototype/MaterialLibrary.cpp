@@ -124,7 +124,7 @@ bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * filePath)
 
 	// restore from the archive
 	ia >> BOOST_SERIALIZATION_NVP(m);
-
+	std::cout << "LOADED MATERIAL WITH FILE PATH: " << filePath << std::endl;
 	m.filePath = filePath;
 	return true;
 }

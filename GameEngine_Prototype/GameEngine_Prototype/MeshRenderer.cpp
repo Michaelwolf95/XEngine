@@ -99,20 +99,24 @@ void MeshRenderer::Setup()
 	else
 		mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, meshName);
 
-	// Get Material
-	if (materialPath.empty())
+	std::cout << "VERTEXT COUNT - " << meshName << ": " << mesh->vertices.size() << std::endl;
+	
+	if (material == nullptr)
 	{
-		std::cout << "No Mesh Path: Using Default Material" << std::endl;
-		// Get Default Materia FilePath of the Mesh from Obj file
-		materialPath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
+		// Get Material
+		if (materialPath.empty())
+		{
+			std::cout << "No Material Path: Using Default Material" << std::endl;
+			// Get Default Materia FilePath of the Mesh from Obj file
+			materialPath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
 
-		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
+			material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
+		}
+		else
+		{
+			material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
+		}
 	}
-	else
-	{
-		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
-	}
-		
 
 	/*
 	if(!pathToObjModel.empty())
@@ -239,6 +243,17 @@ void MeshRenderer::Draw()
 			glBindVertexArray(0);
 
 			// default once configured
+			//glActiveTexture(GL_TEXTURE0);
+			//glBindTexture(GL_TEXTURE_2D, 0);
+			//glDisable(GL_TEXTURE_2D);
+
+			for (unsigned int j = 0; j < material->textureProperties.size(); j++)
+			{
+				glActiveTexture(GL_TEXTURE0 + j);
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glDisable(GL_TEXTURE_2D);
+			}
+
 			glActiveTexture(GL_TEXTURE0);
 		//}
 	}
@@ -259,7 +274,7 @@ void MeshRenderer::DrawInspector()
 	
 	if (ImGui::Button("Change Model"))
 	{
-		materialPath = "";
+		//materialPath = "";
 		Setup();
 	}
 

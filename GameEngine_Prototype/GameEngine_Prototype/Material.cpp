@@ -32,6 +32,12 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 	Init();
 
+	if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
+	{
+		shader->vFilePath = "../Shaders/" + vertexShaderPath;
+		parseFileForProperties(shader->vFilePath);
+	}
+
 	//std::cout << to_string() << std::endl;
 
 }
@@ -72,7 +78,7 @@ void Material::Init()
 		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
 		{
 			shader->vFilePath = "../Shaders/" + vertexShaderPath;
-			parseFileForProperties(shader->vFilePath);
+			//parseFileForProperties(shader->vFilePath);
 		}
 	}
 	else

@@ -38,7 +38,7 @@ void Spawner::Update()
 			glm::vec3 dir = this->gameObject->transform->getForwardDirection();
 			dir.x *= -1;
 			dir.z *= -1;
-			rb->AddForce(dir*15.0f);
+			rb->AddImpulseForce(dir*50.0f);
 		}
 		
 	}

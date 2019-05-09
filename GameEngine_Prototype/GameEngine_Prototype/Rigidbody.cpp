@@ -206,7 +206,17 @@ namespace XEngine
 	void Rigidbody::AddForce(glm::vec3 force)
 	{
 		this->body->activate(true);
+		this->body->applyCentralForce(btVector3(-force.x, force.y, -force.z));
+	}
+	void Rigidbody::AddImpulseForce(glm::vec3 force)
+	{
+		this->body->activate(true);
 		this->body->applyCentralImpulse(btVector3(-force.x, force.y, -force.z));
+	}
+	void Rigidbody::SetVelocity(glm::vec3 velocity)
+	{
+		this->body->activate(true);
+		this->body->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 	}
 	Rigidbody * Rigidbody::GetAttachedRigidbody(GameObject* go)
 	{

@@ -98,9 +98,10 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
 
-		isInitialized = true;
+		//isInitialized = true;
 		std::cout << "load " << textureFilePath << std::endl;
-		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
+		Init();
+		//shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 		
 	}
 };
