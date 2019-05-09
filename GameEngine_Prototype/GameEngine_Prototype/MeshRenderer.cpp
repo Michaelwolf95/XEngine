@@ -50,8 +50,6 @@ MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPat
 		this->meshPath = ASSET_FILE_PATH + this->meshPath;
 	}
 
-	
-
 	if(!materialPath.empty())
 		this->materialPath = ASSET_FILE_PATH + std::string(materialPath);
 	
@@ -84,7 +82,7 @@ void MeshRenderer::Setup()
 	std::string filePath = meshPath.substr(0, delimiter);
 	std::string meshName = meshPath.substr(delimiter+1);
 
-	// if no mesh name after demiliter, make meshName emtpy
+	// if no mesh name after demiliter, make meshName empty
 	if (meshName == filePath)
 	{
 		meshName = "";
@@ -100,6 +98,7 @@ void MeshRenderer::Setup()
 		mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, meshName);
 
 	std::cout << "VERTEXT COUNT - " << meshName << ": " << mesh->vertices.size() << std::endl;
+	std::cout << "INDICES COUNT - " << meshName << ": " << mesh->indices.size() << std::endl;
 	
 	if (material == nullptr)
 	{
@@ -117,20 +116,6 @@ void MeshRenderer::Setup()
 			material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
 		}
 	}
-
-	/*
-	if(!pathToObjModel.empty())
-		model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-
-	std::cout << "End Loading Model" << std::endl;
-
-	if (model == nullptr)
-	{
-		std::cout << "ERROR LOADING MESH" << std::endl;
-		return;
-	}
-	// Get MAterial or get default
-	*/
 	isSetup = true;
 }
 
@@ -147,9 +132,9 @@ void MeshRenderer::FreeObjectResources()
 {
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	glDeleteVertexArrays(1, &(VAO));
-	glDeleteBuffers(1, &(VBO));
-	glDeleteBuffers(1, &(EBO));
+	//glDeleteVertexArrays(1, &(VAO));
+	//glDeleteBuffers(1, &(VBO));
+	//glDeleteBuffers(1, &(EBO));
 }
 
 /*
@@ -171,9 +156,7 @@ void MeshRenderer::PrintVertices()
 //bool MeshRenderer::LoadModel()
 void MeshRenderer::Load()
 {
-	//model = AssetManager::getInstance().modelLib.GetAsset(pathToObjModel);
-	//return (model == nullptr
-	Setup();
+	//Setup();
 }
 
 void MeshRenderer::Draw()
@@ -191,8 +174,8 @@ void MeshRenderer::Draw()
 
 		//for (unsigned int i = 0; i < meshes.size(); i++)
 		//{
-			material->shader->use();
-			RenderManager::getInstance().currentShaderID = material->shader->ID;
+			//material->shader->use();
+			//RenderManager::getInstance().currentShaderID = material->shader->ID;
 			material->Load();
 
 			material->shader->setMat4("view", view);
@@ -257,6 +240,10 @@ void MeshRenderer::Draw()
 			glActiveTexture(GL_TEXTURE0);
 		//}
 	}
+	else
+	{
+		std::cout << "MESH IS NULL\n";
+	}
 }
 
 void MeshRenderer::OnDrawGizmos()
@@ -290,7 +277,8 @@ void MeshRenderer::DrawInspector()
 				const char* payload_n = (const char*)payload->Data;
 
 				std::string fileName(payload_n);
-				if (fileName.substr(fileName.find_last_of(".")) == ".obj")
+				std::string ext = fileName.substr(fileName.find_last_of("."));
+				if (ext == ".obj" || ext == ".fbx")
 				{
 					std::cout << "Dropping MODEL!" << std::endl;
 				

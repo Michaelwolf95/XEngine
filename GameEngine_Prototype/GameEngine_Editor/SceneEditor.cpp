@@ -1233,15 +1233,18 @@ void SceneEditor::HierarchyUpdate()
 					const char* payload_n = (const char*)payload->Data;
 					std::string filePath(payload_n);
 
+					// Get file extension.
+					std::string ext = filePath.substr(filePath.find_last_of("."));
+
 					// Drop .prefab.
-					if (filePath.substr(filePath.find_last_of(".")) == ".prefab")
+					if (ext == ".prefab")
 					{
 						auto instance = GameObject::InstantiatePrefab(filePath);
 						selectedGameObject = instance;
 					}
 
-					// Drop .obj
-					if (filePath.substr(filePath.find_last_of(".")) == ".obj")
+					// Drop .obj or .fbx
+					if (ext == ".obj" || ext == ".fbx" || ext == ".FBX")
 					{
 						std::cout << "Drag and Drop: " +  filePath << std::endl;
 

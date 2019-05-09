@@ -104,15 +104,15 @@ void Material::Load()
 	RenderManager::getInstance().currentShaderID = shader->ID;
 
 
-	if (textureID > 0)
-	{
-		// bind Texture
-		glBindTexture(GL_TEXTURE_2D, textureID);
-	}
-	else
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+	//if (textureID > 0)
+	//{
+	//	// bind Texture
+	//	glBindTexture(GL_TEXTURE_2D, textureID);
+	//}
+	//else
+	//{
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+	//}
 }
 
 void Material::Draw()
@@ -392,8 +392,28 @@ void Material::DrawInspector()
 				Texture* value = textureProperties[i].getValue();
 				std::string path = value->path;
 
+				//GUI::FileReference(value->path,)
 				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
+				const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+				{
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+						{
+							IM_ASSERT(payload->DataSize == 128);
+							const char* payload_n = (const char*)payload->Data;
 
+							std::string filePath(payload_n);
+							std::string ext = filePath.substr(filePath.find_last_of("."));
+							if (ext == ".png" || ext == ".jpeg" || ext == ".tga")
+							{
+								std::replace(filePath.begin(), filePath.end(), '\\', '/');
+								path.assign(filePath);
+							}
+						}
+						ImGui::EndDragDropTarget();
+					}
+				}
 				if (path != value->path)
 				{
 					value->path = path;
