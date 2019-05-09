@@ -20,6 +20,7 @@ public:
 	std::vector<Transform*> GetChildren();
 	unsigned int GetChildCount();
 	void SetParent(Transform* _parent);
+	Transform* GetRoot();
 	// Matrix Access
 	glm::mat4& getModelRef();
 	glm::mat4 getMatrix4x4();

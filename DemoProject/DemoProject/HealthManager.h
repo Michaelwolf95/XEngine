@@ -13,7 +13,7 @@ public:
 	void Start() override;
 	void Update() override;
 	void DrawInspector() override;
-	int currentHealth, maxHealth;
+	int currentHealth, maxHealth = 100;
 	void applyDamage(int);
 
 	AudioComponent* audioComponent = nullptr;
@@ -28,7 +28,10 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		// Add custom parameters here.
 		//ar & BOOST_SERIALIZATION_NVP(currentHealth);
-		//ar & BOOST_SERIALIZATION_NVP(maxHealth);
+		if (version > 1)
+		{
+			ar & BOOST_SERIALIZATION_NVP(maxHealth);
+		}
 
 	}
 	template<class Archive>
@@ -37,7 +40,10 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Component);
 		// Add custom parameters here.
 		//ar & BOOST_SERIALIZATION_NVP(currentHealth);
-		//ar & BOOST_SERIALIZATION_NVP(maxHealth);
+		if (version > 1)
+		{
+			ar & BOOST_SERIALIZATION_NVP(maxHealth);
+		}
 
 	}
 

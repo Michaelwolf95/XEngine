@@ -48,6 +48,9 @@
     <ClInclude Include="FirstPersonController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DamageCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="XEngineProject.cpp">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FirstPersonController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

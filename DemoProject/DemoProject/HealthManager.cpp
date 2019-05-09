@@ -7,17 +7,20 @@ using namespace XEngine;
 
 // Register to be created and serialized.
 REGISTER_COMPONENT(HealthManager, "HealthManager")
+BOOST_CLASS_VERSION(HealthManager, 2);
 
 HealthManager::HealthManager() 
 {
-	this->currentHealth = 100;
-	this->maxHealth = 100;
+	//this->maxHealth = 100;
+	//this->currentHealth = maxHealth;
 }
 HealthManager::~HealthManager() {}
 
 // Start is called on the objects first update.
 void HealthManager::Start()
 {
+	this->currentHealth = maxHealth;
+
 	if (audioComponent == nullptr)
 	{
 		this->gameObject->FindComponent(typeid(AudioComponent), (void**)&audioComponent);

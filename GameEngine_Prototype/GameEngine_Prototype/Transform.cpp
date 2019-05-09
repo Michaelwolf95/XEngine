@@ -87,6 +87,13 @@ void Transform::SetParent(Transform * _parent)
 	}
 }
 
+Transform* Transform::GetRoot()
+{
+	if (this->parent == nullptr)
+		return this;
+	return this->parent->GetRoot();
+}
+
 #pragma endregion
 
 #pragma region TRANSFORM_ACCESS

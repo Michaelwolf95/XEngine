@@ -31,7 +31,7 @@
 				</localRotation>
 			</transform>
 			<components class_id="7" tracking_level="0" version="0">
-				<count>3</count>
+				<count>4</count>
 				<item_version>1</item_version>
 				<item class_id="8" tracking_level="0" version="1">
 					<px class_id="9" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_2">
@@ -58,6 +58,21 @@
 							<enabled>1</enabled>
 						</Component>
 						<radius>1.000000000e+00</radius>
+					</px>
+				</item>
+				<item>
+					<px class_id="12" class_name="DamageCollider" tracking_level="1" version="0" object_id="_5">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+						<damageValue>10</damageValue>
+						<destroySelfAfterCollision>1</destroySelfAfterCollision>
+						<filterByTargetName>0</filterByTargetName>
+						<targetNames class_id="13" tracking_level="0" version="0">
+							<count>1</count>
+							<item_version>0</item_version>
+							<item>Enemy Spider</item>
+						</targetNames>
 					</px>
 				</item>
 			</components>

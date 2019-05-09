@@ -167,6 +167,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ComponentTemplate.h" />
+    <ClInclude Include="DamageCollider.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DamageTester.h">
       <SubType>
       </SubType>
@@ -204,6 +208,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ComponentTemplate.cpp" />
+    <ClCompile Include="DamageCollider.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DamageTester.cpp">
       <SubType>
       </SubType>
