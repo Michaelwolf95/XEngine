@@ -36,8 +36,9 @@ void HealthManager::Update()
 		{
 			this->isDead = true;
 
-			if (audioComponent != nullptr)
-				audioComponent->Play();
+			OnDeathEvent();
+			/*if (audioComponent != nullptr)
+				audioComponent->Play();*/
 		}
 	}
 }
@@ -56,4 +57,6 @@ void HealthManager::DrawInspector()
 void HealthManager::applyDamage(int damage)
 {
 	this->currentHealth -= damage;
+
+	OnTakeDamageEvent(damage);
 }

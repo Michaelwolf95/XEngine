@@ -3,6 +3,9 @@
 #include "XEngineProject.h"
 #include "XEngine.h"
 using namespace XEngine;
+#include "boost/signals2.hpp"
+#include "boost/function.hpp"
+#include <boost/bind.hpp>
 
 class PROJECT_API HealthManager : public Component
 {
@@ -17,6 +20,9 @@ public:
 	void applyDamage(int);
 
 	AudioComponent* audioComponent = nullptr;
+
+	boost::signals2::signal<void()> OnDeathEvent;
+	boost::signals2::signal<void(float)> OnTakeDamageEvent;
 
 private:
 	bool isDead = false;

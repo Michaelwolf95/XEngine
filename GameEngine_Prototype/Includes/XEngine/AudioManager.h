@@ -3,7 +3,7 @@
 #include "AudioEngine.h"
 
 //creating the only one Implementation for all audio to use
-class AudioManager : public Singleton<AudioManager>
+class ENGINE_API AudioManager : public Singleton<AudioManager>
 {
 	friend class Singleton<AudioManager>;
 public:

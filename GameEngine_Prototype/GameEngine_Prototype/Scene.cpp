@@ -112,10 +112,14 @@ void Scene::Update()
 	{
 		UpdateGameObject(rootGameObjects[i]);
 	}
+
+	// Cleanup step?
+	Cleanup();
 }
 
 void Scene::UpdateGameObject(GameObject_ptr go)
 {
+	if (go == nullptr) return;
 	if (go->IsActiveInHierarchy())
 	{
 		go->UpdateComponents();
@@ -125,9 +129,6 @@ void Scene::UpdateGameObject(GameObject_ptr go)
 			UpdateGameObject(children[i]->GetSelfPtr());
 		}
 	}
-
-	// Cleanup step?
-	Cleanup();
 }
 
 void Scene::FixedUpdate()

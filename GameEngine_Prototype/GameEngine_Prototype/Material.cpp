@@ -405,7 +405,7 @@ void Material::DrawInspector()
 
 							std::string filePath(payload_n);
 							std::string ext = filePath.substr(filePath.find_last_of("."));
-							if (ext == ".png" || ext == ".jpeg" || ext == ".tga")
+							if (ext == ".png" || ext == ".jpg" || ext == ".tga")
 							{
 								std::replace(filePath.begin(), filePath.end(), '\\', '/');
 								path.assign(filePath);
@@ -419,6 +419,33 @@ void Material::DrawInspector()
 					value->path = path;
 				}
 			}
+			std::vector<std::string> textureFileExts;
+			textureFileExts.push_back(".png"); textureFileExts.push_back(".jpg"); textureFileExts.push_back(".tga");
+			static std::string tempPath = "";
+			GUI::FileReference(tempPath, textureFileExts, "New");
+			//ImGui::InputText("New", &tempPath);
+			if (ImGui::Button("Add"))
+			{
+				if (tempPath.length() > 0)
+				{
+					Texture* texture = &(AssetManager::getInstance().textureLib.GetAsset(tempPath));
+
+					// turn into textureProperty
+					TextureProperty textureProp;
+					textureProp.setValue(texture);
+
+					textureProperties.push_back(textureProp);
+				}
+			}
+			if (textureProperties.size() > 0)
+			{
+				ImGui::SameLine();
+				if (ImGui::Button("Delete"))
+				{
+					textureProperties.pop_back();
+				}
+			}
+
 			ImGui::TreePop();
 		}
 

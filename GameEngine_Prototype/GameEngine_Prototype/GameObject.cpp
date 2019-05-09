@@ -241,6 +241,8 @@ bool GameObject::FindComponent(const std::type_info& typeInfo, Component_ptr* ob
 // TODO: Add safety measure to prevent crashes.
 GameObject_ptr GameObject::GetSelfPtr()
 {
+	if (this->isFlaggedForDeletion) 
+		return nullptr;
 	return shared_from_this();
 }
 

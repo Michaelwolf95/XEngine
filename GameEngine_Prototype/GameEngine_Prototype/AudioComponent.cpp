@@ -11,12 +11,18 @@
 #include "Input.h"
 
 REGISTER_COMPONENT(AudioComponent, "AudioComponent")
+BOOST_CLASS_VERSION(AudioComponent, 1);
 
 void AudioComponent::Start() {
 	//string soundPath1 = "../Assets/sounds/foghorn.wav"; 
 	if (soundPath.size() > 0)
 	{
 		Load3D(soundPath, is3D, repeat, true);
+	}
+
+	if (playOnStart)
+	{
+		Play();
 	}
 }
 
@@ -48,7 +54,14 @@ AudioComponent::AudioComponent()
 }
 AudioComponent::~AudioComponent()
 {
+	//Pause();
 	//AudioManager::getInstance().sound.UnLoadSound(soundPath);
+	//if(AudioManager::getInstance().sound.is)
+	if (stopOnDelete)
+	{
+		AudioManager::getInstance().sound.aChannel->stop();
+		AudioManager::getInstance().sound.UnLoadSound(soundPath);
+	}
 }
 
 void AudioComponent::Load3D(string path, bool location, bool loop, bool stream)
@@ -67,6 +80,12 @@ void AudioComponent::Play()
 {
 	glm::vec3 objectLocation = gameObject->transform->getPosition();
 	Play(soundPath, objectLocation, 1);
+}
+
+void AudioComponent::PlayOneShot()
+{
+	Play();
+	stopOnDelete = false;
 }
 
 void AudioComponent::Pause()
@@ -113,4 +132,7 @@ void AudioComponent::DrawInspector()
 	ImGui::SameLine();
 	//add loop
 	ImGui::Checkbox("Loop", &repeat);
+
+	ImGui::Checkbox("Play On Start", &playOnStart);
 }
+

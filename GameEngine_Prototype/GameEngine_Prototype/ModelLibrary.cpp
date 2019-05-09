@@ -29,7 +29,7 @@ GameObject_ptr ModelLibrary::getModelGameObject(std::string filePath)
 		filePath = ASSET_FILE_PATH + filePath;
 	}
 
-	std::cout << "WHHHHHHHHHHHHHHHHHHHHHEEEEEEEEEERRRRRREEEEEEEEEEEEEEE" + filePath << std::endl;
+	//std::cout << "WHHHHHHHHHHHHHHHHHHHHHEEEEEEEEEERRRRRREEEEEEEEEEEEEEE" + filePath << std::endl;
 
 	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 

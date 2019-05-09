@@ -12,6 +12,7 @@ public:
 	bool is3D = false;
 	bool repeat = false;
 	bool pauseToggle = true;
+	bool playOnStart = false;
 
 	std::string soundPath;
 	AudioComponent();
@@ -22,6 +23,9 @@ public:
 	void Pause();
 	void UnPause();
 	void DrawInspector() override;
+
+	void PlayOneShot();
+	bool stopOnDelete = true;
 
 private:
 	friend class boost::serialization::access;
@@ -37,6 +41,11 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(soundPath);
 		ar & BOOST_SERIALIZATION_NVP(is3D);
 		ar & BOOST_SERIALIZATION_NVP(repeat);
+
+		if (version > 0)
+		{
+			ar & BOOST_SERIALIZATION_NVP(playOnStart);
+		}
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
@@ -46,5 +55,10 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(soundPath);
 		ar & BOOST_SERIALIZATION_NVP(is3D);
 		ar & BOOST_SERIALIZATION_NVP(repeat);
+
+		if (version > 0)
+		{
+			ar & BOOST_SERIALIZATION_NVP(playOnStart);
+		}
 	}
 };
