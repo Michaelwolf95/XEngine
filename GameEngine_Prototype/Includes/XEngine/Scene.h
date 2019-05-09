@@ -33,9 +33,9 @@ public:
 	void ScheduleDelete(GameObject_ptr go);
 	void Cleanup();
 
+	std::vector<GameObject_ptr> allGameObjects;
 private:
 
-	std::vector<GameObject_ptr> allGameObjects;
 
 	std::vector<GameObject_ptr> gameObjectsToDelete;
 

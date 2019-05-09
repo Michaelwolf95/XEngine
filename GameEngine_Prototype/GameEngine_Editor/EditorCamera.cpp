@@ -153,7 +153,7 @@ namespace XEngine::Editor
 					float deltaXPan = panSpeed * GameTime::deltaTime * deltaPos.x;
 					float deltaYPan = panSpeed * GameTime::deltaTime * deltaPos.y;// Input::GetDeltaPosY();
 
-					glm::vec3 right = gameObject->transform->getRightDirection();
+					glm::vec3 right = -gameObject->transform->getRightDirection();
 					//glm::vec3 up = gameObject->transform->getUpDirection();
 
 					this->gameObject->transform->Translate(right * deltaXPan);

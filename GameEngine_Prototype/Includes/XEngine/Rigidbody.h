@@ -64,6 +64,8 @@ namespace XEngine
 		//void OnDrawGizmosSelected() override;
 
 		void AddForce(glm::vec3 force);
+		void AddImpulseForce(glm::vec3 force);
+		void SetVelocity(glm::vec3 velocity);
 
 		static Rigidbody* GetAttachedRigidbody(GameObject* go);
 

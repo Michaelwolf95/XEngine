@@ -34,8 +34,8 @@ class ENGINE_API MeshRenderer : public RenderableObject, public Component
 		std::string meshPath; //ex:  ...nanosuit.obj|head
 		std::string materialPath;
 
-		Mesh* mesh;
-		Material* material;
+		Mesh* mesh = nullptr;
+		Material* material = nullptr;
 
 		static Registrar<MeshRenderer> registrar;
 
