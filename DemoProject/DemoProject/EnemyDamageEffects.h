@@ -25,6 +25,8 @@ public:
 	std::string takeDamageAudioPath;
 	std::string deathAudioPath;
 
+	GameObject* meshObject;
+
 private:
 	bool deathEffectRunning = false;
 	float deathEffectTimer = 0.0f;
@@ -45,6 +47,10 @@ private:
 			ar & BOOST_SERIALIZATION_NVP(takeDamageAudioPath);
 			ar & BOOST_SERIALIZATION_NVP(deathAudioPath);
 		}
+		if (version > 1)
+		{
+			ar & BOOST_SERIALIZATION_NVP(meshObject);
+		}
 	}
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version)
@@ -56,6 +62,10 @@ private:
 			ar & BOOST_SERIALIZATION_NVP(effectTime);
 			ar & BOOST_SERIALIZATION_NVP(takeDamageAudioPath);
 			ar & BOOST_SERIALIZATION_NVP(deathAudioPath);
+		}
+		if (version > 1)
+		{
+			ar & BOOST_SERIALIZATION_NVP(meshObject);
 		}
 	}
 

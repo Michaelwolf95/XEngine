@@ -10,10 +10,11 @@ using namespace XEngine;
 
 #include "AudioEngine.h"
 #include "AudioManager.h"
+#include "MeshRenderer.h"
 
 // Register to be created and serialized.
 REGISTER_COMPONENT(EnemyDamageEffects, "EnemyDamageEffects")
-BOOST_CLASS_VERSION(EnemyDamageEffects, 1);
+BOOST_CLASS_VERSION(EnemyDamageEffects, 2);
 
 EnemyDamageEffects::EnemyDamageEffects() {}
 EnemyDamageEffects::~EnemyDamageEffects() {}
@@ -79,6 +80,16 @@ void EnemyDamageEffects::StartOnDeathEffect()
 void EnemyDamageEffects::DoOnTakeDamageEffect(float damage)
 {
 	std::cout << this->gameObject->name << " Took " << damage << "Damage!\n";
+
+	if (meshObject != nullptr)
+	{
+		XEngine::MeshRenderer* mr;
+		if (meshObject->FindComponent<XEngine::MeshRenderer>(mr))
+		{
+			mr->material->vec4Properties[0].setValue(glm::vec4(1, 0, 0, 1));
+		}
+	
+	}
 
 	AudioManager::getInstance().sound.PlaySounds(takeDamageAudioPath, this->gameObject->transform->getPosition(), 5);
 }
