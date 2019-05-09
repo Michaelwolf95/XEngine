@@ -3,6 +3,7 @@
 #include "GameObject.h" 
 #include "Component.h"
 using namespace XEngine;
+#include "AudioComponent.h"
 
 // Register to be created and serialized.
 REGISTER_COMPONENT(HealthManager, "HealthManager")
@@ -17,13 +18,25 @@ HealthManager::~HealthManager() {}
 // Start is called on the objects first update.
 void HealthManager::Start()
 {
-
+	if (audioComponent == nullptr)
+	{
+		this->gameObject->FindComponent(typeid(AudioComponent), (void**)&audioComponent);
+	}
 }
 
 // Update is called once per frame.
 void HealthManager::Update()
 {
+	if (this->currentHealth <= 0)
+	{
+		if (!this->isDead)
+		{
+			this->isDead = true;
 
+			if (audioComponent != nullptr)
+				audioComponent->Play();
+		}
+	}
 }
 
 // Draw the inspector for your custom component.

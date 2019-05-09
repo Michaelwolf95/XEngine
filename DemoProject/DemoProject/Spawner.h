@@ -3,6 +3,7 @@
 #include "XEngineProject.h"
 #include "XEngine.h"
 using namespace XEngine;
+#include "AudioComponent.h"
 
 class PROJECT_API Spawner : public Component
 {
@@ -15,6 +16,7 @@ public:
 	void DrawInspector() override;
 
 	std::string prefabPath;
+	AudioComponent* audioComponent = nullptr;
 
 private:
 	friend class boost::serialization::access;

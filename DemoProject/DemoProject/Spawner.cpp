@@ -16,7 +16,10 @@ Spawner::~Spawner() {}
 // Start is called on the objects first update.
 void Spawner::Start()
 {
-
+	if (audioComponent == nullptr)
+	{
+		this->gameObject->FindComponent(typeid(AudioComponent), (void**)&audioComponent);
+	}
 }
 
 // Update is called once per frame.
@@ -25,6 +28,9 @@ void Spawner::Update()
 	//if (Input::GetKeyDown(GLFW_KEY_1))
 	if(Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_1))
 	{
+		if (audioComponent != nullptr)
+			audioComponent->Play();
+
 		auto go = GameObject::InstantiatePrefab(prefabPath);
 		go->transform->setPosition(this->gameObject->transform->getPosition());
 		go->transform->setRotation(this->gameObject->transform->getRotation());

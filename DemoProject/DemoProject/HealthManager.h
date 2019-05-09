@@ -16,7 +16,10 @@ public:
 	int currentHealth, maxHealth;
 	void applyDamage(int);
 
+	AudioComponent* audioComponent = nullptr;
+
 private:
+	bool isDead = false;
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>
