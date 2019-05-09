@@ -138,7 +138,15 @@ namespace XEngine
 				ImGui::EndDragDropTarget();
 			}
 		}
+
 		IMGUI_IMPL_API bool FileReference(std::string & pathRef, std::string extension, const char * label)
+		{
+			std::vector<std::string> exts;
+			exts.push_back(extension);
+			return FileReference(pathRef, exts, label);
+		}
+
+		IMGUI_IMPL_API bool FileReference(std::string & pathRef, std::vector<std::string> extensions, const char * label)
 		{
 			bool assigned = false;
 			//GUI::InputTextField(pathRef, label);
@@ -154,7 +162,14 @@ namespace XEngine
 						const char* payload_n = (const char*)payload->Data;
 
 						std::string filePath(payload_n);
-						if (filePath.substr(filePath.find_last_of(".")) == extension.c_str())
+						std::string ext = (filePath.substr(filePath.find_last_of(".")));
+						bool valid = false;
+						for (size_t i = 0; i < extensions.size(); i++)
+						{
+							if (valid = (ext == extensions[i]))
+								break;
+						}
+						if (valid)
 						{
 							std::replace(filePath.begin(), filePath.end(), '\\', '/');
 							pathRef.assign(filePath);

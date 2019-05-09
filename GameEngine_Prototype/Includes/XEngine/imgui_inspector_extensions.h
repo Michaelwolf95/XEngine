@@ -24,6 +24,7 @@ namespace XEngine
 		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component_ptr& compRef, std::string label);
 
 		IMGUI_IMPL_API bool FileReference(std::string& pathRef, std::string extension, const char* label = "##edit");
+		IMGUI_IMPL_API bool FileReference(std::string& pathRef, std::vector<std::string> extensions, const char* label = "##edit");
 
 
 		IMGUI_IMPL_API void MaterialReference(Material*& matRef, std::string & pathRef, std::string label);

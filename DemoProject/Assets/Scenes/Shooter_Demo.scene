@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Shooter_Demo</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>31</count>
+		<count>33</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -283,7 +283,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
-						<q.y>2.764003351e-02</q.y>
+						<q.y>2.764002234e-02</q.y>
 						<q.z>0.000000000e+00</q.z>
 						<q.w>9.996179342e-01</q.w>
 					</localRotation>
@@ -355,7 +355,7 @@
 								<enabled>1</enabled>
 							</Component>
 							<fontPath>../../DemoProject/Assets/Fonts/arial.ttf</fontPath>
-							<text>104</text>
+							<text>101</text>
 							<fontSize>20</fontSize>
 							<color>
 								<vec.x>2.550000000e+02</vec.x>
@@ -967,7 +967,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>-0.000000000e+00</q.x>
-						<q.y>2.481828444e-02</q.y>
+						<q.y>2.481829561e-02</q.y>
 						<q.z>-0.000000000e+00</q.z>
 						<q.w>9.996919632e-01</q.w>
 					</localRotation>
@@ -1584,6 +1584,104 @@
 							</Component>
 							<meshPath>../../DemoProject/Assets/3Dmodel/Spider/obj/Only_Spider_with_Animations_Export.obj|Spider_Fur_NONE</meshPath>
 							<materialPath>../../DemoProject/Assets/Materials/Spider_Fur_NONE.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_118">
+				<name>Skybox</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_119">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="28" class_name="SkyboxRenderer" tracking_level="1" version="0" object_id="_120">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<cubemapFaces>
+								<count>6</count>
+								<item_version>0</item_version>
+								<item>../../DemoProject/Assets/Textures/skybox/right.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/left.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/bottom.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/top.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/front.jpg</item>
+								<item>../../DemoProject/Assets/Textures/skybox/back.jpg</item>
+							</cubemapFaces>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_121">
+				<name>Skybox</name>
+				<isActive>0</isActive>
+				<transform class_id_reference="4" object_id="_122">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="28" object_id="_123">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<cubemapFaces>
+								<count>6</count>
+								<item_version>0</item_version>
+								<item>../../DemoProject/Assets/Textures/mp_orbital/orbital-element_right.tga</item>
+								<item>../../DemoProject/Assets/Textures/mp_orbital/orbital-element_left.tga</item>
+								<item>../../DemoProject/Assets/Textures/mp_orbital/orbital-element_down.tga</item>
+								<item>../../DemoProject/Assets/Textures/mp_orbital/orbital-element_up.tga</item>
+								<item>../../DemoProject/Assets/Textures/mp_orbital/orbital-element_front.tga</item>
+								<item>../../DemoProject/Assets/Textures/mp_orbital/orbital-element_back.tga</item>
+							</cubemapFaces>
 						</px>
 					</item>
 				</components>

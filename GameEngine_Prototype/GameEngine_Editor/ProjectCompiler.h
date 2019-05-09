@@ -28,6 +28,8 @@ namespace XEngine::Editor {
 		bool LoadProjectLibrary();
 		bool UnloadProjectLibrary();
 
+		bool Recompile();
+
 		// Check if the project needs to be recompiled. (NOT YET IMPLEMENTED)
 		//https://stackoverflow.com/questions/50881272/how-can-i-get-vs-to-consider-my-project-dirty-when-only-an-exe-content-item-i
 		bool CheckIfProjectDirty();

@@ -324,6 +324,9 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxRenderer.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Includes\XEngine\Analytics.h">
@@ -599,6 +602,9 @@
     <ClInclude Include="..\Includes\XEngine\FPSText.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Includes\XEngine\SkyboxRenderer.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\default.vs">
@@ -665,6 +671,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="..\Shaders\skybox.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\skybox.vs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine_Prototype.rc">

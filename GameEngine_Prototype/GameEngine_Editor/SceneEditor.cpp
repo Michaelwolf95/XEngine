@@ -931,7 +931,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 				// TODO: Finish this...?
 				std::cout << "Reload" << std::endl;
 				//std::string buildCommand;
-				ProjectCompiler::getInstance().LoadProject();
+				ProjectCompiler::getInstance().Recompile();
 			}
 			ImGui::EndMenu();
 		}

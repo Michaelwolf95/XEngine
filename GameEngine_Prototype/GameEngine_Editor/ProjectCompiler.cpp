@@ -3,6 +3,7 @@
 #include "ProjectSettingsManager.h"
 #include <iostream>
 #include "Component.h"
+#include "SceneManager.h"
 
 #include <Windows.h>
 namespace XEngine::Editor {
@@ -61,6 +62,7 @@ namespace XEngine::Editor {
 
 	bool ProjectCompiler::CompileProject()
 	{
+		
 		UnloadProjectLibrary();
 		std::cout << "Rebuilding Library..." << std::endl;
 		std::string command = "Recompile.bat";
@@ -134,6 +136,36 @@ namespace XEngine::Editor {
 			return false;
 		}*/
 		projectLibraryInstance = NULL;
+		return true;
+	}
+
+	bool ProjectCompiler::Recompile()
+	{
+		bool sceneIsActive = (SceneManager::getInstance().GetActiveScene() != nullptr);
+		Scene* activeScene = SceneManager::getInstance().GetActiveScene().get();
+		Scene_ptr scene(new Scene(activeScene->name.c_str()));
+		std::string filePath = "";
+		//SceneManager::getInstance().UnloadActiveScene();
+		//std::cout << "Reloading Scene '" << filePath << "' From File..." << std::endl;
+		//std::string currentSceneName = "";
+		//Scene_ptr activeScene = SceneManager::getInstance().GetActiveScene();
+		if (sceneIsActive)
+		{
+			filePath = activeScene->filePath;
+			SceneManager::getInstance().UnloadActiveScene();
+
+		}
+		if (this->LoadProject())
+		{
+			if (sceneIsActive)
+			{
+				SceneManager::getInstance().LoadSceneFromFile(*scene, filePath.c_str());
+				//std::cout << "\tFinished Reloading Scene" << std::endl;
+				SceneManager::getInstance().SetActiveScene(scene);
+			}
+		}
+		else 
+			return false;
 		return true;
 	}
 
