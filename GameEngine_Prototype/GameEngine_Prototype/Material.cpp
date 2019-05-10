@@ -11,6 +11,7 @@
 using namespace XEngine;
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
+BOOST_CLASS_VERSION(Material, 1);
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
@@ -393,7 +394,7 @@ void Material::DrawInspector()
 				std::string path = value->path;
 
 				//GUI::FileReference(value->path,)
-				ImGui::InputText(textureProperties[i].propertyName.c_str(), &path);
+				ImGui::InputText(textureProperties[i].propertyName.c_str(), &textureProperties[i].getValue()->path);
 				const ImGuiPayload* payload = ImGui::GetDragDropPayload();
 				{
 					if (ImGui::BeginDragDropTarget())
@@ -408,16 +409,17 @@ void Material::DrawInspector()
 							if (ext == ".png" || ext == ".jpg" || ext == ".tga")
 							{
 								std::replace(filePath.begin(), filePath.end(), '\\', '/');
-								path.assign(filePath);
+								//path.assign(filePath);
+								textureProperties[i].getValue()->path.assign(filePath);
 							}
 						}
 						ImGui::EndDragDropTarget();
 					}
 				}
-				if (path != value->path)
+				/*if (path != value->path)
 				{
 					value->path = path;
-				}
+				}*/
 			}
 			std::vector<std::string> textureFileExts;
 			textureFileExts.push_back(".png"); textureFileExts.push_back(".jpg"); textureFileExts.push_back(".tga");

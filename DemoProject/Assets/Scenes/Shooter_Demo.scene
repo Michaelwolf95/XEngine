@@ -4,7 +4,7 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>Shooter_Demo</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>34</count>
+		<count>43</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
@@ -363,7 +363,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
-						<q.y>2.763998136e-02</q.y>
+						<q.y>2.763997577e-02</q.y>
 						<q.z>0.000000000e+00</q.z>
 						<q.w>9.996179342e-01</q.w>
 					</localRotation>
@@ -435,7 +435,7 @@
 								<enabled>1</enabled>
 							</Component>
 							<fontPath>../../DemoProject/Assets/Fonts/arial.ttf</fontPath>
-							<text>97</text>
+							<text>83</text>
 							<fontSize>20</fontSize>
 							<color>
 								<vec.x>2.550000000e+02</vec.x>
@@ -1047,7 +1047,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>-0.000000000e+00</q.x>
-						<q.y>2.481833659e-02</q.y>
+						<q.y>2.481834218e-02</q.y>
 						<q.z>-0.000000000e+00</q.z>
 						<q.w>9.996919632e-01</q.w>
 					</localRotation>
@@ -1749,6 +1749,366 @@
 							<is3D>0</is3D>
 							<repeat>1</repeat>
 							<playOnStart>1</playOnStart>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_129">
+				<name>nanosuit.obj</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_130">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>-1.000000000e+01</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000015e-01</vec.x>
+						<vec.y>1.000000015e-01</vec.y>
+						<vec.z>1.000000015e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>0</count>
+					<item_version>1</item_version>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_131">
+				<name>Visor</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_132">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_133">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|Visor</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Visor.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_134">
+				<name>Legs</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_135">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_136">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|Legs</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Legs.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_137">
+				<name>hands</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_138">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_139">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|hands</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/hands.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_140">
+				<name>Lights</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_141">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_142">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|Lights</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Lights.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_143">
+				<name>Arms</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_144">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_145">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|Arms</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Arms.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_146">
+				<name>Helmet</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_147">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_148">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|Helmet</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Helmet.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_149">
+				<name>Body</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_150">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_130"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_151">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/nanosuit/nanosuit.obj|Body</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Body.material</materialPath>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_152">
+				<name>Red Box</name>
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_153">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id_reference="4" object_id_reference="_92"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>6.499999762e-01</vec.x>
+						<vec.y>6.499999762e-01</vec.y>
+						<vec.z>6.499999762e-01</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>1</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id_reference="10" object_id="_154">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<meshPath>../../DemoProject/Assets/3Dmodel/MetalCrate/cube.obj|Cube</meshPath>
+							<materialPath>../../DemoProject/Assets/Materials/Red.material</materialPath>
 						</px>
 					</item>
 				</components>

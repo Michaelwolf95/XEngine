@@ -79,7 +79,10 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
-		
+		if (version > 0)
+		{
+			ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		}
 		//ar & BOOST_SERIALIZATION_NVP(shader); //serialize is not a member of Shader
 	}
 	template<class Archive>
@@ -97,7 +100,10 @@ private:
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec3Properties);
 		ar & BOOST_SERIALIZATION_NVP(vec4Properties);
-
+		if (version > 0)
+		{
+			ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		}
 		//isInitialized = true;
 		std::cout << "load " << textureFilePath << std::endl;
 		Init();

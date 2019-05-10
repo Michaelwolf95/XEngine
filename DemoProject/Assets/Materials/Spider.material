@@ -3,7 +3,7 @@
 <boost_serialization signature="serialization::archive" version="17">
 <m class_id="0" tracking_level="0" version="0">
 	<textureProperties class_id="1" tracking_level="0" version="0">
-		<count>2</count>
+		<count>1</count>
 		<item_version>0</item_version>
 		<item class_id="2" tracking_level="1" version="0" object_id="_0">
 			<MaterialProperty class_id="3" tracking_level="0" version="0">
@@ -11,29 +11,23 @@
 			</MaterialProperty>
 			<filePath>../../DemoProject/Assets/3Dmodel/Spider/model/textures/Spinnen_Bein_tex.jpg</filePath>
 		</item>
-		<item object_id="_1">
-			<MaterialProperty>
-				<propertyName></propertyName>
-			</MaterialProperty>
-			<filePath>../../DemoProject/Assets/3Dmodel/Spider/model/textures/Spinnen_Bein_tex_2.jpg</filePath>
-		</item>
 	</textureProperties>
-	<name>Spider_Spider.005</name>
+	<name>Spider</name>
 	<vertexShaderPath>multilights.shader</vertexShaderPath>
 	<fragmentShaderPath></fragmentShaderPath>
-	<filePath>../../DemoProject/Assets/Materials/Spider_Spider.005.material</filePath>
+	<filePath>../../DemoProject/Assets/Materials/Spider.material</filePath>
 	<useLight>1</useLight>
 	<textureFilePath></textureFilePath>
 	<floatProperties class_id="4" tracking_level="0" version="0">
 		<count>2</count>
 		<item_version>0</item_version>
-		<item class_id="5" tracking_level="1" version="0" object_id="_2">
+		<item class_id="5" tracking_level="1" version="0" object_id="_1">
 			<MaterialProperty class_id="6" tracking_level="0" version="0">
 				<propertyName>material.shininess</propertyName>
 			</MaterialProperty>
 			<value>3.200000000e+01</value>
 		</item>
-		<item object_id="_3">
+		<item object_id="_2">
 			<MaterialProperty>
 				<propertyName>material.specularity</propertyName>
 			</MaterialProperty>
@@ -55,7 +49,7 @@
 	<vec4Properties class_id="10" tracking_level="0" version="0">
 		<count>1</count>
 		<item_version>0</item_version>
-		<item class_id="11" tracking_level="1" version="0" object_id="_4">
+		<item class_id="11" tracking_level="1" version="0" object_id="_3">
 			<MaterialProperty class_id="12" tracking_level="0" version="0">
 				<propertyName>material.color</propertyName>
 			</MaterialProperty>

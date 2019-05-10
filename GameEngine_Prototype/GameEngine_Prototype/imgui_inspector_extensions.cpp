@@ -187,6 +187,7 @@ namespace XEngine
 			bool changed = FileReference(pathRef, ".material", "Material Path");
 			if (changed)
 			{
+				std::replace(pathRef.begin(), pathRef.end(), '\\', '/');
 				Material* mat = AssetManager::getInstance().materialLib.GetAsset(pathRef);
 				if (mat != nullptr)
 				{

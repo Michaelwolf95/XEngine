@@ -118,6 +118,38 @@ void MeshRenderer::Setup()
 			material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
 		}
 	}
+
+	material->shader->use();
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
+	for (unsigned int j = 0; j < material->textureProperties.size(); j++)
+	{
+		// get texture before binding
+		//glActiveTexture(GL_TEXTURE0 + j);
+
+		std::string number;
+		std::string name = material->textureProperties[j].getValue()->type;
+
+		// transfer unsigned to stream
+		if (name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if (name == "texture_specular")
+			number = std::to_string(specularNr++);
+		else if (name == "texture_normal")
+			number = std::to_string(normalNr++);
+		else if (name == "texture_height")
+			number = std::to_string(heightNr++);
+
+		// set texture unit
+		glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+		// bind texture
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		//glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
+	}
+
+
 	isSetup = true;
 }
 
@@ -188,6 +220,8 @@ void MeshRenderer::Draw()
 			glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
 			material->shader->setVec3("viewPos", viewPos);
 
+			material->Draw();
+
 			// texture variables
 			unsigned int diffuseNr = 1;
 			unsigned int specularNr = 1;
@@ -214,12 +248,13 @@ void MeshRenderer::Draw()
 					number = std::to_string(heightNr++);
 
 				// set texture unit
-				glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+				//glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
 				// bind texture
+				//glBindTexture(GL_TEXTURE_2D, 0);
 				glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
 			}
 
-			material->Draw();
+			//material->Draw();
 
 			// Try to delegate to Material class????
 			// draw mesh
@@ -234,12 +269,39 @@ void MeshRenderer::Draw()
 
 			for (unsigned int j = 0; j < material->textureProperties.size(); j++)
 			{
+				// get texture before binding
 				glActiveTexture(GL_TEXTURE0 + j);
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glDisable(GL_TEXTURE_2D);
+
+				std::string number;
+				std::string name = material->textureProperties[j].getValue()->type;
+
+				// transfer unsigned to stream
+				if (name == "texture_diffuse")
+					number = std::to_string(diffuseNr++);
+				else if (name == "texture_specular")
+					number = std::to_string(specularNr++);
+				else if (name == "texture_normal")
+					number = std::to_string(normalNr++);
+				else if (name == "texture_height")
+					number = std::to_string(heightNr++);
+
+				// set texture unit
+				glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+
+				// bind texture
+				//glBindTexture(GL_TEXTURE_2D, 0);
+				//glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
+				//glBindTexture(GL_TEXTURE_2D, 0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+				//glDisable(GL_TEXTURE_2D);
+				glDisable(GL_TEXTURE_2D);
+				//glActiveTexture(GL_TEXTURE0);
 			}
 
 			glActiveTexture(GL_TEXTURE0);
+			glDisable(GL_TEXTURE_2D);
 		//}
 	}
 	else
