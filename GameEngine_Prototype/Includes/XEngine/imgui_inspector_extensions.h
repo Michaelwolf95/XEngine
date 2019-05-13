@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <type_traits>
-#include <shared_ptr.hpp>
+//#include <shared_ptr.hpp>
 #include "Component.h"
 #include "GameObject.h"
 #include "Material.h"

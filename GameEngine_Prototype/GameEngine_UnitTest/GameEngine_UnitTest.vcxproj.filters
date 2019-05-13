@@ -32,13 +32,16 @@
     <ClCompile Include="Transform_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="1_CreateDestroyGameObj.cpp">
+    <ClCompile Include="UnitTest_4_Game_Object_Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="2_GameObjTransformation.cpp">
+    <ClCompile Include="UnitTest_3_Child _Game_Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="3_Child _Game_Object.cpp">
+    <ClCompile Include="UnitTest_2_GameObjTransformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTest_1_CreateDestroyGameObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
