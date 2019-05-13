@@ -242,6 +242,7 @@
     <ClCompile Include="Transform_Test.cpp" />
     <ClCompile Include="unittest1.cpp" />
     <ClCompile Include="UnitTest_4_Game_Object_Component.cpp" />
+    <ClCompile Include="UnitTest_5_Save_Load_GameObjects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine_Prototype\GameEngine_Prototype.vcxproj">

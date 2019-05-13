@@ -44,5 +44,8 @@
     <ClCompile Include="UnitTest_1_CreateDestroyGameObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTest_5_Save_Load_GameObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
