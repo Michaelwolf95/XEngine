@@ -8,31 +8,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace XEngine_UnitTest
 {	
-	/*
-		Classes not tested:
-			- AssetManager
-			- DebugUtility
-			- Singleton
-	*/
 
-	TEST_CLASS(InputManager)
+	TEST_CLASS(User_Input)
 	{
 	public:
-		/*
-			Functions/Methods not tested:
-				- CreateManager()
-				- Init()
-				- UpdateInput()
-				- _mouse_button_callback(int button, int action, int mod)
-				- INPUT_MOUSE_CALLBACK(GLFWwindow* window, double xpos, double ypos)
-				- INPUT_SCROLL_CALLBACK(GLFWwindow* window, double xoffset, double yoffset)
-				- INPUT_MOUSE_BUTTON_CALLBACK(GLFWwindow * window, int button, int action, int mods)
-				- ShowCursor(bool enable)
-				- ToggleCursor()
-				- checkKeyInputs()
-				- validateMouseInputValue(int flfw_mouse_button)
-				- validateKeyInputValue(int glfw_key)
-		*/
 
 		TEST_METHOD(GetMousePosX)
 		{
@@ -47,21 +26,6 @@ namespace XEngine_UnitTest
 
 			Assert::AreEqual(0.0, Input::getInstance().GetMousePosY());
 		}
-		/*
-		TEST_METHOD(MouseCallback)
-		{
-			Input::CreateManager();
-
-			double xpos = 12.0;
-			double ypos = 15.0;
-
-			Input::getInstance()._mouse_callback(xpos, ypos);
-
-			//Why does GetMousePosX and GetMousePosY return double but the method it calls returns bool?
-			Assert::AreEqual(xpos, Input::getInstance().GetMousePosX());
-			Assert::AreEqual(ypos, Input::getInstance().GetMousePosY());
-		}
-		*/
 		TEST_METHOD(GetMousePos)
 		{
 			Input::CreateManager();
@@ -79,12 +43,17 @@ namespace XEngine_UnitTest
 		{
 			Input::CreateManager();
 
-			double xpos = 11.0;
-			double ypos = 12.5;
+			double xpos = 12.5;
+			double ypos = 11.0;
 
 			Input::getInstance()._mouse_callback(xpos, ypos);
 
-			Assert::AreEqual(2.5, Input::getInstance().GetDeltaPosX());
+			double xpos2 = 18.5;
+			double ypos2 = 11.0;
+
+			Input::getInstance()._mouse_callback(xpos2, ypos2);
+
+			Assert::AreEqual(-6.0, Input::getInstance().GetDeltaPosX());
 		}
 
 		TEST_METHOD(GetDeltaPosY)
@@ -96,33 +65,43 @@ namespace XEngine_UnitTest
 
 			Input::getInstance()._mouse_callback(xpos, ypos);
 
-			Assert::AreEqual(-6.0, Input::getInstance().GetDeltaPosY());
+			double xpos2 = 11.0;
+			double ypos2 = 18.5;
+
+			Input::getInstance()._mouse_callback(xpos2, ypos2);
+
+			Assert::AreEqual(6.0, Input::getInstance().GetDeltaPosY());
 		}
 
 		TEST_METHOD(GetMouseDelta)
 		{
 			Input::CreateManager();
 
-			double xpos = 1.0;
-			double ypos = 2.5;
-			glm::vec2 mouseDelta = glm::vec2(10.0, -10.0);
-
+			double xpos = 0.0;
+			double ypos = 0.0;
+			double xpos2 = 10.0;
+			double ypos2 = 10.0;
 			Input::getInstance()._mouse_callback(xpos, ypos);
+			Input::getInstance()._mouse_callback(xpos2, ypos2);
 
-			Assert::IsTrue(mouseDelta == Input::getInstance().GetMouseDelta());
+			glm::vec2 expected = glm::vec2(-10.0, 10.0);
+			glm::vec2 result = Input::getInstance().GetMouseDelta();
+			Logger::WriteMessage(std::to_string(result.x).c_str());
+			Logger::WriteMessage(std::to_string(result.y).c_str());
+			Assert::IsTrue(expected == result);
 		}
 
 		TEST_METHOD(ScrollCallback)
 		{
 			Input::CreateManager();
 
-			double xScrollOffset = 17.8;
-			double yScrollOffset = 18.4;
+			float xScrollOffset = 17.8;
+			float yScrollOffset = 18.4;
 
 			Input::getInstance()._scroll_callback(xScrollOffset, yScrollOffset);
 
-			//Assert::AreEqual(xScrollOffset, Input::getInstance().GetScrollOffsetX());
-			//Assert::AreEqual(yScrollOffset, Input::getInstance().GetScrollOffsetY());
+			Assert::IsTrue(xScrollOffset == Input::getInstance().GetScrollOffsetX());
+			Assert::IsTrue(yScrollOffset == Input::getInstance().GetScrollOffsetY());
 		}
 
 		TEST_METHOD(GetScrollOffsetX)
@@ -131,7 +110,7 @@ namespace XEngine_UnitTest
 
 			Input::getInstance()._scroll_callback(4.0, 4.5);
 
-			//Assert::AreEqual(4.0, Input::getInstance().GetScrollOffsetX());
+			Assert::IsTrue(4.0 == Input::getInstance().GetScrollOffsetX());
 		}
 
 		TEST_METHOD(GetScrollOffsetY)
@@ -140,7 +119,7 @@ namespace XEngine_UnitTest
 
 			Input::getInstance()._scroll_callback(4.0, 4.5);
 
-			//Assert::AreEqual(4.5, Input::getInstance().GetScrollOffsetY());
+			Assert::IsTrue(4.5 == Input::getInstance().GetScrollOffsetY());
 		}
 
 		TEST_METHOD(GetMouseButtonDown)

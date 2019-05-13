@@ -9,7 +9,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace XEngine_UnitTest
 {
-	TEST_CLASS(Game_Obj_Test)
+	TEST_CLASS(Game_Obj_Transform_Test)
 	{
 	public:
 		TEST_METHOD(Transform_Exist_In_GameObj) 
