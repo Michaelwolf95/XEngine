@@ -47,5 +47,8 @@
     <ClCompile Include="UnitTest_5_Save_Load_GameObjects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTest_6_Read_Load_Assets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

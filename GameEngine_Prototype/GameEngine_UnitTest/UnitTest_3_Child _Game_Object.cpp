@@ -9,7 +9,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace XEngine_UnitTest
 {
-	TEST_CLASS(Child_Game_Ibj)
+	TEST_CLASS(Child_Game_Obj)
 	{
 	public:
 		TEST_METHOD(Child_Attachment)
