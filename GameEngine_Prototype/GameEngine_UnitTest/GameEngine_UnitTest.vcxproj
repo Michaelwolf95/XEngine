@@ -240,6 +240,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Transform_Test.cpp" />
+    <ClCompile Include="UnitTest_7_GameObject_Physics.cpp" />
     <ClCompile Include="UnitTest_8_User_Input.cpp" />
     <ClCompile Include="UnitTest_4_Game_Object_Component.cpp" />
     <ClCompile Include="UnitTest_5_Save_Load_GameObjects.cpp" />

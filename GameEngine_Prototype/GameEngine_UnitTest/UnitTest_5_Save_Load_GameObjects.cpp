@@ -28,7 +28,6 @@ namespace XEngine_UnitTest
 			if (exists)
 			{
 				// if scene file exist
-
 				// check if the same gameobj from the saved scene is loaded
 				Assert::IsTrue(loadedScene->allGameObjects[0]->name == "TestObj");
 			}

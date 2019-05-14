@@ -50,5 +50,8 @@
     <ClCompile Include="UnitTest_8_User_Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTest_7_GameObject_Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
