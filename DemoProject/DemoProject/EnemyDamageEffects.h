@@ -3,6 +3,7 @@
 #include "XEngineProject.h"
 #include "XEngine.h"
 using namespace XEngine;
+#include <weak_ptr.hpp>
 
 class PROJECT_API EnemyDamageEffects : public Component
 {
@@ -25,8 +26,8 @@ public:
 	std::string takeDamageAudioPath;
 	std::string deathAudioPath;
 
-	GameObject* meshObject = nullptr;
-
+	//GameObject* meshObject = nullptr;
+	std::weak_ptr<GameObject> meshObject;
 private:
 	bool deathEffectRunning = false;
 	float deathEffectTimer = 0.0f;
@@ -49,7 +50,15 @@ private:
 		}
 		if (version > 1)
 		{
-			ar & BOOST_SERIALIZATION_NVP(meshObject);
+			if (version >= 3)
+			{
+				ar & BOOST_SERIALIZATION_NVP(meshObject);
+			}
+			else
+			{
+				GameObject* m = nullptr;
+				ar & boost::serialization::make_nvp<GameObject*>("meshObject", m);
+			}
 		}
 	}
 	template<class Archive>
@@ -65,7 +74,16 @@ private:
 		}
 		if (version > 1)
 		{
-			ar & BOOST_SERIALIZATION_NVP(meshObject);
+			if (version >= 3)
+			{
+				ar & BOOST_SERIALIZATION_NVP(meshObject);
+			}
+			else
+			{
+				GameObject* m = nullptr;
+				ar & boost::serialization::make_nvp<GameObject*>("meshObject", m);
+				//meshObject = m->GetSelfPtr();
+			}
 		}
 	}
 

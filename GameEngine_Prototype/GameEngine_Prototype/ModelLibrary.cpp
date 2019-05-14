@@ -19,7 +19,7 @@ ModelLibrary::ModelLibrary() {}
 ModelLibrary::~ModelLibrary() {}
 
 // Get model with multiple MeshRenderer in GameObject tree form
-GameObject_ptr ModelLibrary::getModelGameObject(std::string filePath)
+GameObject_ptr ModelLibrary::GenerateModelGameObject(std::string filePath)
 {
 	// read file using ASSIMP
 	Assimp::Importer importer;
@@ -67,8 +67,17 @@ GameObject_ptr ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene
 		// make MeshRenderer
 		std::shared_ptr<XEngine::MeshRenderer> nodeMeshRenderer(new XEngine::MeshRenderer(meshPath, materialPath));
 
-		// attach MeshRenderer to node game obj
-		nodeGameObj->AddComponent(nodeMeshRenderer);
+		// If the node has multiple meshes, generate a child gameobject for it.
+		if (i > 0)
+		{
+			GameObject_ptr childMeshObject = gameScene->CreateGameObject(ai_mesh->mName.C_Str());
+			childMeshObject->AddComponent(nodeMeshRenderer);
+		}
+		else
+		{
+			// attach MeshRenderer to node game obj
+			nodeGameObj->AddComponent(nodeMeshRenderer);
+		}
 	}
 
 	// recursively call the children nodes

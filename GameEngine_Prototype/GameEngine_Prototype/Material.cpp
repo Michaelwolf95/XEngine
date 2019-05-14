@@ -11,7 +11,7 @@
 using namespace XEngine;
 
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
-BOOST_CLASS_VERSION(Material, 1);
+BOOST_CLASS_VERSION(Material, 2);
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {

@@ -21,12 +21,9 @@ namespace XEngine {
 		void Draw() override;
 
 		unsigned int skyboxVAO, skyboxVBO;
-		unsigned int cubemapTexture;
 		Shader* skyboxShader = nullptr;
-		unsigned int loadCubemap(vector<std::string> faces);
+		Texture cubemapTexture;
 
-		//std::string cubemapFaces[6];
-		//std::vector<std::string>
 		std::vector<std::string> cubemapFaces;
 
 	private:

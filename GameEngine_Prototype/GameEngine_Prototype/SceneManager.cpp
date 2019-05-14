@@ -198,7 +198,7 @@ void SceneManager::UnloadActiveScene()
 	{
 		activeScene->Unload();
 		activeScene.reset();
-		RenderManager::getInstance().currentRenderables.clear();
+		//RenderManager::getInstance().currentRenderables.clear();
 	}
 }
 

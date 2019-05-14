@@ -918,7 +918,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 			{
 				Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
 				std::string objPath = "3Dmodel/nanosuit/nanosuit.obj";
-				GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
+				GameObject_ptr go = AssetManager::getInstance().modelLib.GenerateModelGameObject("3Dmodel/nanosuit/nanosuit.obj");
 				selectedGameObject = go;
 			}			
 
@@ -1251,7 +1251,7 @@ void SceneEditor::HierarchyUpdate()
 						std::replace(filePath.begin(), filePath.end(), '\\', '/');
 
 						Scene_ptr scene = SceneManager::getInstance().GetActiveScene();
-						GameObject_ptr go = AssetManager::getInstance().modelLib.getModelGameObject(filePath);
+						GameObject_ptr go = AssetManager::getInstance().modelLib.GenerateModelGameObject(filePath);
 						selectedGameObject = go;
 					}
 
