@@ -49,6 +49,8 @@ namespace XEngine
 
 		IMGUI_IMPL_API void GameObjectReference(GameObject*& go, std::string label)
 		{
+			
+			//GameObject_ptr sp = go->GetSelfPtr();
 			ImGui::Text(label.c_str());
 			ImGui::SameLine();
 			if (go != nullptr)
@@ -70,6 +72,36 @@ namespace XEngine
 				}
 				ImGui::EndDragDropTarget();
 			}
+		}
+		IMGUI_IMPL_API void GameObjectReference(GameObject_ptr& go, std::string label)
+		{
+			ImGui::Text(label.c_str());
+			ImGui::SameLine();
+			if (go != nullptr)
+			{
+				ImGui::Button(go->name.c_str());
+			}
+			else
+			{
+				ImGui::Button("(None)");
+			}
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GAMEOBJECT_DRAG"))
+				{
+					IM_ASSERT(payload->DataSize == sizeof(GameObject_ptr));
+					GameObject_ptr payload_n = *(const GameObject_ptr*)payload->Data;
+
+					go = payload_n;
+				}
+				ImGui::EndDragDropTarget();
+			}
+		}
+		IMGUI_IMPL_API void GameObjectReference(std::weak_ptr<GameObject>& go, std::string label)
+		{
+			std::shared_ptr<GameObject> sp = go.lock();
+			GUI::GameObjectReference(sp, label); // shared_ptr version.
+			go = sp;
 		}
 
 		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component*& compRef, std::string label)

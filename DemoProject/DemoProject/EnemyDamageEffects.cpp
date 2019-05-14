@@ -14,7 +14,7 @@ using namespace XEngine;
 
 // Register to be created and serialized.
 REGISTER_COMPONENT(EnemyDamageEffects, "EnemyDamageEffects")
-BOOST_CLASS_VERSION(EnemyDamageEffects, 2);
+BOOST_CLASS_VERSION(EnemyDamageEffects, 3);
 
 EnemyDamageEffects::EnemyDamageEffects() {}
 EnemyDamageEffects::~EnemyDamageEffects() {}
@@ -81,11 +81,11 @@ void EnemyDamageEffects::StartOnDeathEffect()
 void EnemyDamageEffects::DoOnTakeDamageEffect(float damage)
 {
 	std::cout << this->gameObject->name << " Took " << damage << "Damage!\n";
-
-	if (meshObject != nullptr)
+	auto meshObj = meshObject.lock();
+	if (meshObj != nullptr)
 	{
 		XEngine::MeshRenderer* mr;
-		if (meshObject->FindComponent<XEngine::MeshRenderer>(mr))
+		if (meshObj->FindComponent<XEngine::MeshRenderer>(mr))
 		{
 			//mr->material->vec4Properties[0].setValue(glm::vec4(1, 0, 0, 1));
 		}

@@ -65,15 +65,20 @@ private:
 	template<class Archive>
 	void save(Archive & ar, const unsigned int version) const
 	{
-		std::cout << "save " << textureFilePath << std::endl;
-
-		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		//std::cout << "save " << textureFilePath << std::endl;
+		if (version <= 0)
+		{
+			ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		}
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(filePath);
 		ar & BOOST_SERIALIZATION_NVP(useLight);
-		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
+		if (version < 2)
+		{
+			ar & BOOST_SERIALIZATION_NVP(textureFilePath);
+		}
 		ar & BOOST_SERIALIZATION_NVP(floatProperties);
 		ar & BOOST_SERIALIZATION_NVP(intProperties);
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
@@ -88,13 +93,19 @@ private:
 	template<class Archive>
 	void load(Archive & ar, const unsigned int version) // file_version
 	{
-		ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		if (version <= 0)
+		{
+			ar & BOOST_SERIALIZATION_NVP(textureProperties);
+		}
 		ar & BOOST_SERIALIZATION_NVP(name);
 		ar & BOOST_SERIALIZATION_NVP(vertexShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(fragmentShaderPath);
 		ar & BOOST_SERIALIZATION_NVP(filePath);
 		ar & BOOST_SERIALIZATION_NVP(useLight);
-		ar & BOOST_SERIALIZATION_NVP(textureFilePath);
+		if (version < 2)
+		{
+			ar & BOOST_SERIALIZATION_NVP(textureFilePath);
+		}
 		ar & BOOST_SERIALIZATION_NVP(floatProperties);
 		ar & BOOST_SERIALIZATION_NVP(intProperties);
 		ar & BOOST_SERIALIZATION_NVP(vec2Properties);
@@ -105,7 +116,7 @@ private:
 			ar & BOOST_SERIALIZATION_NVP(textureProperties);
 		}
 		//isInitialized = true;
-		std::cout << "load " << textureFilePath << std::endl;
+		//std::cout << "load " << textureFilePath << std::endl;
 		Init();
 		//shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 		

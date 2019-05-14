@@ -18,7 +18,7 @@ public:
 	ModelLibrary();
 	~ModelLibrary();
 
-	GameObject_ptr getModelGameObject(std::string filePath);
+	GameObject_ptr GenerateModelGameObject(std::string filePath);
 	GameObject_ptr processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath);
 
 protected:

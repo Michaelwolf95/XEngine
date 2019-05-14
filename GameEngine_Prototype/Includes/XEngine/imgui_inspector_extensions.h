@@ -19,9 +19,15 @@ namespace XEngine
 
 		IMGUI_IMPL_API void GameObjectReference(GameObject*& go, std::string label);
 
+		IMGUI_IMPL_API void GameObjectReference(GameObject_ptr& go, std::string label);
+
+		IMGUI_IMPL_API void GameObjectReference(std::weak_ptr<GameObject>& go, std::string label);
+
 		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component*& compRef, std::string label);
 
 		IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, Component_ptr& compRef, std::string label);
+
+		//IMGUI_IMPL_API void ComponentReference(const std::type_info & typeInfo, std::weak_ptr<Component>& compRef, std::string label);
 
 		IMGUI_IMPL_API bool FileReference(std::string& pathRef, std::string extension, const char* label = "##edit");
 		IMGUI_IMPL_API bool FileReference(std::string& pathRef, std::vector<std::string> extensions, const char* label = "##edit");
@@ -40,6 +46,14 @@ namespace XEngine
 		{
 			static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
 			ComponentReference(typeid(T), ((Component_ptr&)compRef), label);
+		}
+		template <typename T>
+		void ComponentReference(std::weak_ptr<T>& compRef, std::string label)
+		{
+			static_assert(std::is_base_of<Component, T>::value, "Type T must derive from Component");
+			std::shared_ptr<T> sp = compRef.lock();
+			ComponentReference(typeid(T), ((Component_ptr&)sp), label);
+			compRef = sp;
 		}
 	}
 }
