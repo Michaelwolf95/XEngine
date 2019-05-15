@@ -172,48 +172,5 @@ namespace XEngine_UnitTest
 		}
 	};
 	
-	TEST_CLASS(TimeManager)
-	{
-	public:
-		/*
-			Functions/Methods not tested:
-				- CreateManager()
-				- Init()
-				- UpdateInput()
-				- ModSampleSize(int &sample_sz)
-				- SetSampleSetSize(int sample_set_sz)
-				- GetFPS(void(*callback)(float))
-		*/
-
-		TEST_METHOD(UpdateTime)
-		{
-			GameTime::CreateManager();
-
-			float current = GameTime::getInstance().currentTime;
-			float delta = current - GameTime::getInstance().timeLastFrame;
-			float last = current;
-
-			GameTime::getInstance().UpdateTime();
-
-			Assert::AreEqual(GameTime::getInstance().currentTime, current);
-			Assert::AreEqual(GameTime::getInstance().deltaTime, delta);
-			Assert::AreEqual(GameTime::getInstance().timeLastFrame, last);
-		}
-
-		TEST_METHOD(ToggleFPS)
-		{
-			GameTime::CreateManager();
-
-			GameTime::getInstance().ToggleFPS();
-
-			Assert::IsTrue(true == GameTime::getInstance().IsCounting());
-		}
-
-		TEST_METHOD(IsCounting)
-		{
-			GameTime::CreateManager();
-
-			Assert::IsTrue(true == GameTime::getInstance().IsCounting());
-		}
-	};
+	
 }

@@ -25,7 +25,7 @@ public :
 };
 
 // Note for meshes from obj files, use the filepath + name of mesh
-class MeshLibrary: public AssetLibrary<MeshQuery, Mesh*>
+class ENGINE_API MeshLibrary: public AssetLibrary<MeshQuery, Mesh*>
 {
 public:
 	MeshLibrary();

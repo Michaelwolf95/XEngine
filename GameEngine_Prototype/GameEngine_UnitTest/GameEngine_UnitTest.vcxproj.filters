@@ -56,5 +56,14 @@
     <ClCompile Include="UnitTest_9_Save_Load_File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Integration_1_GameObject_Component_System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Integration_2_Time_Management_System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Integration_3_Asset_Management_System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -19,7 +19,7 @@ public:
 	}
 };
 
-class ShaderLibrary : public AssetLibrary<ShaderQuery, Shader*>
+class ENGINE_API ShaderLibrary : public AssetLibrary<ShaderQuery, Shader*>
 {
 public:
 	ShaderLibrary();
