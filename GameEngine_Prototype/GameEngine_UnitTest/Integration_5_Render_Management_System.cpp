@@ -18,6 +18,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Render_Management_System)
 	{
 	public:
+		// Test get view
 		TEST_METHOD(Test_GetView)
 		{
 			// Arrange
@@ -63,6 +64,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(viewExpected == viewResult);
 		}
 
+		// Test get projection
 		TEST_METHOD(Test_GetProjection)
 		{
 			// Arrange
@@ -108,6 +110,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(projExpected == projResult);
 		}
 
+		// Test get current camera
 		TEST_METHOD(Test_GetCurrentCamera)
 		{
 			// Arrange
@@ -157,6 +160,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(cam->getProjection() == cameraResult->getProjection());
 		}
 
+		// Test add renderable
 		TEST_METHOD(Test_AddRenderable)
 		{
 			// Arrange
@@ -204,6 +208,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(count == 1);
 		}
 
+		// Test remove renderable
 		TEST_METHOD(Test_RemoveRenderable)
 		{
 			// Arrange

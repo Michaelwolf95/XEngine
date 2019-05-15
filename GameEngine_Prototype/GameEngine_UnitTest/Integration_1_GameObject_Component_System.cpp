@@ -18,6 +18,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(GameObject_Component_System)
 	{
 	public:
+		// Test Adding Game Object in scene
 		TEST_METHOD(Scene_Add_GameObject)
 		{
 			// Arrange
@@ -63,6 +64,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(results == 1);
 		}
 
+		// Test removing gameobject in scene
 		TEST_METHOD(Scene_Remove_GameObject)
 		{
 			// Arrange
@@ -110,6 +112,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(results == 1);
 		}
 
+		// Test adding component in gameobject
 		TEST_METHOD(GameObject_Add_Component)
 		{
 			// Arrange
@@ -157,6 +160,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(results == 1);
 		}
 
+		// Test remove component from game object
 		TEST_METHOD(GameObject_Remove_Component)
 		{
 			// Arrange
@@ -207,6 +211,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(results == 1);
 		}
 
+		// Test adding child gameobject
 		TEST_METHOD(GameObject_Add_Child_GameObject)
 		{
 			// Arrange
@@ -255,6 +260,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(results == 1);
 		}
 
+		// Test removing child game object
 		TEST_METHOD(GameObject_Remove_Child_GameObject)
 		{
 			// Arrange

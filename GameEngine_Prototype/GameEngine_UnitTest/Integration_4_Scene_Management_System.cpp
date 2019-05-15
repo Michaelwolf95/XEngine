@@ -18,6 +18,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Scene_Management_System)
 	{
 	public:
+		// Test get active scene
 		TEST_METHOD(Test_GetActiveScene)
 		{
 			// Arrange
@@ -61,6 +62,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(sceneExpected == sceneResult);
 		}
 
+		// Test set active scene
 		TEST_METHOD(Test_SetActiveScene)
 		{
 			// Arrange
@@ -106,6 +108,7 @@ namespace XEngine_UnitTest
 			Assert::AreEqual(sceneResult->name.c_str(), "Test_SceneManagement_System");
 		}
 
+		// Test create new scene
 		TEST_METHOD(Test_CreateNewScene)
 		{
 			// Arrange
@@ -149,6 +152,7 @@ namespace XEngine_UnitTest
 			Assert::AreEqual(sceneResult->name.c_str(), "Test_SceneManagement_System");
 		}
 
+		// Test save active scene and load active scene
 		TEST_METHOD(Test_SaveActiveScene_LoadActiveScene)
 		{
 			// Arrange
@@ -195,6 +199,7 @@ namespace XEngine_UnitTest
 			Assert::AreEqual(sceneResult->name.c_str(), "Test_SceneManagement_System");
 		}
 
+		// Test load and activate scene
 		TEST_METHOD(Test_LoadandActivateScene)
 		{
 			// Arrange
@@ -240,6 +245,7 @@ namespace XEngine_UnitTest
 			Assert::AreEqual(sceneResult->name.c_str(), "Test_SceneManagement_System");
 		}
 
+		// Test unload active scene
 		TEST_METHOD(Test_UnloadActiveScene)
 		{
 			// Arrange
@@ -283,6 +289,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(sceneResult == nullptr);
 		}
 
+		// Test reload active scene
 		TEST_METHOD(Test_ReloadActiveScene)
 		{
 			// Arrange
@@ -325,6 +332,5 @@ namespace XEngine_UnitTest
 			// Assert: if values are the same
 			Assert::AreEqual(sceneResult->name.c_str(), "Test_SceneManagement_System");
 		}
-
 	};
 }

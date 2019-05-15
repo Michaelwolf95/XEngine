@@ -18,48 +18,8 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Physic_Management_System)
 	{
 	public:
-		TEST_METHOD(Test_Init)
-		{
-			// Arrange
-			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("TestingPhysics");
-
-			SceneManager::getInstance().SetActiveScene(scene);
-			SceneManager::getInstance().SaveActiveScene();
-			bool init = false;
-			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
-			{
-				ApplicationManager::getInstance().ApplicationStartUpdate();
-				GameTime::getInstance().UpdateTime();
-				Input::getInstance().UpdateInput();
-
-				if (OnEngineUpdate != nullptr) OnEngineUpdate();
-				SceneManager::getInstance().UpdateActiveScene();
-				AudioManager::getInstance().UpdateAudio();
-
-				PhysicsManager::getInstance().PhysicsUpdate();
-
-				// Act
-				init = PhysicsManager::getInstance().isInitialized;
-
-				if (OnEnginePreRender != nullptr) OnEnginePreRender();
-
-				RenderManager::getInstance().Render();
-
-				if (OnEnginePostRender != nullptr) OnEnginePostRender();
-
-				Input::getInstance().EndUpdateFrame();
-				ApplicationManager::getInstance().ApplicationEndUpdate();
-			}
-
-			if (OnApplicationClose != nullptr) OnApplicationClose();
-
-			ApplicationManager::getInstance().CloseApplication();
-
-			// Assert
-			Assert::IsTrue(init);
-		}
-
+		// Note: Test is similar to the unit test version of physics
+		// Test collision with rigidbodu and collidor pyhysics
 		TEST_METHOD(Test_Collision)
 		{
 			// Arrange
@@ -125,6 +85,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
+			// Assert
 			Assert::IsTrue(collisions > 0);
 		}
 	};

@@ -13,27 +13,30 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Save_Load_GameObject)
 	{
 	public:
+		// Test save and load gameobject
 		TEST_METHOD(Save_and_Load_GameObject)
 		{
-			// Loading Test Scene with test game object
+			// Arrange
 			SceneManager::CreateManager();
 			Scene_ptr savingTestScene = SceneManager::getInstance().CreateNewScene("TestScene");
 			SceneManager::getInstance().SetActiveScene(savingTestScene);
 			savingTestScene->CreateGameObject("TestObj");
+
+			// Act: Save
 			SceneManager::getInstance().SaveSceneToFile(*savingTestScene);
 
-			// Loading Test Scene with test game object
+			// Act: Load
 			Scene_ptr loadedScene(new Scene("TestScene"));
 			bool exists = SceneManager::getInstance().LoadSceneFromFileByName(*loadedScene, "TestScene");
+			
 			if (exists)
 			{
-				// if scene file exist
-				// check if the same gameobj from the saved scene is loaded
+				// Assert
 				Assert::IsTrue(loadedScene->allGameObjects[0]->name == "TestObj");
 			}
 			else
 			{
-				// if scene file does not exist
+				// Assert fail
 				Assert::Fail();
 			}
 		}

@@ -18,6 +18,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Asset_Management_System)
 	{
 	public:
+		// Test material library
 		TEST_METHOD(Test_Material_Library)
 		{
 			// Arrange
@@ -63,6 +64,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(savedMat == loadedMat);
 		}
 
+		// Test mesh library
 		TEST_METHOD(Test_Mesh_Library)
 		{
 			// Arrange
@@ -108,6 +110,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(savedMesh == loadedMesh);
 		}
 
+		// Test model library
 		TEST_METHOD(Test_Model_Library)
 		{
 			// Arrange
@@ -153,6 +156,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(savedModel == loadedModel);
 		}
 
+		// Test shader library
 		TEST_METHOD(Test_Shader_Library)
 		{
 			// Arrange
@@ -198,6 +202,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(savedShader == loadedShader);
 		}
 
+		// Test texture library
 		TEST_METHOD(Test_Texture_Library)
 		{
 			// Arrange

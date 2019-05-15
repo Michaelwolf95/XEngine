@@ -14,6 +14,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Read_Load_Assets)
 	{
 	public:
+		// Test read from 3D file and load into data
 		TEST_METHOD(Read_Load_3D_Models)
 		{
 			// Arrange
@@ -23,12 +24,12 @@ namespace XEngine_UnitTest
 			// Act
 			std::shared_ptr<XEngine::MeshRenderer> cube(new XEngine::MeshRenderer("3Dmodel/MetalCrate/cube.obj|Cube"));
 
-
 			// Assert
 			Assert::IsTrue(cube->mesh != nullptr);
 			Assert::IsTrue(cube->material != nullptr);
 		}
 
+		// Test read from 2D file and load into data
 		TEST_METHOD(Read_Load_Images)
 		{
 			// Arrange
@@ -43,6 +44,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(strcmp(tex->path.c_str(), "../../DemoProject/Assets/textures/MetalCrate.png") == 0 );
 		}
 
+		// Test read from audio file and load into data
 		TEST_METHOD(Read_Load_Audio)
 		{
 			// Arrange
@@ -50,7 +52,6 @@ namespace XEngine_UnitTest
 			ENGINE_MAIN();
 
 			// Act
-			//GameObject_ptr obj = std::shared_ptr<GameObject>(new GameObject("Obj"));
 			std::shared_ptr<AudioComponent> aud(new AudioComponent());
 			aud->soundPath = "../Assets/sounds/foghorn.wav";
 

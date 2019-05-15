@@ -13,6 +13,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(GameObject_Component)
 	{
 	public:
+		// Test game object add component
 		TEST_METHOD(Add_Component)
 		{
 			// Arrange
@@ -26,6 +27,7 @@ namespace XEngine_UnitTest
 			Assert::IsTrue(obj->components.size() == 1);
 		}
 
+		// test game object remove component
 		TEST_METHOD(Delete_Component)
 		{
 			// Arrange

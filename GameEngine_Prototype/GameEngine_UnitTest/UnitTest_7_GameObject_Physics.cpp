@@ -18,14 +18,14 @@ namespace XEngine_UnitTest
 	TEST_CLASS(GameObject_Physics)
 	{
 	public:
+		// Test collsion from rigid body and collider physics
 		TEST_METHOD(Collision_Test)
 		{
 			// Arrange
 			ENGINE_INITIALIZE();
 			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("TestingPhysics");
 			
-			// camera
-			GameObject_ptr cam = scene->CreateGameObject("Camere");
+			GameObject_ptr cam = scene->CreateGameObject("Camere");// make camera
 			std::shared_ptr<CameraComponent> cameraComponent(new CameraComponent());
 			cam->AddComponent(cameraComponent);
 			cam->transform->setPosition(-1, 7, -40);
@@ -53,22 +53,20 @@ namespace XEngine_UnitTest
 			SceneManager::getInstance().SaveActiveScene();
 			
 			int collisions = 0;
-
-			// FRAME LOOP
 			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 			{
 				ApplicationManager::getInstance().ApplicationStartUpdate();
 				GameTime::getInstance().UpdateTime();
 				Input::getInstance().UpdateInput();
 
-				// MAIN UPDATE
 				if (OnEngineUpdate != nullptr) OnEngineUpdate();
 				SceneManager::getInstance().UpdateActiveScene();
 				AudioManager::getInstance().UpdateAudio();
 
 				PhysicsManager::getInstance().PhysicsUpdate();
-				collisions = PhysicsManager::getInstance().dynamicsWorld->getDispatcher()->getNumManifolds();
 
+				// Act
+				collisions = PhysicsManager::getInstance().dynamicsWorld->getDispatcher()->getNumManifolds();
 
 				if (OnEnginePreRender != nullptr) OnEnginePreRender();
 
@@ -84,6 +82,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
+			// Assert
 			Assert::IsTrue(collisions > 0);
 		}
 	};
