@@ -64,7 +64,7 @@ void Scene::PrintScene()
 void Scene::Load()
 {
 	std::cout << "\tLoading Scene" << name << std::endl;
-	PrintScene();
+	//PrintScene();
 	isLoaded = true;
 }
 
@@ -77,7 +77,8 @@ void Scene::Unload()
 {
 	std::cout << "\tUnloading Scene " << name << std::endl;
 	rootGameObjects.clear();
-	PrintScene();
+	allGameObjects.clear();
+	//PrintScene();
 	
 	isLoaded = false;
 	isStarted = false;
@@ -165,7 +166,7 @@ GameObject_ptr Scene::CreateGameObject(const char * name, Transform * parent)
 
 void Scene::DeleteGameObject(GameObject_ptr go)
 {
-	std::cout << "Scene- Deleting GameObject: " << go->name << std::endl;
+	//std::cout << "Scene- Deleting GameObject: " << go->name << std::endl;
 	// If vector contains it, remove it.
 	auto n = std::find(allGameObjects.begin(), allGameObjects.end(), go);
 	if (n != allGameObjects.end())

@@ -29,14 +29,14 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 	if (search == this->library.end())
 	{
 		// Not found in library.
-		std::cout << "Material not found in Library" << std::endl;
-		std::cout << "\tfileName: " << fileName << std::endl;
+		//std::cout << "Material not found in Library" << std::endl;
+		std::cout << "\tLoading Material: " << fileName << std::endl;
 		return LoadAsset(fileName);
 	}
 	else
 	{
 		// Found
-		std::cout << "Material loaded from Library" << std::endl;
+		//std::cout << "Material loaded from Library" << std::endl;
 		return this->library[fileName];
 	}
 }
@@ -56,16 +56,16 @@ Material *& MaterialLibrary::LoadAsset(std::string filePath)
 	// load from file in directory
 	if (LoadMaterialFromFile(*loadedMaterial, filePath.c_str()) )
 	{ 
-		std::cout << "Material loaded from file in Assets directory" << std::endl;
+		//std::cout << "Material loaded from file in Assets directory" << std::endl;
 	}
 	else // cant load, then create new one
 	{
-		std::cout << "Material not loaded from file in Assets directory" << std::endl;
+		//std::cout << "Material not loaded from file in Assets directory" << std::endl;
 	}
 
 	// save into library
 	library.insert({ filePath, loadedMaterial });
-	std::cout << "Material saved into Library" << std::endl;
+	//std::cout << "Material saved into Library" << std::endl;
 
 	// create file and save into directory
 	SaveMaterialToFile(*loadedMaterial, filePath.c_str() );
@@ -124,7 +124,7 @@ bool MaterialLibrary::LoadMaterialFromFile(Material &m, const char * filePath)
 
 	// restore from the archive
 	ia >> BOOST_SERIALIZATION_NVP(m);
-	std::cout << "LOADED MATERIAL WITH FILE PATH: " << filePath << std::endl;
+	//std::cout << "LOADED MATERIAL WITH FILE PATH: " << filePath << std::endl;
 	m.filePath = filePath;
 	return true;
 }

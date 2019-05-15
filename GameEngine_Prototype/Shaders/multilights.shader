@@ -14,6 +14,7 @@ layout(location = 2) in vec2 aTexCoord;
 out vec3 FragPos;
 out vec3 Normal;
 out vec2 TexCoord;
+out vec3 ViewPos;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -26,6 +27,8 @@ void main()
 	TexCoord = aTexCoord;
 	gl_Position = projection * view * model * vec4(aPos, 1.0); // added model back into equation, no discernable difference--removed
 	//gl_Position = projection * view * model * vec4(FragPos, 1.0); // added model back into equation, no discernable difference--removed
+
+	ViewPos = vec3(view[3][0], view[3][1], view[3][2]);
 }
 
 #FRAGMENT_SHADER
@@ -34,6 +37,7 @@ out vec4 FragColor;
 in vec3 FragPos;
 in vec2 TexCoord;
 in vec3 Normal;
+in vec3 ViewPos;
 
 struct Material {
 	sampler2D texture_diffuse1;
@@ -80,10 +84,10 @@ struct GlobalLight { // AKA DirLight
 const int NUM_LIGHTS = 10;
 
 uniform sampler2D Texture;
-uniform sampler2D texture_diffuse1;
-uniform sampler2D texture_specular1;
+uniform sampler2D texture_diffuse;
+uniform sampler2D texture_specular;
 
-uniform vec3 viewPos;
+//uniform vec3 viewPos;
 uniform vec4 sceneAmbience; // get from camera
 uniform float sceneAmbienceStrength; // currrently hardcoded in material::draw
 
@@ -119,7 +123,7 @@ void main()
 
 	vec3 norm = normalize(Normal);
 
-	vec3 viewDir = normalize(viewPos - FragPos); // TODO: assign viewPos. Currently nothing inputted
+	vec3 viewDir = normalize(ViewPos - FragPos); // TODO: Use this. Currently nothing inputted
 
 	vec3 result = vec3(0.0f);
 
@@ -143,14 +147,14 @@ void main()
 
 vec3 getDiffuseTexel() 
 {
-	return (float(textureSize(texture_diffuse1, 0).x) > 1)
-		? texture(texture_diffuse1, TexCoord).rgb : material.color.rgb;
+	return (float(textureSize(texture_diffuse, 0).x) > 1)
+		? texture(texture_diffuse, TexCoord).rgb : material.color.rgb;
 }
 
 vec3 getSpecularTexel() 
 {
-	return (float(textureSize(texture_specular1, 0).x) > 1) 
-		? texture(texture_specular1, TexCoord).rgb : material.color.rgb;
+	return (float(textureSize(texture_specular, 0).x) > 1) 
+		? texture(texture_specular, TexCoord).rgb : material.color.rgb;
 }
 
 vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 viewDir) 

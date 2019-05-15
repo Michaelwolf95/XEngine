@@ -6,7 +6,7 @@
 
 //TODO: Rework this so that textures are structs, not just openGL textureIDs
 
-class TextureLibrary : public AssetLibrary<std::string, Texture>
+class TextureLibrary : public AssetLibrary<std::string, Texture*>
 {
 public:
 	struct TextureQuery
@@ -17,9 +17,9 @@ public:
 	};
 	TextureLibrary();
 	~TextureLibrary();
-	Texture& LoadAsset(std::string filePath) override;
+	Texture*& LoadAsset(std::string filePath) override;
 
-	Texture& GetCubeMap(std::vector<std::string> faces);
-	Texture& LoadCubeMapTexture(std::vector<std::string> faces);
+	Texture*& GetCubeMap(std::vector<std::string> faces);
+	Texture*& LoadCubeMapTexture(std::vector<std::string> faces);
 };
 

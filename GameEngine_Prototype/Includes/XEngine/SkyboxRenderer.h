@@ -22,7 +22,7 @@ namespace XEngine {
 
 		unsigned int skyboxVAO, skyboxVBO;
 		Shader* skyboxShader = nullptr;
-		Texture cubemapTexture;
+		Texture* cubemapTexture;
 
 		std::vector<std::string> cubemapFaces;
 

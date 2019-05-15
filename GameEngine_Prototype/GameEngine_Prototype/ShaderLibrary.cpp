@@ -12,9 +12,9 @@ ShaderLibrary::~ShaderLibrary()
 // Overloading method: pass filepaths create a query to load asset
 Shader * ShaderLibrary::GetAsset(std::string vs, std::string fs)
 {
-	std::cout << "ShaderLibrary::GetAsset called with arguments\n";
-	std::cout << "\tvs: " << vs << std::endl;
-	std::cout << "\tfs: " << fs << std::endl;
+	//std::cout << "ShaderLibrary::GetAsset called with arguments\n";
+	//std::cout << "\tvs: " << vs << std::endl;
+	//std::cout << "\tfs: " << fs << std::endl;
 
 	// create query based on arguments
 	ShaderQuery shaderQ{ vs, fs };
@@ -25,13 +25,14 @@ Shader * ShaderLibrary::GetAsset(std::string vs, std::string fs)
 	if (search == this->library.end())
 	{
 		// Not found in library.
-		std::cout << "Shader not found in Library" << std::endl;
+		std::cout << "Loading Shader: " << vs << std::endl;
+		//std::cout << "Shader not found in Library" << std::endl;
 		return LoadAsset(shaderQ);
 	}
 	else
 	{
 		// Found
-		std::cout << "Shader loaded from Library" << std::endl;
+		//std::cout << "Shader loaded from Library" << std::endl;
 		return this->library[shaderQ];
 	}
 }
@@ -48,7 +49,7 @@ Shader *& ShaderLibrary::LoadAsset(ShaderQuery query)
 
 	// save shader into shader library
 	library.insert({ query, loadedShader });
-	std::cout << "Shader saved into Library" << std::endl;
+	//std::cout << "Shader saved into Library" << std::endl;
 
 	return library[query];
 }

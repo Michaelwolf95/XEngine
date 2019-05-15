@@ -30,7 +30,7 @@ GameObject::GameObject(const char* _name)
 GameObject::~GameObject()
 {
 	HandleDisable();
-	std::cout << "\tDeconstructing " << name << "..." << std::endl;
+	//std::cout << "\tDeconstructing " << name << "..." << std::endl;
 	components.clear();
 }
 

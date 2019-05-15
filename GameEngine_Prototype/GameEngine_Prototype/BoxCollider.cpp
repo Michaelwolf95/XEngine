@@ -17,7 +17,7 @@ namespace XEngine
 	{
 		if (isInitialized)
 		{
-			std::cout << "\tDeleting/removing BoxCollider..." << std::endl;
+			//std::cout << "\tDeleting/removing BoxCollider..." << std::endl;
 			delete halfExtents;
 			halfExtents = nullptr;
 			Collider::~Collider();

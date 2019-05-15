@@ -48,7 +48,7 @@ namespace XEngine {
 		isSetup = true;
 		std::cout << "Setting up SpriteShader.\n";
 		shader = AssetManager::getInstance().shaderLib.GetAsset("../Shaders/sprite.vs", "../Shaders/sprite.fs");
-		texture = &AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
+		texture = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 		//AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 		// Configure VAO/VBO
 		//GLuint VBO;
@@ -138,7 +138,7 @@ namespace XEngine {
 		if (ImGui::Button("Change Texture"))
 		{
 			std::cout << "CHANGING TEXTURE\n";
-			*texture = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
+			texture = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 			//isSetup = false;
 			//Setup();
 			

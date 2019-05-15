@@ -172,7 +172,7 @@ namespace XEngine {
 		// skybox cube
 		glBindVertexArray(skyboxVAO);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture.id);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture->id);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); // set depth function back to default

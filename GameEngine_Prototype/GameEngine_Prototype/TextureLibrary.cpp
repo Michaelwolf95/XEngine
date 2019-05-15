@@ -9,14 +9,13 @@ TextureLibrary::~TextureLibrary() {}
 
 // Checks texture library for existing texture, if exists, no new texture is created, if not, stores a new texture.
 // Calls AssetManager::LoadTextureAsset to load texture into memory and assign texture ID.
-Texture & TextureLibrary::LoadAsset(std::string filePath)
+Texture* & TextureLibrary::LoadAsset(std::string filePath)
 {
-	std::cout << "TextureLibrary::LoadAsset with arguments\n";
-	std::cout << "\tfilePath: " << filePath << std::endl;
+	std::cout << "Loading Texture:"<< filePath << std::endl;
 	Texture* text = new Texture();
 	text->path = filePath;
 
-	library.insert({ filePath, *text });
+	library.insert({ filePath, text });
 
 	// if does not contain the directory 'Assets'
 	std::string fullPath;
@@ -25,11 +24,11 @@ Texture & TextureLibrary::LoadAsset(std::string filePath)
 	//else
 		fullPath = std::string(filePath);
 
-	AssetManager::LoadTextureAsset(fullPath.c_str(), &library[filePath].id); // <-- Maybe this should be in this class too, instead of just in asset manager.
+	AssetManager::LoadTextureAsset(fullPath.c_str(), &library[filePath]->id); // <-- Maybe this should be in this class too, instead of just in asset manager.
 	return library[filePath];
 }
 
-Texture& TextureLibrary::GetCubeMap(std::vector<std::string> faces)
+Texture*& TextureLibrary::GetCubeMap(std::vector<std::string> faces)
 {
 	std::string key = "CUBEMAP";
 	for (size_t i = 0; i < faces.size() && i < 6; i++)
@@ -58,7 +57,7 @@ Texture& TextureLibrary::GetCubeMap(std::vector<std::string> faces)
 // +Z (front) 
 // -Z (back)
 // -------------------------------------------------------
-Texture & TextureLibrary::LoadCubeMapTexture(std::vector<std::string> faces)
+Texture* & TextureLibrary::LoadCubeMapTexture(std::vector<std::string> faces)
 {
 	Texture* text = new Texture();
 	text->path = "CUBEMAP";
@@ -91,7 +90,7 @@ Texture & TextureLibrary::LoadCubeMapTexture(std::vector<std::string> faces)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-	library.insert({ text->path, *text });
+	library.insert({ text->path, text });
 
 	return library[text->path];
 }

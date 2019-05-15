@@ -40,7 +40,7 @@ public:
 	std::vector<TextureProperty> textureProperties;
 
 	bool useLight = false;
-	std::vector<Texture> textures;
+	//std::vector<Texture> textures;
 	std::string textureFilePath;
 	unsigned int textureID = 0;
 
@@ -50,6 +50,7 @@ public:
 	void Init();
 	void Load(); // Load for openGL to draw.
 	void Draw();
+	void EndDraw();
 	void LoadTexture(const char* _textureFilePath);
 	void getDefaultProperties();
 	void DrawInspector();

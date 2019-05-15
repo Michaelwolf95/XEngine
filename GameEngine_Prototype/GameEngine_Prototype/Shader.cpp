@@ -13,11 +13,11 @@ static const char* SHADER_FILE_PATH = "../Shaders/";
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 {
-	std::cout << "Shader constructor called with arguments:\n";
-	std::cout << "\tvertexPath: "	<< vertexPath << std::endl;
-	std::cout << "\tfragmentPath: " << fragmentPath << std::endl;
-	std::cout << "\tgeometryPath: " << (geometryPath == nullptr) ? "" : geometryPath;
-	std::cout << std::endl;
+	//std::cout << "Shader constructor called with arguments:\n";
+	//std::cout << "\tvertexPath: "	<< vertexPath << std::endl;
+	//std::cout << "\tfragmentPath: " << fragmentPath << std::endl;
+	//std::cout << "\tgeometryPath: " << (geometryPath == nullptr) ? "" : geometryPath;
+	//std::cout << std::endl;
 
 	std::string vShaderPath = SHADER_FILE_PATH + std::string(vertexPath);
 	std::string fShaderPath = SHADER_FILE_PATH + std::string(fragmentPath);
@@ -74,10 +74,10 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geo
 
 Shader::Shader(const std::string shaderFilePath)
 {
-	std::cout << "Single File Shader constructor with argument:\n";
-	std::cout << "\tshaderFilePath: " << shaderFilePath << std::endl;
-	std::cout << "Shader file parsing " 
-		<< parseShaderFile(SHADER_FILE_PATH + shaderFilePath) ? "successful!\n" : "failed...\n";
+	bool result = parseShaderFile(SHADER_FILE_PATH + shaderFilePath);
+	//std::cout << "Single File Shader constructor with argument:\n";
+	//std::cout << "\tshaderFilePath: " << shaderFilePath << std::endl;
+	//std::cout << "Shader file parsing " << result ? "successful!\n" : "failed...\n";
 }
 
 // activate the shader
@@ -197,8 +197,8 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 
 int Shader::parseShaderFile(const std::string & path)
 {
-	std::cout << "Shader::parseShaderFile with argument\n";
-	std::cout << "\tpath: " << path << std::endl;
+	//std::cout << "Shader::parseShaderFile with argument\n";
+	//std::cout << "\tpath: " << path << std::endl;
 	enum SUCCESS { failure = -1, success };
 	std::string vertexCode = "";
 	std::string fragmentCode = "";
@@ -249,7 +249,7 @@ int Shader::parseShaderFile(const std::string & path)
 
 void Shader::compileShaders(const char * vertexCode, const char * fragmentCode, const char * geometryCode)
 {
-	std::cout << "Shader::compileShaders\n";
+	std::cout << "Compiling Shader: " << this->vFilePath << std::endl;
 
 	// 2. compile shaders
 	unsigned int vertex, fragment, geometry;

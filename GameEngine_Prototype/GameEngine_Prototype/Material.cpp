@@ -15,11 +15,11 @@ BOOST_CLASS_VERSION(Material, 2);
 
 Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 {
-	std::cout << "Material constructor called with arguments\n";
-	std::cout << "\t_name: " << _name			<< std::endl;
-	std::cout << "\tvertPath: "	<< vertPath		<< std::endl;
-	std::cout << "\tfragPath " << fragPath 		<< std::endl;
-	std::cout << "\t_useLight: " << _useLight	<< std::endl;
+	//std::cout << "Material constructor called with arguments\n";
+	//std::cout << "\t_name: " << _name			<< std::endl;
+	//std::cout << "\tvertPath: "	<< vertPath		<< std::endl;
+	//std::cout << "\tfragPath " << fragPath 		<< std::endl;
+	//std::cout << "\t_useLight: " << _useLight	<< std::endl;
 
 	name = _name;
 	vertexShaderPath = vertPath;
@@ -45,7 +45,7 @@ Material::Material(std::string _name, std::string vertPath, std::string fragPath
 
 Material::Material()
 {
-	std::cout << "Material default constructor with defaultShader call\n";
+	//std::cout << "Material default constructor with defaultShader call\n";
 	if (shader == nullptr)
 	{
 		shader = RenderManager::defaultShader;
@@ -69,11 +69,11 @@ void Material::Init()
 	std::cout << "Initializing Material: " << name << std::endl;
 	if (vertexShaderPath.empty() == false)
 	{
+		//std::cout << "Loading Shaders for Material" << std::endl
+		//	<< "\tname: " << this->name << std::endl
+		//	<< "\tvertexShaderPath: " << vertexShaderPath << std::endl
+		//	<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
 
-		std::cout << "Loading Shaders for Material" << std::endl
-			<< "\tname: " << this->name << std::endl
-			<< "\tvertexShaderPath: " << vertexShaderPath << std::endl
-			<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
 		//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 		shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
 		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
@@ -84,10 +84,9 @@ void Material::Init()
 	}
 	else
 	{
-		std::cout << "Loading default Shaders..." << std::endl;
+		std::cout << "ERROR LOADING SHADER - Loading default shader instead." << std::endl;
 		shader = RenderManager::defaultShader;
 	}
-
 	
 
 	if (!textureFilePath.empty())
@@ -98,11 +97,13 @@ void Material::Init()
 	isInitialized = true;
 }
 
+// DEPRECATED: Use Draw() instead.
 void Material::Load()
 {
 	//shader->setColor("color", Color.x, Color.y, Color.z, Color.w); // this should be done with vec4 properties
-	shader->use();
-	RenderManager::getInstance().currentShaderID = shader->ID;
+
+	//shader->use();
+	//RenderManager::getInstance().currentShaderID = shader->ID;
 
 
 	//if (textureID > 0)
@@ -119,6 +120,7 @@ void Material::Load()
 void Material::Draw()
 {
 	shader->use();
+	RenderManager::getInstance().currentShaderID = shader->ID;
 
 	if (useLight) {
 
@@ -178,12 +180,91 @@ void Material::Draw()
 	for (auto v4p : vec4Properties) {
 		shader->setVec4(v4p.propertyName, v4p.getValue());
 	}
+
+	// texture variables
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
+
+	// binding textures
+	for (unsigned int i = 0; i < textureProperties.size(); i++)
+	{
+		// get texture before binding
+		glActiveTexture(GL_TEXTURE0 + i);
+
+		std::string number;
+		std::string name = textureProperties[i].getValue()->type;
+
+		// transfer unsigned to stream
+		if (name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if (name == "texture_specular")
+			number = std::to_string(specularNr++);
+		else if (name == "texture_normal")
+			number = std::to_string(normalNr++);
+		else if (name == "texture_height")
+			number = std::to_string(heightNr++);
+
+		//glBindTexture(GL_TEXTURE_2D, textureProperties[j].getValue()->id);
+
+		// set texture unit
+		glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), i);
+
+		// bind texture
+		glBindTexture(GL_TEXTURE_2D, textureProperties[i].getValue()->id);
+	}
+}
+void Material::EndDraw()
+{
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
+	for (unsigned int i = 0; i < textureProperties.size(); i++)
+	{
+		// get texture before binding
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		//glDisable(GL_TEXTURE_2D);
+
+		/*
+		std::string number;
+		std::string name = textureProperties[j].getValue()->type;
+
+		// transfer unsigned to stream
+		if (name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if (name == "texture_specular")
+			number = std::to_string(specularNr++);
+		else if (name == "texture_normal")
+			number = std::to_string(normalNr++);
+		else if (name == "texture_height")
+			number = std::to_string(heightNr++);
+
+		// set texture unit
+		glUniform1i(glGetUniformLocation(shader->ID, (name + number).c_str()), j);
+		*/
+		// bind texture
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		//glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		//glDisable(GL_TEXTURE_2D);
+		//glActiveTexture(GL_TEXTURE0);
+
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		//glDisable(GL_TEXTURE_2D);
+	}
+
+	//glActiveTexture(GL_TEXTURE0);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void Material::LoadTexture(const char * _textureFilePath) // used in test scenes and game object analytics
 {
-	std::cout << "Material::LoadTexture called with arguments\n";
-	std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
+	//std::cout << "Material::LoadTexture called with arguments\n";
+	//std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
+
 	//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
 	textureFilePath = _textureFilePath;
 
@@ -192,8 +273,8 @@ void Material::LoadTexture(const char * _textureFilePath) // used in test scenes
 
 void Material::parseFileForProperties(std::string path)
 {
-	std::cout << "Material::parseFileForProperties with arguments\n";
-	std::cout << "\tpath: " << path << std::endl;
+	//std::cout << "Material::parseFileForProperties with arguments\n";
+	//std::cout << "\tpath: " << path << std::endl;
 
 	// clear properties
 	floatProperties.clear();
@@ -292,6 +373,7 @@ void Material::getDefaultProperties()
 
 void Material::DrawInspector()
 {
+	ImGui::PushID(this);
 	if (ImGui::TreeNode(this, "Material: %s", this->name.c_str()))
 	{
 		ImGui::InputText("Name", &name);
@@ -430,7 +512,7 @@ void Material::DrawInspector()
 			{
 				if (tempPath.length() > 0)
 				{
-					Texture* texture = &(AssetManager::getInstance().textureLib.GetAsset(tempPath));
+					Texture* texture = (AssetManager::getInstance().textureLib.GetAsset(tempPath));
 
 					// turn into textureProperty
 					TextureProperty textureProp;
@@ -494,6 +576,7 @@ void Material::DrawInspector()
 
 		ImGui::TreePop();
 	}
+	ImGui::PopID();
 }
 
 std::string Material::to_string()
