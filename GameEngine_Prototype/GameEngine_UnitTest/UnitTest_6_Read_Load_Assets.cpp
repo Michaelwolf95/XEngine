@@ -36,11 +36,11 @@ namespace XEngine_UnitTest
 			ENGINE_MAIN();
 
 			// Act
-			Texture tex = AssetManager::getInstance().textureLib.LoadAsset("../../DemoProject/Assets/textures/MetalCrate.png");
+			Texture* tex = AssetManager::getInstance().textureLib.LoadAsset("../../DemoProject/Assets/textures/MetalCrate.png");
 
 			// Assert
-			Assert::IsTrue(tex.id == 0);
-			Assert::IsTrue(strcmp(tex.path.c_str(), "../../DemoProject/Assets/textures/MetalCrate.png") == 0 );
+			Assert::IsTrue(tex->id == 0);
+			Assert::IsTrue(strcmp(tex->path.c_str(), "../../DemoProject/Assets/textures/MetalCrate.png") == 0 );
 		}
 
 		TEST_METHOD(Read_Load_Audio)
