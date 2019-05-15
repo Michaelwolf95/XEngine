@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Material.h"
+//#include "Material.h"
 namespace XEngine
 {
 	namespace GUI

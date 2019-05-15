@@ -119,35 +119,35 @@ void MeshRenderer::Setup()
 		}
 	}
 
-	material->shader->use();
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	unsigned int normalNr = 1;
-	unsigned int heightNr = 1;
-	for (unsigned int j = 0; j < material->textureProperties.size(); j++)
-	{
-		// get texture before binding
-		glActiveTexture(GL_TEXTURE0 + j);
+	//material->shader->use();
+	//unsigned int diffuseNr = 1;
+	//unsigned int specularNr = 1;
+	//unsigned int normalNr = 1;
+	//unsigned int heightNr = 1;
+	//for (unsigned int j = 0; j < material->textureProperties.size(); j++)
+	//{
+	//	// get texture before binding
+	//	glActiveTexture(GL_TEXTURE0 + j);
 
-		std::string number;
-		std::string name = material->textureProperties[j].getValue()->type;
+	//	std::string number;
+	//	std::string name = material->textureProperties[j].getValue()->type;
 
-		// transfer unsigned to stream
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularNr++);
-		else if (name == "texture_normal")
-			number = std::to_string(normalNr++);
-		else if (name == "texture_height")
-			number = std::to_string(heightNr++);
+	//	// transfer unsigned to stream
+	//	if (name == "texture_diffuse")
+	//		number = std::to_string(diffuseNr++);
+	//	else if (name == "texture_specular")
+	//		number = std::to_string(specularNr++);
+	//	else if (name == "texture_normal")
+	//		number = std::to_string(normalNr++);
+	//	else if (name == "texture_height")
+	//		number = std::to_string(heightNr++);
 
-		// set texture unit
-		glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
-		// bind texture
-		//glBindTexture(GL_TEXTURE_2D, 0);
-		//glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
-	}
+	//	// set texture unit
+	//	glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
+	//	// bind texture
+	//	//glBindTexture(GL_TEXTURE_2D, 0);
+	//	//glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
+	//}
 
 
 	isSetup = true;

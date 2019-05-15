@@ -1,15 +1,15 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <string>
-#include "XEngine.h"
+#include "LibraryExport.h"
 #include "Serialization.h"
 #include "GLM_Serialize.h"
 #include "Texture.h"
 #include <string.h>
 #include "Shader.h"
 
-template<class T>
-class MaterialProperty
+template<typename T>
+class  MaterialProperty
 {
 public:
 	MaterialProperty() { value = T(); };
@@ -33,7 +33,7 @@ private:
 };
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(MaterialProperty)
 
-ENGINE_API class FloatProperty : public MaterialProperty<float>
+class ENGINE_API FloatProperty : public MaterialProperty<float>
 {
 private:
 	friend class boost::serialization::access;
@@ -45,7 +45,7 @@ private:
 	}
 };
 
-ENGINE_API class IntProperty : public MaterialProperty<int>
+class ENGINE_API IntProperty : public MaterialProperty<int>
 {
 private:
 	friend class boost::serialization::access;
@@ -57,7 +57,7 @@ private:
 	}
 };
 
-ENGINE_API class Vec2Property : public MaterialProperty<glm::vec2>
+class ENGINE_API Vec2Property : public MaterialProperty<glm::vec2>
 {
 private:
 	friend class boost::serialization::access;
@@ -69,7 +69,7 @@ private:
 	}
 };
 
-ENGINE_API class Vec3Property : public MaterialProperty<glm::vec3>
+class ENGINE_API Vec3Property : public MaterialProperty<glm::vec3>
 {
 private:
 	friend class boost::serialization::access;
@@ -81,7 +81,7 @@ private:
 	}
 };
 
-ENGINE_API class Vec4Property : public MaterialProperty<glm::vec4>
+class ENGINE_API Vec4Property : public MaterialProperty<glm::vec4>
 {
 private:
 	friend class boost::serialization::access;
@@ -94,7 +94,7 @@ private:
 };
 
 // Uses REFERENCES to textures. They would be stored in...
-ENGINE_API class TextureProperty : public MaterialProperty<Texture*>
+class ENGINE_API  TextureProperty : public MaterialProperty<Texture*>
 {
 public:
 	TextureProperty() : MaterialProperty<Texture*>() { value = nullptr; };
