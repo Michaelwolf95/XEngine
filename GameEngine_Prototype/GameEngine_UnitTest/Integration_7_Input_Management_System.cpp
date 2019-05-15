@@ -135,7 +135,6 @@ namespace XEngine_UnitTest
 				// Act
 				xpos = Input::getInstance().GetMousePosX();
 				ypos = Input::getInstance().GetMousePosY();
-				
 
 				RenderManager::getInstance().Render();
 
@@ -184,7 +183,6 @@ namespace XEngine_UnitTest
 				xpos = Input::getInstance().GetMousePosX();
 				ypos = Input::getInstance().GetMousePosY();
 
-
 				RenderManager::getInstance().Render();
 
 				if (OnEnginePostRender != nullptr) OnEnginePostRender();
@@ -230,7 +228,6 @@ namespace XEngine_UnitTest
 				// Act
 				xpos = Input::getInstance().GetMousePosX();
 				ypos = Input::getInstance().GetMousePosY();
-
 
 				RenderManager::getInstance().Render();
 
@@ -454,8 +451,6 @@ namespace XEngine_UnitTest
 
 				Input::getInstance().EndUpdateFrame();
 
-				// Act
-				
 				ApplicationManager::getInstance().ApplicationEndUpdate();
 			}
 
@@ -463,7 +458,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Assert
+			// Act and Assert
 			Assert::IsTrue(false == Input::getInstance().GetMouseButtonDown(1));
 		}
 
@@ -496,8 +491,6 @@ namespace XEngine_UnitTest
 
 				Input::getInstance().EndUpdateFrame();
 
-				// Act
-
 				ApplicationManager::getInstance().ApplicationEndUpdate();
 			}
 
@@ -505,7 +498,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Assert
+			// Act and Assert
 			Assert::IsTrue(false == Input::getInstance().GetMouseButton(1));
 		}
 
@@ -538,8 +531,6 @@ namespace XEngine_UnitTest
 
 				Input::getInstance().EndUpdateFrame();
 
-				// Act
-
 				ApplicationManager::getInstance().ApplicationEndUpdate();
 			}
 
@@ -547,7 +538,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Assert
+			// Act and Assert
 			Assert::IsTrue(false == Input::getInstance().GetMouseButtonUp(1));
 		}
 
@@ -580,8 +571,6 @@ namespace XEngine_UnitTest
 
 				Input::getInstance().EndUpdateFrame();
 
-				// Act
-
 				ApplicationManager::getInstance().ApplicationEndUpdate();
 			}
 
@@ -589,7 +578,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Assert
+			// Act and Assert
 			Assert::IsTrue(false == Input::getInstance().GetKeyDown(1));
 		}
 
@@ -622,8 +611,6 @@ namespace XEngine_UnitTest
 
 				Input::getInstance().EndUpdateFrame();
 
-				// Act
-
 				ApplicationManager::getInstance().ApplicationEndUpdate();
 			}
 
@@ -631,7 +618,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Assert
+			// Act and Assert
 			Assert::IsTrue(false == Input::getInstance().GetKey(1));
 		}
 
@@ -664,8 +651,6 @@ namespace XEngine_UnitTest
 
 				Input::getInstance().EndUpdateFrame();
 
-				// Act
-
 				ApplicationManager::getInstance().ApplicationEndUpdate();
 			}
 
@@ -673,7 +658,7 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Assert
+			// Act and Assert
 			Assert::IsTrue(false == Input::getInstance().GetKeyUp(1));
 		}
 	};
