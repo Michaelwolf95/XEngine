@@ -41,8 +41,6 @@ namespace XEngine_UnitTest
 
 				// Act
 				currentPre = GameTime::getInstance().currentTime;
-				deltaPre = GameTime::getInstance().deltaTime;
-				lastPre = GameTime::getInstance().timeLastFrame;
 				GameTime::getInstance().UpdateTime();
 				currentPost = GameTime::getInstance().currentTime;
 				deltaPost = GameTime::getInstance().deltaTime;
