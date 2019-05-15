@@ -62,5 +62,8 @@
     <ClCompile Include="Integration_2_Time_Management_System.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Integration_3_Asset_Management_System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

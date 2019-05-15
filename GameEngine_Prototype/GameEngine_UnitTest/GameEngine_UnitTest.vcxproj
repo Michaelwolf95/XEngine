@@ -230,6 +230,7 @@
   <ItemGroup>
     <ClCompile Include="Integration_1_GameObject_Component_System.cpp" />
     <ClCompile Include="Integration_2_Time_Management_System.cpp" />
+    <ClCompile Include="Integration_3_Asset_Management_System.cpp" />
     <ClCompile Include="UnitTest_1_CreateDestroyGameObj.cpp" />
     <ClCompile Include="UnitTest_3_Child _Game_Object.cpp" />
     <ClCompile Include="UnitTest_2_GameObjTransformation.cpp" />

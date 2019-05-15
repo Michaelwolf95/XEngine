@@ -3,10 +3,11 @@
 //#include "Material.h" //Texture struct definition
 #include "Texture.h"
 #include <vector>
+#include "LibraryExport.h"
 
 //TODO: Rework this so that textures are structs, not just openGL textureIDs
 
-class TextureLibrary : public AssetLibrary<std::string, Texture>
+class ENGINE_API TextureLibrary : public AssetLibrary<std::string, Texture>
 {
 public:
 	struct TextureQuery
