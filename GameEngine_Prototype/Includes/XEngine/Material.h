@@ -33,8 +33,8 @@
 
 		bool useLight = false;
 		//std::vector<Texture> textures;
-		std::string textureFilePath;
-		unsigned int textureID = 0;
+		//std::string textureFilePath;
+		//unsigned int textureID = 0;
 
 		Material(std::string _name, std::string vertPath = "", std::string fragPath = "", bool _useLight = true);
 		Material();
@@ -49,7 +49,7 @@
 		std::string to_string();
 
 	private:
-		void parseFileForProperties(std::string path);
+		void parseShaderFileForProperties(std::string path);
 		bool isInitialized = false;
 
 		friend class boost::serialization::access;
@@ -70,6 +70,7 @@
 			ar & BOOST_SERIALIZATION_NVP(useLight);
 			if (version < 2)
 			{
+				std::string textureFilePath = "";
 				ar & BOOST_SERIALIZATION_NVP(textureFilePath);
 			}
 			ar & BOOST_SERIALIZATION_NVP(floatProperties);
@@ -97,6 +98,7 @@
 			ar & BOOST_SERIALIZATION_NVP(useLight);
 			if (version < 2)
 			{
+				std::string textureFilePath;
 				ar & BOOST_SERIALIZATION_NVP(textureFilePath);
 			}
 			ar & BOOST_SERIALIZATION_NVP(floatProperties);

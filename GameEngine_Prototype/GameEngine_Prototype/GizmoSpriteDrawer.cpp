@@ -29,10 +29,12 @@ void GizmoSpriteDrawer::Setup()
 {
 	//std::cout << "Setting up Sprite Drawer: " << gizmoTexturePath << std::endl;
 
+
+	spriteTexture = AssetManager::getInstance().textureLib.GetAsset(gizmoTexturePath);
+	//AssetManager::getInstance().LoadTextureAsset(gizmoTexturePath.c_str(), &textureID, 4); //4 for alpha
+
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-
-	AssetManager::getInstance().LoadTextureAsset(gizmoTexturePath.c_str(), &textureID, 4); //4 for alpha
 
 	//GLuint billboard_vertex_buffer;
 	glGenBuffers(1, &VBO);
@@ -92,7 +94,7 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 
 	// Bind our texture in Texture Unit 0
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
+	glBindTexture(GL_TEXTURE_2D, spriteTexture->id);
 	// Set our "myTextureSampler" sampler to use Texture Unit 0
 	glUniform1i(TexturePropID, 0);
 

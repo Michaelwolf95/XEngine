@@ -17,7 +17,16 @@ public:
 	};
 	TextureLibrary();
 	~TextureLibrary();
+	Texture*& GetAsset(std::string filePath) override;
+	Texture*& GetAsset(std::string filePath, unsigned int loadMode);
 	Texture*& LoadAsset(std::string filePath) override;
+	Texture*& LoadAsset(std::string filePath, unsigned int loadMode);
+
+	Texture* & Reload(Texture* texture);
+
+
+	// Loads texture into memory using file path, assigns texture ID
+	void LoadTexture(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
 
 	Texture*& GetCubeMap(std::vector<std::string> faces);
 	Texture*& LoadCubeMapTexture(std::vector<std::string> faces);

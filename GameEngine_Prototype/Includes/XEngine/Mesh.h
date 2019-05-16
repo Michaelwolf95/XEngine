@@ -25,9 +25,9 @@ class MeshRenderer;
 class Mesh
 {
 	public:
-		unsigned int VBO;
-		unsigned int VAO;
-		unsigned int EBO;
+		GLuint VBO;
+		GLuint VAO;
+		GLuint EBO;
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
 		std::string name;

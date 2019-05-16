@@ -26,22 +26,13 @@ namespace XEngine  {
 class ENGINE_API MeshRenderer : public RenderableObject, public Component
 {
 	public:
-		unsigned int VBO;
-		unsigned int VAO;
-		unsigned int EBO;
-
+		static Registrar<MeshRenderer> registrar;
 		//std::string pathToObjModel;
 		std::string meshPath; //ex:  ...nanosuit.obj|head
 		std::string materialPath;
 
 		Mesh* mesh = nullptr;
 		Material* material = nullptr;
-
-		static Registrar<MeshRenderer> registrar;
-
-		//Model* model = nullptr; // = new Model();//std::vector<Mesh> meshes;
-		bool gammaCorrection;
-
 
 		// Constructor
 		MeshRenderer(std::string const &modelPath, std::string materialPath = "", bool gamma = false);
@@ -63,9 +54,8 @@ class ENGINE_API MeshRenderer : public RenderableObject, public Component
 
 		void DrawInspector() override;
 
-		void FreeObjectResources();
+		//void FreeObjectResources();
 		//void FreeAllResources()
-
 		//void PrintVertices();
 
 	private:
@@ -73,7 +63,7 @@ class ENGINE_API MeshRenderer : public RenderableObject, public Component
 		bool isSetup = false;
 
 		//bool LoadModel();
-		void Load();
+		//void Load();
 
 
 		//void processNode(aiNode *node, const aiScene *scene);
@@ -102,6 +92,6 @@ class ENGINE_API MeshRenderer : public RenderableObject, public Component
 
 			Setup();
 		}
-		unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
+		//unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma);
 };
 }

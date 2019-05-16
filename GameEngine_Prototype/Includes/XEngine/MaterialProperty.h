@@ -100,11 +100,12 @@ public:
 	TextureProperty() : MaterialProperty<Texture*>() { value = nullptr; };
 
 	void LoadTextureFromPath(std::string filePath);
+	void Reload();
 
 	void Bind(Shader* shader, unsigned int texIndex);
 	void Unbind(Shader* shader, unsigned int texIndex);
 
-	std::string textureType = "texture_diffuse";
+	//std::string textureType = "texture_diffuse";
 
 private:
 	friend class boost::serialization::access;
@@ -114,9 +115,9 @@ private:
 	{
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
 		ar & boost::serialization::make_nvp<std::string>("filePath", value->path);
-		if (version >= 1)
+		if (version > 1)
 		{
-			ar & BOOST_SERIALIZATION_NVP(textureType);
+			ar & boost::serialization::make_nvp<std::string>("textureType", value->type);
 		}
 	}
 	template<class Archive>
@@ -125,12 +126,16 @@ private:
 		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
 		std::string filePath;
 		ar & boost::serialization::make_nvp<std::string>("filePath", filePath);
+		LoadTextureFromPath(filePath);
+
 		//value = AssetManager::getInstance().textureLib.GetAsset(filePath);
-		if (version >= 1)
+		if (version > 1)
 		{
-			ar & BOOST_SERIALIZATION_NVP(textureType);
+			std::string textureType = "";
+			ar & boost::serialization::make_nvp<std::string>("textureType", value->type);
 		}
 
-		LoadTextureFromPath(filePath);
+		
+
 	}
 };

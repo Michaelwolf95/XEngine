@@ -37,7 +37,7 @@ BOOST_CLASS_VERSION(Material, 2);
 		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
 		{
 			shader->vFilePath = "../Shaders/" + vertexShaderPath;
-			parseFileForProperties(shader->vFilePath);
+			parseShaderFileForProperties(shader->vFilePath);
 		}
 
 		//std::cout << to_string() << std::endl;
@@ -68,31 +68,33 @@ BOOST_CLASS_VERSION(Material, 2);
 			return;
 		}
 		std::cout << "Initializing Material: " << name << std::endl;
-		if (vertexShaderPath.empty() == false)
+		if (shader == nullptr)
 		{
-			//std::cout << "Loading Shaders for Material" << std::endl
-			//	<< "\tname: " << this->name << std::endl
-			//	<< "\tvertexShaderPath: " << vertexShaderPath << std::endl
-			//	<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
-
-			//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
-			shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
-			if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
+			if (vertexShaderPath.empty() == false)
 			{
-				shader->vFilePath = "../Shaders/" + vertexShaderPath;
-				//parseFileForProperties(shader->vFilePath);
+				//std::cout << "Loading Shaders for Material" << std::endl
+				//	<< "\tname: " << this->name << std::endl
+				//	<< "\tvertexShaderPath: " << vertexShaderPath << std::endl
+				//	<< "\tfragmentShaderPath: " << fragmentShaderPath << std::endl;
+
+				//shader = new Shader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
+				shader = AssetManager::getInstance().shaderLib.GetAsset(vertexShaderPath, fragmentShaderPath);
+				if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
+				{
+					shader->vFilePath = "../Shaders/" + vertexShaderPath;
+					//parseFileForProperties(shader->vFilePath);
+				}
+			}
+			else
+			{
+				std::cout << "ERROR LOADING SHADER - Loading default shader instead." << std::endl;
+				shader = RenderManager::defaultShader;
 			}
 		}
-		else
-		{
-			std::cout << "ERROR LOADING SHADER - Loading default shader instead." << std::endl;
-			shader = RenderManager::defaultShader;
-		}
 
-
-		if (!textureFilePath.empty())
+		for (size_t i = 0; i < textureProperties.size(); i++)
 		{
-			LoadTexture(textureFilePath.c_str());
+			textureProperties[i].Reload();
 		}
 
 		isInitialized = true;
@@ -205,12 +207,12 @@ BOOST_CLASS_VERSION(Material, 2);
 		//std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
 
 		//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
-		textureFilePath = _textureFilePath;
 
-		AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
+		//textureFilePath = _textureFilePath;
+		//AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
 	}
 
-	void Material::parseFileForProperties(std::string path)
+	void Material::parseShaderFileForProperties(std::string path)
 	{
 		//std::cout << "Material::parseFileForProperties with arguments\n";
 		//std::cout << "\tpath: " << path << std::endl;
@@ -307,7 +309,7 @@ BOOST_CLASS_VERSION(Material, 2);
 	{
 		std::cout << "Retrieving default properties for shaders stored at "
 			<< shader->vFilePath << std::endl;
-		parseFileForProperties(shader->vFilePath);
+		parseShaderFileForProperties(shader->vFilePath);
 	}
 
 	void Material::DrawInspector()
@@ -320,18 +322,18 @@ BOOST_CLASS_VERSION(Material, 2);
 			ImGui::InputText("VertPath", &vertexShaderPath);
 
 			ImGui::InputText("FragPath", &fragmentShaderPath);
-			ImGui::InputText("TexturePath", &textureFilePath);
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
-				{
-					IM_ASSERT(payload->DataSize == 128);
-					const char* payload_n = (const char*)payload->Data;
+			//ImGui::InputText("TexturePath", &textureFilePath);
+			//if (ImGui::BeginDragDropTarget())
+			//{
+			//	if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_DRAG"))
+			//	{
+			//		IM_ASSERT(payload->DataSize == 128);
+			//		const char* payload_n = (const char*)payload->Data;
 
-					textureFilePath = payload_n;
-				}
-				ImGui::EndDragDropTarget();
-			}
+			//		textureFilePath = payload_n;
+			//	}
+			//	ImGui::EndDragDropTarget();
+			//}
 
 			ImGui::Checkbox("Use Light", &useLight);
 			//ImGui::ColorEdit4("Color", (float*)&Color); // vec4 property
@@ -411,11 +413,12 @@ BOOST_CLASS_VERSION(Material, 2);
 			{
 				for (size_t i = 0; i < textureProperties.size(); i++)
 				{
+					std::string texPropName = propName + "_" + std::to_string(i);
 					Texture* value = textureProperties[i].getValue();
 					std::string path = value->path;
 
 					//GUI::FileReference(value->path,)
-					ImGui::InputText(textureProperties[i].propertyName.c_str(), &textureProperties[i].getValue()->path);
+					ImGui::InputText((texPropName).c_str(), &textureProperties[i].getValue()->path);
 					const ImGuiPayload* payload = ImGui::GetDragDropPayload();
 					{
 						if (ImGui::BeginDragDropTarget())
@@ -437,7 +440,12 @@ BOOST_CLASS_VERSION(Material, 2);
 							ImGui::EndDragDropTarget();
 						}
 					}
-					
+					ImGui::Indent();
+					ImGui::InputText((texPropName + "_Type").c_str(), &textureProperties[i].getValue()->type);
+					int mode = textureProperties[i].getValue()->loadMode;
+					ImGui::InputInt((texPropName + "_Mode").c_str(), &mode);
+					textureProperties[i].getValue()->loadMode = mode;
+					ImGui::Unindent();
 				}
 				std::vector<std::string> textureFileExts;
 				textureFileExts.push_back(".png"); textureFileExts.push_back(".jpg"); textureFileExts.push_back(".tga");
@@ -508,6 +516,8 @@ BOOST_CLASS_VERSION(Material, 2);
 				//Init(); // TODO: How does this update?
 
 				AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
+				isInitialized = false;
+				Init(); // TODO: How does this update?
 			}
 
 			ImGui::TreePop();

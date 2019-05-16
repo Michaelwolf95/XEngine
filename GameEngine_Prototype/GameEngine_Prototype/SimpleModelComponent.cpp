@@ -149,13 +149,13 @@ void SimpleModelComponent::Draw()
 	material->shader->setVec3("viewPos", viewPos);
 	
 	//glUniformli
-	material->shader->setInt("Texture", material->textureID);
+	material->shader->setInt("Texture", material->textureProperties[0].getValue()->id);
 
 	// TODO:: place this into material (with texture properties?)
 	// bind textures on corresponding texture unit
 	glActiveTexture(GL_TEXTURE0);
 	// put the texture with this ID into texture location 0
-	glBindTexture(GL_TEXTURE_2D, material->textureID);
+	glBindTexture(GL_TEXTURE_2D, material->textureProperties[0].getValue()->id);
 
 	material->Draw();
 

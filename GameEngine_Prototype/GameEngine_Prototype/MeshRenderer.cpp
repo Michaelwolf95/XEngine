@@ -41,10 +41,9 @@ namespace XEngine {
 MeshRenderer::MeshRenderer() {}
 
 // Constructor
-MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma): gammaCorrection(gamma)//, RenderableObject(m)
+MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma) //: gammaCorrection(gamma)//, RenderableObject(m)
 {
 	this->meshPath =  std::string(modelPath);
-
 	if (meshPath.find(ASSET_FILE_PATH) == std::string::npos)
 	{
 		this->meshPath = ASSET_FILE_PATH + this->meshPath;
@@ -94,10 +93,12 @@ void MeshRenderer::Setup()
 	//std::cout << "MESH Name: " + meshName << std::endl;
 
 	// Get Mesh
-	if (meshPath.empty())
-		std::cout << "No Mesh Path" << std::endl;
-	else
+	if (meshPath.empty() == false)
+	{
 		mesh = AssetManager::getInstance().meshLib.GetAsset(filePath, meshName);
+	}
+	else
+		std::cout << "No Mesh Path" << std::endl;
 
 	//std::cout << "VERTEXT COUNT - " << meshName << ": " << mesh->vertices.size() << std::endl;
 	//std::cout << "INDICES COUNT - " << meshName << ": " << mesh->indices.size() << std::endl;
@@ -107,75 +108,23 @@ void MeshRenderer::Setup()
 		// Get Material
 		if (materialPath.empty())
 		{
-			std::cout << "No Material Path: Using Default Material ========================================================================" << std::endl;
+			//std::cout << "No Material Path: Using Default Material ========================================================================" << std::endl;
 			// Get Default Materia FilePath of the Mesh from Obj file
 			materialPath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
-
-			material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
 		}
-		else
-		{
-			material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
-		}
+		material = AssetManager::getInstance().materialLib.GetAsset(materialPath);
 	}
-
-	//material->shader->use();
-	//unsigned int diffuseNr = 1;
-	//unsigned int specularNr = 1;
-	//unsigned int normalNr = 1;
-	//unsigned int heightNr = 1;
-	//for (unsigned int j = 0; j < material->textureProperties.size(); j++)
-	//{
-	//	// get texture before binding
-	//	glActiveTexture(GL_TEXTURE0 + j);
-
-	//	std::string number;
-	//	std::string name = material->textureProperties[j].getValue()->type;
-
-	//	// transfer unsigned to stream
-	//	if (name == "texture_diffuse")
-	//		number = std::to_string(diffuseNr++);
-	//	else if (name == "texture_specular")
-	//		number = std::to_string(specularNr++);
-	//	else if (name == "texture_normal")
-	//		number = std::to_string(normalNr++);
-	//	else if (name == "texture_height")
-	//		number = std::to_string(heightNr++);
-
-	//	// set texture unit
-	//	glUniform1i(glGetUniformLocation(material->shader->ID, (name + number).c_str()), j);
-	//	// bind texture
-	//	//glBindTexture(GL_TEXTURE_2D, 0);
-	//	//glBindTexture(GL_TEXTURE_2D, material->textureProperties[j].getValue()->id);
-	//}
 
 
 	isSetup = true;
 }
 
-//void MeshRenderer::FreeAllResources()
-//{
-//	//ToDo: Loop through all renderables and free their resources
-//	for (size_t i = 0; i < currentRenderables.size(); i++)
-//	{
-//		FreeObjectResources(currentRenderables[i]);
-//	}
-//}
-
-void MeshRenderer::FreeObjectResources()
-{
-	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
-	//glDeleteVertexArrays(1, &(VAO));
-	//glDeleteBuffers(1, &(VBO));
-	//glDeleteBuffers(1, &(EBO));
-}
 
 //bool MeshRenderer::LoadModel()
-void MeshRenderer::Load()
-{
-	//Setup();
-}
+//void MeshRenderer::Load()
+//{
+//	//Setup();
+//}
 
 void MeshRenderer::Draw()
 {
@@ -187,17 +136,12 @@ void MeshRenderer::Draw()
 	{
 		glm::mat4 view = RenderManager::getInstance().getView();
 		glm::mat4 projection = RenderManager::getInstance().getProjection();
-		
+		glm::mat4 model = this->gameObject->transform->getMatrix4x4();
 		material->Load();
 
 		material->shader->setMat4("view", view);
 		material->shader->setMat4("projection", projection);
-		material->shader->setMat4("model", this->gameObject->transform->getMatrix4x4());
-
-		//TODO: Calculate this INSIDE THE SHADER using the VIEW MATRIX. (3rd column)
-		//https://learnopengl.com/Getting-started/Transformations
-		//glm::vec3 viewPos = ((CameraComponent*)RenderManager::getInstance().getCurrentCamera())->gameObject->transform->getPosition();
-		//material->shader->setVec3("viewPos", viewPos);
+		material->shader->setMat4("model", model);
 
 		material->Draw();
 
@@ -223,6 +167,19 @@ void MeshRenderer::OnDrawGizmos()
 
 void MeshRenderer::DrawInspector()
 {
+	ImGui::Text(("MESH: " + mesh->name).c_str());
+	ImGui::Text(("  VAO: " + std::to_string(mesh->VAO)).c_str());
+	ImGui::Text(("  VBO: " + std::to_string(mesh->VBO)).c_str());
+	ImGui::Text(("  EBO: " + std::to_string(mesh->EBO)).c_str());
+	auto n = std::find(RenderManager::getInstance().currentRenderables.begin(), RenderManager::getInstance().currentRenderables.end(), (RenderableObject*)this);
+	if (n != RenderManager::getInstance().currentRenderables.end())
+	{
+		int index = std::distance(RenderManager::getInstance().currentRenderables.begin(), n);
+		ImGui::Text(("  Renderable Index : " + std::to_string(index)).c_str());
+	}
+	
+
+
 	std::string* imguiMeshPath = &meshPath;
 	ImGui::InputText("MeshPath", imguiMeshPath);
 	//std::string* imguiMaterialPath = &materialPath;

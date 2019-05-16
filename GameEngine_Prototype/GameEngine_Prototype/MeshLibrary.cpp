@@ -29,10 +29,11 @@ Mesh *& MeshLibrary::GetAsset(std::string filepath, std::string name)
 // Overloading method for LoadAsset. requires aiMesh
 Mesh *& MeshLibrary::LoadAsset(MeshQuery meshQ)
 {
-	Mesh* loadedMesh = processMesh(meshQ);
-
-	library.insert( {meshQ, loadedMesh} );
+	// Loading Mesh from model file.
 	std::cout << "Loading Mesh:\n\tPath:" << meshQ.filePath << "\n\tName:" << meshQ.name << std::endl;
+	Mesh* loadedMesh = processMesh(meshQ);
+	library.insert( {meshQ, loadedMesh} );
+
 	return library[meshQ];
 }
 

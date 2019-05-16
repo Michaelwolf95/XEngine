@@ -21,9 +21,9 @@ public:
 	static AssetManager* CreateManager();
 	void Init();
 
-	static void LoadTextureAsset(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
-	// Loads texture into memory using file path, assigns texture ID
-	static void LoadTexture(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
+	//static void LoadTextureAsset(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
+	//// Loads texture into memory using file path, assigns texture ID
+	//static void LoadTexture(const char * textureFilePath, unsigned int * textureID, unsigned int loadMode = 3);
 
 	std::string getProjectFilePath();
 	void setProjectFilePath(std::string path);

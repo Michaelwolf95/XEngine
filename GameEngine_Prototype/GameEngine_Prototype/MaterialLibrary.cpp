@@ -60,7 +60,7 @@ Material *& MaterialLibrary::LoadAsset(std::string filePath)
 	}
 	else // cant load, then create new one
 	{
-		//std::cout << "Material not loaded from file in Assets directory" << std::endl;
+		std::cout << "Material not loaded from file in Assets directory ================================" << std::endl;
 	}
 
 	// save into library

@@ -10,4 +10,6 @@ struct Texture {
 	std::string type;
 	// texture path
 	std::string path;
+	// How STB loads the image.
+	unsigned int loadMode = 3;
 };

@@ -21,6 +21,7 @@ ModelLibrary::~ModelLibrary() {}
 // Get model with multiple MeshRenderer in GameObject tree form
 GameObject_ptr ModelLibrary::GenerateModelGameObject(std::string filePath)
 {
+	std::replace(filePath.begin(), filePath.end(), '\\', '/');
 	// read file using ASSIMP
 	Assimp::Importer importer;
 
@@ -96,7 +97,8 @@ GameObject_ptr ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
 {
-	std::cout << "Loading Model: " << filePath << std::endl;
+	std::replace(filePath.begin(), filePath.end(), '\\', '/');
+	//std::cout << "Loading Model: " << filePath << std::endl;
 	//std::cout << "\tfilePath: " << filePath << std::endl;
 	Model* model = new Model();
 	std::string pathToObjModel = filePath;
@@ -125,6 +127,7 @@ Model*& ModelLibrary::LoadAsset(std::string filePath)
 // Process each node and its children node recursively
 void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene, std::string filePath)
 {
+	std::replace(filePath.begin(), filePath.end(), '\\', '/');
 	// process each mesh at current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
@@ -156,10 +159,9 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 {
 	//std::cout << "ModelLibrary.processMeshMaterial called with arguments\n";
 	//std::cout << "\tfilePath: " << filePath << std::endl;
+	//std::cout << "\tModelName: " << (std::string)mesh->mName.C_Str() << std::endl;
 	std::string matFilePath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
-	//std::string meshMatName = ;
-	//Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(meshMatName, "3Dmodel.vs", "3Dmodel.fs");
 	
 	// only used name of the material to get it (not anymore)
 	//std::cout << "\nmatFilePath (fileName): " << matFilePath << std::endl;
@@ -272,12 +274,14 @@ Mesh* ModelLibrary::processMesh(aiMesh * mesh)
 // Check material textures of a given type and loads texture if not loaded yet
 std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
-	//std::cout << "ModelLibrary::loadMaterialTextures called with arguments\n";
-	//std::cout << "\ttypeName: " << typeName << std::endl;
-	//std::cout << "\tfilePath: " << filePath << std::endl;
+	std::cout << "ModelLibrary::loadMaterialTextures called with arguments\n";
+	std::cout << "\typeName: " << typeName << std::endl;
+	std::cout << "\tfilePath: " << filePath << std::endl;
 
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
+
+	std::cout << "\tDirectory: " << directory << std::endl;
 
 	std::vector<TextureProperty> textures;
 
@@ -304,15 +308,17 @@ std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat,
 		{
 			// get Texture
 			std::string filename = str.C_Str();
+			std::replace(filename.begin(), filename.end(), '\\', '/');
 			filename = directory + '/' + filename;
 
 			Texture* texture = (AssetManager::getInstance().textureLib.GetAsset(filename));
-			texture->id = TextureFromFile(filename.c_str(), directory);
+			//texture->id = TextureFromFile(filename.c_str(), directory);
 			texture->type = typeName;
 
 			// turn into textureProperty
 			TextureProperty textureProp;
 			textureProp.setValue(texture);
+			//textureProp.textureType = typeName;
 
 			textures.push_back(textureProp);
 

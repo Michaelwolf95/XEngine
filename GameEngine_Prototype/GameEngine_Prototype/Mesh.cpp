@@ -36,6 +36,9 @@ Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned 
 // Deconstructor
 Mesh::~Mesh()
 {
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }
 
 void Mesh::Setup()
@@ -90,7 +93,7 @@ void Mesh::Setup()
 	//std::cout << "Offset Normal: " << offsetof(Vertex, Normal) << std::endl;
 	glEnableVertexAttribArray(4);
 
-	glBindVertexArray(0);
+	glBindVertexArray(0); // !VAO
 }
 
 

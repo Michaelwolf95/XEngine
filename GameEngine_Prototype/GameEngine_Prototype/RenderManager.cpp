@@ -169,6 +169,8 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	//std::cout << renderable << std::endl;
 	// Draw the object
 	renderable->Draw();
+
+	//glUseProgram(0);
 }
 
 //// moved to MeshRenderer

@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "RenderManager.h"
 #include "AssetManager.h"
+#include "Texture.h"
 class GizmoSpriteDrawer
 {
 public:
@@ -20,7 +21,7 @@ public:
 	// Render state
 	GLuint VAO;
 	GLuint VBO;
-	unsigned int textureID;
+	Texture* spriteTexture;
 	glm::vec4 color = glm::vec4(1.0f);
 };
 
