@@ -83,9 +83,11 @@ struct GlobalLight { // AKA DirLight
 
 const int NUM_LIGHTS = 10;
 
-uniform sampler2D Texture;
+//uniform sampler2D Texture;
 uniform sampler2D texture_diffuse;
 uniform sampler2D texture_specular;
+uniform sampler2D texture_normal; // Not yet used.
+uniform sampler2D texture_height; // Not yet used.
 
 //uniform vec3 viewPos;
 uniform vec4 sceneAmbience; // get from camera
@@ -121,6 +123,12 @@ void main()
 	vec4 ambience = sceneAmbience == vec4(0.0f) ? sceneAmbience : vec4(0.5f);
 	ambience *= sceneAmbienceStrength > 0 ? sceneAmbienceStrength : 0.5f;
 
+	//// https://learnopengl.com/code_viewer_gh.php?code=src/5.advanced_lighting/4.normal_mapping/4.normal_mapping.fs
+	//// obtain normal from normal map in range [0,1]
+	//vec3 normal = texture(texture_normal, TexCoord).rgb;
+	//// transform normal vector to range [-1,1]
+	//normal = normalize(normal * 2.0 - 1.0);  // this normal is in tangent space
+
 	vec3 norm = normalize(Normal);
 
 	vec3 viewDir = normalize(ViewPos - FragPos); // TODO: Use this. Currently nothing inputted
@@ -141,8 +149,7 @@ void main()
 		result += calculateSpotLight(spotLights[i], norm, viewDir);
 	}
 
-	FragColor = vec4(result, 1.0f) * material.color 
-		+ ambience * vec4(getDiffuseTexel(), 1.0f);
+	FragColor = vec4(result, 1.0f) * material.color + ambience * vec4(getDiffuseTexel(), 1.0f);
 }
 
 vec3 getDiffuseTexel() 
@@ -155,6 +162,12 @@ vec3 getSpecularTexel()
 {
 	return (float(textureSize(texture_specular, 0).x) > 1) 
 		? texture(texture_specular, TexCoord).rgb : material.color.rgb;
+}
+
+vec3 getNormalTexel()
+{
+	return (float(textureSize(texture_normal, 0).x) > 1)
+		? texture(texture_normal, TexCoord).rgb : material.color.rgb;
 }
 
 vec3 calculatePointLight(const PointLight light, const vec3 norm, const vec3 viewDir) 

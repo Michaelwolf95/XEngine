@@ -33,7 +33,7 @@ namespace XEngine::Editor
 	int EDITOR_MAIN()
 	{
 		std::cout << "===== LAUNCHING X-ENGINE EDITOR =====" << std::endl;
-		std::cout << "API Mode: " << API_MODE << std::endl;
+		//std::cout << "API Mode: " << API_MODE << std::endl;
 
 		EditorSettingsManager* editorSettings = EditorSettingsManager::CreateManager();
 
@@ -66,7 +66,6 @@ namespace XEngine::Editor
 
 	void Editor_Init()
 	{
-		std::cout << "Initializing Editor. =======================================" << std::endl;
 		XEngine::Editor::SceneEditor::CreateManager();
 
 		XEngine::Editor::SceneEditor::getInstance().StartEditMode();

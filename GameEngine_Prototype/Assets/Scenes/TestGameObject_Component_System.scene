@@ -4,11 +4,11 @@
 <s class_id="0" tracking_level="0" version="0">
 	<name>TestGameObject_Component_System</name>
 	<allGameObjects class_id="1" tracking_level="0" version="0">
-		<count>3</count>
+		<count>2</count>
 		<item_version>1</item_version>
 		<item class_id="2" tracking_level="0" version="1">
 			<px class_id="3" tracking_level="1" version="0" object_id="_0">
-				<name>parent</name>
+				<name>test</name>
 				<isActive>1</isActive>
 				<transform class_id="4" tracking_level="1" version="0" object_id="_1">
 					<Component class_id="5" tracking_level="0" version="0">
@@ -40,13 +40,13 @@
 		</item>
 		<item>
 			<px class_id_reference="3" object_id="_2">
-				<name>child</name>
+				<name>test2</name>
 				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_3">
 					<Component>
 						<enabled>1</enabled>
 					</Component>
-					<parent class_id_reference="4" object_id_reference="_1"></parent>
+					<parent class_id="-1"></parent>
 					<localPosition>
 						<vec.x>0.000000000e+00</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
@@ -61,39 +61,7 @@
 						<q.x>0.000000000e+00</q.x>
 						<q.y>0.000000000e+00</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
-					</localRotation>
-				</transform>
-				<components>
-					<count>0</count>
-					<item_version>1</item_version>
-				</components>
-			</px>
-		</item>
-		<item>
-			<px class_id_reference="3" object_id="_4">
-				<name>child2</name>
-				<isActive>1</isActive>
-				<transform class_id_reference="4" object_id="_5">
-					<Component>
-						<enabled>1</enabled>
-					</Component>
-					<parent class_id_reference="4" object_id_reference="_1"></parent>
-					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
-						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
-					</localPosition>
-					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
-					</localScale>
-					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
+						<q.w>0.000000000e+00</q.w>
 					</localRotation>
 				</transform>
 				<components>

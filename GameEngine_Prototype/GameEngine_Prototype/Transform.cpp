@@ -10,6 +10,7 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/string_cast.hpp> //glm::to_string() for glm types
 #include "RenderManager.h"
 #include "DebugUtility.h"
 

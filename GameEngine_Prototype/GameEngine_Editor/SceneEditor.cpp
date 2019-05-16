@@ -40,26 +40,21 @@ SceneEditor * SceneEditor::CreateManager()
 
 int SceneEditor::Init()
 {
-	
-	
-
+	// Create Editor Camera.
 	editorCameraGameObject = new GameObject("EditorCamGo");
-
 	std::shared_ptr<EditorCamera> editCamPtr(new EditorCamera());
 	editorCamera = editCamPtr.get();
-
 	editorCameraGameObject->AddComponent(editCamPtr);
 
 	LoadEditorConfig();
-	isInitialized = true;
 
+	// Set Editor Camera Pos (?)
 	// get from editor settings
-	
-
-//	editorCameraGameObject->transform->setPosition(-5.0f, 4.0f, -7.0f);
-//	editorCameraGameObject->transform->setLocalRotationEuler(15, 35, 0);
+	//	editorCameraGameObject->transform->setPosition(-5.0f, 4.0f, -7.0f);
+	//	editorCameraGameObject->transform->setLocalRotationEuler(15, 35, 0);
 
 
+	// INITIALIZE ImGUI
 	GLFWwindow* window = ApplicationManager::APP_WINDOW;
 
 	// Setup Dear ImGui context
@@ -79,6 +74,7 @@ int SceneEditor::Init()
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
+	isInitialized = true;
 	return 0;
 }
 
@@ -98,6 +94,7 @@ void SceneEditor::ShutDown()
 
 void SceneEditor::EditorPreRender()
 {
+	//UpdateGUI();
 	ImGui::Render();
 }
 
@@ -385,6 +382,20 @@ void SceneEditor::UpdateEditor()
 
 void SceneEditor::DrawEditorGizmos()
 {
+	// TODO: Make it a global option of whether we draw gizmos or not.
+	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
+	// Draw Gizmos
+	if (SceneManager::getInstance().GetActiveScene() != nullptr && SceneManager::getInstance().GetActiveScene()->isLoaded)
+	{
+		for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->allGameObjects)
+		{
+			for (Component_ptr c : go->components)
+			{
+				c->OnDrawGizmos();
+			}
+		}
+	}
+	// Draw SELECTED gizmos.
 	if (selectedGameObject != nullptr)
 	{
 		selectedGameObject->transform->DrawGizmo();

@@ -36,6 +36,7 @@ Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned 
 // Deconstructor
 Mesh::~Mesh()
 {
+	std::cout << "DELETING MESH: " << this->name << " ============================================================\n";
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);

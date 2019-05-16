@@ -132,19 +132,6 @@ void RenderManager::Render()
 			RenderObject(currentRenderables[i]);
 	}
 
-	// TODO: Make it a global option of whether we draw gizmos or not.
-	// TODO: Make drawing gizmos an event subsriber based model - not a callback.
-	// Draw Gizmos
-	if (SceneManager::getInstance().GetActiveScene() != nullptr && SceneManager::getInstance().GetActiveScene()->isLoaded)
-	{
-		for (GameObject_ptr go : SceneManager::getInstance().GetActiveScene()->rootGameObjects)
-		{
-			for (Component_ptr c : go->components)
-			{
-				c->OnDrawGizmos();
-			}
-		}
-	}
 }
 void RenderManager::RenderObject(RenderableObject* renderable)
 {

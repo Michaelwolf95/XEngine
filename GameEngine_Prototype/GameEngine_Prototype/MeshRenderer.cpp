@@ -2,6 +2,9 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+//#include <glm/ext.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 #include <stb/stb_image.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -38,10 +41,10 @@
 REGISTER_COMPONENT(XEngine::MeshRenderer, "MeshRenderer")
 
 namespace XEngine {
-MeshRenderer::MeshRenderer() {}
 
 // Constructor
-MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma) //: gammaCorrection(gamma)//, RenderableObject(m)
+MeshRenderer::MeshRenderer() {}
+MeshRenderer::MeshRenderer(std::string const &modelPath, std::string materialPath, bool gamma)
 {
 	this->meshPath =  std::string(modelPath);
 	if (meshPath.find(ASSET_FILE_PATH) == std::string::npos)
@@ -89,9 +92,6 @@ void MeshRenderer::Setup()
 		meshName = "";
 	}
 
-	//std::cout << "MESH FILEPATH: " + filePath << std::endl;
-	//std::cout << "MESH Name: " + meshName << std::endl;
-
 	// Get Mesh
 	if (meshPath.empty() == false)
 	{
@@ -100,15 +100,11 @@ void MeshRenderer::Setup()
 	else
 		std::cout << "No Mesh Path" << std::endl;
 
-	//std::cout << "VERTEXT COUNT - " << meshName << ": " << mesh->vertices.size() << std::endl;
-	//std::cout << "INDICES COUNT - " << meshName << ": " << mesh->indices.size() << std::endl;
-	
 	if (material == nullptr)
 	{
 		// Get Material
 		if (materialPath.empty())
 		{
-			//std::cout << "No Material Path: Using Default Material ========================================================================" << std::endl;
 			// Get Default Materia FilePath of the Mesh from Obj file
 			materialPath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->name + ".material";	//filePath += fileName + ".material";
 		}
@@ -128,26 +124,22 @@ void MeshRenderer::Setup()
 
 void MeshRenderer::Draw()
 {
-	//material->Load();
-
-	//if (gameObject == nullptr) return;
-
 	if(mesh != nullptr)
 	{
 		glm::mat4 view = RenderManager::getInstance().getView();
 		glm::mat4 projection = RenderManager::getInstance().getProjection();
 		glm::mat4 model = this->gameObject->transform->getMatrix4x4();
-		material->Load();
 
-		material->shader->setMat4("view", view);
-		material->shader->setMat4("projection", projection);
-		material->shader->setMat4("model", model);
+		material->Load();
 
 		material->Draw();
 
 		// DRAW THE MESH =====
 		// 
 		glBindVertexArray(mesh->VAO);
+		material->shader->setMat4("view", view);
+		material->shader->setMat4("projection", projection);
+		material->shader->setMat4("model", model);
 		glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
@@ -168,16 +160,18 @@ void MeshRenderer::OnDrawGizmos()
 void MeshRenderer::DrawInspector()
 {
 	ImGui::Text(("MESH: " + mesh->name).c_str());
-	ImGui::Text(("  VAO: " + std::to_string(mesh->VAO)).c_str());
-	ImGui::Text(("  VBO: " + std::to_string(mesh->VBO)).c_str());
+	ImGui::Text(("  VAO: " + std::to_string(mesh->VAO)).c_str()); ImGui::SameLine();
+	ImGui::Text(("  VBO: " + std::to_string(mesh->VBO)).c_str()); ImGui::SameLine();
 	ImGui::Text(("  EBO: " + std::to_string(mesh->EBO)).c_str());
-	auto n = std::find(RenderManager::getInstance().currentRenderables.begin(), RenderManager::getInstance().currentRenderables.end(), (RenderableObject*)this);
+	// Get the index of the RenderableObject in the array.
+	/*auto n = std::find(RenderManager::getInstance().currentRenderables.begin(), RenderManager::getInstance().currentRenderables.end(), (RenderableObject*)this);
 	if (n != RenderManager::getInstance().currentRenderables.end())
 	{
 		int index = std::distance(RenderManager::getInstance().currentRenderables.begin(), n);
 		ImGui::Text(("  Renderable Index : " + std::to_string(index)).c_str());
-	}
-	
+	}*/
+
+	glm::mat4 model = this->gameObject->transform->getMatrix4x4();
 
 
 	std::string* imguiMeshPath = &meshPath;

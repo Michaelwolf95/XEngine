@@ -325,6 +325,11 @@ GameObject_ptr GameObject::Duplicate(GameObject_ptr ref)
 
 	// SCOPE REQUIRED FOR ARCHIVE.
 	{
+		if (CreateDirectory("../Temp/", NULL) ||
+			ERROR_ALREADY_EXISTS == GetLastError())
+		{
+			// CopyFile(...)
+		}
 		std::ofstream ofs(fileName);
 		//std::stringstream();
 		if (!ofs)
@@ -465,7 +470,7 @@ GameObject_ptr GameObject::InstantiatePrefab(std::string fileName)
 		catch (const std::exception& e)
 		{
 			std::cout << "==================================================" << std::endl;
-			std::cout << "ERROR: FAILED TO DUPLICATE.\nProbably due to outdated serialization." << std::endl;
+			std::cout << "ERROR: FAILED TO INSTANTIATE PREFAB.\nProbably due to outdated serialization." << std::endl;
 			std::cout << e.what() << std::endl;
 			std::cout << "==================================================" << std::endl;
 			return nullptr;// false;
