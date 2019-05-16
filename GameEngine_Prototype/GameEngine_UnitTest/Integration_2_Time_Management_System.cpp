@@ -18,51 +18,7 @@ namespace XEngine_UnitTest
 	TEST_CLASS(Time_Management_System)
 	{
 	public:
-		TEST_METHOD(Test_Init)
-		{
-			// Arrange
-			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("TestGameObject_Component_System");
-
-			SceneManager::getInstance().SetActiveScene(scene);
-			SceneManager::getInstance().SaveActiveScene();
-
-			// Act
-			GameTime::getInstance().Init();
-			float timeLastFrame = GameTime::getInstance().timeLastFrame;
-			float deltaTime = GameTime::getInstance().deltaTime;
-
-			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
-			{
-				ApplicationManager::getInstance().ApplicationStartUpdate();
-				GameTime::getInstance().UpdateTime();
-				Input::getInstance().UpdateInput();
-
-				if (OnEngineUpdate != nullptr) OnEngineUpdate();
-				SceneManager::getInstance().UpdateActiveScene();
-				AudioManager::getInstance().UpdateAudio();
-
-				PhysicsManager::getInstance().PhysicsUpdate();
-
-				if (OnEnginePreRender != nullptr) OnEnginePreRender();
-
-				RenderManager::getInstance().Render();
-
-				if (OnEnginePostRender != nullptr) OnEnginePostRender();
-
-				Input::getInstance().EndUpdateFrame();
-				ApplicationManager::getInstance().ApplicationEndUpdate();
-			}
-
-			if (OnApplicationClose != nullptr) OnApplicationClose();
-
-			ApplicationManager::getInstance().CloseApplication();
-
-			// Assert: Check Init values
-			Assert::IsTrue(timeLastFrame == 0.0f);
-			Assert::IsTrue(deltaTime == 0.0f);
-		}
-
+		// Test update time
 		TEST_METHOD(Test_UpdateTime)
 		{
 			// Arrange
@@ -85,8 +41,6 @@ namespace XEngine_UnitTest
 
 				// Act
 				currentPre = GameTime::getInstance().currentTime;
-				deltaPre = GameTime::getInstance().deltaTime;
-				lastPre = GameTime::getInstance().timeLastFrame;
 				GameTime::getInstance().UpdateTime();
 				currentPost = GameTime::getInstance().currentTime;
 				deltaPost = GameTime::getInstance().deltaTime;
@@ -119,6 +73,7 @@ namespace XEngine_UnitTest
 			Assert::AreEqual(currentPost, lastPost); // checking last time frame
 		}
 
+		// Test ToggleFPS and IsCounting
 		TEST_METHOD(Test_ToggleFPS_IsCounting)
 		{
 			// Arrange

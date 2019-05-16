@@ -173,25 +173,6 @@ void RenderManager::RenderObject(RenderableObject* renderable)
 	//glUseProgram(0);
 }
 
-//// moved to MeshRenderer
-//void RenderManager::FreeAllResources()
-//{
-//	//ToDo: Loop through all renderables and free their resources
-//	for (size_t i = 0; i < currentRenderables.size(); i++)
-//	{
-//		FreeObjectResources(currentRenderables[i]);
-//	}
-//}
-//
-//void RenderManager::FreeObjectResources(RenderableObject* renderable)
-//{
-//	// optional: de-allocate all resources once they've outlived their purpose:
-//	// ------------------------------------------------------------------------
-//	glDeleteVertexArrays(1, &(renderable->VAO));
-//	glDeleteBuffers(1, &(renderable->VBO));
-//	glDeleteBuffers(1, &(renderable->EBO));
-//}
-
 void RenderManager::FindCameraInScene(Scene* scene)
 {
 	// Init Camera for RenderManager

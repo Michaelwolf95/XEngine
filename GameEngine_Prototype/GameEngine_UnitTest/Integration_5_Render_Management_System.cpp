@@ -15,21 +15,21 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace XEngine_UnitTest
 {
-	TEST_CLASS(Asset_Management_System)
+	TEST_CLASS(Render_Management_System)
 	{
 	public:
-		// Test material library
-		TEST_METHOD(Test_Material_Library)
+		// Test get view
+		TEST_METHOD(Test_GetView)
 		{
 			// Arrange
 			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_AssetManagement_System");
+			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_SceneManagement_System");
+
+			glm::mat4 viewExpected= RenderManager::getInstance().getView();
+			glm::mat4 viewResult;
 
 			SceneManager::getInstance().SetActiveScene(scene);
 			SceneManager::getInstance().SaveActiveScene();
-
-			// Act Part 1
-			Material* savedMat = AssetManager::getInstance().materialLib.GetAsset("mat");
 
 			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 			{
@@ -47,6 +47,9 @@ namespace XEngine_UnitTest
 
 				RenderManager::getInstance().Render();
 
+				// Act 
+				viewResult = RenderManager::getInstance().getView();
+
 				if (OnEnginePostRender != nullptr) OnEnginePostRender();
 
 				Input::getInstance().EndUpdateFrame();
@@ -57,25 +60,22 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Act Part 2
-			Material* loadedMat = AssetManager::getInstance().materialLib.GetAsset("mat");
-
 			// Assert: if values are the same
-			Assert::IsTrue(savedMat == loadedMat);
+			Assert::IsTrue(viewExpected == viewResult);
 		}
 
-		// Test mesh library
-		TEST_METHOD(Test_Mesh_Library)
+		// Test get projection
+		TEST_METHOD(Test_GetProjection)
 		{
 			// Arrange
 			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_AssetManagement_System");
+			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_SceneManagement_System");
+
+			glm::mat4 projExpected = RenderManager::getInstance().getProjection();
+			glm::mat4 projResult;
 
 			SceneManager::getInstance().SetActiveScene(scene);
 			SceneManager::getInstance().SaveActiveScene();
-
-			// Act Part 1
-			Mesh* savedMesh = AssetManager::getInstance().meshLib.GetAsset("../Assets/3Dmodel/MetalCrate/cube.obj", "Cube");
 
 			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 			{
@@ -93,6 +93,9 @@ namespace XEngine_UnitTest
 
 				RenderManager::getInstance().Render();
 
+				// Act 
+				projResult = RenderManager::getInstance().getProjection();
+
 				if (OnEnginePostRender != nullptr) OnEnginePostRender();
 
 				Input::getInstance().EndUpdateFrame();
@@ -103,25 +106,26 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Act Part 2
-			Mesh* loadedMesh = AssetManager::getInstance().meshLib.GetAsset("../Assets/3Dmodel/MetalCrate/cube.obj", "Cube");
-
 			// Assert: if values are the same
-			Assert::IsTrue(savedMesh == loadedMesh);
+			Assert::IsTrue(projExpected == projResult);
 		}
 
-		// Test model library
-		TEST_METHOD(Test_Model_Library)
+		// Test get current camera
+		TEST_METHOD(Test_GetCurrentCamera)
 		{
 			// Arrange
 			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_AssetManagement_System");
+			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_SceneManagement_System");
+
+			GameObject_ptr cameraExpected = scene->CreateGameObject("Camera");
+			std::shared_ptr<CameraComponent> cam(new CameraComponent());
+			cameraExpected->AddComponent(cam);
+			std::shared_ptr<AudioListener> listener(new AudioListener());
+			cameraExpected->AddComponent(listener);
+			Camera* cameraResult;
 
 			SceneManager::getInstance().SetActiveScene(scene);
 			SceneManager::getInstance().SaveActiveScene();
-
-			// Act Part 1
-			Model* savedModel = AssetManager::getInstance().modelLib.GetAsset("../Assets/3Dmodel/MetalCrate/cube.obj|Cube");
 
 			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 			{
@@ -139,6 +143,9 @@ namespace XEngine_UnitTest
 
 				RenderManager::getInstance().Render();
 
+				// Act 
+				cameraResult = RenderManager::getInstance().getCurrentCamera();
+
 				if (OnEnginePostRender != nullptr) OnEnginePostRender();
 
 				Input::getInstance().EndUpdateFrame();
@@ -149,25 +156,24 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Act Part 2
-			Model* loadedModel = AssetManager::getInstance().modelLib.GetAsset("../Assets/3Dmodel/MetalCrate/cube.obj|Cube");
-			
 			// Assert: if values are the same
-			Assert::IsTrue(savedModel == loadedModel);
+			Assert::IsTrue(cam->getProjection() == cameraResult->getProjection());
 		}
 
-		// Test shader library
-		TEST_METHOD(Test_Shader_Library)
+		// Test add renderable
+		TEST_METHOD(Test_AddRenderable)
 		{
 			// Arrange
 			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_AssetManagement_System");
+			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_SceneManagement_System");
+
+			// Act Part 1: (this line calls RenderableObject) 
+			std::shared_ptr<XEngine::MeshRenderer> mesh(new XEngine::MeshRenderer());
+			mesh->OnEnable();
+			int count = 0;
 
 			SceneManager::getInstance().SetActiveScene(scene);
 			SceneManager::getInstance().SaveActiveScene();
-
-			// Act Part 1
-			Shader* savedShader = AssetManager::getInstance().shaderLib.GetAsset("../Assets/Shaders/multilights.shader", "");
 
 			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 			{
@@ -185,6 +191,9 @@ namespace XEngine_UnitTest
 
 				RenderManager::getInstance().Render();
 
+				// Act Part 2: get count of renderable objects
+				count = RenderManager::getInstance().currentRenderables.size();
+
 				if (OnEnginePostRender != nullptr) OnEnginePostRender();
 
 				Input::getInstance().EndUpdateFrame();
@@ -195,25 +204,24 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Act Part 2
-			Shader* loadedShader = AssetManager::getInstance().shaderLib.GetAsset("../Assets/Shaders/multilights.shader", "");
-
 			// Assert: if values are the same
-			Assert::IsTrue(savedShader == loadedShader);
+			Assert::IsTrue(count == 1);
 		}
 
-		// Test texture library
-		TEST_METHOD(Test_Texture_Library)
+		// Test remove renderable
+		TEST_METHOD(Test_RemoveRenderable)
 		{
 			// Arrange
 			ENGINE_INITIALIZE();
-			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_AssetManagement_System");
+			Scene_ptr scene = SceneManager::getInstance().CreateNewScene("Test_SceneManagement_System");
+
+			// Act Part 1: (this line calls RenderableObject) 
+			std::shared_ptr<XEngine::MeshRenderer> mesh(new XEngine::MeshRenderer());
+			mesh->OnEnable();
+			int count = 0;
 
 			SceneManager::getInstance().SetActiveScene(scene);
 			SceneManager::getInstance().SaveActiveScene();
-
-			// Act Part 1
-			Texture* savedTexture = AssetManager::getInstance().textureLib.GetAsset("../Assets/textures/container.jpg");
 
 			while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
 			{
@@ -231,6 +239,10 @@ namespace XEngine_UnitTest
 
 				RenderManager::getInstance().Render();
 
+				// Act Part 2: get count of renderable objects
+				mesh->OnDisable();
+				count = RenderManager::getInstance().currentRenderables.size();
+
 				if (OnEnginePostRender != nullptr) OnEnginePostRender();
 
 				Input::getInstance().EndUpdateFrame();
@@ -241,13 +253,8 @@ namespace XEngine_UnitTest
 
 			ApplicationManager::getInstance().CloseApplication();
 
-			// Act Part 2
-			Texture* loadedTexure = AssetManager::getInstance().textureLib.GetAsset("../Assets/textures/container.jpg");
-
 			// Assert: if values are the same
-			Assert::IsTrue(savedTexture->id == loadedTexure->id);
-			Assert::IsTrue(savedTexture->path == loadedTexure->path);
-			Assert::IsTrue(savedTexture->type == loadedTexure->type);
+			Assert::IsTrue(count == 0);
 		}
 	};
 }
