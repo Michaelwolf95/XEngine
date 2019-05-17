@@ -31,3 +31,9 @@ void AssetManager::setProjectFilePath(std::string path)
 {
 	projectFilePath = path;
 }
+
+bool AssetManager::FileExists(std::string path)
+{
+	std::ifstream ifs(path);
+	return ifs.good();
+}

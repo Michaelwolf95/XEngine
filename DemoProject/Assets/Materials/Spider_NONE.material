@@ -55,8 +55,8 @@
 			</MaterialProperty>
 			<value class_id="13" tracking_level="0" version="0">
 				<vec.x>1.000000000e+00</vec.x>
-				<vec.y>9.999899864e-01</vec.y>
-				<vec.z>9.999899864e-01</vec.z>
+				<vec.y>1.000000000e+00</vec.y>
+				<vec.z>1.000000000e+00</vec.z>
 				<vec.w>1.000000000e+00</vec.w>
 			</value>
 		</item>

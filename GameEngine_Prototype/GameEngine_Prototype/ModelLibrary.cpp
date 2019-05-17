@@ -163,13 +163,15 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	std::string matFilePath = ASSET_FILE_PATH + "Materials/" + (std::string)mesh->mName.C_Str() + ".material";	//filePath += fileName + ".material";
 	// get material
 	
+	bool materialExists = AssetManager::FileExists(matFilePath);
 	// only used name of the material to get it (not anymore)
 	//std::cout << "\nmatFilePath (fileName): " << matFilePath << std::endl;
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
 
 	// if the loaded material does not have the texture properties then add it
-	if (MatforMesh->textureProperties.empty())
+	if (!materialExists && MatforMesh->textureProperties.empty())
 	{
+		std::cout << "PROCESSING MODEL FOR MATERIAL\n";
 		// process materials
 		aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
@@ -275,13 +277,13 @@ Mesh* ModelLibrary::processMesh(aiMesh * mesh)
 std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::string filePath)
 {
 	std::cout << "ModelLibrary::loadMaterialTextures called with arguments\n";
-	std::cout << "\typeName: " << typeName << std::endl;
+	std::cout << "\ttypeName: " << typeName << std::endl;
 	std::cout << "\tfilePath: " << filePath << std::endl;
 
 	// retrieve the directory path of the filepath
 	std::string directory = filePath.substr(0, filePath.find_last_of('/'));
 
-	std::cout << "\tDirectory: " << directory << std::endl;
+	//std::cout << "\tDirectory: " << directory << std::endl;
 
 	std::vector<TextureProperty> textures;
 
@@ -308,8 +310,15 @@ std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat,
 		{
 			// get Texture
 			std::string filename = str.C_Str();
+			std::cout << "\tfileName (before): " << filename << std::endl;
+			//filename.replace(filename.begin(), filename.end(),"\\", "")
 			std::replace(filename.begin(), filename.end(), '\\', '/');
-			filename = directory + '/' + filename;
+			if (directory[directory.size() - 1] != '/')
+			{
+				filename = directory + '/' + filename;
+			}
+
+			std::cout << "\tLoading Texture:\n\t" << filename << std::endl;
 
 			Texture* texture = (AssetManager::getInstance().textureLib.GetAsset(filename));
 			//texture->id = TextureFromFile(filename.c_str(), directory);
@@ -329,45 +338,45 @@ std::vector<TextureProperty> ModelLibrary::loadMaterialTextures(aiMaterial *mat,
 	}
 	return textures;
 }
-
-// Get the texture from the file
-unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
-{
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-
-	//std::cout << "3. filename == " << path << std::endl;
-
-	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
-
-	if (data)
-	{
-		GLenum format;
-
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-		std::cout << "Texture failed to load at path: " << path << std::endl;
-		stbi_image_free(data);
-	}
-	return textureID;
-}
+//
+//// Get the texture from the file
+//unsigned int ModelLibrary::TextureFromFile(const char * path, const std::string &directory, bool gamma)
+//{
+//	unsigned int textureID;
+//	glGenTextures(1, &textureID);
+//
+//	int width, height, nrComponents;
+//
+//	//std::cout << "3. filename == " << path << std::endl;
+//
+//	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+//
+//	if (data)
+//	{
+//		GLenum format;
+//
+//		if (nrComponents == 1)
+//			format = GL_RED;
+//		else if (nrComponents == 3)
+//			format = GL_RGB;
+//		else if (nrComponents == 4)
+//			format = GL_RGBA;
+//
+//		glBindTexture(GL_TEXTURE_2D, textureID);
+//		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+//		glGenerateMipmap(GL_TEXTURE_2D);
+//
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//
+//		stbi_image_free(data);
+//	}
+//	else
+//	{
+//		std::cout << "Texture failed to load at path: " << path << std::endl;
+//		stbi_image_free(data);
+//	}
+//	return textureID;
+//}

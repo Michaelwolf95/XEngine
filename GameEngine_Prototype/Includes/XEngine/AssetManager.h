@@ -27,6 +27,8 @@ public:
 
 	std::string getProjectFilePath();
 	void setProjectFilePath(std::string path);
+
+	static bool FileExists(std::string path);
 private:
 	// This can be redefined by the user.
 	std::string projectFilePath = "../";
