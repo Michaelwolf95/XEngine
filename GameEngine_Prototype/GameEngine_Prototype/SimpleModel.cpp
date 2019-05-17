@@ -5,7 +5,7 @@
 #include "ApplicationManager.h"
 
 SimpleModel::SimpleModel(float * verts, unsigned int numV, unsigned int vertDataSize, unsigned int * ind, unsigned int numInd, Material* _material)
-	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
+	//: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material) // removed from renderableobject
 {
 
 }
@@ -37,7 +37,10 @@ void SimpleModel::Setup()
 
 void SimpleModel::Draw()
 {
-	if (enabled == false) return;
+	//material->shader->use(); // moved to material::Load
+	material->Load();
+	std::cout << "SimpleModel.Draw()" << std::endl; // path not taken
+	if (render_enabled == false) return;
 	// ToDo: Get view & projection from active camera.
 	// ToDo: Set "Model" based on GameObject transform.
 

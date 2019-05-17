@@ -4,7 +4,7 @@
 
 SimpleSprite::SimpleSprite(float* verts, unsigned int numV, unsigned int vertDataSize,
 	unsigned int* ind, unsigned int numInd, Material* _material)
-	: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material)
+	//: RenderableObject(verts, numV, vertDataSize, ind, numInd, _material) // removed from renderableobject
 {
 	
 }
@@ -58,7 +58,7 @@ void SimpleSprite::Setup()
 void SimpleSprite::Draw()
 {
 	// Draws right onto the screen
-	if (enabled)
+	if (render_enabled)
 	{
 		glBindVertexArray(VAO);
 		//glDrawArrays(GL_TRIANGLES, 0, 6);

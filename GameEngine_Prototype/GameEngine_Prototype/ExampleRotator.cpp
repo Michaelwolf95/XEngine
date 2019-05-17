@@ -3,60 +3,85 @@
 #include "Time.h"
 //#include <GLFW/glfw3.h>
 #include "ApplicationManager.h"
-#include "DebugUtility.h"
+#include "Input.h"
 
-ExampleRotator::ExampleRotator() {}
-ExampleRotator::~ExampleRotator() {}
+float ExampleRotator::rotationSpeed = 0.0f;
+float ExampleRotator::deltaY = 0.0f;
+
+ExampleRotator::ExampleRotator()
+{
+	std::cout << "ExampleRotator" << std::endl;
+	//Input::getInstance().keyEnabled(GLFW_KEY_LEFT, true);
+	//Input::getInstance().setKeyFunction(GLFW_KEY_LEFT, rotateLeft);
+	//Input::getInstance().keyEnabled(GLFW_KEY_RIGHT, true);
+	//Input::getInstance().setKeyFunction(GLFW_KEY_RIGHT, rotateRight);
+}
+
+
+ExampleRotator::~ExampleRotator()
+{
+
+}
 
 void ExampleRotator::Start()
 {
-	glm::vec3 newRot = glm::vec3(0, 15, 0);
-	//gameObject->transform->setLocalRotationEuler(newRot);
+
 }
 
 void ExampleRotator::Update()
 {
-
-	float deltaY = rotationSpeed * Time::deltaTime;
-	float deltaZ = rotationSpeed * Time::deltaTime;
-
-	float horizontal = 0;
-	float vertical = 0;
-	//Input::GetButtonHold(KEY_CODE) // return bool
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_LEFT) == GLFW_PRESS)
-		horizontal += -1;
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		horizontal += 1;
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_UP) == GLFW_PRESS)
-		vertical += -1;
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_DOWN) == GLFW_PRESS)
-		vertical += 1;
-
-	deltaY *= horizontal;
-	deltaZ *= vertical;
-
+	//std::cout << "Example Rotator Update" << std::endl;
 	glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
+	rotationSpeed = 0.5f; // otherwise is equal to 10
+	// TODO: find out why equal to 10 without reassignment.
+	//deltaY = rotationSpeed * Time::deltaTime;
 
-	// Currently broken API
-	glm::vec3 newRot = glm::vec3(rot.x, rot.y + deltaY, rot.z + deltaZ);
-	gameObject->transform->setLocalRotationEuler(newRot);
 
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_SPACE) == GLFW_PRESS)
+	//float horizontal = 0;
+	//Input::GetButtonHold(KEY_CODE); // returns true or false
+
+	if (Input::getInstance().GetKey(GLFW_KEY_LEFT) == true)
 	{
-		if (!isPressed)
-		{
-			gameObject->transform->printTransformMatrix();
-			glm::vec3 rotDeg = gameObject->transform->getLocalRotationEuler();
-			std::cout << "Rot:  (" << rotDeg.x << ", " << rotDeg.y << ", " << rotDeg.z << ")" << std::endl;
-			glm::quat rotQuat = gameObject->transform->getLocalRotation();
-			std::cout << "RotQ: (" << rotQuat.x << ", " << rotQuat.y << ", " << rotQuat.z << ", " << rotQuat.w << ")" << std::endl;
-			
-			//EngineDebug::PrintMatrix(gameObject->transform->getRotationMatrix());
-			isPressed = true;
-		}
+		//Input::getInstance().callKeyFunction(GLFW_KEY_LEFT);
+		rotateLeft();
 	}
-	else if (isPressed)
+	if (Input::getInstance().GetKey(GLFW_KEY_RIGHT) == true)
 	{
-		isPressed = false;
+		//Input::getInstance().callKeyFunction(GLFW_KEY_RIGHT);
+		rotateRight();
 	}
+	//if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_LEFT) == GLFW_PRESS)
+	//	horizontal += -1;
+	//if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	//	horizontal += 1;
+	//deltaY *= horizontal;
+
+	//glm::vec3 newRot = glm::vec3(rot.x, rot.y+deltaY, rot.z);
+	gameObject->transform->Rotate(glm::vec3(0, deltaY*rotationSpeed, 0));
+	deltaY = 0.0f;
+}
+
+void ExampleRotator::rotateLeft()
+{
+	//std::cout << "rotateLeft" << std::endl;
+	//glm::vec3 rot = gameObject->transform->getLocalRotationEuler();
+	deltaY = rotationSpeed;// *Time::deltaTime;
+
+	//float horizontal = deltaY;
+	////Input::GetButtonHold(KEY_CODE); // returns true or false
+	//horizontal *= -1;
+	deltaY *= -1;
+
+	//glm::vec3 newRot = glm::vec3(rot.x, rot.y + deltaY, rot.z);
+	//gameObject->transform->Rotate(glm::vec3(0, deltaY, 0));
+}
+
+void ExampleRotator::rotateRight()
+{
+	deltaY = rotationSpeed;
+
+	//float horizontal = deltaY;
+	////Input::GetButtonHold(KEY_CODE); // returns true or false
+	//horizontal += 1;
+	deltaY *= 1;
 }

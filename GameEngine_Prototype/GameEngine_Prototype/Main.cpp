@@ -1,50 +1,115 @@
-#define GLM_FORCE_RADIANS
-#include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+//==================================================
+// MAIN ENTRY POINT FOR ENGINE
+//==================================================
+
+// Defining this here to prevent duplicate definitions
+// when the XEngine header is used.
+#ifndef STB_DEFINE
 #define STB_DEFINE  
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-#include "DebugUtility.h" // Define only once
-#include "AssetManager.h"
-#include "ApplicationManager.h"
-#include "RenderManager.h"
-#include "SceneManager.h"
-#include "Time.h"
-#include "Input.h"
+#endif
 
-#include "TestScenes.h"
+#include "XEngine.h"
 
-
-// ENTRY POINT
-int main()
+namespace XEngine
 {
-	std::cout << "===== LAUNCHING CECS_491 GAME ENGINE =====" << std::endl;
-	// Init Managers
-	ApplicationManager::CreateManager();
-	RenderManager::CreateManager();
-	SceneManager::CreateManager();
-	Time::CreateManager();
-	Input::CreateManager();
+	ENGINE_API EngineEvent OnEngineInit = nullptr;
+	ENGINE_API EngineEvent OnEngineUpdate = nullptr;
+	ENGINE_API EngineEvent OnEnginePreRender = nullptr;
+	ENGINE_API EngineEvent OnEnginePostRender = nullptr;
+	ENGINE_API EngineEvent OnApplicationClose = nullptr;
+	ENGINE_API bool engineInitialized = false;
 
-	// Create & Load Scene
-	RunTestScene();
+	ENGINE_API bool useDefaultSceneInitialization = true;
 
-	// FRAME LOOP
-	while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
+	int ENGINE_API ENGINE_INITIALIZE()
 	{
-		ApplicationManager::getInstance().ApplicationStartUpdate();
-		Time::getInstance().UpdateTime();
-		Input::getInstance().UpdateInput();
+		if (engineInitialized)
+			return 0;
+		// Init Managers
+		ApplicationManager::CreateManager();
+		GameTime::CreateManager();
+		Input::CreateManager();
+		AssetManager::CreateManager();
+		RenderManager::CreateManager();
+		SceneManager::CreateManager();
+		AudioManager::CreateManager();
+		PhysicsManager::CreateManager();
 
-		// Do Game Logic here
-		SceneManager::getInstance().UpdateActiveScene();
+		if (OnEngineInit != nullptr) XEngine::OnEngineInit();
 
-		RenderManager::getInstance().Render();
-
-		ApplicationManager::getInstance().ApplicationEndUpdate();
+		engineInitialized = true;
+		return 0;
 	}
 
-	ApplicationManager::getInstance().CloseApplication();
-	return 0;
+	// Main Game Function.
+	int ENGINE_API ENGINE_MAIN()
+	{
+		std::cout << "===== LAUNCHING X-ENGINE =====" << std::endl;
+		std::cout << "API Mode: " << API_MODE << std::endl;
+		
+		ENGINE_INITIALIZE();
+
+		// Create & Load Scene
+		if (useDefaultSceneInitialization)
+		{
+			// TODO: Configure Build Config to load first scene based on a file.
+			SceneManager::getInstance().LoadAndActivateSceneFromFile("../Assets/Scenes/Physics_Test_2.scene");
+		}
+
+		// FRAME LOOP
+		while (!ApplicationManager::getInstance().CheckIfAppShouldClose())
+		{
+			ApplicationManager::getInstance().ApplicationStartUpdate();
+			GameTime::getInstance().UpdateTime();
+			Input::getInstance().UpdateInput();
+
+			// MAIN UPDATE
+			if (OnEngineUpdate != nullptr) OnEngineUpdate();
+			SceneManager::getInstance().UpdateActiveScene();
+			AudioManager::getInstance().UpdateAudio();
+
+			PhysicsManager::getInstance().PhysicsUpdate();
+
+			if (OnEnginePreRender != nullptr) OnEnginePreRender();
+
+			RenderManager::getInstance().Render();
+
+			if (OnEnginePostRender != nullptr) OnEnginePostRender();
+
+			Input::getInstance().EndUpdateFrame();
+			ApplicationManager::getInstance().ApplicationEndUpdate();
+		}
+
+		if (OnApplicationClose != nullptr) OnApplicationClose();
+
+		ApplicationManager::getInstance().CloseApplication();
+		return 0;
+	}
 }
+
+#include <Windows.h>
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+)
+{
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	//std::cout << "DLL_MAIN" << std::endl;
+	return TRUE;
+}
+
+// ENTRY POINT
+// Used when the application is run as an executable.
+//int main()
+//{
+//	XEngine::ENGINE_MAIN();
+//}

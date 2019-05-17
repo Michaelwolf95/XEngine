@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="17">
+<s class_id="0" tracking_level="0" version="0">
+	<name>whatever</name>
+	<allGameObjects class_id="1" tracking_level="0" version="0">
+		<count>2</count>
+		<item_version>1</item_version>
+		<item class_id="2" tracking_level="0" version="1">
+			<px class_id="3" tracking_level="1" version="0" object_id="_0">
+				<isActive>1</isActive>
+				<transform class_id="4" tracking_level="1" version="0" object_id="_1">
+					<Component class_id="5" tracking_level="0" version="0">
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition class_id="6" tracking_level="0" version="0">
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>4.289636612e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation class_id="7" tracking_level="0" version="0">
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>1.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components class_id="8" tracking_level="0" version="0">
+					<count>1</count>
+					<item_version>1</item_version>
+					<item class_id="9" tracking_level="0" version="1">
+						<px class_id="10" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_2">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<pathToObjModel>../Assets/3Dmodel/MetalCrate/cube.obj</pathToObjModel>
+							<meshMaterialFilePaths class_id="11" tracking_level="0" version="0">
+								<count>2</count>
+								<item_version>0</item_version>
+								<item>../Assets/Materials/Cube.material</item>
+								<item>../Assets/Materials/Material_NONE.material</item>
+							</meshMaterialFilePaths>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+		<item>
+			<px class_id_reference="3" object_id="_3">
+				<isActive>1</isActive>
+				<transform class_id_reference="4" object_id="_4">
+					<Component>
+						<enabled>1</enabled>
+					</Component>
+					<parent class_id="-1"></parent>
+					<localPosition>
+						<vec.x>0.000000000e+00</vec.x>
+						<vec.y>0.000000000e+00</vec.y>
+						<vec.z>0.000000000e+00</vec.z>
+					</localPosition>
+					<localScale>
+						<vec.x>1.000000000e+00</vec.x>
+						<vec.y>1.000000000e+00</vec.y>
+						<vec.z>1.000000000e+00</vec.z>
+					</localScale>
+					<localRotation>
+						<q.x>0.000000000e+00</q.x>
+						<q.y>0.000000000e+00</q.y>
+						<q.z>0.000000000e+00</q.z>
+						<q.w>0.000000000e+00</q.w>
+					</localRotation>
+				</transform>
+				<components>
+					<count>2</count>
+					<item_version>1</item_version>
+					<item>
+						<px class_id="12" class_name="CameraComponent" tracking_level="1" version="0" object_id="_5">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<clearColor class_id="13" tracking_level="0" version="0">
+								<vec.x>1.000000000e+00</vec.x>
+								<vec.y>1.000000000e+00</vec.y>
+								<vec.z>1.000000000e+00</vec.z>
+								<vec.w>1.000000000e+00</vec.w>
+							</clearColor>
+						</px>
+					</item>
+					<item>
+						<px class_id="14" class_name="CameraControllerComponent" tracking_level="1" version="0" object_id="_6">
+							<Component>
+								<enabled>1</enabled>
+							</Component>
+							<fieldOfView>4.500000000e+01</fieldOfView>
+							<zoomSpeed>1.000000000e+00</zoomSpeed>
+							<xRotSpeed>5.000000000e+00</xRotSpeed>
+							<yRotSpeed>5.000000000e+00</yRotSpeed>
+							<zRotSpeed>2.500000000e+00</zRotSpeed>
+							<inversionX>0</inversionX>
+							<inversionY>0</inversionY>
+							<inversionZ>0</inversionZ>
+							<inversionZoom>0</inversionZoom>
+							<moveFowardSpeed>2.000000000e+00</moveFowardSpeed>
+							<moveBackwardSpeed>2.000000000e+00</moveBackwardSpeed>
+							<moveLeftSpeed>2.000000000e+00</moveLeftSpeed>
+							<moveRightSpeed>2.000000000e+00</moveRightSpeed>
+							<moveUpSpeed>2.000000000e+00</moveUpSpeed>
+							<moveDownSpeed>2.000000000e+00</moveDownSpeed>
+							<inversionMoveX>0</inversionMoveX>
+							<inversionMoveY>0</inversionMoveY>
+							<inversionMoveZ>0</inversionMoveZ>
+							<moveSpeedModifierX>5.000000000e+00</moveSpeedModifierX>
+							<moveSpeedModifierY>5.000000000e+00</moveSpeedModifierY>
+							<moveSpeedModifierZ>5.000000000e+00</moveSpeedModifierZ>
+						</px>
+					</item>
+				</components>
+			</px>
+		</item>
+	</allGameObjects>
+</s>
+</boost_serialization>
+

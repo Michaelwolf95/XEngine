@@ -7,148 +7,125 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Time.h"
+#include "GameTime.h"
 #include "ApplicationManager.h"
 #include "RenderManager.h"
 #include "Input.h"
-using namespace glm;
+//using namespace glm;
+using namespace XEngine;
+
+REGISTER_COMPONENT(FreeLookCameraController, "FreeLookCameraController")
 
 FreeLookCameraController::FreeLookCameraController() {}
 FreeLookCameraController::~FreeLookCameraController() {}
 
-void FreeLookCameraController::Start()
-{
-	//moveSpeed = 2.5f;
-	//gameObject->transform->model = translate(gameObject->transform->model, vec3(0.0f, 0.0f, -3.0f));
-}
+void FreeLookCameraController::Start() {}
 
 void FreeLookCameraController::Update()
 {
-	//glm::vec3 forward = gameObject->transform->getForwardDirection();
-	//glm::vec3 up = gameObject->transform->getUpDirection(); 
-	glm::vec3 forward = glm::vec3(0.0f, 0.0f, 1.0f);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	float deltaMove = moveSpeed * Time::deltaTime;
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_W) == GLFW_PRESS)
-		gameObject->transform->Translate(deltaMove * forward);
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_S) == GLFW_PRESS)
-		gameObject->transform->Translate(-deltaMove * forward);
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_A) == GLFW_PRESS)
-		gameObject->transform->Translate(-glm::normalize(glm::cross(forward, up)) * deltaMove);
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_D) == GLFW_PRESS)
-		gameObject->transform->Translate(glm::normalize(glm::cross(forward, up)) * deltaMove);
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_Q) == GLFW_PRESS)
-		gameObject->transform->Translate(-up * deltaMove);
-	if (glfwGetKey(ApplicationManager::APP_WINDOW, GLFW_KEY_E) == GLFW_PRESS)
-		gameObject->transform->Translate(up * deltaMove);
-
-	// TODO: Set Camera projection matrix using fov.
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= Input::getInstance().yScrollOffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
-	//glm::mat4 projection = glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-	//RenderManager::getInstance().getCurrentCamera
-
-	//if (firstMouse)
-	//{
-	//	lastX = xpos;
-	//	lastY = ypos;
-	//	firstMouse = false;
-	//}
-
-	float xoffset = Input::getInstance().xDeltaPos;// xpos - lastX;
-	float yoffset = Input::getInstance().yDeltaPos; //lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	//std::cout << xoffset << ", " << yoffset << std::endl;
-
-	float sensitivity = 0.1f; // change this value to your liking
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	glm::vec3 eulerRot = gameObject->transform->getLocalRotationEuler();
-	pitch = eulerRot.x + yoffset;
-	yaw = eulerRot.y + xoffset;
-	//yaw += xoffset;
-	//pitch += yoffset;
-
-	// make sure that when pitch is out of bounds, screen doesn't get flipped
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-	gameObject->transform->setLocalRotationEuler(
-		glm::vec3(pitch, yaw, eulerRot.z));
-	
-	//glm::vec3 front;
-	//front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	//front.y = sin(glm::radians(pitch));
-	//front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	//front = glm::normalize(front);
-
-	//cameraFront = glm::normalize(front);
-	//glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-
-
-
-	//glm::vec3 lookPos = gameObject->transform->getPosition() - front;
-	//gameObject->transform->lookAt(lookPos);
-
-	//gameObject->transform->setLocalRotation(vec3(pitch, yaw, 0.0));
-}
-
-/*
-// glfw: whenever the mouse moves, this callback is called
-// -------------------------------------------------------
-void FreeLookCameraController::mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
+	if (Input::GetKeyDown(GLFW_KEY_P))
 	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
+		Input::ToggleCursor();
+	}
+	glm::vec3 forward = this->gameObject->transform->getForwardDirection();
+	glm::vec3 up = this->gameObject->transform->getUpDirection();
+
+
+	// Move forward-back with Mouse Wheel.
+	if (abs(Input::getInstance().GetScrollOffsetY()) > 0)
+	{
+		float deltaZoom = zoomSpeed * GameTime::deltaTime * Input::getInstance().GetScrollOffsetY();
+		this->gameObject->transform->Translate(deltaZoom * forward);
 	}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-	lastX = xpos;
-	lastY = ypos;
+	switch (camMode)
+	{
+	default:
+	case 0:
+		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_RIGHT))
+		{
+			//clickPos = Input::GetMousePos();
+			//lastDragPos = clickPos;
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::ShowCursor(false);
+			camMode = 1;
+			break;
+		}
+		if (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) || (Input::GetMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) && Input::GetKey(GLFW_KEY_LEFT_CONTROL)))
+		{
+			//clickPos = Input::GetMousePos();
+			//lastDragPos = clickPos;
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			Input::ShowCursor(true);
+			camMode = 2;
+			break;
+		}
+		break;
+	case 1:
+		if (Input::GetMouseButton(GLFW_MOUSE_BUTTON_RIGHT))
+		{
+			//glm::vec2 currentDragPos = Input::GetMousePos();
+			//glm::vec2 deltaPos = currentDragPos - lastDragPos;
+			glm::vec2 deltaPos = Input::GetMouseDelta();
+			//lastDragPos = currentDragPos;
+			float deltaXRot = xRotSpeed * GameTime::deltaTime * deltaPos.x;
+			float deltaYRot = yRotSpeed * GameTime::deltaTime * deltaPos.y;
 
-	float sensitivity = 0.1f; // change this value to your liking
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
+			glm::vec3 localRot = gameObject->transform->getLocalRotationEuler();
 
-	yaw += xoffset;
-	pitch += yoffset;
+			// ALTERNATIVE USING LOOKAT
+			//glm::vec3 direction = gameObject->transform->getForwardDirection();
+			//direction.x -= deltaYRot;
+			//direction.y -= deltaXRot;
+			//gameObject->transform->LookAt(gameObject->transform->getPosition() - direction);
 
-	// make sure that when pitch is out of bounds, screen doesn't get flipped
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
+			localRot = glm::vec3(localRot.x + deltaYRot, localRot.y + deltaXRot, localRot.z);
+			gameObject->transform->setLocalRotationEuler(localRot);
+		}
+		else
+		{
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::ShowCursor(true);
+			camMode = 0;
+		}
+		break;
+	case 2:
+		if (Input::GetMouseButton(GLFW_MOUSE_BUTTON_MIDDLE) || Input::GetMouseButton(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			//glm::vec2 currentDragPos = Input::GetMousePos();
+			//glm::vec2 deltaPos = currentDragPos - lastDragPos;
+			glm::vec2 deltaPos = Input::GetMouseDelta();
+			//lastDragPos = currentDragPos;
+			float deltaXPan = panSpeed * GameTime::deltaTime * deltaPos.x;
+			float deltaYPan = panSpeed * GameTime::deltaTime * deltaPos.y;// Input::GetDeltaPosY();
 
-	//glm::vec3 front;
-	//front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	//front.y = sin(glm::radians(pitch));
-	//front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	////cameraFront = glm::normalize(front);
+			glm::vec3 right = gameObject->transform->getRightDirection();
+			//glm::vec3 up = gameObject->transform->getUpDirection();
 
-	gameObject->transform->setLocalRotation(vec3(pitch, yaw, 0.0));
+			this->gameObject->transform->Translate(right * deltaXPan);
+			this->gameObject->transform->Translate(up * deltaYPan);
+
+		}
+		else
+		{
+			Input::SetInputMode(GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			//glfwSetInputMode(ApplicationManager::APP_WINDOW, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			Input::ShowCursor(true);
+			camMode = 0;
+		}
+
+		break;
+	}
 }
 
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void FreeLookCameraController::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void FreeLookCameraController::DrawInspector()
 {
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= yoffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
+	ImGui::InputFloat("zoomSpeed", &zoomSpeed);
+	ImGui::InputFloat("panSpeed", &panSpeed);
+	ImGui::InputFloat("X RotSpeed", &xRotSpeed);
+	ImGui::InputFloat("Y RotSpeed", &yRotSpeed);
 }
-*/

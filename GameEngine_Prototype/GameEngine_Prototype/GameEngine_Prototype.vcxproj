@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Build_Debug|Win32">
+      <Configuration>Build_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Build_Debug|x64">
+      <Configuration>Build_Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -23,29 +31,42 @@
     <ProjectGuid>{B91B3F6D-A712-4E36-B894-DBE4B1B8C579}</ProjectGuid>
     <RootNamespace>GameEngine_Prototype</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>GameEngine_Prototype</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -59,10 +80,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -70,48 +97,123 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Includes;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(SolutionDir)Includes\freetype;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries;$(SolutionDir)Libraries\boost;$(SolutionDir)Libraries\Fmod_lowlevel;$(SolutionDir)Libraries\Fmod_studio;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|x64'">
+    <IncludePath>$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries;$(SolutionDir)Libraries\boost;$(SolutionDir)Libraries\Fmod_lowlevel;$(SolutionDir)Libraries\Fmod_studio;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)Includes\freetype;$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries;$(SolutionDir)Libraries\boost;$(SolutionDir)Libraries\Fmod_lowlevel;$(SolutionDir)Libraries\Fmod_studio;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'">
+    <IncludePath>$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries;$(SolutionDir)Libraries\boost;$(SolutionDir)Libraries\Fmod_lowlevel;$(SolutionDir)Libraries\Fmod_studio;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries;$(SolutionDir)Libraries\boost;$(SolutionDir)Libraries\Fmod_lowlevel;$(SolutionDir)Libraries\Fmod_studio;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(SolutionDir)Includes\Fmod_lowlevel;$(SolutionDir)Includes\Fmod_studio;$(SolutionDir)Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries;$(SolutionDir)Libraries\boost;$(SolutionDir)Libraries\Fmod_lowlevel;$(SolutionDir)Libraries\Fmod_studio;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;_CRT_SECURE_NO_WARNINGS;X_EDIT_MODE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;Fmod_studio/fmodstudioL_vc.lib;Fmod_lowlevel/fmodL_vc.lib;boost/boost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\boost\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>%(SolutionDir)Libraries\freetype;$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build_Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -120,14 +222,26 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodstudio_vc.lib;fmod_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp/assimp-vc140-mt.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\assimp\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\freetype\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -136,35 +250,93 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalUsingDirectories>$(SolutionDir)Includes;</AdditionalUsingDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBRARY_EXPORTS;X_EDIT_MODE;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Includes\BulletPhysics;$(SolutionDir)Includes\boost;$(SolutionDir)Includes\XEngine;$(SolutionDir)Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\BulletPhysics;$(SolutionDir)Libraries\Fmod_studio;$(SolutionDir)Libraries\Fmod_lowlevel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodstudio_vc.lib;fmod_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);assimp/assimp-vc140-mt.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)Libraries\Fmod_studio\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libraries\Fmod_lowlevel\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>freetype/freetype.lib;BulletPhysics/BulletDynamics_Debug.lib;BulletPhysics/BulletCollision_Debug.lib;BulletPhysics/LinearMath_Debug.lib;assimp/assimp-vc140-mt.lib;fmodstudioL_vc.lib;fmodL_vc.lib;boost/libboost_serialization-vc141-mt-gd-x32-1_68.lib;opengl32.lib;GLFW/glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/Fmod_lowlevel;$(SolutionDir)/Libraries/Fmod_studio;$(SolutionDir)/Libraries/BulletPhysics;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Analytics.cpp" />
     <ClCompile Include="ApplicationManager.cpp" />
+    <ClCompile Include="AssetLibrary.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AudioComponent.cpp" />
+    <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="AudioListener.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="AutoMover.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="btRefRigidbody.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwapper.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugUtility.cpp" />
     <ClCompile Include="Drawer.cpp" />
-    <ClCompile Include="ExampleRotator.cpp" />
+    <ClCompile Include="Emitter.cpp" />
+    <ClCompile Include="ExampleRotator_James.cpp" />
+    <ClCompile Include="CameraControllerComponent.cpp" />
+    <ClCompile Include="FPSText.cpp" />
+    <ClCompile Include="GameComponentAnalytic.cpp" />
+    <ClCompile Include="GameObjectAnalytic.cpp" />
+    <ClCompile Include="GizmoSpriteDrawer.cpp" />
+    <ClCompile Include="GlobalLightComponent.cpp" />
+    <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_demo.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui_inspector_extensions.cpp" />
+    <ClCompile Include="imgui_stdlib.cpp" />
+    <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="MaterialLibrary.cpp" />
+    <ClCompile Include="MaterialProperty.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshLibrary.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelLibrary.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="PhysicsTester.cpp" />
+    <ClCompile Include="PointLightComponent.cpp" />
+    <ClCompile Include="PrimitiveModels.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="ShaderLibrary.cpp" />
+    <ClCompile Include="SkyboxRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="SpotLightComponent.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextureLibrary.cpp" />
+    <ClCompile Include="TransformTester.cpp" />
     <ClCompile Include="FreeLookCameraController.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputTester.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="LineDrawer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -175,48 +347,108 @@
     <ClCompile Include="SimpleSprite.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="TestMoverComponent.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationManager.h" />
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraComponent.h" />
-    <ClInclude Include="CameraSwapper.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ConsoleThread.h" />
-    <ClInclude Include="DebugUtility.h" />
-    <ClInclude Include="Drawer.h" />
-    <ClInclude Include="ExampleRotator.h" />
-    <ClInclude Include="FreeLookCameraController.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="LightComponent.h" />
-    <ClInclude Include="LineDrawer.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="RenderManager.h" />
-    <ClInclude Include="RenderableObject.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SimpleModel.h" />
-    <ClInclude Include="SimpleModelComponent.h" />
-    <ClInclude Include="SimpleRotator.h" />
-    <ClInclude Include="SimpleSprite.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="TestMoverComponent.h" />
-    <ClInclude Include="TestScenes.h" />
-    <ClInclude Include="TestScenes_Dennis.h" />
-    <ClInclude Include="TestScenes_Donato.h" />
-    <ClInclude Include="TestScenes_James.h" />
-    <ClInclude Include="TestScenes_Michael.h" />
-    <ClInclude Include="TestScenes_Tam.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="..\Includes\XEngine\Analytics.h" />
+    <ClInclude Include="..\Includes\XEngine\ApplicationManager.h" />
+    <ClInclude Include="..\Includes\XEngine\AssetLibrary.h" />
+    <ClInclude Include="..\Includes\XEngine\AssetManager.h" />
+    <ClInclude Include="..\Includes\XEngine\AudioComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\AudioEngine.h" />
+    <ClInclude Include="..\Includes\XEngine\AudioListener.h" />
+    <ClInclude Include="..\Includes\XEngine\AudioManager.h" />
+    <ClInclude Include="..\Includes\XEngine\AutoMover.h" />
+    <ClInclude Include="..\Includes\XEngine\BoxCollider.h" />
+    <ClInclude Include="..\Includes\XEngine\btRefRigidbody.h" />
+    <ClInclude Include="..\Includes\XEngine\Camera.h" />
+    <ClInclude Include="..\Includes\XEngine\CameraComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\CameraControllerComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\CameraSwapper.h" />
+    <ClInclude Include="..\Includes\XEngine\Collider.h" />
+    <ClInclude Include="..\Includes\XEngine\Component.h" />
+    <ClInclude Include="..\Includes\XEngine\ConsoleThread.h" />
+    <ClInclude Include="..\Includes\XEngine\CoreComponents.h" />
+    <ClInclude Include="..\Includes\XEngine\DebugUtility.h" />
+    <ClInclude Include="..\Includes\XEngine\Drawer.h" />
+    <ClInclude Include="..\Includes\XEngine\Emitter.h" />
+    <ClInclude Include="..\Includes\XEngine\ExampleRotator_James.h" />
+    <ClInclude Include="..\Includes\XEngine\FPSText.h" />
+    <ClInclude Include="..\Includes\XEngine\FreeLookCameraController.h" />
+    <ClInclude Include="..\Includes\XEngine\GameComponentAnalytic.h" />
+    <ClInclude Include="..\Includes\XEngine\GameObject.h" />
+    <ClInclude Include="..\Includes\XEngine\GameObjectAnalytic.h" />
+    <ClInclude Include="..\Includes\XEngine\GizmoSpriteDrawer.h" />
+    <ClInclude Include="..\Includes\XEngine\GLM_Serialize.h" />
+    <ClInclude Include="..\Includes\XEngine\GlobalLightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\imconfig.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_impl_glfw.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_inspector_extensions.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_internal.h" />
+    <ClInclude Include="..\Includes\XEngine\imgui_stdlib.h" />
+    <ClInclude Include="..\Includes\XEngine\imstb_rectpack.h" />
+    <ClInclude Include="..\Includes\XEngine\imstb_textedit.h" />
+    <ClInclude Include="..\Includes\XEngine\imstb_truetype.h" />
+    <ClInclude Include="..\Includes\XEngine\Input.h" />
+    <ClInclude Include="..\Includes\XEngine\InputTester.h" />
+    <ClInclude Include="..\Includes\XEngine\LibraryExport.h" />
+    <ClInclude Include="..\Includes\XEngine\Light.h" />
+    <ClInclude Include="..\Includes\XEngine\LightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\LineDrawer.h" />
+    <ClInclude Include="..\Includes\XEngine\Material.h" />
+    <ClInclude Include="..\Includes\XEngine\MaterialLibrary.h" />
+    <ClInclude Include="..\Includes\XEngine\MaterialProperty.h" />
+    <ClInclude Include="..\Includes\XEngine\Mesh.h" />
+    <ClInclude Include="..\Includes\XEngine\MeshLibrary.h" />
+    <ClInclude Include="..\Includes\XEngine\MeshRenderer.h" />
+    <ClInclude Include="..\Includes\XEngine\Model.h" />
+    <ClInclude Include="..\Includes\XEngine\ModelLibrary.h" />
+    <ClInclude Include="..\Includes\XEngine\PhysicsManager.h" />
+    <ClInclude Include="..\Includes\XEngine\PhysicsTester.h" />
+    <ClInclude Include="..\Includes\XEngine\PointLightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\PrimitiveModels.h" />
+    <ClInclude Include="..\Includes\XEngine\RenderableObject.h" />
+    <ClInclude Include="..\Includes\XEngine\RenderManager.h" />
+    <ClInclude Include="..\Includes\XEngine\Rigidbody.h" />
+    <ClInclude Include="..\Includes\XEngine\Scene.h" />
+    <ClInclude Include="..\Includes\XEngine\SceneManager.h" />
+    <ClInclude Include="..\Includes\XEngine\Serialization.h" />
+    <ClInclude Include="..\Includes\XEngine\Shader.h" />
+    <ClInclude Include="..\Includes\XEngine\ShaderLibrary.h" />
+    <ClInclude Include="..\Includes\XEngine\SimpleModel.h" />
+    <ClInclude Include="..\Includes\XEngine\SimpleModelComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\SimpleRotator.h" />
+    <ClInclude Include="..\Includes\XEngine\SimpleSprite.h" />
+    <ClInclude Include="..\Includes\XEngine\Singleton.h" />
+    <ClInclude Include="..\Includes\XEngine\SkyboxRenderer.h" />
+    <ClInclude Include="..\Includes\XEngine\SphereCollider.h" />
+    <ClInclude Include="..\Includes\XEngine\SpotLightComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\SpriteRenderer.h" />
+    <ClInclude Include="..\Includes\XEngine\TestMoverComponent.h" />
+    <ClInclude Include="..\Includes\XEngine\TestScenes.h" />
+    <ClInclude Include="..\Includes\XEngine\TestScenes_Dennis.h" />
+    <ClInclude Include="..\Includes\XEngine\TestScenes_Donato.h" />
+    <ClInclude Include="..\Includes\XEngine\TestScenes_James.h" />
+    <ClInclude Include="..\Includes\XEngine\TestScenes_Tam.h" />
+    <ClInclude Include="..\Includes\XEngine\Text.h" />
+    <ClInclude Include="..\Includes\XEngine\Texture.h" />
+    <ClInclude Include="..\Includes\XEngine\TextureLibrary.h" />
+    <ClInclude Include="..\Includes\XEngine\GameTime.h" />
+    <ClInclude Include="..\Includes\XEngine\Transform.h" />
+    <ClInclude Include="..\Includes\XEngine\TransformTester.h" />
+    <ClInclude Include="..\Includes\XEngine\Vertex.h" />
+    <ClInclude Include="..\Includes\XEngine\XEngine.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Settings\AppConfig.json" />
+    <None Include="..\Shaders\3Dmodel.fs" />
+    <None Include="..\Shaders\3Dmodel.vs" />
+    <None Include="..\Shaders\billboardSprite.fs" />
+    <None Include="..\Shaders\billboardSprite.vs" />
     <None Include="..\Shaders\color.fs" />
     <None Include="..\Shaders\color.vs" />
     <None Include="..\Shaders\default.fs" />
@@ -225,8 +457,32 @@
     <None Include="..\Shaders\diffuse.vs" />
     <None Include="..\Shaders\model.fs" />
     <None Include="..\Shaders\model.vs" />
+    <None Include="..\Shaders\multilights.fs" />
+    <None Include="..\Shaders\multilights.shader" />
+    <None Include="..\Shaders\multilights.vs" />
+    <None Include="..\Shaders\skybox.fs" />
+    <None Include="..\Shaders\skybox.vs" />
     <None Include="..\Shaders\sprite.fs" />
+    <None Include="..\Shaders\sprite.shader" />
     <None Include="..\Shaders\sprite.vs" />
+    <None Include="..\Shaders\text.fs" />
+    <None Include="..\Shaders\text.vs" />
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Prototype.rc">
+      <DeploymentContent>false</DeploymentContent>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white.ico" />
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Fonts\arial.ttf" />
+    <Font Include="..\Fonts\Egyptian Nights.ttf" />
+    <Font Include="..\Fonts\Hearty Script.ttf" />
+    <Font Include="..\Fonts\IHATCS__.TTF" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

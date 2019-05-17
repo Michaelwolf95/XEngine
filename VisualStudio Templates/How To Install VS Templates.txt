@@ -1,0 +1,19 @@
+=========================================
+How to Install VS Templates
+=========================================
+
+1) Locate your VS templates directory on your machine. 
+	This will probably be something like: 
+	%USERPROFILE%\Documents\Visual Studio 2019\Templates\ItemTemplates
+
+2) Put the template .zip folder into the directory.
+
+3) Close and reopen Visual Studio.
+
+4) The template will now be available under the "Add Item" menu.
+
+
+=========================================
+See References:
+https://docs.microsoft.com/en-us/visualstudio/ide/how-to-create-item-templates?view=vs-2019
+https://docs.microsoft.com/en-us/visualstudio/ide/how-to-locate-and-organize-project-and-item-templates?view=vs-2019

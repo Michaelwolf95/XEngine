@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="17">
+<gameObjects class_id="0" tracking_level="0" version="0">
+	<count>2</count>
+	<item_version>1</item_version>
+	<item class_id="1" tracking_level="0" version="1">
+		<px class_id="2" tracking_level="1" version="0" object_id="_0">
+			<name>Coin</name>
+			<isActive>1</isActive>
+			<transform class_id="3" tracking_level="1" version="0" object_id="_1">
+				<Component class_id="4" tracking_level="0" version="0">
+					<enabled>1</enabled>
+				</Component>
+				<parent class_id="-1"></parent>
+				<localPosition class_id="5" tracking_level="0" version="0">
+					<vec.x>-2.582817078e+00</vec.x>
+					<vec.y>3.344146729e+00</vec.y>
+					<vec.z>4.898681641e+00</vec.z>
+				</localPosition>
+				<localScale>
+					<vec.x>1.000000000e+00</vec.x>
+					<vec.y>1.000000000e+00</vec.y>
+					<vec.z>1.000000000e+00</vec.z>
+				</localScale>
+				<localRotation class_id="6" tracking_level="0" version="0">
+					<q.x>0.000000000e+00</q.x>
+					<q.y>0.000000000e+00</q.y>
+					<q.z>0.000000000e+00</q.z>
+					<q.w>1.000000000e+00</q.w>
+				</localRotation>
+			</transform>
+			<components class_id="7" tracking_level="0" version="0">
+				<count>4</count>
+				<item_version>1</item_version>
+				<item class_id="8" tracking_level="0" version="1">
+					<px class_id="9" class_name="Rigidbody" tracking_level="1" version="0" object_id="_2">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+						<isKinematic>0</isKinematic>
+						<mass>1.000000000e+00</mass>
+						<isTrigger>0</isTrigger>
+					</px>
+				</item>
+				<item>
+					<px class_id="10" class_name="SphereCollider" tracking_level="1" version="0" object_id="_3">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+						<radius>1.000000000e+00</radius>
+					</px>
+				</item>
+				<item>
+					<px class_id="11" class_name="Collectable" tracking_level="1" version="0" object_id="_4">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+					</px>
+				</item>
+				<item>
+					<px class_id="12" class_name="AudioComponent" tracking_level="1" version="0" object_id="_5">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+						<soundPath>../../DemoProject/Assets/Sounds/Coin_Collect.wav</soundPath>
+						<is3D>0</is3D>
+						<repeat>0</repeat>
+					</px>
+				</item>
+			</components>
+		</px>
+	</item>
+	<item>
+		<px class_id_reference="2" object_id="_6">
+			<name>Coin Body</name>
+			<isActive>1</isActive>
+			<transform class_id_reference="3" object_id="_7">
+				<Component>
+					<enabled>1</enabled>
+				</Component>
+				<parent class_id_reference="3" object_id_reference="_1"></parent>
+				<localPosition>
+					<vec.x>0.000000000e+00</vec.x>
+					<vec.y>0.000000000e+00</vec.y>
+					<vec.z>0.000000000e+00</vec.z>
+				</localPosition>
+				<localScale>
+					<vec.x>2.000000030e-01</vec.x>
+					<vec.y>2.000000030e-01</vec.y>
+					<vec.z>2.000000030e-01</vec.z>
+				</localScale>
+				<localRotation>
+					<q.x>0.000000000e+00</q.x>
+					<q.y>-3.152513206e-01</q.y>
+					<q.z>0.000000000e+00</q.z>
+					<q.w>9.490082264e-01</q.w>
+				</localRotation>
+			</transform>
+			<components>
+				<count>1</count>
+				<item_version>1</item_version>
+				<item>
+					<px class_id="13" class_name="MeshRenderer" tracking_level="1" version="0" object_id="_8">
+						<Component>
+							<enabled>1</enabled>
+						</Component>
+						<pathToObjModel>../../DemoProject/Assets/Coin/coin.obj</pathToObjModel>
+						<meshMaterialFilePaths class_id="14" tracking_level="0" version="0">
+							<count>1</count>
+							<item_version>0</item_version>
+							<item>../../DemoProject/Assets/Materials/Cylinder.material</item>
+						</meshMaterialFilePaths>
+					</px>
+				</item>
+			</components>
+		</px>
+	</item>
+</gameObjects>
+</boost_serialization>
+
