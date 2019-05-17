@@ -32,7 +32,7 @@ void TextureProperty::Bind(Shader* shader, unsigned int texIndex)
 	glUniform1i(loc, texIndex);
 
 	// bind texture
-	glBindTexture(GL_TEXTURE_2D,value->id);
+	glBindTexture(GL_TEXTURE_2D, value->id);
 	
 }
 
@@ -42,7 +42,8 @@ void TextureProperty::Unbind(Shader* shader, unsigned int texIndex)
 	//auto loc = glGetUniformLocation(shader->ID, (this->value->type).c_str());
 	//glUniform1i(texIndex, texIndex);
 
-	// bind texture
+	// unbind texture
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glActiveTexture(GL_TEXTURE0);
 }

@@ -130,17 +130,17 @@ void MeshRenderer::Draw()
 		glm::mat4 projection = RenderManager::getInstance().getProjection();
 		glm::mat4 model = this->gameObject->transform->getMatrix4x4();
 
-		material->Load();
-
 		material->Draw();
 
-		// DRAW THE MESH =====
-		// 
-		glBindVertexArray(mesh->VAO);
 		material->shader->setMat4("view", view);
 		material->shader->setMat4("projection", projection);
 		material->shader->setMat4("model", model);
-		glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
+
+		// DRAW THE MESH =====
+		// https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/mesh.h 
+		//
+		glBindVertexArray(mesh->VAO);
+		glDrawElements(GL_TRIANGLES, this->mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		material->EndDraw();

@@ -358,7 +358,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>0.000000000e+00</q.x>
-						<q.y>2.763994224e-02</q.y>
+						<q.y>2.763994038e-02</q.y>
 						<q.z>0.000000000e+00</q.z>
 						<q.w>9.996179342e-01</q.w>
 					</localRotation>
@@ -430,7 +430,7 @@
 								<enabled>1</enabled>
 							</Component>
 							<fontPath>../../DemoProject/Assets/Fonts/arial.ttf</fontPath>
-							<text>63</text>
+							<text>59</text>
 							<fontSize>20</fontSize>
 							<color>
 								<vec.x>2.550000000e+02</vec.x>
@@ -1042,7 +1042,7 @@
 					</localScale>
 					<localRotation>
 						<q.x>-0.000000000e+00</q.x>
-						<q.y>2.481837571e-02</q.y>
+						<q.y>2.481837757e-02</q.y>
 						<q.z>-0.000000000e+00</q.z>
 						<q.w>9.996919632e-01</q.w>
 					</localRotation>
@@ -1664,7 +1664,7 @@
 		<item>
 			<px class_id_reference="3" object_id="_122">
 				<name>Skybox</name>
-				<isActive>0</isActive>
+				<isActive>1</isActive>
 				<transform class_id_reference="4" object_id="_123">
 					<Component>
 						<enabled>1</enabled>
@@ -2164,7 +2164,7 @@
 						<q.x>0.000000000e+00</q.x>
 						<q.y>9.971210957e-01</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>7.582388818e-02</q.w>
+						<q.w>7.582389563e-02</q.w>
 					</localRotation>
 				</transform>
 				<components>
@@ -2466,7 +2466,7 @@
 						<q.x>0.000000000e+00</q.x>
 						<q.y>9.971210957e-01</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>7.582389563e-02</q.w>
+						<q.w>7.582390308e-02</q.w>
 					</localRotation>
 				</transform>
 				<components>
@@ -2768,7 +2768,7 @@
 						<q.x>0.000000000e+00</q.x>
 						<q.y>9.971210957e-01</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>7.582390308e-02</q.w>
+						<q.w>7.582391053e-02</q.w>
 					</localRotation>
 				</transform>
 				<components>
@@ -3070,7 +3070,7 @@
 						<q.x>0.000000000e+00</q.x>
 						<q.y>9.971210957e-01</q.y>
 						<q.z>0.000000000e+00</q.z>
-						<q.w>7.582389563e-02</q.w>
+						<q.w>7.582390308e-02</q.w>
 					</localRotation>
 				</transform>
 				<components>

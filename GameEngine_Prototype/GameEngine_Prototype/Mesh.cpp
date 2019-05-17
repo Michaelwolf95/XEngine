@@ -65,34 +65,30 @@ void Mesh::Setup()
 	// set vertex attributes pointers
 	// position vertex
 	//std::cout << "size of vertex: " << sizeof(Vertex) << std::endl;
+	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	//std::cout << "Offset: " << 0 << std::endl;
-	glEnableVertexAttribArray(0);
 
 	// normal vertex
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 	//std::cout << "Offset Normal: " << offsetof(Vertex, Normal) << std::endl;
-	glEnableVertexAttribArray(1);
 
 	// coordinate vector
+	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 	//std::cout << "Offset texCoords: " << offsetof(Vertex, TexCoords) << std::endl;
-	glEnableVertexAttribArray(2);
-
-
-
-
 
 
 	// tangent vector
+	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
 	//std::cout << "Offset Normal: " << offsetof(Vertex, Normal) << std::endl;
-	glEnableVertexAttribArray(3);
 
 	// bitangent vector
+	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 	//std::cout << "Offset Normal: " << offsetof(Vertex, Normal) << std::endl;
-	glEnableVertexAttribArray(4);
 
 	glBindVertexArray(0); // !VAO
 }

@@ -199,6 +199,8 @@ void SceneManager::UnloadActiveScene()
 		activeScene->Unload();
 		activeScene.reset();
 		//RenderManager::getInstance().currentRenderables.clear();
+		std::cout << "UNLOADED SCENE ================================" << std::endl;
+		std::cout << "Renderables count: " << RenderManager::getInstance().currentRenderables.size() << std::endl;
 	}
 }
 

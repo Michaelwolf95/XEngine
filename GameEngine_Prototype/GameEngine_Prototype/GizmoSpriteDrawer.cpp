@@ -2,6 +2,10 @@
 #include "ApplicationManager.h"
 
 float GizmoSpriteDrawer::gizmoScale = 0.25f;
+GLuint GizmoSpriteDrawer::VAO = (GLuint)0;
+GLuint GizmoSpriteDrawer::VBO = (GLuint)0;
+bool GizmoSpriteDrawer::initializedSpriteBuffers = false;
+
 const GLfloat GizmoSpriteDrawer::spriteQuadVerices[12] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
@@ -21,40 +25,43 @@ GizmoSpriteDrawer::~GizmoSpriteDrawer()
 {
 	//std::cout << "Deconstructing Sprite Drawer ==============================" << std::endl;
 	// Delete Gizmo
-	glDeleteVertexArrays(1, &this->VAO);
-	glDeleteVertexArrays(1, &this->VBO);
+	//glDeleteVertexArrays(1, &this->VAO);
+	//glDeleteVertexArrays(1, &this->VBO);
 }
 
 void GizmoSpriteDrawer::Setup()
 {
-	//std::cout << "Setting up Sprite Drawer: " << gizmoTexturePath << std::endl;
-
-
-	spriteTexture = AssetManager::getInstance().textureLib.GetAsset(gizmoTexturePath);
+	spriteTexture = AssetManager::getInstance().textureLib.GetAsset(gizmoTexturePath, 4);
 	//AssetManager::getInstance().LoadTextureAsset(gizmoTexturePath.c_str(), &textureID, 4); //4 for alpha
 
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	if (initializedSpriteBuffers == false)
+	{
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
 
-	//GLuint billboard_vertex_buffer;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(spriteQuadVerices), spriteQuadVerices, GL_DYNAMIC_DRAW);
+		//GLuint billboard_vertex_buffer;
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(spriteQuadVerices), spriteQuadVerices, GL_DYNAMIC_DRAW);
 
-	// 1rst attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(
-		0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
+		// 1rst attribute buffer : vertices
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glVertexAttribPointer(
+			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+		);
 
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		initializedSpriteBuffers = true;
+	}
+	
 }
 
 void GizmoSpriteDrawer::Draw(glm::vec3 position)
@@ -98,7 +105,7 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 	// Set our "myTextureSampler" sampler to use Texture Unit 0
 	glUniform1i(TexturePropID, 0);
 
-
+	glBindVertexArray(VAO);
 	// This is the only interesting part of the tutorial.
 		// This is equivalent to mlutiplying (1,0,0) and (0,1,0) by inverse(ViewMatrix).
 		// ViewMatrix is orthogonal (it was made this way), 
@@ -113,7 +120,7 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 	glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
 
 
-	glBindVertexArray(VAO);
+	//glBindVertexArray(VAO);
 
 	// Draw the billboard !
 	// This draws a triangle_strip which looks like a quad.

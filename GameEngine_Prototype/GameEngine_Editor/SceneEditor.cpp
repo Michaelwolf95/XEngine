@@ -815,6 +815,7 @@ void SceneEditor::UpdateDockSpace(bool* p_open)
 					if (exists)
 					{
 						//std::cout << "Scene Found!" << std::endl;
+						selectedGameObject = nullptr;
 						// Activate Scene
 						SceneManager::getInstance().SetActiveScene(scene);
 						//std::cout << "LOADING NEW SCENE" << std::endl;
@@ -1524,6 +1525,7 @@ void SceneEditor::DrawFileTreeNode(const char * directory)
 				// Load Scene.
 				if (SceneManager::getInstance().LoadAndActivateSceneFromFile(directory))
 				{
+					selectedGameObject = nullptr;
 					editorConfig->firstSceneFilepath = SceneManager::getInstance().GetActiveScene()->filePath;
 				}
 			}

@@ -49,7 +49,14 @@ namespace XEngine
 
 		IMGUI_IMPL_API void GameObjectReference(GameObject*& go, std::string label)
 		{
-			
+			try
+			{
+				auto var = go->GetSelfPtr();
+			}
+			catch (const std::exception&)
+			{
+				go = nullptr;
+			}
 			//GameObject_ptr sp = go->GetSelfPtr();
 			ImGui::Text(label.c_str());
 			ImGui::SameLine();

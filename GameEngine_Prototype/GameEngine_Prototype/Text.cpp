@@ -83,7 +83,7 @@ namespace XEngine {
 
 	void Text::Start() 
 	{
-		std::cout << this->gameObject << std::endl;
+		//std::cout << this->gameObject << std::endl;
 	}
 
 	void Text::Update()

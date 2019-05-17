@@ -40,6 +40,7 @@ void Collector::Update()
 void Collector::DrawInspector()
 {
 	GUI::GameObjectReference(textGameObject, "Go");
+	//GUI::GameObjectReference((GameObject_ptr&)textGameObject->GetSelfPtr(), "Go");
 	//GUI::ComponentReference<Text>(uiText, "Text");
 }
 
