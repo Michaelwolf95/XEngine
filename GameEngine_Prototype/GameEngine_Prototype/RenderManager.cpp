@@ -18,6 +18,8 @@ Shader* RenderManager::colorDrawShader = nullptr;
 Shader* RenderManager::gizmoSpriteShader = nullptr;
 Shader* RenderManager::defaultTextShader = nullptr;
 
+Texture* RenderManager::missingTexture = nullptr;
+
 //TODO: Store this on the Camera.
 glm::vec4 defaultClearColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f );
 
@@ -33,6 +35,8 @@ RenderManager* RenderManager::CreateManager()
 int RenderManager::Init()
 {
 	CompileShaders();
+	// Missing Texture.
+	missingTexture = AssetManager::getInstance().textureLib.GetAsset("../EditorAssets/MISSING_TEXTURE.jpg");
 
 	currentCamera = nullptr;
 

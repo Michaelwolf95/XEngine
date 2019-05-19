@@ -512,9 +512,6 @@ BOOST_CLASS_VERSION(Material, 2);
 
 			if (ImGui::Button("Save Material"))
 			{
-				//isInitialized = false;
-				//Init(); // TODO: How does this update?
-
 				AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
 				isInitialized = false;
 				Init(); // TODO: How does this update?

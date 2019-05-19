@@ -625,9 +625,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>-8.145093918e-02</vec.x>
+						<vec.x>1.802563667e-01</vec.x>
 						<vec.y>0.000000000e+00</vec.y>
-						<vec.z>-4.355754852e+00</vec.z>
+						<vec.z>-3.919839859e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>3.500000015e-02</vec.x>

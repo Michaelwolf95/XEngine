@@ -120,11 +120,14 @@ void GizmoSpriteDrawer::Draw(glm::vec3 position)
 	glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
 
 
-	//glBindVertexArray(VAO);
-
 	// Draw the billboard !
 	// This draws a triangle_strip which looks like a quad.
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	
+	// Unbind Texture
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(0);
 

@@ -31,6 +31,8 @@ public:
 	static Shader* defaultSpriteShader;
 	static Shader* defaultTextShader;
 
+	static Texture* missingTexture;
+
 	static Mesh* cubeMesh;
 
 	unsigned int currentShaderID = 0;
