@@ -82,10 +82,10 @@ void MeshRenderer::Setup()
 {
 	if (isSetup) return;
 
+	// Get Mesh name from filepath.
 	size_t delimiter = meshPath.find('|');
 	std::string filePath = meshPath.substr(0, delimiter);
 	std::string meshName = meshPath.substr(delimiter+1);
-
 	// if no mesh name after demiliter, make meshName empty
 	if (meshName == filePath)
 	{
