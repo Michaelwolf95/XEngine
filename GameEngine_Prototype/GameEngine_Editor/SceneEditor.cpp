@@ -1297,7 +1297,8 @@ void SceneEditor::DrawGameObjectTreeNode(GameObject * go, std::string label)
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 0.5f));
 	}
 
-	bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags); // THE BUTTON
+	//bool node_open = ImGui::TreeNodeEx((label + ": " + go->name).c_str(), node_flags); // THE BUTTON
+	bool node_open = ImGui::TreeNodeEx(go, node_flags, (go->name).c_str()); // THE BUTTON
 
 
 	ImGuiContext& g = *ImGui::GetCurrentContext();
