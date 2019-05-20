@@ -18,6 +18,9 @@ public:
 	HealthManager* health;
 	GameObject* target;
 
+	void UpdateHPText(float damage);
+	void UpdateHPText_Death();
+
 private:
 	void connectToComponents();
 	friend class boost::serialization::access;
