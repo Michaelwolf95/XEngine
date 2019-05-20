@@ -64,7 +64,6 @@ int RenderManager::Init()
 
 void RenderManager::CompileShaders()
 {
-	std::cout << "RENDERMANAGER::CompileShaders\n";
 	//defaultShader = new Shader("model.vs", "model.fs");
 	defaultShader = AssetManager::getInstance().shaderLib.GetAsset("model.vs", "model.fs");
 	

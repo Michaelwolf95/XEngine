@@ -257,6 +257,8 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 		// 4.height maps
 		std::vector<TextureProperty> heightMaps = loadMaterialTextures(aMaterial, aiTextureType_HEIGHT, "texture_height", filePath);
 		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
+
+		MatforMesh->Generate();
 	}
 
 	return MatforMesh;

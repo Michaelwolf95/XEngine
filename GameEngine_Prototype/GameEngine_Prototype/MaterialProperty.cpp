@@ -59,7 +59,7 @@ void TextureProperty::load(Archive &ar, const unsigned int version)
 	{
 		//std::string textureType = "";
 		ar & boost::serialization::make_nvp<std::string>("textureType", value->type);
-		std::cout << "Texture Type: " << value->type << std::endl;
+		//std::cout << "Texture Type: " << value->type << std::endl;
 	}
 }
 

@@ -82,7 +82,7 @@ namespace XEngine::Editor {
 	bool ProjectCompiler::LoadProjectLibrary()
 	{
 		//UnloadProjectLibrary();
-		std::cout << "Loading Library..." << std::endl;
+		//std::cout << "Loading Library..." << std::endl;
 		if (projectLibraryInstance != NULL)
 		{
 			std::cout << "Project Library already loaded." << std::endl;
@@ -95,7 +95,7 @@ namespace XEngine::Editor {
 			return false;
 		}
 
-		std::cout << "Testing Load Library..." << std::endl;
+		//std::cout << "Testing Load Library..." << std::endl;
 		for (auto const& pair : Component::registry())
 		{
 			if (pair.second.name == "UserComponent")

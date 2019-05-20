@@ -40,6 +40,7 @@
 		Material();
 		~Material();
 		void Init();
+		void Generate();
 		//void Load(); 
 		void Load(); // Load for openGL to draw.
 		void Unload();
@@ -58,7 +59,7 @@
 		template<class Archive>
 		void save(Archive & ar, const unsigned int version) const
 		{
-			std::cout << "Saving Material: " << name <<", Version= " << version << std::endl;
+			//std::cout << "Saving Material: " << name <<", Version= " << version << std::endl;
 			//std::cout << "save " << textureFilePath << std::endl;
 			if (version <= 0)
 			{
@@ -88,7 +89,7 @@
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version) // file_version
 		{
-			std::cout << "Loading Material. Version= " << version << std::endl;
+			//std::cout << "Loading Material. Version= " << version << std::endl;
 			if (version <= 0)
 			{
 				ar & BOOST_SERIALIZATION_NVP(textureProperties);

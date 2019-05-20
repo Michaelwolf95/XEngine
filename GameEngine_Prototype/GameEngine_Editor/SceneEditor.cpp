@@ -293,6 +293,7 @@ void SceneEditor::StartEditMode()
 		std::cout << "ENTERING EDIT MODE =============================" << std::endl;
 		std::cout << "\tCTRL+S: Save Scene" << std::endl;
 		std::cout << "\tCTRL+P: Print Scene" << std::endl;
+		std::cout << "\tCTRL+SHIFT+E: Toggle Play Mode" << std::endl;
 		std::cout << "\t[Q],[W],[E],[R]: Manipulate Selected Object." << std::endl;
 
 		if (selectedGameObject == nullptr)

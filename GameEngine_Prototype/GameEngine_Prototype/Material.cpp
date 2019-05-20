@@ -35,16 +35,6 @@ using namespace XEngine;
 		filePath = ASSET_FILE_PATH + std::string("Materials/") + this->name + ".material";
 
 
-		Init();
-
-		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
-		{
-			shader->vFilePath = "../Shaders/" + vertexShaderPath;
-			parseShaderFileForProperties(shader->vFilePath);
-		}
-
-		//std::cout << to_string() << std::endl;
-
 	}
 
 	Material::Material()
@@ -101,6 +91,17 @@ using namespace XEngine;
 		}
 
 		isInitialized = true;
+	}
+
+	void Material::Generate()
+	{
+		Init();
+
+		if (vertexShaderPath == "multilights.shader") // TODO: Remove when all shaders are re-formatted
+		{
+			shader->vFilePath = "../Shaders/" + vertexShaderPath;
+			parseShaderFileForProperties(shader->vFilePath);
+		}
 	}
 
 	// Load material to draw.
