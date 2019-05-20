@@ -30,7 +30,6 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 	{
 		// Not found in library.
 		//std::cout << "Material not found in Library" << std::endl;
-		std::cout << "\tLoading Material: " << fileName << std::endl;
 		return LoadAsset(fileName);
 	}
 	else
@@ -44,6 +43,7 @@ Material *& MaterialLibrary::GetAsset(std::string fileName)
 // Overriden LoadAsset method
 Material *& MaterialLibrary::LoadAsset(std::string filePath)
 {
+	std::cout << "\tLoading Material: " << filePath << std::endl;
 	// get material name from filepath
 	std::string fileName = filePath.substr(filePath.find_last_of("/") + 1);
 	size_t lastindex = fileName.find_last_of(".");
@@ -61,14 +61,13 @@ Material *& MaterialLibrary::LoadAsset(std::string filePath)
 	else // cant load, then create new one
 	{
 		std::cout << "Material not loaded from file in Assets directory ================================" << std::endl;
+
+		// create file and save into directory
+		SaveMaterialToFile(*loadedMaterial, filePath.c_str());
 	}
 
 	// save into library
 	library.insert({ filePath, loadedMaterial });
-	//std::cout << "Material saved into Library" << std::endl;
-
-	// create file and save into directory
-	SaveMaterialToFile(*loadedMaterial, filePath.c_str() );
 
 	return library[filePath];
 }

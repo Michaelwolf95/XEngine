@@ -157,7 +157,7 @@ void SimpleModelComponent::Draw()
 	// put the texture with this ID into texture location 0
 	glBindTexture(GL_TEXTURE_2D, material->textureProperties[0].getValue()->id);
 
-	material->Draw();
+	material->Load();
 
 	// draw model
 	glBindVertexArray(VAO);

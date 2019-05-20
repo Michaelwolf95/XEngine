@@ -249,7 +249,7 @@ int Shader::parseShaderFile(const std::string & path)
 
 void Shader::compileShaders(const char * vertexCode, const char * fragmentCode, const char * geometryCode)
 {
-	std::cout << "Compiling Shader: " << this->vFilePath << std::endl;
+	//std::cout << "Compiling Shader: " << this->vFilePath << std::endl;
 
 	// 2. compile shaders
 	unsigned int vertex, fragment, geometry;

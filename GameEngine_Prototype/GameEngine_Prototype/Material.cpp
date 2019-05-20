@@ -10,9 +10,12 @@
 #include "AssetManager.h"
 using namespace XEngine;
 #include "MaterialProperty.h"
+#include "Serialization.h"
 
+//BOOST_CLASS_EXPORT_IMPLEMENT(Material)
 //BOOST_CLASS_EXPORT_GUID(Material, "Material")
-BOOST_CLASS_VERSION(Material, 2);
+//BOOST_CLASS_VERSION(Material, 2);
+
 //namespace XEngine {
 	Material::Material(std::string _name, std::string vertPath, std::string fragPath, bool _useLight)
 	{
@@ -100,27 +103,8 @@ BOOST_CLASS_VERSION(Material, 2);
 		isInitialized = true;
 	}
 
-	// DEPRECATED: Use Draw() instead.
+	// Load material to draw.
 	void Material::Load()
-	{
-		//shader->setColor("color", Color.x, Color.y, Color.z, Color.w); // this should be done with vec4 properties
-
-		//shader->use();
-		//RenderManager::getInstance().currentShaderID = shader->ID;
-
-
-		//if (textureID > 0)
-		//{
-		//	// bind Texture
-		//	glBindTexture(GL_TEXTURE_2D, textureID);
-		//}
-		//else
-		//{
-		//	glBindTexture(GL_TEXTURE_2D, 0);
-		//}
-	}
-
-	void Material::Draw()
 	{
 		shader->use();
 		RenderManager::getInstance().currentShaderID = shader->ID;
@@ -191,8 +175,8 @@ BOOST_CLASS_VERSION(Material, 2);
 
 		
 	}
-	// Unbind textures, etc.
-	void Material::EndDraw()
+	// Unload material after drawing. (Unbind textures, etc.)
+	void Material::Unload()
 	{
 		for (size_t i = 0; i < textureProperties.size(); i++)
 		{
@@ -201,16 +185,6 @@ BOOST_CLASS_VERSION(Material, 2);
 		
 	}
 
-	void Material::LoadTexture(const char * _textureFilePath) // used in test scenes and game object analytics
-	{
-		//std::cout << "Material::LoadTexture called with arguments\n";
-		//std::cout << "\t_textureFilePath: " << _textureFilePath << std::endl;
-
-		//textureID = AssetManager::getInstance().textureLib.GetAsset(textureFilePath);
-
-		//textureFilePath = _textureFilePath;
-		//AssetManager::LoadTextureAsset(textureFilePath.c_str(), &textureID);
-	}
 
 	void Material::parseShaderFileForProperties(std::string path)
 	{
@@ -556,10 +530,5 @@ BOOST_CLASS_VERSION(Material, 2);
 		return str;
 	}
 
-	//
-	//std::ostream & operator<<(std::ostream &os, const Material &material)
-	//{
-	//	return os << BOOST_SERIALIZATION_NVP(material);
-	//	//return os << material.vertexShaderPath;// << ;
-	//}
+
 //}

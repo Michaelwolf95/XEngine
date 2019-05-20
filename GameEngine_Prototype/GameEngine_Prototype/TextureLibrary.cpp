@@ -66,6 +66,7 @@ Texture* & TextureLibrary::Reload(Texture* texture)
 		// Not Found.
 		// Need to create a new library entry.
 		// TODO: Remove old entry if possible.
+		std::cout << "RELOADING TEXTURE IN LIBRARY! ====================\n";
 		return LoadAsset(texture->path, texture->loadMode);
 	}
 

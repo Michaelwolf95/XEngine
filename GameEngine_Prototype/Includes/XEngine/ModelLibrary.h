@@ -21,11 +21,19 @@ public:
 	GameObject_ptr GenerateModelGameObject(std::string filePath);
 	GameObject_ptr processNodeMeshRenderer(aiNode *node, const aiScene *scene, std::string filePath);
 
+	Mesh* GetMesh(std::string modelPath, std::string meshName);
+
 protected:
 	Model*& LoadAsset(std::string filePath) override;
 
 private:
 	void processNode(Model* model, aiNode *node, const aiScene *scene, std::string filePath);
+
+	void ProcessSingleNode(aiNode *node, const aiScene *scene, std::string filePath);
+
+	aiMesh* GetMeshNodeByName(std::string modelPath, std::string meshName);
+	aiMesh* getMeshNodeByName_Recursive(aiNode *node, const aiScene *scene, std::string meshName);
+
 	Material * processMeshMaterial(aiMesh * mesh, const aiScene * scene, std::string filePath);
 	Mesh* processMesh(aiMesh * mesh);
 	std::vector<TextureProperty> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName, std::string filePath);

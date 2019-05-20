@@ -40,10 +40,10 @@
 		Material();
 		~Material();
 		void Init();
+		//void Load(); 
 		void Load(); // Load for openGL to draw.
-		void Draw();
-		void EndDraw();
-		void LoadTexture(const char* _textureFilePath);
+		void Unload();
+		//void LoadTexture(const char* _textureFilePath);
 		void getDefaultProperties();
 		void DrawInspector();
 		std::string to_string();
@@ -58,6 +58,7 @@
 		template<class Archive>
 		void save(Archive & ar, const unsigned int version) const
 		{
+			std::cout << "Saving Material: " << name <<", Version= " << version << std::endl;
 			//std::cout << "save " << textureFilePath << std::endl;
 			if (version <= 0)
 			{
@@ -87,6 +88,7 @@
 		template<class Archive>
 		void load(Archive & ar, const unsigned int version) // file_version
 		{
+			std::cout << "Loading Material. Version= " << version << std::endl;
 			if (version <= 0)
 			{
 				ar & BOOST_SERIALIZATION_NVP(textureProperties);
@@ -99,7 +101,8 @@
 			if (version < 2)
 			{
 				std::string textureFilePath;
-				ar & BOOST_SERIALIZATION_NVP(textureFilePath);
+				//ar & BOOST_SERIALIZATION_NVP(textureFilePath);
+				ar & boost::serialization::make_nvp("textureFilePath", textureFilePath);
 			}
 			ar & BOOST_SERIALIZATION_NVP(floatProperties);
 			ar & BOOST_SERIALIZATION_NVP(intProperties);
@@ -117,6 +120,8 @@
 
 		}
 	};
+	//BOOST_CLASS_IMPLEMENTATION(Material, boost::serialization::track_always)
+	BOOST_CLASS_VERSION(Material, 2);
 //}
 //BOOST_CLASS_EXPORT
 

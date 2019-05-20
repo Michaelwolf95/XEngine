@@ -38,11 +38,7 @@ class ENGINE_API FloatProperty : public MaterialProperty<float>
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
-	void serialize(Archive &ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		ar & BOOST_SERIALIZATION_NVP(value);
-	}
+	void serialize(Archive &ar, const unsigned int version);
 };
 
 class ENGINE_API IntProperty : public MaterialProperty<int>
@@ -50,11 +46,7 @@ class ENGINE_API IntProperty : public MaterialProperty<int>
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
-	void serialize(Archive &ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		ar & BOOST_SERIALIZATION_NVP(value);
-	}
+	void serialize(Archive &ar, const unsigned int version);
 };
 
 class ENGINE_API Vec2Property : public MaterialProperty<glm::vec2>
@@ -62,11 +54,7 @@ class ENGINE_API Vec2Property : public MaterialProperty<glm::vec2>
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
-	void serialize(Archive &ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		ar & BOOST_SERIALIZATION_NVP(value);
-	}
+	void serialize(Archive &ar, const unsigned int version);
 };
 
 class ENGINE_API Vec3Property : public MaterialProperty<glm::vec3>
@@ -74,11 +62,7 @@ class ENGINE_API Vec3Property : public MaterialProperty<glm::vec3>
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
-	void serialize(Archive &ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		ar & BOOST_SERIALIZATION_NVP(value);
-	}
+	void serialize(Archive &ar, const unsigned int version);
 };
 
 class ENGINE_API Vec4Property : public MaterialProperty<glm::vec4>
@@ -86,11 +70,7 @@ class ENGINE_API Vec4Property : public MaterialProperty<glm::vec4>
 private:
 	friend class boost::serialization::access;
 	template<class Archive>
-	void serialize(Archive &ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		ar & BOOST_SERIALIZATION_NVP(value);
-	}
+	void serialize(Archive &ar, const unsigned int version);
 };
 
 // Uses REFERENCES to textures. They would be stored in...
@@ -111,31 +91,9 @@ private:
 	friend class boost::serialization::access;
 	BOOST_SERIALIZATION_SPLIT_MEMBER()
 	template<class Archive>
-	void save(Archive &ar, const unsigned int version) const
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		ar & boost::serialization::make_nvp<std::string>("filePath", value->path);
-		if (version > 1)
-		{
-			ar & boost::serialization::make_nvp<std::string>("textureType", value->type);
-		}
-	}
+	void save(Archive &ar, const unsigned int version) const;
 	template<class Archive>
-	void load(Archive &ar, const unsigned int version)
-	{
-		ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(MaterialProperty);
-		std::string filePath;
-		ar & boost::serialization::make_nvp<std::string>("filePath", filePath);
-		LoadTextureFromPath(filePath);
-
-		//value = AssetManager::getInstance().textureLib.GetAsset(filePath);
-		if (version > 1)
-		{
-			std::string textureType = "";
-			ar & boost::serialization::make_nvp<std::string>("textureType", value->type);
-		}
-
-		
-
-	}
+	void load(Archive &ar, const unsigned int version);
 };
+
+BOOST_CLASS_VERSION(TextureProperty, 2);

@@ -130,7 +130,7 @@ void MeshRenderer::Draw()
 		glm::mat4 projection = RenderManager::getInstance().getProjection();
 		glm::mat4 model = this->gameObject->transform->getMatrix4x4();
 
-		material->Draw();
+		material->Load();
 
 		material->shader->setMat4("view", view);
 		material->shader->setMat4("projection", projection);
@@ -143,7 +143,7 @@ void MeshRenderer::Draw()
 		glDrawElements(GL_TRIANGLES, this->mesh->indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
-		material->EndDraw();
+		material->Unload();
 
 	}
 	else

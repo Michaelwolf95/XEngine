@@ -65,20 +65,23 @@ int RenderManager::Init()
 void RenderManager::CompileShaders()
 {
 	std::cout << "RENDERMANAGER::CompileShaders\n";
-	defaultShader = new Shader("model.vs", "model.fs");
+	//defaultShader = new Shader("model.vs", "model.fs");
+	defaultShader = AssetManager::getInstance().shaderLib.GetAsset("model.vs", "model.fs");
 	
 	//defaultMaterial = new Material("Default Mat", "model.vs", "model.fs");
 	//defaultMaterial = AssetManager::getInstance().materialLib.GetAsset("../Assets/Materials/Default_Mat.material");
 	defaultMaterial = new Material("Default_Mat", "multilights.shader", "");
 
-	//defaultMaterial = new Material(defaultShader);
-	//defaultMaterial->Color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
-	//defaultMaterial->LoadTexture("textures/container.jpg");
 
-	colorDrawShader = new Shader("color.vs", "color.fs");
+	//colorDrawShader = new Shader("color.vs", "color.fs");
+	colorDrawShader = AssetManager::getInstance().shaderLib.GetAsset("color.vs", "color.fs");
 
-	gizmoSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
-	defaultTextShader = new Shader("text.vs", "text.fs");
+	//gizmoSpriteShader = new Shader("billboardSprite.vs", "billboardSprite.fs");
+	gizmoSpriteShader = AssetManager::getInstance().shaderLib.GetAsset("billboardSprite.vs", "billboardSprite.fs");
+
+
+	//defaultTextShader = new Shader("text.vs", "text.fs");
+	defaultTextShader = AssetManager::getInstance().shaderLib.GetAsset("text.vs", "text.fs");
 
 	//ToDo: Pre-compile all shaders that might be used in the scene?
 }

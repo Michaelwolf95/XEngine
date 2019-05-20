@@ -30,8 +30,6 @@ GameObject_ptr ModelLibrary::GenerateModelGameObject(std::string filePath)
 		filePath = ASSET_FILE_PATH + filePath;
 	}
 
-	//std::cout << "WHHHHHHHHHHHHHHHHHHHHHEEEEEEEEEERRRRRREEEEEEEEEEEEEEE" + filePath << std::endl;
-
 	const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	// check for errors
@@ -93,6 +91,17 @@ GameObject_ptr ModelLibrary::processNodeMeshRenderer(aiNode *node, const aiScene
 	return nodeGameObj;
 }
 
+Mesh * ModelLibrary::GetMesh(std::string modelPath, std::string meshName)
+{
+	aiMesh* meshNode = GetMeshNodeByName(modelPath, meshName);
+	if (meshNode != nullptr)
+	{
+		Mesh* mesh = processMesh(meshNode);
+		return mesh;
+	}
+	return nullptr;
+}
+
 
 // Load asset using the filepath of the obj
 Model*& ModelLibrary::LoadAsset(std::string filePath)
@@ -136,12 +145,9 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		// create mesh and save or load mesh GetAsset(MeshQuery meshQ, aiMesh * mesh)
 		Mesh* mesh = processMesh(ai_mesh);
 		
-		// add material to material library
-
-		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
-
-		// put one to one relationship for mesh to material
-		model->MeshToMaterial.emplace(mesh->name, mat);
+		// Add material to model and material library
+		//Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
+		//model->MeshToMaterial.emplace(mesh->name, mat);
 
 		model->meshes.push_back(mesh);
 	}
@@ -152,6 +158,67 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		processNode(model, node->mChildren[i], scene, filePath);
 	}
 
+}
+
+void ModelLibrary::ProcessSingleNode(aiNode * node, const aiScene * scene, std::string filePath)
+{
+	std::replace(filePath.begin(), filePath.end(), '\\', '/');
+	// process each mesh at current node
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+		// create mesh and save or load mesh GetAsset(MeshQuery meshQ, aiMesh * mesh)
+		Mesh* mesh = processMesh(ai_mesh);
+
+		// add material to material library
+
+		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
+
+		//// put one to one relationship for mesh to material
+		//model->MeshToMaterial.emplace(mesh->name, mat);
+
+		//model->meshes.push_back(mesh);
+	}
+}
+
+aiMesh * ModelLibrary::GetMeshNodeByName(std::string modelPath, std::string meshName)
+{
+	// Read file using ASSIMP
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(modelPath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 	// check for errors
+	{
+		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+		return nullptr;
+	}
+
+
+	return getMeshNodeByName_Recursive(scene->mRootNode, scene, meshName);
+}
+
+aiMesh * ModelLibrary::getMeshNodeByName_Recursive(aiNode * node, const aiScene * scene, std::string meshName)
+{
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+		if (ai_mesh->mName.C_Str() == meshName)
+		{
+			std::cout << "FOUND MESH BY NAME: " << ai_mesh->mName.C_Str() << " == " << meshName << std::endl;
+			return ai_mesh;
+		}
+	}
+	aiMesh * childMeshNode = nullptr;
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		if ((childMeshNode = getMeshNodeByName_Recursive(node->mChildren[i], scene, meshName)) != nullptr)
+		{
+			return childMeshNode;
+		}
+	}
+
+	return nullptr;
 }
 
 // Process the material for the mesh

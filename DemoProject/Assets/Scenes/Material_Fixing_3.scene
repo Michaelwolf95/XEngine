@@ -16,9 +16,9 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition class_id="6" tracking_level="0" version="0">
-						<vec.x>0.000000000e+00</vec.x>
+						<vec.x>4.375991821e+00</vec.x>
 						<vec.y>2.603855133e+00</vec.y>
-						<vec.z>-1.856231689e+00</vec.z>
+						<vec.z>-1.978416443e+00</vec.z>
 					</localPosition>
 					<localScale>
 						<vec.x>1.000000000e+00</vec.x>
@@ -167,7 +167,7 @@
 								<enabled>1</enabled>
 							</Component>
 							<meshPath>../../DemoProject/Assets/3Dmodel/Spider/model/Only_Spider_with_Animations_Export.obj|Spider_NONE</meshPath>
-							<materialPath>../../DemoProject/Assets/Materials/Spider_NONE.material</materialPath>
+							<materialPath>../../DemoProject/Assets/Materials/Spider.material</materialPath>
 						</px>
 					</item>
 				</components>
