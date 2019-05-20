@@ -1159,6 +1159,8 @@ void SceneEditor::HierarchyUpdate()
 	ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(ImGui::GetWindowDockID(), ImGuiCond_Once);
 
+	
+
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_MenuBar;
 
@@ -1194,7 +1196,8 @@ void SceneEditor::HierarchyUpdate()
 			ImGui::EndPopup();
 		}
 		// Draw Tree structure.
-		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
+		//(Change multiplier to change indent spacing.)
+		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 1); // Increase spacing to differentiate leaves from expanded contents. 
 		for (int i = 0; i < scene->rootGameObjects.size(); i++)
 		{
 			DrawGameObjectTreeNode(scene->rootGameObjects[i].get(), "[" + std::to_string(i) + "]");
