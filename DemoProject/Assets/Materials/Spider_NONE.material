@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!DOCTYPE boost_serialization>
-<boost_serialization signature="serialization::archive" version="0">
+<boost_serialization signature="serialization::archive" version="17">
 <m class_id="0" tracking_level="0" version="0">
 	<textureProperties class_id="1" tracking_level="0" version="0">
 		<count>1</count>

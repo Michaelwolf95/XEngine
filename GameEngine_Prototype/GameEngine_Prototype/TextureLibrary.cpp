@@ -52,6 +52,7 @@ Texture *& TextureLibrary::LoadAsset(std::string filePath, unsigned int loadMode
 
 Texture* & TextureLibrary::Reload(Texture* texture)
 {
+	std::cout << "Reloading Texture: " << texture->path << std::endl;
 	auto search = this->library.find(texture->path);
 	if (search != this->library.end())
 	{
@@ -90,7 +91,7 @@ void TextureLibrary::LoadTexture(const char * textureFilePath, unsigned int * te
 	unsigned char *data = stbi_load(textureFilePath, &width, &height, &nrChannels, loadMode);
 	if (data)
 	{
-		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		auto formatByte = (loadMode == 4) ? GL_RGBA : GL_RGB;
 		glTexImage2D(GL_TEXTURE_2D, 0, formatByte, width, height, 0, formatByte, GL_UNSIGNED_BYTE, data);
 		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

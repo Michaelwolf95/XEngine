@@ -56,10 +56,8 @@ using namespace XEngine;
 
 	void Material::Init()
 	{
-		if (isInitialized)
-		{
-			return;
-		}
+		//if (isInitialized == false) return;
+
 		std::cout << "Initializing Material: " << name << std::endl;
 		if (shader == nullptr)
 		{
@@ -87,7 +85,7 @@ using namespace XEngine;
 
 		for (size_t i = 0; i < textureProperties.size(); i++)
 		{
-			textureProperties[i].Reload();
+			//textureProperties[i].Reload();
 		}
 
 		isInitialized = true;
@@ -107,6 +105,8 @@ using namespace XEngine;
 	// Load material to draw.
 	void Material::Load()
 	{
+		//if (isInitialized == false) return;
+
 		shader->use();
 		RenderManager::getInstance().currentShaderID = shader->ID;
 
@@ -179,6 +179,11 @@ using namespace XEngine;
 	// Unload material after drawing. (Unbind textures, etc.)
 	void Material::Unload()
 	{
+		if (isInitialized == false)
+		{
+			return;
+		}
+
 		for (size_t i = 0; i < textureProperties.size(); i++)
 		{
 			textureProperties[i].Unbind(shader, i);
@@ -421,6 +426,7 @@ using namespace XEngine;
 					ImGui::InputInt((texPropName + "_Mode").c_str(), &mode);
 					textureProperties[i].getValue()->loadMode = mode;
 					ImGui::Unindent();
+					ImGui::Image((void*)(intptr_t)textureProperties[i].getValue()->id, ImVec2(128, 128));
 				}
 				std::vector<std::string> textureFileExts;
 				textureFileExts.push_back(".png"); textureFileExts.push_back(".jpg"); textureFileExts.push_back(".tga");
@@ -488,8 +494,8 @@ using namespace XEngine;
 			if (ImGui::Button("Save Material"))
 			{
 				AssetManager::getInstance().materialLib.SaveMaterialToFile(*this, this->filePath.c_str());
-				isInitialized = false;
-				Init(); // TODO: How does this update?
+				//isInitialized = false;
+				//Init(); // TODO: How does this update?
 			}
 
 			ImGui::TreePop();

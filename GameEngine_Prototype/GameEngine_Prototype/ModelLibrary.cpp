@@ -146,8 +146,8 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 		Mesh* mesh = processMesh(ai_mesh);
 		
 		// Add material to model and material library
-		//Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
-		//model->MeshToMaterial.emplace(mesh->name, mat);
+		Material* mat = processMeshMaterial(ai_mesh, scene, filePath);
+		model->MeshToMaterial.emplace(mesh->name, mat);
 
 		model->meshes.push_back(mesh);
 	}
@@ -160,6 +160,7 @@ void ModelLibrary::processNode(Model* model, aiNode *node, const aiScene *scene,
 
 }
 
+// UNFINISHED
 void ModelLibrary::ProcessSingleNode(aiNode * node, const aiScene * scene, std::string filePath)
 {
 	std::replace(filePath.begin(), filePath.end(), '\\', '/');
@@ -236,9 +237,9 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 	Material* MatforMesh = AssetManager::getInstance().materialLib.GetAsset(matFilePath);
 
 	// if the loaded material does not have the texture properties then add it
-	if (!materialExists && MatforMesh->textureProperties.empty())
+	if (!materialExists)// && MatforMesh->textureProperties.empty())
 	{
-		std::cout << "PROCESSING MODEL FOR MATERIAL\n";
+		std::cout << "PROCESSING MODEL MATERIAL TEXTURES\n";
 		// process materials
 		aiMaterial* aMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
@@ -259,6 +260,11 @@ Material* ModelLibrary::processMeshMaterial(aiMesh * mesh, const aiScene * scene
 		MatforMesh->textureProperties.insert(MatforMesh->textureProperties.end(), heightMaps.begin(), heightMaps.end());
 
 		MatforMesh->Generate();
+		AssetManager::getInstance().materialLib.SaveMaterialToFile(*MatforMesh, MatforMesh->filePath.c_str());
+	}
+	else
+	{
+		std::cout << "Model Material Already Exists.\n";
 	}
 
 	return MatforMesh;

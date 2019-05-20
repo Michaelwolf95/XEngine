@@ -56,11 +56,13 @@ Material *& MaterialLibrary::LoadAsset(std::string filePath)
 	// load from file in directory
 	if (LoadMaterialFromFile(*loadedMaterial, filePath.c_str()) )
 	{ 
-		//std::cout << "Material loaded from file in Assets directory" << std::endl;
+		std::cout << "\t\tMaterial loaded from file." << std::endl;
 	}
 	else // cant load, then create new one
 	{
 		//std::cout << "Material not loaded from file in Assets directory ================================" << std::endl;
+		std::cout << "\t\tMaterial created and saved to file." << std::endl;
+
 
 		// create file and save into directory
 		SaveMaterialToFile(*loadedMaterial, filePath.c_str());
