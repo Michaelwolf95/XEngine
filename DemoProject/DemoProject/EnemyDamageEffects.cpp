@@ -75,7 +75,7 @@ void EnemyDamageEffects::StartOnDeathEffect()
 	startScale = this->gameObject->transform->getLocalScale();
 	deathEffectRunning = true;
 
-	AudioManager::getInstance().sound.PlaySounds(deathAudioPath, this->gameObject->transform->getPosition(), 5);
+	AudioManager::getInstance().sound.PlaySounds(deathAudioPath, this->gameObject->transform->getPosition(), 1);
 }
 
 void EnemyDamageEffects::DoOnTakeDamageEffect(float damage)
@@ -92,6 +92,6 @@ void EnemyDamageEffects::DoOnTakeDamageEffect(float damage)
 	
 	}
 
-	AudioManager::getInstance().sound.PlaySounds(takeDamageAudioPath, this->gameObject->transform->getPosition(), 5);
+	AudioManager::getInstance().sound.PlaySounds(takeDamageAudioPath, this->gameObject->transform->getPosition(), 1);
 }
 

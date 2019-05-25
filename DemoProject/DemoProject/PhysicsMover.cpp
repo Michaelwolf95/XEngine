@@ -44,7 +44,7 @@ void PhysicsMover::Update()
 
 	if (Input::GetKeyDown(GLFW_KEY_SPACE))
 	{
-		rigidbody->AddForce(glm::vec3(0, jumpForce, 0));
+		rigidbody->AddImpulseForce(glm::vec3(0, jumpForce, 0));
 	}
 }
 

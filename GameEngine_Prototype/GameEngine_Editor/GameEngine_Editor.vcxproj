@@ -169,8 +169,15 @@
     <ClInclude Include="EditorSettingsManager.h" />
     <ClInclude Include="ProjectSettingsManager.h" />
     <ClInclude Include="ProjectCompiler.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneEditor.h" />
     <ClInclude Include="XEngineEditor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine_Editor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\x_engine_icon_white_dropshadow.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

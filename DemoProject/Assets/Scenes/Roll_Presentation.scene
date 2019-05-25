@@ -1461,20 +1461,20 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>0.000000000e+00</vec.x>
+						<vec.x>-3.981304169e-01</vec.x>
 						<vec.y>1.000000000e+01</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
+						<vec.z>-2.332296371e+00</vec.z>
 					</localPosition>
 					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
+						<vec.x>1.133117676e+00</vec.x>
 						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
+						<vec.z>8.750610352e-01</vec.z>
 					</localScale>
 					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
+						<q.x>-9.667025506e-02</q.x>
+						<q.y>-8.835925162e-02</q.y>
+						<q.z>-6.647149567e-03</q.z>
+						<q.w>9.913643599e-01</q.w>
 					</localRotation>
 				</transform>
 				<components>
@@ -1524,20 +1524,20 @@
 					</Component>
 					<parent class_id="-1"></parent>
 					<localPosition>
-						<vec.x>4.000000000e+00</vec.x>
+						<vec.x>3.918174744e+00</vec.x>
 						<vec.y>1.000000000e+01</vec.y>
-						<vec.z>0.000000000e+00</vec.z>
+						<vec.z>-1.628494263e+00</vec.z>
 					</localPosition>
 					<localScale>
-						<vec.x>1.000000000e+00</vec.x>
-						<vec.y>1.000000000e+00</vec.y>
-						<vec.z>1.000000000e+00</vec.z>
+						<vec.x>1.368469238e+00</vec.x>
+						<vec.y>1.031417847e+00</vec.y>
+						<vec.z>1.103912354e+00</vec.z>
 					</localScale>
 					<localRotation>
-						<q.x>0.000000000e+00</q.x>
-						<q.y>0.000000000e+00</q.y>
-						<q.z>0.000000000e+00</q.z>
-						<q.w>1.000000000e+00</q.w>
+						<q.x>-6.428775378e-03</q.x>
+						<q.y>7.540243864e-02</q.y>
+						<q.z>-1.122255716e-02</q.z>
+						<q.w>9.970690608e-01</q.w>
 					</localRotation>
 				</transform>
 				<components>
