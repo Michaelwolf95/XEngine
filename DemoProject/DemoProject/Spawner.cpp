@@ -46,6 +46,8 @@ void Spawner::Update()
 			dir.z *= -1;
 			rb->AddImpulseForce(dir*50.0f);
 		}
+
+		//AudioManager::getInstance().sound.PlaySounds(deathAudioPath, this->gameObject->transform->getPosition(), 5);
 		
 	}
 }

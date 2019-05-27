@@ -79,7 +79,7 @@ void AudioComponent::Play(string path, glm::vec3 location, float fVolumedB)
 void AudioComponent::Play()
 {
 	glm::vec3 objectLocation = gameObject->transform->getPosition();
-	Play(soundPath, objectLocation, 1);
+	Play(soundPath, objectLocation, 0.5f);
 }
 
 void AudioComponent::PlayOneShot()
